@@ -1,9 +1,6 @@
 # setup
 
-
-
     cbird@q108-vlubuntu:~/Projects/bb-quizzes/matrix$ 
-    $ mkdir www
     $ sudo npm install -g yo
     $ sudo npm install -g gulp
     $ sudo npm install -g bower
@@ -23,7 +20,6 @@
 
 https://github.com/yeoman/generator-webapp#readme
 
-
     Install dependencies: npm install --global yo gulp-cli bower
     Install the generator: npm install --global generator-webapp
     Run yo webapp to scaffold your webapp
@@ -38,3 +34,4 @@ https://github.com/yeoman/generator-webapp#readme
 ---
 
     graceful-fs version 3 and before will fail on newer node releases. Please update to graceful-fs
+    Not compatible with your operating system or architecture: fsevents@1.0.8
