@@ -13,6 +13,14 @@ polyfills
 ie7
 
 
+
+https://drkvogel.unfuddle.com/a#/account/settings (top left cog to the right of "All Projects")
+Used: 238.63MB 46.61% Available: 512.00MB
+
+Current: Private FREE. 512MB
+Paid: 50GB $3/person $3/project $6/mo. based on your usage 
+
+
 K:\core\AYOUNG
 C:\Users\cbird\Projects\jonathanpr\BioBankQuizGames
 
