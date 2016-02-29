@@ -1,0 +1,499 @@
+
+html, body
+{
+    margin:1em;
+    padding:0em;
+    background-color: #43919f;
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: 22px;
+}
+
+#main {
+    padding: 1em;
+    margin: 0em;
+    background-color: white;
+    border: solid 1px #005f6f;
+    background-position: right top;
+    background-repeat: no-repeat;
+    min-height: 700px;
+
+    -moz-border-radius-topright: 25px;
+    -moz-border-radius-topleft: 25px;
+    -webkit-border-top-left-radius: 25px;
+    -webkit-border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    border-top-left-radius: 25px;
+    border: solid 1px white;
+    -moz-border-radius-bottomright: 25px;
+    -moz-border-radius-bottomleft: 25px;
+    -webkit-border-bottom-left-radius: 25px;
+    -webkit-border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+
+    -moz-box-shadow: 3px 3px 0px #999;
+    -webkit-box-shadow: 3px 3px 0px #999;
+    box-shadow: 3px 3px 0px #999;
+}
+
+#main.roundbuttom
+{
+
+}
+
+@media screen and (max-width: 500px) {
+    #main {
+        padding: 0.5em;
+    }
+}
+
+table#table1old
+{
+    text-align:center;
+    margin-left:auto;
+    margin-right:auto;
+}
+table.centred
+{
+    margin-left:auto;
+    margin-right:auto;
+}
+table.toppadding
+{
+    margin-top:1em;
+}
+table.tablecentre
+{
+    text-align:center;
+}
+table.fullwidth,table.tablecentre
+{
+    width:100%;
+    border:0;
+    border-spacing:0;
+    padding:0;
+}
+td.side,td.sideh
+{
+    width: 8%;
+}
+.homeimage
+{
+    padding: 10px;
+}
+.text,.textcentre
+{
+    font-weight: normal;
+    padding: 0px;
+}
+.text
+{
+    text-align: left;
+}
+.textcentre
+{
+    text-align: center;
+    width: 100%;
+}
+.subtitle
+{
+    font-size: 2em;
+    color: #005F6F;
+    text-align: left;
+    padding: 0px;
+    background-position: right center;
+    background-repeat: no-repeat;
+}
+.motto
+{
+    font-size: 12px;
+    color: #005F6F;
+    text-align: left;
+    font-weight: bold;
+    padding: 0px;
+}
+.background,td.side,td.sideh
+{
+    font-size: 12px;
+    color: #005F6F;
+    text-align: right;
+    font-weight: bold;
+    vertical-align: text-top;
+}
+.button
+{
+    text-align: center;
+ /*   font-size: 1.2em;*/
+}
+.buttontd
+{
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+}
+.main,.maininvisible
+{
+    width:100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.maininvisible
+{
+    display:none;
+}
+td.padding
+{
+    width:auto;
+}
+table.bar
+{
+    width:100%;
+    font-size:x-small;
+}
+td.leftbar
+{
+    width:1%;
+    background-color:Red;
+    color:White;
+}
+td.rightbar
+{
+    width:auto;
+    background-color:Black;
+    color:White;
+}
+p.askquestion
+{
+    padding: 0.5em 0em 0.1em 0.6em;
+    margin: 0em;
+}
+div.wholequestionA
+{
+    background-color: #e0eee0;
+    padding: 0em;
+    margin: 2em 0em 0em 0em;
+    color: #005f6f;
+    font-weight: bold;
+}
+table.qtableA
+{
+    border-collapse: collapse;
+    border: solid 1px #e0eee0;
+    width: 100%;
+    margin-bottom: 0em;
+}
+table.bordercolA
+{
+    border-color: #e0eee0;
+}
+th.bordercolA
+{
+    border-color: #e0eee0;
+}
+td.bordercolA
+{
+    border-color: #e0eee0;
+}
+td.bgcolA_pale
+{
+    background-color: #f5fffa;
+}
+td.bgcolA
+{
+    background-color: white;
+}
+td.bgcolA_dark
+{
+    background-color: #e0eee0;
+}
+p.bordercolA
+{
+    border-color: #e0eee0;
+}
+p.bgcolA_pale
+{
+    background-color: #f5fffa;
+}
+table.bordercolB
+{
+    border-color: #ffebcd;
+}
+th.bordercolB
+{
+    border-color: #ffebcd;
+}
+td.bordercolB
+{
+    border-color: #ffebcd;
+}
+td.bgcolB_pale
+{
+    background-color: #fdf5e6;
+}
+td.bgcolB
+{
+    background-color: white;
+}
+td.bgcolB_dark
+{
+    background-color: #ffebcd;
+}
+p.bordercolB
+{
+    border-color: #ffebcd;
+}
+p.bgcolB_pale
+{
+    background-color: #fdf5e6;
+}
+th.colA
+{
+    background-color: #e0eee0;
+    border-top: solid 1px #e0eee0;
+    border-bottom: solid 1px #e0eee0;
+    color: #005f6f;
+    text-align: center;
+    padding-top: 0.3em;
+    padding-right: 0.4em;
+    padding-bottom: 0.3em;
+    padding-left: 0.4em;
+}
+th.colB
+{
+    padding: 0.3em 0.4em;
+    background-color: #ffebcd;
+    border-top: solid 1px #ffebcd;
+    border-bottom: solid 1px #ffebcd;
+    color: #005f6f;
+}
+th.lefthead
+{
+    text-align: left;
+    padding-left: 0.4em;
+    padding-right: 0.4em;
+}
+td.question
+{
+    border-right-style: dashed;
+    border-top-style: dashed;
+    border-width: 1px;
+    border-color: inherit;
+    padding-top: 0.4em;
+    padding-right: 0.6em;
+    padding-bottom: 0.4em;
+    padding-left: 0.6em;
+}
+tr.colourrowA
+{
+    background-color: white;
+    border-color: #e0eee0;
+}
+tr.colourrowB
+{
+    background-color: white;
+    border-color: #ffebcd;
+}
+tr.palecolourrowA
+{
+    background-color: #f5fffa;
+    border-color: #e0eee0;
+}
+tr.palecolourrowB
+{
+    background-color: #fdf5e6;
+    border-color: #ffebcd;
+}
+td.optrow
+{
+    padding: 0.4em 0.4em;
+    margin: 1px;
+}
+td.optrow
+{
+    padding: 0.4em 0.4em;
+    margin: 1px;
+}
+td.setcentre
+{
+    text-align: center;
+}
+input.commonfont
+{
+    font-size: inherit;
+}
+.radio
+{
+    height: 20px;
+}
+td.dashed,td.dashedleft
+{
+    font-family: Arial, Verdana, sans-serif;
+    border-right-style: dashed;
+    border-top-style: dashed;
+    border-width: 1px;
+    border-color: inherit;
+    vertical-align: middle;
+}
+td.dashedleft
+{
+    text-align:left;
+}
+div.options
+{
+    max-width: 69px;
+}
+.error
+{
+    color:Red;
+    display:none;
+}
+.wait
+{
+    color:Red;
+    display:none;
+}
+.thanks
+{
+    color:Black
+display:none;
+}
+.sectionheader
+{
+    text-align: center;
+    font-size: 25px;
+    color: #000000;
+}
+.sectionintrotext
+{
+    margin: 0;
+    padding: 0.5em 0 0.1em 0.6em;
+    color: #005F6F;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+.viz
+{
+    display: none;
+}
+.abandonbar
+{
+
+}
+.takeabreakbar
+{
+    border: 1px solid gray; width: 20em; background-color: oldLace;
+}
+.abondonhiddentext
+{
+    color: white;
+    font-size: xx-small;
+}
+
+.abandonbar, .abandonbutton,.abandontext,.abandonbutton1
+{
+}
+.abandonbar, .abandonbutton, .abandonbutton1
+{
+}
+.abandonbar, .abandonbutton
+{
+    font-size: 1.0em;
+}
+.abandontext,.abandonbutton1
+{
+    font-size: 1.0em;
+}
+.abandontext
+{
+    background-color: #43919f;
+}
+.abandonbutton
+{
+    border-color: gray;
+    border-width: 1px;
+    border-style: solid;
+    margin-left: 2em;
+}
+.abandontext
+{
+    margin: 0px;
+}
+
+.dropshadowclass { border: solid 1px #CCC; -moz-box-shadow: 3px 3px 0px #999; -webkit-box-shadow: 3px 3px 0px #999; box-shadow: 3px 3px 0px #999; }
+
+
+.Center {
+    width: 75%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.BoxSm {
+    font-family: Verdana, Geneva, sans-serif;
+    padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.SolidBox {
+    background-color: #EEE;
+    border: medium double #666;
+    padding: 1.5em;
+    padding-top: 0.1em;
+}
+
+input.btn_submit
+{
+ /*   position : relative;  FIX FOR IE 7*/
+    background: #ffffb8;
+    border: 2px solid #005f6f;
+    font-weight: bold;
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    min-width: 95px;
+    cursor: pointer;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;                          /* if no CSS3, these will get ignored and */
+    box-shadow:                                   /* it'll be a plainer, non-rounded button */
+    0px 1px 3px rgba(000,000,000,0.5),
+    inset 0px 0px 3px rgba(255,255,255,1);
+    text-shadow:
+    0px -1px 0px rgba(000,000,000,0.1),
+    0px 1px 0px rgba(255,255,255,1);
+}
+
+input.btn_submit:hover
+{
+    background: #ffffa0;
+    border: 2px solid #aa0000;
+    color: #aa0000;
+}
+.centreRadio
+{
+    width: 25px; height: 25px; margin-right: auto; margin-left: auto; padding: 1em;
+}
+
+.moodRadioPosition
+{
+    transform: translate(0px, 25%);
+    margin-left: 1em;
+    margin-right:auto;
+}
+
+.thanks
+{
+    display: none; margin-top: 10%; text-align: center; width: 25%; margin-left: auto; margin-right: auto;
+}
+
+
+

@@ -1,0 +1,121 @@
+html, body, .greenback1, .greenback1demo
+{
+/*    font-size: 101%;*/
+}
+
+.td
+{
+    border: thin solid Black;
+}
+
+.begindemo, .begin
+{
+    color: White;
+    font-family: Helvetica, Arial, Sans-Serif;
+/*    font-size: 1.2em;*/
+}
+
+.begindemo
+{
+    display: none;
+}
+
+.greenback1, .greenback1demo
+{
+    display: none;
+}
+
+.greenback
+{
+    min-height: 600px;
+    width: 100%;
+    height: 700px;
+}
+
+.greenback {
+    margin: 0;
+    padding: 0;
+}
+
+.greenback, .greenbackdemo {
+    vertical-align: middle;
+    background-color: #005000;
+    text-align: center;
+}
+
+.demor, .demo2 {
+    /*    height:750px;*/
+    width: 100%;
+}
+
+.greenbackdemo {
+    height: 450px;
+    width: 100%;
+}
+
+.demor {
+    vertical-align: bottom;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.testtext {
+    font-family: Sans-Serif;
+/*    font-size: 1.2em;*/
+    text-align: left;
+}
+
+.viz {
+    display: none;
+}
+
+div.demo {
+    display: none;
+    background-color: #005000;
+    height: 200px;
+    width: 200px;
+}
+
+table.demo {
+    vertical-align: middle;
+}
+
+table.demo, table.demo2 {
+    width: 100%;
+    font-family: Sans-Serif;
+/*    font-size: 1.0em;*/
+    margin: 0;
+    padding: 0;
+}
+
+.demo2 {
+    display: none;
+}
+
+.demol {
+    width: 40%;
+    height: 100%;
+    vertical-align: middle;
+    margin: 0;
+}
+
+.responsesnap, .responsex, .responsesnapdemo {
+    display: none;
+    font-family: Sans-Serif;
+}
+
+.responsesnap {
+    color: Yellow;
+    font-size: 6em;
+}
+
+.responsesnapdemo {
+    color: Yellow;
+    font-size: 5em;
+}
+
+.responsex {
+    color: Red;
+    font-size: 7em;
+}
