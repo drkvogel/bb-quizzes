@@ -7,6 +7,7 @@
     $ sudo npm install -g generator-webapp
     $ vi ~/.gitignore
     $ git config core.excludesfile ~/.gitignore
+    $ yo webapp # scaffold 
 
     $ yo webapp --help
     $ npm home generator-webapp   # show module homepage
@@ -17,6 +18,7 @@
 
     $ python -m SimpleHTTPServer # 404s
     $ gulp serve
+    $ ngrok 9000    # then submit to browsershots.org
 
 https://github.com/yeoman/generator-webapp#readme
 

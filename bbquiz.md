@@ -11,18 +11,17 @@ AY re
 polyfills
 ie7
 
-
+## done
 
 https://drkvogel.unfuddle.com/a#/account/settings (top left cog to the right of "All Projects")
 Used: 238.63MB 46.61% Available: 512.00MB
+Current: Private FREE. 512MB. Paid: 50GB $3/person $3/project $6/mo. based on your usage 
 
-Current: Private FREE. 512MB
-Paid: 50GB $3/person $3/project $6/mo. based on your usage 
-
+GIMP, David's Batch Processor - BMP -> PNG
+Alt-PrtScn, not AltGr-PrtScn
 
 K:\core\AYOUNG
 C:\Users\cbird\Projects\jonathanpr\BioBankQuizGames
-
 AY re starting with Matrix-
 
 >Dear Jonathan+Chris, as discussed with you separately, I'd like Chris to produce online versions of the new cognitive tests that are being rolled out in the touchscreen systems.  Jonathan, please can you explain the tests and demo the touchscreen versions to Chris and make the various graphical materials available to him - your standalone program that I sent to UKB would be a good framework for this.  It might also be useful to pass on the front-end code done by Cardiff in case there's stuff in there that can be re-used - I'd like the back-end in c++ rather than php, but the rest ought to be relevant.
