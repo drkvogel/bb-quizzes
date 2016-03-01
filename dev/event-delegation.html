@@ -10,14 +10,20 @@
 console.log("before");
 
 $(document).ready(function() {
-	$("#list").append('<li><a href="http://news.google.com">another one!</a></li>');
 	console.log("document ready!");
 
-	$("#list li a").on("click", function(event) {
+	//$("#list li a").on("click", function(event) {
+	//$("#list a").on("click", function(event) { // attached to each "#list a" at doc ready, but not to extra ones added afterwards
+	$("#list").on("click", "a", function(event) { // event delegated to "#list" catches those appended "a"s
 	    event.preventDefault();
-	    //console.log("#list li a");
-	    console.log($(this).text());
+	    console.log("text(): "+$(this).text());
+	    //var elem = $(this);
+	    //console.log("getAttribute(): "+elem.getAttribute("href"));
+	    console.log("attr(): "+$(this).attr("href")); // http://api.jquery.com/attr/
+
 	});
+
+	$("#list").append('<li><a href="#http://news.google.com">another one!</a></li>');
 });
 
 //console.log($("#list"));
