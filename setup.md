@@ -20,6 +20,14 @@
     $ gulp serve
     $ ngrok 9000    # then submit to browsershots.org
 
+[Browsersync](https://www.browsersync.io/)
+
+Serving files from .tmp, app
+
+scripts, e.g. main.js, are deployed to .tmp? They don't update on refresh, unlike .html pages
+
+[Utilu IE Collection](http://utilu.com/IECollection/) - bundle of old IE versions
+
 https://github.com/yeoman/generator-webapp#readme
 
     Install dependencies: npm install --global yo gulp-cli bower
