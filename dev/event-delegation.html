@@ -1,22 +1,35 @@
 <html>
 <!-- http://learn.jquery.com/events/event-delegation/ -->
+<body>
 <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
 <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript">
 // Attach a directly bound event handler
-$("#list a").on( "click", function(event) {
-    event.preventDefault();
-    console.log($(this).text());
-});
-</script>
 
-<body>
+//console.log("blah blah blah");
+console.log("before");
+
+$(document).ready(function() {
+	$("#list").append('<li><a href="http://news.google.com">another one!</a></li>');
+	console.log("document ready!");
+
+	$("#list li a").on("click", function(event) {
+	    event.preventDefault();
+	    //console.log("#list li a");
+	    console.log($(this).text());
+	});
+});
+
+//console.log($("#list"));
+console.log("after");
+
+</script>
 <div id="container">
     <ul id="list">
-        <li><a href="http://domain1.com">Item #1</a></li>
-        <li><a href="/local/path/1">Item #2</a></li>
-        <li><a href="/local/path/2">Item #3</a></li>
-        <li><a href="http://domain4.com">Item #4</a></li>
+        <li><a href="#http://domain1.com">Item #1</a></li>
+        <li><a href="#/local/path/1">Item #2</a></li>
+        <li><a href="#/local/path/2">Item #3</a></li>
+        <li><a href="#http://domain4.com">Item #4</a></li>
     </ul>
 </div>
 
