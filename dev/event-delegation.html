@@ -1,42 +1,36 @@
+<!doctype html>
 <html>
 <!-- http://learn.jquery.com/events/event-delegation/ -->
+<title>Event Delegation</title>
 <body>
+
 <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
 <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
 <script type="text/javascript">
-// Attach a directly bound event handler
-
-//console.log("blah blah blah");
 console.log("before");
-
 $(document).ready(function() {
 	console.log("document ready!");
 
-	//$("#list li a").on("click", function(event) {
-	//$("#list a").on("click", function(event) { // attached to each "#list a" at doc ready, but not to extra ones added afterwards
+    //$("#list a").on("click", function(event) { // Attach a directly bound event handler
+        // attached to each "#list a" at doc ready, but not to extra ones added afterwards
 	$("#list").on("click", "a", function(event) { // event delegated to "#list" catches those appended "a"s
 	    event.preventDefault();
 	    console.log("text(): "+$(this).text());
-	    //var elem = $(this);
-	    //console.log("getAttribute(): "+elem.getAttribute("href"));
-	    console.log("attr(): "+$(this).attr("href")); // http://api.jquery.com/attr/
-
+        console.log("attr(): "+$(this).attr("href")); // http://api.jquery.com/attr/
+	    //var elem = $(this); //console.log("getAttribute(): "+elem.getAttribute("href"));
 	});
 
-
 	$("#list").append('<li><a href="#http://news.google.com">another one!</a></li>');
-	//$("body").append($.load("snip.html"));
-	$("#content").load("snip.html"); 
+    $("#content").load("snip.html"); //$("body").append($.load("snip.html"));
 		// can't be done from file on Chrome due to 
 		// serve over HTTP e.g. with python -m SimpleHTTPServer
 		// or start Chrome with --allow-file-access-from-files
 		// http://stackoverflow.com/questions/4819060/allow-google-chrome-to-use-xmlhttprequest-to-load-a-url-from-a-local-file
 });
-
-//console.log($("#list"));
 console.log("after");
-
 </script>
+
 <div id="container">
     <ul id="list">
         <li><a href="#http://domain1.com">Item #1</a></li>

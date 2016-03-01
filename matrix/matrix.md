@@ -3,20 +3,37 @@
 work out how to display part of css icon
 
 
-jQuery event delegation: /dev/event-delegation.html
 
-emmet
-bemmet
+## defer
 
+emmet, bemmet
 
+### back end
+
+create Rosetta, e.g. ROSETTA *g = new ROSETTA(); in /jonathanpr/BioBankQuizGames/tMatrixBoard.cpp
+/home/cbird/Projects/bb-quizzes/matrix/app/pages.html
+
+## done
 
 divs for grids: 2x2 + 3x2,  3x3 + 4x2- pages.html
 
-## back end
+### event delegation
 
-create Rosetta, e.g. ROSETTA *g = new ROSETTA(); in /jonathanpr/BioBankQuizGames/tMatrixBoard.cpp
+jQuery event delegation: /dev/event-delegation.html
+Use 
 
-/home/cbird/Projects/bb-quizzes/matrix/app/pages.html
+```js
+    $("some-element").on("click", function() { ... });
+```
+
+rather than 
+
+```js
+    $("some-element").click(function() { ... });
+```
+
+as on() supports several parameter combinations that allow it to handle event delegation.
+http://stackoverflow.com/questions/9122078/difference-between-onclick-vs-click
 
 
 const char *MATRIX_GAME::m_levels[NO_LEVELS] = {
