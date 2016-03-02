@@ -1,9 +1,4 @@
 
-snap / healthy minds
-
-
-http://trials.ctsu.ox.ac.uk/~webfu/HMDB3/biobank_cb.php?c=d69c6b5122112451e6b9ad2de220fd55&s=1&p=213421343
-
 AY re
     browser support?
     hosting
@@ -11,14 +6,19 @@ AY re
 polyfills
 ie7
 
-## done
+### example - snap / healthy minds
 
-https://drkvogel.unfuddle.com/a#/account/settings (top left cog to the right of "All Projects")
-Used: 238.63MB 46.61% Available: 512.00MB
-Current: Private FREE. 512MB. Paid: 50GB $3/person $3/project $6/mo. based on your usage 
+http://trials.ctsu.ox.ac.uk/~webfu/HMDB3/biobank_cb.php?c=d69c6b5122112451e6b9ad2de220fd55&s=1&p=213421343
+
+
+## done
 
 GIMP, David's Batch Processor - BMP -> PNG
 Alt-PrtScn, not AltGr-PrtScn
+
+https://drkvogel.unfuddle.com/a#/account/settings (top left cog to the right of "All Projects")
+Used: 238.63MB 46.61% Available: 512.00MB - plenty
+Current: Private FREE. 512MB. Paid: 50GB $3/person $3/project $6/mo. based on your usage 
 
 K:\core\AYOUNG
 C:\Users\cbird\Projects\jonathanpr\BioBankQuizGames
