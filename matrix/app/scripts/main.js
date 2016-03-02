@@ -5,7 +5,8 @@ $("#content-container").on('click', 'a', function(e) { // delegate events
 	// $(this).load("snip.html#snip1");  // try to load only div from file - doesn't work
 	//$(this).load("snip.html"); 
 	//switch ($(".page").
-	console.log($(".page").attr("id");
+	console.log($(".page").attr("id")); // now gets id from loaded page
+	console.log("boom!");
 	$("#content-container").load("./pages/intro1.html"); 
 	e.preventDefault();
 });
@@ -36,7 +37,7 @@ $("#content-container").on('click', 'a', function(e) { // delegate events
 
 // <div class="js-include" title="nav.html"></div>
 
-// “js-include” is simply a class name that we’ll assign to every element that should trigger the include. And “nav.html” is the relative URL of the file that we’re including.
+// js-include is simply a class name that we'll assign to every element that should trigger the include. And nav.html is the relative URL of the file that we're including.
 // Now, let’s take a look at the jQuery code:
 
 $(".js-include").each(function(){
@@ -45,7 +46,7 @@ $(".js-include").each(function(){
         inc.replaceWith(data);
     });
 });
-// The first line just tells the script to execute the function once of each element that has the class “js-include”.
+// The first line just tells the script to execute the function once of each element that has the class js-include.
 // We then store the current element inside a variable
-// We use jQuery’s get function with the following arguments: the div’s title as the URL of the file to load, and a callback function
+// We use jQuery's get function with the following arguments: the div's title as the URL of the file to load, and a callback function
 // The callback function replaces the current DIV with the content that we just loaded.

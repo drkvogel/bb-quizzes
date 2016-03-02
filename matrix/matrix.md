@@ -6,12 +6,7 @@ look at Snap
 are pages/screens fixed? why the data matrices?
 or as many as you can do in 2 minutes - up to 18?
 
-jquery on legacy browsers?
-
-
-Not watching files:
-
->Error: watch /home/cbird/Projects/bb-quizzes/matrix/app/ ENOSPC
+https://visionmedia.github.io/page.js/
 
 ## defer
 
@@ -44,6 +39,21 @@ rather than
 as on() supports several parameter combinations that allow it to handle event delegation.
 http://stackoverflow.com/questions/9122078/difference-between-onclick-vs-click
 
+### Not watching files: ENOSPC
+
+>Error: watch /home/cbird/Projects/bb-quizzes/matrix/app/ ENOSPC
+
+reboot to clear out /tmp. No dice.
+http://unix.stackexchange.com/questions/11235/is-it-safe-to-rm-rf-tmp
+http://superuser.com/questions/499039/how-to-cleanup-tmp-folder-safely-on-linux
+
+    echo fs.inotify.max_user_watches=582222 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+
+or similar - ok, now it actually livereloads, i.e. when you change a file.
+https://discourse.roots.io/t/gulp-watch-error-on-ubuntu-14-04-solved/3453/2
+http://stackoverflow.com/questions/535768/what-is-a-reasonable-amount-of-inotify-watches-with-linux
+
+---
 
     "matrix_ex1", "matrix_ex2", "matrix_ex3", "transition", "matrix_ex4", "matrix_ex5", "matrix_ex6", "matrix_ex7", "matrix_ex8", "matrix_ex9", "matrix_ex10", "matrix_ex11", "matrix_ex12", "matrix_ex13", "matrix_ex14", "matrix_ex15", "matrix_ex16", "matrix_ex17", "matrix_ex18"};
 
