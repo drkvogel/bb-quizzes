@@ -1,9 +1,30 @@
 
 [Dollar Object vs function: $ vs $()](http://learn.jquery.com/using-jquery-core/dollar-object-vs-function/)
-
 [jQuery Selectors](http://www.w3schools.com/jquery/jquery_ref_selectors.asp)
 
 attr() http://api.jquery.com/attr/
+
+### [Using jQuery to include files](http://www.attackofdesign.com/using-jquery-to-include-files/)
+
+```html
+    <div class="js-include" title="nav.html"></div>
+```
+
+`js-include` is simply a class name that we'll assign to every element that should trigger the include. And nav.html is the relative URL of the file that we're including. Now, let’s take a look at the jQuery code:
+
+```js
+    $(".js-include").each(function(){
+        var inc=$(this);
+        $.get(inc.attr("title"), function(data){
+            inc.replaceWith(data);
+        });
+    });
+```
+
+The first line just tells the script to execute the function once of each element that has the class `js-include`.
+We then store the current element inside a variable
+We use jQuery's get function with the following arguments: the div's title as the URL of the file to load, and a callback function
+The callback function replaces the current DIV with the content that we just loaded.
 
 
 ### jquery on legacy browsers

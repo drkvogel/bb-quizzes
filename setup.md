@@ -1,5 +1,11 @@
 # setup
 
+
+Backticks have to be pressed twice: https://en.wikipedia.org/wiki/Dead_key
+http://askubuntu.com/questions/252688/lubuntu-12-04-change-default-keyboard-layout-after-installation
+
+install lxkeymap, then change layout to English (UK) (NOT Extended or anything else)
+
 ### yeoman (yo, gulp, bower)
 
     cbird@q108-vlubuntu:~/Projects/bb-quizzes/matrix$ 
