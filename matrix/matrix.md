@@ -2,6 +2,7 @@
 
 work out how to display part of css icon
 
+look at Snap
 
 
 ## defer
