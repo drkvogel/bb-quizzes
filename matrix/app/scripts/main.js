@@ -4,8 +4,8 @@ $("#content-container").on('click', 'a', function(e) { // delegate events
 	//$(this).parent().html('<a href="#">A New link</a>');
 	// $(this).load("snip.html#snip1");  // try to load only div from file - doesn't work
 	//$(this).load("snip.html"); 
-	switch ($(this)
-	$(this).load("snip.html"); 
+	//switch ($(this)
+	$("#content-container").load("./pages/intro1.html"); 
 	e.preventDefault();
 });
 
