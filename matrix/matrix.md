@@ -1,22 +1,19 @@
 # matrix
 
-copy divs
-clone()
+ay re server, ie support
+
+### clone() or show()/hide()
+
 was thinking of using get() or load() to load the different pages in, but this involves a network wait.
 best to include all sub pages in same html page, and switch them in by changing visibility - the way the Healthy Minds snap game works - or clone().
 
-
-
-
-
-In jQuery, by convention, variables that are assigned jQuery objects are named with a '$' prefix, e.g.:
-
-    var $button = $(".btn");
+work out how to display part of css icon
 
 ### look at Snap-/
 
 #### tidbits
 
+    # submitting the data
     <form id="form1" class="viz" action="https://trials.ctsu.ox.ac.uk/~webfu/HMDB3/StoreData.php" method="post">
         <input type="hidden" name="sid" value="1">
 
@@ -48,7 +45,6 @@ In jQuery, by convention, variables that are assigned jQuery objects are named w
 
     var divList = ["demo0", "demo1", "demo2", "demo3", "demo4", "test", "xdemo", "snapdemo", "endit", "wait"]; # I need one of these...
 
-
     images[i] = new Image();
     images[i].src = "Snap/snap_images/F"+i+".GIF";      # pre-load images
 
@@ -58,10 +54,7 @@ In jQuery, by convention, variables that are assigned jQuery objects are named w
     else
         nowish = new Date().getTime();
 
-
     if(obj.hasOwnProperty(key))
-
-
 
 #### funcs
 
@@ -111,7 +104,6 @@ In jQuery, by convention, variables that are assigned jQuery objects are named w
     hmTimer.prototype.getLap = function()
     hmTimer.prototype.isValid = function()
 
-
     # biobank_cb_common.js
     function highlight(id)
     function unhighlight(id)
@@ -121,10 +113,6 @@ In jQuery, by convention, variables that are assigned jQuery objects are named w
 
 are pages/screens fixed? why the data matrices?
 or as many as you can do in 2 minutes - up to 18?
-is this 
-
-http://getbootstrap.com/examples/sticky-footer-navbar/
-
 work out how to display part of css icon
 
 ## defer
@@ -149,7 +137,9 @@ create Rosetta, e.g. ROSETTA *g = new ROSETTA(); in /jonathanpr/BioBankQuizGames
 
 ## done
 
+copy divs, hide by default
 sticky footer https://getbootstrap.com/examples/sticky-footer/
+http://getbootstrap.com/examples/sticky-footer-navbar/
 use $.get(url, data, success) to get part of html e.g.:
 
     var page = $.get("./pages/pages.html", function(data) {

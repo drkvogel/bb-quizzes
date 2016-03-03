@@ -3,6 +3,10 @@
 
 [Dollar Object vs function: $ vs $()](http://learn.jquery.com/using-jquery-core/dollar-object-vs-function/)
 
+In jQuery, by convention, variables that are assigned jQuery objects are named with a '$' prefix, e.g.:
+
+    var $button = $(".btn");
+
 ### get attribute
 
 attr() http://api.jquery.com/attr/

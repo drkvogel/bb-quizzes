@@ -1,6 +1,7 @@
 console.log('Starting Matrix Puzzle');
 
-
+images[25] = new Image();
+images[25].src = "Snap/snap_images/Rear.GIF";
 
 $("#content-container").on('click', 'a', function(e) { // delegate events
 	e.preventDefault();
