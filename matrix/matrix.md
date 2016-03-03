@@ -110,6 +110,48 @@ work out how to display part of css icon
     function unhighlight(id,colour)
     function now()
 
+### prototypes
+
+re timer object - why are funcs added to prototype instead of declared in function object? e.g. why not:
+
+    var Timer = function() {
+        ...
+        getTime = function() { ... };
+    };
+
+instead of:
+
+    var Timer = function() {
+        ...
+    };
+    Timer.prototype.getTime = function() { ... };
+
+? Because in the first instance, each time Timer is created, everything is copied including the functions, but in the second, only the stuff in the body is copied, and references to prototyped functions are pointers to the prototype. So saves memory.
+
+### window.performance
+
+>The Web Performance API allows web pages access to certain functions for measuring the performance of web pages and web applications
+
+    if (typeof window.performance !== 'undefined' && typeof window.performance.now !== 'undefined')
+        this.hasPerformance = true;
+    this.hasPossibleError = false;
+    this.isValid = false;
+
+    hmTimer.prototype.getTime = function() {
+        if (this.hasPerformance)
+            nowish = window.performance.now();  // ms.μs from performance.timing.navigationStart()
+        else
+            nowish = new Date().getTime();      // milliseconds elapsed since 1 January 1970 00:00:00 UTC
+
+Date.now() returns the , performance.now() returns the number of , the start of navigation of the document, to the performance.now() call. Another important difference between Date.now() and performance.now() is that the latter is monotonically increasing, so the difference between two calls will never be negative.
+
+[performance.now() vs Date.now()](http://stackoverflow.com/questions/30795525/performance-now-vs-date-now)
+
+performance.now() should only be used when you want to measure the **relative** distance between two time points, not their "absolute" position in time. plus, performance.now offers more precise timing (sub-millisecond precision).
+
+http://stackoverflow.com/questions/16808486/explanation-of-window-performance-javascript
+
+---
 
 are pages/screens fixed? why the data matrices?
 or as many as you can do in 2 minutes - up to 18?
