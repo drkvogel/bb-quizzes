@@ -1,15 +1,24 @@
 # matrix
 
-
 copy divs
 clone()
+was thinking of using get() or load() to load the different pages in, but this involves a network wait.
+best to include all sub pages in same html page, and switch them in by changing visibility - the way the Healthy Minds snap game works - or clone().
 
 
 
+
+
+In jQuery, by convention, variables that are assigned jQuery objects are named with a '$' prefix, e.g.:
+
+    var $button = $(".btn");
 
 ### look at Snap-/
 
 #### tidbits
+
+    <form id="form1" class="viz" action="https://trials.ctsu.ox.ac.uk/~webfu/HMDB3/StoreData.php" method="post">
+        <input type="hidden" name="sid" value="1">
 
     window.history.forward();                                           # prevent repeat after back button
     window.onbeforeunload = function(e){return "are you sure?";};       # if window close received

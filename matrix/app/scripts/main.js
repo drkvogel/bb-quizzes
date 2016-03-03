@@ -1,10 +1,9 @@
 console.log('Starting Matrix Puzzle');
 
+
+
 $("#content-container").on('click', 'a', function(e) { // delegate events
-	//$(this).parent().html('<a href="#">A New link</a>');
-	// $(this).load("snip.html#snip1");  // try to load only div from file - doesn't work
-	//$(this).load("snip.html"); 
-	//switch ($(".page").
+	e.preventDefault();
 	var pageId = $(".page").attr("id");
 	console.log("pageId: "+pageId); // now gets id from loaded page
 	var clickedEl = $(this);
@@ -13,20 +12,44 @@ $("#content-container").on('click', 'a', function(e) { // delegate events
 		case "next": 
 		case "yes": 
 		case "no": 
-			console.log("elid: "+clickedEl.attr("id")+", html: '"+clickedEl.html()+"'");
+			//console.log("elid: "+clickedEl.attr("id")+", html: '"+clickedEl.html()+"'");
+			console.log("elid: "+clickedEl.attr("id"));
 			break;
 		default: 
 			console.log("got unexpected element id: "+clickedEl.attr("id")); //+", html: '"+clickedEl.html()+"'");
 			//alert("got id: ");
 	}
-	//$("#content-container").load("./pages/intro1.html"); 
-	//var page = $.get("./pages/intro1.html", function(data) { // ok
-	var page = $.get("./pages/pages.html", function(data) {
-		$("#content-container").html($(data).filter("#intro2"));
-	});
-	//$("#content-container").load(); 
-	e.preventDefault();
+
+	$("#content-container").html($("#thanks"));
+
+	//var page = $.get("./pages/pages.html", function(data) {$("#content-container").html($(data).filter("#intro2")); });
+
+
+	// var page = $.get("./pages/pages.html", function(data) {
+	// 	$("#content-container").html($(data).filter("#intro2")); // gets whole page and then filters, not optimal
+	// });
+
+// <div class="js-include" title="nav.html"></div>
+// $(".js-include").each(function(){
+//     var inc=$(this);
+//     $.get(inc.attr("title"), function(data){
+//         inc.replaceWith(data);
+//     });
+// });
+
+// replaceWith() will replace the current element, whereas html() simply replaces the contents.
+// Note that the replaceWith() will not actually delete the element but simply remove it from the DOM and return it to you in the collection.
+
 });
+
+$(document).ready(function() {
+	console.log('Ready');
+});
+
+	//$(this).parent().html('<a href="#">A New link</a>');
+	// $(this).load("snip.html#snip1");  // try to load only div from file - doesn't work
+	//$(this).load("snip.html"); 
+	//switch ($(".page").
 
 
 /*$(document).ready(function() {

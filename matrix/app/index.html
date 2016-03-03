@@ -10,7 +10,7 @@
     <!-- build:css styles/vendor.css -->
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/sticky-footer.css" >
+    <!-- <link rel="stylesheet" href="styles/sticky-footer.css" > -->
     <link rel="stylesheet" href="styles/sticky-footer-navbar.css" >
     <!-- build:js scripts/vendor/modernizr.js -->
     <script src="/bower_components/modernizr/modernizr.js"></script>
@@ -20,6 +20,7 @@
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <div class="container">
+      
       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a href="#">Home</a></li>
@@ -28,6 +29,7 @@
         </ul>
         <h3 class="text-muted">matrix</h3>
       </div>
+
       <code>content-container</code>
       <div id="content-container">
         <div class="jumbotron">
@@ -41,10 +43,87 @@
         </div> -->
 
       </div>
-      <div class="footer">
-        <p>UK Biobank</p>
+    </div>
+
+    <div class="footer">
+      <!-- <p>UK Biobank</p> -->
+      <div class="container" id="cbhead"><img id="memlogo" src="./images/memlogo.gif" style="display:block;margin-left:auto;margin-right:auto;" alt="Biobank"> 
+          <p class="motto" style="text-align: center;">Improving the health of future generations</p>
       </div>
     </div>
+
+    <!-- document.getElementById("abandonbutton").style.display = "none";  -->
+    <div id="pages" style="display: none">
+      <!-- Intro 1 -->
+      <div id="intro1" class="page">
+        <p>Here is a design which is missing a piece on the lower right hand corner. At the bottom are shown six pieces which would fit the missing corner. Your task is the touch the piece which best completes the design at the top.</p>
+        <p>Have a go now...</p>
+        <div class="buttons">
+          <div id="prev"><a id="prev" href="#">&lt; Prev</a></div><div id="next"><a id="next" href="#">Next &gt;</a></div>
+        </div>
+      </div>
+
+      <!-- Intro 2 -->
+      <div id="intro2" class="page">
+        <p>Here is another practice puzzle. Touch the piece which best completes the design.</p>
+        <p>This is the last practice puzzle. Again, touch the piece which best completes the design.</p>
+        <p>You will have 2 minutes to do as many puzzles as you can.</p>
+        <p>Touch Next when you are ready to begin.</p>
+        <div class="buttons">
+          <div id="no">&lt; Prev</div><div id="yes">Next &gt;</div>
+        </div>
+      </div>
+
+      <!-- thanks -->
+      <div id="thanks" class="page">
+        <p>Thanks for doing the test.</p>
+        <p>Please leave comments.</p>
+        <div class="buttons">
+          <div id="prev"><a id="prev" href="#">&lt; Prev</a></div><div id="next"><a id="next" href="#">Next &gt;</a></div>
+        </div>  
+      </div>
+
+      <!-- abandon -->
+      <div id="abandon" class="page">
+        <h3>Please check!</h3>
+        <p>You have not yet completed the task.</p>
+        <p>Are you certain you wish to abandon this game?</p>
+        <p>You will not be able to attempt it again.</p>
+        <div class="buttons">
+          <div id="no">No</div><div id="yes">Yes</div>
+        </div>
+      </div>
+<!-- ?
+       <div id="page" class="page">
+      </div>
+ -->
+      <!-- 2x2 + 3x2 -->
+      <div id="quiz" class="page 2x2-3x2">
+        <div class="2x2">
+          <div id="a1"></div><div id="b1"></div>
+          <div id="a2"></div><div id="b2"></div>
+        </div>
+        <div class="3x2">
+          <div id="1a"></div><div id="1b"></div><div id="1c"></div>
+          <div id="2a"></div><div id="2b"></div><div id="2c"></div>
+        </div>
+      </div>
+
+      <!-- 3x3 + 4x2 -->
+      <div id="quiz" class="page 3x3-4x2">
+        <div class="3x3">
+          <div id="a1"></div><div id="b1"></div><div id="c1"></div>
+          <div id="a2"></div><div id="b2"></div><div id="c2"></div>
+          <div id="a3"></div><div id="b3"></div><div id="c3"></div>
+        </div>
+        <div class="4x2">
+          <div id="1a"></div><div id="1b"></div><div id="1c"></div><div id="1d"></div>
+          <div id="2a"></div><div id="2b"></div><div id="2c"></div><div id="2d"></div>
+        </div>
+      </div>
+    </div>
+
+
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=

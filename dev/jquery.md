@@ -1,7 +1,19 @@
 
+### Dollar Object vs function
+
 [Dollar Object vs function: $ vs $()](http://learn.jquery.com/using-jquery-core/dollar-object-vs-function/)
 
+### get attribute
+
 attr() http://api.jquery.com/attr/
+
+### replaceWith() vs html()
+
+replaceWith() will replace the current element, whereas html() simply replaces the contents.
+Note that the replaceWith() will not actually delete the element but simply remove it from the DOM and return it to you in the collection.
+http://stackoverflow.com/questions/730916/whats-the-difference-between-jquerys-replacewith-and-html
+
+### Selectors
 
 [jQuery Selectors](http://www.w3schools.com/jquery/jquery_ref_selectors.asp)
 http://code.tutsplus.com/tutorials/the-30-css-selectors-you-must-memorize--net-16048
@@ -53,7 +65,6 @@ http://code.tutsplus.com/tutorials/the-30-css-selectors-you-must-memorize--net-1
 ### load() and get()
 
 load() is roughly equivalent to $.get(url, data, success) except that it is a method rather than global function and it has an implicit callback function. When a successful response is detected (i.e. when textStatus is "success" or "notmodified"), .load() sets the HTML contents of the matched element to the returned data. This means that most uses of the method can be quite simple:
-
 
 ### [Using jQuery to include files](http://www.attackofdesign.com/using-jquery-to-include-files/)
 
