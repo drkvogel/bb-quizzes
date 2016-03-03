@@ -3,7 +3,11 @@
 work out how to display part of css icon
 
 
-could use $.get(url, data, success) to get part of html?
+could use $.get(url, data, success) to get part of html? e.g.:
+
+    var page = $.get("./pages/pages.html", function(data) {
+        $("#content-container").html($(data).filter("#intro2"));
+    });
 
 look at Snap
 are pages/screens fixed? why the data matrices?

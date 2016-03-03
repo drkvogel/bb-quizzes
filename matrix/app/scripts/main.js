@@ -20,8 +20,9 @@ $("#content-container").on('click', 'a', function(e) { // delegate events
 			//alert("got id: ");
 	}
 	//$("#content-container").load("./pages/intro1.html"); 
-	var page = $.get("./pages/intro1.html", function(data) {
-		$("#content-container").html(data);
+	//var page = $.get("./pages/intro1.html", function(data) { // ok
+	var page = $.get("./pages/pages.html", function(data) {
+		$("#content-container").html($(data).filter("#intro2"));
 	});
 	//$("#content-container").load(); 
 	e.preventDefault();
