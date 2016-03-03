@@ -26,12 +26,12 @@ http://code.tutsplus.com/tutorials/the-30-css-selectors-you-must-memorize--net-1
     X[foo~="bar"]       attribute which has a spaced-separated list of values
     X:not(selector)     negation
 
-    X:visited
+    x:visited
     x:link
-    X:hover
-    X:checked
-    X:after
-    X:before
+    x:hover
+    x:checked
+    x:after              Insert content before, or after, the content
+    x:before
     :empty
     :target
     :focus
