@@ -2,6 +2,9 @@
 
 work out how to display part of css icon
 
+
+could use $.get(url, data, success) to get part of html?
+
 look at Snap
 are pages/screens fixed? why the data matrices?
 or as many as you can do in 2 minutes - up to 18?

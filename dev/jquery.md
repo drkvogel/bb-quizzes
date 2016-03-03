@@ -1,8 +1,59 @@
 
 [Dollar Object vs function: $ vs $()](http://learn.jquery.com/using-jquery-core/dollar-object-vs-function/)
-[jQuery Selectors](http://www.w3schools.com/jquery/jquery_ref_selectors.asp)
 
 attr() http://api.jquery.com/attr/
+
+[jQuery Selectors](http://www.w3schools.com/jquery/jquery_ref_selectors.asp)
+http://code.tutsplus.com/tutorials/the-30-css-selectors-you-must-memorize--net-16048
+
+>jQuery selectors are based on the existing CSS Selectors, and in addition, has some own custom selectors.
+
+    *                   all elements
+    x *                 all children of x
+    #x                  first id="x"
+    .x                  all class="x"
+    x                   all x
+    x y                 all descendants y of x
+    x + y               all y immediately following x
+    x > y               all y is direct child of x
+    x ~ y               all y following x, immediately or not
+    x[attr]             all x with attribute attr
+    x[attr="val"]       all x with attr="val"
+    X[href*="nettuts"]  glob attribute value
+    X[href^="http"]     begins with
+    X[href$=".jpg"]     ends with
+    X[data-*="foo"]     ?
+    X[foo~="bar"]       attribute which has a spaced-separated list of values
+    X:not(selector)     negation
+
+    X:visited
+    x:link
+    X:hover
+    X:checked
+    X:after
+    X:before
+    :empty
+    :target
+    :focus
+
+    Pseudo Elements:
+    p::first-line
+    p::first-letter
+    x:first-child
+    x:last-child
+    x:nth-child(n)
+    x:nth-last-child(n)
+    x:nth-of-type(n)
+    x:nth-last-of-type(n)
+    x:only-child
+    x:only-of-type
+    x:first-of-type
+
+
+### load() and get()
+
+load() is roughly equivalent to $.get(url, data, success) except that it is a method rather than global function and it has an implicit callback function. When a successful response is detected (i.e. when textStatus is "success" or "notmodified"), .load() sets the HTML contents of the matched element to the returned data. This means that most uses of the method can be quite simple:
+
 
 ### [Using jQuery to include files](http://www.attackofdesign.com/using-jquery-to-include-files/)
 
@@ -15,16 +66,14 @@ attr() http://api.jquery.com/attr/
 ```js
     $(".js-include").each(function(){
         var inc=$(this);
-        $.get(inc.attr("title"), function(data){
+        $.get(inc.attr("title"), function(data){ // HTTP GET
             inc.replaceWith(data);
         });
     });
 ```
 
-The first line just tells the script to execute the function once of each element that has the class `js-include`.
-We then store the current element inside a variable
-We use jQuery's get function with the following arguments: the div's title as the URL of the file to load, and a callback function
-The callback function replaces the current DIV with the content that we just loaded.
+The first line just tells the script to execute the function once of each element that has the class `js-include`. We then store the current element inside a variable
+We use jQuery's get function with the following arguments: the div's title as the URL of the file to load, and a callback function The callback function replaces the current DIV with the content that we just loaded.
 
 
 ### jquery on legacy browsers

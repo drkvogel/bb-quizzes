@@ -19,7 +19,11 @@ $("#content-container").on('click', 'a', function(e) { // delegate events
 			console.log("got unexpected element id: "+clickedEl.attr("id")); //+", html: '"+clickedEl.html()+"'");
 			//alert("got id: ");
 	}
-	$("#content-container").load("./pages/intro1.html"); 
+	//$("#content-container").load("./pages/intro1.html"); 
+	var page = $.get("./pages/intro1.html", function(data) {
+		$("#content-container").html(data);
+	});
+	//$("#content-container").load(); 
 	e.preventDefault();
 });
 
