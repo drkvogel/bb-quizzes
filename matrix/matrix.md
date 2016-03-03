@@ -4,7 +4,112 @@
 copy divs
 clone()
 
-look at Snap-/
+
+
+
+### look at Snap-/
+
+#### tidbits
+
+    window.history.forward();                                           # prevent repeat after back button
+    window.onbeforeunload = function(e){return "are you sure?";};       # if window close received
+
+    window.onbeforeunload = null;                                               # disable quit check
+    document.getElementById("responses").value = JSON.stringify(returnData);    # prepare response data
+    document.getElementById("form1").submit();                                  # send it
+
+    document.getElementById("leftpicture").src = images[left].src;      # set an image
+    document.getElementById("rightpicture").src = images[right].src;
+
+    document.getElementById(id).style.backgroundColor = "Yellow";       # e.g. to highlight
+
+    document.getElementById("abandonbutton").style.display = "none";            # hide
+    document.getElementById("abandondiv").style.display = "inline";             # show
+
+    clearTimeout(twoSeconds);
+    twoSeconds = setTimeout("backs()", 2000);                                   # set timer
+
+    document.onkeydown = spaceBar;                                              # register callback for keydown on whole page
+    document.getElementById("test").onmousedown = touchScreen;                  # register callback for mousedown on element
+    document.onblur = focusHere;                                                # if focus lost, reset to specific element
+    document.getElementById("test").focus();                                    # focus
+
+    var KeyID = (window.event) ? event.keyCode : e.keyCode;                     # get keypress
+    switch (KeyID) { case 32:                                                   # spacebar
+
+    var divList = ["demo0", "demo1", "demo2", "demo3", "demo4", "test", "xdemo", "snapdemo", "endit", "wait"]; # I need one of these...
+
+
+    images[i] = new Image();
+    images[i].src = "Snap/snap_images/F"+i+".GIF";      # pre-load images
+
+    if (typeof window.performance !== 'undefined' && typeof window.performance.now !== 'undefined') # ??
+    if (this.hasPerformance)
+        nowish = window.performance.now();
+    else
+        nowish = new Date().getTime();
+
+
+    if(obj.hasOwnProperty(key))
+
+
+
+#### funcs
+
+    # snap.js
+    function abandonit(x)
+    function entryselect()              document.getElementById("instructions").style.display = "inline";
+    function writeValue(id, value)      document.getElementById(id).value = value;
+    function switchDiv(target) 
+            demo_timer.lap();
+            writeValue("demoelapsed", demo_timer.getElapsed());
+            test_timer.now();
+            starttest();
+    function showcards(left, right) 
+    function showcardsdemo(left, right) 
+    function starttest() 
+    function focusHere() 
+    function touchScreen() 
+    function spaceBar(e) 
+    function backs() 
+    function selectPair() 
+    function responder()
+    function finishIt() 
+    function highlight(id)
+    function unhighlight(id)
+    function loaded() 
+
+
+    # script.js
+    function SelectRadio(buttonId) 
+    function Script_noBackButton()
+
+    # json2.js
+    # json stuff
+
+    # hmTimer.js
+    function getObjectLength(obj)
+    var hmTimer = function()
+    hmTimer.prototype.getTime = function()
+    hmTimer.prototype.findnow = function()
+    hmTimer.prototype.now = function()
+    hmTimer.prototype.lap = function()
+    hmTimer.prototype.getElapsed = function()
+    hmTimer.prototype.gethasPerformance = function()
+    hmTimer.prototype.gethasPossibleError = function()
+    hmTimer.prototype.copy = function()
+    hmTimer.prototype.getStart = function()
+    hmTimer.prototype.getLap = function()
+    hmTimer.prototype.isValid = function()
+
+
+    # biobank_cb_common.js
+    function highlight(id)
+    function unhighlight(id)
+    function unhighlight(id,colour)
+    function now()
+
+
 are pages/screens fixed? why the data matrices?
 or as many as you can do in 2 minutes - up to 18?
 is this 
