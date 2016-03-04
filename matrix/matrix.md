@@ -2,6 +2,14 @@
 
 ay re server, ie support
 biobank favicon, apple-touch-icon.png?
+Preload
+State machine object
+Arrays-
+cpp JSON-x
+Interstitial-/
+Prev Next showPage()-/
+jshint
+
 
 ### scripts not being refreshed, 
 
@@ -23,15 +31,6 @@ https://github.com/gulpjs/gulp-util
     var gutil = require('gulp-util');
     gutil.log('Hello world!');
 
-Preload
-Arrays
-Interstitial
-State machine object
-Prev Next
-showPage()
-cpp JSON
-
-alka 4 wk
 
 ### clone() or show()/hide()
 
