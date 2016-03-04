@@ -1,6 +1,10 @@
 console.log('Starting Matrix Puzzle');
+console.log("NUM_PAGES: "+NUM_PAGES);
 
 // data.js
+
+var pages   = ["home", "intro1", "intro2", "thanks", "abandon", "quiz2x2", "quiz3x3"];
+var current = 0; // "home";
 
 function preload() {
 	//images[25] = new Image();
@@ -13,7 +17,7 @@ function showPage(page) {
 	$("#content-container").html($(pageId));
 }
 
-$("#content-container").on('click', 'a', function(e) { // delegate events
+$("#content-container").on('click', 'a, button', function(e) { // delegate events
     e.preventDefault();
     var pageId = $(".page").attr("id");
     console.log("pageId: "+pageId); // now gets id from loaded page
@@ -30,14 +34,41 @@ $("#content-container").on('click', 'a', function(e) { // delegate events
             console.log("got unexpected element id: "+clickedEl.attr("id")); //+", html: '"+clickedEl.html()+"'");
             //alert("got id: ");
     }
+});
+
+function prevPage() {
+    if (current > 0) current--;
+    console.log("prevPage(): current: "+current+", pages[current]: "+pages[current]);
+    showPage(pages[current]);
+}
+
+function nextPage() {
+    if (current < NUM_PAGES) current++;
+    console.log("nextPage(): current: "+current+", pages[current]: "+pages[current]);
+    showPage(pages[current]);
+}
+
+$("#buttons").on('click', 'a, button', function(e) { // delegate events
+    e.preventDefault();
+    var pageId = $(".page").attr("id"); //console.log("pageId: "+pageId); // now gets id from loaded page
+    var clickedEl = $(this);
+    console.log("pageId: "+pageId+": elid: "+clickedEl.attr("id")); //console.log("elid: "+clickedEl.attr("id")+", html: '"+clickedEl.html()+"'");
+    switch (clickedEl.attr("id")) {
+        case "prev": prevPage(); break; 
+        case "next": nextPage(); break;
+        case "yes":  console.log("yes"); break;
+        case "no":   console.log("no");  break;
+        default: 
+            console.log("got unexpected element id: "+clickedEl.attr("id")); //+", html: '"+clickedEl.html()+"'");
+    }
+});
+
+    //var page = $.get("./pages/pages.html", function(data) {$("#content-container").html($(data).filter("#intro2")); });
 
 
-	//var page = $.get("./pages/pages.html", function(data) {$("#content-container").html($(data).filter("#intro2")); });
-
-
-	// var page = $.get("./pages/pages.html", function(data) {
-	// 	$("#content-container").html($(data).filter("#intro2")); // gets whole page and then filters, not optimal
-	// });
+    // var page = $.get("./pages/pages.html", function(data) {
+    //  $("#content-container").html($(data).filter("#intro2")); // gets whole page and then filters, not optimal
+    // });
 
 // <div class="js-include" title="nav.html"></div>
 // $(".js-include").each(function(){
@@ -50,11 +81,11 @@ $("#content-container").on('click', 'a', function(e) { // delegate events
 // replaceWith() will replace the current element, whereas html() simply replaces the contents.
 // Note that the replaceWith() will not actually delete the element but simply remove it from the DOM and return it to you in the collection.
 
-});
 
 $(document).ready(function() {
-	console.log(' Fri Mar  4 12:11:23 2016 Ready');
+    console.log(' Fri Mar  4 12:11:23 2016 Ready');
     showPage("home");
+    //$("#content-container").html($("#thanks"));
 });
 
 	//$(this).parent().html('<a href="#">A New link</a>');
@@ -77,10 +108,10 @@ $(document).ready(function() {
 
 	$("#list").append('<li><a href="#">another one!</a></li>');
     $("#content").load("snip.html"); //$("body").append($.load("snip.html"));
-		// can't be done from file on Chrome due to 
-		// serve over HTTP e.g. with python -m SimpleHTTPServer
-		// or start Chrome with --allow-file-access-from-files
-		// http://stackoverflow.com/questions/4819060/allow-google-chrome-to-use-xmlhttprequest-to-load-a-url-from-a-local-file
+        // can't be done from file on Chrome due to
+        // serve over HTTP e.g. with python -m SimpleHTTPServer
+        // or start Chrome with --allow-file-access-from-files
+        // http://stackoverflow.com/questions/4819060/allow-google-chrome-to-use-xmlhttprequest-to-load-a-url-from-a-local-file
 });*/
 
 

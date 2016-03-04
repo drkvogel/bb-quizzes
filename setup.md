@@ -30,6 +30,8 @@ https://github.com/yeoman/generator-webapp#readme
 
 HTML does update dynamically with `gulp serve`
 
+JSLint vs JSHint
+
 ### browser testing
 
 [Browsersync](https://www.browsersync.io/)

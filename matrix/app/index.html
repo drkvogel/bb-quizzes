@@ -20,9 +20,17 @@
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <div class="container">
-      
+<!--       <!- <p>UK Biobank</p> ->
+      <div class="container" id="cbhead"><img id="memlogo" src="./images/memlogo.gif" style="display:block;margin-left:auto;margin-right:auto;" alt="Biobank"> 
+          <p class="motto" style="text-align: center;">Improving the health of future generations</p>
+      </div>
+ -->
       <div class="header">
         <ul class="nav nav-pills pull-right">
+          <li>
+            <img id="memlogo" src="./images/memlogo.gif" xstyle="display:block;margin-left:auto;margin-right:auto;" alt="Biobank"> 
+                <p class="motto" style="text-align: center;">Improving the health of future generations</p>
+          </li>
           <li class="active"><a href="#">Home</a></li>
           <li><a href="#">About</a></li>
           <li><a href="#">Contact</a></li>
@@ -31,28 +39,37 @@
       </div>
 
       <!-- <code>content-container</code> -->
-      <div id="page-container">
+      <div id="content-container">
           <p>This is where pages go. You should never be able to see this</p>
       </div>
-        <div class="buttons">
-          <div id="prev"><a id="prev" href="#">&lt; Prev</a></div><div id="next"><a id="next" href="#">Next &gt;</a></div>
+
+
+        <div style="display: none">
+          <code>test</code>
+          <a class="btn">Button</a>
         </div>
 
-<!--         <div class="row marketing">
-          <div class="col-lg-6">
-          </div>
-        </div> -->
+
     </div>
 
     <div class="footer">
-      <!-- <p>UK Biobank</p> -->
-      <div class="container" id="cbhead"><img id="memlogo" src="./images/memlogo.gif" style="display:block;margin-left:auto;margin-right:auto;" alt="Biobank"> 
-          <p class="motto" style="text-align: center;">Improving the health of future generations</p>
-      </div>
+
+        <div id="buttons" class="row">
+          <div id="prev" class="col-md-3"><button class="btn" id="prev" href="#">&lt; Prev</button></div>
+          <div id="prev" class="col-md-6">&nbsp;</div>
+          <div id="next" class="col-md-3"><button class="btn" id="next" href="#">Next &gt;</button></div>
+        </div>
+
     </div>
+
+<!--         <div class="row marketing"> <div class="col-lg-6"> </div> </div> -->
+
+
 
     <!-- document.getElementById("abandonbutton").style.display = "none";  -->
     <div id="pages" style="display: none">
+
+
 
       <!-- home -->
       <div id="home" class="page">
@@ -107,7 +124,7 @@
       </div>
  -->
       <!-- 2x2 + 3x2 -->
-      <div id="quiz" class="page 2x2-3x2">
+      <div id="quiz2x2" class="page 2x2-3x2">
         <div class="2x2">
           <div id="a1"></div><div id="b1"></div>
           <div id="a2"></div><div id="b2"></div>
@@ -119,7 +136,7 @@
       </div>
 
       <!-- 3x3 + 4x2 -->
-      <div id="quiz" class="page 3x3-4x2">
+      <div id="quiz3x3" class="page 3x3-4x2">
         <div class="3x3">
           <div id="a1"></div><div id="b1"></div><div id="c1"></div>
           <div id="a2"></div><div id="b2"></div><div id="c2"></div>
@@ -130,7 +147,41 @@
           <div id="2a"></div><div id="2b"></div><div id="2c"></div><div id="2d"></div>
         </div>
       </div>
-    </div>
+
+      <!-- not sure about this one - supposed to be a "firing up the engines" loading page -->
+      <div id="loading" class="page cover-container"> <!-- getbootstrap.com/examples/cover/ -->
+        <div class="masthead clearfix">
+          <div class="inner">
+            <h3 class="masthead-brand">Cover</h3>
+            <nav>
+              <ul class="nav masthead-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">Features</a></li>
+                <li><a href="#">Contact</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <div class="inner cover">
+          <h1 class="cover-heading">Cover your page.</h1>
+          <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
+          <p class="lead">
+            <a href="#" class="btn btn-lg btn-default">Learn more</a>
+          </p>
+        </div>
+<!--         <div class="mastfoot">
+          <div class="inner">
+            <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+          </div>
+        </div> -->
+      </div>
+
+
+      
+    </div> <!-- /pages -->
+
+
+
 
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
@@ -145,7 +196,18 @@
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
+
+    <!-- jQuery 1.9 for IE lt 9 -->
+    <!--[if lt IE 9]>
+        <script src="http://code.jquery.com/jquery-1.9.0.js"></script>
+        <script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>
+    <![endif]-->
+    <!--[if gte IE 9]><!-->
+        <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <!--<![endif]-->    
+
+    <!-- <script src="jquery-1.9.0.js"></script> -->
+
     <!-- build:js scripts/plugins.js -->
     <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/affix.js"></script>
     <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
@@ -162,6 +224,7 @@
     <!-- endbuild -->
     
     <!-- build:js scripts/main.js -->
+    <script src="scripts/data.js"></script>
     <script src="scripts/main.js"></script>
     <!-- endbuild -->
   </body>

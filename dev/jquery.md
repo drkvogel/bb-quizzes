@@ -108,3 +108,8 @@ jQuery 2.0 (early 2013, not long after 1.9): This version will support the same 
     <!--[if gte IE 9]><!-->
         <script src="jquery-2.0.0.js"></script>
     <!--<![endif]-->
+
+https://blog.jquery.com/2013/01/15/jquery-1-9-final-jquery-2-0-beta-migrate-final-released/
+
+<script src="http://code.jquery.com/jquery-1.9.0.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>

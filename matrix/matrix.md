@@ -20,6 +20,8 @@ https://github.com/gulpjs/gulp-util
 
     npm install gulp-util --save-dev
 
+    var gutil = require('gulp-util');
+    gutil.log('Hello world!');
 
 Preload
 Arrays
