@@ -1,27 +1,36 @@
 console.log('Starting Matrix Puzzle');
 
-images[25] = new Image();
-images[25].src = "Snap/snap_images/Rear.GIF";
+// data.js
+
+function preload() {
+	//images[25] = new Image();
+    //ges[25].src = "Snap/snap_images/Rear.GIF";
+}
+
+function showPage(page) {
+    var pageId="#"+page;
+    console.log("showPage("+page+"), pageId: "+pageId);
+	$("#content-container").html($(pageId));
+}
 
 $("#content-container").on('click', 'a', function(e) { // delegate events
-	e.preventDefault();
-	var pageId = $(".page").attr("id");
-	console.log("pageId: "+pageId); // now gets id from loaded page
-	var clickedEl = $(this);
-	switch (clickedEl.attr("id")) {
-		case "prev": 
-		case "next": 
-		case "yes": 
-		case "no": 
-			//console.log("elid: "+clickedEl.attr("id")+", html: '"+clickedEl.html()+"'");
-			console.log("elid: "+clickedEl.attr("id"));
-			break;
-		default: 
-			console.log("got unexpected element id: "+clickedEl.attr("id")); //+", html: '"+clickedEl.html()+"'");
-			//alert("got id: ");
-	}
+    e.preventDefault();
+    var pageId = $(".page").attr("id");
+    console.log("pageId: "+pageId); // now gets id from loaded page
+    var clickedEl = $(this);
+    switch (clickedEl.attr("id")) {
+        case "prev": 
+        case "next": 
+        case "yes": 
+        case "no": 
+            //console.log("elid: "+clickedEl.attr("id")+", html: '"+clickedEl.html()+"'");
+            console.log("elid: "+clickedEl.attr("id"));
+            break;
+        default: 
+            console.log("got unexpected element id: "+clickedEl.attr("id")); //+", html: '"+clickedEl.html()+"'");
+            //alert("got id: ");
+    }
 
-	$("#content-container").html($("#thanks"));
 
 	//var page = $.get("./pages/pages.html", function(data) {$("#content-container").html($(data).filter("#intro2")); });
 
@@ -44,7 +53,8 @@ $("#content-container").on('click', 'a', function(e) { // delegate events
 });
 
 $(document).ready(function() {
-	console.log('Ready');
+	console.log(' Fri Mar  4 12:11:23 2016 Ready');
+    showPage("home");
 });
 
 	//$(this).parent().html('<a href="#">A New link</a>');

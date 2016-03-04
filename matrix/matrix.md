@@ -1,6 +1,35 @@
 # matrix
 
 ay re server, ie support
+biobank favicon, apple-touch-icon.png?
+
+### scripts not being refreshed, 
+
+even with `gulp serve` restart:
+
+    cbird@q108-vlubuntu:~/Projects/bb-quizzes/matrix$ ll app/scripts/main.js 
+    -rw-rw-r-- 1 cbird cbird 3.9K Mar  4 12:11 app/scripts/main.js
+    cbird@q108-vlubuntu:~/Projects/bb-quizzes/matrix$ ll .tmp/scripts/main.js
+    -rw-rw-r-- 1 cbird cbird 3.8K Mar  4 12:04 .tmp/scripts/main.js
+
+because there are errors in yo script, g!
+
+### how to log from gulp?
+
+https://github.com/gulpjs/gulp-util
+
+    npm install gulp-util --save-dev
+
+
+Preload
+Arrays
+Interstitial
+State machine object
+Prev Next
+showPage()
+cpp JSON
+
+alka 4 wk
 
 ### clone() or show()/hide()
 
