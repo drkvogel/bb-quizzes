@@ -22,6 +22,7 @@ $("#content-container").on('click', 'a, button', function(e) { // delegate event
     var pageId = $(".page").attr("id");
     console.log("pageId: "+pageId); // now gets id from loaded page
     var clickedEl = $(this);
+    nextPage();
     switch (clickedEl.attr("id")) {
         case "prev": 
         case "next": 
