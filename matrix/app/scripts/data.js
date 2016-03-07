@@ -1,3 +1,4 @@
+/*
 var NUM_PAGES = 19;
 var levels = [
     "matrix_ex1", "matrix_ex2", "matrix_ex3", "transition", "matrix_ex4", "matrix_ex5", "matrix_ex6", "matrix_ex7", "matrix_ex8", "matrix_ex9", "matrix_ex10", "matrix_ex11", "matrix_ex12", "matrix_ex13", "matrix_ex14", "matrix_ex15", "matrix_ex16", "matrix_ex17", "matrix_ex18"
@@ -54,3 +55,4 @@ var layout_buttons =[
     [0,1,2,3,4,5,6,7],
     [8,9,10,11,12,13,14,15]
 ];   // bottom images
+*/
