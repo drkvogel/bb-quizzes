@@ -1,15 +1,18 @@
 # matrix
 
-ay re server, ie support
-biobank favicon, apple-touch-icon.png?
+Grids
+sort out prev/next
+
 Preload
 State machine object
 Arrays-
+jshint
+
 cpp JSON-x
 Interstitial-/
 Prev Next showPage()-/
-jshint
-
+ay re server, ie support-
+biobank favicon, apple-touch-icon.png?
 
 ### scripts not being refreshed, 
 
