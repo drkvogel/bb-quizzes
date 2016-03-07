@@ -3,7 +3,11 @@ console.log("NUM_PAGES: "+NUM_PAGES);
 
 // data.js
 
-var pages   = ["home", "intro1", "intro2", "thanks", "abandon", "quiz2x2", "quiz3x3"];
+//var pages   = ["home", "intro1", "intro2", "thanks", "abandon", "quiz2x2", "quiz3x3"];
+
+var pages   = ["home", "intro1", "intro2", "thanks", "abandon", "quiz2x2", "quiz3x3", "matrix_ex1", "matrix_ex2", "matrix_ex3", "matrix_ex4", "matrix_ex5", "matrix_ex6", "matrix_ex7"];
+
+
 var current = 0; // "home";
 
 function preload() {
