@@ -136,7 +136,7 @@ $(document).ready(function() {
 // <div class='js-include' title='nav.html'></div>
 
 // js-include is simply a class name that we'll assign to every element that should trigger the include. And nav.html is the relative URL of the file that we're including.
-// Now, let's take a look at the jQuery code:
+// Now, let’s take a look at the jQuery code:
 
 // $('.js-include').each(function(){
 //     var inc=$(this);
