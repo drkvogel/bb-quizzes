@@ -1,14 +1,17 @@
 # matrix
 
 Grids
-sort out prev/next
-tea
 
+
+## defer
+
+general\dev\js\yeoman\borked.md
+sort out prev/next-/
+tea-
 Preload
-State machine object
+State machine object-/
 Arrays-
-jshint
-
+jshint-
 cpp JSON-x
 Interstitial-/
 Prev Next showPage()-/
