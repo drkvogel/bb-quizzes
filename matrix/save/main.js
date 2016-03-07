@@ -56,6 +56,8 @@ $('#content-container').on('click', 'a, button', function(e) { // delegate event
     }
 });
 
+
+
 $('#buttons').on('click', 'a, button', function(e) { // delegate events
     e.preventDefault();
     var pageId = $('.page').attr('id'); //console.log('pageId: '+pageId); // now gets id from loaded page
@@ -78,6 +80,7 @@ $('#buttons').on('click', 'a, button', function(e) { // delegate events
 $(document).ready(function() {
     console.log(' Fri Mar  4 12:11:23 2016 Ready');
     showPage('home');
+    //asfadf
     //$('#content-container').html($('#thanks'));
 });
 
@@ -133,7 +136,7 @@ $(document).ready(function() {
 // <div class='js-include' title='nav.html'></div>
 
 // js-include is simply a class name that we'll assign to every element that should trigger the include. And nav.html is the relative URL of the file that we're including.
-// Now, let's take a look at the jQuery code:
+// Now, let’s take a look at the jQuery code:
 
 // $('.js-include').each(function(){
 //     var inc=$(this);
