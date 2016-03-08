@@ -27,10 +27,13 @@
 
 // https://github.com/gtg092x/gulp-sftp/issues/33 +1'd this
 
+// er... 
+// http://www.levihackwith.com/how-to-make-gulp-copy-a-directory-and-its-contents/
+
 
 var gulp = require('gulp');
 var sftp = require('gulp-sftp');
-var src = __dirname + '/bower.json';
+var src = __dirname + '/test/**/*';
 var dest = '/user/webman/public_html/';
 
 function done() {
@@ -42,7 +45,7 @@ console.log("Sending '" + src + "' to '" + dest);
 
 gulp.task('ftp', function () {
     'use strict'; // ???
-    return gulp.src(src)
+    return gulp.src(src, {base: 'test'})
         .pipe(sftp({
             host: 'xrat',
             user: 'webman',
