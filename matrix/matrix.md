@@ -2,6 +2,7 @@
 
 Grids
 
+ok, ftp command in yo-test, now can ftp...
 
 ## defer
 
