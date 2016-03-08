@@ -56,41 +56,30 @@ work out how to display part of css icon
 
     window.history.forward();                                           # prevent repeat after back button
     window.onbeforeunload = function(e){return "are you sure?";};       # if window close received
-
     window.onbeforeunload = null;                                               # disable quit check
     document.getElementById("responses").value = JSON.stringify(returnData);    # prepare response data
     document.getElementById("form1").submit();                                  # send it
-
     document.getElementById("leftpicture").src = images[left].src;      # set an image
     document.getElementById("rightpicture").src = images[right].src;
-
     document.getElementById(id).style.backgroundColor = "Yellow";       # e.g. to highlight
-
     document.getElementById("abandonbutton").style.display = "none";            # hide
     document.getElementById("abandondiv").style.display = "inline";             # show
-
     clearTimeout(twoSeconds);
     twoSeconds = setTimeout("backs()", 2000);                                   # set timer
-
     document.onkeydown = spaceBar;                                              # register callback for keydown on whole page
     document.getElementById("test").onmousedown = touchScreen;                  # register callback for mousedown on element
     document.onblur = focusHere;                                                # if focus lost, reset to specific element
     document.getElementById("test").focus();                                    # focus
-
     var KeyID = (window.event) ? event.keyCode : e.keyCode;                     # get keypress
     switch (KeyID) { case 32:                                                   # spacebar
-
     var divList = ["demo0", "demo1", "demo2", "demo3", "demo4", "test", "xdemo", "snapdemo", "endit", "wait"]; # I need one of these...
-
     images[i] = new Image();
     images[i].src = "Snap/snap_images/F"+i+".GIF";      # pre-load images
-
     if (typeof window.performance !== 'undefined' && typeof window.performance.now !== 'undefined') # ??
     if (this.hasPerformance)
         nowish = window.performance.now();
     else
         nowish = new Date().getTime();
-
     if(obj.hasOwnProperty(key))
 
 #### funcs
@@ -226,24 +215,6 @@ use $.get(url, data, success) to get part of html e.g.:
     });
 
 divs for grids: 2x2 + 3x2,  3x3 + 4x2- pages.html
-
-### event delegation
-
-jQuery event delegation: /dev/event-delegation.html
-Use 
-
-```js
-    $("some-element").on("click", function() { ... });
-```
-
-rather than 
-
-```js
-    $("some-element").click(function() { ... });
-```
-
-as on() supports several parameter combinations that allow it to handle event delegation.
-http://stackoverflow.com/questions/9122078/difference-between-onclick-vs-click
 
 ### Not watching files: ENOSPC
 

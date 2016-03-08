@@ -113,3 +113,22 @@ https://blog.jquery.com/2013/01/15/jquery-1-9-final-jquery-2-0-beta-migrate-fina
 
 <script src="http://code.jquery.com/jquery-1.9.0.js"></script>
 <script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>
+
+
+### event delegation
+
+jQuery event delegation: /dev/event-delegation.html
+Use 
+
+```js
+    $("some-element").on("click", function() { ... });
+```
+
+rather than 
+
+```js
+    $("some-element").click(function() { ... });
+```
+
+as on() supports several parameter combinations that allow it to handle event delegation.
+http://stackoverflow.com/questions/9122078/difference-between-onclick-vs-click
