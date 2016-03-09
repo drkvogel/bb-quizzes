@@ -12,7 +12,8 @@ var gutil = require('gulp-util');
 gutil.log('Hello world!');
 
 gulp.task('styles', () => {
-  return gulp.src('app/styles/*.scss')
+  //return gulp.src('app/styles/*.scss')
+  return gulp.concat('app/styles/*.scss')
     .pipe($.plumber())
     .pipe($.sourcemaps.init())
     .pipe($.sass.sync({
