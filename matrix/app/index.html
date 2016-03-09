@@ -7,24 +7,26 @@
     <title>Matrix Puzzle</title>
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <!-- Place favicon.ico in the root directory -->
+
     <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
-    <!-- <link rel="stylesheet" href="styles/sticky-footer.css" > -->
-    <link rel="stylesheet" href="styles/sticky-footer-navbar.css" >
+    <!-- endbuild -->
+    
     <!-- build:js scripts/vendor/modernizr.js -->
     <script src="/bower_components/modernizr/modernizr.js"></script>
+    <!-- endbuild -->
   </head>
   <body>
     <!--[if lt IE 10]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
+    
     <div class="container">
-<!--       <!- <p>UK Biobank</p> ->
-      <div class="container" id="cbhead"><img id="memlogo" src="./images/memlogo.gif" style="display:block;margin-left:auto;margin-right:auto;" alt="Biobank"> 
-          <p class="motto" style="text-align: center;">Improving the health of future generations</p>
-      </div>
- -->
       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li>
@@ -270,18 +272,10 @@ matrix_ex9.png
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
-
-    <!-- jQuery 1.9 for IE lt 9 -->
-    <!--[if lt IE 9]>
-        <script src="http://code.jquery.com/jquery-1.9.0.js"></script>
-        <script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>
-    <![endif]-->
-    <!--[if gte IE 9]><!-->
-        <script src="/bower_components/jquery/dist/jquery.js"></script>
-    <!--<![endif]-->    
-
-    <!-- <script src="jquery-1.9.0.js"></script> -->
-
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+    
     <!-- build:js scripts/plugins.js -->
     <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/affix.js"></script>
     <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
@@ -298,7 +292,6 @@ matrix_ex9.png
     <!-- endbuild -->
     
     <!-- build:js scripts/main.js -->
-    <script src="scripts/data.js"></script>
     <script src="scripts/main.js"></script>
     <!-- endbuild -->
   </body>

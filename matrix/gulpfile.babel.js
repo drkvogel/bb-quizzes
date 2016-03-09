@@ -1,4 +1,4 @@
-// generated on 2016-02-29 using generator-webapp 2.0.0
+// generated on 2016-03-07 using generator-webapp 2.0.0
 import gulp from 'gulp';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import browserSync from 'browser-sync';
@@ -12,8 +12,7 @@ var gutil = require('gulp-util');
 gutil.log('Hello world!');
 
 gulp.task('styles', () => {
-  //return gulp.src('app/styles/*.scss')
-  return gulp.concat('app/styles/*.scss')
+  return gulp.src('app/styles/*.scss')
     .pipe($.plumber())
     .pipe($.sourcemaps.init())
     .pipe($.sass.sync({
@@ -163,8 +162,7 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app'));
 });
 
-//gulp.task('build', ['lint', 'html', 'images', 'fonts', 'extras'], () => {
-gulp.task('build', ['lint','html', 'images', 'fonts', 'extras'], () => { // don't lint, don't 'extras'
+gulp.task('build', ['lint', 'html', 'images', 'fonts', 'extras'], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 

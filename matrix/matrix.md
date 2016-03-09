@@ -2,36 +2,6 @@
 
 Grids
 
-### matrix -> yo test merge
-
-cos matrix was borked - probably because I removed some comments significant to yo/bower from index.html
-so started again in yo-test and copied bits over
-
-bootstrap css should go in styles as sass... but how?
-
-    <link rel="stylesheet" href="styles/sticky-footer.css" > -->
-    <link rel="stylesheet" href="styles/sticky-footer-navbar.css" >
-
-put them in styles folder as .scss, deployed as css but not linked to from HTML, not concatenated into main.css
-
-and this:
-
-        <!-- jQuery 1.9 for IE lt 9 -->
-        <!--[if lt IE 9]>
-            <script src="http://code.jquery.com/jquery-1.9.0.js"></script>
-            <script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>
-        <![endif]-->
-        <!--[if gte IE 9]><!-->
-            <script src="/bower_components/jquery/dist/jquery.js"></script>
-        <!--<![endif]-->    
-        <!-- <script src="jquery-1.9.0.js"></script> -->
-
-and this:
-
-    <script src="scripts/data.js"></script>
-
----
-
 ok, ftp command in yo-test, now can ftp...
 
 ## defer
