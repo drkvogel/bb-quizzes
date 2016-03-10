@@ -1,6 +1,40 @@
 # matrix
 
-Grids
+
+>Since SCSS is a CSS extension, everything that works in CSS works in SCSS.
+
+Why does back() not work?
+i.e. page seems to have disappeared
+
+
+Display grids
+
+Timings - Jon
+
+Bourbon, Neat
+
+Why so little progress?
+Borked yo/npm stuff
+Occ health
+(Optimor)
+?
+
+
+    class="btn pull-right"  # right-align button
+
+Need to: find decent time to catch up over coming days. e.g. tomorrow night
+
+Todo:
+fix css/scss
+defer OldIE jQuery switching
+css sprites
+forward!
+
+`gulp`, `gulp serve` now work again - I expect it was just that I'd messed with the comments.
+What have we learnt from all this? Don't mess with the comments!
+
+browsersync - probably - opens a browser (currently ff) to show the page on `gulp serve` - and also closes it when finished.
+
 
 ### matrix -> yo test merge
 
