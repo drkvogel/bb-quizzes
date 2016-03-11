@@ -11,6 +11,22 @@ In jQuery, by convention, variables that are assigned jQuery objects are named w
 
 attr() http://api.jquery.com/attr/
 
+### jslint 
+
+#### Undeclared '$'
+
+put
+
+    /*global $ */
+
+at start of file to tell it jquery is expected
+
+    /*global $*/    # (Note: no space is allowed between /* and global)
+
+For web stuff you'll often also want to include window, i.e.
+
+    /*global $, window*/
+
 ### replaceWith() vs html()
 
 replaceWith() will replace the current element, whereas html() simply replaces the contents.

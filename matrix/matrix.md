@@ -1,24 +1,7 @@
 # matrix
 
-
->Since SCSS is a CSS extension, everything that works in CSS works in SCSS.
-
-### Why does back() not work?
-
-i.e. page seems to have disappeared
-jQuery's [.html](http://api.jquery.com/html/) method **moves**, not copies innerHTML from the source element, and replaces the target innerHTML, which is lost unless explicitly saved somehow...
-
-alternative: use 
-
-    document.getElementById("div1").style.display = "none";
-    document.getElementById("div2").style.display = "inline";
-
-to switch visibility of divs
-
 Display grids
-
 Timings - Jon
-
 Bourbon, Neat
 
 Why so little progress?
@@ -29,8 +12,15 @@ Occ health
 working out how to ftp with gulp
 working out how to alt-tab (ctrl-tab) in vbox
 
+### jslint
+
+general/dev/js/jslint/jslint.md
+
+### bootstrap
 
     class="btn pull-right"  # right-align button
+
+### general
 
 Need to: find decent time to catch up over coming days. e.g. tomorrow night
 
@@ -45,11 +35,6 @@ What have we learnt from all this? Don't mess with the comments!
 
 browsersync - probably - opens a browser (currently ff) to show the page on `gulp serve` - and also closes it when finished.
 
-
-### matrix -> yo test merge
-
-cos matrix was borked - probably because I removed some comments significant to yo/bower from index.html
-so started again in yo-test and copied bits over
 
 bootstrap css should go in styles as sass... but how?
 
@@ -92,27 +77,6 @@ Interstitial-/
 Prev Next showPage()-/
 ay re server, ie support-
 biobank favicon, apple-touch-icon.png?
-
-### scripts not being refreshed, 
-
-even with `gulp serve` restart:
-
-    cbird@q108-vlubuntu:~/Projects/bb-quizzes/matrix$ ll app/scripts/main.js 
-    -rw-rw-r-- 1 cbird cbird 3.9K Mar  4 12:11 app/scripts/main.js
-    cbird@q108-vlubuntu:~/Projects/bb-quizzes/matrix$ ll .tmp/scripts/main.js
-    -rw-rw-r-- 1 cbird cbird 3.8K Mar  4 12:04 .tmp/scripts/main.js
-
-because there are errors in yo script, g!
-
-### how to log from gulp?
-
-https://github.com/gulpjs/gulp-util
-
-    npm install gulp-util --save-dev
-
-    var gutil = require('gulp-util');
-    gutil.log('Hello world!');
-
 
 ### clone() or show()/hide()
 
@@ -280,6 +244,22 @@ create Rosetta, e.g. ROSETTA *g = new ROSETTA(); in /jonathanpr/BioBankQuizGames
 
 ## done
 
+>Since SCSS is a CSS extension, everything that works in CSS works in SCSS.
+
+### Why does back() not work?
+
+i.e. page seems to have disappeared
+jQuery's [.html](http://api.jquery.com/html/) method **moves**, not copies innerHTML from the source element, and replaces the target innerHTML, which is lost unless explicitly saved somehow...
+
+alternative: use 
+
+    document.getElementById("div1").style.display = "none";
+    document.getElementById("div2").style.display = "inline";
+
+to switch visibility of divs
+
+---
+
 copy divs, hide by default
 sticky footer https://getbootstrap.com/examples/sticky-footer/
 http://getbootstrap.com/examples/sticky-footer-navbar/
@@ -307,3 +287,46 @@ http://stackoverflow.com/questions/535768/what-is-a-reasonable-amount-of-inotify
 
 ---
 
+#### Undeclared '$'
+
+put
+
+    /*global $ */
+
+at start of file to tell it jquery is expected
+
+#### Unexpected expression '++' in statement position.
+
+     #7 Unexpected expression '++' in statement position.
+        current++; // Line 42, Pos 16
+
+https://jslinterrors.com/unexpected-plus-plus
+>perhaps the most debated of all JSLint error messages.
+
+    /*jslint plusplus: true */  # doesn't work with sublime jslint plugin
+    myvar += 1                  # or just do this instead    
+
+### matrix -> yo test merge
+
+cos matrix was borked - probably because I removed some comments significant to yo/bower from index.html
+so started again in yo-test and copied bits over
+
+### scripts not being refreshed, 
+
+even with `gulp serve` restart:
+
+    cbird@q108-vlubuntu:~/Projects/bb-quizzes/matrix$ ll app/scripts/main.js 
+    -rw-rw-r-- 1 cbird cbird 3.9K Mar  4 12:11 app/scripts/main.js
+    cbird@q108-vlubuntu:~/Projects/bb-quizzes/matrix$ ll .tmp/scripts/main.js
+    -rw-rw-r-- 1 cbird cbird 3.8K Mar  4 12:04 .tmp/scripts/main.js
+
+because there are errors in yo script, g!
+
+### how to log from gulp?
+
+https://github.com/gulpjs/gulp-util
+
+    npm install gulp-util --save-dev
+
+    var gutil = require('gulp-util');
+    gutil.log('Hello world!');
