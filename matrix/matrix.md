@@ -1,40 +1,12 @@
 # matrix
 
+Todo:
 Display grids
 Timings - Jon
 Bourbon, Neat
-
-Why so little progress?
-Borked yo/npm stuff
-Occ health
-(Optimor)
-?
-working out how to ftp with gulp
-working out how to alt-tab (ctrl-tab) in vbox
-
-### jslint
-
-general/dev/js/jslint/jslint.md
-
-### bootstrap
-
-    class="btn pull-right"  # right-align button
-
-### general
-
-Need to: find decent time to catch up over coming days. e.g. tomorrow night
-
-Todo:
 fix css/scss
-defer OldIE jQuery switching
 css sprites
-forward!
-
-`gulp`, `gulp serve` now work again - I expect it was just that I'd messed with the comments.
-What have we learnt from all this? Don't mess with the comments!
-
-browsersync - probably - opens a browser (currently ff) to show the page on `gulp serve` - and also closes it when finished.
-
+compass
 
 bootstrap css should go in styles as sass... but how?
 
@@ -43,7 +15,32 @@ bootstrap css should go in styles as sass... but how?
 
 put them in styles folder as .scss, deployed as css but not linked to from HTML, not concatenated into main.css
 
-and this:
+jslint: general/dev/js/jslint/jslint.md
+
+## defer
+
+underscore.js for templates? looks like compative with IE6+
+http://stackoverflow.com/questions/10657313/jquery-underscore-js-templating-compatible-with-ie-6
+https://visionmedia.github.io/page.js/
+https://dev.windows.com/en-us/microsoft-edge/tools/vms/windows/
+emmet, bemmet
+ctrl-m - match bracket
+JsFormat: install with package manager. right-click to use.
+[HTML-CSS-JS Prettify](https://packagecontrol.io/packages/HTML-CSS-JS%20Prettify)
+
+>"brace_style": "end-expand", // [collapse|expand|end-expand|none] Put braces on the same line as control statements (default), or put braces on own line (Allman / ANSI style), or just put end braces on own line, or attempt to keep them where they are
+
+bootstrap: dev/bootstrap.md
+
+### general
+
+Why so little progress? Borked yo/npm stuff, Occ health, (Optimor), ?, working out how to ftp with gulp, working out how to alt-tab (ctrl-tab) in vbox....
+Need to: find decent time to catch up over coming days. e.g. tomorrow night. forward!
+
+
+### browser compatibility
+
+OldIE jQuery switching
 
         <!-- jQuery 1.9 for IE lt 9 -->
         <!--[if lt IE 9]>
@@ -58,8 +55,6 @@ and this:
 and this:
 
     <script src="scripts/data.js"></script>
-
----
 
 ok, ftp command in yo-test, now can ftp...
 
@@ -222,21 +217,6 @@ are pages/screens fixed? why the data matrices?
 or as many as you can do in 2 minutes - up to 18?
 work out how to display part of css icon
 
-## defer
-
-underscore.js for templates? looks like compative with IE6+
-http://stackoverflow.com/questions/10657313/jquery-underscore-js-templating-compatible-with-ie-6
-
-https://visionmedia.github.io/page.js/
-https://dev.windows.com/en-us/microsoft-edge/tools/vms/windows/
-emmet, bemmet
-JsFormat: install with package manager. right-click to use.
-ctrl-m - match bracket
-
-[HTML-CSS-JS Prettify](https://packagecontrol.io/packages/HTML-CSS-JS%20Prettify)
-
->"brace_style": "end-expand", // [collapse|expand|end-expand|none] Put braces on the same line as control statements (default), or put braces on own line (Allman / ANSI style), or just put end braces on own line, or attempt to keep them where they are
-
 ### back end
 
 create Rosetta, e.g. ROSETTA *g = new ROSETTA(); in /jonathanpr/BioBankQuizGames/tMatrixBoard.cpp
@@ -244,6 +224,10 @@ create Rosetta, e.g. ROSETTA *g = new ROSETTA(); in /jonathanpr/BioBankQuizGames
 
 ## done
 
+`gulp`, `gulp serve` now work again - I expect it was just that I'd messed with the comments.
+What have we learnt from all this? Don't mess with the comments!
+
+browsersync - probably - opens a browser (currently ff) to show the page on `gulp serve` - and also closes it when finished.
 >Since SCSS is a CSS extension, everything that works in CSS works in SCSS.
 
 ### Why does back() not work?

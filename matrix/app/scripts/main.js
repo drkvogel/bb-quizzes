@@ -1,5 +1,7 @@
 /*global $ */
 
+/*jslint node: true */
+
 (function () { // Immediately-Invoked Function Expression (IIFE)
     // used to set "use strict" for whole scope so jslint doesn't complain
     // but then have to indent whole scope...
@@ -22,8 +24,6 @@
     //     //ges[25].src = 'Snap/snap_images/Rear.GIF';
     // }
 
-
-    //"use strict";
     function hidePage(page) {
         document.getElementById(page).style.display = "none";
     }
