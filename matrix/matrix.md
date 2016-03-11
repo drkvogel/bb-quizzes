@@ -3,9 +3,17 @@
 
 >Since SCSS is a CSS extension, everything that works in CSS works in SCSS.
 
-Why does back() not work?
-i.e. page seems to have disappeared
+### Why does back() not work?
 
+i.e. page seems to have disappeared
+jQuery's [.html](http://api.jquery.com/html/) method **moves**, not copies innerHTML from the source element, and replaces the target innerHTML, which is lost unless explicitly saved somehow...
+
+alternative: use 
+
+    document.getElementById("div1").style.display = "none";
+    document.getElementById("div2").style.display = "inline";
+
+to switch visibility of divs
 
 Display grids
 
@@ -18,6 +26,8 @@ Borked yo/npm stuff
 Occ health
 (Optimor)
 ?
+working out how to ftp with gulp
+working out how to alt-tab (ctrl-tab) in vbox
 
 
     class="btn pull-right"  # right-align button

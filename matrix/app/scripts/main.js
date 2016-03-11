@@ -1,4 +1,3 @@
-'use strict';
 
 console.log('Starting Matrix Puzzle');
 //console.log('NUM_PAGES: '+NUM_PAGES);
@@ -6,11 +5,10 @@ console.log('Starting Matrix Puzzle');
 
 // data.js
 
-//var pages   = ['home', 'intro1', 'intro2', 'thanks', 'abandon', 'quiz2x2', 'quiz3x3'];
 
-
+'use strict';
 var numPages = 19; // temp
-var pages = ['home', 'intro1', 'intro2', 'thanks', 'abandon', 'quiz2x2', 'quiz3x3', 'matrix_ex1', 'matrix_ex2', 'matrix_ex3', 'matrix_ex4', 'matrix_ex5', 'matrix_ex6', 'matrix_ex7'];
+var pages = ['loading', 'home', 'intro1', 'intro2', 'thanks', 'abandon', 'quiz2x2', 'quiz3x3', 'matrix_ex1', 'matrix_ex2', 'matrix_ex3', 'matrix_ex4', 'matrix_ex5', 'matrix_ex6', 'matrix_ex7'];
 var current = 0; // 'home';
 
 // function preload() {
@@ -19,18 +17,26 @@ var current = 0; // 'home';
 // }
 
 function showPage(page) {
+    hidePage(pages[current]);
     var pageId = '#' + page;
     console.log('showPage(' + page + '), pageId: ' + pageId);
-    $('#content-container').html($(pageId));
+    //$('#content-container').html($(pageId));
+    document.getElementById(page).style.display = "inline";
+}
+
+function hidePage(page) {
+    document.getElementById(page).style.display = "none";
 }
 
 function prevPage() {
+    hidePage(pages[current]);
     if (current > 0) { current--; }
     console.log('prevPage(): current: ' + current + ', pages[current]: ' + pages[current]);
     showPage(pages[current]);
 }
 
 function nextPage() {
+    hidePage(pages[current]);
     if (current < numPages) { current++; }
     console.log('nextPage(): current: ' + current + ', pages[current]: ' + pages[current]);
     showPage(pages[current]);
