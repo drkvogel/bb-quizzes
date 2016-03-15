@@ -79,9 +79,17 @@
 
           <style>
           /*Internal Style Sheet*/
-          div.grid2x2 #a1, #b1 {
+/*
+            grid        images
+            -------------------
+            2x2 3x2     210x170
+            3x3 4x2     170x135
+*/
+          /* this syntax doesn't work as intended:
+          div.grid2x2 #a1, #b1, #a2, #b2  (attempting to apply to div.grid2x2 #b1/#a2/#b2 as well as #a1 but have to explicitly state containing selector each time) */
+          div.grid2x2 #a1, div.grid2x2 #b1, div.grid2x2 #a2, div.grid2x2 #b2 {
             /*background-color: red;*/
-            background-image: url('images/matrix_ex1.png');
+            background-image: url('images/intro1.png');
             background-repeat: no-repeat;
             /*display: inline;*/
             /*float: left;*/
@@ -90,9 +98,42 @@
             float: left;
           }
 
-          img {
+          div.grid2x2 .row,
+          div.grid3x2 .row,
+           {
+            display: block;
           }
 
+          div.grid3x2 #cell-1a, 
+          div.grid3x2 #cell-1b, 
+          div.grid3x2 #cell-1c, 
+          div.grid3x2 #cell-2a, 
+          div.grid3x2 #cell-2b, 
+          div.grid3x2 #cell-2c {
+            /*background-color: red;*/
+            background-image: url('images/intro2.png');
+            background-repeat: no-repeat;
+            /*display: inline;*/
+            /*float: left;*/
+            width: 210px;
+            height: 170px;
+            float: left;
+          }
+
+
+          div.grid3x3 #a1, #b1, #a2, #b2 {
+            /*background-color: red;*/
+            background-image: url('images/matrix_ex2.png');
+            background-repeat: no-repeat;
+            /*display: inline;*/
+            /*float: left;*/
+            width: 170px;
+            height: 135px;
+            float: left;
+          }
+
+          img {
+          }
           </style>
 
           <div id="quiz2x2" class="page quiz2x2-3x2" style="display:none">
@@ -107,8 +148,12 @@
               <div id="a2">a2</div><div id="b2">b2</div> -->
             </div>
             <div class="grid3x2">
-              <div id="1a">1a</div><div id="1b">1b</div><div id="1c">1c</div>
-              <div id="2a">2a</div><div id="2b">2b</div><div id="2c">2c</div>
+              <div class="row">
+                <div id="cell-1a">1a</div><div id="cell-1b">1b</div><div id="cell-1c">1c</div>
+              </div>
+              <div class="row">
+                <div id="cell-2a">2a</div><div id="cell-2b">2b</div><div id="cell-2c">2c</div>
+              </div>
             </div>
           </div>
 
