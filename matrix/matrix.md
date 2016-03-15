@@ -1,7 +1,44 @@
 # matrix
 
-Todo:
 Display grids
+
+range of dimensions: 
+
+    dim         sq width    grid type
+    --------------------
+    1260x170    210
+    2380x135    170
+    1360x135    170
+    1680x170    210
+    1470x170    210
+    1890x170    210
+    2720x135    170
+    2040x135    170
+
+    image               dimensions  squares square width
+    ----------------------------------------------------
+    matrix_ex1.png      1260x170    6x1     210
+    matrix_ex2.png      1260x170    6x1     210
+    matrix_ex3.png      2380x135    14x1    170
+    matrix_ex4.png      1360x135    8x1     170
+    matrix_ex5.png      1680x135    8x1     210
+    matrix_ex6.png      1470x170    7x1     210
+    matrix_ex7.png      1890x170    9x1     210
+    matrix_ex8.png      1260x170    6x1     210
+    matrix_ex9.png      2380x135    14x1    170
+    matrix_ex10.png     2720x135    16x1    170
+    matrix_ex11.png     2040x135    12x1    170
+    matrix_ex12.png     2720x135    16x1    170
+    matrix_ex13.png     2720x135    16x1    170
+    matrix_ex14.png     2720x135    16x1    170
+    matrix_ex15.png     2720x135    16x1    170
+    matrix_ex16.png     2720x135    16x1    170
+    matrix_ex17.png     2720x135    16x1    170
+    matrix_ex18.png     2720x135    16x1    170
+
+Tue Mar 15 01:22:49 2016
+images now renamed to better reflect order
+
 Timings - Jon
 Bourbon, Neat
 fix css/scss
