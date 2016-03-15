@@ -44,10 +44,6 @@
       <div id="content-container">
         <div id="pages"> <!-- style="display: none"> -->
 
-<!--           <div id="loading" class="page">
-            <p>Loading, please wait...</p>
-          </div>
- -->
           <!-- home -->
           <div id="home" class="page" style="display:none">
             <div class="jumbotron">
@@ -80,6 +76,58 @@
           </div>
 
           <!-- exercise 1 -->
+
+          <style>
+          /*Internal Style Sheet*/
+          div.grid2x2 #a1, #b1 {
+            /*background-color: red;*/
+            background-image: url('images/matrix_ex1.png');
+            background-repeat: no-repeat;
+            /*display: inline;*/
+            /*float: left;*/
+            width: 210px;
+            height: 170px;
+            float: left;
+          }
+
+          img {
+          }
+
+          </style>
+
+          <div id="quiz2x2" class="page quiz2x2-3x2" style="display:none">
+            <div class="grid2x2">
+              <div class="row">
+                <div id="a1">a1</div><div id="b1">b1</div>
+              </div>
+              <div class="row">
+                <div id="a2">a2</div><div id="b2">b2</div>
+              </div>
+<!--               <div id="a1">a1</div><div id="b1">b1</div>
+              <div id="a2">a2</div><div id="b2">b2</div> -->
+            </div>
+            <div class="grid3x2">
+              <div id="1a">1a</div><div id="1b">1b</div><div id="1c">1c</div>
+              <div id="2a">2a</div><div id="2b">2b</div><div id="2c">2c</div>
+            </div>
+          </div>
+
+
+          <div id="quiz2x2" class="page quiz2x2-3x2" style="display:none">
+            <div class="grid2x2">
+              <div class="row">
+                <div id="a1">a1</div><div id="b1">b1</div>
+              </div>
+              <div class="row">
+                <div id="a2">a2</div><div id="b2">b2</div>
+              </div>
+            </div>
+            <div class="grid3x2">
+              <div id="1a">1a</div><div id="1b">1b</div><div id="1c">1c</div>
+              <div id="2a">2a</div><div id="2b">2b</div><div id="2c">2c</div>
+            </div>
+          </div>
+
           <div id="matrix_ex1" class="page" style="display:none">
             <img src="images/matrix_ex1.png">
           </div>
@@ -137,6 +185,10 @@
             </div>
           </div>
 
+<!--           <div id="loading" class="page">
+            <p>Loading, please wait...</p>
+          </div>
+ -->
         </div> <!-- /pages -->
       </div>
     </div>
