@@ -75,78 +75,74 @@
             </div>
           </div>
 
-          <!-- exercise 1 -->
-
           <style>
-          /*Internal Style Sheet*/
-/*
-            grid        images
-            -------------------
-            2x2 3x2     210x170
-            3x3 4x2     170x135
-*/
-          /* this syntax doesn't work as intended:
-          div.grid2x2 #a1, #b1, #a2, #b2  (attempting to apply to div.grid2x2 #b1/#a2/#b2 as well as #a1 but have to explicitly state containing selector each time) */
-          div.grid2x2 #a1, div.grid2x2 #b1, div.grid2x2 #a2 {
-            /*background-color: red;*/
-            background-image: url('images/intro1.png');
-            background-repeat: no-repeat;
-            /*display: inline;*/
-            /*float: left;*/
-            width: 210px;
-            height: 170px;
-            float: left;
-          }
+            /*Internal Style Sheet*/
+            /*
+              grid        images
+              -------------------
+              2x2 3x2     210x170
+              3x3 4x2     170x135
+            */
+            /* this syntax doesn't work as intended:
+            div.grid2x2 #a1, #b1, #a2, #b2  (attempting to apply to div.grid2x2 #b1/#a2/#b2 as well as #a1 but have to explicitly state containing selector each time) */
+            div.grid2x2 #a1, div.grid2x2 #b1, div.grid2x2 #a2 {
+              /*background-color: red;*/
+              background-image: url('images/intro1.png');
+              background-repeat: no-repeat;
+              /*display: inline;*/
+              /*float: left;*/
+              width: 210px;
+              height: 170px;
+              float: left;
+            }
 
-          div.grid2x2 #b2 {
-            background-image: url('images/intro1.png') 210 0;
-            background-repeat: no-repeat;
-            /*display: inline;*/
-            /*float: left;*/
-            width: 210px;
-            height: 170px;
-            float: left;
-          }
+            div.grid2x2 #b2 {
+              background-image: url('images/intro1.png') 210 0;
+              background-repeat: no-repeat;
+              /*display: inline;*/
+              /*float: left;*/
+              width: 210px;
+              height: 170px;
+              float: left;
+            }
 
+            div.grid2x2 .row, div.grid3x2 .row, {
+              display: block;
+            }
 
-          div.grid2x2 .row,
-          div.grid3x2 .row,
-          {
-            display: block;
-          }
-
-          div.grid3x2 #cell-1a, 
-          div.grid3x2 #cell-1b, 
-          div.grid3x2 #cell-1c, 
-          div.grid3x2 #cell-2a, 
-          div.grid3x2 #cell-2b, 
-          div.grid3x2 #cell-2c {
-            /*background-color: red;*/
-            background-image: url('images/intro2.png');
-            background-repeat: no-repeat;
-            /*display: inline;*/
-            /*float: left;*/
-            width: 210px;
-            height: 170px;
-            float: left;
-          }
+            div.grid3x2 #cell-1a, 
+            div.grid3x2 #cell-1b, 
+            div.grid3x2 #cell-1c, 
+            div.grid3x2 #cell-2a, 
+            div.grid3x2 #cell-2b, 
+            div.grid3x2 #cell-2c {
+              /*background-color: red;*/
+              background-image: url('images/intro2.png');
+              background-repeat: no-repeat;
+              /*display: inline;*/
+              /*float: left;*/
+              width: 210px;
+              height: 170px;
+              float: left;
+            }
 
 
-          div.grid3x3 #a1, #b1, #a2, #b2 {
-            /*background-color: red;*/
-            background-image: url('images/matrix_ex2.png');
-            background-repeat: no-repeat;
-            /*display: inline;*/
-            /*float: left;*/
-            width: 170px;
-            height: 135px;
-            float: left;
-          }
+            div.grid3x3 #a1, #b1, #a2, #b2 {
+              /*background-color: red;*/
+              background-image: url('images/matrix_ex2.png');
+              background-repeat: no-repeat;
+              /*display: inline;*/
+              /*float: left;*/
+              width: 170px;
+              height: 135px;
+              float: left;
+            }
 
-          img {
-          }
+            img {
+            }
           </style>
 
+          <!-- 2x2 + 3x2 grid -->
           <div id="quiz2x2" class="page quiz2x2-3x2" style="display:none">
             <div class="grid2x2">
               <div class="row">
@@ -155,8 +151,6 @@
               <div class="row">
                 <div id="a2">a2</div><div id="b2">b2</div>
               </div>
-<!--               <div id="a1">a1</div><div id="b1">b1</div>
-              <div id="a2">a2</div><div id="b2">b2</div> -->
             </div>
             <div class="grid3x2">
               <div class="row">
@@ -168,58 +162,22 @@
             </div>
           </div>
 
-
-          <div id="quiz2x2" class="page quiz2x2-3x2" style="display:none">
-            <div class="grid2x2">
+          <!-- 3x3 + 4x2 grid -->
+          <div id="quiz3x3" class="page quiz3x3-4x2" style="display:none">
+            <div class="grid3x3">
               <div class="row">
-                <div id="a1">a1</div><div id="b1">b1</div>
-              </div>
-              <div class="row">
-                <div id="a2">a2</div><div id="b2">b2</div>
+                <div id="a1">a1</div><div id="b1">b1</div><div id="c1">c1</div>
+                <div id="a2">a2</div><div id="b2">b2</div><div id="c2">c2</div>
+                <div id="a3">a3</div><div id="b3">b3</div><div id="c3">c3</div>
               </div>
             </div>
-            <div class="grid3x2">
-              <div id="1a">1a</div><div id="1b">1b</div><div id="1c">1c</div>
-              <div id="2a">2a</div><div id="2b">2b</div><div id="2c">2c</div>
+            <div class="grid4x2">
+              <div class="row">
+                <div id="cell-1a">1a</div><div id="cell-1b">1b</div><div id="cell-1c">1c</div><div id="cell-1d">1d</div>
+                <div id="cell-2a">2a</div><div id="cell-2b">2b</div><div id="cell-2c">2c</div><div id="cell-2d">2d</div>
+              </div>
             </div>
           </div>
-
-          <div id="matrix_ex1" class="page" style="display:none">
-            <img src="images/matrix_ex1.png">
-          </div>
-
-          <div id="matrix_ex2" class="page" style="display:none">
-            <img src="images/matrix_ex2.png">
-          </div>
-
-          <div id="matrix_ex3" class="page" style="display:none">
-            <img src="images/matrix_ex3.png">
-          </div>
-
-          <div id="matrix_ex4" class="page" style="display:none">
-            <img src="images/matrix_ex4.png">
-          </div>
-
-          <div id="matrix_ex5" class="page" style="display:none">
-            <img src="images/matrix_ex5.png">
-          </div>
-
-          <div id="matrix_ex6" class="page" style="display:none">
-            <img src="images/matrix_ex6.png">
-          </div>
-
-          <div id="matrix_ex7" class="page" style="display:none">
-            <img src="images/matrix_ex7.png">
-          </div>
-
-          <div id="matrix_ex8" class="page" style="display:none">
-            <img src="images/matrix_ex8.png">
-          </div>
-
-          <div id="matrix_ex9" class="page" style="display:none">
-            <img src="images/matrix_ex9.png">
-          </div>
-
 
           <!-- thanks -->
           <div id="thanks" class="page" style="display:none">
@@ -241,10 +199,6 @@
             </div>
           </div>
 
-<!--           <div id="loading" class="page">
-            <p>Loading, please wait...</p>
-          </div>
- -->
         </div> <!-- /pages -->
       </div>
     </div>
@@ -257,36 +211,7 @@
         </div>
     </div>
 
-
     <div id="stuff" style="display:none">
-<!--      <style type="text/css">
-      .2x2-3x2 a1, b1: color: red;
-      </style> -->
-      <!-- 2x2 + 3x2 -->
-      <div id="quiz2x2" class="page 2x2-3x2">
-        <div class="2x2">
-          <div id="a1">a1</div><div id="b1">b1</div>
-          <div id="a2">a2</div><div id="b2">b2</div>
-        </div>
-        <div class="3x2">
-          <div id="1a">1a</div><div id="1b">1b</div><div id="1c">1c</div>
-          <div id="2a">2a</div><div id="2b">2b</div><div id="2c">2c</div>
-        </div>
-      </div>
-
-      <!-- 3x3 + 4x2 -->
-      <div id="quiz3x3" class="page 3x3-4x2">
-        <div class="3x3">
-          <div id="a1">a1</div><div id="b1">b1</div><div id="c1">c1</div>
-          <div id="a2">a2</div><div id="b2">b2</div><div id="c2">c2</div>
-          <div id="a3">a3</div><div id="b3">b3</div><div id="c3">c3</div>
-        </div>
-        <div class="4x2">
-          <div id="1a">1a</div><div id="1b">1b</div><div id="1c">1c</div><div id="1d">1d</div>
-          <div id="2a">2a</div><div id="2b">2b</div><div id="2c">2c</div><div id="2d">2d</div>
-        </div>
-      </div>
-
       <!-- not sure about this one - supposed to be a "firing up the engines" loading page -->
       <div id="loading" class="page cover-container"> <!-- getbootstrap.com/examples/cover/ -->
         <div class="masthead clearfix">
@@ -301,25 +226,9 @@
             </nav>
           </div>
         </div>
-        <div class="inner cover">
-          <h1 class="cover-heading">Cover your page.</h1>
-          <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
-          <p class="lead">
-            <a href="#" class="btn btn-lg btn-default">Learn more</a>
-          </p>
-        </div>
-      </div>
-      
-    </div>
+      </div>      
+    </div> <!-- stuff -->
 
-
-
-
-<!--         <div class="mastfoot">
-          <div class="inner">
-            <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
-          </div>
-        </div> -->
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>

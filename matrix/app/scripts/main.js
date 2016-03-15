@@ -10,7 +10,8 @@
 
     var numPages = 19; // temp
     //var pages = ['loading', 'home', 'intro1', 'intro2', 'quiz2x2', 'matrix_ex1', 'matrix_ex2', 'matrix_ex3', 'matrix_ex4', 'matrix_ex5', 'matrix_ex6', 'matrix_ex7'];
-    var pages = ['loading', 'home', 'quiz2x2', 'matrix_ex1', 'matrix_ex2', 'matrix_ex3', 'matrix_ex4', 'matrix_ex5', 'matrix_ex6', 'matrix_ex7'];
+    //var pages = ['loading', 'home', 'quiz2x2', 'matrix_ex1', 'matrix_ex2', 'matrix_ex3', 'matrix_ex4', 'matrix_ex5', 'matrix_ex6', 'matrix_ex7'];
+    var pages = ['loading', 'home', 'quiz2x2', 'quiz3x3', 'quiz2x2', 'quiz3x3'];
     var current = 1; // 'home'; 'quiz2x2', 'quiz3x3', 'thanks', 'abandon'
 
     // function preload() {

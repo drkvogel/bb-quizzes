@@ -2,6 +2,14 @@
 
 todo:
 
+JSON data structure for each page, with:
+
+html div to use (intro1-3, 2x2, 3x3, thanks, abandon etc)
+sprite sheet to use
+list of indices into sprite sheet for top and bottom grids
+correct answer
+
+
 get one screen working, with clickable solution, delay and move to nexts
 
 fix css/scss
