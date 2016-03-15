@@ -39,6 +39,8 @@ range of dimensions:
 Tue Mar 15 01:22:49 2016
 images now renamed to better reflect order
 
+CSS class ids are not allowed to start with a number! so "2x2" is invalid...
+
 Timings - Jon
 Bourbon, Neat
 fix css/scss
