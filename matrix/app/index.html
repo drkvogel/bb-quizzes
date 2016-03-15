@@ -87,7 +87,7 @@
 */
           /* this syntax doesn't work as intended:
           div.grid2x2 #a1, #b1, #a2, #b2  (attempting to apply to div.grid2x2 #b1/#a2/#b2 as well as #a1 but have to explicitly state containing selector each time) */
-          div.grid2x2 #a1, div.grid2x2 #b1, div.grid2x2 #a2, div.grid2x2 #b2 {
+          div.grid2x2 #a1, div.grid2x2 #b1, div.grid2x2 #a2 {
             /*background-color: red;*/
             background-image: url('images/intro1.png');
             background-repeat: no-repeat;
@@ -98,9 +98,20 @@
             float: left;
           }
 
+          div.grid2x2 #b2 {
+            background-image: url('images/intro1.png') 210 0;
+            background-repeat: no-repeat;
+            /*display: inline;*/
+            /*float: left;*/
+            width: 210px;
+            height: 170px;
+            float: left;
+          }
+
+
           div.grid2x2 .row,
           div.grid3x2 .row,
-           {
+          {
             display: block;
           }
 

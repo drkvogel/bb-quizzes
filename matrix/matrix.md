@@ -1,5 +1,9 @@
 # matrix
 
+todo:
+
+get one screen working, with clickable solution, delay and move to nexts
+
 ### Display grids
 
 Tue Mar 15 01:22:49 2016 images renamed to better reflect order
@@ -108,7 +112,6 @@ ok, ftp command in yo-test, now can ftp...
 
 general\dev\js\yeoman\borked.md
 sort out prev/next-/
-tea-
 Preload
 State machine object-/
 Arrays-
