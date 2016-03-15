@@ -10,6 +10,12 @@ list of indices into sprite sheet for top and bottom grids
 correct answer
 
 
+https://learn.jquery.com/using-jquery-core/css-styling-dimensions/
+http://stackoverflow.com/questions/3730035/how-to-change-css-using-jquery
+http://code.dougneiner.com/coding/using-css-classes-for-states.html
+
+>manipulating CSS in javascript can be considered poor practice. Consider add/remove/toggling classes. – Austin Aug 5 '15 at 18:06
+
 get one screen working, with clickable solution, delay and move to nexts
 
 fix css/scss

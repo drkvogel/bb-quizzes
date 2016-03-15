@@ -93,9 +93,14 @@
         }
     });
 
+    //var alert;
     $.getJSON('config.json', function (data) {
         // do stuff
         console.log('got JSON');
+        data = "";
+    }).fail(function () {
+        console.log('error getting JSON!');
+        window.alert('error getting JSON!');
     });
 
     console.log('Starting Matrix Puzzle');
