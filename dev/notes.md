@@ -8,10 +8,8 @@ list of indices into sprite sheet for top and bottom grids
 correct answer
 
 ```cpp
-    char * images[] = {"matrix_ex1", "matrix_ex2", "matrix_ex3", "transition", "matrix_ex4", "matrix_ex5", "matrix_ex6", "matrix_ex7", "matrix_ex8", "matrix_ex9", "matrix_ex10", "matrix_ex11", "matrix_ex12", "matrix_ex13", "matrix_ex14", "matrix_ex15", "matrix_ex16", "matrix_ex17", "matrix_ex18"};
-
     // sprites
-    const char *MATRIX_GAME::m_levels[NO_LEVELS] = {
+    const char * MATRIX_GAME::m_levels[NO_LEVELS] = {
         "matrix_ex1", "matrix_ex2", "matrix_ex3", "transition", "matrix_ex4", "matrix_ex5", "matrix_ex6", "matrix_ex7", "matrix_ex8", "matrix_ex9", "matrix_ex10", "matrix_ex11", "matrix_ex12", "matrix_ex13", "matrix_ex14", "matrix_ex15", "matrix_ex16", "matrix_ex17", "matrix_ex18"
     };
 
@@ -70,3 +68,9 @@ correct answer
     };   // bottom images
 ```
 
+
+    // sprites
+    // hmmm... (isLive)
+    // which grid to use (m_Buttons)
+    // correct answers (m_Expected)
+    // indices into sprite for top grid (m_layout_questions)

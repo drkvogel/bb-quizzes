@@ -93,9 +93,14 @@
         }
     });
 
+    $.getJSON('config.json', function (data) {
+        // do stuff
+        console.log('got JSON');
+    });
+
     console.log('Starting Matrix Puzzle');
     $(document).ready(function () {
-        console.log(' Fri Mar  4 12:11:23 2016 Ready');
+        console.log('Document ready');
         showPage('home');
     });
 
