@@ -11,8 +11,7 @@
     var numPages = 19; // temp
     //var pages = ['loading', 'home', 'intro1', 'intro2', 'quiz2x2', 'matrix_ex1', 'matrix_ex2', 'matrix_ex3', 'matrix_ex4', 'matrix_ex5', 'matrix_ex6', 'matrix_ex7'];
     var pages = ['loading', 'home', 'quiz2x2', 'matrix_ex1', 'matrix_ex2', 'matrix_ex3', 'matrix_ex4', 'matrix_ex5', 'matrix_ex6', 'matrix_ex7'];
-    var current = 1; // 'home';
-    //'quiz2x2', 'quiz3x3', 'thanks', 'abandon'
+    var current = 1; // 'home'; 'quiz2x2', 'quiz3x3', 'thanks', 'abandon'
 
     // function preload() {
     //     //images[25] = new Image();
@@ -56,7 +55,7 @@
         e.preventDefault();
         var pageId = $('.page').attr('id');
         var clickedEl = $(this);
-        console.log('pageId: ' + pageId); // now gets id from loaded page
+        console.log('$(\'#content-container\').on(\'click\', \'a, button\'): pageId: ' + pageId); // now gets id from loaded page
         nextPage();
         switch (clickedEl.attr('id')) {
         case 'prev':
