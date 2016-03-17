@@ -97,7 +97,7 @@
     $.getJSON('config.json', function (data) {
         // do stuff
         console.log('got JSON');
-        data = "";
+        data = NaN;
     }).fail(function () {
         console.log('error getting JSON!');
         window.alert('error getting JSON!');
