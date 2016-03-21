@@ -27,7 +27,7 @@
 
     function hidePage(page) {
         console.log('hidePage(\'' + page + '\'');
-        document.getElementById(page.template).style.display = "none";
+        //document.getElementById(page.template).style.display = "none";
     }
 
     function showPage(page) {
@@ -57,6 +57,7 @@
 
     $('#content-container').on('click', 'a, button', function (e) { // delegate events
         e.preventDefault();
+        console.log(JSON.stringify(pages[current], null, 4));
         var pageId = $('.page').attr('id');
         var clickedEl = $(this);
         console.log('$(\'#content-container\').on(\'click\', \'a, button\'): pageId: ' + pageId); // now gets id from loaded page
@@ -100,7 +101,9 @@
         $.getJSON('./config.json', function (data) {
             console.log('got JSON');
             pages = data.pages; // initialise data
-
+            //console.log('getconfig Current: ' + current);
+            showPage('home');
+            //console.log(JSON.stringify(data.pages[current], null, 4));
         }).fail(function (jqXHR, textStatus, errorThrown) {
             var err = 'error getting JSON: ' + textStatus + ", errorThrown: " + errorThrown;
             console.log(err);
@@ -109,13 +112,15 @@
     
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
+        console.log('Current: ' + current);
         getConfig();
-        showPage('home');
+        console.log('main Current: ' + current);
+        //showPage('home');
     });
 }());
 
 // >json and a javascript object are two different things, they just look the same.
-// json must have **double** quotes for key **and** value, no comments
+// json must have **double** quotes for key **and** value, no comments 
 
 // julian cope
 // toddla t

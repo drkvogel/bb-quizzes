@@ -1,7 +1,7 @@
 {
     "pages":[
     {
-        "template": "home",
+        "templateId": "home",
         "sheet": "matrix1.png",
         "images": {
         },
@@ -10,7 +10,7 @@
         "next": "intro1"
     },
     {
-        "template": "intro1",
+        "templateId": "intro1",
         "sheet": "matrix1.png",
         "images": {
             "top": [0, 1, 2, 3],
@@ -20,7 +20,7 @@
         "correct": -1
     },
     {
-        "template": "intro2",
+        "templateId": "intro2",
         "sheet": ".png",
         "images": {
             "top": [],
