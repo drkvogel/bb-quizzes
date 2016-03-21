@@ -3,6 +3,7 @@
     "comment": "var pages = ['loading', 'home', 'intro1', 'intro2', 'quiz2x2', 'matrix_ex1', 'matrix_ex2', 'matrix_ex3', 'matrix_ex4', 'matrix_ex5', 'matrix_ex6', 'matrix_ex7'];",
     "pages":[
     {
+        "name": "home",
         "templateId": "home",
         "sheet": "",
         "images": {
@@ -12,37 +13,71 @@
         "next": "intro1"
     },
     {
-        "templateId": "intro1",
+        "name": "intro1",
+        "templateId": "quiz2x2",
         "sheet": "intro1.png",
         "images": {
             "top": [0, 1, 2, 3],
             "bottom": [0, 1, 2, 3, 4, 5, 6, 7, 8]
         },
         "answer": -1,
-        "correct": -1
+        "correct": -1,
+        "text": "Here is a design which is missing a piece on the lower right hand corner. At the bottom are shown six pieces which would fit the missing corner. Your task is the touch the piece which best completes the design at the top."
     },
     {
-        "templateId": "intro2",
+        "name": "intro2",
+        "templateId": "quiz2x2",
         "sheet": "intro2.png",
         "images": {
             "top": [],
             "bottom": []
         },
         "answer": -1,
-        "correct": -1
+        "correct": -1,
+        "text": "Here is another practice puzzle. Touch the piece which best completes the design."
     },
     {
-        "templateId": "intro3",
+        "name": "intro3",
+        "templateId": "quiz3sx3",
         "sheet": "intro3.png",
         "images": {
             "top": [0, 1, 2, 3],
             "bottom": [0, 1, 2, 3, 4, 5, 6, 7, 8]
         },
         "answer": -1,
-        "correct": -1
+        "correct": -1,
+        "text": "This is the last practice puzzle. Again, touch the piece which best completes the design."
     },
     {
-        "templateId": "ex1",
+        "name": "getReady",
+        "templateId": "getReady",
+        "sheet": "",
+        "images": {},
+        "answer": -1,
+        "correct": -1,
+        "text": "You will have 2 minutes to do as many puzzles as you can.\nTouch Next when you are ready to begin."
+    },
+    {
+        "name": "abandon",
+        "templateId": "abandon",
+        "sheet": "",
+        "images": {},
+        "answer": -1,
+        "correct": -1,
+        "text": ""
+    },
+    {
+        "name": "finished",
+        "templateId": "thanks",
+        "sheet": "",
+        "images": {},
+        "answer": -1,
+        "correct": -1,
+        "text": ""
+    },
+    {
+        "name": "ex1",
+        "templateId": "grid2x2",
         "sheet": "matrix_ex1.png",
         "images": {
             "top": [0, 1, 2, 3],
@@ -52,7 +87,8 @@
         "correct": -1
     },
     {
-        "templateId": "ex2",
+        "name": "ex2",
+        "templateId": "grid2x2",
         "sheet": "matrix_ex2.png",
         "images": {
             "top": [0, 1, 2, 3],
@@ -62,7 +98,8 @@
         "correct": -1
     },
     {
-        "templateId": "ex3",
+        "name": "ex3",
+        "templateId": "grid2x2",
         "sheet": "matrix_ex3.png",
         "images": {
             "top": [0, 1, 2, 3],

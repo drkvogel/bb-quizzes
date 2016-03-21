@@ -131,7 +131,7 @@
             pages = data.pages;         // initialise pages
             numPages = pages.length;
             init();
-        }).fail(function (textStatus, errorThrown) { //
+        }).fail(function (jqxhr, textStatus, errorThrown) { //
             var err = 'error getting JSON: ' + textStatus + ", errorThrown: " + errorThrown;
             console.log(err);
         });

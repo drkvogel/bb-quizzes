@@ -67,7 +67,10 @@
           <div id="intro2" class="page" style="display:none">
             <!-- matrix_ex2.png 2x2 suns -->
             <p>Here is another practice puzzle. Touch the piece which best completes the design.</p>
+
             <p>This is the last practice puzzle. Again, touch the piece which best completes the design.</p>
+
+
             <p>You will have 2 minutes to do as many puzzles as you can.</p>
             <p>Touch Next when you are ready to begin.</p>
             <div class="buttons">
@@ -85,12 +88,13 @@
             */
             /* this syntax doesn't work as intended:
             div.grid2x2 #a1, #b1, #a2, #b2  (attempting to apply to div.grid2x2 #b1/#a2/#b2 as well as #a1 but have to explicitly state containing selector each time) */
-            div.grid2x2 #a1, div.grid2x2 #b1, div.grid2x2 #a2 {
               /*background-color: red;*/
-              background-image: url('images/intro1.png');
-              background-repeat: no-repeat;
               /*display: inline;*/
               /*float: left;*/
+              /*display: inline;*/
+            div.grid2x2 #a1, div.grid2x2 #b1, div.grid2x2 #a2 {
+              background-image: url('images/intro1.png');
+              background-repeat: no-repeat;
               width: 210px;
               height: 170px;
               float: left;
@@ -99,7 +103,6 @@
             div.grid2x2 #b2 {
               background-image: url('images/intro1.png') 210 0;
               background-repeat: no-repeat;
-              /*display: inline;*/
               width: 210px;
               height: 170px;
               float: left;
@@ -115,23 +118,16 @@
             div.grid3x2 #cell-2a, 
             div.grid3x2 #cell-2b, 
             div.grid3x2 #cell-2c {
-              /*background-color: red;*/
               background-image: url('images/intro2.png');
               background-repeat: no-repeat;
-              /*display: inline;*/
-              /*float: left;*/
               width: 210px;
               height: 170px;
               float: left;
             }
 
-
             div.grid3x3 #a1, #b1, #a2, #b2 {
-              /*background-color: red;*/
               background-image: url('images/matrix_ex2.png');
               background-repeat: no-repeat;
-              /*display: inline;*/
-              /*float: left;*/
               width: 170px;
               height: 135px;
               float: left;
