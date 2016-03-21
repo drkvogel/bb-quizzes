@@ -1,88 +1,23 @@
-/*
-    {
-        "template": "",     // template div to use
-        "sheet": "",        // sprite sheet to use
-        "images": {         // indices into sprite sheet
-            "top": [],      // top grid, where applicable
-            "bottom": []    // bottom grid, where applicable
-        } 
-        "answer": -1,       // player's answer
-        "correct": -1       // correct answer, -1 if not applicable (non-question page)
-    },
-
-    {
-        "template": "",
-        "sheet": "",  
-        "images": {
-            "top": [],
-            "bottom": []
-        }
-        "answer": -1,
-        "correct": -1
-    },
-
-*/
-
-{ "pages":[
+{
+    "pages":[
     {
         "template": "intro1",
         "sheet": "matrix1.png",
         "images": {
             "top": [0, 1, 2, 3],
             "bottom": [0, 1, 2, 3, 4, 5, 6, 7, 8]
-        } 
-        "answer": -1,
-        "correct": -1 // n/a
-    },
-    {
-        "template": "",
-        "sheet": "",
-        "images": {
-            "top": [],
-            "bottom": []
-        } 
-        "answer": -1,
-        "correct": -1 // n/a
-    },
-    {
-        "template": "",
-        "sheet": "",  
-        "images": {
-            "top": [],
-            "bottom": []
-        }
+        },
         "answer": -1,
         "correct": -1
     },
     {
-        "template": "",
-        "sheet": "",  
+        "template": "intro2",
+        "sheet": ".png",
         "images": {
             "top": [],
             "bottom": []
-        }
+        },
         "answer": -1,
         "correct": -1
-    },
-    {
-        "template": "",
-        "sheet": "",  
-        "images": {
-            "top": [],
-            "bottom": []
-        }
-        "answer": -1,
-        "correct": -1
-    },
-    {
-        "template": "",
-        "sheet": "",  
-        "images": {
-            "top": [],
-            "bottom": []
-        }
-        "answer": -1,
-        "correct": -1
-    },
-
-]} // pages
+    }
+]}

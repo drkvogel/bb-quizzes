@@ -4,6 +4,10 @@
 
 // include data.js?
 
+
+
+
+
 (function () { // Immediately-Invoked Function Expression (IIFE)
     // used to set "use strict" for whole scope so jslint doesn't complain, but then have to indent whole scope...
     "use strict";
@@ -93,14 +97,22 @@
         }
     });
 
-    //var alert;
-    $.getJSON('config.json', function (data) {
-        // do stuff
+    $.getJSON('./config.json', function (data) {
         console.log('got JSON');
-        data = NaN;
-    }).fail(function () {
-        console.log('error getting JSON!');
-        window.alert('error getting JSON!');
+        //data = NaN;
+        //pages = $.parseJSON(data); // not necessary, .getJSON() returns parsed JSON
+        console.log(data.pages);
+        console.log(data.pages.length);
+
+        for (var i=0; i<data.pages.length; i++) {
+            console.log(data.pages[i].template);
+        }
+        //for (var page in data) 
+
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var err = 'error getting JSON: ' + textStatus + ", errorThrown: " + errorThrown;
+        console.log(err);
+        window.alert(err);
     });
 
     console.log('Starting Matrix Puzzle');
@@ -110,3 +122,32 @@
     });
 
 }());
+
+
+/*
+pages config format
+n.b. don't put comments in actual JSON! Not allowed: http://stackoverflow.com/questions/244777/can-i-use-comments-inside-a-json-file?rq=1
+
+    {
+        "template": "",     // template div to use
+        "sheet": "",        // sprite sheet to use
+        "images": {         // indices into sprite sheet
+            "top": [],      // top grid, where applicable
+            "bottom": []    // bottom grid, where applicable
+        } 
+        "answer": -1,       // player's answer
+        "correct": -1       // correct answer, -1 if not applicable (non-question page)
+    },
+
+    {
+        "template": "",
+        "sheet": "",  
+        "images": {
+            "top": [],
+            "bottom": []
+        }
+        "answer": -1,
+        "correct": -1
+    },
+
+*/
