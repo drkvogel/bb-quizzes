@@ -2,6 +2,8 @@
 
 todo:
 
+    /matrix/app/config.json
+
 JSON data structure for each page, with:
 
     html template div to use (intro1-3, 2x2, 3x3, thanks, abandon etc)
@@ -10,11 +12,12 @@ JSON data structure for each page, with:
     correct answer
     player's answer
 
+    next?
+
     var obj = jQuery.parseJSON( '{ "name": "John" }' );
     alert( obj.name === "John" );
 
 
-    /matrix/app/config.json
 
 https://learn.jquery.com/using-jquery-core/css-styling-dimensions/
 http://stackoverflow.com/questions/3730035/how-to-change-css-using-jquery

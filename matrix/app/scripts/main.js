@@ -4,10 +4,6 @@
 
 // include data.js?
 
-
-
-
-
 (function () { // Immediately-Invoked Function Expression (IIFE)
     // used to set "use strict" for whole scope so jslint doesn't complain, but then have to indent whole scope...
     "use strict";
@@ -24,11 +20,13 @@
     // }
 
     function currentPage() {
+        console.log('currentPage[' + current + ']:' + pages[current]);
         return pages[current];
     }
 
-    function hidePage(pageId) {
-        document.getElementById(pageId).style.display = "none";
+    function hidePage(page) {
+        console.log('hidePage(\'' + page + '\'');
+        document.getElementById(page.template).style.display = "none";
     }
 
     function showPage(page) {
@@ -97,40 +95,41 @@
         }
     });
 
-    $.getJSON('./config.json', function (data) {
-        console.log('got JSON');
-        console.log(data.pages);
-        console.log(data.pages.length);
+    function getConfig() {
+        $.getJSON('./config.json', function (data) {
+            console.log('got JSON');
+            pages = data.pages;
 
-        for (var i=0; i<data.pages.length; i++) { // array iterate
-            console.log(data.pages[i].template);
-            console.log(data.pages[i].sheet);
-            console.log(JSON.stringify(data.pages[i], null, 4)); // null, 4 args tell it to indent with 4 spaces
-        }
-
-        pages = data.pages;
-
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        var err = 'error getting JSON: ' + textStatus + ", errorThrown: " + errorThrown;
-        console.log(err);
-        window.alert(err);
-    });
-
-    console.log('Starting Matrix Puzzle');
-    $(document).ready(function () {
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            var err = 'error getting JSON: ' + textStatus + ", errorThrown: " + errorThrown;
+            console.log(err);
+        });
+    }
+    
+    $().ready(function () { //$(document).ready(
         console.log('Document ready');
+        getConfig();
         showPage('home');
     });
-
 }());
 
-
+        //console.log(data.pages);
+        //console.log(data.pages.length);
+        // for (var i=0; i<data.pages.length; i++) { // array iterate
+        //     console.log(data.pages[i].template);
+        //     console.log(data.pages[i].sheet);
+        //     console.log(JSON.stringify(data.pages[i], null, 4)); // null, 4 args tell it to indent with 4 spaces
+        // }
 /*
 pages config format
 n.b. don't put comments in actual JSON! Not allowed: http://stackoverflow.com/questions/244777/can-i-use-comments-inside-a-json-file?rq=1
 //pages = $.parseJSON(data); // not necessary, .getJSON() returns parsed JSON
 //for (var page in data) // list iterate
+            window.alert(err);
         //data = NaN;
+
+    var obj = jQuery.parseJSON( '{ "name": "John" }' );
+    alert( obj.name === "John" );
 
     {
         "template": "",     // template div to use
