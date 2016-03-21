@@ -13,6 +13,7 @@
     //var pages = ['loading', 'home', 'quiz2x2', 'matrix_ex1', 'matrix_ex2', 'matrix_ex3', 'matrix_ex4', 'matrix_ex5', 'matrix_ex6', 'matrix_ex7'];
     var pages = ['loading', 'home', 'quiz2x2', 'quiz3x3', 'quiz2x2', 'quiz3x3'];
     var current = 0; // 'home'; 'quiz2x2', 'quiz3x3', 'thanks', 'abandon'
+    var answers = [];
 
     // function preload() {
     //     //images[25] = new Image();
@@ -98,7 +99,7 @@
     function getConfig() {
         $.getJSON('./config.json', function (data) {
             console.log('got JSON');
-            pages = data.pages;
+            pages = data.pages; // initialise data
 
         }).fail(function (jqXHR, textStatus, errorThrown) {
             var err = 'error getting JSON: ' + textStatus + ", errorThrown: " + errorThrown;
@@ -112,6 +113,12 @@
         showPage('home');
     });
 }());
+
+// >json and a javascript object are two different things, they just look the same.
+// json must have **double** quotes for key **and** value, no comments
+
+// julian cope
+// toddla t
 
         //console.log(data.pages);
         //console.log(data.pages.length);
@@ -132,7 +139,7 @@ n.b. don't put comments in actual JSON! Not allowed: http://stackoverflow.com/qu
     alert( obj.name === "John" );
 
     {
-        "template": "",     // template div to use
+        "template": "",     // html template div to use (intro1-3, 2x2, 3x3, thanks, abandon etc)
         "sheet": "",        // sprite sheet to use
         "images": {         // indices into sprite sheet
             "top": [],      // top grid, where applicable

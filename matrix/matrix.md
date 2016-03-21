@@ -2,21 +2,24 @@
 
 todo:
 
-    /matrix/app/config.json
+    
 
-JSON data structure for each page, with:
+separate structure for answers?
+iife to prevent hoisting - but maybe we want global vars to maintain state?
 
-    html template div to use (intro1-3, 2x2, 3x3, thanks, abandon etc)
-    sprite sheet to use
-    list of indices into sprite sheet for top and bottom grids
-    correct answer
-    player's answer
 
-    next?
+## done
 
-    var obj = jQuery.parseJSON( '{ "name": "John" }' );
-    alert( obj.name === "John" );
+JSON data structure for each page, with: sprite sheet to use indices into sprite sheet correct answer player's answer next page? `config.json`
 
+uninstall sublime jslint, is fuckin with my ctrl-j "join" even in .md files
+    remapped to ctrl-l - "lint" (open up )
+SublimeCodeIntel disable word completions from buffer:
+
+    {
+        "spell_check": false,
+        "codeintel_word_completions": "none"
+    }
 
 
 https://learn.jquery.com/using-jquery-core/css-styling-dimensions/

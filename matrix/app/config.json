@@ -6,7 +6,8 @@
         "images": {
         },
         "answer": -1,
-        "correct": -1
+        "correct": -1,
+        "next": "intro1"
     },
     {
         "template": "intro1",
