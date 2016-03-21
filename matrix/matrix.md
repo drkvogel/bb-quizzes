@@ -4,11 +4,17 @@ todo:
 
 JSON data structure for each page, with:
 
-html div to use (intro1-3, 2x2, 3x3, thanks, abandon etc)
-sprite sheet to use
-list of indices into sprite sheet for top and bottom grids
-correct answer
+    html template div to use (intro1-3, 2x2, 3x3, thanks, abandon etc)
+    sprite sheet to use
+    list of indices into sprite sheet for top and bottom grids
+    correct answer
+    player's answer
 
+    var obj = jQuery.parseJSON( '{ "name": "John" }' );
+    alert( obj.name === "John" );
+
+
+    /matrix/app/config.json
 
 https://learn.jquery.com/using-jquery-core/css-styling-dimensions/
 http://stackoverflow.com/questions/3730035/how-to-change-css-using-jquery
