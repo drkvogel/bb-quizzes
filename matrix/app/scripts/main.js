@@ -12,9 +12,13 @@
     //var numPages = 19,// temp
     //var pages = ['loading', 'home', 'intro1', 'intro2', 'quiz2x2', 'matrix_ex1', 'matrix_ex2', 'matrix_ex3', 'matrix_ex4', 'matrix_ex5', 'matrix_ex6', 'matrix_ex7'];
     //var pages = ['loading', 'home', 'quiz2x2', 'matrix_ex1', 'matrix_ex2', 'matrix_ex3', 'matrix_ex4', 'matrix_ex5', 'matrix_ex6', 'matrix_ex7'];
-    var pages = ['loading', 'home', 'quiz2x2', 'quiz3x3', 'quiz2x2', 'quiz3x3'], // 'home'; 'quiz2x2', 'quiz3x3', 'thanks', 'abandon'
-        numPages = pages.length,
-        current = 0;
+    //var pages = ['loading', 'home', 'quiz2x2', 'quiz3x3', 'quiz2x2', 'quiz3x3'], // 'home'; 'quiz2x2', 'quiz3x3', 'thanks', 'abandon'
+    // var pages,
+    //     numPages = pages.length,
+    //     current = 0;
+    var pages,
+        numPages,
+        current;
         //answers = [];
 
     // function preload() {
@@ -115,12 +119,18 @@
         }
     }
 
+    function init() {
+        current = 0;
+        console.log('init(): numPages: ' + numPages + ', current: '+ current);
+        showPage(currentPage());
+    }
+
     function getConfig() {
         $.getJSON('./config.json', function (data) {
-            console.log('got JSON');
-            pages = data.pages; // initialise data
-            //showPage('home');
-            showPage(currentPage());
+            console.log('getConfig(): got JSON');
+            pages = data.pages;         // initialise pages
+            numPages = pages.length;
+            init();
         }).fail(function (textStatus, errorThrown) { //
             var err = 'error getting JSON: ' + textStatus + ", errorThrown: " + errorThrown;
             console.log(err);
@@ -129,7 +139,7 @@
 
     $('#content-container').on('click', 'a, button', containerClick); // delegate events
 
-    $('#buttons').on('click', 'a, button', navClick);
+    $('#buttons').on('click', 'a, button', navClick); // need this?
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
