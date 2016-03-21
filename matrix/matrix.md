@@ -2,15 +2,7 @@
 
 todo:
 
-separate structure for answers?
-iife to prevent hoisting - but maybe we want global vars to maintain state?
-
-
-## done
-
-JSON data structure for each page, with: sprite sheet to use indices into sprite sheet correct answer player's answer next page? `config.json`
-
-
+bb-quizzes/notes/2016-03-21.md
 
 https://learn.jquery.com/using-jquery-core/css-styling-dimensions/
 http://stackoverflow.com/questions/3730035/how-to-change-css-using-jquery

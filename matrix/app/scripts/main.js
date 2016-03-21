@@ -20,44 +20,60 @@
     //     //ges[25].src = 'Snap/snap_images/Rear.GIF';
     // }
 
+    function obj(o) { // log formatted object to console
+        return JSON.stringify(o, null, 4);
+    }
+
     function currentPage() {
-        console.log('currentPage[' + current + ']:' + pages[current]);
+        //console.log('currentPage[' + current + ']:' + obj(pages[current]));
         return pages[current];
     }
 
     function hidePage(page) {
-        console.log('hidePage(\'' + page + '\'');
-        //document.getElementById(page.template).style.display = "none";
+        console.log('hidePage(): templateId: ' + page.templateId); //+ obj(page) + '\'');
+        hideDiv(page.templateId);
     }
 
-    function showPage(page) {
-        hidePage(currentPage());
-        var pageId = '#' + page;
-        console.log('showPage(' + page + '), pageId: ' + pageId);
-        document.getElementById(page).style.display = "inline"; //$('#content-container').html($(pageId));
+    function showPage(page) { // prevPage() and nextPage() should handle hiding current
+        console.log('showPage(): current: ' + current);
+        console.log('showPage(): templateId: ' + page.templateId); //');// page: ' + obj(page)); 
+        showDiv((page.templateId));
     }
+
+    function hideDiv(id) {
+        console.log('hideDiv(): id: ' + id);
+        document.getElementById(id).style.display = "none";
+    }
+
+    function showDiv(id) {
+        console.log('showDiv(): id: ' + id);
+        document.getElementById(id).style.display = "inline";
+    }    
 
     function prevPage() {
+        console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
         hidePage(currentPage());
         if (current > 0) {
             current -= 1;
         }
-        console.log('prevPage(): current: ' + current + ', currentPage(): ' + currentPage());
         showPage(currentPage());
     }
 
     function nextPage() {
+        console.log("nextPage(): current: " + current);// + obj(currentPage());
         hidePage(currentPage());
         if (current < numPages) {
             current += 1;
         }
-        console.log('nextPage(): current: ' + current + ', currentPage(): ' + currentPage());
+        console.log("nextPage(): current: " + current);// + obj(currentPage());
         showPage(currentPage());
-    }
+    };
 
-    $('#content-container').on('click', 'a, button', function (e) { // delegate events
+        
+    function containerClick(e) {
         e.preventDefault();
-        console.log(JSON.stringify(pages[current], null, 4));
+        console.log("containerClick()");
+        console.log("current page: " + obj(pages[current]));
         var pageId = $('.page').attr('id');
         var clickedEl = $(this);
         console.log('$(\'#content-container\').on(\'click\', \'a, button\'): pageId: ' + pageId); // now gets id from loaded page
@@ -72,7 +88,9 @@
         default:
             console.log('got unexpected element id: ' + clickedEl.attr('id')); //+', html: ''+clickedEl.html()+''');
         }
-    });
+    }
+
+    $('#content-container').on('click', 'a, button', containerClick); // delegate events
 
     $('#buttons').on('click', 'a, button', function (e) { // delegate events
         e.preventDefault();
@@ -101,9 +119,8 @@
         $.getJSON('./config.json', function (data) {
             console.log('got JSON');
             pages = data.pages; // initialise data
-            //console.log('getconfig Current: ' + current);
-            showPage('home');
-            //console.log(JSON.stringify(data.pages[current], null, 4));
+            //showPage('home');
+            showPage(currentPage());
         }).fail(function (jqXHR, textStatus, errorThrown) {
             var err = 'error getting JSON: ' + textStatus + ", errorThrown: " + errorThrown;
             console.log(err);
@@ -112,10 +129,7 @@
     
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
-        console.log('Current: ' + current);
         getConfig();
-        console.log('main Current: ' + current);
-        //showPage('home');
     });
 }());
 
