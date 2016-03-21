@@ -17,7 +17,7 @@
         "templateId": "quiz2x2",
         "sheet": "intro1.png",
         "images": {
-            "top": [0, 1, 2, 3],
+            "top": [4, 4, 4, -1],
             "bottom": [0, 1, 2, 3, 4, 5, 6, 7, 8]
         },
         "answer": -1,
@@ -38,7 +38,7 @@
     },
     {
         "name": "intro3",
-        "templateId": "quiz3sx3",
+        "templateId": "quiz3x3",
         "sheet": "intro3.png",
         "images": {
             "top": [0, 1, 2, 3],
@@ -77,7 +77,7 @@
     },
     {
         "name": "ex1",
-        "templateId": "grid2x2",
+        "templateId": "quiz2x2",
         "sheet": "matrix_ex1.png",
         "images": {
             "top": [0, 1, 2, 3],
@@ -88,7 +88,7 @@
     },
     {
         "name": "ex2",
-        "templateId": "grid2x2",
+        "templateId": "quiz2x2",
         "sheet": "matrix_ex2.png",
         "images": {
             "top": [0, 1, 2, 3],
@@ -99,7 +99,7 @@
     },
     {
         "name": "ex3",
-        "templateId": "grid2x2",
+        "templateId": "quiz2x2",
         "sheet": "matrix_ex3.png",
         "images": {
             "top": [0, 1, 2, 3],

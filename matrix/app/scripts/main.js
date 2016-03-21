@@ -9,13 +9,6 @@
     // used to set "use strict" for whole scope so jslint doesn't complain, but then have to indent whole scope...
     "use strict";
 
-    //var numPages = 19,// temp
-    //var pages = ['loading', 'home', 'intro1', 'intro2', 'quiz2x2', 'matrix_ex1', 'matrix_ex2', 'matrix_ex3', 'matrix_ex4', 'matrix_ex5', 'matrix_ex6', 'matrix_ex7'];
-    //var pages = ['loading', 'home', 'quiz2x2', 'matrix_ex1', 'matrix_ex2', 'matrix_ex3', 'matrix_ex4', 'matrix_ex5', 'matrix_ex6', 'matrix_ex7'];
-    //var pages = ['loading', 'home', 'quiz2x2', 'quiz3x3', 'quiz2x2', 'quiz3x3'], // 'home'; 'quiz2x2', 'quiz3x3', 'thanks', 'abandon'
-    // var pages,
-    //     numPages = pages.length,
-    //     current = 0;
     var pages,
         numPages,
         current;
@@ -51,9 +44,25 @@
     }
 
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
-        console.log('showPage(): current: ' + current);
-        console.log('showPage(): templateId: ' + page.templateId); //');// page: ' + obj(page)); 
+        console.log('showPage(): current: ' + current + ", templateId: " + page.templateId); //');// page: ' + obj(page));
         showDiv((page.templateId));
+        switch (page.templateId) {
+        case "quiz2x2":
+            console.log("showPage(): '" + page.templateId + "' handled");
+            break;
+        case "quiz3x3":
+            console.log("showPage(): '" + page.templateId + "' handled");
+            break;
+        case "home":
+        case "getReady":
+        case "abandon":
+        case "thanks":
+            console.log("showPage(): '" + page.templateId + "' handled");
+            break;
+        default:
+            throw new Error("unrecogised id");
+        }
+        // applyStyles();
     }
 
     function prevPage() {
@@ -67,8 +76,8 @@
 
     function nextPage() {
         console.log("nextPage(): current: " + current);// + obj(currentPage());
-        hidePage(currentPage());
         if (current < numPages) {
+            hidePage(currentPage());
             current += 1;
         }
         console.log("nextPage(): current: " + current);// + obj(currentPage());
@@ -78,10 +87,10 @@
     function containerClick(e) {
         e.preventDefault();
         console.log("containerClick()");
-        console.log("current page: " + obj(pages[current]));
+        console.log("current: " + current); //" page: " + obj(pages[current]));
         var pageId = $('.page').attr('id'),
             clickedEl = $(this);
-        console.log('$(\'#content-container\').on(\'click\', \'a, button\'): pageId: ' + pageId); // now gets id from loaded page
+        console.log('containerClick(): pageId: ' + pageId); // now gets id from loaded page
         nextPage();
         switch (clickedEl.attr('id')) {
         case 'prev':
@@ -97,9 +106,9 @@
 
     function navClick(e) {
         e.preventDefault();
-        console.log("navClick()"); //console.log('pageId: '+pageId); // now gets id from loaded page
+        console.log("navClick()");
         var pageId = $('.page').attr('id'),
-            clickedEl = $(this);
+            clickedEl = $(this); //console.log('pageId: '+pageId); // now gets id from loaded page
         console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
         switch (clickedEl.attr('id')) {
         case 'prev':
@@ -121,7 +130,7 @@
 
     function init() {
         current = 0;
-        console.log('init(): numPages: ' + numPages + ', current: '+ current);
+        console.log('init(): numPages: ' + numPages + ', current: ' + current);
         showPage(currentPage());
     }
 
@@ -131,7 +140,7 @@
             pages = data.pages;         // initialise pages
             numPages = pages.length;
             init();
-        }).fail(function (jqxhr, textStatus, errorThrown) { //
+        }).fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
             var err = 'error getting JSON: ' + textStatus + ", errorThrown: " + errorThrown;
             console.log(err);
         });

@@ -58,23 +58,26 @@
             <!-- matrix_ex1.png 2x2 squares with vertical slots -->
             <p>Here is a design which is missing a piece on the lower right hand corner. At the bottom are shown six pieces which would fit the missing corner. Your task is the touch the piece which best completes the design at the top.</p>
             <p>Have a go now...</p>
-            <div class="buttons">
-              <div id="prev"><a id="prev" href="#">&lt; Prev</a></div><div id="next"><a id="next" href="#">Next &gt;</a></div>
-            </div>
           </div>
 
           <!-- Intro 2 -->
           <div id="intro2" class="page" style="display:none">
             <!-- matrix_ex2.png 2x2 suns -->
             <p>Here is another practice puzzle. Touch the piece which best completes the design.</p>
+          </div>
 
+          <!-- Intro 3 -->
+          <div id="intro3" class="page" style="display:none">
+            <!-- matrix_ex2.png 3x3  -->
             <p>This is the last practice puzzle. Again, touch the piece which best completes the design.</p>
+          </div>
 
-
+          <!-- getReady -->
+          <div id="getReady" class="page" style="display:none">
             <p>You will have 2 minutes to do as many puzzles as you can.</p>
             <p>Touch Next when you are ready to begin.</p>
             <div class="buttons">
-              <div id="no">&lt; Prev</div><div id="yes">Next &gt;</div>
+              <div id="prev"><a id="prev" href="#">&lt; Prev</a></div><div id="next"><a id="next" href="#">Next &gt;</a></div>
             </div>
           </div>
 
@@ -88,12 +91,14 @@
             */
             /* this syntax doesn't work as intended:
             div.grid2x2 #a1, #b1, #a2, #b2  (attempting to apply to div.grid2x2 #b1/#a2/#b2 as well as #a1 but have to explicitly state containing selector each time) */
+              /*background-position: -20px 0px;*/
               /*background-color: red;*/
               /*display: inline;*/
               /*float: left;*/
               /*display: inline;*/
             div.grid2x2 #a1, div.grid2x2 #b1, div.grid2x2 #a2 {
               background-image: url('images/intro1.png');
+              background-position: -210px 0px;
               background-repeat: no-repeat;
               width: 210px;
               height: 170px;
