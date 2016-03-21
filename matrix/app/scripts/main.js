@@ -1,5 +1,6 @@
 /*global $ */
 /*jslint node: true */
+/*jslint browser:true */ // define 'document'
 // /*jslint plusplus: true */ // doesn't work with sublime jslint plugin:
 
 // include data.js?
@@ -8,12 +9,13 @@
     // used to set "use strict" for whole scope so jslint doesn't complain, but then have to indent whole scope...
     "use strict";
 
-    var numPages = 19; // temp
+    //var numPages = 19,// temp
     //var pages = ['loading', 'home', 'intro1', 'intro2', 'quiz2x2', 'matrix_ex1', 'matrix_ex2', 'matrix_ex3', 'matrix_ex4', 'matrix_ex5', 'matrix_ex6', 'matrix_ex7'];
     //var pages = ['loading', 'home', 'quiz2x2', 'matrix_ex1', 'matrix_ex2', 'matrix_ex3', 'matrix_ex4', 'matrix_ex5', 'matrix_ex6', 'matrix_ex7'];
-    var pages = ['loading', 'home', 'quiz2x2', 'quiz3x3', 'quiz2x2', 'quiz3x3'];
-    var current = 0; // 'home'; 'quiz2x2', 'quiz3x3', 'thanks', 'abandon'
-    var answers = [];
+    var pages = ['loading', 'home', 'quiz2x2', 'quiz3x3', 'quiz2x2', 'quiz3x3'], // 'home'; 'quiz2x2', 'quiz3x3', 'thanks', 'abandon'
+        numPages = pages.length,
+        current = 0;
+        //answers = [];
 
     // function preload() {
     //     //images[25] = new Image();
@@ -29,6 +31,16 @@
         return pages[current];
     }
 
+    function hideDiv(id) {
+        console.log('hideDiv(): id: ' + id);
+        document.getElementById(id).style.display = "none";
+    }
+
+    function showDiv(id) {
+        console.log('showDiv(): id: ' + id);
+        document.getElementById(id).style.display = "inline";
+    }
+
     function hidePage(page) {
         console.log('hidePage(): templateId: ' + page.templateId); //+ obj(page) + '\'');
         hideDiv(page.templateId);
@@ -39,16 +51,6 @@
         console.log('showPage(): templateId: ' + page.templateId); //');// page: ' + obj(page)); 
         showDiv((page.templateId));
     }
-
-    function hideDiv(id) {
-        console.log('hideDiv(): id: ' + id);
-        document.getElementById(id).style.display = "none";
-    }
-
-    function showDiv(id) {
-        console.log('showDiv(): id: ' + id);
-        document.getElementById(id).style.display = "inline";
-    }    
 
     function prevPage() {
         console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
@@ -67,15 +69,14 @@
         }
         console.log("nextPage(): current: " + current);// + obj(currentPage());
         showPage(currentPage());
-    };
+    }
 
-        
     function containerClick(e) {
         e.preventDefault();
         console.log("containerClick()");
         console.log("current page: " + obj(pages[current]));
-        var pageId = $('.page').attr('id');
-        var clickedEl = $(this);
+        var pageId = $('.page').attr('id'),
+            clickedEl = $(this);
         console.log('$(\'#content-container\').on(\'click\', \'a, button\'): pageId: ' + pageId); // now gets id from loaded page
         nextPage();
         switch (clickedEl.attr('id')) {
@@ -83,19 +84,18 @@
         case 'next':
         case 'yes':
         case 'no':
-            console.log('elid: ' + clickedEl.attr('id') + ', html: ' + clickedEl.html() + '');
+            console.log('elid: ' + clickedEl.attr('id') + ', html: ' + clickedEl.html());
             break;
         default:
             console.log('got unexpected element id: ' + clickedEl.attr('id')); //+', html: ''+clickedEl.html()+''');
         }
     }
 
-    $('#content-container').on('click', 'a, button', containerClick); // delegate events
-
-    $('#buttons').on('click', 'a, button', function (e) { // delegate events
+    function navClick(e) {
         e.preventDefault();
-        var pageId = $('.page').attr('id'); //console.log('pageId: '+pageId); // now gets id from loaded page
-        var clickedEl = $(this);
+        console.log("navClick()"); //console.log('pageId: '+pageId); // now gets id from loaded page
+        var pageId = $('.page').attr('id'),
+            clickedEl = $(this);
         console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
         switch (clickedEl.attr('id')) {
         case 'prev':
@@ -113,7 +113,7 @@
         default:
             console.log('got unexpected element id: ' + clickedEl.attr('id')); //+', html: ''+clickedEl.html()+''');
         }
-    });
+    }
 
     function getConfig() {
         $.getJSON('./config.json', function (data) {
@@ -121,12 +121,16 @@
             pages = data.pages; // initialise data
             //showPage('home');
             showPage(currentPage());
-        }).fail(function (jqXHR, textStatus, errorThrown) {
+        }).fail(function (textStatus, errorThrown) { //
             var err = 'error getting JSON: ' + textStatus + ", errorThrown: " + errorThrown;
             console.log(err);
         });
     }
-    
+
+    $('#content-container').on('click', 'a, button', containerClick); // delegate events
+
+    $('#buttons').on('click', 'a, button', navClick);
+
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
         getConfig();
