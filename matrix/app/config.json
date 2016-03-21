@@ -1,6 +1,14 @@
 {
     "pages":[
     {
+        "template": "home",
+        "sheet": "matrix1.png",
+        "images": {
+        },
+        "answer": -1,
+        "correct": -1
+    },
+    {
         "template": "intro1",
         "sheet": "matrix1.png",
         "images": {

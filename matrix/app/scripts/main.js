@@ -16,7 +16,7 @@
     //var pages = ['loading', 'home', 'intro1', 'intro2', 'quiz2x2', 'matrix_ex1', 'matrix_ex2', 'matrix_ex3', 'matrix_ex4', 'matrix_ex5', 'matrix_ex6', 'matrix_ex7'];
     //var pages = ['loading', 'home', 'quiz2x2', 'matrix_ex1', 'matrix_ex2', 'matrix_ex3', 'matrix_ex4', 'matrix_ex5', 'matrix_ex6', 'matrix_ex7'];
     var pages = ['loading', 'home', 'quiz2x2', 'quiz3x3', 'quiz2x2', 'quiz3x3'];
-    var current = 1; // 'home'; 'quiz2x2', 'quiz3x3', 'thanks', 'abandon'
+    var current = 0; // 'home'; 'quiz2x2', 'quiz3x3', 'thanks', 'abandon'
 
     // function preload() {
     //     //images[25] = new Image();
@@ -27,8 +27,8 @@
         return pages[current];
     }
 
-    function hidePage(page) {
-        document.getElementById(page).style.display = "none";
+    function hidePage(pageId) {
+        document.getElementById(pageId).style.display = "none";
     }
 
     function showPage(page) {
@@ -99,15 +99,16 @@
 
     $.getJSON('./config.json', function (data) {
         console.log('got JSON');
-        //data = NaN;
-        //pages = $.parseJSON(data); // not necessary, .getJSON() returns parsed JSON
         console.log(data.pages);
         console.log(data.pages.length);
 
-        for (var i=0; i<data.pages.length; i++) {
+        for (var i=0; i<data.pages.length; i++) { // array iterate
             console.log(data.pages[i].template);
+            console.log(data.pages[i].sheet);
+            console.log(JSON.stringify(data.pages[i], null, 4)); // null, 4 args tell it to indent with 4 spaces
         }
-        //for (var page in data) 
+
+        pages = data.pages;
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var err = 'error getting JSON: ' + textStatus + ", errorThrown: " + errorThrown;
@@ -127,6 +128,9 @@
 /*
 pages config format
 n.b. don't put comments in actual JSON! Not allowed: http://stackoverflow.com/questions/244777/can-i-use-comments-inside-a-json-file?rq=1
+//pages = $.parseJSON(data); // not necessary, .getJSON() returns parsed JSON
+//for (var page in data) // list iterate
+        //data = NaN;
 
     {
         "template": "",     // template div to use
