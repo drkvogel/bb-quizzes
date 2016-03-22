@@ -102,9 +102,14 @@
             //     var err = 'error setting CSS: ' + textStatus + ", errorThrown: " + errorThrown;
             //     console.log(err);
             // });
+    function showInfo(text) {
+        $("#info").html(text);
+    }
 
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
         console.log('showPage(): current: ' + current + ", templateId: " + page.templateId); //');// page: ' + obj(page));
+        var info  = current + "/" + pages.length + ": " + page.name;
+        showInfo(info);
         switch (page.templateId) {
         case "quiz2x2":
             console.log("showPage(): '" + page.templateId + "' handled");

@@ -3,6 +3,8 @@
 
 http://kangax.github.io/compat-table/es6/ awesome!
 
+use bb-quizzes/matrix/app/scripts/timer.js
+
 
 
 todo:
