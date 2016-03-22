@@ -25,7 +25,11 @@
     <!--[if lt IE 10]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    
+    <style type="text/css">
+      .container {
+        max-width: 900px;
+      }
+    </style>
     <div class="container">
       <div class="header">
         <ul class="nav nav-pills pull-right">
@@ -136,51 +140,6 @@
               display: none;
             }
 
-            /* --- old ---- */
-
-            div.grid2x2 .row, div.grid3x2 .row, {
-              display: block;
-              margin: auto;
-              padding: 10px;
-            }
-            div.grid2x2 #a1, div.grid2x2 #b1, div.grid2x2 #a2 {
-              background-image: url('images/intro1.png');
-              background-position: -210px 0px;
-              background-repeat: no-repeat;
-              width: 210px;
-              height: 170px;
-              float: left;
-            }
-
-            div.grid2x2 #b2 {
-              background-image: url('images/intro1.png') 210 0;
-              background-repeat: no-repeat;
-              width: 210px;
-              height: 170px;
-              float: left;
-            }
-
-            div.grid3x2 #bot, 
-            div.grid3x2 #bot, 
-            div.grid3x2 #bot, 
-            div.grid3x2 #bot, 
-            div.grid3x2 #bot, 
-            div.grid3x2 #bot {
-              background-image: url('images/intro2.png');
-              background-repeat: no-repeat;
-              width: 210px;
-              height: 170px;
-              float: left;
-            }
-
-            div.grid3x3 #a1, #b1, #a2, #b2 {
-              background-image: url('images/matrix_ex2.png');
-              background-repeat: no-repeat;
-              width: 170px;
-              height: 135px;
-              float: left;
-            }
-
             img {
             }*/
           </style>
@@ -210,13 +169,19 @@
             <div class="grid3x3">
               <div class="row">
                 <div id="top1">top1</div><div id="top2">top2</div><div id="top3">top3</div>
+              </div>
+              <div class="row">
                 <div id="top4">top4</div><div id="top5">top5</div><div id="top6">top6</div>
+              </div>
+              <div class="row">
                 <div id="top7">top7</div><div id="top8">top8</div><div id="top9">top9</div>
               </div>
             </div>
             <div class="grid4x2">
               <div class="row">
                 <div id="bot1">bot</div><div id="bot2">bot</div><div id="bot3">bot</div><div id="bot4">bot</div>
+              </div>
+              <div class="row">
                 <div id="bot5">bot</div><div id="bot6">bot</div><div id="bot7">bot</div><div id="bot8">bot</div>
               </div>
             </div>
@@ -249,7 +214,9 @@
     <div class="footer">
         <div id="buttons" class="row">
           <div id="prev" class="col-md-3"><button class="btn pull-right" id="prev" href="#">&lt; Prev</button></div>
-          <div id="prev" class="col-md-6">&nbsp;</div>
+          <div id="prev" class="col-md-2">&nbsp;</div>
+          <div id="prev" class="col-md-2">1/1</div>
+          <div id="prev" class="col-md-2">&nbsp;</div>
           <div id="next" class="col-md-3"><button class="btn" id="next" href="#">Next &gt;</button></div>
         </div>
     </div>
