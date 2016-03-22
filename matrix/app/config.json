@@ -18,7 +18,7 @@
         "sheet": "intro1.png",
         "images": {
             "top": [4, 4, 4, -1],
-            "bottom": [0, 1, 2, 3, 4, 5, 6, 7, 8]
+            "bottom": [0, 1, 2, 3, 4, 5]
         },
         "answer": -1,
         "correct": -1,
@@ -29,8 +29,8 @@
         "templateId": "quiz2x2",
         "sheet": "intro2.png",
         "images": {
-            "top": [],
-            "bottom": []
+            "top": [4, 4, 4, -1],
+            "bottom": [0, 1, 2, 3, 4, 5]
         },
         "answer": -1,
         "correct": -1,
@@ -41,8 +41,8 @@
         "templateId": "quiz3x3",
         "sheet": "intro3.png",
         "images": {
-            "top": [0, 1, 2, 3],
-            "bottom": [0, 1, 2, 3, 4, 5, 6, 7, 8]
+            "top": [0, 1, 2, 3, 4, 5, 6, 7, 8],
+            "bottom": [0, 1, 2, 3, 4, 5, 6, 7]
         },
         "answer": -1,
         "correct": -1,
@@ -56,6 +56,39 @@
         "answer": -1,
         "correct": -1,
         "text": "You will have 2 minutes to do as many puzzles as you can.\nTouch Next when you are ready to begin."
+    },
+    {
+        "name": "ex1",
+        "templateId": "quiz3x3",
+        "sheet": "matrix_ex1.png",
+        "images": {
+            "top": [0, 1, 2, 3, 4, 5, 6, 7, 8],
+            "bottom": [0, 1, 2, 3, 4, 5, 6, 7]
+        },
+        "answer": -1,
+        "correct": -1
+    },
+    {
+        "name": "ex2",
+        "templateId": "quiz2x2",
+        "sheet": "matrix_ex2.png",
+        "images": {
+            "top": [4, 4, 4, -1],
+            "bottom": [0, 1, 2, 3, 4, 5]
+        },
+        "answer": -1,
+        "correct": -1
+    },
+    {
+        "name": "ex3",
+        "templateId": "quiz2x2",
+        "sheet": "matrix_ex3.png",
+        "images": {
+            "top": [4, 4, 4, -1],
+            "bottom": [0, 1, 2, 3, 4, 5]
+        },
+        "answer": -1,
+        "correct": -1
     },
     {
         "name": "abandon",
@@ -74,38 +107,5 @@
         "answer": -1,
         "correct": -1,
         "text": ""
-    },
-    {
-        "name": "ex1",
-        "templateId": "quiz2x2",
-        "sheet": "matrix_ex1.png",
-        "images": {
-            "top": [0, 1, 2, 3],
-            "bottom": [0, 1, 2, 3, 4, 5, 6, 7, 8]
-        },
-        "answer": -1,
-        "correct": -1
-    },
-    {
-        "name": "ex2",
-        "templateId": "quiz2x2",
-        "sheet": "matrix_ex2.png",
-        "images": {
-            "top": [0, 1, 2, 3],
-            "bottom": [0, 1, 2, 3, 4, 5, 6, 7, 8]
-        },
-        "answer": -1,
-        "correct": -1
-    },
-    {
-        "name": "ex3",
-        "templateId": "quiz2x2",
-        "sheet": "matrix_ex3.png",
-        "images": {
-            "top": [0, 1, 2, 3],
-            "bottom": [0, 1, 2, 3, 4, 5, 6, 7, 8]
-        },
-        "answer": -1,
-        "correct": -1
     }
 ]}

@@ -122,10 +122,10 @@
               float: left;
             }
 
-            div.grid2x2 #top4 { /* make just one different */
+/*            div.grid2x2 #top4 { 
               display: none;
             }
-
+*/
             /* quiz3x3 top and bottom grids */
             div#quiz3x3 div.grid3x3 div.row div,
             div#quiz3x3 div.grid4x2 div.row div {
@@ -136,10 +136,10 @@
               float: left;
             }
 
-            div.grid3x3 #top9 { /* make just one different */
+/*            div.grid3x3 #top9 { 
               display: none;
             }
-
+*/
             img {
             }*/
           </style>
@@ -205,12 +205,26 @@
             <div class="buttons">
               <div id="no">No</div><div id="yes">Yes</div>
             </div>
+
+<!--             <div id="buttons" class="row">
+              <div id="prev" class="col-md-3"><button class="btn pull-right" id="prev" href="#">&lt; Prev</button></div>
+              <div id="prev" class="col-md-2">&nbsp;</div>
+              <div id="prev" class="col-md-2">1/1</div>
+              <div id="prev" class="col-md-2">&nbsp;</div>
+              <div id="next" class="col-md-3"><button class="btn" id="next" href="#">Next &gt;</button></div>
+            </div> -->
+
           </div>
 
         </div> <!-- /pages -->
       </div>
     </div>
 
+    <style type="text/css">
+      #buttons button {
+        display: none;
+      }
+    </style>
     <div class="footer">
         <div id="buttons" class="row">
           <div id="prev" class="col-md-3"><button class="btn pull-right" id="prev" href="#">&lt; Prev</button></div>

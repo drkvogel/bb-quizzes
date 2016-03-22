@@ -56,48 +56,52 @@
 
     function applyStyles(page) {
         console.log('applyStyles(): current: ' + current + ", templateId: " + page.templateId); //');// page: ' + obj(page));
-        //var img = "background-image: url('images/" + page.sheet + "');";
-        var img, sel, pos, width;
+        var img, base, sel, pos, width;
+        var top = page.images.top;
+        var bot = page.images.bottom;
         img = "url('images/" + page.sheet + "')"; // DON'T include ';' at end of rule, fails silently! (?)
-        // pos = "-" + 100 + "px 0px";
-        // console.log("img: " + img + ", pos: " + pos);
-        // $("#top1").css("background-image", img)
-        // $("#top1").css("background-position", pos);
-
-        //return;
-        
-        //var width = page.templateId == "quiz2x2" ? WIDTH2X2 : WIDTH3X3;
 
         if (page.templateId == "quiz2x2") {
+            if (top.length != 4) throw new Error("Expected 4 images for top grid in " + page.name);
+            if (bot.length != 6) throw new Error("Expected 6 images for bottom grid in " + page.name);
             width = WIDTH2X2;
-        } else {
+            base = "div#quiz2x2 ";
+            $("div.grid2x2 #top4").css("display", "none");
+        } else if (page.templateId == "quiz3x3") {
+            if (top.length != 9) throw new Error("Expected 9 images for top grid in " + page.name);
+            if (bot.length != 8) throw new Error("Expected 8 images for bottom grid in " + page.name);
             width = WIDTH3X3;
+            base = "div#quiz3x3 ";
+            $("div.grid3x3 #top9").css("display", "none");
+        } else {
+            throw new Error("templateId: '" + page.templateId + "' not expected");
         }
         
         // Tue Mar 22 02:03:27 2016
         // could refactor the next two bits into one function (setBackground(), above)
 
         // div#quiz2x2 div.grid2x2 div.row div, div#quiz3x3 div.grid3x3 div.row div
-        var top = page.images.top;
-        for (var i=1; i<top.length+1; i++) { // safer to iterate like this with arrays - but why use arrays anyway?
-            //sel = page.templateId + ""
-            sel = "#top" + i;
+        for (var i=0; i<top.length; i++) { // safer to iterate like this with arrays - but why use arrays anyway?
+            sel = base + "#top" + (i + 1);
             pos = "-" + (width * top[i]) + "px 0px";
-            console.log("sel: " + sel + ", img: " + img + ", pos: " + pos);
             $(sel).css("background-image", img)
             $(sel).css("background-position", pos);
+            console.log("sel: " + sel + ", img: " + img + ", pos: " + pos);
+        }
+
+        for (var i=0; i<bot.length; i++) {
+            sel = base + "#bot" + (i + 1);
+            pos = "-" + (width * bot[i]) + "px 0px";
+            $(sel).css("background-image", img)
+            $(sel).css("background-position", pos);
+            console.log("sel: " + sel + ", img: " + img + ", pos: " + pos);
+        }
+    }
+
             // .fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
             //     var err = 'error setting CSS: ' + textStatus + ", errorThrown: " + errorThrown;
             //     console.log(err);
             // });
-        }
-
-        var bot = page.images.bottom;
-        for (var i=0; i<bot.length; i++) {
-            //pos = "-" + (width * bot[i]) + "px 0px;";
-
-        }
-    }
 
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
         console.log('showPage(): current: ' + current + ", templateId: " + page.templateId); //');// page: ' + obj(page));
@@ -147,17 +151,26 @@
         console.log("current: " + current); //" page: " + obj(pages[current]));
         var pageId = $('.page').attr('id'),
             clickedEl = $(this);
-        console.log('containerClick(): pageId: ' + pageId); // now gets id from loaded page
-        nextPage();
+        //console.log('containerClick(): pageId: ' + pageId); // now gets id from loaded page
+        console.log('containerClick(): clickedEl: ' + clickedEl.attr('id')); // now gets id from loaded page
+        //nextPage();
         switch (clickedEl.attr('id')) {
         case 'prev':
+            prevPage();
+            break;
         case 'next':
+            nextPage();
+            break;
         case 'yes':
         case 'no':
             console.log('elid: ' + clickedEl.attr('id') + ', html: ' + clickedEl.html());
             break;
         default:
-            console.log('got unexpected element id: ' + clickedEl.attr('id')); //+', html: ''+clickedEl.html()+''');
+            // if parent is a row or grandparent is 3x2 or 4x2 grid?
+            nextPage();
+            // else
+
+            //throw new Error('got unexpected element id: ' + clickedEl.attr('id')); //+', html: ''+clickedEl.html()+''');
         }
     }
 
@@ -203,9 +216,10 @@
         });
     }
 
-    $('#content-container').on('click', 'a, button', containerClick); // delegate events
+    //$('#content-container').on('click', 'a, button, div', containerClick); // delegate events
+    $('#content-container').on('click', 'a, button, div.row div', containerClick); // delegate events
 
-    $('#buttons').on('click', 'a, button', navClick); // need this?
+    //$('#buttons').on('click', 'a, button', navClick); // need this?
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
