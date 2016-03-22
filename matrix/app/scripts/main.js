@@ -112,11 +112,7 @@
         showInfo(info);
         switch (page.templateId) {
         case "quiz2x2":
-            console.log("showPage(): '" + page.templateId + "' handled");
-            applyStyles(page);
-            break;
         case "quiz3x3":
-            console.log("showPage(): '" + page.templateId + "' handled");
             applyStyles(page);
             break;
         case "home":
