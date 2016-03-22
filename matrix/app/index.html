@@ -97,49 +97,44 @@
               /*float: left;*/
               /*display: inline;*/
 
-            div.grid2x2 .row, div.grid3x2 .row, {
+            div.grid2x2 .row, div.grid3x2 .row, div.grid3x3 .row, div.grid4x2 .row {
               display: block;
               margin: auto;
+            }
+
+            div.grid2x2, div.grid3x2, div.grid3x3, div.grid4x2 {
               padding: 10px;
+              margin: auto;
             }
-            div.grid2x2 #top1, div.grid2x2 #top1, div.grid2x2 #top3 {
+
+            /* quiz2x2 top and bottom grids*/
+            div.grid2x2 div.row div,
+            div.grid3x2 div.row div {
               background-image: url('images/intro1.png');
-              background-position: -210px 0px;
+              background-position: 0px 0px;
               background-repeat: no-repeat;
               width: 210px;
               height: 170px;
               float: left;
             }
 
-            div.grid2x2 #top4 {
-              background-image: url('images/intro1.png') 210 0;
-              background-repeat: no-repeat;
-              width: 210px;
-              height: 170px;
-              float: left;
+            div.grid2x2 #top4 { /* make just one different */
+              display: none;
             }
 
-            div.grid3x2 #bot1, 
-            div.grid3x2 #bot2, 
-            div.grid3x2 #bot3, 
-            div.grid3x2 #bot4, 
-            div.grid3x2 #bot5, 
-            div.grid3x2 #bot6 {
-              background-image: url('images/intro2.png');
-              background-repeat: no-repeat;
-              width: 210px;
-              height: 170px;
-              float: left;
-            }
-
-            div.grid3x3 #a1, #b1, #a2, #b2 {
-              background-image: url('images/matrix_ex2.png');
+            /* quiz3x3 top and bottom grids */
+            div.grid3x3 div.row div,
+            div.grid4x2 div.row div {
+              background-image: url('images/matrix_ex1.png');
               background-repeat: no-repeat;
               width: 170px;
               height: 135px;
               float: left;
             }
 
+            div.grid3x3 #top9 { /* make just one different */
+              display: none;
+            }
 
             /* --- old ---- */
 
@@ -165,12 +160,12 @@
               float: left;
             }
 
-            div.grid3x2 #cell-1a, 
-            div.grid3x2 #cell-1b, 
-            div.grid3x2 #cell-1c, 
-            div.grid3x2 #cell-2a, 
-            div.grid3x2 #cell-2b, 
-            div.grid3x2 #cell-2c {
+            div.grid3x2 #bot, 
+            div.grid3x2 #bot, 
+            div.grid3x2 #bot, 
+            div.grid3x2 #bot, 
+            div.grid3x2 #bot, 
+            div.grid3x2 #bot {
               background-image: url('images/intro2.png');
               background-repeat: no-repeat;
               width: 210px;
@@ -194,18 +189,18 @@
           <div id="quiz2x2" class="page quiz2x2-3x2" style="display:none">
             <div class="grid2x2">
               <div class="row">
-                <div id="top1">top1</div><div id="b1">b1</div>
+                <div id="top1">top1</div><div id="top2">top2</div>
               </div>
               <div class="row">
-                <div id="a2">a2</div><div id="b2">b2</div>
+                <div id="top3">top3</div><div id="top4">top4</div>
               </div>
             </div>
             <div class="grid3x2">
               <div class="row">
-                <div id="cell-1a">1a</div><div id="cell-1b">1b</div><div id="cell-1c">1c</div>
+                <div id="bot1">bot1</div><div id="bot2">bot2</div><div id="bot3">bot3</div>
               </div>
               <div class="row">
-                <div id="cell-2a">2a</div><div id="cell-2b">2b</div><div id="cell-2c">2c</div>
+                <div id="bot4">bot4</div><div id="bot5">bot5</div><div id="bot6">bot6</div>
               </div>
             </div>
           </div>
@@ -214,15 +209,15 @@
           <div id="quiz3x3" class="page quiz3x3-4x2" style="display:none">
             <div class="grid3x3">
               <div class="row">
-                <div id="a1">a1</div><div id="b1">b1</div><div id="c1">c1</div>
-                <div id="a2">a2</div><div id="b2">b2</div><div id="c2">c2</div>
-                <div id="a3">a3</div><div id="b3">b3</div><div id="c3">c3</div>
+                <div id="top1">top1</div><div id="top2">top2</div><div id="top3">top3</div>
+                <div id="top4">top4</div><div id="top5">top5</div><div id="top6">top6</div>
+                <div id="top7">top7</div><div id="top8">top8</div><div id="top9">top9</div>
               </div>
             </div>
             <div class="grid4x2">
               <div class="row">
-                <div id="cell-1a">1a</div><div id="cell-1b">1b</div><div id="cell-1c">1c</div><div id="cell-1d">1d</div>
-                <div id="cell-2a">2a</div><div id="cell-2b">2b</div><div id="cell-2c">2c</div><div id="cell-2d">2d</div>
+                <div id="bot1">bot</div><div id="bot2">bot</div><div id="bot3">bot</div><div id="bot4">bot</div>
+                <div id="bot5">bot</div><div id="bot6">bot</div><div id="bot7">bot</div><div id="bot8">bot</div>
               </div>
             </div>
           </div>
