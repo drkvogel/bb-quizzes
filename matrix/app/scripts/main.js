@@ -43,26 +43,52 @@
         hideDiv(page.templateId);
     }
 
+    // http://stackoverflow.com/questions/130396/are-there-constants-in-javascript
+    const WIDTH2X2 = 210; // Width of squares in 2x2 grid is 210px
+    const WIDTH3X3 = 170; // Width of squares in 3x3 grid is 170px
+
+    // background-image: url('images/intro1.png');
+    // background-position: -210px 0px;
+
+    function applyStyles(page) {
+        var img = "background-image: url('images/" + page.sheet + "');";
+        
+        var width = page.templateId == "quiz2x2" ? WIDTH2X2 : WIDTH3X3;
+        var top = page.images.top;
+        for (var i=0; i<top.length; i++) { // safer to iterate like this with arrays - but why use arrays anyway?
+          pos = "background-position: -" + (width * top[i]) + "px 0px;";
+
+        }
+
+        var bot = page.images.bottom;
+        for (var i=0; i<bot.length; i++) {
+          var pos = "background-position: -" + (width * bot[i]) + "px 0px;";
+
+        }
+
+    }
+
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
         console.log('showPage(): current: ' + current + ", templateId: " + page.templateId); //');// page: ' + obj(page));
-        showDiv((page.templateId));
         switch (page.templateId) {
         case "quiz2x2":
             console.log("showPage(): '" + page.templateId + "' handled");
+            applyStyles(page);
             break;
         case "quiz3x3":
             console.log("showPage(): '" + page.templateId + "' handled");
+            applyStyles(page);
             break;
         case "home":
         case "getReady":
         case "abandon":
         case "thanks":
             console.log("showPage(): '" + page.templateId + "' handled");
-            break;
+            break; // don't do nuttin
         default:
             throw new Error("unrecogised id");
         }
-        // applyStyles();
+        showDiv((page.templateId));
     }
 
     function prevPage() {

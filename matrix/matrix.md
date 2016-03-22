@@ -1,5 +1,10 @@
 # matrix
 
+
+http://kangax.github.io/compat-table/es6/ awesome!
+
+
+
 todo:
 
 bb-quizzes/notes/2016-03-21.md
