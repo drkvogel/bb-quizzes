@@ -219,10 +219,13 @@
     //$('#content-container').on('click', 'a, button, div', containerClick); // delegate events
     $('#content-container').on('click', 'a, button, div.row div', containerClick); // delegate events
 
-    //$('#buttons').on('click', 'a, button', navClick); // need this?
+    $('#buttons').on('click', 'a, button', navClick); // need this?
+
+    const LIVE = false;
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
+        $("#button").css("display", LIVE ? "none" : "inline");
         getConfig();
     });
 }());

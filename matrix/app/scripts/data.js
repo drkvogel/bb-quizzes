@@ -1,8 +1,27 @@
 /*
 var NUM_PAGES = 19;
 var levels = [
-    "matrix_ex1", "matrix_ex2", "matrix_ex3", "transition", "matrix_ex4", "matrix_ex5", "matrix_ex6", "matrix_ex7", "matrix_ex8", "matrix_ex9", "matrix_ex10", "matrix_ex11", "matrix_ex12", "matrix_ex13", "matrix_ex14", "matrix_ex15", "matrix_ex16", "matrix_ex17", "matrix_ex18"
+    "intro1"
+    "intro2"
+    "intro3"
+    "getReady"
+    "matrix_ex1", 8
+    "matrix_ex2", 6
+    "matrix_ex3", 6
+    "matrix_ex4", 6
+    "matrix_ex5", 6
+    "matrix_ex6", 8
+    "matrix_ex7", 8
+    "matrix_ex8", 8
+    "matrix_ex9", 8
+    "matrix_ex10", 8
+    "matrix_ex11", 8
+    "matrix_ex12", 8
+    "matrix_ex13", 8
+    "matrix_ex14", 8
+    "matrix_ex15", 8
 ];
+
 var level_TRANSITION = 123;
 var isLive      = [0,0,0,level_TRANSITION,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
 var Buttons     = [6,6,8,level_TRANSITION,8,6,6,6,6,8,8,8,8,8,8,8,8,8,8];
