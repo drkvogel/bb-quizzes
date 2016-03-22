@@ -155,7 +155,7 @@
     }
 
     function init() {
-        current = 0;
+        current = 1; // skip home for now
         console.log('init(): numPages: ' + numPages + ', current: ' + current);
         showPage(currentPage());
     }
