@@ -44,8 +44,8 @@
     }
 
     // http://stackoverflow.com/questions/130396/are-there-constants-in-javascript
-    const WIDTH2X2 = 210; // Width of squares in 2x2 grid is 210px
-    const WIDTH3X3 = 170; // Width of squares in 3x3 grid is 170px
+    var WIDTH2X2 = 210; // Width of squares in 2x2 grid is 210px // const?
+    var WIDTH3X3 = 170; // Width of squares in 3x3 grid is 170px // const?
 
     // background-image: url('images/intro1.png');
     // background-position: -210px 0px;
@@ -66,13 +66,13 @@
             if (bot.length != 6) throw new Error("Expected 6 images for bottom grid in " + page.name);
             width = WIDTH2X2;
             base = "div#quiz2x2 ";
-            $("div.grid2x2 #top4").css("display", "none");
+            $("div.grid2x2 #top3").css("display", "none");
         } else if (page.templateId == "quiz3x3") {
             if (top.length != 9) throw new Error("Expected 9 images for top grid in " + page.name);
             if (bot.length != 8) throw new Error("Expected 8 images for bottom grid in " + page.name);
             width = WIDTH3X3;
             base = "div#quiz3x3 ";
-            $("div.grid3x3 #top9").css("display", "none");
+            $("div.grid3x3 #top8").css("display", "none");
         } else {
             throw new Error("templateId: '" + page.templateId + "' not expected");
         }
@@ -82,17 +82,17 @@
 
         // div#quiz2x2 div.grid2x2 div.row div, div#quiz3x3 div.grid3x3 div.row div
         for (var i=0; i<top.length; i++) { // safer to iterate like this with arrays - but why use arrays anyway?
-            sel = base + "#top" + (i + 1);
+            sel = base + "#top" + i;
             pos = "-" + (width * top[i]) + "px 0px";
-            $(sel).css("background-image", img)
+            $(sel).css("background-image", img);
             $(sel).css("background-position", pos);
             console.log("sel: " + sel + ", img: " + img + ", pos: " + pos);
         }
 
-        for (var i=0; i<bot.length; i++) {
-            sel = base + "#bot" + (i + 1);
+        for (i=0; i<bot.length; i++) {
+            sel = base + "#bot" + i;
             pos = "-" + (width * bot[i]) + "px 0px";
-            $(sel).css("background-image", img)
+            $(sel).css("background-image", img);
             $(sel).css("background-position", pos);
             console.log("sel: " + sel + ", img: " + img + ", pos: " + pos);
         }
@@ -222,7 +222,7 @@
 
     $('#buttons').on('click', 'a, button', navClick); // need this?
 
-    const LIVE = false;
+    var LIVE = false; // const? JSHint doesn't like it
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
