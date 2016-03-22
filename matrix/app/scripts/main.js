@@ -50,22 +50,53 @@
     // background-image: url('images/intro1.png');
     // background-position: -210px 0px;
 
-    function applyStyles(page) {
-        var img = "background-image: url('images/" + page.sheet + "');";
-        
-        var width = page.templateId == "quiz2x2" ? WIDTH2X2 : WIDTH3X3;
-        var top = page.images.top;
-        for (var i=0; i<top.length; i++) { // safer to iterate like this with arrays - but why use arrays anyway?
-          pos = "background-position: -" + (width * top[i]) + "px 0px;";
+    function setBackground(sel) {
 
+    }
+
+    function applyStyles(page) {
+        console.log('applyStyles(): current: ' + current + ", templateId: " + page.templateId); //');// page: ' + obj(page));
+        //var img = "background-image: url('images/" + page.sheet + "');";
+        var img, sel, pos, width;
+        img = "url('images/" + page.sheet + "')"; // DON'T include ';' at end of rule, fails silently! (?)
+        // pos = "-" + 100 + "px 0px";
+        // console.log("img: " + img + ", pos: " + pos);
+        // $("#top1").css("background-image", img)
+        // $("#top1").css("background-position", pos);
+
+        //return;
+        
+        //var width = page.templateId == "quiz2x2" ? WIDTH2X2 : WIDTH3X3;
+
+        if (page.templateId == "quiz2x2") {
+            width = WIDTH2X2;
+        } else {
+            width = WIDTH3X3;
+        }
+        
+        // Tue Mar 22 02:03:27 2016
+        // could refactor the next two bits into one function (setBackground(), above)
+
+        // div#quiz2x2 div.grid2x2 div.row div, div#quiz3x3 div.grid3x3 div.row div
+        var top = page.images.top;
+        for (var i=1; i<top.length+1; i++) { // safer to iterate like this with arrays - but why use arrays anyway?
+            //sel = page.templateId + ""
+            sel = "#top" + i;
+            pos = "-" + (width * top[i]) + "px 0px";
+            console.log("sel: " + sel + ", img: " + img + ", pos: " + pos);
+            $(sel).css("background-image", img)
+            $(sel).css("background-position", pos);
+            // .fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
+            //     var err = 'error setting CSS: ' + textStatus + ", errorThrown: " + errorThrown;
+            //     console.log(err);
+            // });
         }
 
         var bot = page.images.bottom;
         for (var i=0; i<bot.length; i++) {
-          var pos = "background-position: -" + (width * bot[i]) + "px 0px;";
+            //pos = "-" + (width * bot[i]) + "px 0px;";
 
         }
-
     }
 
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
@@ -83,7 +114,7 @@
         case "getReady":
         case "abandon":
         case "thanks":
-            console.log("showPage(): '" + page.templateId + "' handled");
+            console.log("showPage(): '" + page.templateId + "' handled - don't apply styles");
             break; // don't do nuttin
         default:
             throw new Error("unrecogised id");
