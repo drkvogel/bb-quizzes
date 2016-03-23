@@ -54,6 +54,12 @@
 
     }
 
+    function check_images(page, top_expected, bot_expected, name) {
+        // for top grids, last (unfilled) tile is yet to be chosen thus redundant in data
+        if (page.images.top.length      != top_expected) throw new Error("Expected " + top_expected + " images for top grid in " + page.name);
+        if (page.images.bottom.length   != bot_expected) throw new Error("Expected " + bot_expected + " images for bottom grid in " + page.name);
+    }
+
     function applyStyles(page) {
         console.log('applyStyles(): current: ' + current + ", templateId: " + page.templateId); //');// page: ' + obj(page));
         var img, base, sel, pos, width;
@@ -62,14 +68,18 @@
         img = "url('images/" + page.sheet + "')"; // DON'T include ';' at end of rule, fails silently! (?)
 
         if (page.templateId == "quiz2x2") {
-            if (top.length != 4) throw new Error("Expected 4 images for top grid in " + page.name);
-            if (bot.length != 6) throw new Error("Expected 6 images for bottom grid in " + page.name);
+            check_images(page, 3, 6); //var TOP_EXPECTED = 3, BOT_EXPECTED = 6;
+                // TODO passing page object - good idea? i.e. is this a copy or a reference (or reference to a copy)?
+                // saves a few lines a reuses putting checks into a function, but have to pass it page name, top, bottom
             width = WIDTH2X2;
             base = "div#quiz2x2 ";
             $("div.grid2x2 #top3").css("display", "none");
         } else if (page.templateId == "quiz3x3") {
-            if (top.length != 9) throw new Error("Expected 9 images for top grid in " + page.name);
-            if (bot.length != 8) throw new Error("Expected 8 images for bottom grid in " + page.name);
+            
+            // if (top.length != 8) throw new Error("Expected 9 images for top grid in " + page.name);
+            // // last tile not yet chosen
+            // if (bot.length != 8) throw new Error("Expected 8 images for bottom grid in " + page.name);
+            check_images(page, 8, 8); //var TOP_EXPECTED = 8, BOT_EXPECTED = 8;
             width = WIDTH3X3;
             base = "div#quiz3x3 ";
             $("div.grid3x3 #top8").css("display", "none");
@@ -141,6 +151,8 @@
         if (current < numPages) {
             hidePage(currentPage());
             current += 1;
+        } else {
+            console.log("nextPage(): hit the end at current: " + current);    
         }
         console.log("nextPage(): current: " + current);// + obj(currentPage());
         showPage(currentPage());

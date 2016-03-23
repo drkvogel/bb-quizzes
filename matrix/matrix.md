@@ -2,6 +2,12 @@
 
 record which one
 
+Wed Mar 23 17:32:25 2016
+images seem to have been renamed to reflect intro1,2,3,getReady,ex1,ex2 etc... e.g. what is matrix_ex6.png on q108 windows copy is matrix_ex3.png in repo. don't remember doing that... actually, do, vaguely...
+but one using matrix_ex3.png is borked anyway
+Wed Mar 23 17:34:48 2016
+yes, I copied the array wrongly. fixed now.
+
 use bb-quizzes/matrix/app/scripts/timer.js
 
 delay on vbox ff btwn div show and background (tiles) change - show div should be last thing- it is!
