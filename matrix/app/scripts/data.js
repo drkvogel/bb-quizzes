@@ -27,6 +27,27 @@ var isLive      = [0,0,0,level_TRANSITION,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
 var Buttons     = [6,6,8,level_TRANSITION,8,6,6,6,6,8,8,8,8,8,8,8,8,8,8];
 var Expected    = [4,4,5,level_TRANSITION,3,2,3,0,3,5,0,5,3,0,7,6,7,2,6];
 
+
+4
+4
+5
+level_TRANSITION
+3
+2
+3
+0
+3
+5
+0
+5
+3
+0
+7
+6
+7
+2
+6]
+
 // js doesn't have array width specifier like C++
 // [NUM_PAGES]
 // [NUM_PAGES][8]

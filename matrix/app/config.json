@@ -9,7 +9,7 @@
         "images": {
         },
         "answer": -1,
-        "correct": -1,
+        "correct": -,
         "next": "intro1"
     },
     {
@@ -21,7 +21,7 @@
             "bottom": [0, 1, 2, 3, 4, 5]
         },
         "answer": -1,
-        "correct": -1,
+        "correct": 4,
         "text": "Here is a design which is missing a piece on the lower right hand corner. At the bottom are shown six pieces which would fit the missing corner. Your task is the touch the piece which best completes the design at the top."
     },
     {
@@ -33,7 +33,7 @@
             "bottom": [0, 1, 2, 3, 4, 5]
         },
         "answer": -1,
-        "correct": -1,
+        "correct": 4,
         "text": "Here is another practice puzzle. Touch the piece which best completes the design."
     },
     {
@@ -45,7 +45,7 @@
             "bottom": [0, 1, 2, 3, 4, 5, 6, 7]
         },
         "answer": -1,
-        "correct": -1,
+        "correct": 5,
         "text": "This is the last practice puzzle. Again, touch the piece which best completes the design."
     },
     {
@@ -66,7 +66,7 @@
             "bottom": [0, 1, 2, 3, 4, 5, 6, 7]
         },
         "answer": -1,
-        "correct": -1
+        "correct": 3
     },
     {
         "name": "ex2",
@@ -77,7 +77,7 @@
             "bottom": [0, 1, 2, 3, 4, 5]
         },
         "answer": -1,
-        "correct": -1
+        "correct": 2
     },
     {
         "name": "ex3",
@@ -88,7 +88,7 @@
             "bottom": [0, 1, 2, 3, 4, 5]
         },
         "answer": -1,
-        "correct": -1
+        "correct": 3
     },
     {
         "name": "ex4",
@@ -99,7 +99,7 @@
             "bottom": [0, 1, 2, 3, 4, 5]
         },
         "answer": -1,
-        "correct": -1
+        "correct": 0
     },
     {
         "name": "ex5",
@@ -110,7 +110,7 @@
             "bottom": [0, 1, 2, 3, 4, 5]
         },
         "answer": -1,
-        "correct": -1
+        "correct": 3
     },
     {
         "name": "ex6",
@@ -121,7 +121,7 @@
             "bottom": [0, 1, 2, 3, 4, 5, 6, 7]
         },
         "answer": -1,
-        "correct": -1
+        "correct": 5
     },
     {
         "name": "ex7",
@@ -132,7 +132,7 @@
             "bottom": [0, 1, 2, 3, 4, 5, 6, 7]
         },
         "answer": -1,
-        "correct": -1
+        "correct": 0
     },
     {
         "name": "ex8",
@@ -143,7 +143,7 @@
             "bottom": [0, 1, 2, 3, 4, 5, 6, 7]
         },
         "answer": -1,
-        "correct": -1
+        "correct": 5
     },
     {
         "name": "ex9",
@@ -154,7 +154,7 @@
             "bottom": [0, 1, 2, 3, 4, 5, 6, 7]
         },
         "answer": -1,
-        "correct": -1
+        "correct": 3
     },
     {
         "name": "ex10",
@@ -165,7 +165,7 @@
             "bottom": [0, 1, 2, 3, 4, 5, 6, 7]
         },
         "answer": -1,
-        "correct": -1
+        "correct": 0
     },
     {
         "name": "ex11",
@@ -176,7 +176,7 @@
             "bottom": [0, 1, 2, 3, 4, 5, 6, 7]
         },
         "answer": -1,
-        "correct": -1
+        "correct": 7
     },
     {
         "name": "ex12",
@@ -187,7 +187,7 @@
             "bottom": [0, 1, 2, 3, 4, 5, 6, 7]
         },
         "answer": -1,
-        "correct": -1
+        "correct": 6
     },
     {
         "name": "ex13",
@@ -198,7 +198,7 @@
             "bottom": [0, 1, 2, 3, 4, 5, 6, 7]
         },
         "answer": -1,
-        "correct": -1
+        "correct": 7
     },
     {
         "name": "ex14",
@@ -209,7 +209,7 @@
             "bottom": [0, 1, 2, 3, 4, 5, 6, 7]
         },
         "answer": -1,
-        "correct": -1
+        "correct": 2
     },
     {
         "name": "ex15",
@@ -220,7 +220,7 @@
             "bottom": [0, 1, 2, 3, 4, 5, 6, 7]
         },
         "answer": -1,
-        "correct": -1
+        "correct": 6
     },
     {
         "name": "abandon",

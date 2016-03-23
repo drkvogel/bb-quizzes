@@ -1,13 +1,12 @@
 # matrix
 
-
-http://kangax.github.io/compat-table/es6/ awesome!
+record which one
 
 use bb-quizzes/matrix/app/scripts/timer.js
 
+delay on vbox ff btwn div show and background (tiles) change - show div should be last thing- it is!
 
-
-todo:
+http://kangax.github.io/compat-table/es6/ awesome!
 
 bb-quizzes/notes/2016-03-21.md
 
