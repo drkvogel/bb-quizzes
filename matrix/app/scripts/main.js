@@ -9,7 +9,8 @@
     // used to set "use strict" for whole scope so jslint doesn't complain, but then have to indent whole scope...
     "use strict";
 
-    var pages,
+    var config, 
+        pages,
         numPages,
         current;
         //answers = [];
@@ -68,24 +69,22 @@
         var img, base, sel, pos, width;
         var top = page.images.top;
         var bot = page.images.bottom;
-        //img = "url('images/" + page.sheet + "')"; // DON'T include ';' at end of rule, fails silently! (?)
 
+        // TODO passing page object - good idea? i.e. is this a copy or a reference (or reference to a copy)?
+        // saves a few lines a reuses putting checks into a function, but have to pass it page name, top, bottom
         if (page.templateId == "quiz2x2") {
             check_images(page, 3, 6); //var TOP_EXPECTED = 3, BOT_EXPECTED = 6;
-                // TODO passing page object - good idea? i.e. is this a copy or a reference (or reference to a copy)?
-                // saves a few lines a reuses putting checks into a function, but have to pass it page name, top, bottom
             width = WIDTH2X2;
             base = "div#quiz2x2 ";
-            $("div.grid2x2 #top3").css("display", "none");
+            $("div.grid2x2 #missing2x2").css("display", "none");
         } else if (page.templateId == "quiz3x3") {
-            
             // if (top.length != 8) throw new Error("Expected 9 images for top grid in " + page.name);
             // // last tile not yet chosen
             // if (bot.length != 8) throw new Error("Expected 8 images for bottom grid in " + page.name);
             check_images(page, 8, 8); //var TOP_EXPECTED = 8, BOT_EXPECTED = 8;
             width = WIDTH3X3;
             base = "div#quiz3x3 ";
-            $("div.grid3x3 #top8").css("display", "none");
+            $("div.grid3x3 #missing3x3").css("display", "none");
         } else {
             throw new Error("templateId: '" + page.templateId + "' not expected");
         }
@@ -98,16 +97,12 @@
             sel = base + "#top" + i;
             pos = "-" + (width * top[i]) + "px 0px";
             setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
-            // $(sel).css("background-image", img);
-            // $(sel).css("background-position", pos);
             //console.log("sel: " + sel + ", img: " + img + ", pos: " + pos);
         }
 
         for (i=0; i<bot.length; i++) {
             sel = base + "#bot" + i;
             pos = "-" + (width * bot[i]) + "px 0px";
-            // $(sel).css("background-image", img);
-            // $(sel).css("background-position", pos);
             setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
             //console.log("sel: " + sel + ", img: " + img + ", pos: " + pos);
         }
@@ -122,7 +117,7 @@
     }
 
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
-        console.log('showPage(): current: ' + current + ", templateId: " + page.templateId); //');// page: ' + obj(page));
+        console.log("showPage(" + page.name + "): current: " + current + ", templateId: " + page.templateId); //');// page: ' + obj(page));
         var info  = current + "/" + pages.length + ": " + page.name;
         showInfo(info);
         switch (page.templateId) {
@@ -165,12 +160,11 @@
 
     function containerClick(e) {
         e.preventDefault();
-        //console.log("containerClick()");
-        console.log("current: " + current); //" page: " + obj(pages[current]));
+        console.log(); //" page: " + obj(pages[current]));
         var pageId = $('.page').attr('id'),
             clickedEl = $(this),
             elId = clickedEl.attr('id');
-        console.log('containerClick(): clickedEl: ' + elId); // now gets id from loaded page
+        console.log("containerClick(): current: " + current + ", clickedEl: " + elId); // now gets id from loaded page
         switch (clickedEl.attr('id')) {
         case 'prev':
             prevPage();
@@ -191,29 +185,29 @@
                 var sel, pos;
                 console.log("got num: " + num);
                 page.answer = num;
-//#missing2x2
+
                 if ("quiz2x2" == page.templateId) {
                     sel = "div#quiz2x2 #missing2x2";
-                    pos = "-" + (WIDTH2X2 * page.images.top[num]) + "px 0px";
+                    pos = "-" + (WIDTH2X2 * page.images.bottom[num]) + "px 0px";
                 } else if ("quiz3x3" == page.templateId) {
                     sel = "div#quiz3x3 #missing3x3";
-                    pos = "-" + (WIDTH3X3 * page.images.top[num]) + "px 0px";                    
+                    pos = "-" + (WIDTH3X3 * page.images.bottom[num]) + "px 0px";                    
                 } else {
                     throw new Error("bad page.templateId: " + page.templateId);
                 }
                 setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
+                $(sel).css("display", "inline");
+                //$("div.grid3x3 #missing3x3").css("display", "");
 
                 if (num == page.correct) {
                     console.log("Correct!");
+                    console.log("Setting timeout...");
+                    setTimeout(nextPage, config.nextDelay); // function object without () otherwise called immediately
+                    //nextPage();
                 } else {
-                    console.log("Wrong!");
+                    console.log("Wrong! correct is: " + page.correct);
                 }
-                // missing tile now has id="missing", in both 2x2 and 3x3 grids
-                // ... but, even if not displayed at same time, both grids exist in same page
-                // so id not enough to uniquely identify
-                // so now missing2x2 and missing3x3
-                // page.templateId gives "quiz2x2" or "quiz3x3"
-                //nextPage();
+
             } else {
                 var err = 'got unexpected element id: ' + clickedEl.attr('id');
                 console.log(err); //throw new Error(err);
@@ -254,6 +248,7 @@
     function getConfig() {
         $.getJSON('./config.json', function (data) {
             console.log('getConfig(): got JSON');
+            config = data;
             pages = data.pages;         // initialise pages
             numPages = pages.length;
             init();
