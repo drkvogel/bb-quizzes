@@ -1,6 +1,18 @@
 # matrix
 
 record which one
+make images %width (top auto?)
+
+ajax timing messages - or record in-memory and send with results dump (serialize JSON)
+record User agent js
+
+    document.getElementById('UserAgent').value = navigator.userAgent;
+
+
+>Please add a non-JQuery alternative to the answer. So many new developers think that jQuery *is* Javascript
+
+ay has dvd of original flash games
+
 
 Wed Mar 23 17:32:25 2016
 images seem to have been renamed to reflect intro1,2,3,getReady,ex1,ex2 etc... e.g. what is matrix_ex6.png on q108 windows copy is matrix_ex3.png in repo. don't remember doing that... actually, do, vaguely...
