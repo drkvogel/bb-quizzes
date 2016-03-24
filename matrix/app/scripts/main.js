@@ -50,8 +50,11 @@
     // background-image: url('images/intro1.png');
     // background-position: -210px 0px;
 
-    function setBackground(sel) {
-
+    // js docstring?
+    function setBackground(sel, sheet, pos) { // jQuery selector, sprite sheet, offset pos (px)
+        var img = "url('images/" + sheet + "')"; // DON'T include ';' at end of rule, fails silently! (?)
+        $(sel).css("background-image", img);
+        $(sel).css("background-position", pos);
     }
 
     function check_images(page, top_expected, bot_expected, name) {
@@ -65,7 +68,7 @@
         var img, base, sel, pos, width;
         var top = page.images.top;
         var bot = page.images.bottom;
-        img = "url('images/" + page.sheet + "')"; // DON'T include ';' at end of rule, fails silently! (?)
+        //img = "url('images/" + page.sheet + "')"; // DON'T include ';' at end of rule, fails silently! (?)
 
         if (page.templateId == "quiz2x2") {
             check_images(page, 3, 6); //var TOP_EXPECTED = 3, BOT_EXPECTED = 6;
@@ -94,17 +97,19 @@
         for (var i=0; i<top.length; i++) { // safer to iterate like this with arrays - but why use arrays anyway?
             sel = base + "#top" + i;
             pos = "-" + (width * top[i]) + "px 0px";
-            $(sel).css("background-image", img);
-            $(sel).css("background-position", pos);
-            console.log("sel: " + sel + ", img: " + img + ", pos: " + pos);
+            setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
+            // $(sel).css("background-image", img);
+            // $(sel).css("background-position", pos);
+            //console.log("sel: " + sel + ", img: " + img + ", pos: " + pos);
         }
 
         for (i=0; i<bot.length; i++) {
             sel = base + "#bot" + i;
             pos = "-" + (width * bot[i]) + "px 0px";
-            $(sel).css("background-image", img);
-            $(sel).css("background-position", pos);
-            console.log("sel: " + sel + ", img: " + img + ", pos: " + pos);
+            // $(sel).css("background-image", img);
+            // $(sel).css("background-position", pos);
+            setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
+            //console.log("sel: " + sel + ", img: " + img + ", pos: " + pos);
         }
     }
 
@@ -160,13 +165,12 @@
 
     function containerClick(e) {
         e.preventDefault();
-        console.log("containerClick()");
+        //console.log("containerClick()");
         console.log("current: " + current); //" page: " + obj(pages[current]));
         var pageId = $('.page').attr('id'),
-            clickedEl = $(this);
-        //console.log('containerClick(): pageId: ' + pageId); // now gets id from loaded page
-        console.log('containerClick(): clickedEl: ' + clickedEl.attr('id')); // now gets id from loaded page
-        //nextPage();
+            clickedEl = $(this),
+            elId = clickedEl.attr('id');
+        console.log('containerClick(): clickedEl: ' + elId); // now gets id from loaded page
         switch (clickedEl.attr('id')) {
         case 'prev':
             prevPage();
@@ -177,13 +181,43 @@
         case 'yes':
         case 'no':
             console.log('elid: ' + clickedEl.attr('id') + ', html: ' + clickedEl.html());
-            break;
+            break; 
         default:
             // if parent is a row or grandparent is 3x2 or 4x2 grid?
-            nextPage();
-            // else
+            var slice = elId.slice(0, 3);
+            if ("bot" == slice) { // bottom grid only
+                var num = elId[3];
+                var page = currentPage();
+                var sel, pos;
+                console.log("got num: " + num);
+                page.answer = num;
+//#missing2x2
+                if ("quiz2x2" == page.templateId) {
+                    sel = "div#quiz2x2 #missing2x2";
+                    pos = "-" + (WIDTH2X2 * page.images.top[num]) + "px 0px";
+                } else if ("quiz3x3" == page.templateId) {
+                    sel = "div#quiz3x3 #missing3x3";
+                    pos = "-" + (WIDTH3X3 * page.images.top[num]) + "px 0px";                    
+                } else {
+                    throw new Error("bad page.templateId: " + page.templateId);
+                }
+                setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
 
-            //throw new Error('got unexpected element id: ' + clickedEl.attr('id')); //+', html: ''+clickedEl.html()+''');
+                if (num == page.correct) {
+                    console.log("Correct!");
+                } else {
+                    console.log("Wrong!");
+                }
+                // missing tile now has id="missing", in both 2x2 and 3x3 grids
+                // ... but, even if not displayed at same time, both grids exist in same page
+                // so id not enough to uniquely identify
+                // so now missing2x2 and missing3x3
+                // page.templateId gives "quiz2x2" or "quiz3x3"
+                //nextPage();
+            } else {
+                var err = 'got unexpected element id: ' + clickedEl.attr('id');
+                console.log(err); //throw new Error(err);
+            }
         }
     }
 

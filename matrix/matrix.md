@@ -2,6 +2,9 @@
 
 record which one
 make images %width (top auto?)
+try ftp onto webfaction?
+sort out blog
+salts tomorrow
 
 
 ### style
