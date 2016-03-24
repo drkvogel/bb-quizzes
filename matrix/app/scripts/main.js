@@ -148,7 +148,7 @@
 
     function nextPage() {
         console.log("nextPage(): current: " + current);// + obj(currentPage());
-        if (current < numPages) {
+        if (current + 1 < numPages) {
             hidePage(currentPage());
             current += 1;
         } else {

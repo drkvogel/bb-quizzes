@@ -1,6 +1,18 @@
 # matrix
 
 record which one
+make images %width (top auto?)
+
+ajax timing messages - or record in-memory and send with results dump (serialize JSON)
+record User agent js
+
+    document.getElementById('UserAgent').value = navigator.userAgent;
+
+
+>Please add a non-JQuery alternative to the answer. So many new developers think that jQuery *is* Javascript
+
+ay has dvd of original flash games
+
 
 
 ### does js pass by reference?
