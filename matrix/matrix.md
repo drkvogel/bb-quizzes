@@ -2,11 +2,12 @@
 
 record which one
 
-Wed Mar 23 17:32:25 2016
-images seem to have been renamed to reflect intro1,2,3,getReady,ex1,ex2 etc... e.g. what is matrix_ex6.png on q108 windows copy is matrix_ex3.png in repo. don't remember doing that... actually, do, vaguely...
-but one using matrix_ex3.png is borked anyway
-Wed Mar 23 17:34:48 2016
-yes, I copied the array wrongly. fixed now.
+
+### does js pass by reference?
+
+http://stackoverflow.com/questions/13104494/does-javascript-pass-by-reference
+
+detect device: bb-quizzes/matrix/app/scripts/detect.js
 
 use bb-quizzes/matrix/app/scripts/timer.js
 
@@ -22,12 +23,10 @@ http://code.dougneiner.com/coding/using-css-classes-for-states.html
 
 >manipulating CSS in javascript can be considered poor practice. Consider add/remove/toggling classes. – Austin Aug 5 '15 at 18:06
 
-get one screen working, with clickable solution, delay and move to nexts
-
 fix css/scss
-css sprites
 compass
 Bourbon, Neat
+css sprites-
 
 bootstrap css should go in styles as sass... but how?
 put them in styles folder as .scss, deployed as css but not linked to from HTML, not concatenated into main.css
@@ -90,13 +89,7 @@ Interstitial-/
 Prev Next showPage()-/
 ay re server, ie support-
 biobank favicon, apple-touch-icon.png?
-
-### clone() or show()/hide()
-
-was thinking of using get() or load() to load the different pages in, but this involves a network wait.
-best to include all sub pages in same html page, and switch them in by changing visibility - the way the Healthy Minds snap game works - or clone().
-
-work out how to display part of css icon
+work out how to display part of css icon- background-position
 
 ### look at Snap-/
 
@@ -188,52 +181,16 @@ work out how to display part of css icon
     function unhighlight(id,colour)
     function now()
 
-### prototypes
-
-re timer object - why are funcs added to prototype instead of declared in function object? e.g. why not:
-
-    var Timer = function() {
-        ...
-        getTime = function() { ... };
-    };
-
-instead of:
-
-    var Timer = function() {
-        ...
-    };
-    Timer.prototype.getTime = function() { ... };
-
-? Because in the first instance, each time Timer is created, everything is copied including the functions, but in the second, only the stuff in the body is copied, and references to prototyped functions are pointers to the prototype. So saves memory.
+/general/dev/js/prototypes.md
 
 ### window.performance
 
->The Web Performance API allows web pages access to certain functions for measuring the performance of web pages and web applications
+/general/dev/js/performance.md
 
-    if (typeof window.performance !== 'undefined' && typeof window.performance.now !== 'undefined')
-        this.hasPerformance = true;
-    this.hasPossibleError = false;
-    this.isValid = false;
+general/dev/js/jslint/jslint.md
 
-    hmTimer.prototype.getTime = function() {
-        if (this.hasPerformance)
-            nowish = window.performance.now();  // ms.μs from performance.timing.navigationStart()
-        else
-            nowish = new Date().getTime();      // milliseconds elapsed since 1 January 1970 00:00:00 UTC
+general/dev/js/gulp/gulp.md
 
-Date.now() returns the , performance.now() returns the number of , the start of navigation of the document, to the performance.now() call. Another important difference between Date.now() and performance.now() is that the latter is monotonically increasing, so the difference between two calls will never be negative.
-
-[performance.now() vs Date.now()](http://stackoverflow.com/questions/30795525/performance-now-vs-date-now)
-
-performance.now() should only be used when you want to measure the **relative** distance between two time points, not their "absolute" position in time. plus, performance.now offers more precise timing (sub-millisecond precision).
-
-http://stackoverflow.com/questions/16808486/explanation-of-window-performance-javascript
-
----
-
-are pages/screens fixed? why the data matrices?
-or as many as you can do in 2 minutes - up to 18?
-work out how to display part of css icon
 
 ### back end
 
@@ -242,26 +199,7 @@ create Rosetta, e.g. ROSETTA *g = new ROSETTA(); in /jonathanpr/BioBankQuizGames
 
 ## done
 
-`gulp`, `gulp serve` now work again - I expect it was just that I'd messed with the comments.
-What have we learnt from all this? Don't mess with the comments!
-
-browsersync - probably - opens a browser (currently ff) to show the page on `gulp serve` - and also closes it when finished.
->Since SCSS is a CSS extension, everything that works in CSS works in SCSS.
-
-### Why does back() not work?
-
-i.e. page seems to have disappeared
-jQuery's [.html](http://api.jquery.com/html/) method **moves**, not copies innerHTML from the source element, and replaces the target innerHTML, which is lost unless explicitly saved somehow...
-
-alternative: use 
-
-    document.getElementById("div1").style.display = "none";
-    document.getElementById("div2").style.display = "inline";
-
-to switch visibility of divs
-
----
-
+get one screen working, with clickable solution, delay and move to nexts-
 copy divs, hide by default
 sticky footer https://getbootstrap.com/examples/sticky-footer/
 http://getbootstrap.com/examples/sticky-footer-navbar/
@@ -273,62 +211,6 @@ use $.get(url, data, success) to get part of html e.g.:
 
 divs for grids: 2x2 + 3x2,  3x3 + 4x2- pages.html
 
-### Not watching files: ENOSPC
-
->Error: watch /home/cbird/Projects/bb-quizzes/matrix/app/ ENOSPC
-
-reboot to clear out /tmp. No dice.
-http://unix.stackexchange.com/questions/11235/is-it-safe-to-rm-rf-tmp
-http://superuser.com/questions/499039/how-to-cleanup-tmp-folder-safely-on-linux
-
-    echo fs.inotify.max_user_watches=582222 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-
-or similar - ok, now it actually livereloads, i.e. when you change a file.
-https://discourse.roots.io/t/gulp-watch-error-on-ubuntu-14-04-solved/3453/2
-http://stackoverflow.com/questions/535768/what-is-a-reasonable-amount-of-inotify-watches-with-linux
-
----
-
-#### Undeclared '$'
-
-put
-
-    /*global $ */
-
-at start of file to tell it jquery is expected
-
-#### Unexpected expression '++' in statement position.
-
-     #7 Unexpected expression '++' in statement position.
-        current++; // Line 42, Pos 16
-
-https://jslinterrors.com/unexpected-plus-plus
->perhaps the most debated of all JSLint error messages.
-
-    /*jslint plusplus: true */  # doesn't work with sublime jslint plugin
-    myvar += 1                  # or just do this instead    
-
-### matrix -> yo test merge
-
-cos matrix was borked - probably because I removed some comments significant to yo/bower from index.html
-so started again in yo-test and copied bits over
-
-### scripts not being refreshed, 
-
-even with `gulp serve` restart:
-
-    cbird@q108-vlubuntu:~/Projects/bb-quizzes/matrix$ ll app/scripts/main.js 
-    -rw-rw-r-- 1 cbird cbird 3.9K Mar  4 12:11 app/scripts/main.js
-    cbird@q108-vlubuntu:~/Projects/bb-quizzes/matrix$ ll .tmp/scripts/main.js
-    -rw-rw-r-- 1 cbird cbird 3.8K Mar  4 12:04 .tmp/scripts/main.js
-
-because there are errors in yo script, g!
-
-### how to log from gulp?
-
-https://github.com/gulpjs/gulp-util
-
-    npm install gulp-util --save-dev
-
-    var gutil = require('gulp-util');
-    gutil.log('Hello world!');
+are pages/screens fixed? why the data matrices?
+or as many as you can do in 2 minutes - up to 18?
+work out how to display part of css icon
