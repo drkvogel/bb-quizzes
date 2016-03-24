@@ -3,52 +3,35 @@
 record which one
 make images %width (top auto?)
 
-ajax timing messages - or record in-memory and send with results dump (serialize JSON)
-record User agent js
 
-    document.getElementById('UserAgent').value = navigator.userAgent;
+### style
 
-
->Please add a non-JQuery alternative to the answer. So many new developers think that jQuery *is* Javascript
-
-ay has dvd of original flash games
-
-
-
-### does js pass by reference?
-
-http://stackoverflow.com/questions/13104494/does-javascript-pass-by-reference
-
-detect device: bb-quizzes/matrix/app/scripts/detect.js
-
-use bb-quizzes/matrix/app/scripts/timer.js
-
-delay on vbox ff btwn div show and background (tiles) change - show div should be last thing- it is!
-
-http://kangax.github.io/compat-table/es6/ awesome!
-
-bb-quizzes/notes/2016-03-21.md
+bootstrap: dev/bootstrap.md
+fix css/scss
+bootstrap css should go in styles as sass... but how?
+put them in styles folder as .scss, deployed as css but not linked to from HTML, not concatenated into main.css
 
 https://learn.jquery.com/using-jquery-core/css-styling-dimensions/
 http://stackoverflow.com/questions/3730035/how-to-change-css-using-jquery
 http://code.dougneiner.com/coding/using-css-classes-for-states.html
 
->manipulating CSS in javascript can be considered poor practice. Consider add/remove/toggling classes. – Austin Aug 5 '15 at 18:06
+### timings
 
-fix css/scss
-compass
-Bourbon, Neat
-css sprites-
-
-bootstrap css should go in styles as sass... but how?
-put them in styles folder as .scss, deployed as css but not linked to from HTML, not concatenated into main.css
-
-jslint: general/dev/js/jslint/jslint.md
+Jon re
+ajax timing messages - or record in-memory and send with results dump (serialize JSON)
+delay on vbox ff btwn div show and background (tiles) change - show div should be last thing- it is!
+use bb-quizzes/matrix/app/scripts/timer.js
 
 ## defer
 
+record User agent js: `document.getElementById('UserAgent').value = navigator.userAgent;`
+detect device: bb-quizzes/matrix/app/scripts/detect.js
+jslint: general/dev/js/jslint/jslint.md
+bb-quizzes/notes/2016-03-21.md
+ay has dvd of original flash games
 disable back button? user should not be able to have second try
-Timings - Jon
+compass, Bourbon, Neat
+css sprites-
 
 underscore.js for templates? looks like compative with IE6+
 http://stackoverflow.com/questions/10657313/jquery-underscore-js-templating-compatible-with-ie-6
@@ -61,14 +44,15 @@ JsFormat: install with package manager. right-click to use.
 
 >"brace_style": "end-expand", // [collapse|expand|end-expand|none] Put braces on the same line as control statements (default), or put braces on own line (Allman / ANSI style), or just put end braces on own line, or attempt to keep them where they are
 
-bootstrap: dev/bootstrap.md
-
 ### general
 
 Why so little progress? Borked yo/npm stuff, Occ health, (Optimor), ?, working out how to ftp with gulp, working out how to alt-tab (ctrl-tab) in vbox....
 Need to: find decent time to catch up over coming days. e.g. tomorrow night. forward!
 
 ### browser compatibility
+
+Testing re remote browser testing-
+http://kangax.github.io/compat-table/es6/ awesome!
 
 OldIE jQuery switching
 
@@ -226,3 +210,7 @@ divs for grids: 2x2 + 3x2,  3x3 + 4x2- pages.html
 are pages/screens fixed? why the data matrices?
 or as many as you can do in 2 minutes - up to 18?
 work out how to display part of css icon
+
+>manipulating CSS in javascript can be considered poor practice. Consider add/remove/toggling classes. – Austin Aug 5 '15 at 18:06
+
+>Please add a non-JQuery alternative to the answer. So many new developers think that jQuery *is* Javascript
