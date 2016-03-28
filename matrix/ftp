@@ -1,2 +1,2 @@
 #!/bin/bash
-node ftp.js
+node gulp-sftp.js
