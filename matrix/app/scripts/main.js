@@ -30,17 +30,17 @@
     }
 
     function hideDiv(id) {
-        console.log('hideDiv(): id: ' + id);
+        //console.log('hideDiv(): id: ' + id);
         document.getElementById(id).style.display = "none";
     }
 
     function showDiv(id) {
-        console.log('showDiv(): id: ' + id);
+        //console.log('showDiv(): id: ' + id);
         document.getElementById(id).style.display = "inline";
     }
 
     function hidePage(page) {
-        console.log('hidePage(): templateId: ' + page.templateId); //+ obj(page) + '\'');
+        //console.log('hidePage(): templateId: ' + page.templateId); //+ obj(page) + '\'');
         hideDiv(page.templateId);
     }
 
@@ -65,7 +65,7 @@
     }
 
     function applyStyles(page) {
-        console.log('applyStyles(): current: ' + current + ", templateId: " + page.templateId); //');// page: ' + obj(page));
+        //console.log('applyStyles(): current: ' + current + ", templateId: " + page.templateId); //');// page: ' + obj(page));
         var img, base, sel, pos, width;
         var top = page.images.top;
         var bot = page.images.bottom;
