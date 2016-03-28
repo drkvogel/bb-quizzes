@@ -1,2 +1,2 @@
 #!/bin/bash
-node gulp-sftp.js
+node gulp-ssh.js

@@ -29,17 +29,17 @@ gulp.task('exec', function () {
 gulp.task('dest', function () {
   return gulp
     .src(['./**/*.js', '!**/node_modules/**'])
-    .pipe(gulpSSH.dest('/home/iojs/test/gulp-ssh/'))
+    .pipe(gulpSSH.dest(dest)) //'/home/iojs/test/gulp-ssh/'
 })
  
 gulp.task('sftp-read', function () {
-  return gulpSSH.sftp('read', '/home/iojs/test/gulp-ssh/index.js', {filePath: 'index.js'})
+  return gulpSSH.sftp('read', dest, {filePath: 'index.js'}) //'/home/iojs/test/gulp-ssh/index.js'
     .pipe(gulp.dest('logs'))
 })
  
 gulp.task('sftp-write', function () {
   return gulp.src('index.js')
-    .pipe(gulpSSH.sftp('write', '/home/iojs/test/gulp-ssh/test.js'))
+    .pipe(gulpSSH.sftp('write', dest)) // '/home/iojs/test/gulp-ssh/test.js'
 })
  
 gulp.task('shell', function () {
