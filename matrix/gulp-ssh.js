@@ -1,4 +1,6 @@
 'use strict'
+
+// https://www.npmjs.com/package/gulp-ssh
  
 var fs = require('fs');
 var gulp = require('gulp');
@@ -14,10 +16,10 @@ var config = {
   privateKey: fs.readFileSync('/home/kvogel/.ssh/id_rsa')
 } 
  
-var gulpSSH = new GulpSSH({
-  ignoreErrors: false,
-  sshConfig: config
-})
+// var gulpSSH = new GulpSSH({
+//   ignoreErrors: false,
+//   sshConfig: config
+// })
  
 gulp.task('exec', function () {
   return gulpSSH
@@ -57,9 +59,37 @@ gulp.task('shell', function () {
 
 // use gulpSSH.dest(), not .write(), to push multiple files to a remote host
 gulp.task('sftp-push-webfaction', function () {
+  var webfaction = {
+    host: 'web456.webfaction.com',
+    port: 22,
+    username: 'drkvogel',
+    privateKey: fs.readFileSync('/home/kvogel/.ssh/id_rsa')
+  } 
+
+  var gulpSSH = new GulpSSH({
+    ignoreErrors: false,
+    sshConfig: webfaction
+  })
   return gulp
-    //.src(['./**/*.js', '!**/node_modules/**'])
-    .src(src)
+    .src(src) //.src(['./**/*.js', '!**/node_modules/**'])
+    .pipe(gulpSSH.dest(dest)) //'/home/iojs/test/gulp-ssh/'
+});
+
+gulp.task('sftp-push-xrat', function () {
+  var webfaction = {
+    host: 'xrat',
+    port: 22,
+    username: 'webman',
+    password: ''
+    //privateKey: fs.readFileSync('/home/kvogel/.ssh/id_rsa')
+  } 
+
+  var gulpSSH = new GulpSSH({
+    ignoreErrors: false,
+    sshConfig: webfaction
+  })
+  return gulp
+    .src(src) //.src(['./**/*.js', '!**/node_modules/**'])
     .pipe(gulpSSH.dest(dest)) //'/home/iojs/test/gulp-ssh/'
 });
 
