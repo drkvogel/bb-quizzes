@@ -4,7 +4,6 @@ var fs = require('fs');
 var gulp = require('gulp');
 var GulpSSH = require('gulp-ssh');
 
-//var src = __dirname + '/dist/**/*';
 var src = __dirname + '/dist/**/*';
 var dest = '/home/drkvogel/webapps/main/matrix/';
  
@@ -56,6 +55,7 @@ gulp.task('shell', function () {
 //     .pipe(gulpSSH.sftp('write', dest + "**/*")) 
 // });
 
+// use gulpSSH.dest(), not .write(), to push multiple files to a remote host
 gulp.task('sftp-push-webfaction', function () {
   return gulp
     //.src(['./**/*.js', '!**/node_modules/**'])

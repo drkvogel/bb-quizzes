@@ -1,3 +1,10 @@
+// Mon Mar 28 13:29:42 2016
+// gulp-sftp seems broken to me:
+// 1) sending __dirname + '/test/**/*' works, but sending __dirname + '/dist/**/*' doesn't - "file not found"?
+// 2) even when it works, you get "directory exists" error if it already exists - shouldn't be an error
+// 3) trying to use "auth" option to get auth info from file .ftppass - SyntaxError: Unexpected token }
+// trying gulp-ssh instead in gulp-ssh.js
+
 // cbird@q108-vlubuntu:~/Projects/bb-quizzes/yo-test$ node
 
 // vinyl-ftp - ftp only! bullshit!
@@ -25,14 +32,6 @@
 
 // er... 
 // http://www.levihackwith.com/how-to-make-gulp-copy-a-directory-and-its-contents/
-
-// Mon Mar 28 13:29:42 2016
-// gulp-sftp seems broken to me:
-// 1) sending __dirname + '/test/**/*' works, but sending __dirname + '/dist/**/*' doesn't - "file not found"?
-// 2) even when it works, you get "directory exists" error if it already exists - shouldn't be an error
-// 3) trying to use "auth" option to get auth info from file .ftppass - SyntaxError: Unexpected token }
-
-
 
 var gulp = require('gulp');
 var sftp = require('gulp-sftp');
