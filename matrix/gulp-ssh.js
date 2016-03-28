@@ -7,14 +7,6 @@ var gulp = require('gulp');
 var GulpSSH = require('gulp-ssh');
 
 var src = __dirname + '/dist/**/*';
-var dest = '/home/drkvogel/webapps/main/matrix/';
- 
-var config = {
-  host: 'web456.webfaction.com',
-  port: 22,
-  username: 'drkvogel',
-  privateKey: fs.readFileSync('/home/kvogel/.ssh/id_rsa')
-} 
  
 // var gulpSSH = new GulpSSH({
 //   ignoreErrors: false,
@@ -64,11 +56,11 @@ console.log("loaded config from: '" + configFile + "'");
 gulp.task('sftp-push-webfaction', function () {
   var gulpSSH = new GulpSSH({
     ignoreErrors: false,
-    sshConfig: config.webfaction
+    sshConfig: config.webfaction.ssh
   })
   return gulp
     .src(src) //.src(['./**/*.js', '!**/node_modules/**'])
-    .pipe(gulpSSH.dest(dest)) //'/home/iojs/test/gulp-ssh/'
+    .pipe(gulpSSH.dest(config.webfaction.dest)) //'/home/iojs/test/gulp-ssh/'
 });
 
 gulp.task('sftp-push-xrat', function () {
