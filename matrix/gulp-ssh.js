@@ -81,7 +81,7 @@ gulp.task('sftp-push-xrat', function () {
     .on('error', gutil.log);
 });
 
-
+// default
 gulp.start('sftp-push-webfaction');
 
 
