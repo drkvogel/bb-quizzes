@@ -15,6 +15,7 @@
 
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <!-- endbuild -->
     
     <!-- build:js scripts/vendor/modernizr.js -->
@@ -60,6 +61,16 @@
               <p class="lead">Welcome to the Matrix Puzzle</p>
               <p><a class="btn btn-lg btn-success" href="#">Start</a></p>
             </div>
+
+            <!-- overlay -->
+            <div id="overlay" class="page" style="display:none">
+              <p>This Is An Overlay</p>
+              <div class="buttons">
+                <div id="ok"><a id="ok" href="#">OK</a></div>
+              </div>  
+            </div>
+
+            
           </div>
 
           <!-- Intro 1 -->
@@ -232,6 +243,7 @@
     <!-- endbuild -->
     
     <!-- build:js scripts/main.js -->
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="scripts/main.js"></script>
     <!-- endbuild -->
   </body>

@@ -327,7 +327,7 @@ Timer.prototype.isValid = function() {
     }
 
     function init() {
-        current = 1; // skip home for now
+        current = 0; // skip home for now
         console.log('init(): numPages: ' + numPages + ', current: ' + current);
         showPage(currentPage());
     }
@@ -353,17 +353,21 @@ Timer.prototype.isValid = function() {
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
 
-        window.onbeforeunload=null;
-        window.history.forward();   //prevent repeat after back button - may not work.
-        window.onbeforeunload = function(e) { 
-            return "The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?"; 
-        };
+        if (LIVE) {
+            window.onbeforeunload=null;
+            window.history.forward();   //prevent repeat after back button - may not work.
+            window.onbeforeunload = function(e) { 
+                return "The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?"; 
+            };
+        }
 
         timer = new Timer();
 
         $("#button").css("display", LIVE ? "none" : "inline");
         
         getConfig();
+
+        showDiv("overlay");
     });
 }());
 
