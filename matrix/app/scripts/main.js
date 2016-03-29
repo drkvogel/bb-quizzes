@@ -5,6 +5,98 @@
 
 //var Timer = require('./timer'); // require is a node thing, unless you use requirejs
 
+// copied/adapted from Jonathan's bb-quizzes/snap/Snap_files/Timer.js
+
+var Timer = function() {
+    this.isValid = false;
+    this.startts = 0;
+    this.lapts = 0;
+    this.hasPossibleError = false;
+    this.hasPerformance = false;
+    if (typeof window.performance !== 'undefined' && typeof window.performance.now !== 'undefined')
+        this.hasPerformance = true;
+};
+
+// adding to prototype saves memory when lots of instances - referenced not copied
+Timer.prototype.getTime = function() {
+    var nowish;
+    if (this.hasPerformance)
+        nowish = window.performance.now(); // https://developers.google.com/web/updates/2012/08/When-milliseconds-are-not-enough-performance-now
+    else
+        nowish = new Date().getTime();
+    return nowish;
+};
+
+Timer.prototype.findnow = function() {
+    var nowish = 0,
+        count = 0;
+    do {
+        nowish = this.getTime();
+        var testVal = this.getTime();
+        var diff = testVal - nowish;
+        count++;
+    } while (((diff < 0) || (diff > 2)) && (count < 10))
+    if (count >= 6)
+        this.hasPossibleError = true; //keep the start val :(
+    return nowish;
+};
+
+Timer.prototype.now = function() {
+    this.startts = this.findnow();
+    this.lapts = 0;
+    this.isValid = false;
+};
+
+Timer.prototype.lap = function() {
+    if (this.startts == 0)
+        return;
+    this.lapts = this.findnow();
+    this.isValid = true;
+};
+
+Timer.prototype.getElapsed = function() {
+    if (!this.isValid || this.startts == 0 || this.lapts == 0)
+        return -1;
+
+    var diff = this.lapts - this.startts;
+    if (diff < 0)
+        this.hasPossibleError = true;
+    return Math.round(Number(diff)); //round the number in case it is preformce. (???)
+};
+
+Timer.prototype.gethasPerformance = function() {
+    return this.hasPerformance ? 1 : 0;
+};
+
+Timer.prototype.gethasPossibleError = function() {
+    return this.hasPossibleError ? 1 : 0;
+};
+
+Timer.prototype.copy = function() {
+    var copy = new Timer();
+    copy.startts = this.startts;
+    copy.lapts = this.lapts;
+    copy.hasPerformance = this.hasPerformance;
+    copy.hasPosibleError = this.hasPosibleError;
+    return copy;
+};
+
+Timer.prototype.getStart = function() {
+    return this.startts;
+};
+
+Timer.prototype.getLap = function() {
+    return this.lapts;
+};
+
+Timer.prototype.isValid = function() {
+    return this.isValid;
+};
+
+// module.exports = Timer; // module.exports is Node.js, for the server!
+
+// http://stackoverflow.com/questions/950087/include-a-javascript-file-in-another-javascript-file
+
 (function () { // Immediately-Invoked Function Expression (IIFE)
     // used to set "use strict" for whole scope so jslint doesn't complain, but then have to indent whole scope...
     "use strict";
@@ -26,37 +118,30 @@
     }
 
     function currentPage() {
-        //console.log('currentPage[' + current + ']:' + obj(pages[current]));
-        return pages[current];
+        return pages[current]; //console.log('currentPage[' + current + ']:' + obj(pages[current]));
     }
 
     function hideDiv(id) {
-        //console.log('hideDiv(): id: ' + id);
-        document.getElementById(id).style.display = "none";
+        document.getElementById(id).style.display = "none"; //console.log('hideDiv(): id: ' + id);
     }
 
     function showDiv(id) {
-        //console.log('showDiv(): id: ' + id);
-        document.getElementById(id).style.display = "inline";
+        document.getElementById(id).style.display = "inline"; //console.log('showDiv(): id: ' + id);
     }
 
     function hidePage(page) {
-        //console.log('hidePage(): templateId: ' + page.templateId); //+ obj(page) + '\'');
-        hideDiv(page.templateId);
+        hideDiv(page.templateId); //console.log('hidePage(): templateId: ' + page.templateId); //+ obj(page) + '\'');
     }
 
     // http://stackoverflow.com/questions/130396/are-there-constants-in-javascript
     var WIDTH2X2 = 210; // Width of squares in 2x2 grid is 210px // const?
     var WIDTH3X3 = 170; // Width of squares in 3x3 grid is 170px // const?
 
-    // background-image: url('images/intro1.png');
-    // background-position: -210px 0px;
-
     // js docstring?
     function setBackground(sel, sheet, pos) { // jQuery selector, sprite sheet, offset pos (px)
         var img = "url('images/" + sheet + "')"; // DON'T include ';' at end of rule, fails silently! (?)
-        $(sel).css("background-image", img);
-        $(sel).css("background-position", pos);
+        $(sel).css("background-image", img);    // e.g. background-image: url('images/intro1.png');
+        $(sel).css("background-position", pos); // e.g. background-position: -210px 0px;
     }
 
     function check_images(page, top_expected, bot_expected, name) {
@@ -114,9 +199,9 @@
         case "quiz2x2":
         case "quiz3x3":
             applyStyles(page);
-            if (page.templateId.slice(0,2) == "ex") {
+            if (page.name.slice(0,2) == "ex") {
             //if (page.templateId == "ex1") {
-                    //timer.now(); // start timer for all real exercises
+                timer.now(); // start timer for all real exercises
             }
             break;
         case "home":
@@ -194,12 +279,14 @@
 
                 if (num == page.correct) {
                     console.log("Correct!"); //console.log("Setting timeout...");
-                    // if (page.templateId.slice(0,2) == "ex") { // real exercise
-                    //     timer.lap();
-                    //     var lap = timer.getElapsed();
-                    //     showInfo("Time taken: " + lap);
-                    //     page.timeTaken = lap; // member doesn't exist yet!
-                    // }
+                    // console.log("page.templateId: " + page.name); //console.log("Setting timeout...");
+                    // console.log("slice: " + page.name.slice(0,2))
+                    if (page.name.slice(0,2) == "ex") { // real exercise
+                        timer.lap();
+                        var lap = timer.getElapsed();
+                        showInfo("Time taken: " + lap);
+                        page.timeTaken = lap; // member doesn't exist yet!
+                    }
                     setTimeout(nextPage, config.nextDelay); // function object without () otherwise called immediately
                     //nextPage();
                 } else {
@@ -270,7 +357,7 @@
             return "The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?"; 
         };
 
-        //timer = new Timer();
+        timer = new Timer();
 
         $("#button").css("display", LIVE ? "none" : "inline");
         
