@@ -277,21 +277,23 @@ Timer.prototype.isValid = function() {
                 setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
                 $(sel).css("display", "inline");
 
+                if (page.name.slice(0,2) == "ex") { // real exercise
+                    timer.lap();
+                    var lap = timer.getElapsed();
+                    showInfo("Time taken: " + lap);
+                    page.timeTaken = lap; // member doesn't exist yet!
+                }
+
                 if (num == page.correct) {
-                    console.log("Correct!"); //console.log("Setting timeout...");
-                    // console.log("page.templateId: " + page.name); //console.log("Setting timeout...");
-                    // console.log("slice: " + page.name.slice(0,2))
-                    if (page.name.slice(0,2) == "ex") { // real exercise
-                        timer.lap();
-                        var lap = timer.getElapsed();
-                        showInfo("Time taken: " + lap);
-                        page.timeTaken = lap; // member doesn't exist yet!
-                    }
-                    setTimeout(nextPage, config.nextDelay); // function object without () otherwise called immediately
-                    //nextPage();
+                    console.log("Correct!");
                 } else {
                     console.log("Wrong! correct is: " + page.correct);
+                    if (page.name.slice(0,5) == "intro") {
+                        showInfo("try again"); // TODO
+                        return;
+                    }
                 }
+                setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
 
             } else {
                 var err = 'got unexpected element id: ' + clickedEl.attr('id');
