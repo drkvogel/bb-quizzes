@@ -1,21 +1,19 @@
 // copied/adapted from Jonathan's bb-quizzes/snap/Snap_files/hmTimer.js
 
 var hmTimer = function() {
+    this.isValid = false;
     this.startts = 0;
     this.lapts = 0;
-    this.hasPerformance = false;
     this.hasPossibleError = false;
-
+    this.hasPerformance = false;
     if (typeof window.performance !== 'undefined' && typeof window.performance.now !== 'undefined')
         this.hasPerformance = true;
-    this.hasPossibleError = false;
-    this.isValid = false;
 };
 
 // adding to prototype saves memory when lots of instances - referenced not copied
 hmTimer.prototype.getTime = function() {
     if (this.hasPerformance)
-        nowish = window.performance.now();
+        nowish = window.performance.now(); // https://developers.google.com/web/updates/2012/08/When-milliseconds-are-not-enough-performance-now
     else
         nowish = new Date().getTime();
     return nowish;
@@ -30,7 +28,6 @@ hmTimer.prototype.findnow = function() {
         var diff = testVal - nowish;
         count++;
     } while (((diff < 0) || (diff > 2)) && (count < 10))
-
     if (count >= 6)
         this.hasPossibleError = true; //keep the start val :(
     return nowish;
@@ -50,36 +47,27 @@ hmTimer.prototype.lap = function() {
 };
 
 hmTimer.prototype.getElapsed = function() {
-    if (!this.isValid)
-        return -1;
-    if (this.startts == 0)
-        return -1;
-    if (this.lapts == 0)
+    if (!this.isValid || this.startts == 0 || this.lapts == 0)
         return -1;
 
     var diff = this.lapts - this.startts;
     if (diff < 0)
         this.hasPossibleError = true;
-    return Math.round(Number(diff)); //round the number in case it is preformce.
+    return Math.round(Number(diff)); //round the number in case it is preformce. (???)
 };
 
 hmTimer.prototype.gethasPerformance = function() {
-     if (this.hasPerformance)
-        return 1;
-    return 0;
+    return this.hasPerformance ? 1 : 0;
 };
 
 hmTimer.prototype.gethasPossibleError = function() {
-    if (this.hasPossibleError)
-        return 1;
-    return 0;
+    return this.hasPossibleError ? 1 : 0;
 };
 
 hmTimer.prototype.copy = function() {
     var copy = new hmTimer();
     copy.startts = this.startts;
     copy.lapts = this.lapts;
-
     copy.hasPerformance = this.hasPerformance;
     copy.hasPosibleError = this.hasPosibleError;
     return copy;
