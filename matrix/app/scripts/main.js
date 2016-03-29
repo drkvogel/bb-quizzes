@@ -1,5 +1,4 @@
 /*global $ */
-/*jslint node: true */
 /*jslint browser:true */ // define 'document'
 // /*jslint plusplus: true */ // doesn't work with sublime jslint plugin:
 
@@ -29,13 +28,14 @@ Timer.prototype.getTime = function() {
 
 Timer.prototype.findnow = function() {
     var nowish = 0,
-        count = 0;
+        count = 0, 
+        diff = 0;
     do {
         nowish = this.getTime();
         var testVal = this.getTime();
-        var diff = testVal - nowish;
+        diff = testVal - nowish;
         count++;
-    } while (((diff < 0) || (diff > 2)) && (count < 10))
+    } while (((diff < 0) || (diff > 2)) && (count < 10));
     if (count >= 6)
         this.hasPossibleError = true; //keep the start val :(
     return nowish;
@@ -48,14 +48,14 @@ Timer.prototype.now = function() {
 };
 
 Timer.prototype.lap = function() {
-    if (this.startts == 0)
+    if (this.startts === 0)
         return;
     this.lapts = this.findnow();
     this.isValid = true;
 };
 
 Timer.prototype.getElapsed = function() {
-    if (!this.isValid || this.startts == 0 || this.lapts == 0)
+    if (!this.isValid || this.startts === 0 || this.lapts === 0)
         return -1;
 
     var diff = this.lapts - this.startts;
