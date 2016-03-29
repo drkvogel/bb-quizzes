@@ -3,6 +3,8 @@
 /*jslint browser:true */ // define 'document'
 // /*jslint plusplus: true */ // doesn't work with sublime jslint plugin:
 
+//var Timer = require('./timer'); // require is a node thing, unless you use requirejs
+
 (function () { // Immediately-Invoked Function Expression (IIFE)
     // used to set "use strict" for whole scope so jslint doesn't complain, but then have to indent whole scope...
     "use strict";
@@ -10,7 +12,8 @@
     var config, 
         pages,
         numPages,
-        current;
+        current,
+        timer;
         //answers = [];
 
     // function preload() {
@@ -89,15 +92,13 @@
         for (var i=0; i<top.length; i++) { // safer to iterate like this with arrays - but why use arrays anyway?
             sel = base + "#top" + i;
             pos = "-" + (width * top[i]) + "px 0px";
-            setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
-            //console.log("sel: " + sel + ", img: " + img + ", pos: " + pos);
+            setBackground(sel, page.sheet, pos); //console.log("sel: " + sel + ", img: " + img + ", pos: " + pos);
         }
 
         for (i=0; i<bot.length; i++) {
             sel = base + "#bot" + i;
             pos = "-" + (width * bot[i]) + "px 0px";
-            setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
-            //console.log("sel: " + sel + ", img: " + img + ", pos: " + pos);
+            setBackground(sel, page.sheet, pos); //console.log("sel: " + sel + ", img: " + img + ", pos: " + pos);
         }
     }
 
@@ -113,12 +114,16 @@
         case "quiz2x2":
         case "quiz3x3":
             applyStyles(page);
+            if (page.templateId.slice(0,2) == "ex") {
+            //if (page.templateId == "ex1") {
+                    //timer.now(); // start timer for all real exercises
+            }
             break;
         case "home":
         case "getReady":
         case "abandon":
         case "thanks":
-            console.log("showPage(): '" + page.templateId + "' handled - don't apply styles");
+            //console.log("showPage(): '" + page.templateId + "' handled - don't apply styles");
             break; // don't do nuttin
         default:
             throw new Error("unrecogised id");
@@ -186,11 +191,15 @@
                 }
                 setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
                 $(sel).css("display", "inline");
-                //$("div.grid3x3 #missing3x3").css("display", "");
 
                 if (num == page.correct) {
-                    console.log("Correct!");
-                    console.log("Setting timeout...");
+                    console.log("Correct!"); //console.log("Setting timeout...");
+                    // if (page.templateId.slice(0,2) == "ex") { // real exercise
+                    //     timer.lap();
+                    //     var lap = timer.getElapsed();
+                    //     showInfo("Time taken: " + lap);
+                    //     page.timeTaken = lap; // member doesn't exist yet!
+                    // }
                     setTimeout(nextPage, config.nextDelay); // function object without () otherwise called immediately
                     //nextPage();
                 } else {
@@ -247,20 +256,24 @@
         });
     }
 
-    //$('#content-container').on('click', 'a, button, div', containerClick); // delegate events
     $('#content-container').on('click', 'a, button, div.row div', containerClick); // delegate events
-
     $('#buttons').on('click', 'a, button', navClick); // need this?
 
     var LIVE = false; // const? JSHint doesn't like it
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
+
         window.onbeforeunload=null;
         window.history.forward();   //prevent repeat after back button - may not work.
-        window.onbeforeunload=function(e){return "The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?";};
+        window.onbeforeunload = function(e) { 
+            return "The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?"; 
+        };
+
+        //timer = new Timer();
 
         $("#button").css("display", LIVE ? "none" : "inline");
+        
         getConfig();
     });
 }());

@@ -1,6 +1,6 @@
-// copied/adapted from Jonathan's bb-quizzes/snap/Snap_files/hmTimer.js
+// copied/adapted from Jonathan's bb-quizzes/snap/Snap_files/Timer.js
 
-var hmTimer = function() {
+var Timer = function() {
     this.isValid = false;
     this.startts = 0;
     this.lapts = 0;
@@ -11,7 +11,7 @@ var hmTimer = function() {
 };
 
 // adding to prototype saves memory when lots of instances - referenced not copied
-hmTimer.prototype.getTime = function() {
+Timer.prototype.getTime = function() {
     if (this.hasPerformance)
         nowish = window.performance.now(); // https://developers.google.com/web/updates/2012/08/When-milliseconds-are-not-enough-performance-now
     else
@@ -19,7 +19,7 @@ hmTimer.prototype.getTime = function() {
     return nowish;
 };
 
-hmTimer.prototype.findnow = function() {
+Timer.prototype.findnow = function() {
     var nowish = 0,
         count = 0;
     do {
@@ -33,20 +33,20 @@ hmTimer.prototype.findnow = function() {
     return nowish;
 };
 
-hmTimer.prototype.now = function() {
+Timer.prototype.now = function() {
     this.startts = this.findnow();
     this.lapts = 0;
     this.isValid = false;
 };
 
-hmTimer.prototype.lap = function() {
+Timer.prototype.lap = function() {
     if (this.startts == 0)
         return;
     this.lapts = this.findnow();
     this.isValid = true;
 };
 
-hmTimer.prototype.getElapsed = function() {
+Timer.prototype.getElapsed = function() {
     if (!this.isValid || this.startts == 0 || this.lapts == 0)
         return -1;
 
@@ -56,16 +56,16 @@ hmTimer.prototype.getElapsed = function() {
     return Math.round(Number(diff)); //round the number in case it is preformce. (???)
 };
 
-hmTimer.prototype.gethasPerformance = function() {
+Timer.prototype.gethasPerformance = function() {
     return this.hasPerformance ? 1 : 0;
 };
 
-hmTimer.prototype.gethasPossibleError = function() {
+Timer.prototype.gethasPossibleError = function() {
     return this.hasPossibleError ? 1 : 0;
 };
 
-hmTimer.prototype.copy = function() {
-    var copy = new hmTimer();
+Timer.prototype.copy = function() {
+    var copy = new Timer();
     copy.startts = this.startts;
     copy.lapts = this.lapts;
     copy.hasPerformance = this.hasPerformance;
@@ -73,14 +73,18 @@ hmTimer.prototype.copy = function() {
     return copy;
 };
 
-hmTimer.prototype.getStart = function() {
+Timer.prototype.getStart = function() {
     return this.startts;
 };
 
-hmTimer.prototype.getLap = function() {
+Timer.prototype.getLap = function() {
     return this.lapts;
 };
 
-hmTimer.prototype.isValid = function() {
+Timer.prototype.isValid = function() {
     return this.isValid;
 };
+
+// module.exports = Timer; // module.exports is Node.js, for the server!
+
+// http://stackoverflow.com/questions/950087/include-a-javascript-file-in-another-javascript-file
