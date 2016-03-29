@@ -3,8 +3,6 @@
 /*jslint browser:true */ // define 'document'
 // /*jslint plusplus: true */ // doesn't work with sublime jslint plugin:
 
-// include data.js?
-
 (function () { // Immediately-Invoked Function Expression (IIFE)
     // used to set "use strict" for whole scope so jslint doesn't complain, but then have to indent whole scope...
     "use strict";
@@ -78,9 +76,6 @@
             base = "div#quiz2x2 ";
             $("div.grid2x2 #missing2x2").css("display", "none");
         } else if (page.templateId == "quiz3x3") {
-            // if (top.length != 8) throw new Error("Expected 9 images for top grid in " + page.name);
-            // // last tile not yet chosen
-            // if (bot.length != 8) throw new Error("Expected 8 images for bottom grid in " + page.name);
             check_images(page, 8, 8); //var TOP_EXPECTED = 8, BOT_EXPECTED = 8;
             width = WIDTH3X3;
             base = "div#quiz3x3 ";
@@ -89,9 +84,7 @@
             throw new Error("templateId: '" + page.templateId + "' not expected");
         }
         
-        // Tue Mar 22 02:03:27 2016
         // could refactor the next two bits into one function (setBackground(), above)
-
         // div#quiz2x2 div.grid2x2 div.row div, div#quiz3x3 div.grid3x3 div.row div
         for (var i=0; i<top.length; i++) { // safer to iterate like this with arrays - but why use arrays anyway?
             sel = base + "#top" + i;
@@ -108,10 +101,6 @@
         }
     }
 
-            // .fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
-            //     var err = 'error setting CSS: ' + textStatus + ", errorThrown: " + errorThrown;
-            //     console.log(err);
-            // });
     function showInfo(text) {
         $("#info").html(text);
     }
@@ -267,55 +256,12 @@
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
+        window.onbeforeunload=null;
+        window.history.forward();   //prevent repeat after back button - may not work.
+        window.onbeforeunload=function(e){return "The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?";};
+
         $("#button").css("display", LIVE ? "none" : "inline");
         getConfig();
     });
 }());
 
-// >json and a javascript object are two different things, they just look the same.
-// json must have **double** quotes for key **and** value, no comments 
-
-// julian cope
-// toddla t
-
-        //console.log(data.pages);
-        //console.log(data.pages.length);
-        // for (var i=0; i<data.pages.length; i++) { // array iterate
-        //     console.log(data.pages[i].template);
-        //     console.log(data.pages[i].sheet);
-        //     console.log(JSON.stringify(data.pages[i], null, 4)); // null, 4 args tell it to indent with 4 spaces
-        // }
-/*
-pages config format
-n.b. don't put comments in actual JSON! Not allowed: http://stackoverflow.com/questions/244777/can-i-use-comments-inside-a-json-file?rq=1
-//pages = $.parseJSON(data); // not necessary, .getJSON() returns parsed JSON
-//for (var page in data) // list iterate
-            window.alert(err);
-        //data = NaN;
-
-    var obj = jQuery.parseJSON( '{ "name": "John" }' );
-    alert( obj.name === "John" );
-
-    {
-        "template": "",     // html template div to use (intro1-3, 2x2, 3x3, thanks, abandon etc)
-        "sheet": "",        // sprite sheet to use
-        "images": {         // indices into sprite sheet
-            "top": [],      // top grid, where applicable
-            "bottom": []    // bottom grid, where applicable
-        } 
-        "answer": -1,       // player's answer
-        "correct": -1       // correct answer, -1 if not applicable (non-question page)
-    },
-
-    {
-        "template": "",
-        "sheet": "",  
-        "images": {
-            "top": [],
-            "bottom": []
-        }
-        "answer": -1,
-        "correct": -1
-    },
-
-*/

@@ -1,3 +1,57 @@
+// >json and a javascript object are two different things, they just look the same.
+// json must have **double** quotes for key **and** value, no comments 
+
+        //console.log(data.pages);
+        //console.log(data.pages.length);
+        // for (var i=0; i<data.pages.length; i++) { // array iterate
+        //     console.log(data.pages[i].template);
+        //     console.log(data.pages[i].sheet);
+        //     console.log(JSON.stringify(data.pages[i], null, 4)); // null, 4 args tell it to indent with 4 spaces
+        // }
+
+// jquery fail
+// .fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
+//     var err = 'error setting CSS: ' + textStatus + ", errorThrown: " + errorThrown;
+//     console.log(err);
+// });
+
+
+/*
+pages config format
+n.b. don't put comments in actual JSON! Not allowed: http://stackoverflow.com/questions/244777/can-i-use-comments-inside-a-json-file?rq=1
+//pages = $.parseJSON(data); // not necessary, .getJSON() returns parsed JSON
+//for (var page in data) // list iterate
+            window.alert(err);
+        //data = NaN;
+
+    var obj = jQuery.parseJSON( '{ "name": "John" }' );
+    alert( obj.name === "John" );
+
+    {
+        "template": "",     // html template div to use (intro1-3, 2x2, 3x3, thanks, abandon etc)
+        "sheet": "",        // sprite sheet to use
+        "images": {         // indices into sprite sheet
+            "top": [],      // top grid, where applicable
+            "bottom": []    // bottom grid, where applicable
+        } 
+        "answer": -1,       // player's answer
+        "correct": -1       // correct answer, -1 if not applicable (non-question page)
+    },
+
+    {
+        "template": "",
+        "sheet": "",  
+        "images": {
+            "top": [],
+            "bottom": []
+        }
+        "answer": -1,
+        "correct": -1
+    },
+
+*/
+
+
         //var page = $.get('./pages/pages.html', function(data) {$('#content-container').html($(data).filter('#intro2')); });
         // var page = $.get('./pages/pages.html', function(data) {
         //  $('#content-container').html($(data).filter('#intro2')); // gets whole page and then filters, not optimal

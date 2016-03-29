@@ -11,6 +11,10 @@ $icon-font-path: '../fonts/';
   padding: 0.2em 0;
 }
 
+// .abcd {
+//   caption-side: "test";
+// }
+
 /* Space out content a bit */
 body {
   padding-top: 5px;
@@ -165,3 +169,46 @@ body {
 .container .text-muted {
   margin: 20px 0;
 }
+
+
+.row {
+  display: block;
+  margin: auto;
+}
+
+/* grids */
+div.grid2x2, div.grid3x2, div.grid3x3, div.grid4x2 {
+  padding: 10px;
+  margin: auto;
+}
+
+/* quiz2x2 top and bottom grid tiles*/
+div#quiz2x2 div.grid2x2 div.row div,
+div#quiz2x2 div.grid3x2 div.row div {
+  background-image: none;
+  background-repeat: no-repeat;
+  width: 210px;
+  height: 170px;
+  float: left;
+}
+
+/*div#quiz2x2 > div.grid3x2 > div.row > div {*/
+div#quiz2x2 > div.grid3x2 > div.row > div {
+  padding: 20px;
+}
+
+/* quiz3x3 top and bottom grid tiles */
+div#quiz3x3 div.grid3x3 div.row div,
+div#quiz3x3 div.grid4x2 div.row div {
+  background-image: none;
+  background-repeat: no-repeat;
+  width: 170px;
+  height: 135px;
+  float: left;
+}
+
+/*
+ff unique select for bottom right tile of bottom grid is:
+  .grid3x2 > div:nth-child(2) > div:nth-child(3)
+but chrome says just: #bot5
+*/
