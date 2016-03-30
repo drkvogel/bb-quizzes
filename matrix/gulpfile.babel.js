@@ -1,6 +1,6 @@
 // generated on 2016-03-07 using generator-webapp 2.0.0
 import gulp from 'gulp';
-import gulpLoadPlugins from 'gulp-load-plugins';
+import gulpLoadPlugins from 'gulp-load-plugins'; // "Loads in any gulp plugins and attaches them to the global scope, or an object of your choice."
 import browserSync from 'browser-sync';
 import del from 'del';
 import {stream as wiredep} from 'wiredep';
