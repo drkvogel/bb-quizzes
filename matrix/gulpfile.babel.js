@@ -75,6 +75,21 @@ gulp.task('images', () => {
     .pipe(gulp.dest('dist/images'));
 });
 
+var print = require('gulp-print');
+
+gulp.task('print', () => {
+  return gulp.src('app/images/**/*')
+    .pipe($.cache($.imagemin({
+      progressive: true,
+      interlaced: true,
+      // don't remove IDs from SVGs, they are often used
+      // as hooks for embedding and styling
+      svgoPlugins: [{cleanupIDs: false}]
+    })))
+    .pipe(print());
+});
+
+
 gulp.task('images-nomin', () => {
   return gulp.src('app/images/**/*')
     // .pipe($.cache($.imagemin({
