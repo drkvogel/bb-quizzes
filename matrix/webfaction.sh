@@ -2,7 +2,8 @@
 
 # pushd .
 # cd dist
-scp -rv ./dist/* drkvogel@web456.webfaction.com:/home/drkvogel/webapps/main/matrix/
+# add -v for verbose debugging
+scp -r ./dist/* drkvogel@web456.webfaction.com:/home/drkvogel/webapps/main/matrix/
 # popd
 
 
