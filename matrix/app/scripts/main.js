@@ -2,106 +2,110 @@
 /*jslint browser:true */ // define 'document'
 // /*jslint plusplus: true */ // doesn't work with sublime jslint plugin:
 
-//var Timer = require('./timer'); // require is a node thing, unless you use requirejs
-
-// copied/adapted from Jonathan's bb-quizzes/snap/Snap_files/Timer.js
-
-var Timer = function() {
-    this.isValid = false;
-    this.startts = 0;
-    this.lapts = 0;
-    this.hasPossibleError = false;
-    this.hasPerformance = false;
-    if (typeof window.performance !== 'undefined' && typeof window.performance.now !== 'undefined')
-        this.hasPerformance = true;
-};
-
-// adding to prototype saves memory when lots of instances - referenced not copied
-Timer.prototype.getTime = function() {
-    var nowish;
-    if (this.hasPerformance)
-        nowish = window.performance.now(); // https://developers.google.com/web/updates/2012/08/When-milliseconds-are-not-enough-performance-now
-    else
-        nowish = new Date().getTime();
-    return nowish;
-};
-
-Timer.prototype.findnow = function() {
-    var nowish = 0,
-        count = 0, 
-        diff = 0;
-    do {
-        nowish = this.getTime();
-        var testVal = this.getTime();
-        diff = testVal - nowish;
-        count++;
-    } while (((diff < 0) || (diff > 2)) && (count < 10));
-    if (count >= 6)
-        this.hasPossibleError = true; //keep the start val :(
-    return nowish;
-};
-
-Timer.prototype.now = function() {
-    this.startts = this.findnow();
-    this.lapts = 0;
-    this.isValid = false;
-};
-
-Timer.prototype.lap = function() {
-    if (this.startts === 0)
-        return;
-    this.lapts = this.findnow();
-    this.isValid = true;
-};
-
-Timer.prototype.getElapsed = function() {
-    if (!this.isValid || this.startts === 0 || this.lapts === 0)
-        return -1;
-
-    var diff = this.lapts - this.startts;
-    if (diff < 0)
-        this.hasPossibleError = true;
-    return Math.round(Number(diff)); //round the number in case it is preformce. (???)
-};
-
-Timer.prototype.gethasPerformance = function() {
-    return this.hasPerformance ? 1 : 0;
-};
-
-Timer.prototype.gethasPossibleError = function() {
-    return this.hasPossibleError ? 1 : 0;
-};
-
-Timer.prototype.copy = function() {
-    var copy = new Timer();
-    copy.startts = this.startts;
-    copy.lapts = this.lapts;
-    copy.hasPerformance = this.hasPerformance;
-    copy.hasPosibleError = this.hasPosibleError;
-    return copy;
-};
-
-Timer.prototype.getStart = function() {
-    return this.startts;
-};
-
-Timer.prototype.getLap = function() {
-    return this.lapts;
-};
-
-Timer.prototype.isValid = function() {
-    return this.isValid;
-};
-
-// module.exports = Timer; // module.exports is Node.js, for the server!
-
 // http://stackoverflow.com/questions/950087/include-a-javascript-file-in-another-javascript-file
-
 (function () { // Immediately-Invoked Function Expression (IIFE)
     // used to set "use strict" for whole scope so jslint doesn't complain, but then have to indent whole scope...
-    "use strict";
+    'use strict';
 
-    var config, 
+    //var Timer = require('./timer'); // require is a node thing, unless you use requirejs
+    // copied/adapted from Jonathan's bb-quizzes/snap/Snap_files/Timer.js
+
+    var Timer = function() {
+        this.isValid = false;
+        this.startts = 0;
+        this.lapts = 0;
+        this.hasPossibleError = false;
+        this.hasPerformance = false;
+        if (typeof window.performance !== 'undefined' && typeof window.performance.now !== 'undefined') {
+            this.hasPerformance = true;
+        }
+    };
+
+    // adding to prototype saves memory when lots of instances - referenced not copied
+    Timer.prototype.getTime = function() {
+        var nowish;
+        if (this.hasPerformance) {
+            nowish = window.performance.now(); // https://developers.google.com/web/updates/2012/08/When-milliseconds-are-not-enough-performance-now
+        } else {
+            nowish = new Date().getTime();
+        }
+        return nowish;
+    };
+
+    Timer.prototype.findnow = function() {
+        var nowish = 0,
+            count = 0,
+            diff = 0;
+        do {
+            nowish = this.getTime();
+            var testVal = this.getTime();
+            diff = testVal - nowish;
+            count++;
+        } while (((diff < 0) || (diff > 2)) && (count < 10));
+        if (count >= 6) {
+            this.hasPossibleError = true; //keep the start val :(
+        }
+        return nowish;
+    };
+
+    Timer.prototype.now = function() {
+        this.startts = this.findnow();
+        this.lapts = 0;
+        this.isValid = false;
+    };
+
+    Timer.prototype.lap = function() {
+        if (this.startts === 0) {
+            return;
+        }
+        this.lapts = this.findnow();
+        this.isValid = true;
+    };
+
+    Timer.prototype.getElapsed = function() {
+        if (!this.isValid || this.startts === 0 || this.lapts === 0) {
+            return -1;
+        }
+
+        var diff = this.lapts - this.startts;
+        if (diff < 0) {
+            this.hasPossibleError = true;
+        }
+        return Math.round(Number(diff)); //round the number in case it is preformce. (???)
+    };
+
+    Timer.prototype.gethasPerformance = function() {
+        return this.hasPerformance ? 1 : 0;
+    };
+
+    Timer.prototype.gethasPossibleError = function() {
+        return this.hasPossibleError ? 1 : 0;
+    };
+
+    Timer.prototype.copy = function() {
+        var copy = new Timer();
+        copy.startts = this.startts;
+        copy.lapts = this.lapts;
+        copy.hasPerformance = this.hasPerformance;
+        copy.hasPosibleError = this.hasPosibleError;
+        return copy;
+    };
+
+    Timer.prototype.getStart = function() {
+        return this.startts;
+    };
+
+    Timer.prototype.getLap = function() {
+        return this.lapts;
+    };
+
+    Timer.prototype.isValid = function() {
+        return this.isValid;
+    };
+
+    // module.exports = Timer; // module.exports is Node.js, for the server!
+
+    var config,
         pages,
         numPages,
         current,
@@ -113,20 +117,20 @@ Timer.prototype.isValid = function() {
     //     //ges[25].src = 'Snap/snap_images/Rear.GIF';
     // }
 
-    function obj(o) { // log formatted object to console
-        return JSON.stringify(o, null, 4);
-    }
+    // function obj(o) { // log formatted object to console
+    //     return JSON.stringify(o, null, 4);
+    // }
 
     function currentPage() {
         return pages[current]; //console.log('currentPage[' + current + ']:' + obj(pages[current]));
     }
 
     function hideDiv(id) {
-        document.getElementById(id).style.display = "none"; //console.log('hideDiv(): id: ' + id);
+        document.getElementById(id).style.display = 'none'; //console.log('hideDiv(): id: ' + id);
     }
 
     function showDiv(id) {
-        document.getElementById(id).style.display = "inline"; //console.log('showDiv(): id: ' + id);
+        document.getElementById(id).style.display = 'inline'; //console.log('showDiv(): id: ' + id);
     }
 
     function hidePage(page) {
@@ -139,79 +143,83 @@ Timer.prototype.isValid = function() {
 
     // js docstring?
     function setBackground(sel, sheet, pos) { // jQuery selector, sprite sheet, offset pos (px)
-        var img = "url('images/" + sheet + "')"; // DON'T include ';' at end of rule, fails silently! (?)
-        $(sel).css("background-image", img);    // e.g. background-image: url('images/intro1.png');
-        $(sel).css("background-position", pos); // e.g. background-position: -210px 0px;
+        var img = 'url("images/' + sheet + '")'; // DON'T include ';' at end of rule, fails silently! (?)
+        $(sel).css('background-image', img);    // e.g. background-image: url('images/intro1.png');
+        $(sel).css('background-position', pos); // e.g. background-position: -210px 0px;
     }
 
-    function check_images(page, top_expected, bot_expected, name) {
+    function checkImages(page, topExpected, botExpected) {
         // for top grids, last (unfilled) tile is yet to be chosen thus redundant in data
-        if (page.images.top.length      != top_expected) throw new Error("Expected " + top_expected + " images for top grid in " + page.name);
-        if (page.images.bottom.length   != bot_expected) throw new Error("Expected " + bot_expected + " images for bottom grid in " + page.name);
+        if (page.images.top.length !== topExpected) {
+            throw new Error('Expected ' + topExpected + ' images for top grid in ' + page.name);
+        }
+        if (page.images.bottom.length !== botExpected) {
+            throw new Error('Expected ' + botExpected + ' images for bottom grid in ' + page.name);
+        }
     }
 
     function applyStyles(page) {
-        //console.log('applyStyles(): current: ' + current + ", templateId: " + page.templateId); //');// page: ' + obj(page));
-        var img, base, sel, pos, width;
+        //console.log('applyStyles(): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
+        var base, sel, pos, width;
         var top = page.images.top;
         var bot = page.images.bottom;
 
         // TODO passing page object - good idea? i.e. is this a copy or a reference (or reference to a copy)?
         // saves a few lines a reuses putting checks into a function, but have to pass it page name, top, bottom
-        if (page.templateId == "quiz2x2") {
-            check_images(page, 3, 6); //var TOP_EXPECTED = 3, BOT_EXPECTED = 6;
+        if (page.templateId === 'quiz2x2') {
+            checkImages(page, 3, 6); //var TOP_EXPECTED = 3, BOT_EXPECTED = 6;
             width = WIDTH2X2;
-            base = "div#quiz2x2 ";
-            $("div.grid2x2 #missing2x2").css("display", "none");
-        } else if (page.templateId == "quiz3x3") {
-            check_images(page, 8, 8); //var TOP_EXPECTED = 8, BOT_EXPECTED = 8;
+            base = 'div#quiz2x2 ';
+            $('div.grid2x2 #missing2x2').css('display', 'none');
+        } else if (page.templateId === 'quiz3x3') {
+            checkImages(page, 8, 8); //var TOP_EXPECTED = 8, BOT_EXPECTED = 8;
             width = WIDTH3X3;
-            base = "div#quiz3x3 ";
-            $("div.grid3x3 #missing3x3").css("display", "none");
+            base = 'div#quiz3x3 ';
+            $('div.grid3x3 #missing3x3').css('display', 'none');
         } else {
-            throw new Error("templateId: '" + page.templateId + "' not expected");
-        }
-        
-        // could refactor the next two bits into one function (setBackground(), above)
-        // div#quiz2x2 div.grid2x2 div.row div, div#quiz3x3 div.grid3x3 div.row div
-        for (var i=0; i<top.length; i++) { // safer to iterate like this with arrays - but why use arrays anyway?
-            sel = base + "#top" + i;
-            pos = "-" + (width * top[i]) + "px 0px";
-            setBackground(sel, page.sheet, pos); //console.log("sel: " + sel + ", img: " + img + ", pos: " + pos);
+            throw new Error('templateId: "' + page.templateId + '" not expected');
         }
 
-        for (i=0; i<bot.length; i++) {
-            sel = base + "#bot" + i;
-            pos = "-" + (width * bot[i]) + "px 0px";
-            setBackground(sel, page.sheet, pos); //console.log("sel: " + sel + ", img: " + img + ", pos: " + pos);
+        // could refactor the next two bits into one function (setBackground(), above)
+        // div#quiz2x2 div.grid2x2 div.row div, div#quiz3x3 div.grid3x3 div.row div
+        for (var i = 0; i < top.length; i++) { // safer to iterate like this with arrays - but why use arrays anyway?
+            sel = base + '#top' + i;
+            pos = '-' + (width * top[i]) + 'px 0px';
+            setBackground(sel, page.sheet, pos); //console.log('sel: ' + sel + ', img: ' + img + ', pos: ' + pos);
+        }
+
+        for (i = 0; i < bot.length; i++) {
+            sel = base + '#bot' + i;
+            pos = '-' + (width * bot[i]) + 'px 0px';
+            setBackground(sel, page.sheet, pos); //console.log('sel: ' + sel + ', img: ' + img + ', pos: ' + pos);
         }
     }
 
     function showInfo(text) {
-        $("#info").html(text);
+        $('#info').html(text);
     }
 
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
-        console.log("showPage(" + page.name + "): current: " + current + ", templateId: " + page.templateId); //');// page: ' + obj(page));
-        var info  = current + "/" + pages.length + ": " + page.name;
+        console.log('showPage(' + page.name + '): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
+        var info = current + '/' + pages.length + ': ' + page.name;
         showInfo(info);
         switch (page.templateId) {
-        case "quiz2x2":
-        case "quiz3x3":
+        case 'quiz2x2':
+        case 'quiz3x3':
             applyStyles(page);
-            if (page.name.slice(0,2) == "ex") {
-            //if (page.templateId == "ex1") {
+            if (page.name.slice(0, 2) === 'ex') {
+            //if (page.templateId == 'ex1') {
                 timer.now(); // start timer for all real exercises
             }
             break;
-        case "home":
-        case "getReady":
-        case "abandon":
-        case "thanks":
-            //console.log("showPage(): '" + page.templateId + "' handled - don't apply styles");
+        case 'home':
+        case 'getReady':
+        case 'abandon':
+        case 'thanks':
+            //console.log('showPage(): '' + page.templateId + '' handled - don't apply styles');
             break; // don't do nuttin
         default:
-            throw new Error("unrecogised id");
+            throw new Error('unrecogised id');
         }
         showDiv((page.templateId));
     }
@@ -226,24 +234,24 @@ Timer.prototype.isValid = function() {
     }
 
     function nextPage() {
-        console.log("nextPage(): current: " + current);// + obj(currentPage());
+        console.log('nextPage(): current: ' + current);// + obj(currentPage());
         if (current + 1 < numPages) {
             hidePage(currentPage());
             current += 1;
         } else {
-            console.log("nextPage(): hit the end at current: " + current);    
+            console.log('nextPage(): hit the end at current: ' + current);
         }
-        console.log("nextPage(): current: " + current);// + obj(currentPage());
+        console.log('nextPage(): current: ' + current);// + obj(currentPage());
         showPage(currentPage());
     }
 
     function containerClick(e) {
         e.preventDefault();
         console.log(); //" page: " + obj(pages[current]));
-        var pageId = $('.page').attr('id'),
-            clickedEl = $(this),
+        var clickedEl = $(this),
             elId = clickedEl.attr('id');
-        console.log("containerClick(): current: " + current + ", clickedEl: " + elId); // now gets id from loaded page
+            //pageId = $('.page').attr('id'),
+        console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId); // now gets id from loaded page
         switch (clickedEl.attr('id')) {
         case 'prev':
             prevPage();
@@ -254,42 +262,42 @@ Timer.prototype.isValid = function() {
         case 'yes':
         case 'no':
             console.log('elid: ' + clickedEl.attr('id') + ', html: ' + clickedEl.html());
-            break; 
+            break;
         default:
             // if parent is a row or grandparent is 3x2 or 4x2 grid?
             var slice = elId.slice(0, 3);
-            if ("bot" == slice) { // bottom grid only
+            if (slice === 'bot') { // bottom grid only
                 var num = elId[3];
                 var page = currentPage();
                 var sel, pos;
-                console.log("got num: " + num);
+                console.log('got num: ' + num);
                 page.answer = num;
 
-                if ("quiz2x2" == page.templateId) {
-                    sel = "div#quiz2x2 #missing2x2";
-                    pos = "-" + (WIDTH2X2 * page.images.bottom[num]) + "px 0px";
-                } else if ("quiz3x3" == page.templateId) {
-                    sel = "div#quiz3x3 #missing3x3";
-                    pos = "-" + (WIDTH3X3 * page.images.bottom[num]) + "px 0px";                    
+                if (page.templateId === 'quiz2x2') {
+                    sel = 'div#quiz2x2 #missing2x2';
+                    pos = '-' + (WIDTH2X2 * page.images.bottom[num]) + 'px 0px';
+                } else if (page.templateId === 'quiz3x3') {
+                    sel = 'div#quiz3x3 #missing3x3';
+                    pos = '-' + (WIDTH3X3 * page.images.bottom[num]) + 'px 0px';
                 } else {
-                    throw new Error("bad page.templateId: " + page.templateId);
+                    throw new Error('bad page.templateId: ' + page.templateId);
                 }
                 setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
-                $(sel).css("display", "inline");
+                $(sel).css('display', 'inline');
 
-                if (page.name.slice(0,2) == "ex") { // real exercise
+                if (page.name.slice(0, 2) === 'ex') { // real exercise
                     timer.lap();
                     var lap = timer.getElapsed();
-                    showInfo("Time taken: " + lap);
+                    showInfo('Time taken: ' + lap);
                     page.timeTaken = lap; // member doesn't exist yet!
                 }
 
-                if (num == page.correct) {
-                    console.log("Correct!");
+                if (Number(num) === page.correct) { // http://stackoverflow.com/a/33457014/535071
+                    console.log('Correct!');
                 } else {
-                    console.log("Wrong! correct is: " + page.correct);
-                    if (page.name.slice(0,5) == "intro") {
-                        showInfo("try again"); // TODO
+                    console.log('Wrong! correct is: ' + page.correct);
+                    if (page.name.slice(0, 5) === 'intro') {
+                        showInfo('try again'); // TODO
                         return;
                     }
                 }
@@ -304,7 +312,7 @@ Timer.prototype.isValid = function() {
 
     function navClick(e) {
         e.preventDefault();
-        console.log("navClick()");
+        console.log('navClick()');
         var pageId = $('.page').attr('id'),
             clickedEl = $(this); //console.log('pageId: '+pageId); // now gets id from loaded page
         console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
@@ -340,7 +348,7 @@ Timer.prototype.isValid = function() {
             numPages = pages.length;
             init();
         }).fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
-            var err = 'error getting JSON: ' + textStatus + ", errorThrown: " + errorThrown;
+            var err = 'error getting JSON: ' + textStatus + ', errorThrown: ' + errorThrown;
             console.log(err);
         });
     }
@@ -354,20 +362,19 @@ Timer.prototype.isValid = function() {
         console.log('Document ready');
 
         if (LIVE) {
-            window.onbeforeunload=null;
+            window.onbeforeunload = null;
             window.history.forward();   //prevent repeat after back button - may not work.
-            window.onbeforeunload = function(e) { 
-                return "The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?"; 
+            window.onbeforeunload = function() {
+                return 'The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?';
             };
         }
 
         timer = new Timer();
 
-        $("#button").css("display", LIVE ? "none" : "inline");
-        
+        $('#button').css('display', LIVE ? 'none' : 'inline');
+
         getConfig();
 
-        showDiv("overlay");
+        showDiv('overlay');
     });
 }());
-
