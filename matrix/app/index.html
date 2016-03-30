@@ -52,7 +52,7 @@
 
     <!-- bootstrap modal  -->
     <!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+<!--     <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
     <div id="myModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -64,7 +64,7 @@
           <div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div>
         </div>
       </div>
-    </div>
+    </div> -->
 
 <!--             <!-- overlay ->
             <div id="overlay" class="page" style="display:none">
@@ -74,9 +74,32 @@
               </div>  
             </div>
  -->
+
     <div class="container">
       <!-- <code>content-container</code> -->
       <div id="content-container">
+
+    <style type="text/css">
+.modal {
+    xdisplay: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+    </style>
+    <div id="myModal" class="modal"> <!-- class .modal hidden in bootstrap -->
+      <div class="modal-content">
+        <span class="close">x</span>
+        <p>Some text in the Modal..</p>
+      </div>
+    </div>
+
         <div id="pages"> <!-- style="display: none"> -->
 
           <!-- home -->

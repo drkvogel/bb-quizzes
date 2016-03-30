@@ -375,6 +375,6 @@
 
         getConfig();
 
-        showDiv('overlay');
+        showDiv('myModal');
     });
 }());

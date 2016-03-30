@@ -1,12 +1,7 @@
 # matrix
 
-record which one
 make images %width (top auto?)
-try ftp onto webfaction?
-sort out blog
-salts tomorrow
 
-does js pass by reference?/home/cbird/Projects/general/dev/js/pass-by-ref.md
 
 ### style
 
@@ -28,6 +23,7 @@ use bb-quizzes/matrix/app/scripts/timer.js
 
 ## defer
 
+does js pass by reference?/home/cbird/Projects/general/dev/js/pass-by-ref.md
 record User agent js: `document.getElementById('UserAgent').value = navigator.userAgent;`
 detect device: bb-quizzes/matrix/app/scripts/detect.js
 jslint: general/dev/js/jslint/jslint.md
@@ -35,8 +31,7 @@ bb-quizzes/notes/2016-03-21.md
 ay has dvd of original flash games
 disable back button? user should not be able to have second try
 compass, Bourbon, Neat
-css sprites-
-
+sort out blog-?
 underscore.js for templates? looks like compative with IE6+
 http://stackoverflow.com/questions/10657313/jquery-underscore-js-templating-compatible-with-ie-6
 https://visionmedia.github.io/page.js/
@@ -57,7 +52,6 @@ Need to: find decent time to catch up over coming days. e.g. tomorrow night. for
 
 Testing re remote browser testing-
 http://kangax.github.io/compat-table/es6/ awesome!
-
 OldIE jQuery switching
 
         <!-- jQuery 1.9 for IE lt 9 -->
@@ -152,7 +146,6 @@ work out how to display part of css icon- background-position
     function unhighlight(id)
     function loaded() 
 
-
     # script.js
     function SelectRadio(buttonId) 
     function Script_noBackButton()
@@ -181,15 +174,14 @@ work out how to display part of css icon- background-position
     function unhighlight(id,colour)
     function now()
 
-/general/dev/js/prototypes.md
 
 ### window.performance
 
-/general/dev/js/performance.md
+general/dev/js/performance.md
 
 general/dev/js/jslint/jslint.md
-
 general/dev/js/gulp/gulp.md
+general/dev/js/prototypes.md
 
 
 ### back end
@@ -201,6 +193,9 @@ create Rosetta, e.g. ROSETTA *g = new ROSETTA(); in /jonathanpr/BioBankQuizGames
 
 get one screen working, with clickable solution, delay and move to nexts-
 copy divs, hide by default
+record which one-
+try ftp onto webfaction?-/
+salts tomorrow-?
 sticky footer https://getbootstrap.com/examples/sticky-footer/
 http://getbootstrap.com/examples/sticky-footer-navbar/
 use $.get(url, data, success) to get part of html e.g.:
@@ -214,6 +209,7 @@ divs for grids: 2x2 + 3x2,  3x3 + 4x2- pages.html
 are pages/screens fixed? why the data matrices?
 or as many as you can do in 2 minutes - up to 18?
 work out how to display part of css icon
+css sprites-
 
 >manipulating CSS in javascript can be considered poor practice. Consider add/remove/toggling classes. – Austin Aug 5 '15 at 18:06
 
