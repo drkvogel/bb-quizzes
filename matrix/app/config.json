@@ -2,6 +2,7 @@
 {
     "comment": "can't put comments in JSON!",
     "nextDelay" : 500,
+    "timeLimit" : 1200,
     "pages":[
     {
         "name": "home",
@@ -233,7 +234,7 @@
         "text": ""
     },
     {
-        "name": "finished",
+        "name": "thanks",
         "templateId": "thanks",
         "sheet": "",
         "images": {},

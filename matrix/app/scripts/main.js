@@ -125,6 +125,17 @@
         return pages[current]; //console.log('currentPage[' + current + ']:' + obj(pages[current]));
     }
 
+    function pageNamed(name) {
+        var page = pages[name];
+        console.log(pages); // pages is an array of objects
+        return;
+        if (page === undefined) {
+            throw new Error('unknown page: ' + name);
+        } else {
+            return page;
+        }
+    }
+
     function hideDiv(id) {
         document.getElementById(id).style.display = 'none'; //console.log('hideDiv(): id: ' + id);
     }
@@ -199,6 +210,19 @@
         $('#info').html(text);
     }
 
+    function showTime(text, correct) {
+        var sel = '#prevTime';
+        $(sel).css('color', correct ? 'green' : 'red'); 
+        $(sel).html(text + "ms");
+    }
+
+    function timeUp() {
+        alert("Time's up");
+        hidePage(currentPage());
+        showPage(pageNamed('thanks'));
+        console.log(JSON.stringify(config));
+    }
+
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
         console.log('showPage(' + page.name + '): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
         var info = current + '/' + pages.length + ': ' + page.name;
@@ -208,8 +232,12 @@
         case 'quiz3x3':
             applyStyles(page);
             if (page.name.slice(0, 2) === 'ex') {
-            //if (page.templateId == 'ex1') {
                 timer.now(); // start timer for all real exercises
+                if (page.name === 'ex1') {
+                    setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
+                        // TODO put in config
+                    // don't need to do anything to timer?                
+                }
             }
             break;
         case 'home':
@@ -233,15 +261,13 @@
         showPage(currentPage());
     }
 
-    function nextPage() {
-        console.log('nextPage(): current: ' + current);// + obj(currentPage());
+    function nextPage() { // console.log('nextPage(): current: ' + current);// + obj(currentPage());
         if (current + 1 < numPages) {
             hidePage(currentPage());
             current += 1;
         } else {
             console.log('nextPage(): hit the end at current: ' + current);
         }
-        console.log('nextPage(): current: ' + current);// + obj(currentPage());
         showPage(currentPage());
     }
 
@@ -268,11 +294,10 @@
             // if parent is a row or grandparent is 3x2 or 4x2 grid?
             var slice = elId.slice(0, 3);
             if (slice === 'bot') { // bottom grid only
-                var num = elId[3];
+                var num = elId[3]; // number in id following 'bot' == number of bottom tile selected
                 var page = currentPage();
                 var sel, pos;
-                console.log('got num: ' + num);
-                page.answer = num;
+                //console.log('got num: ' + num);
 
                 if (page.templateId === 'quiz2x2') {
                     sel = 'div#quiz2x2 #missing2x2';
@@ -286,14 +311,16 @@
                 setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
                 $(sel).css('display', 'inline');
 
+                page.answer = num;
+                var correct = Number(num) === page.correct;
                 if (page.name.slice(0, 2) === 'ex') { // real exercise
                     timer.lap();
                     var lap = timer.getElapsed();
-                    showInfo('Time taken: ' + lap);
+                    showTime(lap, correct);
                     page.timeTaken = lap; // member doesn't exist yet!
                 }
 
-                if (Number(num) === page.correct) { // http://stackoverflow.com/a/33457014/535071
+                if (correct) { // http://stackoverflow.com/a/33457014/535071
                     console.log('Correct!');
                 } else {
                     console.log('Wrong! correct is: ' + page.correct);
