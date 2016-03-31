@@ -257,6 +257,7 @@
             prevPage();
             break;
         case 'next':
+        case 'start':
             nextPage();
             break;
         case 'yes':
@@ -321,6 +322,7 @@
             prevPage();
             break;
         case 'next':
+        case 'start':
             nextPage();
             break;
         case 'yes':
@@ -375,6 +377,6 @@
 
         getConfig();
 
-        showDiv('myModal');
+        //showDiv('myModal');
     });
 }());
