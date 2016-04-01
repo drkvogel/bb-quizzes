@@ -11,6 +11,18 @@ const reload = browserSync.reload;
 var gutil = require('gulp-util');
 gutil.log('Hello world!');
 
+var php = require('gulp-connect-php');
+ 
+gulp.task('php', function() {
+  //gutil.log('attempting to serve php');
+  php.server({
+    base: 'app'
+  });
+  //gutil.log('attempting to serve php from' + php.options.base);
+});
+ 
+//gulp.task('default', ['connect'])
+
 gulp.task('styles', () => {
   return gulp.src('app/styles/*.scss')
     .pipe($.plumber())
