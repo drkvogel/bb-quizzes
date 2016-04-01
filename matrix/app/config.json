@@ -1,8 +1,9 @@
 
 {
     "comment": "can't put comments in JSON!",
+    "comment": "timeLimit should be 120000 == 2 minutes",
     "nextDelay" : 500,
-    "timeLimit" : 1200,
+    "timeLimit" : 120000,
     "pages":[
     {
         "name": "home",

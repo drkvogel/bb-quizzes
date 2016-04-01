@@ -274,7 +274,7 @@
 
     function containerClick(e) {
         e.preventDefault();
-        console.log(); //" page: " + obj(pages[current]));
+        //console.log(); //" page: " + obj(pages[current]));
         var clickedEl = $(this),
             elId = clickedEl.attr('id');
             //pageId = $('.page').attr('id'),
@@ -358,6 +358,9 @@
             break;
         case 'no':
             console.log('no');
+            break;
+        case 'timeUp':
+            timeUp();
             break;
         default:
             console.log('got unexpected element id: ' + clickedEl.attr('id')); //+', html: ''+clickedEl.html()+''');
