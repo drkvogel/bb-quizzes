@@ -14,7 +14,7 @@
     echo "<p>You said your name is:</p><blockquote>".$firstName."</blockquote>";
     echo "<p>And you said:</p><blockquote>$comments</blockquote>";
     echo "<p>here are the POST contents:</p>";
-    echo "<pre>".print_r($_POST)."</pre>"?>
+    echo "<pre>".print_r($_POST, true)."</pre>"?>
   <hr />
 </body>
 </html>
