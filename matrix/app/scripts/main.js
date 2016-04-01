@@ -126,14 +126,13 @@
     }
 
     function pageNamed(name) {
-        var page = pages[name];
-        console.log(pages); // pages is an array of objects
-        return;
-        if (page === undefined) {
-            throw new Error('unknown page: ' + name);
-        } else {
-            return page;
+        //for (var page in pages) { // http://stackoverflow.com/questions/500504/why-is-using-for-in-with-array-iteration-such-a-bad-idea
+        for (var i = 0; i < pages.length; i++) {
+            if (pages[i].name === name) {
+                return pages[i];
+            }
         }
+        throw new Error('unknown page: ' + name);
     }
 
     function hideDiv(id) {
@@ -219,7 +218,9 @@
     function timeUp() {
         alert("Time's up");
         hidePage(currentPage());
-        showPage(pageNamed('thanks'));
+        var page = pageNamed('thanks');
+        showPage(page);
+        //$(page.templateId).html(page.text);
         console.log(JSON.stringify(config));
     }
 
