@@ -7,6 +7,8 @@
     // used to set "use strict" for whole scope so jslint doesn't complain, but then have to indent whole scope...
     'use strict';
 
+    var LIVE = false; // const? JSHint doesn't like it
+
     //var Timer = require('./timer'); // require is a node thing, unless you use requirejs
     // copied/adapted from Jonathan's bb-quizzes/snap/Snap_files/Timer.js
 
@@ -210,17 +212,8 @@
 
     function showTime(text, correct) {
         var sel = '#prevTime';
-        $(sel).css('color', correct ? 'green' : 'red'); 
-        $(sel).html(text + "ms");
-    }
-
-    function timeUp() {
-        //alert("Time's up");
-        hidePage(currentPage());
-        var page = pageNamed('thanks');
-        showPage(page);
-        //$(page.templateId).html(page.text);
-        console.log(JSON.stringify(config));
+        $(sel).css('color', correct ? 'green' : 'red');
+        $(sel).html(text + 'ms');
     }
 
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
@@ -236,7 +229,7 @@
                 if (page.name === 'ex1') {
                     setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
                         // TODO put in config
-                    // don't need to do anything to timer?                
+                    // don't need to do anything to timer?
                 }
             }
             break;
@@ -259,6 +252,15 @@
             current -= 1;
         }
         showPage(currentPage());
+    }
+
+    function timeUp() {
+        //alert("Time's up");
+        hidePage(currentPage());
+        var page = pageNamed('thanks');
+        showPage(page);
+        //$(page.templateId).html(page.text);
+        console.log(JSON.stringify(config));
     }
 
     function nextPage() { // console.log('nextPage(): current: ' + current);// + obj(currentPage());
@@ -372,7 +374,7 @@
         //console.log('init(): pages.length: ' + pages.length + ', current: ' + current);
         $('#button').css('display', LIVE ? 'none' : 'inline');
         console.log('config.formAction: ' + config.formAction);
-        $("#feedbackForm").attr("action", config.formAction);
+        $('#feedbackForm').attr('action', config.formAction);
         showPage(currentPage());
     }
 
@@ -390,8 +392,6 @@
 
     $('#content-container').on('click', 'a, button, div.row div', containerClick); // delegate events
     $('#buttons').on('click', 'a, button', navClick); // need this?
-
-    var LIVE = false; // const? JSHint doesn't like it
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
