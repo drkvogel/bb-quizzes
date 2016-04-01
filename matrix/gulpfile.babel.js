@@ -8,21 +8,15 @@ import {stream as wiredep} from 'wiredep';
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
 
-var gutil = require('gulp-util');
-gutil.log('Hello world!');
-
+var gutil = require('gulp-util'); // gutil.log('Hello world!');
 var php = require('gulp-connect-php');
- 
+
 gulp.task('php', function() {
-  //gutil.log('attempting to serve php');
   php.server({
     base: 'app'
   });
-  //gutil.log('attempting to serve php from' + php.options.base);
 });
  
-//gulp.task('default', ['connect'])
-
 gulp.task('styles', () => {
   return gulp.src('app/styles/*.scss')
     .pipe($.plumber())
@@ -210,5 +204,9 @@ gulp.task('build-nolint', ['html', 'images', 'fonts', 'extras'], () => {
 });
 
 gulp.task('default', ['clean'], () => {
+  gulp.start('build');
+});
+
+gulp.task('run', ['php'], () => { //?
   gulp.start('build');
 });
