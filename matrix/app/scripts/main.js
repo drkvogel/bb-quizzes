@@ -107,7 +107,7 @@
 
     var config,
         pages,
-        numPages,
+        //numPages,
         current,
         timer;
         //answers = [];
@@ -216,7 +216,7 @@
     }
 
     function timeUp() {
-        alert("Time's up");
+        //alert("Time's up");
         hidePage(currentPage());
         var page = pageNamed('thanks');
         showPage(page);
@@ -263,7 +263,7 @@
     }
 
     function nextPage() { // console.log('nextPage(): current: ' + current);// + obj(currentPage());
-        if (current + 1 < numPages) {
+        if (current + 1 < pages.length) {
             hidePage(currentPage());
             current += 1;
         } else {
@@ -368,8 +368,12 @@
     }
 
     function init() {
-        current = 0; // skip home for now
-        console.log('init(): numPages: ' + numPages + ', current: ' + current);
+        timer = new Timer();
+        current = 0;
+        //console.log('init(): pages.length: ' + pages.length + ', current: ' + current);
+        $('#button').css('display', LIVE ? 'none' : 'inline');
+        console.log('config.formAction: ' + config.formAction);
+        $("#feedbackForm").attr("action", config.formAction);
         showPage(currentPage());
     }
 
@@ -377,8 +381,8 @@
         $.getJSON('./config.json', function (data) {
             console.log('getConfig(): got JSON');
             config = data;
-            pages = data.pages;         // initialise pages
-            numPages = pages.length;
+            pages = data.pages;
+            //numPages = pages.length;
             init();
         }).fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
             var err = 'error getting JSON: ' + textStatus + ', errorThrown: ' + errorThrown;
@@ -393,7 +397,6 @@
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
-
         if (LIVE) {
             window.onbeforeunload = null;
             window.history.forward();   //prevent repeat after back button - may not work.
@@ -401,13 +404,7 @@
                 return 'The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?';
             };
         }
-
-        timer = new Timer();
-
-        $('#button').css('display', LIVE ? 'none' : 'inline');
-
         getConfig();
-
         //showDiv('myModal');
     });
 }());
