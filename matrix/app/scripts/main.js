@@ -107,7 +107,6 @@
 
     var config,
         pages,
-        //numPages,
         current,
         timer;
         //answers = [];
@@ -382,7 +381,6 @@
             console.log('getConfig(): got JSON');
             config = data;
             pages = data.pages;
-            //numPages = pages.length;
             init();
         }).fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
             var err = 'error getting JSON: ' + textStatus + ', errorThrown: ' + errorThrown;
