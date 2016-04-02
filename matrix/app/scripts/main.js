@@ -375,9 +375,6 @@
         //console.log('init(): pages.length: ' + pages.length + ', current: ' + current);
         $('#button').css('display', LIVE ? 'none' : 'inline');
         var formAction = config.formAction;
-        //var loc = location + ''; // http://stackoverflow.com/questions/11083254/casting-to-string-in-javascript
-        //console.log('location: ' + loc);
-        //console.log('location.split(): ' + loc.split('://')[1]);
         var loc = location.toString().split('://')[1]; // strip off http://, https://
             // http://stackoverflow.com/questions/11083254/casting-to-string-in-javascript
         console.log('location: ' + loc);
@@ -385,10 +382,15 @@
             console.log('loc === localhost:9000/');
             formAction = 'http://localhost:8000/' + formAction; // gulp-connect-php - local PHP server
         } // else, is on same server, relative link OK
-        //formAction = 'http://' + formAction;
         console.log('formAction: ' + formAction);
         $('#feedbackForm').attr('action', formAction);
         showPage(currentPage());
+    }
+
+    function abandon() {
+        console.log('abandon');
+        // show abandon div as modal
+        showPage(pageNamed('abandon'));
     }
 
     function getConfig() {
@@ -405,6 +407,8 @@
 
     $('#content-container').on('click', 'a, button, div.row div', containerClick); // delegate events
     $('#buttons').on('click', 'a, button', navClick); // need this?
+    //$('#abandon').on('click', 'a, button', abandon); // need this?
+    $('#abandon-btn').on('click', abandon); // need this?
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
