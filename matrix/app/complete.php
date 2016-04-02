@@ -7,14 +7,18 @@
   <h3>Matrix Puzzle Complete</h3>
   <p>Thanks.</p>
 <?php 
-    $firstName = $_POST["firstname"];
+    $fullname = $_POST["fullname"];
+    $email = $_POST["email"];
     $comments = $_POST["comments"];    
     //$firstName = "test";
     //$comments = "this is a test";
-    echo "<p>You said your name is:</p><blockquote>".$firstName."</blockquote>";
-    echo "<p>And you said:</p><blockquote>$comments</blockquote>";
-    echo "<p>here are the POST contents:</p>";
-    echo "<pre>".print_r($_POST, true)."</pre>"?>
+    echo "<p>Name:</p><blockquote>$fullname</blockquote>";
+    echo "<p>Email:</p><blockquote>$email</blockquote>";
+    echo "<p>Comments:</p><blockquote>$comments</blockquote>";
+    // echo "<hr /><p>POST contents:</p>";
+    // echo "<pre>".print_r($_POST, true)."</pre>"
+    echo "\n<!-- POST contents:\n".print_r($_POST, true)."-->";
+?>
   <hr />
 </body>
 </html>

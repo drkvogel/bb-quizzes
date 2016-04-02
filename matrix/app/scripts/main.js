@@ -260,7 +260,8 @@
         var page = pageNamed('thanks');
         showPage(page);
         //$(page.templateId).html(page.text);
-        console.log(JSON.stringify(config));
+        // TODO stringify answers, send via $.ajax();
+        //console.log(JSON.stringify(config));
     }
 
     function nextPage() { // console.log('nextPage(): current: ' + current);// + obj(currentPage());
@@ -373,8 +374,20 @@
         current = 0;
         //console.log('init(): pages.length: ' + pages.length + ', current: ' + current);
         $('#button').css('display', LIVE ? 'none' : 'inline');
-        console.log('config.formAction: ' + config.formAction);
-        $('#feedbackForm').attr('action', config.formAction);
+        var formAction = config.formAction;
+        //var loc = location + ''; // http://stackoverflow.com/questions/11083254/casting-to-string-in-javascript
+        //console.log('location: ' + loc);
+        //console.log('location.split(): ' + loc.split('://')[1]);
+        var loc = location.toString().split('://')[1]; // strip off http://, https://
+            // http://stackoverflow.com/questions/11083254/casting-to-string-in-javascript
+        console.log('location: ' + loc);
+        if (loc === 'localhost:9000/') { // served from gulp
+            console.log('loc === localhost:9000/');
+            formAction = 'http://localhost:8000/' + formAction; // gulp-connect-php - local PHP server
+        } // else, is on same server, relative link OK
+        //formAction = 'http://' + formAction;
+        console.log('formAction: ' + formAction);
+        $('#feedbackForm').attr('action', formAction);
         showPage(currentPage());
     }
 
