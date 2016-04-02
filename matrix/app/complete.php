@@ -15,9 +15,11 @@
     echo "<p>Name:</p><blockquote>$fullname</blockquote>";
     echo "<p>Email:</p><blockquote>$email</blockquote>";
     echo "<p>Comments:</p><blockquote>$comments</blockquote>";
-    // echo "<hr /><p>POST contents:</p>";
-    // echo "<pre>".print_r($_POST, true)."</pre>"
-    echo "\n<!-- POST contents:\n".print_r($_POST, true)."-->";
+
+    $feedback = print_r($_POST, true);
+    echo "\n<!-- POST contents:\n$feedback-->";
+
+    file_put_contents("comments.txt", $feedback, FILE_APPEND);
 ?>
   <hr />
 </body>
