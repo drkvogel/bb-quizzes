@@ -335,35 +335,32 @@
                 var num = elId[3]; // number in id following 'bot' == number of bottom tile selected
                 answered(num);
             }
-            // } else {
-            //     var err = 'got unexpected element id: ' + clickedEl.attr('id');
-            //     console.log(err); //throw new Error(err);
-            // }
         }
     }
 
     function showModal(modal) {
         console.log('showModal(\'' + modal + '\')');
-        showDiv('myModal');
+        showDiv('modals');
         showDiv(modal);
     }
 
-    // function incorrect() {
-    //     showModal('tryagain-modal');
-    //     // console.log('abandon');
-    //     // showDiv('myModal');
-    //     // showDiv('tryagain-modal');
-    // }
+    //function 
 
     function timeUp() {
-        alert("Time's up!");
-        // TODO or show modal, looks better
+        //alert("Time's up!");
+        // show modal, looks better
+        showModal('timeup-modal');
         hidePage(currentPage());
         var page = pageNamed('thanks');
         showPage(page);
-        //$(page.templateId).html(page.text);
-        // TODO stringify answers, send via $.ajax();
-        console.log(JSON.stringify(answers));
+        console.log('answers: ' + JSON.stringify(answers));
+        // TODO send via $.ajax();
+    }
+
+    function abandon() {
+        console.log('abandon');
+        showDiv('modals');
+        showDiv('abandon-modal');
     }
 
     function navClick(e) {
@@ -389,12 +386,6 @@
         }
     }
 
-    function abandon() {
-        console.log('abandon');
-        showDiv('myModal');
-        showDiv('abandon-modal');
-    }
-
     function modalClick(e) { // TODO merge into navClick or something
         e.preventDefault();
         console.log('navClick()');
@@ -404,20 +395,25 @@
         switch (clickedEl.attr('id')) {
         case 'abandon-yes':
             console.log('yes');
-            hideDiv('myModal');
+            hideDiv('modals');
             hideDiv('abandon-modal');
             hidePage(currentPage());
             showPage(pageNamed('thanks'));
             break;
         case 'abandon-no':
             console.log('no');
-            hideDiv('myModal');
+            hideDiv('modals');
             hideDiv('abandon-modal');
             break;
         case 'tryagain-ok':
             console.log('tryagain-ok');
-            hideDiv('myModal');
+            hideDiv('modals');
             hideDiv('tryagain-modal');
+            break;
+        case 'timeup-ok':
+            console.log('timeup-ok');
+            hideDiv('modals');
+            hideDiv('timeup-modal');
             break;
         default:
             console.log('got unexpected element id: ' + clickedEl.attr('id')); //+', html: ''+clickedEl.html()+''');
@@ -456,7 +452,7 @@
     $('#content-container').on('click', 'a, button, div.row div', containerClick); // delegate events
     $('#buttons').on('click', 'a, button', navClick); // need this?
     $('#abandon-btn').on('click', abandon); // need this?
-    $('#myModal').on('click', 'button', modalClick);
+    $('#modals').on('click', 'button', modalClick);
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
