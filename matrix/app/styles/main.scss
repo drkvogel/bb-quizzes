@@ -138,47 +138,18 @@ code {
   font-size: 80%;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
-}
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
-}
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  background-color: #f5f5f5;
-}
-
-
-/* Custom page CSS
--------------------------------------------------- */
-/* Not required for template or sticky footer method. */
-
 .container {
   width: auto;
   //max-width: 680px;
+  //max-width: 1400px;
+  //padding-top: 5px;
   padding: 0 15px;
 }
-.container .text-muted {
-  margin: 20px 0;
-}
 
-// .container {
-//   max-width: 1400px;
-//   padding-top: 5px;
-// }
-// #pages {
-//   width: 70%;
-//   margin: auto;
-// }
+#pages {
+  width: 90%;
+  margin: auto;
+}
 
 .row {
   display: block;
@@ -247,8 +218,24 @@ but chrome says just: #bot5
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 .my-modal-content {
-  background-color: white;
-  height: 50%;
-  width: 50%;
-  margin: auto;
+    background-color: white;
+    height: 50%;
+    width: 50%;
+    margin: auto;
+}
+
+.my-modal-content {
+    width: 400px;
+    height: 200px;
+    line-height: 20px;
+    position: fixed;
+    top: 50%; 
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -150px;
+    //background-color: #f1c40f;
+    background-color: white;
+    border-radius: 5px;
+    text-align: center;
+    z-index: 11; /* 1px higher than the overlay layer */
 }

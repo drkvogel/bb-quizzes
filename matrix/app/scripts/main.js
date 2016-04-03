@@ -294,7 +294,7 @@
         var timeTaken;
         if (page.name.slice(0, 2) === 'ex') { // real exercise
             timer.lap();
-            timeTaken= timer.getElapsed();
+            timeTaken = timer.getElapsed();
             showTime(timeTaken, correct);
 
             var answer = {
@@ -302,7 +302,7 @@
                 answer: num,
                 correct: correct,
                 time: timeTaken
-            }
+            };
             answers.push(answer);
         } else if (page.name.slice(0, 5) === 'intro') {
             if (!correct) {
@@ -429,9 +429,9 @@
     function init() {
         timer = new Timer();
         current = 0;
-        
+
         $('#button').css('display', LIVE ? 'none' : 'inline');
-        
+
         var formAction = config.formAction;
         var loc = location.toString().split('://')[1]; // strip off http://, https://
         if (loc === 'localhost:9000/') { // served from gulp
