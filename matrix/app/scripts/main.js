@@ -273,22 +273,40 @@
         showPage(currentPage());
     }
 
-    function answered(num) {
-        var page = currentPage();
-        var sel, pos;
-        //console.log('got num: ' + num);
+    function tileSelector(page) {
+        return page.templateId === 'quiz2x2' ? 'div#quiz2x2 #missing2x2' : 'div#quiz3x3 #missing3x3';
+    }
 
-        if (page.templateId === 'quiz2x2') {
-            sel = 'div#quiz2x2 #missing2x2';
-            pos = '-' + (WIDTH2X2 * page.images.bottom[num]) + 'px 0px';
-        } else if (page.templateId === 'quiz3x3') {
-            sel = 'div#quiz3x3 #missing3x3';
-            pos = '-' + (WIDTH3X3 * page.images.bottom[num]) + 'px 0px';
-        } else {
+    function tileWidth(page) {
+        switch(page.templateId) {
+        case 'quiz2x2':
+            return WIDTH2X2;
+            break;
+        case 'quiz3x3':
+            return WIDTH3X3;
+            break;
+        default:
             throw new Error('bad page.templateId: ' + page.templateId);
         }
+    }
+
+    function clearTile() {
+        $(tileSelector(currentPage())).css('display', 'none');
+    }
+
+    function fillTile(page, num) {
+        var sel, pos;
+        pos = '-' + (tileWidth(page) * page.images.bottom[num]) + 'px 0px';
+        sel = tileSelector(page);
         setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
-        $(sel).css('display', 'inline');
+        $(sel).css('display', 'inline');        
+    }
+
+    function answered(num) {
+        //console.log('got num: ' + num);
+        var page = currentPage();
+
+        fillTile(page, num);
 
         var correct = Number(num) === page.correct;
         var timeTaken;
@@ -416,6 +434,7 @@
             hideModal('abandon-modal');
             break;
         case 'tryagain-ok':
+            clearTile();
             hideModal('tryagain-modal');
             break;
         case 'timeup-ok':
