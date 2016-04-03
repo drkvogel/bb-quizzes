@@ -110,7 +110,8 @@
     var config,
         pages,
         current,
-        timer;
+        timer,
+        timeUpTimeout;
         //answers = [];
 
     // function preload() {
@@ -227,7 +228,7 @@
             if (page.name.slice(0, 2) === 'ex') {
                 timer.now(); // start timer for all real exercises
                 if (page.name === 'ex1') {
-                    setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
+                    timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
                 }
             }
             break;
@@ -373,6 +374,7 @@
         //     console.log('no');
         //     break;
         case 'timeUp':
+            clearTimeout(timeUpTimeout);
             timeUp();
             break;
         default:
