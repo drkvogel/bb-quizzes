@@ -12,7 +12,6 @@
         "sheet": "",
         "images": {
         },
-        "answer": -1,
         "correct": -1,
         "next": "intro1"
     },
@@ -24,7 +23,6 @@
             "top": [4, 4, 4],
             "bottom": [0, 1, 2, 3, 4, 5]
         },
-        "answer": -1,
         "correct": 4,
         "text": "Here is a design which is missing a piece on the lower right hand corner. At the bottom are shown six pieces which would fit the missing corner. Your task is the touch the piece which best completes the design at the top."
     },
@@ -36,7 +34,6 @@
             "top": [4, 4, 4],
             "bottom": [0, 1, 2, 3, 4, 5]
         },
-        "answer": -1,
         "correct": 4,
         "text": "Here is another practice puzzle. Touch the piece which best completes the design."
     },
@@ -48,7 +45,6 @@
             "top": [8, 9, 10, 0, 1, 2, 4, 5],
             "bottom": [7, 1, 3, 12, 8, 6, 9, 13]
         },
-        "answer": -1,
         "correct": 5,
         "text": "This is the last practice puzzle. Again, touch the piece which best completes the design."
     },
@@ -57,7 +53,6 @@
         "templateId": "getReady",
         "sheet": "",
         "images": {},
-        "answer": -1,
         "correct": -1,
         "text": "<p>You will have 2 minutes to do as many puzzles as you can.</p><p>Touch Next when you are ready to begin.</p>"
     },
@@ -69,7 +64,6 @@
             "top": [1, 1, 1, 2, 2, 2, 3, 3],
             "bottom": [0, 1, 2, 3, 4, 5, 6, 7]
         },
-        "answer": -1,
         "correct": 3
     },
     {
@@ -80,7 +74,6 @@
             "top": [6, 7, 5],
             "bottom": [0, 1, 2, 5, 3, 4]
         },
-        "answer": -1,
         "correct": 2
     },
     {
@@ -91,7 +84,6 @@
             "top": [0, 1, 2],
             "bottom": [2, 1, 5, 3, 4, 6]
         },
-        "answer": -1,
         "correct": 5
     },
     {
@@ -102,7 +94,6 @@
             "top": [0, 1, 2],
             "bottom": [3, 4, 5, 6, 7, 8]
         },
-        "answer": -1,
         "correct": 0
     },
     {
@@ -113,7 +104,6 @@
             "top": [4, 2, 0],
             "bottom": [0, 1, 2, 3, 4, 5]
         },
-        "answer": -1,
         "correct": 3
     },
     {
@@ -124,7 +114,6 @@
             "top": [0, 1, 2, 3, 4, 5, 6, 7],
             "bottom": [2, 1, 8, 9, 10, 11, 12, 13]
         },
-        "answer": -1,
         "correct": 5
     },
     {
@@ -135,7 +124,6 @@
             "top": [0, 1, 2, 3, 4, 5, 6, 7],
             "bottom": [8, 9, 10, 11, 12, 13, 14, 15]
         },
-        "answer": -1,
         "correct": 0
     },
     {
@@ -146,7 +134,6 @@
             "top": [0, 1, 2, 3, 4, 5, 6, 7],
             "bottom": [6, 8, 2, 0, 9, 10, 11, 4]
         },
-        "answer": -1,
         "correct": 5
     },
     {
@@ -157,7 +144,6 @@
             "top": [0, 1, 2, 3, 4, 5, 6, 7],
             "bottom": [8, 9, 10, 11, 12, 13, 14, 15]
         },
-        "answer": -1,
         "correct": 3
     },
     {
@@ -168,7 +154,6 @@
             "top": [0, 1, 2, 3, 4, 5, 6, 7],
             "bottom": [8, 9, 10, 11, 12, 13, 14, 15]
         },
-        "answer": -1,
         "correct": 0
     },
     {
@@ -179,7 +164,6 @@
             "top": [0, 1, 2, 3, 4, 5, 6, 7],
             "bottom": [8, 9, 10, 11, 12, 13, 14, 15]
         },
-        "answer": -1,
         "correct": 7
     },
     {
@@ -190,7 +174,6 @@
             "top": [0, 1, 2, 3, 4, 5, 6, 7],
             "bottom": [8, 9, 10, 11, 12, 13, 14, 15]
         },
-        "answer": -1,
         "correct": 1
     },
     {
@@ -201,7 +184,6 @@
             "top": [0, 1, 2, 3, 4, 5, 6, 7],
             "bottom": [8, 9, 10, 11, 12, 13, 14, 15]
         },
-        "answer": -1,
         "correct": 4
     },
     {
@@ -212,7 +194,6 @@
             "top": [8, 9, 10, 11, 12, 13, 14, 15],
             "bottom": [0, 1, 2, 3, 4, 5, 6, 7]
         },
-        "answer": -1,
         "correct": 2
     },
     {
@@ -223,7 +204,6 @@
             "top": [0, 1, 2, 3, 4, 5, 6, 7],
             "bottom": [8, 9, 10, 11, 12, 13, 14, 15]
         },
-        "answer": -1,
         "correct": 6
     },
     {
@@ -231,7 +211,6 @@
         "templateId": "thanks",
         "sheet": "",
         "images": {},
-        "answer": -1,
         "correct": -1,
         "text": "<p>Thanks for doing the test.</p><p>Please leave comments.</p>"
     },
@@ -240,7 +219,6 @@
         "templateId": "abandon",
         "sheet": "",
         "images": {},
-        "answer": -1,
         "correct": -1,
         "text": "<p>Please check! You have not yet completed the task.</p><p>Are you certain you wish to abandon this game?</p><p>You will not be able to attempt it again.</p>"
     }

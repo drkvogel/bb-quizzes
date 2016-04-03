@@ -104,15 +104,16 @@
     Timer.prototype.isValid = function() {
         return this.isValid;
     };
-
     // module.exports = Timer; // module.exports is Node.js, for the server!
+
+
 
     var config,
         pages,
         current,
         timer,
-        timeUpTimeout;
-        //answers = [];
+        timeUpTimeout,
+        answers = [];
 
     // function preload() {
     //     //images[25] = new Image();
@@ -262,9 +263,56 @@
         showPage(currentPage());
     }
 
+    function answered(num) {
+        var page = currentPage();
+        var sel, pos;
+        //console.log('got num: ' + num);
+
+        if (page.templateId === 'quiz2x2') {
+            sel = 'div#quiz2x2 #missing2x2';
+            pos = '-' + (WIDTH2X2 * page.images.bottom[num]) + 'px 0px';
+        } else if (page.templateId === 'quiz3x3') {
+            sel = 'div#quiz3x3 #missing3x3';
+            pos = '-' + (WIDTH3X3 * page.images.bottom[num]) + 'px 0px';
+        } else {
+            throw new Error('bad page.templateId: ' + page.templateId);
+        }
+        setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
+        $(sel).css('display', 'inline');
+
+        var correct = Number(num) === page.correct;
+        var timeTaken;
+        if (page.name.slice(0, 2) === 'ex') { // real exercise
+            timer.lap();
+            timeTaken= timer.getElapsed();
+            showTime(timeTaken, correct);
+
+            var answer = {
+                page: page.name,
+                answer: num,
+                correct: correct,
+                time: timeTaken
+            }
+            answers.push(answer);
+        } else if (page.name.slice(0, 5) === 'intro') {
+            if (!correct) {
+                showInfo('try again'); // TODO
+                showModal('tryagain-modal');
+                return;
+            }
+        }
+
+        if (correct) { // http://stackoverflow.com/a/33457014/535071
+            console.log('Correct!');
+        } else {
+            console.log('Wrong! correct is: ' + page.correct);
+        }
+
+        setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
+    }
+
     function containerClick(e) {
         e.preventDefault();
-        //console.log(); //" page: " + obj(pages[current]));
         var clickedEl = $(this),
             elId = clickedEl.attr('id');
         console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId); // now gets id from loaded page
@@ -285,47 +333,12 @@
             var slice = elId.slice(0, 3);
             if (slice === 'bot') { // bottom grid only
                 var num = elId[3]; // number in id following 'bot' == number of bottom tile selected
-                var page = currentPage();
-                var sel, pos;
-                //console.log('got num: ' + num);
-
-                if (page.templateId === 'quiz2x2') {
-                    sel = 'div#quiz2x2 #missing2x2';
-                    pos = '-' + (WIDTH2X2 * page.images.bottom[num]) + 'px 0px';
-                } else if (page.templateId === 'quiz3x3') {
-                    sel = 'div#quiz3x3 #missing3x3';
-                    pos = '-' + (WIDTH3X3 * page.images.bottom[num]) + 'px 0px';
-                } else {
-                    throw new Error('bad page.templateId: ' + page.templateId);
-                }
-                setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
-                $(sel).css('display', 'inline');
-
-                page.answer = num;
-                var correct = Number(num) === page.correct;
-                if (page.name.slice(0, 2) === 'ex') { // real exercise
-                    timer.lap();
-                    var lap = timer.getElapsed();
-                    showTime(lap, correct);
-                    page.timeTaken = lap; // member doesn't exist yet!
-                }
-
-                if (correct) { // http://stackoverflow.com/a/33457014/535071
-                    console.log('Correct!');
-                } else {
-                    console.log('Wrong! correct is: ' + page.correct);
-                    if (page.name.slice(0, 5) === 'intro') {
-                        showInfo('try again'); // TODO
-                        showModal('tryagain-modal');
-                        return;
-                    }
-                }
-                setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
-
-            } else {
-                var err = 'got unexpected element id: ' + clickedEl.attr('id');
-                console.log(err); //throw new Error(err);
+                answered(num);
             }
+            // } else {
+            //     var err = 'got unexpected element id: ' + clickedEl.attr('id');
+            //     console.log(err); //throw new Error(err);
+            // }
         }
     }
 
@@ -350,7 +363,7 @@
         showPage(page);
         //$(page.templateId).html(page.text);
         // TODO stringify answers, send via $.ajax();
-        //console.log(JSON.stringify(config));
+        console.log(JSON.stringify(answers));
     }
 
     function navClick(e) {
@@ -367,12 +380,6 @@
         case 'start':
             nextPage();
             break;
-        // case 'yes':
-        //     console.log('yes');
-        //     break;
-        // case 'no':
-        //     console.log('no');
-        //     break;
         case 'timeUp':
             clearTimeout(timeUpTimeout);
             timeUp();
