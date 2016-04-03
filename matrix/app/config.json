@@ -13,11 +13,13 @@
         "images": {
         },
         "correct": -1,
-        "next": "intro1"
+        "next": "intro1",
+        "suppressAbandon": true
     },
     {
         "name": "intro1",
         "templateId": "quiz2x2",
+        "suppressAbandon": true,
         "sheet": "intro1.png",
         "images": {
             "top": [4, 4, 4],
@@ -29,6 +31,7 @@
     {
         "name": "intro2",
         "templateId": "quiz2x2",
+        "suppressAbandon": true,
         "sheet": "intro2.png",
         "images": {
             "top": [4, 4, 4],
@@ -40,6 +43,7 @@
     {
         "name": "intro3",
         "templateId": "quiz3x3",
+        "suppressAbandon": true,
         "sheet": "intro3.png",
         "images": {
             "top": [8, 9, 10, 0, 1, 2, 4, 5],
@@ -51,6 +55,7 @@
     {
         "name": "getReady",
         "templateId": "getReady",
+        "suppressAbandon": true,
         "sheet": "",
         "images": {},
         "correct": -1,
@@ -209,17 +214,10 @@
     {
         "name": "thanks",
         "templateId": "thanks",
+        "suppressAbandon": true,
         "sheet": "",
         "images": {},
         "correct": -1,
         "text": "<p>Thanks for doing the test.</p><p>Please leave comments.</p>"
-    },
-    {
-        "name": "abandon",
-        "templateId": "abandon",
-        "sheet": "",
-        "images": {},
-        "correct": -1,
-        "text": "<p>Please check! You have not yet completed the task.</p><p>Are you certain you wish to abandon this game?</p><p>You will not be able to attempt it again.</p>"
     }
 ]}

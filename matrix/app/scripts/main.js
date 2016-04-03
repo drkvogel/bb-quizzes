@@ -236,11 +236,21 @@
         case 'home':
         case 'getReady':
         case 'abandon':
-        case 'thanks':
             break; // don't do nuttin
+        case 'thanks':
+            finished();
+            break;
         default:
             throw new Error('unrecogised id');
         }
+
+        if (page.hasOwnProperty('suppressAbandon')) {
+            //console.log('page.hasOwnProperty(\'suppressAbandon\')');
+            hideDiv('abandon-div');
+        } else {
+            showDiv('abandon-div');
+        }
+
         showDiv((page.templateId));
     }
 
@@ -344,23 +354,26 @@
         showDiv(modal);
     }
 
-    //function 
+    function hideModal(modal) {
+        console.log('hideModal(\'' + modal + '\')');
+        hideDiv('modals');
+        hideDiv(modal);
+    }
 
-    function timeUp() {
-        //alert("Time's up!");
-        // show modal, looks better
-        showModal('timeup-modal');
-        hidePage(currentPage());
-        var page = pageNamed('thanks');
-        showPage(page);
+    function finished() {
         console.log('answers: ' + JSON.stringify(answers));
         // TODO send via $.ajax();
     }
 
-    function abandon() {
+    function timeUp() {
+        showModal('timeup-modal'); //alert("Time's up!");
+        hidePage(currentPage());
+        showPage(pageNamed('thanks'));
+    }
+
+    function abandonClick() {
         console.log('abandon');
-        showDiv('modals');
-        showDiv('abandon-modal');
+        showModal('abandon-modal');
     }
 
     function navClick(e) {
@@ -394,26 +407,18 @@
         console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
         switch (clickedEl.attr('id')) {
         case 'abandon-yes':
-            console.log('yes');
-            hideDiv('modals');
-            hideDiv('abandon-modal');
+            hideModal('abandon-modal');
             hidePage(currentPage());
             showPage(pageNamed('thanks'));
             break;
         case 'abandon-no':
-            console.log('no');
-            hideDiv('modals');
-            hideDiv('abandon-modal');
+            hideModal('abandon-modal');
             break;
         case 'tryagain-ok':
-            console.log('tryagain-ok');
-            hideDiv('modals');
-            hideDiv('tryagain-modal');
+            hideModal('tryagain-modal');
             break;
         case 'timeup-ok':
-            console.log('timeup-ok');
-            hideDiv('modals');
-            hideDiv('timeup-modal');
+            hideModal('timeup-modal');
             break;
         default:
             console.log('got unexpected element id: ' + clickedEl.attr('id')); //+', html: ''+clickedEl.html()+''');
@@ -451,7 +456,7 @@
 
     $('#content-container').on('click', 'a, button, div.row div', containerClick); // delegate events
     $('#buttons').on('click', 'a, button', navClick); // need this?
-    $('#abandon-btn').on('click', abandon); // need this?
+    $('#abandon-btn').on('click', abandonClick); // need this?
     $('#modals').on('click', 'button', modalClick);
 
     $().ready(function () { //$(document).ready(
