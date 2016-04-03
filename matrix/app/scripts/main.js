@@ -228,8 +228,6 @@
                 timer.now(); // start timer for all real exercises
                 if (page.name === 'ex1') {
                     setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
-                        // TODO put in config
-                    // don't need to do anything to timer?
                 }
             }
             break;
@@ -237,7 +235,6 @@
         case 'getReady':
         case 'abandon':
         case 'thanks':
-            //console.log('showPage(): '' + page.templateId + '' handled - don't apply styles');
             break; // don't do nuttin
         default:
             throw new Error('unrecogised id');
@@ -252,16 +249,6 @@
             current -= 1;
         }
         showPage(currentPage());
-    }
-
-    function timeUp() {
-        //alert("Time's up");
-        hidePage(currentPage());
-        var page = pageNamed('thanks');
-        showPage(page);
-        //$(page.templateId).html(page.text);
-        // TODO stringify answers, send via $.ajax();
-        //console.log(JSON.stringify(config));
     }
 
     function nextPage() { // console.log('nextPage(): current: ' + current);// + obj(currentPage());
@@ -279,7 +266,6 @@
         //console.log(); //" page: " + obj(pages[current]));
         var clickedEl = $(this),
             elId = clickedEl.attr('id');
-            //pageId = $('.page').attr('id'),
         console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId); // now gets id from loaded page
         switch (clickedEl.attr('id')) {
         case 'prev':
@@ -329,6 +315,7 @@
                     console.log('Wrong! correct is: ' + page.correct);
                     if (page.name.slice(0, 5) === 'intro') {
                         showInfo('try again'); // TODO
+                        showModal('tryagain-modal');
                         return;
                     }
                 }
@@ -339,6 +326,30 @@
                 console.log(err); //throw new Error(err);
             }
         }
+    }
+
+    function showModal(modal) {
+        console.log('showModal(\'' + modal + '\')');
+        showDiv('myModal');
+        showDiv(modal);
+    }
+
+    // function incorrect() {
+    //     showModal('tryagain-modal');
+    //     // console.log('abandon');
+    //     // showDiv('myModal');
+    //     // showDiv('tryagain-modal');
+    // }
+
+    function timeUp() {
+        alert("Time's up!");
+        // TODO or show modal, looks better
+        hidePage(currentPage());
+        var page = pageNamed('thanks');
+        showPage(page);
+        //$(page.templateId).html(page.text);
+        // TODO stringify answers, send via $.ajax();
+        //console.log(JSON.stringify(config));
     }
 
     function navClick(e) {
@@ -355,12 +366,12 @@
         case 'start':
             nextPage();
             break;
-        case 'yes':
-            console.log('yes');
-            break;
-        case 'no':
-            console.log('no');
-            break;
+        // case 'yes':
+        //     console.log('yes');
+        //     break;
+        // case 'no':
+        //     console.log('no');
+        //     break;
         case 'timeUp':
             timeUp();
             break;
@@ -369,32 +380,10 @@
         }
     }
 
-    function init() {
-        timer = new Timer();
-        current = 0;
-        //console.log('init(): pages.length: ' + pages.length + ', current: ' + current);
-        $('#button').css('display', LIVE ? 'none' : 'inline');
-        var formAction = config.formAction;
-        var loc = location.toString().split('://')[1]; // strip off http://, https://
-            // http://stackoverflow.com/questions/11083254/casting-to-string-in-javascript
-        console.log('location: ' + loc);
-        if (loc === 'localhost:9000/') { // served from gulp
-            console.log('loc === localhost:9000/');
-            formAction = 'http://localhost:8000/' + formAction; // gulp-connect-php - local PHP server
-        } // else, is on same server, relative link OK
-        console.log('formAction: ' + formAction);
-        $('#feedbackForm').attr('action', formAction);
-        showPage(currentPage());
-    }
-
     function abandon() {
         console.log('abandon');
-        // show abandon div as modal
-        //hideDiv()
         showDiv('myModal');
         showDiv('abandon-modal');
-        // hidePage(currentPage());
-        // showPage(pageNamed('abandon'));
     }
 
     function modalClick(e) { // TODO merge into navClick or something
@@ -404,22 +393,43 @@
             clickedEl = $(this); //console.log('pageId: '+pageId); // now gets id from loaded page
         console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
         switch (clickedEl.attr('id')) {
-        case 'yes':
+        case 'abandon-yes':
             console.log('yes');
             hideDiv('myModal');
-            //hideDiv('abandon-modal');
+            hideDiv('abandon-modal');
             hidePage(currentPage());
             showPage(pageNamed('thanks'));
             break;
-        case 'no':
+        case 'abandon-no':
             console.log('no');
             hideDiv('myModal');
             hideDiv('abandon-modal');
-            //showPage(currentPage());
+            break;
+        case 'tryagain-ok':
+            console.log('tryagain-ok');
+            hideDiv('myModal');
+            hideDiv('tryagain-modal');
             break;
         default:
             console.log('got unexpected element id: ' + clickedEl.attr('id')); //+', html: ''+clickedEl.html()+''');
         }
+    }
+
+    function init() {
+        timer = new Timer();
+        current = 0;
+        
+        $('#button').css('display', LIVE ? 'none' : 'inline');
+        
+        var formAction = config.formAction;
+        var loc = location.toString().split('://')[1]; // strip off http://, https://
+        if (loc === 'localhost:9000/') { // served from gulp
+            console.log('loc === localhost:9000/');
+            formAction = 'http://localhost:8000/' + formAction; // gulp-connect-php - local PHP server
+        } // else, is on same server, relative link OK
+        $('#feedbackForm').attr('action', formAction);
+
+        showPage(currentPage());
     }
 
     function getConfig() {
@@ -436,9 +446,8 @@
 
     $('#content-container').on('click', 'a, button, div.row div', containerClick); // delegate events
     $('#buttons').on('click', 'a, button', navClick); // need this?
-    //$('#abandon').on('click', 'a, button', abandon); // need this?
     $('#abandon-btn').on('click', abandon); // need this?
-    $('#abandon-modal').on('click', 'button', modalClick);
+    $('#myModal').on('click', 'button', modalClick);
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
@@ -450,6 +459,5 @@
             };
         }
         getConfig();
-        //showDiv('myModal');
     });
 }());
