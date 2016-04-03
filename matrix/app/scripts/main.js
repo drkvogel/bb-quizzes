@@ -362,6 +362,7 @@
 
     function finished() {
         console.log('answers: ' + JSON.stringify(answers));
+        clearTimeout(timeUpTimeout);
         // TODO send via $.ajax();
     }
 
