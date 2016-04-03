@@ -390,7 +390,36 @@
     function abandon() {
         console.log('abandon');
         // show abandon div as modal
-        showPage(pageNamed('abandon'));
+        //hideDiv()
+        showDiv('myModal');
+        showDiv('abandon-modal');
+        // hidePage(currentPage());
+        // showPage(pageNamed('abandon'));
+    }
+
+    function modalClick(e) { // TODO merge into navClick or something
+        e.preventDefault();
+        console.log('navClick()');
+        var pageId = $('.page').attr('id'),
+            clickedEl = $(this); //console.log('pageId: '+pageId); // now gets id from loaded page
+        console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
+        switch (clickedEl.attr('id')) {
+        case 'yes':
+            console.log('yes');
+            hideDiv('myModal');
+            //hideDiv('abandon-modal');
+            hidePage(currentPage());
+            showPage(pageNamed('thanks'));
+            break;
+        case 'no':
+            console.log('no');
+            hideDiv('myModal');
+            hideDiv('abandon-modal');
+            //showPage(currentPage());
+            break;
+        default:
+            console.log('got unexpected element id: ' + clickedEl.attr('id')); //+', html: ''+clickedEl.html()+''');
+        }
     }
 
     function getConfig() {
@@ -409,6 +438,7 @@
     $('#buttons').on('click', 'a, button', navClick); // need this?
     //$('#abandon').on('click', 'a, button', abandon); // need this?
     $('#abandon-btn').on('click', abandon); // need this?
+    $('#abandon-modal').on('click', 'button', modalClick);
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');

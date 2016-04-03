@@ -30,14 +30,7 @@
     <div class="container">
       <!-- <code>content-container</code> -->
       <div id="content-container">
-<!-- 
-    <div id="myModal" class="mymodal"> <!-- class .modal hidden in bootstrap ->
-      <div class="modal-content">
-        <span class="close">x</span>
-        <p>Some text in the Modal..</p>
-      </div>
-    </div>
- -->
+
         <div id="pages"> <!-- style="display: none"> -->
 
           <!-- home -->
@@ -137,37 +130,35 @@
                 </fieldset>
               </form>
             </div>
-<!--             <div class="buttons">
-              <div id="prev"><a id="prev" href="#">&lt; Prev</a></div><div id="next"><a id="next" href="#">Next &gt;</a></div>
-            </div>   -->
-          </div>
-
-          <!-- abandon -->
-          <div id="abandon" class="page" style="display:none">
-            <h3>Please check!</h3>
-            <p>You have not yet completed the task.</p>
-            <p>Are you certain you wish to abandon this game?</p>
-            <p>You will not be able to attempt it again.</p>
-            <div class="buttons row">
-              <div id="no" class="col-md-2"><button class="btn" id="yes" href="#">Yes</button></div><div id="yes"><button class="btn" id="no" href="#">No</button></div>
-            </div>
-
-<!--             <div id="buttons" class="row">
-              <div id="prev" class="col-md-3"><button class="btn pull-right" id="prev" href="#">&lt; Prev</button></div>
-              <div id="prev" class="col-md-2">&nbsp;</div>
-              <div id="prev" class="col-md-2">1/1</div>
-              <div id="prev" class="col-md-2">&nbsp;</div>
-              <div id="next" class="col-md-3"><button class="btn" id="next" href="#">Next &gt;</button></div>
-            </div> -->
-
           </div>
 
         </div> <!-- /pages -->
-      </div>
-    </div>
+      </div> <!-- content-container -->
 
-    <div id="abandon" class="row">
-      <button class="btn" id="abandon-btn" href="#">Abandon</button>
+      <div id="abandon-div" class="row">
+        <button class="btn" id="abandon-btn" href="#">Abandon</button>
+      </div>
+
+    </div> <!-- container -->
+
+
+    <div id="myModal" class="mymodal" style="display:none"> <!--  .modal is bootstrap -->
+<!--       <div class="modal-content">
+        <span class="close">x</span>
+        <p>Some text in the Modal</p>
+      </div>
+ -->
+      <!-- abandon -->
+      <div id="abandon-modal" class="modal-content" style="display:none">
+        <h3>Please check!</h3>
+        <p>You have not yet completed the task.</p>
+        <p>Are you certain you wish to abandon this game?</p>
+        <p>You will not be able to attempt it again.</p>
+        <div class="buttons row">
+          <div id="no" class="col-md-2"><button class="btn" id="yes" href="#">Yes</button></div><div id="yes"><button class="btn" id="no" href="#">No</button></div>
+        </div>
+      </div>
+
     </div>
 
     <div class="footer">
