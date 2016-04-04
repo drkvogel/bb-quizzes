@@ -281,10 +281,8 @@
         switch(page.templateId) {
         case 'quiz2x2':
             return WIDTH2X2;
-            break;
         case 'quiz3x3':
             return WIDTH3X3;
-            break;
         default:
             throw new Error('bad page.templateId: ' + page.templateId);
         }
@@ -299,7 +297,7 @@
         pos = '-' + (tileWidth(page) * page.images.bottom[num]) + 'px 0px';
         sel = tileSelector(page);
         setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
-        $(sel).css('display', 'inline');        
+        $(sel).css('display', 'inline');
     }
 
     function answered(num) {
