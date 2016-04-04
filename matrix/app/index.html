@@ -27,6 +27,19 @@
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
+    <!-- <div class="container"> -->
+      <div class="navbar nav header">
+          <div id="buttons" class="nav row">
+            <div id="prev" class="col-md-3"><button class="btn pull-right" id="prev" href="#">&lt; Prev</button></div>
+            <div id="prevTime" class="col-md-2">&nbsp;</div>
+            <div id="info" class="col-md-2">&nbsp;</div>
+            <div id="" class="col-md-2"><button class="btn" id="timeUp" href="#">timeUp</button></div>
+            <div id="next" class="col-md-3"><button class="btn" id="next" href="#">Next &gt;</button></div>
+          </div>
+      </div>
+    <!-- </div> -->
+
+
     <div class="container">
       <!-- <code>content-container</code> -->
       <div id="content-container">
@@ -160,11 +173,6 @@
         </div>
       </div>
 
-<!--       <div class="modal-content">
-        <span class="close">x</span>
-        <p>Some text in the Modal</p>
-      </div>
- -->
       <!-- abandon -->
       <div id="abandon-modal" class="my-modal-content" style="display:none">
         <h3>Please check!</h3>
@@ -172,20 +180,17 @@
         <p>Are you certain you wish to abandon this game?</p>
         <p>You will not be able to attempt it again.</p>
         <div class="buttons row">
-          <div id="no" class="col-md-2"><button class="btn" id="abandon-yes" href="#">Yes</button></div><div id="yes"><button class="btn" id="abandon-no" href="#">No</button></div>
-        </div>
+          <div id="yes" class="col-md-2"><button class="btn pull-left" id="abandon-yes" href="#">Yes</button></div>
+          <div id="no"  class=""><button class="btn pull-right" id="abandon-no" href="#">No</button></div>
+        </div>  <!-- class="col-md-2" -->
       </div>
 
-    </div>
+<!--         <div class="buttons row center">
+          <div id="yes" class="col-md-2 center"><button class="btn pull-left" id="abandon-yes" href="#">Yes</button></div>
+          <div id="no" class=""><button class="btn pull-right " id="abandon-no" href="#">No</button></div>
+        </div> -->
 
-    <div class="footer">
-        <div id="buttons" class="row">
-          <div id="prev" class="col-md-3"><button class="btn pull-right" id="prev" href="#">&lt; Prev</button></div>
-          <div id="prevTime" class="col-md-2">&nbsp;</div>
-          <div id="info" class="col-md-2">&nbsp;</div>
-          <div id="" class="col-md-2"><button class="btn" id="timeUp" href="#">timeUp</button></div>
-          <div id="next" class="col-md-3"><button class="btn" id="next" href="#">Next &gt;</button></div>
-        </div>
+
     </div>
 
     <div id="stuff" style="display:none">

@@ -17,7 +17,7 @@ $icon-font-path: '../fonts/';
 
 /* Space out content a bit */
 body {
-  padding-top: 5px;
+  //padding-top: 5px;
   padding-bottom: 20px;
 }
 
@@ -42,8 +42,7 @@ body {
   }
 }
 
-/* Custom page footer */
-.footer {
+.footer { /* Custom page footer */
   padding-top: 19px;
   color: #777;
   border-top: 1px solid #e5e5e5;
@@ -53,8 +52,7 @@ body {
   margin: 30px 0;
 }
 
-/* Main marketing message and sign up button */
-.jumbotron {
+.jumbotron { /* Main marketing message and sign up button */
   text-align: center;
   border-bottom: 1px solid #e5e5e5;
   .btn {
@@ -63,36 +61,31 @@ body {
   }
 }
 
-/* Supporting marketing content */
-.marketing {
+.marketing { /* Supporting marketing content */
   margin: 40px 0;
   p + h4 {
     margin-top: 28px;
   }
 }
 
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 768px) { /* Responsive: Portrait tablets and up */
   .container {
     //max-width: 730px;
     max-width: 90%;
   }
 
-  /* Remove the padding we set earlier */
   .header,
   .marketing,
-  .footer {
+  .footer { /* Remove the padding we set earlier */
     padding-left: 0;
     padding-right: 0;
   }
 
-  /* Space out the masthead */
-  .header {
+  .header { /* Space out the masthead */
     margin-bottom: 30px;
   }
 
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
+  .jumbotron { /* Remove the bottom border on the jumbotron for visual effect */
     border-bottom: 0;
   }
 }
@@ -103,20 +96,18 @@ html {
   position: relative;
   min-height: 100%;
 }
+
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  margin-bottom: 60px; /* Margin bottom by footer height */
 }
+
 .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  /* Set the fixed height of the footer here */
-  /*height: 60px;*/
-  height: 100px;
+  height: 60px; /* fixed height of the footer */
   background-color: #f5f5f5;
 }
-
 
 /* Custom page CSS
 -------------------------------------------------- */
@@ -219,6 +210,7 @@ but chrome says just: #bot5
 }
 
 .my-modal-content {
+    padding: 10px;
     width: 400px;
     height: 200px;
     // height: 50%;
@@ -235,4 +227,13 @@ but chrome says just: #bot5
     text-align: center;
     line-height: 20px;
     z-index: 11; /* 1px higher than the overlay layer */
+}
+
+.navbar { /* Custom page footer */
+  padding-top: 5px;
+  padding-bottom: 5px;
+  //color: #777;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #e5e5e5;
+  max-width: 100%;
 }
