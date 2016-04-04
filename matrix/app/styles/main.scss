@@ -237,3 +237,12 @@ but chrome says just: #bot5
   border-bottom: 1px solid #e5e5e5;
   max-width: 100%;
 }
+
+// @mixin border-radius($radius) {
+//   -webkit-border-radius: $radius;
+//      -moz-border-radius: $radius;
+//       -ms-border-radius: $radius;
+//           border-radius: $radius;
+// }
+
+// .box { @include border-radius(10px); }
