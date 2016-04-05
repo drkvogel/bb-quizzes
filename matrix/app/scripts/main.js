@@ -112,6 +112,8 @@
         pages,
         current,
         timer,
+        isTimeUp = false,
+        nextPageTimeout,
         timeUpTimeout,
         answers = [];
 
@@ -220,8 +222,17 @@
 
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
         console.log('showPage(' + page.name + '): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
+        console.log('showPage(): isTimeUp:' + isTimeUp);
+
+        if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
+            hideDiv('abandon-div');
+        } else {
+            showDiv('abandon-div');
+        }
+
         var info = current + '/' + pages.length + ': ' + page.name;
         showInfo(info);
+
         switch (page.templateId) {
         case 'quiz2x2':
         case 'quiz3x3':
@@ -238,17 +249,12 @@
         case 'abandon':
             break; // don't do nuttin
         case 'thanks':
+            clearTimeout(timeUpTimeout);
+            clearTimeout(nextPageTimeout);
             finished();
             break;
         default:
             throw new Error('unrecogised id');
-        }
-
-        if (page.hasOwnProperty('suppressAbandon')) {
-            //console.log('page.hasOwnProperty(\'suppressAbandon\')');
-            hideDiv('abandon-div');
-        } else {
-            showDiv('abandon-div');
         }
 
         showDiv((page.templateId));
@@ -264,13 +270,17 @@
     }
 
     function nextPage() { // console.log('nextPage(): current: ' + current);// + obj(currentPage());
-        if (current + 1 < pages.length) {
-            hidePage(currentPage());
+        console.log('nextPage(): isTimeUp:' + isTimeUp);
+        hidePage(currentPage());
+        if (isTimeUp) {
+            clearTimeout(nextPageTimeout);
+            showPage(pageNamed('thanks'));
+        }  else if (current + 1 < pages.length) {
             current += 1;
+            showPage(currentPage());
         } else {
             console.log('nextPage(): hit the end at current: ' + current);
         }
-        showPage(currentPage());
     }
 
     function tileSelector(page) {
@@ -334,7 +344,7 @@
             console.log('Wrong! correct is: ' + page.correct);
         }
 
-        setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
+        nextPageTimeout = setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
     }
 
     function containerClick(e) {
@@ -383,9 +393,13 @@
     }
 
     function timeUp() {
-        showModal('timeup-modal'); //alert("Time's up!");
-        hidePage(currentPage());
-        showPage(pageNamed('thanks'));
+        clearTimeout(timeUpTimeout); // in case triggered manually for testing
+        isTimeUp = true;
+        console.log('timeUp(): isTimeUp:' + isTimeUp);
+
+        // showModal('timeup-modal'); //alert("Time's up!");
+        // hidePage(currentPage());
+        // showPage(pageNamed('thanks'));
     }
 
     function abandonClick() {
@@ -445,6 +459,7 @@
 
     function init() {
         timer = new Timer();
+        isTimeUp = false;
         current = 0;
 
         $('#button').css('display', LIVE ? 'none' : 'inline');
