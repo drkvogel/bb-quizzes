@@ -4,6 +4,8 @@ make images %width (top auto?)
 
 search TODO
 
+C:\Users\cbird\Dropbox\epreuves
+
 ### style
 
 bootstrap: dev/bootstrap.md

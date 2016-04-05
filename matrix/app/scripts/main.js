@@ -275,7 +275,7 @@
         if (isTimeUp) {
             clearTimeout(nextPageTimeout);
             showPage(pageNamed('thanks'));
-        }  else if (current + 1 < pages.length) {
+        } else if (current + 1 < pages.length) {
             current += 1;
             showPage(currentPage());
         } else {
