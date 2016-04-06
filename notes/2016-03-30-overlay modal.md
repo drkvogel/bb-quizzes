@@ -1,8 +1,6 @@
 by overlay, is meant a transparent filter on top of the content - 
 a *modal* is a pop up box
 
-
-
 http://tympanus.net/codrops/2013/11/07/css-overlay-techniques/
 
 ```css
