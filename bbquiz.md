@@ -1,4 +1,14 @@
 
+### Cognito 2012 DVD
+
+http://www.inserm-neuropsychiatrie.fr/
+
+original `.swf` puzzles in C:\Users\cbird\Dropbox\epreuves
+
+"Touch the clown"!
+
+## defer
+
 AY re
     browser support?
     hosting
@@ -9,7 +19,6 @@ ie7
 ### example - snap / healthy minds
 
 http://trials.ctsu.ox.ac.uk/~webfu/HMDB3/biobank_cb.php?c=d69c6b5122112451e6b9ad2de220fd55&s=1&p=213421343
-
 
 ## done
 
