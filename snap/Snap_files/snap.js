@@ -28,8 +28,8 @@ var elapsed = [];
 var snap = [];
 var buttonf = [];
 var buttonn = [];
-for(i=0;i<=maxstimulus+1;i++)
-{
+
+for (i = 0; i <= maxstimulus + 1; i++) {
     indexa[i]=missing;
     indexb[i] = missing;
     buttonf[i] = 0;
@@ -37,29 +37,27 @@ for(i=0;i<=maxstimulus+1;i++)
     elapsed[i] = missing;
     snap[i] = missing;
 }
-for (var i = 0; i <= 24; i++) 
-{ //pre-load images
+
+for (var i = 0; i <= 24; i++) { //pre-load images
     images[i] = new Image();
     images[i].src = "Snap/snap_images/F"+i+".GIF";
 }
 images[25] = new Image();
 images[25].src = "Snap/snap_images/Rear.GIF";
 var randselect = [];
-for (i = 10; i < 25; i++)
-{ //make list of cards not used in final seven pairs.
+for (i = 10; i < 25; i++) { //make list of cards not used in final seven pairs.
     randselect[i - 10] = i;
 }
 var j;
 var k;
-for (i = 0; i < 15; i++)
-{  //randomise list of card indices
+for (i = 0; i < 15; i++) {  //randomise list of card indices
     j = Math.floor(Math.random() * 15);
     k = randselect[j];
     randselect[j] = randselect[i];
     randselect[i] = k;
 }
-for(i=0;i<randomsnap.length;i++)
-{
+
+for(i = 0; i < randomsnap.length; i++) {
     j = Math.floor(Math.random() * randomsnap.length);
     k = randomsnap[j];
     randomsnap[j] = randomsnap[i];
@@ -68,13 +66,9 @@ for(i=0;i<randomsnap.length;i++)
 
 var returnData = {};
 
-
-function abandonit(x)
-{
-    if (abandon != 1) 
-    {
-        switch (x) 
-        {
+function abandonit(x) {
+    if (abandon != 1) {
+        switch (x) {
             case 0: //abandon button
                 document.getElementById("abandonbutton").style.display = "none";
                 document.getElementById("abandondiv").style.display = "inline";
@@ -101,8 +95,7 @@ function abandonit(x)
                 document.getElementById("abandonno").style.display = "none";
                 document.getElementById("abandon").value = 2;
                 abandoning = false;
-                if (stopped) 
-                {
+                if (stopped) {
                     stopped = false;
                     oneSecond = setTimeout("selectPair()", 1000);
                 }
@@ -112,8 +105,7 @@ function abandonit(x)
     }
 }
 
-function entryselect()
-{
+function entryselect() {
     document.getElementById("instructions").style.display = "inline";
     document.getElementById("bkbd").style.display = "inline";
     document.getElementById("btsd").style.display = "none";
@@ -123,13 +115,11 @@ function entryselect()
     switchDiv("demo0");
 }
 
-function writeValue(id, value)
-{
+function writeValue(id, value) {
     document.getElementById(id).value = value;
 }
 
-function switchDiv(target) 
-{    
+function switchDiv(target) {
     var now0 = now();
     var divList = ["demo0", "demo1", "demo2", "demo3", "demo4", "test", "xdemo", "snapdemo", "endit", "wait"];
     for (var i in divList)    
@@ -137,43 +127,32 @@ function switchDiv(target)
     document.getElementById("abandonbutton").style.display = "none";
 
     document.getElementById(target).style.display = "inline";
-    if (target == "demo0") 
-    {
+    if (target == "demo0") {
         demo_timer.now();
         total_timer.now();
         showcardsdemo(25, 25);
-    }
-    else if (target == "demo2") 
-    {
+    } else if (target == "demo2") {
         window.onbeforeunload = null;
         window.history.forward();   //prevent repeat after back button
         window.onbeforeunload=function(e){return "The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?";};
         showcardsdemo(2, 2); 
-    } 
-    else if (target == "demo3") 
-    {
+    } else if (target == "demo3") {
     	document.getElementById("snapdemo").style.display = "inline"; 
     	showcardsdemo(2, 2);
-    }
-    else if (target == "demo4") 
-    { 
+    } else if (target == "demo4") {
     	document.getElementById("snapdemo").style.display = "none"; 
     	document.getElementById("xdemo").style.display = "inline"; 
     	showcardsdemo(3, 4); 
-    } 
-    else if (target=="wait")
+    } else if (target=="wait")
     	document.getElementById("demotable").style.display = "none";
     
-    if (target == "test")
-    {
+    if (target == "test") {
         document.getElementById("abandonbutton").style.display = "inline";
         document.getElementById("demo").style.display = "none";
-    }
-    else
+    } else
         document.getElementById("demo").style.display = "inline";
     
-    if (target == "test") 
-    {
+    if (target == "test") {
         demo_timer.lap();
         writeValue("demoelapsed", demo_timer.getElapsed());
         test_timer.now();
@@ -181,48 +160,41 @@ function switchDiv(target)
     }
 }
 
-function showcards(left, right) 
-{
+function showcards(left, right) {
     document.getElementById("leftpicture").src = images[left].src;
     document.getElementById("rightpicture").src = images[right].src;
 }
 
-function showcardsdemo(left, right) 
-{
+function showcardsdemo(left, right) {
     document.getElementById("leftpicturedemo").src = images[left].src;
     document.getElementById("rightpicturedemo").src = images[right].src;
 }
 
-function starttest() 
-{
+function starttest() {
     document.getElementById("begin").style.display = "inline";
     document.onkeydown = spaceBar;
     document.getElementById("test").onmousedown = touchScreen;
     document.onblur = focusHere;
 }
 
-function focusHere() 
-{
+function focusHere() {
     document.getElementById("test").focus();
 }
 
-function touchScreen() 
-{
+function touchScreen() {
     responder();
 }
 
-function spaceBar(e) 
-{
+function spaceBar(e) {
     var KeyID = (window.event) ? event.keyCode : e.keyCode;
-    switch (KeyID) 
-    {
+    switch (KeyID) {
         case 32:
             responder();
         break;
     }
 }
-function backs() 
-{  //show backs of cards
+
+function backs() {  //show backs of cards
     isready = false; //keystrokes are premature
     stimulusCount++;
     document.getElementById("snap").style.display = "none";     //clear messages
@@ -234,22 +206,16 @@ function backs()
     else 
         stopped = true;
 }
-function selectPair() 
-{ //select two cards
-    if (stimulusCount > maxstimulus) 
-    {
+
+function selectPair() { //select two cards
+    if (stimulusCount > maxstimulus) {
         if (available)
         	finishIt();
-    } 
-    else 
-    {
-        if (stimulusCount < randomsnap.length) 
-        {
+    } else {
+        if (stimulusCount < randomsnap.length) {
             leftpicture = randselect.pop();
             rightpicture = (randomsnap[stimulusCount] == 1) ? leftpicture : randselect.pop();
-        } 
-        else 
-        {
+        } else {
             leftpicture = leftarray[stimulusCount - randomsnap.length];
             rightpicture = rightarray[stimulusCount - randomsnap.length];
         }
@@ -266,24 +232,17 @@ function selectPair()
     }
 }
 
-function responder()
-{
-    if (available)
-    {    //data submission has not started
+function responder() {
+    if (available) {    //data submission has not started
         reaction_timer.lap();
 
-        if (stimulusCount < 0)
-        {//Response to start test run
+        if (stimulusCount < 0) {//Response to start test run
             stimulusCount = -1;
             document.getElementById("begin").style.display = "none";
             backs();
-        } 
-        else 
-        {
-            if (isready && (reaction_timer.getElapsed()) > 100 && stimulusCount <= maxstimulus)
-            {
-                if (elapsed[stimulusCount] == missing) 
-                {//first valid elapsed time not yet recorded
+        } else {
+            if (isready && (reaction_timer.getElapsed()) > 100 && stimulusCount <= maxstimulus) {
+                if (elapsed[stimulusCount] == missing) {//first valid elapsed time not yet recorded
                     elapsed[stimulusCount] = reaction_timer.getElapsed();
 
                     if (indexa[stimulusCount] == indexb[stimulusCount]) 
@@ -292,11 +251,9 @@ function responder()
                         document.getElementById("x").style.display = "inline";
                 }
                 buttonn[stimulusCount]++;   //count button entries in two seconds
-            } 
-            else if (stimulusCount <= maxstimulus) 
+            } else if (stimulusCount <= maxstimulus) {
                 buttonf[stimulusCount]++;   //increment count of false (premature) button entries
-            else
-            {
+            } else {
                 if (available) 
                     finishIt();
             }
@@ -304,8 +261,7 @@ function responder()
     }
 }
 
-function finishIt() 
-{
+function finishIt() {
     available = false;    //prevent multiple submissions and ignore further keystrokes
     switchDiv("wait");
     document.getElementById("abandonbutton").style.display="none";
@@ -313,10 +269,8 @@ function finishIt()
     var snapcount=0;
     var snapstotelap=0;
     var trial_comp1 = 0;
-    for (var trial_comp = 0; trial_comp <= stimulusCount; trial_comp++) 
-    {
-        if (trial_comp <= maxstimulus) 
-        {
+    for (var trial_comp = 0; trial_comp <= stimulusCount; trial_comp++) {
+        if (trial_comp <= maxstimulus) {
             trial_comp1 = trial_comp + 1;
 
             if (indexa[trial_comp] != missing) //if the left card not set, don't save.
@@ -332,8 +286,7 @@ function finishIt()
                 returnData[trial_comp1] = newD;
             }
 
-            if (trial_comp >= 3 && indexa[trial_comp] == indexb[trial_comp] && elapsed[trial_comp] > 0)
-            {
+            if (trial_comp >= 3 && indexa[trial_comp] == indexb[trial_comp] && elapsed[trial_comp] > 0) {
                 snapcount++;
                 snapstotelap += elapsed[trial_comp];
             }
@@ -360,18 +313,15 @@ function finishIt()
     document.getElementById("form1").submit();
 }
 
-function highlight(id)
-{
+function highlight(id) {
     document.getElementById(id).style.backgroundColor = "Yellow";
 }
 
-function unhighlight(id)
-{
+function unhighlight(id) {
     document.getElementById(id).style.backgroundColor = "White";
 }
 
-function loaded() 
-{
+function loaded() {
     window.onbeforeunload=null;
     window.history.forward();   //prevent repeat after back button - may not work.
     window.onbeforeunload=function(e){return "The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?";};
