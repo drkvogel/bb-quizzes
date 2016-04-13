@@ -387,7 +387,9 @@
     }
 
     function finished() {
-        console.log('answers: ' + JSON.stringify(answers));
+        console.log('finished(): answers: ' + JSON.stringify(answers));
+        //$('input[name="results"]').val() = JSON.stringify(answers);
+        $('#results').val(JSON.stringify(answers));
         clearTimeout(timeUpTimeout);
         // TODO send via $.ajax();
     }
