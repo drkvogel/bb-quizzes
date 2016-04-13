@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Remember to run gulp first to build into ./dist"
+
 shopt -s extglob # can then exclude with wildcards, e.g.: !(images)
                 # http://stackoverflow.com/questions/216995/how-can-i-use-inverse-or-negative-wildcards-when-pattern-matching-in-a-unix-linu
 
