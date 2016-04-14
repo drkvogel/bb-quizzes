@@ -2,18 +2,26 @@
 
 # 2016-04-14 q108-vlubuntu ssh to xrat no longer works
 
-if [ -d "dist" ]; then          # we're on a machine where dist has been built, i.e. q108-vlubuntu or yoga3-vlubuntu
-    echo "'dist' exists"
-    echo "creating zip"
-    tar czf dist.tgz dist       # zip it good
-    scp dist.tgz drkvogel@web456.webfaction.com:/home/drkvogel/webapps/main/matrix/
-else                            # on another machine e.g. q108
-    echo "no 'dist' exists"
+#if [ -d "dist" ]; then          # we're on a machine where dist has been built, i.e. q108-vlubuntu or yoga3-vlubuntu
+
+echo "HOSTNAME: $HOSTNAME"
+
+if [ "$HOSTNAME" = "Q108" ]; then          # we can ssh to xrat but gulp build doesn't work
     echo "getting dist.tgz from remote"
     scp drkvogel@web456.webfaction.com:/home/drkvogel/webapps/main/matrix/dist.tgz .
     echo "unzipping"
-    tar xzf dist.tgz distlocal  # unzip it to a folder named something else
-    scp -r ./distlocal/* webman@xrat:/user/webman/www/matrix/
+    tar xzf dist.tgz  # unzip it to a folder named something else
+    scp -r ./dist/* webman@xrat:/user/webman/www/matrix/
+else                            # we're on a machine where dist has been built, 
+                                # but there is no access to xrat, e.g. q108-vlubuntu or yoga3-vlubuntu
+    if [ -d "dist" ]; then
+        echo "'dist' exists, creating zip"
+        tar czf dist.tgz dist       # zip it good
+        scp dist.tgz drkvogel@web456.webfaction.com:/home/drkvogel/webapps/main/matrix/ # upload
+    else
+        echo "no 'dist' directory, exiting"
+        exit 0
+    fi
 fi
 
 # add -v for verbose debugging
