@@ -15,10 +15,19 @@ $icon-font-path: '../fonts/';
 //   caption-side: "test";
 // }
 
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+}
+
 /* Space out content a bit */
 body {
   //padding-top: 5px;
   padding-bottom: 20px;
+  height: 100%;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
