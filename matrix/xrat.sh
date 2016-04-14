@@ -7,22 +7,25 @@
 echo "HOSTNAME: $HOSTNAME"
 
 if [ "$HOSTNAME" = "Q108" ]; then          # we can ssh to xrat but gulp build doesn't work
-    echo "getting dist.tgz from remote"
+    echo "getting dist.tgz from remote..."
     scp drkvogel@web456.webfaction.com:/home/drkvogel/webapps/main/matrix/dist.tgz .
-    echo "unzipping"
+    echo "unzipping..."
     tar xzf dist.tgz  # unzip it to a folder named something else
+    echo "uploading..."
     scp -r ./dist/* webman@xrat:/user/webman/www/matrix/
 else                            # we're on a machine where dist has been built, 
                                 # but there is no access to xrat, e.g. q108-vlubuntu or yoga3-vlubuntu
     if [ -d "dist" ]; then
-        echo "'dist' exists, creating zip"
+        echo "'dist' exists, creating zip..."
         tar czf dist.tgz dist       # zip it good
+        echo "uploading..."
         scp dist.tgz drkvogel@web456.webfaction.com:/home/drkvogel/webapps/main/matrix/ # upload
     else
         echo "no 'dist' directory, exiting"
         exit 0
     fi
 fi
+echo "done"
 
 # add -v for verbose debugging
 
