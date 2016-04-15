@@ -4,6 +4,16 @@ make images %width (top auto?)
 
 search TODO
 
+set height px with js
+window.width|height
+height auto body
+body height
+window.screenX|screenY
+
+caniuse.com/svg
+svg fallbacks
+
+
 ### style
 
 bootstrap: dev/bootstrap.md
