@@ -18,15 +18,39 @@ body {
     min-height: 100%;
     xheight: 100%;
 }
-#topgrid {
+#topgrid, #quiz3x3 {
     margin: auto; /* centre */
+}
+.grid3x3 {
+    margin: auto; /* centre */
+}
+
+.grid3x3 { /*#inner*/
+    display: table;
+    margin: 0 auto;
+}
+
+
+.row {
+    display: block;
+}
+
+
+
+.row::after {
+    clear: both;
+    content: " ";
+    display: table;
+}
+div.row div {
+    float: left;
 }
 </style>
 
 </head>
 <body>
 
-<table id="topgrid" border="0" cellpadding="0">
+<!-- <table id="topgrid">
   <tr>
     <td><img src="intro1-single.png" /></td>
     <td><img src="intro1-single.png" /></td>
@@ -43,22 +67,29 @@ body {
     <td><img src="intro1-single.png" /></td>
   </tr>
 </table>
-
+ -->
           <!-- 3x3 + 4x2 grid -->
 
-<!--           <div id="quiz3x3" class="page quiz3x3-4x2" style="display:block">
+           <div id="quiz3x3" class="quiz3x3-4x2" style="display:block">
             <div class="grid3x3">
               <div class="row">
-                <div id="top0">0</div><div id="top1">1</div><div id="top2">2</div>
+                <div id="top0"><img src="intro1-single.png" /></div>
+                <div id="top1"><img src="intro1-single.png" /></div>
+                <div id="top2"><img src="intro1-single.png" /></div>
               </div>
               <div class="row">
-                <div id="top3">3</div><div id="top4">4</div><div id="top5">5</div>
+                <div id="top3"><img src="intro1-single.png" /></div>
+                <div id="top4"><img src="intro1-single.png" /></div>
+                <div id="top5"><img src="intro1-single.png" /></div>
               </div>
               <div class="row">
-                <div id="top6">6</div><div id="top7">7</div><div id="missing3x3">8</div>
+                <div id="top6"><img src="intro1-single.png" /></div>
+                <div id="top7"><img src="intro1-single.png" /></div>
+                <div id="missing3x3"><img src="intro1-single.png" /></div>
               </div>
             </div>
-            <div class="grid4x2">
+          </div>
+<!--            <div class="grid4x2">
               <div class="row">
                 <div id="bot0"></div><div id="bot1"></div><div id="bot2"></div><div id="bot3"></div>
               </div>
@@ -66,7 +97,6 @@ body {
                 <div id="bot4"></div><div id="bot5"></div><div id="bot6"></div><div id="bot7"></div>
               </div>
             </div>
-          </div>
  -->
 
           <!-- 2x2 + 3x2 grid -->
