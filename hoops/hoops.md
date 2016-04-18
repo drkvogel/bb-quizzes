@@ -50,6 +50,10 @@
     babel-runtime@6.6.1 node_modules/babel-runtime
 
 
+    $ npm install --save babel-runtime
+    babel-runtime@6.6.1 node_modules/babel-runtime
+
+
     Error: Cannot find module 'core-js/library/fn/get-iterator'
     $ npm install --save core-js
 
