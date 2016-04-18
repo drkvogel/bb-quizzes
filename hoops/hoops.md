@@ -95,8 +95,53 @@ https://github.com/krakenjs/confit/issues/39
 
 >Babel doesn't play well with semver ranges (e.g. ^ and ~). We need to pin the deps to exact, specific versions.
 
->the babel-runtime version and the version of babel that compiled the files needs to be the same. See babel/babel#965.
+>the babel-runtime version and the version of babel that compiled the files needs to be the same. See **babel/babel#965**.
 
+"babel/babel#965"? https://github.com/babel/babel/issues/965 is a 404. But:
+
+>Bugs and feature requests should be posted at phabricator.babeljs.io.
+You can directly translate a github issue to phabricator; just add a T to the beginning of the issue.
+https://phabricator.babeljs.io/T2168 corresponds to https://github.com/babel/babel/issues/2168
+
+So `babel/babel#965` => https://phabricator.babeljs.io/T965
+
+    $ npm install --save babel
+    babel@6.5.2 node_modules/babel
+
+no dice. I created `interop-export-wildcard.js` in `~/Projects/bb-quizzes/hoops/app/node_modules/babel-runtime/helpers/` from here: http://pocketlingo.merson.stevemckeogh.co.uk/react-isomorphic-starterkit/node_modules/babel-core/node_modules/babel-runtime/helpers/interop-export-wildcard.js:
+
+```js
+"use strict";
+exports["default"] = function (obj, defaults) {
+  var newObj = defaults({}, obj);
+  delete newObj["default"];
+  return newObj;
+};
+exports.__esModule = true;
+```
+
+and *that* problem went away... but next:
+
+    Error: Cannot find module 'lodash/array/compact'
+
+btw these errors are thrown by `babel-types` (`/home/kvogel/Projects/bb-quizzes/hoops/app/node_modules/babel-preset-es2015/node_modules/babel-plugin-transform-es2015-function-name/node_modules/babel-types/lib/index.js:13:30`)
+
+    @ /home/kvogel/Projects/bb-quizzes/hoops/app
+    ├─┬ babel-core@6.7.6
+    │ └── babel-types@6.7.2 
+    ...
+
+
+
+### Semantic Versioning 2.0.0
+
+Given a version number `MAJOR.MINOR.PATCH`, increment the:
+
+1. `MAJOR` version when you make incompatible API changes,
+2. `MINOR` version when you add functionality in a backwards-compatible manner, and
+3. `PATCH` version when you make backwards-compatible bug fixes.
+
+---
 
     $ npm list babel-loader
     @ /home/kvogel/Projects/bb-quizzes/hoops/app
