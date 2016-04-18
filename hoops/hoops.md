@@ -131,6 +131,18 @@ btw these errors are thrown by `babel-types` (`/home/kvogel/Projects/bb-quizzes/
     │ └── babel-types@6.7.2 
     ...
 
+    $ npm list -s lodash    # -s: silent - hide WARN messages
+    @ /home/kvogel/Projects/bb-quizzes/hoops/app
+    ├─┬ babel-core@6.7.6
+    │ └── lodash@3.10.1 
+    ...
+
+it's true, `~/Projects/bb-quizzes/hoops/app/node_modules/babel-preset-es2015/node_modules/babel-plugin-transform-es2015-function-name/node_modules/babel-types/node_modules/lodash` doesn't have an `array` subdirectory, `lodash` in other locations does... out of disk space? 
+
+    2016-04-19 00:34:30 kvogel@yoga3-vlubuntu ~/Projects/bb-quizzes/hoops/app
+    $ rm -rf node_modules/
+    $ npm install
+    $ gulp          # great success
 
 
 ### Semantic Versioning 2.0.0
