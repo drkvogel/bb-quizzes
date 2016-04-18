@@ -21,9 +21,9 @@ general/dev/apps/sublimetext/packages/packages.md
     $ ngrok 9000                    # then submit to browsershots.org
 
 Serving files from .tmp, app
-scripts, e.g. main.js, are deployed to .tmp? They don't update on refresh, unlike .html pages
+scripts, e.g. main.js, are deployed to .tmp
+if they don't seem to update on refresh, check gulp output to see if there is an error in your script
 https://github.com/yeoman/generator-webapp#readme
-
 HTML does update dynamically with `gulp serve`
 
 JSLint vs JSHint
