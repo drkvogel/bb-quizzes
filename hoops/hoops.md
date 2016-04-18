@@ -18,8 +18,9 @@
     /home/kvogel/Projects/bb-quizzes/hoops/app/gulpfile.babel.js:2
     import gulp from 'gulp';
     SyntaxError: Unexpected reserved word
-    $ npm install --save-dev babel-core
-    # git diff package.json
+    $ npm install --save-dev babel-core     # devDependencies, not dependencies
+
+    $ git diff package.json
         "devDependencies": {
     -        "babel-core": "^6.4.0",
         "devDependencies": {
@@ -39,6 +40,18 @@
     $ npm install babel-register
 
     Error: Cannot find module 'babel-runtime/helpers/interop-export-wildcard'
+    $ npm install --save-dev babel-runtime
+    babel-runtime@6.6.1 node_modules/babel-runtime
+    └── core-js@2.2.2
+
+
+    2016-04-18 18:12:27 kvogel@yoga3-vlubuntu ~/Projects/bb-quizzes/hoops/app
+    $ npm install --save babel-runtime
+    babel-runtime@6.6.1 node_modules/babel-runtime
+
+
+    Error: Cannot find module 'core-js/library/fn/get-iterator'
+    $ npm install --save core-js
 
     $ npm install babel-loader
     npm WARN peerDependencies The peer dependency webpack@1 || ^2.1.0-beta included from babel-loader will no
@@ -81,15 +94,41 @@ https://github.com/krakenjs/confit/issues/39
 >the babel-runtime version and the version of babel that compiled the files needs to be the same. See babel/babel#965.
 
 
-npm list babel-loader
-@ /home/kvogel/Projects/bb-quizzes/hoops/app
-└── (empty)
-npm ERR! code 1
+    $ npm list babel-loader
+    @ /home/kvogel/Projects/bb-quizzes/hoops/app
+    └── (empty)
+    npm ERR! code 1
+    $ npm install --save babel-loader
+    npm WARN peerDependencies The peer dependency webpack@1 || ^2.1.0-beta included from babel-loader will no
+    npm WARN peerDependencies longer be automatically installed to fulfill the peerDependency 
+    npm WARN peerDependencies in npm 3+. Your application will need to depend on it explicitly.
+    webpack@1.13.0 node_modules/webpack
+    ├── interpret@0.6.6
+    ├── tapable@0.1.10
+    ├── clone@1.0.2
+    ├── async@1.5.2
+    ├── supports-color@3.1.2 (has-flag@1.0.0)
+    ├── loader-utils@0.2.14 (object-assign@4.0.1, big.js@3.1.3, json5@0.5.0, emojis-list@1.0.1)
+    ├── enhanced-resolve@0.9.1 (graceful-fs@4.1.3, memory-fs@0.2.0)
+    ├── acorn@3.1.0
+    ├── mkdirp@0.5.1 (minimist@0.0.8)
+    ├── optimist@0.6.1 (wordwrap@0.0.3, minimist@0.0.10)
+    ├── webpack-core@0.6.8 (source-map@0.4.4, source-list-map@0.1.6)
+    ├── uglify-js@2.6.2 (async@0.2.10, uglify-to-browserify@1.0.2, source-map@0.5.3, yargs@3.10.0)
+    ├── memory-fs@0.3.0 (errno@0.1.4, readable-stream@2.1.0)
+    ├── watchpack@0.2.9 (graceful-fs@4.1.3, async@0.9.2, chokidar@1.4.3)
+    └── node-libs-browser@0.5.3 (https-browserify@0.0.0, punycode@1.4.1, path-browserify@0.0.0, string_decoder@0.10.31, tty-browserify@0.0.0, os-browserify@0.1.2, constants-browserify@0.0.1, process@0.11.2, assert@1.3.0, domain-browser@1.1.7, querystring-es3@0.2.1, timers-browserify@1.4.2, stream-browserify@1.0.0, events@1.1.0, vm-browserify@0.0.4, readable-stream@1.1.14, util@0.10.3, console-browserify@1.1.0, url@0.10.3, http-browserify@1.7.0, buffer@3.6.0, browserify-zlib@0.1.4, crypto-browserify@3.2.8)
+    babel-loader@6.2.4 node_modules/babel-loader
+    ├── object-assign@4.0.1
+    ├── loader-utils@0.2.14 (big.js@3.1.3, json5@0.5.0, emojis-list@1.0.1)
+    └── mkdirp@0.5.1 (minimist@0.0.8)
+    $ npm --version
+    2.14.20
 
 
 
 
-npm list webpack@1 || ^2.1.0-beta
+    npm list webpack@1 || ^2.1.0-beta
 
     $ npm list babel-register
     @ /home/kvogel/Projects/bb-quizzes/hoops/app
