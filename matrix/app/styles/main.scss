@@ -113,10 +113,10 @@ body {
   }
 }
 
-div#top2 {
-  background: url("intro2.png") no-repeat;
-  @include image-2x("intro1-2x.png", 100px, 25px);
-}
+// div#top2 {
+//   background: url("intro2.png") no-repeat;
+//   @include image-2x("intro1-2x.png", 100px, 25px);
+// }
 
 /* Sticky footer styles
 -------------------------------------------------- */
