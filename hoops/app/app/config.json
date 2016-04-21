@@ -1,0 +1,18 @@
+{
+    "comment": "can't put comments in JSON!",
+    "comment": "timeLimit should be 120000 == 2 minutes",
+    "nextDelay" : 500,
+    "timeLimit" : 120000,
+    "formAction" : "complete.php",
+    "pages":[
+    {
+        "name": "home",
+        "templateId": "home",
+        "sheet": "",
+        "images": {
+        },
+        "correct": -1,
+        "next": "intro1",
+        "suppressAbandon": true
+    }]
+}
