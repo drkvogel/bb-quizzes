@@ -106,9 +106,6 @@ console.log('libcog');
     Timer.prototype.isValid = function() {
         return this.isValid;
     };
-    // module.exports = Timer; // module.exports is Node.js, for the server!
-
-
 
     var config,
         pages,
@@ -119,6 +116,7 @@ console.log('libcog');
         timeUpTimeout,
         answers = [];
 
+    // http://stackoverflow.com/questions/130396/are-there-constants-in-javascript
     // function preload() {
     //     //images[25] = new Image();
     //     //ges[25].src = 'Snap/snap_images/Rear.GIF';
@@ -133,8 +131,7 @@ console.log('libcog');
     }
 
     function pageNamed(name) {
-        //for (var page in pages) { // http://stackoverflow.com/questions/500504/why-is-using-for-in-with-array-iteration-such-a-bad-idea
-        for (var i = 0; i < pages.length; i++) {
+        for (var i = 0; i < pages.length; i++) { //for (var page in pages) { // http://stackoverflow.com/questions/500504/why-is-using-for-in-with-array-iteration-such-a-bad-idea
             if (pages[i].name === name) {
                 return pages[i];
             }
@@ -154,10 +151,6 @@ console.log('libcog');
         hideDiv(page.templateId); //console.log('hidePage(): templateId: ' + page.templateId); //+ obj(page) + '\'');
     }
 
-    // http://stackoverflow.com/questions/130396/are-there-constants-in-javascript
-    var WIDTH2X2 = 210; // Width of squares in 2x2 grid is 210px // const?
-    var WIDTH3X3 = 170; // Width of squares in 3x3 grid is 170px // const?
-
     // js docstring?
     function setBackground(sel, sheet, pos) { // jQuery selector, sprite sheet, offset pos (px)
         var img = 'url("images/' + sheet + '")'; // DON'T include ';' at end of rule, fails silently! (?)
@@ -165,15 +158,15 @@ console.log('libcog');
         $(sel).css('background-position', pos); // e.g. background-position: -210px 0px;
     }
 
-    function checkImages(page, topExpected, botExpected) {
-        // for top grids, last (unfilled) tile is yet to be chosen thus redundant in data
-        if (page.images.top.length !== topExpected) {
-            throw new Error('Expected ' + topExpected + ' images for top grid in ' + page.name);
-        }
-        if (page.images.bottom.length !== botExpected) {
-            throw new Error('Expected ' + botExpected + ' images for bottom grid in ' + page.name);
-        }
-    }
+    // function checkImages(page, topExpected, botExpected) {
+    //     // for top grids, last (unfilled) tile is yet to be chosen thus redundant in data
+    //     if (page.images.top.length !== topExpected) {
+    //         throw new Error('Expected ' + topExpected + ' images for top grid in ' + page.name);
+    //     }
+    //     if (page.images.bottom.length !== botExpected) {
+    //         throw new Error('Expected ' + botExpected + ' images for bottom grid in ' + page.name);
+    //     }
+    // }
 
     function applyStyles(page) {
         //console.log('applyStyles(): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
@@ -285,9 +278,9 @@ console.log('libcog');
         }
     }
 
-    function tileSelector(page) {
-        return page.templateId === 'quiz2x2' ? 'div#quiz2x2 #missing2x2' : 'div#quiz3x3 #missing3x3';
-    }
+    // function tileSelector(page) {
+    //     return page.templateId === 'quiz2x2' ? 'div#quiz2x2 #missing2x2' : 'div#quiz3x3 #missing3x3';
+    // }
 
     function tileWidth(page) {
         switch(page.templateId) {
@@ -313,7 +306,6 @@ console.log('libcog');
     }
 
     function answered(num) {
-        //console.log('got num: ' + num);
         var page = currentPage();
 
         fillTile(page, num);
