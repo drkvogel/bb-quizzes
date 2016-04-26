@@ -489,7 +489,7 @@
         });
     }
 
-    $('#content-container').on('click', 'a, button, div.row div', containerClick); // delegate events
+    $('#pages').on('click', 'a, button, div.row div', containerClick); // delegate events
     $('#buttons').on('click', 'a, button', navClick); // need this?
     $('#abandon-btn').on('click', abandonClick); // need this?
     $('#modals').on('click', 'button', modalClick);
