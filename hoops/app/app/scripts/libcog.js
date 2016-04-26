@@ -176,19 +176,19 @@ console.log('libcog');
 
         // TODO passing page object - good idea? i.e. is this a copy or a reference (or reference to a copy)?
         // saves a few lines a reuses putting checks into a function, but have to pass it page name, top, bottom
-        if (page.templateId === 'quiz2x2') {
-            checkImages(page, 3, 6); //var TOP_EXPECTED = 3, BOT_EXPECTED = 6;
-            width = WIDTH2X2;
-            base = 'div#quiz2x2 ';
-            $('div.grid2x2 #missing2x2').css('display', 'none');
-        } else if (page.templateId === 'quiz3x3') {
-            checkImages(page, 8, 8); //var TOP_EXPECTED = 8, BOT_EXPECTED = 8;
-            width = WIDTH3X3;
-            base = 'div#quiz3x3 ';
-            $('div.grid3x3 #missing3x3').css('display', 'none');
-        } else {
-            throw new Error('templateId: "' + page.templateId + '" not expected');
-        }
+        // if (page.templateId === 'quiz2x2') {
+        //     checkImages(page, 3, 6); //var TOP_EXPECTED = 3, BOT_EXPECTED = 6;
+        //     width = WIDTH2X2;
+        //     base = 'div#quiz2x2 ';
+        //     $('div.grid2x2 #missing2x2').css('display', 'none');
+        // } else if (page.templateId === 'quiz3x3') {
+        //     checkImages(page, 8, 8); //var TOP_EXPECTED = 8, BOT_EXPECTED = 8;
+        //     width = WIDTH3X3;
+        //     base = 'div#quiz3x3 ';
+        //     $('div.grid3x3 #missing3x3').css('display', 'none');
+        // } else {
+        //     throw new Error('templateId: "' + page.templateId + '" not expected');
+        // }
 
         // could refactor the next two bits into one function (setBackground(), above)
         // div#quiz2x2 div.grid2x2 div.row div, div#quiz3x3 div.grid3x3 div.row div
@@ -282,33 +282,33 @@ console.log('libcog');
     //     return page.templateId === 'quiz2x2' ? 'div#quiz2x2 #missing2x2' : 'div#quiz3x3 #missing3x3';
     // }
 
-    function tileWidth(page) {
-        switch(page.templateId) {
-        case 'quiz2x2':
-            return WIDTH2X2;
-        case 'quiz3x3':
-            return WIDTH3X3;
-        default:
-            throw new Error('bad page.templateId: ' + page.templateId);
-        }
-    }
+    // function tileWidth(page) {
+    //     switch(page.templateId) {
+    //     case 'quiz2x2':
+    //         return WIDTH2X2;
+    //     case 'quiz3x3':
+    //         return WIDTH3X3;
+    //     default:
+    //         throw new Error('bad page.templateId: ' + page.templateId);
+    //     }
+    // }
 
-    function clearTile() {
-        $(tileSelector(currentPage())).css('display', 'none');
-    }
+    // function clearTile() {
+    //     //$(tileSelector(currentPage())).css('display', 'none');
+    // }
 
-    function fillTile(page, num) {
-        var sel, pos;
-        pos = '-' + (tileWidth(page) * page.images.bottom[num]) + 'px 0px';
-        sel = tileSelector(page);
-        setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
-        $(sel).css('display', 'inline');
-    }
+    // function fillTile(page, num) {
+    //     var sel, pos;
+    //     pos = '-' + (tileWidth(page) * page.images.bottom[num]) + 'px 0px';
+    //     //sel = tileSelector(page);
+    //     setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
+    //     $(sel).css('display', 'inline');
+    // }
 
     function answered(num) {
         var page = currentPage();
 
-        fillTile(page, num);
+        //fillTile(page, num);
 
         var correct = Number(num) === page.correct;
         var timeTaken;
@@ -442,7 +442,7 @@ console.log('libcog');
             hideModal('abandon-modal');
             break;
         case 'tryagain-ok':
-            clearTile();
+            //clearTile();
             hideModal('tryagain-modal');
             break;
         case 'timeup-ok':
