@@ -1,11 +1,9 @@
-console.log('libcog');
-
 /*global $ */
 /*jslint browser:true */ // define 'document'
 // /*jslint plusplus: true */ // doesn't work with sublime jslint plugin:
 
 // http://stackoverflow.com/questions/950087/include-a-javascript-file-in-another-javascript-file
-(function () { // Immediately-Invoked Function Expression (IIFE)
+//(function () { // Immediately-Invoked Function Expression (IIFE)
     // used to set "use strict" for whole scope so jslint doesn't complain, but then have to indent whole scope...
     'use strict';
 
@@ -483,20 +481,22 @@ console.log('libcog');
         });
     }
 
-    $('#content-container').on('click', 'a, button, div.row div', containerClick); // delegate events
-    $('#buttons').on('click', 'a, button', navClick); // need this?
-    $('#abandon-btn').on('click', abandonClick); // need this?
-    $('#modals').on('click', 'button', modalClick);
+    // $('#content-container').on('click', 'a, button, div.row div', containerClick); // delegate events
+    // $('#buttons').on('click', 'a, button', navClick); // need this?
+    // $('#abandon-btn').on('click', abandonClick); // need this?
+    // $('#modals').on('click', 'button', modalClick);
 
-    $().ready(function () { //$(document).ready(
-        console.log('Document ready');
-        if (LIVE) {
-            window.onbeforeunload = null;
-            window.history.forward();   //prevent repeat after back button - may not work.
-            window.onbeforeunload = function() {
-                return 'The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?';
-            };
-        }
-        getConfig();
-    });
-}());
+    // $().ready(function () { //$(document).ready(
+    //     console.log('Document ready');
+    //     if (LIVE) {
+    //         window.onbeforeunload = null;
+    //         window.history.forward();   //prevent repeat after back button - may not work.
+    //         window.onbeforeunload = function() {
+    //             return 'The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?';
+    //         };
+    //     }
+    //     getConfig();
+    // });
+// }());
+
+console.log('libcog.js ready');
