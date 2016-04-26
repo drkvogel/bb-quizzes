@@ -5,38 +5,32 @@
     "timeLimit" : 120000,
     "formAction" : "complete.php",
 
-    "text" : "How many moves would it take to make picture 'A' look like picture 'B'?",
-    "text" : "",
-    "text" : "Hoops",
-    "text" : "You will be shown two pictures at a time.",
-    "text" : "",
-    "text" : "Each picture shows a set of three pegs onto which black, yellow and white hoops have been placed.",
-    "text" : "The left peg can hold 3 hoops, the middle peg 2 hoops and the right peg only 1 hoop.",
-    "text" : "Touch \"Next\" to continue.",
-    "text" : "",
-    "text" : "The goal is to make picture A look like picture B by moving the hoops on picture A.",
-    "text" : "Your task is to work out how to do this in as few moves as possible.",
-    "text" : "",
-    "text" : "Taking a hoop off one peg and putting it on another is a single move and you can only shift one hoop at a time.",
-    "text" : "You might need to shift one hoop to get at the one below it or do something more complicated to swap them around.",
-    "text" : "Touch \"Next\" for an example.",
-    "text" : "",
-    "text" : "Here you can see that the white hoop in picture A needs to be moved to the middle peg to make it look like picture B.",
-    "text" : "This can be done in a single move, so the answer to the fewest moves question is 1 move.",
-    "text" : "Touch \"Next\" for a practice puzzle",
-    "text" : "",
-    "text" : "How few moves would it take to make picture A look like picture B?",
-    "text" : "",
-    "text" : "You answered: ",
-    "text" : "It can be done in: 2",
-    "text" : "Touch \"Next\" to continue.",
-    "text" : "",
-    "text" : "Touch \"Next\" when you are ready to begin.  You will have 3 minutes to do as many puzzles as you can.",
+    "topTxt" : "<h3>Hoops</h3><p>You will be shown two pictures at a time</p>",
+    "botTxt" : "<p>Each picture shows a set of three pegs onto which black, yellow and white hoops have been placed</p><p>The left peg can hold 3 hoops, the middle peg 2 hoops and the right peg only 1 hoop</p>",
+    "nxtTxt" : "<p>Touch \"Next\" to continue.</p>",
 
+    "topTxt" : "<p>The goal is to make picture A look like picture B by moving the hoops on picture A.</p><p>Your task is to work out how to do this in as few moves as possible.</p>",    
+    "botTxt" : "<p>Taking a hoop off one peg and putting it on another is a single move and you can only shift one hoop at a time.</p><p>You might need to shift one hoop to get at the one below it or do something more complicated to swap them around.</p>",
+    "nxtTxt" : "<p>Touch \"Next\" for an example.</p>",
+
+    "topTxt" : "<p>Here you can see that the white hoop in picture A needs to be moved to the middle peg to make it look like picture B.</p>",
+    "botTxt" : "<p>This can be done in a single move, so the answer to the fewest moves question is 1 move.</p>",
+    "nxtTxt" : "<p>Touch \"Next\" for a practice puzzle</p>",
+
+    "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
+
+    "topTxt" : "<p>You answered: </p><p>It can be done in: 2</p>",
+
+    "nxtTxt" : "<p>Touch \"Next\" to continue.</p>",
+
+    "nxtTxt" : "<p>Touch \"Next\" when you are ready to begin.  You will have 3 minutes to do as many puzzles as you can.</p>",
+
+    "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
 
     "pages":[
     {
         "name": "home",
+        "type" : "intro",
         "templateId": "home",
         "sheet": "",
         "images": {
