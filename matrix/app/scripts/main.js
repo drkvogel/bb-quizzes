@@ -161,6 +161,7 @@
         var img = 'url("images/' + sheet + '")'; // DON'T include ';' at end of rule, fails silently! (?)
         $(sel).css('background-image', img);    // e.g. background-image: url('images/intro1.png');
         $(sel).css('background-position', pos); // e.g. background-position: -210px 0px;
+        //$(sel).css('background-size', '50%'); // CSS3
     }
 
     function checkImages(page, topExpected, botExpected) {

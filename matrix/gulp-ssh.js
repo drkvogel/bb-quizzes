@@ -2,6 +2,8 @@
 /*jslint node: true */
 
 // https://www.npmjs.com/package/gulp-ssh
+
+// gulp --gulpfile gulp-ssh.js sftp-push-webfaction # problems with this - doesn't seem to update files
  
 var fs = require('fs');
 var gulp = require('gulp');

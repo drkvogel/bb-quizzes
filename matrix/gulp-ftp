@@ -1,0 +1,6 @@
+#!/bin/bash
+
+node gulp-ssh.js
+
+# didn't seem to work reliably...
+#gulp --gulpfile gulp-ssh.js sftp-push-webfaction # problems with this - doesn't seem to update files

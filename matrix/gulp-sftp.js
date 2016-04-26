@@ -5,6 +5,8 @@
 // 3) trying to use "auth" option to get auth info from file .ftppass - SyntaxError: Unexpected token }
 // trying gulp-ssh instead in gulp-ssh.js
 
+// gulp --gulpfile gulp-ssh.js sftp-push-webfaction # problems with this - doesn't seem to update files
+
 // cbird@q108-vlubuntu:~/Projects/bb-quizzes/yo-test$ node
 
 // vinyl-ftp - ftp only! bullshit!
