@@ -1,0 +1,53 @@
+.services-hold {
+    padding-right:27px;
+}
+.services {
+    height: 64px;
+    width: auto;
+    background:url(http://i39.tinypic.com/ir50zr.jpg) top center;
+    list-style:none;
+    padding:0;
+    width:100%;
+}
+.services #Et1 {
+   /*  margin-left: 60px; */
+}
+.services #Et1, .services #Et2, .services #Et3, .services #Et4 {
+    height: 65px;
+}
+.services li {
+    float: left;
+    width:25%;
+    position: relative;
+    background: none;
+    padding:0;
+    
+}
+.services li a {
+    display: block;
+    padding:0 5px;
+    line-height:65px;
+    text-decoration: none;
+    text-align: center;
+    text-transform: uppercase;
+    position:relative;
+    background:url(http://i39.tinypic.com/ir50zr.jpg) top center;
+}
+.services li a:before {
+    position:absolute;
+    content:'';
+    top:0;
+    bottom:0;
+    right:-27px;
+    width:27px;
+    background:url(http://i43.tinypic.com/2rfsdxl.jpg) no-repeat right top;
+    display:block;
+    z-index:2;
+}
+.services li a:hover {
+    background-position: bottom center;
+}
+.services li a:hover:before {
+    background-position: bottom center;
+}
+}
