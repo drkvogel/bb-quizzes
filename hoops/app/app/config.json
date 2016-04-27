@@ -32,11 +32,73 @@
         "name": "home",
         "type" : "intro",
         "templateId": "home",
-        "sheet": "",
         "images": {
         },
         "correct": -1,
-        "next": "intro1",
         "suppressAbandon": true
-    }]
+    },
+    {
+        "name": "",
+        "type" : "game",
+        "templateId": "",
+        "images": {
+        },
+        "correct": -1,
+        "suppressAbandon": true
+    },
+    {
+        "name": "",
+        "type" : "game",
+        "templateId": "",
+        "images": {
+        },
+        "correct": -1,
+        "suppressAbandon": true
+    },
+    {
+        "name": "",
+        "type" : "game",
+        "templateId": "",
+        "images": {
+        },
+        "correct": -1,
+        "suppressAbandon": true
+    },
+    {
+        "name": "",
+        "type" : "game",
+        "templateId": "",
+        "images": {
+        },
+        "correct": -1,
+        "suppressAbandon": true
+    },
+    {
+        "name": "",
+        "type" : "game",
+        "templateId": "",
+        "images": {
+        },
+        "correct": -1,
+        "suppressAbandon": true
+    },
+    {
+        "name": "",
+        "type" : "game",
+        "templateId": "",
+        "images": {
+        },
+        "correct": -1,
+        "suppressAbandon": true
+    },
+    {
+        "name": "",
+        "type" : "game",
+        "templateId": "",
+        "images": {
+        },
+        "correct": -1,
+        "suppressAbandon": true
+    }
+    ]
 }

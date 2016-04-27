@@ -125,7 +125,7 @@
     // }
 
     function currentPage() {
-        return pages[current]; //console.log('currentPage[' + current + ']:' + obj(pages[current]));
+        return pages[current]; console.log('currentPage[' + current + ']:' + obj(pages[current]));
     }
 
     function pageNamed(name) {
