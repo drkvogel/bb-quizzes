@@ -1,0 +1,24 @@
+#!/bin/bash
+# add -v for verbose debugging
+
+# http://stackoverflow.com/questions/216995/
+#shopt -s extglob # can then exclude with wildcards, e.g.: !(images)
+#scp "./dist/* !(images)" drkvogel@web456.webfaction.com:/home/drkvogel/webapps/main/hoops/
+
+REMOTEHOST="red.ctsu.ox.ac.uk"
+REMOTEPATH="/user/cp/public_html/cjb/hoops"  # http://red.ctsu.ox.ac.uk/~cp/cjb/hoops/
+REMOTEUSER="cp"
+
+echo "Remember to run gulp first to build into ./dist, and fonts, scripts and styles dirs must exist on server already"
+read -rsp $'Press any key to continue...\n' -n1 key
+
+scp -r ./dist/* $REMOTEUSER@$REMOTEHOST:$REMOTEPATH
+
+exit 0
+
+# echo "Remember to run gulp first to build into ./dist, and run wf-all first time to copy fonts, images"
+# read -rsp $'Press any key to continue...\n' -n1 key
+
+# scp -r ./dist/scripts/* drkvogel@web456.webfaction.com:/home/drkvogel/webapps/main/hoops/scripts/ # add -v for verbose debugging
+# scp -r ./dist/styles/* drkvogel@web456.webfaction.com:/home/drkvogel/webapps/main/hoops/styles/
+# scp ./dist/* drkvogel@web456.webfaction.com:/home/drkvogel/webapps/main/hoops/

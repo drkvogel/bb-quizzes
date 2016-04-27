@@ -459,35 +459,36 @@
         }
     }
 
-    // function init() {
-    //     timer = new Timer();
-    //     isTimeUp = false;
-    //     current = 0;
+    function init() {
+        timer = new Timer();
+        isTimeUp = false;
+        current = 0;
 
-    //     $('#button').css('display', LIVE ? 'none' : 'inline');
+        $('#button').css('display', LIVE ? 'none' : 'inline');
 
-    //     var formAction = config.formAction;
-    //     var loc = location.toString().split('://')[1]; // strip off http://, https://
-    //     if (loc === 'localhost:9000/') { // served from gulp
-    //         console.log('loc === localhost:9000/');
-    //         formAction = 'http://localhost:8000/' + formAction; // gulp-connect-php - local PHP server
-    //     } // else, is on same server, relative link OK
-    //     $('#feedbackForm').attr('action', formAction);
+        var formAction = config.formAction;
+        var loc = location.toString().split('://')[1]; // strip off http://, https://
+        if (loc === 'localhost:9000/') { // served from gulp
+            console.log('loc === localhost:9000/');
+            formAction = 'http://localhost:8000/' + formAction; // gulp-connect-php - local PHP server
+        } // else, is on same server, relative link OK
+        $('#feedbackForm').attr('action', formAction);
 
-    //     showPage(currentPage());
-    // }
+        showPage(currentPage());
+    }
 
-    // function getConfig() {
-    //     $.getJSON('./config.json', function (data) {
-    //         console.log('getConfig(): got JSON');
-    //         config = data;
-    //         pages = data.pages;
-    //         init();
-    //     }).fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
-    //         var err = 'error getting JSON: ' + textStatus + ', errorThrown: ' + errorThrown;
-    //         console.log(err);
-    //     });
-    // }
+
+    function getConfig() {
+        $.getJSON('./config.json', function (data) {
+            console.log('getConfig(): got JSON');
+            config = data;
+            pages = data.pages;
+            init();
+        }).fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
+            var err = 'error getting JSON: ' + textStatus + ', errorThrown: ' + errorThrown;
+            console.log(err);
+        });
+    }
 
     $('#content-container').on('click', 'a, button, div.row div', containerClick); // delegate events
     $('#buttons').on('click', 'a, button', navClick); // need this?
