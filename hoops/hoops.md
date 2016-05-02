@@ -2,39 +2,13 @@
 
 bb-quizzes/jonathanpr/BioBankQuizGames/TowerOfLondonGame.cpp
 
-    $ yo webapp
-    ? What more would you like? (Press <space> to select)
-    ❯◉ Sass
-     ◉ Bootstrap
-     ◉ Modernizr
+One of the pictures is the same for each puzzle - in the desktop version, the bottom "Picture B" always looks like this:
 
+      |
+    black       |     
+    white    yellow     |  (none)
 
+So that the top picture ("Picture A") changes for each puzzle, and the subject is required to guess how many moves would make each top picture into the same bottom picture. In the web version, this is to be reversed, so that the top picture remains constant, and the subject is asked how many moves are required to make each different bottom picture. The number of moves are, of course, the same for each puzzle.
 
-### Setup problems
-
-when will I learn? yeoman setup always seems to break, or maybe seem unresponsive and I kill it, and the node packages will be broken. 
-Delete everything with `rm -rf node_modules` and run `npm install`. /home/kvogel/Projects/bb-quizzes/hoops/setup.md
-and don't forget to do `bower install` as well.
-
-then "jQuery is not defined", and all styles are missing from page.
-
-    $ gulp wiredep
-
-now looks OK. What was going on there? 
-
-https://github.com/taptapship/wiredep
->A Bower package may not properly list its dependencies in its bower.json file.
->A Bower package may not specify a main property in its bower.json file. ?
-
-why was this necessary? Anyway, works for now....
-
-### Semantic Versioning 2.0.0
-
-Given a version number `MAJOR.MINOR.PATCH`, increment the:
-
-1. `MAJOR` version when you make incompatible API changes,
-2. `MINOR` version when you add functionality in a backwards-compatible manner, and
-3. `PATCH` version when you make backwards-compatible bug fixes.
-
----
+The C++ Builder `.exe`, `C:\Users\cbird\Dropbox\work\bb-quizzes\Jon-touchscreens.exe`, seems to use a lot of CPU on my laptop - up to 25%.
 
