@@ -106,8 +106,6 @@
     };
     // module.exports = Timer; // module.exports is Node.js, for the server!
 
-
-
     var config,
         pages,
         current,
@@ -175,9 +173,9 @@
 
     function applyStyles(page) {
         //console.log('applyStyles(): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
-        var base, sel, pos, width;
-        var top = page.images.top;
-        var bot = page.images.bottom;
+        var base, sel, pos, width, img;
+        // var top = page.images.top;
+        // var bot = page.images.bottom;
 
         // TODO passing page object - good idea? i.e. is this a copy or a reference (or reference to a copy)?
         // saves a few lines a reuses putting checks into a function, but have to pass it page name, top, bottom
@@ -197,17 +195,9 @@
 
         // could refactor the next two bits into one function (setBackground(), above)
         // div#quiz2x2 div.grid2x2 div.row div, div#quiz3x3 div.grid3x3 div.row div
-        for (var i = 0; i < top.length; i++) { // safer to iterate like this with arrays - but why use arrays anyway?
-            sel = base + '#top' + i;
-            pos = '-' + (width * top[i]) + 'px 0px';
-            setBackground(sel, page.sheet, pos); //console.log('sel: ' + sel + ', img: ' + img + ', pos: ' + pos);
-        }
-
-        for (i = 0; i < bot.length; i++) {
-            sel = base + '#bot' + i;
-            pos = '-' + (width * bot[i]) + 'px 0px';
-            setBackground(sel, page.sheet, pos); //console.log('sel: ' + sel + ', img: ' + img + ', pos: ' + pos);
-        }
+        // sel = base + '#top' + i;
+        // pos = '-' + (width * top[i]) + 'px 0px';
+        // setBackground(sel, page.sheet, pos); //console.log('sel: ' + sel + ', img: ' + img + ', pos: ' + pos);
     }
 
     function showInfo(text) {
@@ -234,8 +224,7 @@
         showInfo(info);
 
         switch (page.templateId) {
-        case 'quiz2x2':
-        case 'quiz3x3':
+        case 'game':
             applyStyles(page);
             if (page.name.slice(0, 2) === 'ex') {
                 timer.now(); // start timer for all real exercises
@@ -248,6 +237,9 @@
         case 'getReady':
         case 'abandon':
             break; // don't do nuttin
+        case 'intro1':
+            // fill in text
+            break;
         case 'thanks':
             clearTimeout(timeUpTimeout);
             clearTimeout(nextPageTimeout);
@@ -313,8 +305,6 @@
     function answered(num) {
         //console.log('got num: ' + num);
         var page = currentPage();
-
-        //fillTile(page, num);
 
         var correct = Number(num) === page.correct;
         var timeTaken;
@@ -448,7 +438,6 @@
             hideModal('abandon-modal');
             break;
         case 'tryagain-ok':
-            //clearTile();
             hideModal('tryagain-modal');
             break;
         case 'timeup-ok':
