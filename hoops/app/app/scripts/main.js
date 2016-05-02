@@ -221,7 +221,7 @@
     }
 
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
-        console.log('showPage(' + page.name + '): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
+        console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
         console.log('showPage(): isTimeUp:' + isTimeUp);
 
         if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
@@ -490,7 +490,7 @@
         });
     }
 
-    $('#content-container').on('click', 'a, button, div.row div', containerClick); // delegate events
+    $('#pages').on('click', 'a, button, div.row div', containerClick); // delegate events
     $('#buttons').on('click', 'a, button', navClick); // need this?
     $('#abandon-btn').on('click', abandonClick); // need this?
     $('#modals').on('click', 'button', modalClick);
