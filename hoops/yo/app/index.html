@@ -53,21 +53,21 @@
         </div>
 
 <style type="text/css">
-  #topTxt {
+  .topTxt {
     text-align: center;
   }
 </style>
 
         <!-- Intro 1 -->
         <div id="intro1" class="page" style="display:none">
-          <div id="topTxt">
+          <div class="topTxt">
             <h3>Hoops</h3>
             <p>You will be shown two pictures at a time</p>
           </div>
-          <div id="botTxt">
+          <div class="botTxt">
             <p>Each picture shows a set of three pegs onto which black, yellow and white hoops have been placed. The left peg can hold 3 hoops, the middle peg 2 hoops and the right peg only 1 hoop</p>
           </div>
-          <div id="navTxt">
+          <div class="navTxt">
             <p>Touch 'Next' to continue.</p>
           </div>
         </div>
@@ -84,19 +84,19 @@
 
 
 <style type="text/css">  
-  #toptable td {
+  .toptable td {
     border: 1px;
   }
-  #toptable {
+  .toptable {
     border: 1px;
     border-color: black;
     width: 90%;
     xbackground-color: gray;
   }
-  #botTxt {
+  .botTxt {
     margin: auto;
     width: 80%;
-    height: 100px;
+    #height: 100px;
     text-align: center;
   }
   #answers {
@@ -105,36 +105,39 @@
   }
   #answers td {
     background-color: lightgrey;
-    width: 200px;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    margin: 20px; // doesn't work - want to space boxes apart?
   }
-  #buttons {
+  .buttons {
     margin: auto;
     width: 80%;
     text-align: center;
   }
-  #buttons span {
+  .buttons span {
     background-color: aqua;
     width: 250px;
   }
   #img-a, #img-b {
     width: 100%;
   }
-  #navTxt {
+  .navTxt {
     text-align: center;
   }
 </style>
 
         <!-- game -->
         <div id="game" class="page" style="display:none">
-          <table id="toptable">
+          <table class="toptable">
             <tr><td>A</td><td id="img-a"><img /></td></tr>
             <tr><td>B</td><td id="img-b"><img /></td></tr>
           </table>
-          <span id="botTxt">How many moves would it take to make picture A look like picture B?</span>
+          <div class="botTxt">How many moves would it take to make picture A look like picture B?</div>
           <table id="answers">
             <tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
           </table>
-          <div id="buttons">
+          <div class="buttons">
             <span>&lt;&lt; Back</span><span>Next &gt;&gt;</span>
           </div>
         </div>
