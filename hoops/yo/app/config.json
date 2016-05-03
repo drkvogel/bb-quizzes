@@ -70,6 +70,8 @@
         "type" : "intro",
         "templateId": "intro1",
         "images": {
+            "top": "intro5.png",
+            "bot": "ex1.png"
         },
         "topTxt" : "<p>You answered: </p><p>It can be done in: 2</p>",
         "navTxt" : "<p>Touch \"Next\" to continue.</p>",        
@@ -80,8 +82,7 @@
         "name": "intro6",
         "type" : "intro",
         "templateId": "intro1",
-        "images": {
-        },
+        "images": {},
         "navTxt" : "<p>Touch \"Next\" when you are ready to begin. You will have 3 minutes to do as many puzzles as you can.</p>",
         "correct": -1,
         "suppressAbandon": true
