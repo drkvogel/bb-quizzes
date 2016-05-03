@@ -61,7 +61,7 @@
           <div id="botTxt">
             <p>Each picture shows a set of three pegs onto which black, yellow and white hoops have been placed</p><p>The left peg can hold 3 hoops, the middle peg 2 hoops and the right peg only 1 hoop</p>
           </div>
-          <div id="nxtTxt">
+          <div id="navTxt">
             <p>Touch 'Next' to continue.</p>
           </div>
         </div>
@@ -76,16 +76,58 @@
 
         </div>
 
+
+<style type="text/css">  
+  #toptable td {
+    border: 1px;
+  }
+  #toptable {
+    border: 1px;
+    border-color: black;
+    width: 90%;
+    xbackground-color: gray;
+  }
+  #botTxt {
+    margin: auto;
+    width: 80%;
+    height: 100px;
+    text-align: center;
+  }
+  #answers {
+    margin: auto;
+    width: 80%;
+  }
+  #answers td {
+    background-color: lightgrey;
+    width: 200px;
+  }
+  #buttons {
+    margin: auto;
+    width: 80%;
+    text-align: center;
+  }
+  #buttons span {
+    background-color: aqua;
+    width: 250px;
+  }
+  #img-a, #img-b {
+    width: 100%;
+  }
+</style>
+
         <!-- game -->
         <div id="game" class="page" style="display:none">
-          <table>
-            <tr><td>A</td><td><img /></td></tr>
-            <tr><td>B</td><td><img /></td></tr>
+          <table id="toptable">
+            <tr><td>A</td><td id="img-a"><img /></td></tr>
+            <tr><td>B</td><td id="img-b"><img /></td></tr>
           </table>
-          <span>How many moves would it take to make picture A look like picture B?</span>
-          <table>
+          <span id="botTxt">How many moves would it take to make picture A look like picture B?</span>
+          <table id="answers">
             <tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
           </table>
+          <div id="buttons">
+            <span>&lt;&lt; Back</span><span>Next &gt;&gt;</span>
+          </div>
         </div>
 
         <!-- name -->

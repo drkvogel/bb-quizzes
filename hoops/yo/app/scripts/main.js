@@ -337,32 +337,6 @@
         nextPageTimeout = setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
     }
 
-    function containerClick(e) {
-        e.preventDefault();
-        var clickedEl = $(this),
-            elId = clickedEl.attr('id');
-        console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId); // now gets id from loaded page
-        switch (clickedEl.attr('id')) {
-        case 'prev':
-            prevPage();
-            break;
-        case 'next':
-        case 'start':
-            nextPage();
-            break;
-        case 'yes':
-        case 'no':
-            console.log('elid: ' + clickedEl.attr('id') + ', html: ' + clickedEl.html());
-            break;
-        default:
-            // if parent is a row or grandparent is 3x2 or 4x2 grid?
-            var slice = elId.slice(0, 3);
-            if (slice === 'bot') { // bottom grid only
-                var num = elId[3]; // number in id following 'bot' == number of bottom tile selected
-                answered(num);
-            }
-        }
-    }
 
     function showModal(modal) {
         console.log('showModal(\'' + modal + '\')');
@@ -392,6 +366,33 @@
         // showModal('timeup-modal'); //alert("Time's up!");
         // hidePage(currentPage());
         // showPage(pageNamed('thanks'));
+    }
+
+    function containerClick(e) {
+        e.preventDefault();
+        var clickedEl = $(this),
+            elId = clickedEl.attr('id');
+        console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId); // now gets id from loaded page
+        switch (clickedEl.attr('id')) {
+        case 'prev':
+            prevPage();
+            break;
+        case 'next':
+        case 'start':
+            nextPage();
+            break;
+        case 'yes':
+        case 'no':
+            console.log('elid: ' + clickedEl.attr('id') + ', html: ' + clickedEl.html());
+            break;
+        default:
+            // if parent is a row or grandparent is 3x2 or 4x2 grid?
+            var slice = elId.slice(0, 3);
+            if (slice === 'bot') { // bottom grid only
+                var num = elId[3]; // number in id following 'bot' == number of bottom tile selected
+                answered(num);
+            }
+        }
     }
 
     function abandonClick() {

@@ -82,259 +82,99 @@
         "suppressAbandon": true
     },
     {
-        "name": "ex",
+        "name": "ex1",
         "type" : "game",
-        "templateId": "",
+        "templateId": "game",
         "images": {
         },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
+        "correct": -1,
+        "suppressAbandon": true
+    },
+    {
+        "name": "ex2",
+        "type" : "game",
+        "templateId": "game",
+        "images": {
+        },
+        "correct": -1,
+        "suppressAbandon": true
+    },
+    {
+        "name": "ex3",
+        "type" : "game",
+        "templateId": "game",
+        "images": {
+        },
+        "correct": -1,
+        "suppressAbandon": true
+    },
+    {
+        "name": "ex4",
+        "type" : "game",
+        "templateId": "game",
+        "images": {
+        },
+        "correct": -1,
+        "suppressAbandon": true
+    },
+    {
+        "name": "ex5",
+        "type" : "game",
+        "templateId": "game",
+        "images": {
+        },
+        "correct": -1,
+        "suppressAbandon": true
+    },
+    {
+        "name": "ex6",
+        "type" : "game",
+        "templateId": "game",
+        "images": {
+        },
+        "correct": -1,
+        "suppressAbandon": true
+    },
+    {
+        "name": "ex7",
+        "type" : "game",
+        "templateId": "game",
+        "images": {
+        },
+        "correct": -1,
+        "suppressAbandon": true
+    },
+    {
+        "name": "ex8",
+        "type" : "game",
+        "templateId": "game",
+        "images": {
+        },
+        "correct": -1,
+        "suppressAbandon": true
+    },
+    {
+        "name": "ex9",
+        "type" : "game",
+        "templateId": "game",
+        "images": {
+        },
+        "correct": -1,
+        "suppressAbandon": true
+    },
+    {
+        "name": "ex10",
+        "type" : "game",
+        "templateId": "game",
+        "images": {
+        },
         "correct": -1,
         "suppressAbandon": true
     },
     {
         "name": "ex",
         "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
-        "images": {
-        },
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon": true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "",
+        "templateId": "game",
         "images": {
         },
         "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
