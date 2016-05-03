@@ -19,6 +19,7 @@
         "type" : "intro",
         "templateId": "intro1",
         "images": {
+            "top": "intro1.png"
         },
         "topTxt" : "<h3>Hoops</h3><p>You will be shown two pictures at a time</p>",
         "botTxt" : "<p>Each picture shows a set of three pegs onto which black, yellow and white hoops have been placed</p><p>The left peg can hold 3 hoops, the middle peg 2 hoops and the right peg only 1 hoop</p>",
@@ -31,6 +32,7 @@
         "type" : "intro",
         "templateId": "intro1",
         "images": {
+            "top": "intro2.png"
         },
         "topTxt" : "<p>The goal is to make picture A look like picture B by moving the hoops on picture A.</p><p>Your task is to work out how to do this in as few moves as possible.</p>",    
         "botTxt" : "<p>Taking a hoop off one peg and putting it on another is a single move and you can only shift one hoop at a time.</p><p>You might need to shift one hoop to get at the one below it or do something more complicated to swap them around.</p>",
@@ -43,6 +45,7 @@
         "type" : "intro",
         "templateId": "intro1",
         "images": {
+            "top": "intro3.png"
         },
         "topTxt" : "<p>Here you can see that the white hoop in picture A needs to be moved to the middle peg to make it look like picture B.</p>",
         "botTxt" : "<p>This can be done in a single move, so the answer to the fewest moves question is 1 move.</p>",
@@ -55,6 +58,8 @@
         "type" : "game",
         "templateId": "game",
         "images": {
+            "top": "top-constant.png",
+            "bot": "ex1.png"
         },
         "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
         "correct": -1,

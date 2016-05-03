@@ -238,6 +238,48 @@
         case 'abandon':
             break; // don't do nuttin
         case 'intro1':
+            // topTxt
+            $('.topTxt').html(page.topTxt);
+            // example image: intro1.png? not split and don't have A, B labels
+            $('#middleImg img').attr('src', 'images/' + page.images.top);
+            // botTxt
+            $('.botTxt').html(page.botTxt);
+            // navTxt
+            $('.navTxt').html(page.navTxt);
+            // navButtons
+            break;
+        case 'intro2':
+            // topTxt
+            // example image: intro2.png - same problem
+            // botTxt
+            // navTxt
+            // navButtons
+            break;
+        case 'intro3':
+            // topTxt
+            // example image: intro3.png (with arrow) - same problem
+            // botTxt
+            // navTxt
+            // navButtons
+            break;
+        case 'intro4':
+            // game:
+            // img-a - top-constant.png
+            // img-b - which? (upper image in desktop version)
+            // botTxt
+            // answerButtons
+            break;
+        case 'intro5':
+            // topTxt
+            // example image: image5.png
+            // navTxt
+            // navButtons
+            break;
+        case 'intro6':
+            // topTxt/botTxt
+            // navButtons
+            break;
+        case 'intro6':
             // fill in text
             break;
         case 'thanks':
