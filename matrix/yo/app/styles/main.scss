@@ -179,6 +179,7 @@ code {
 div.grid2x2, div.grid3x2, div.grid3x3, div.grid4x2 {
   padding: 10px;
   margin: auto;
+  text-align: center;
 }
 
 /* quiz2x2 top and bottom grid tiles*/
@@ -194,6 +195,8 @@ div#quiz2x2 div.grid3x2 div.row div {
 /*div#quiz2x2 > div.grid3x2 > div.row > div {*/
 div#quiz2x2 > div.grid3x2 > div.row > div {
   padding: 20px;
+  width: 0;
+  margin: auto;
 }
 
 /* quiz3x3 top and bottom grid tiles */

@@ -158,9 +158,22 @@
 
     // js docstring?
     function setBackground(sel, sheet, pos) { // jQuery selector, sprite sheet, offset pos (px)
-        var img = 'url("images/' + sheet + '")'; // DON'T include ';' at end of rule, fails silently! (?)
-        $(sel).css('background-image', img);    // e.g. background-image: url('images/intro1.png');
-        $(sel).css('background-position', pos); // e.g. background-position: -210px 0px;
+        //var img = 'url("images/' + sheet + '")'; // DON'T include ';' at end of rule, fails silently! (?)
+        var img = 'images/' + sheet; // DON'T include ';' at end of rule, fails silently! (?)
+        // $(sel).css('background-image', img);    // e.g. background-image: url('images/intro1.png');
+        // $(sel).css('background-position', pos); // e.g. background-position: -210px 0px;
+        // style="position:absolute;top:0px;left: -840px;"
+        var scale = 0.5;
+        $(sel).attr('src', img);
+        $(sel).css('position', 'absolute');
+        $(sel).css('top', '0px');
+        $(sel).css('left', pos * scale);
+        $(sel).attr('width', 1260 * scale);
+        $(sel).attr('height', 170 * scale);
+        // <div style="width: 210px;height: 170px;overflow:hidden;position:relative;">
+        // div
+        $(sel).parent().css('width', 210 * scale);
+        $(sel).parent().css('height', 170 * scale);
         //$(sel).css('background-size', '50%'); // CSS3
     }
 
@@ -200,13 +213,14 @@
         // div#quiz2x2 div.grid2x2 div.row div, div#quiz3x3 div.grid3x3 div.row div
         for (var i = 0; i < top.length; i++) { // safer to iterate like this with arrays - but why use arrays anyway?
             sel = base + '#top' + i;
-            pos = '-' + (width * top[i]) + 'px 0px';
+            //pos = '-' + (width * top[i]) + 'px 0px';
+            pos = '-' + (width * top[i]);// + 'px';
             setBackground(sel, page.sheet, pos); //console.log('sel: ' + sel + ', img: ' + img + ', pos: ' + pos);
         }
 
         for (i = 0; i < bot.length; i++) {
             sel = base + '#bot' + i;
-            pos = '-' + (width * bot[i]) + 'px 0px';
+            pos = '-' + (width * bot[i]);// + 'px 0px';
             setBackground(sel, page.sheet, pos); //console.log('sel: ' + sel + ', img: ' + img + ', pos: ' + pos);
         }
     }
@@ -494,6 +508,13 @@
     $('#buttons').on('click', 'a, button', navClick); // need this?
     $('#abandon-btn').on('click', abandonClick); // need this?
     $('#modals').on('click', 'button', modalClick);
+
+    window.onresize = function(event) {
+        $(window).width();
+        $(window).height();
+    };
+
+
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
