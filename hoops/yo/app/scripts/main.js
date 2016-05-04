@@ -279,9 +279,6 @@
             // topTxt/botTxt
             // navButtons
             break;
-        case 'intro6':
-            // fill in text
-            break;
         case 'thanks':
             clearTimeout(timeUpTimeout);
             clearTimeout(nextPageTimeout);
