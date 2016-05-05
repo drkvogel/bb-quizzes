@@ -163,17 +163,24 @@
         // $(sel).css('background-image', img);    // e.g. background-image: url('images/intro1.png');
         // $(sel).css('background-position', pos); // e.g. background-position: -210px 0px;
         // style="position:absolute;top:0px;left: -840px;"
-        var scale = 0.5;
+        var scale = 0.5, tileWidth, tileHeight;
+        var windowToTile = 0.1; // ratio of width of window to width of tile
+        tileWidth = $(window).width() * windowToTile;
+        tileHeight = $(window).height() * windowToTile;
+
+
         $(sel).attr('src', img);
         $(sel).css('position', 'absolute');
         $(sel).css('top', '0px');
         $(sel).css('left', pos * scale);
-        $(sel).attr('width', 1260 * scale);
-        $(sel).attr('height', 170 * scale);
-        // <div style="width: 210px;height: 170px;overflow:hidden;position:relative;">
-        // div
-        $(sel).parent().css('width', 210 * scale);
-        $(sel).parent().css('height', 170 * scale);
+        // $(sel).attr('width', 1260 * scale); // $ file intro1.png: intro1.png: PNG image data, 1260 x 170, 8-bit colormap, interlaced
+        // $(sel).attr('height', 170 * scale);        
+        // $(sel).parent().css('width', 210 * scale); // <div style="width: 210px;height: 170px;overflow:hidden;position:relative;">
+        // $(sel).parent().css('height', 170 * scale);
+        $(sel).attr('width', tileWidth * 6); // 6 x 210
+        $(sel).attr('height', tileHeight);        
+        $(sel).parent().css('width', tileWidth); // <div style="width: 210px;height: 170px;overflow:hidden;position:relative;">
+        $(sel).parent().css('height', tileHeight);
         //$(sel).css('background-size', '50%'); // CSS3
     }
 
@@ -510,11 +517,11 @@
     $('#modals').on('click', 'button', modalClick);
 
     window.onresize = function(event) {
-        $(window).width();
-        $(window).height();
+        showPage(currentPage()); // ?
+        // var windowToTile = 0.1; // ratio of width of window to width of tile
+        // $(window).width();
+        // $(window).height();
     };
-
-
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
