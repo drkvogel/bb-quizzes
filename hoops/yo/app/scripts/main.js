@@ -238,13 +238,10 @@
         case 'abandon':
             break; // don't do nuttin
         case 'intro1':
-            // topTxt
             $('.topTxt').html(page.topTxt);
             // example image: intro1.png? not split and don't have A, B labels
             $('#middleImg img').attr('src', 'images/' + page.images.top);
-            // botTxt
             $('.botTxt').html(page.botTxt);
-            // navTxt
             $('.navTxt').html(page.navTxt);
             // navButtons
             break;
