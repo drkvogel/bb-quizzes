@@ -9,8 +9,7 @@
         "name": "home",
         "type" : "intro",
         "templateId": "home",
-        "images": {
-        },
+        "images": {},
         "correct": -1,
         "suppressAbandon": true
     },
@@ -83,7 +82,7 @@
         "type" : "intro",
         "templateId": "intro1",
         "images": {},
-        "navTxt" : "<p>Touch \"Next\" when you are ready to begin. You will have 3 minutes to do as many puzzles as you can.</p>",
+        "navTxt" : "<p>Touch \"Next\" when you are ready to begin. You will have 3 minutes to do as many puzzles as you can.</p><div id=\"nav\"><span class=\"prev\" class=\"col-md-2\"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span><span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span></div>",
         "correct": -1,
         "suppressAbandon": true
     },

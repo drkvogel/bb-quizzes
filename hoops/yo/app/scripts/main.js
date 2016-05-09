@@ -243,14 +243,14 @@
             $('#middleImg img').attr('src', 'images/' + page.images.top);
             $('.botTxt').html(page.botTxt);
             $('.navTxt').html(page.navTxt);
-            // navButtons
+            $('.nav').html(page.nav);
             break;
         case 'intro2':
             // topTxt
             // example image: intro2.png - same problem
             // botTxt
             // navTxt
-            // navButtons
+            // nav
             break;
         case 'intro3':
             // topTxt
