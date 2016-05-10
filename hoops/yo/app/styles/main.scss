@@ -94,17 +94,28 @@ body {
   // background-color: gray;
 }
 
+#toptable-container {
+  text-align: center;
+}
+
 .botTxt {
   margin: auto;
   width: 80%;
   //height: 100px;
   text-align: center;
+  font-size: large;
+  padding: 1em;
 }
 
 #answers {
   margin: auto;
   width: 80%;
   text-align: center;
+}
+
+#answers button {
+  padding: 20px;
+  margin: 15px;
 }
 
 #answers td {

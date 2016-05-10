@@ -237,6 +237,7 @@
                 }
             }
             $('#img-b img').attr('src', 'images/' + page.image);
+            $('.botTxt').html("How many moves would it take to make picture A look like picture B?")
             if (page.name == 'intro4') {
                 $('.navCtl').html(navPrevNext);
             } else {
@@ -266,6 +267,10 @@
             $('.botTxt').html(page.botTxt);
             $('.navTxt').html(page.navTxt);
             $('.navCtl').html(navPrevNext);
+            if (page.name == 'intro5') {
+                $('#intro-answer').html('tbc');
+                //$('#intro-answer').html(answers.pop().answer);
+            }
             break;
         case 'intro4':
             // game:
@@ -313,69 +318,6 @@
         }
     }
 
-    // function tileSelector(page) {
-    //     return page.templateId === 'quiz2x2' ? 'div#quiz2x2 #missing2x2' : 'div#quiz3x3 #missing3x3';
-    // }
-
-    // function tileWidth(page) {
-    //     switch(page.templateId) {
-    //     case 'quiz2x2':
-    //         return WIDTH2X2;
-    //     case 'quiz3x3':
-    //         return WIDTH3X3;
-    //     default:
-    //         throw new Error('bad page.templateId: ' + page.templateId);
-    //     }
-    // }
-
-    // function clearTile() {
-    //     //$(tileSelector(currentPage())).css('display', 'none');
-    // }
-
-    // function fillTile(page, num) {
-    //     var sel, pos;
-    //     pos = '-' + (tileWidth(page) * page.images.bottom[num]) + 'px 0px';
-    //     sel = tileSelector(page);
-    //     setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
-    //     $(sel).css('display', 'inline');
-    // }
-
-    function answered(num) {
-        //console.log('got num: ' + num);
-        var page = currentPage();
-
-        var correct = Number(num) === page.correct;
-        var timeTaken;
-        if (page.name.slice(0, 2) === 'ex') { // real exercise
-            timer.lap();
-            timeTaken = timer.getElapsed();
-            showTime(timeTaken, correct);
-
-            var answer = {
-                page: page.name,
-                answer: num,
-                correct: correct,
-                time: timeTaken
-            };
-            answers.push(answer);
-        } else if (page.name.slice(0, 5) === 'intro') {
-            if (!correct) {
-                showInfo('try again'); // TODO
-                showModal('tryagain-modal');
-                return;
-            }
-        }
-
-        if (correct) { // http://stackoverflow.com/a/33457014/535071
-            console.log('Correct!');
-        } else {
-            console.log('Wrong! correct is: ' + page.correct);
-        }
-
-        nextPageTimeout = setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
-    }
-
-
     function showModal(modal) {
         console.log('showModal(\'' + modal + '\')');
         showDiv('modals');
@@ -400,10 +342,40 @@
         clearTimeout(timeUpTimeout); // in case triggered manually for testing
         isTimeUp = true;
         console.log('timeUp(): isTimeUp:' + isTimeUp);
+    }
 
-        // showModal('timeup-modal'); //alert("Time's up!");
-        // hidePage(currentPage());
-        // showPage(pageNamed('thanks'));
+    function answered(num) {
+        //console.log('got num: ' + num);
+        var page = currentPage();
+        var correct = Number(num) === page.correct;
+        var timeTaken;
+        if (page.name.slice(0, 2) === 'ex') { // real exercise
+            timer.lap();
+            timeTaken = timer.getElapsed();
+            showTime(timeTaken, correct);
+            var answer = {
+                page: page.name,
+                answer: num,
+                correct: correct,
+                time: timeTaken
+            };
+            answers.push(answer);
+        } else if (page.name.slice(0, 5) === 'intro') {
+            // no "try again" in hoops, modal divs removed
+            // if (!correct) {
+            //     showInfo('try again'); // TODO
+            //     showModal('tryagain-modal');
+            //     return;
+            // }
+        }
+
+        if (correct) { // http://stackoverflow.com/a/33457014/535071
+            console.log('Correct!');
+        } else {
+            console.log('Wrong! correct is: ' + page.correct);
+        }
+
+        nextPageTimeout = setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
     }
 
     function containerClick(e) {
@@ -424,9 +396,8 @@
             console.log('elid: ' + clickedEl.attr('id') + ', html: ' + clickedEl.html());
             break;
         default:
-            // if parent is a row or grandparent is 3x2 or 4x2 grid?
             var slice = elId.slice(0, 3);
-            if (slice === 'bot') { // bottom grid only
+            if (slice === 'ans') { // bottom grid only
                 var num = elId[3]; // number in id following 'bot' == number of bottom tile selected
                 answered(num);
             }
