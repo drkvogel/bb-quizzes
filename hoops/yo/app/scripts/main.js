@@ -223,6 +223,9 @@
         var info = current + '/' + pages.length + ': ' + page.name;
         showInfo(info);
 
+        var navNext = '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>'
+        var navPrevNext = '<span class=\"prev\" class=\"col-md-2\"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span><span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>'
+
         switch (page.templateId) {
         case 'game':
             applyStyles(page);
@@ -239,25 +242,19 @@
             break; // don't do nuttin
         case 'intro1':
             $('.topTxt').html(page.topTxt);
-            // example image: intro1.png? not split and don't have A, B labels
-            $('#middleImg img').attr('src', 'images/' + page.images.top);
+            $('#middleImg img').attr('src', 'images/' + page.images.top); // example image: intro1.png? not split and don't have A, B labels
             $('.botTxt').html(page.botTxt);
             $('.navTxt').html(page.navTxt);
-            $('.nav').html(page.nav);
+            $('.navCtl').html(navNext);
             break;
         case 'intro2':
-            // topTxt
-            // example image: intro2.png - same problem
-            // botTxt
-            // navTxt
-            // nav
-            break;
         case 'intro3':
-            // topTxt
-            // example image: intro3.png (with arrow) - same problem
-            // botTxt
-            // navTxt
-            // navButtons
+        case 'intro5':
+            $('.topTxt').html(page.topTxt);
+            $('#middleImg img').attr('src', 'images/' + page.images.top); // example image: intro1.png? not split and don't have A, B labels
+            $('.botTxt').html(page.botTxt);
+            $('.navTxt').html(page.navTxt);
+            $('.navCtl').html(navPrevNext);
             break;
         case 'intro4':
             // game:
@@ -265,12 +262,6 @@
             // img-b - which? (upper image in desktop version)
             // botTxt
             // answerButtons
-            break;
-        case 'intro5':
-            // topTxt
-            // example image: image5.png
-            // navTxt
-            // navButtons
             break;
         case 'intro6':
             // topTxt/botTxt
