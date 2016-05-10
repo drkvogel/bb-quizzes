@@ -139,15 +139,15 @@
     }
 
     function hideDiv(id) {
-        document.getElementById(id).style.display = 'none'; console.log('hideDiv(): id: ' + id);
+        document.getElementById(id).style.display = 'none'; //console.log('hideDiv(): id: ' + id);
     }
 
     function showDiv(id) {
-        document.getElementById(id).style.display = 'inline'; console.log('showDiv(): id: ' + id);
+        document.getElementById(id).style.display = 'inline'; //console.log('showDiv(): id: ' + id);
     }
 
     function hidePage(page) {
-        hideDiv(page.templateId); console.log('hidePage(): templateId: ' + page.templateId); //+ obj(page) + '\'');
+        hideDiv(page.templateId); //console.log('hidePage(): templateId: ' + page.templateId); //+ obj(page) + '\'');
     }
 
     // http://stackoverflow.com/questions/130396/are-there-constants-in-javascript
@@ -383,6 +383,7 @@
         default:
             var slice = elId.slice(0, 3);
             if (slice === 'ans') { // bottom grid only
+                $(elId).addClass('disabled');
                 var num = elId[3]; // number in id following 'bot' == number of bottom tile selected
                 answered(num);
             }
