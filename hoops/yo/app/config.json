@@ -80,7 +80,7 @@
     {
         "name": "intro6",
         "type" : "intro",
-        "templateId": "intro1",
+        "templateId": "intro6",
         "images": {},
         "navTxt" : "<p>Touch \"Next\" when you are ready to begin. You will have 3 minutes to do as many puzzles as you can.</p>",
         "correct": -1,

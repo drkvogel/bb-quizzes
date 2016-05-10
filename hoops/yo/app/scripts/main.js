@@ -224,7 +224,8 @@
         showInfo(info);
 
         var navNext = '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>'
-        var navPrevNext = '<span class=\"prev\" class=\"col-md-2\"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span><span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>'
+        var navPrevNext = '<span class=\"prev\" class=\"col-md-2\"><button class=\"btn pull-left\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span><span id=\"next\" class=\"\"><button class=\"btn pull-right\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>'
+        // pull-left pull-right
 
         switch (page.templateId) {
         case 'game':
@@ -245,9 +246,13 @@
             $('#middleImg img').attr('src', 'images/' + page.images.top); // example image: intro1.png? not split and don't have A, B labels
             $('.botTxt').html(page.botTxt);
             $('.navTxt').html(page.navTxt);
-            $('.navCtl').html(navNext);
+            if (page.name == 'intro1') {
+                $('.navCtl').html(navNext);
+            } else {
+                $('.navCtl').html(navPrevNext);
+            }
             break;
-        case 'intro2':
+        case 'intro2': // not used, these are templateIds remember, not page names
         case 'intro3':
         case 'intro5':
             $('.topTxt').html(page.topTxt);
@@ -264,8 +269,8 @@
             // answerButtons
             break;
         case 'intro6':
-            // topTxt/botTxt
-            // navButtons
+            $('.navTxt').html(page.navTxt);
+            $('.navCtl').html(navNext);
             break;
         case 'thanks':
             clearTimeout(timeUpTimeout);
