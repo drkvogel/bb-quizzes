@@ -56,10 +56,7 @@
         "name": "intro4",
         "type" : "game",
         "templateId": "game",
-        "images": {
-            "top": "top-constant.png",
-            "bot": "ex1.png"
-        },
+        "image": "t3w2b1y.png",
         "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
         "correct": -1,
         "suppressAbandon": true
@@ -81,7 +78,6 @@
         "name": "intro6",
         "type" : "intro",
         "templateId": "intro6",
-        "images": {},
         "navTxt" : "<p>Touch \"Next\" when you are ready to begin. You will have 3 minutes to do as many puzzles as you can.</p>",
         "correct": -1,
         "suppressAbandon": true
@@ -90,8 +86,7 @@
         "name": "ex1",
         "type" : "game",
         "templateId": "game",
-        "images": {
-        },
+        "image": "t32by1w.png",
         "correct": -1,
         "suppressAbandon": true
     },
@@ -99,8 +94,7 @@
         "name": "ex2",
         "type" : "game",
         "templateId": "game",
-        "images": {
-        },
+        "image": "t32wy1b.png",
         "correct": -1,
         "suppressAbandon": true
     },
@@ -108,8 +102,7 @@
         "name": "ex3",
         "type" : "game",
         "templateId": "game",
-        "images": {
-        },
+        "image": "t3bw21y.png",
         "correct": -1,
         "suppressAbandon": true
     },
@@ -117,8 +110,7 @@
         "name": "ex4",
         "type" : "game",
         "templateId": "game",
-        "images": {
-        },
+        "image": "t3w2b1y.png",
         "correct": -1,
         "suppressAbandon": true
     },
@@ -126,8 +118,7 @@
         "name": "ex5",
         "type" : "game",
         "templateId": "game",
-        "images": {
-        },
+        "image": "t3w2yb1.png",
         "correct": -1,
         "suppressAbandon": true
     },
@@ -135,8 +126,7 @@
         "name": "ex6",
         "type" : "game",
         "templateId": "game",
-        "images": {
-        },
+        "image": "t3wb2y1.png",
         "correct": -1,
         "suppressAbandon": true
     },
@@ -144,8 +134,7 @@
         "name": "ex7",
         "type" : "game",
         "templateId": "game",
-        "images": {
-        },
+        "image": "t3wy2b1.png",
         "correct": -1,
         "suppressAbandon": true
     },
@@ -153,8 +142,7 @@
         "name": "ex8",
         "type" : "game",
         "templateId": "game",
-        "images": {
-        },
+        "image": "t3y2b1w.png",
         "correct": -1,
         "suppressAbandon": true
     },
@@ -162,8 +150,7 @@
         "name": "ex9",
         "type" : "game",
         "templateId": "game",
-        "images": {
-        },
+        "image": "t3yb21w.png",
         "correct": -1,
         "suppressAbandon": true
     },
@@ -171,8 +158,31 @@
         "name": "ex10",
         "type" : "game",
         "templateId": "game",
-        "images": {
-        },
+        "image": "t3ybw21.png",
+        "correct": -1,
+        "suppressAbandon": true
+    },
+    {
+        "name": "ex10",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3yw21b.png",
+        "correct": -1,
+        "suppressAbandon": true
+    },
+    {
+        "name": "ex10",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3yw2b1.png",
+        "correct": -1,
+        "suppressAbandon": true
+    },
+    {
+        "name": "ex10",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3ywb21.png",
         "correct": -1,
         "suppressAbandon": true
     },
@@ -180,8 +190,7 @@
         "name": "ex",
         "type" : "game",
         "templateId": "game",
-        "images": {
-        },
+        "image": "",
         "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
         "correct": -1,
         "suppressAbandon": true

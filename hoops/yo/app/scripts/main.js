@@ -236,6 +236,12 @@
                     timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
                 }
             }
+            $('#img-b img').attr('src', 'images/' + page.image);
+            if (page.name == 'intro4') {
+                $('.navCtl').html(navPrevNext);
+            } else {
+                $('.navCtl').html('');
+            }
             break;
         case 'home':
         case 'getReady':

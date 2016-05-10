@@ -83,12 +83,14 @@ body {
 
 .toptable td {
   border: 1px;
+  padding: 10px;
 }
 
 .toptable {
   border: 1px;
   border-color: black;
-  width: 90%;
+  width: 0;
+  margin: auto;
   // background-color: gray;
 }
 
@@ -102,6 +104,7 @@ body {
 #answers {
   margin: auto;
   width: 80%;
+  text-align: center;
 }
 
 #answers td {
