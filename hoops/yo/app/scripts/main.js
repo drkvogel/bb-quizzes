@@ -258,6 +258,9 @@
             } else {
                 $('.navCtl').html(navPrevNext);
             }
+            if (page.name == 'intro5') {
+                $('#intro-answer').html(answers.pop()); //$('#intro-answer').html(JSON.stringify(answers));
+            }
             break;
         case 'intro2': // not used, these are templateIds remember, not page names
         case 'intro3':
@@ -267,10 +270,6 @@
             $('.botTxt').html(page.botTxt);
             $('.navTxt').html(page.navTxt);
             $('.navCtl').html(navPrevNext);
-            if (page.name == 'intro5') {
-                $('#intro-answer').html('tbc');
-                //$('#intro-answer').html(answers.pop().answer);
-            }
             break;
         case 'intro4':
             // game:
@@ -361,6 +360,7 @@
             };
             answers.push(answer);
         } else if (page.name.slice(0, 5) === 'intro') {
+            answers.push(num);
             // no "try again" in hoops, modal divs removed
             // if (!correct) {
             //     showInfo('try again'); // TODO
@@ -475,7 +475,6 @@
 
         showPage(currentPage());
     }
-
 
     function getConfig() {
         $.getJSON('./config.json', function (data) {

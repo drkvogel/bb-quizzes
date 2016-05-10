@@ -84,10 +84,10 @@
             </table>
           </div>
           <div class="botTxt"></div>
+          
 <!--           <table id="answers">
             <tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
-          </table>
- -->         
+          </table> -->
           <div id="answers">
             <button class="btn btn-lg" id="ans1" href="#">1</button>
             <button class="btn btn-lg" id="ans2" href="#">2</button>
@@ -101,7 +101,21 @@
 
         <!-- thanks -->
         <div id="thanks" class="page" style="display:none">
-
+          <p>Thanks for doing the test.</p>
+          <p>Please leave comments.</p>
+          <!-- <div class="page-text">page-text</div> -->
+          <div id="feedback">
+            <form id="feedbackForm" action="." method="post">
+              <fieldset>
+                Name:<br><input type="text" name="fullname" value=""><br>
+                Email:<br><input type="text" name="email" value=""><br>
+                <p>Comments:</p>
+                <textarea name="comments" rows="10" cols="80"></textarea>
+                <input type="hidden" id="results" name="results" value="tbc"/>
+                <input type="submit" value="Submit">
+              </fieldset>
+            </form>
+          </div>
         </div>
 
         <div id="abandon-div" class="row">
