@@ -236,6 +236,7 @@
                     timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
                 }
             }
+            // img-a - top-constant.png
             $('#img-b img').attr('src', 'images/' + page.image);
             $('.botTxt').html("How many moves would it take to make picture A look like picture B?")
             if (page.name == 'intro4') {
@@ -248,7 +249,7 @@
         case 'getReady':
         case 'abandon':
             break; // don't do nuttin
-        case 'intro1':
+        case 'intro1': // these are templateIds remember, not page names
             $('.topTxt').html(page.topTxt);
             $('#middleImg img').attr('src', 'images/' + page.images.top); // example image: intro1.png? not split and don't have A, B labels
             $('.botTxt').html(page.botTxt);
@@ -261,22 +262,6 @@
             if (page.name == 'intro5') {
                 $('#intro-answer').html(answers.pop()); //$('#intro-answer').html(JSON.stringify(answers));
             }
-            break;
-        case 'intro2': // not used, these are templateIds remember, not page names
-        case 'intro3':
-        case 'intro5':
-            $('.topTxt').html(page.topTxt);
-            $('#middleImg img').attr('src', 'images/' + page.images.top); // example image: intro1.png? not split and don't have A, B labels
-            $('.botTxt').html(page.botTxt);
-            $('.navTxt').html(page.navTxt);
-            $('.navCtl').html(navPrevNext);
-            break;
-        case 'intro4':
-            // game:
-            // img-a - top-constant.png
-            // img-b - which? (upper image in desktop version)
-            // botTxt
-            // answerButtons
             break;
         case 'intro6':
             $('.navTxt').html(page.navTxt);
