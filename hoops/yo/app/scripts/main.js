@@ -239,6 +239,10 @@
             // img-a - top-constant.png
             $('#img-b img').attr('src', 'images/' + page.image);
             $('.botTxt').html("How many moves would it take to make picture A look like picture B?")
+            for (var i = 0; i < 6; i++) {
+                var id = '#ans' + i;
+                $(id).removeClass('disabled');
+            }
             if (page.name == 'intro4') {
                 $('.navCtl').html(navPrevNext);
             } else {
@@ -346,12 +350,6 @@
             answers.push(answer);
         } else if (page.name.slice(0, 5) === 'intro') {
             answers.push(num);
-            // no "try again" in hoops, modal divs removed
-            // if (!correct) {
-            //     showInfo('try again'); // TODO
-            //     showModal('tryagain-modal');
-            //     return;
-            // }
         }
 
         if (correct) { // http://stackoverflow.com/a/33457014/535071
@@ -383,7 +381,7 @@
         default:
             var slice = elId.slice(0, 3);
             if (slice === 'ans') { // bottom grid only
-                $(elId).addClass('disabled');
+                $('#' + elId).addClass('disabled'); // remember to add '#' back onto ID to make selector
                 var num = elId[3]; // number in id following 'bot' == number of bottom tile selected
                 answered(num);
             }
