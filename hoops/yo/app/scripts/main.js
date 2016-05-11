@@ -139,11 +139,13 @@
     }
 
     function hideDiv(id) {
-        document.getElementById(id).style.display = 'none'; //console.log('hideDiv(): id: ' + id);
+        //document.getElementById(id).style.display = 'none'; //console.log('hideDiv(): id: ' + id);
+        $('#' + id).fadeOut('fast');
     }
 
     function showDiv(id) {
-        document.getElementById(id).style.display = 'inline'; //console.log('showDiv(): id: ' + id);
+        //document.getElementById(id).style.display = 'inline'; //console.log('showDiv(): id: ' + id);
+        $('#' + id).fadeIn('fast');
     }
 
     function hidePage(page) {
@@ -239,7 +241,7 @@
             // img-a - top-constant.png
             $('#img-b img').attr('src', 'images/' + page.image);
             $('.botTxt').html("How many moves would it take to make picture A look like picture B?")
-            for (var i = 0; i < 6; i++) {
+            for (var i = 1; i <= 6; i++) {
                 var id = '#ans' + i;
                 $(id).removeClass('disabled');
             }
