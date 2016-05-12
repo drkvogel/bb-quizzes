@@ -3,7 +3,7 @@
 // /*jslint plusplus: true */ // doesn't work with sublime jslint plugin:
 
 // http://stackoverflow.com/questions/950087/include-a-javascript-file-in-another-javascript-file
-//(function () { // Immediately-Invoked Function Expression (IIFE)
+(function () { // Immediately-Invoked Function Expression (IIFE)
     // used to set "use strict" for whole scope so jslint doesn't complain, but then have to indent whole scope...
     'use strict';
 
@@ -157,11 +157,11 @@
     // var WIDTH3X3 = 170; // Width of squares in 3x3 grid is 170px // const?
 
     // js docstring?
-    function setBackground(sel, sheet, pos) { // jQuery selector, sprite sheet, offset pos (px)
-        var img = 'url("images/' + sheet + '")'; // DON'T include ';' at end of rule, fails silently! (?)
-        $(sel).css('background-image', img);    // e.g. background-image: url('images/intro1.png');
-        $(sel).css('background-position', pos); // e.g. background-position: -210px 0px;
-    }
+    // function setBackground(sel, sheet, pos) { // jQuery selector, sprite sheet, offset pos (px)
+    //     var img = 'url("images/' + sheet + '")'; // DON'T include ';' at end of rule, fails silently! (?)
+    //     $(sel).css('background-image', img);    // e.g. background-image: url('images/intro1.png');
+    //     $(sel).css('background-position', pos); // e.g. background-position: -210px 0px;
+    // }
 
     // function checkImages(page, topExpected, botExpected) {
     //     // for top grids, last (unfilled) tile is yet to be chosen thus redundant in data
@@ -173,34 +173,34 @@
     //     }
     // }
 
-    function applyStyles(page) {
-        //console.log('applyStyles(): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
-        var base, sel, pos, width, img;
-        // var top = page.images.top;
-        // var bot = page.images.bottom;
+    // function applyStyles(page) {
+    //     //console.log('applyStyles(): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
+    //     var base, sel, pos, width, img;
+    //     // var top = page.images.top;
+    //     // var bot = page.images.bottom;
 
-        // TODO passing page object - good idea? i.e. is this a copy or a reference (or reference to a copy)?
-        // saves a few lines a reuses putting checks into a function, but have to pass it page name, top, bottom
-        // if (page.templateId === 'quiz2x2') {
-        //     checkImages(page, 3, 6); //var TOP_EXPECTED = 3, BOT_EXPECTED = 6;
-        //     width = WIDTH2X2;
-        //     base = 'div#quiz2x2 ';
-        //     $('div.grid2x2 #missing2x2').css('display', 'none');
-        // } else if (page.templateId === 'quiz3x3') {
-        //     checkImages(page, 8, 8); //var TOP_EXPECTED = 8, BOT_EXPECTED = 8;
-        //     width = WIDTH3X3;
-        //     base = 'div#quiz3x3 ';
-        //     $('div.grid3x3 #missing3x3').css('display', 'none');
-        // } else {
-        //     throw new Error('templateId: "' + page.templateId + '" not expected');
-        // }
+    //     // TODO passing page object - good idea? i.e. is this a copy or a reference (or reference to a copy)?
+    //     // saves a few lines a reuses putting checks into a function, but have to pass it page name, top, bottom
+    //     // if (page.templateId === 'quiz2x2') {
+    //     //     checkImages(page, 3, 6); //var TOP_EXPECTED = 3, BOT_EXPECTED = 6;
+    //     //     width = WIDTH2X2;
+    //     //     base = 'div#quiz2x2 ';
+    //     //     $('div.grid2x2 #missing2x2').css('display', 'none');
+    //     // } else if (page.templateId === 'quiz3x3') {
+    //     //     checkImages(page, 8, 8); //var TOP_EXPECTED = 8, BOT_EXPECTED = 8;
+    //     //     width = WIDTH3X3;
+    //     //     base = 'div#quiz3x3 ';
+    //     //     $('div.grid3x3 #missing3x3').css('display', 'none');
+    //     // } else {
+    //     //     throw new Error('templateId: "' + page.templateId + '" not expected');
+    //     // }
 
-        // could refactor the next two bits into one function (setBackground(), above)
-        // div#quiz2x2 div.grid2x2 div.row div, div#quiz3x3 div.grid3x3 div.row div
-        // sel = base + '#top' + i;
-        // pos = '-' + (width * top[i]) + 'px 0px';
-        // setBackground(sel, page.sheet, pos); //console.log('sel: ' + sel + ', img: ' + img + ', pos: ' + pos);
-    }
+    //     // could refactor the next two bits into one function (setBackground(), above)
+    //     // div#quiz2x2 div.grid2x2 div.row div, div#quiz3x3 div.grid3x3 div.row div
+    //     // sel = base + '#top' + i;
+    //     // pos = '-' + (width * top[i]) + 'px 0px';
+    //     // setBackground(sel, page.sheet, pos); //console.log('sel: ' + sel + ', img: ' + img + ', pos: ' + pos);
+    // }
 
     function showInfo(text) {
         $('#info').html(text);
@@ -225,13 +225,13 @@
         var info = current + '/' + pages.length + ': ' + page.name;
         showInfo(info);
 
-        var navNext = '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>'
-        var navPrevNext = '<span class=\"prev\" class=\"col-md-2\"><button class=\"btn pull-left\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span><span id=\"next\" class=\"\"><button class=\"btn pull-right\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>'
+        var navNext = '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
+        var navPrevNext = '<span class=\"prev\" class=\"col-md-2\"><button class=\"btn pull-left\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span><span id=\"next\" class=\"\"><button class=\"btn pull-right\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
         // pull-left pull-right
 
         switch (page.templateId) {
         case 'game':
-            applyStyles(page);
+            //applyStyles(page);
             if (page.name.slice(0, 2) === 'ex') {
                 timer.now(); // start timer for all real exercises
                 if (page.name === 'ex1') {
@@ -240,12 +240,12 @@
             }
             // img-a - top-constant.png
             $('#img-b img').attr('src', 'images/' + page.image);
-            $('.botTxt').html("How many moves would it take to make picture A look like picture B?")
+            $('.botTxt').html('How many moves would it take to make picture A look like picture B?');
             for (var i = 1; i <= 6; i++) {
                 var id = '#ans' + i;
                 $(id).removeClass('disabled');
             }
-            if (page.name == 'intro4') {
+            if (page.name === 'intro4') {
                 $('.navCtl').html(navPrevNext);
             } else {
                 $('.navCtl').html('');
@@ -260,12 +260,12 @@
             $('#middleImg img').attr('src', 'images/' + page.images.top); // example image: intro1.png? not split and don't have A, B labels
             $('.botTxt').html(page.botTxt);
             $('.navTxt').html(page.navTxt);
-            if (page.name == 'intro1') {
+            if (page.name === 'intro1') {
                 $('.navCtl').html(navNext);
             } else {
                 $('.navCtl').html(navPrevNext);
             }
-            if (page.name == 'intro5') {
+            if (page.name === 'intro5') {
                 $('#intro-answer').html(answers.pop()); //$('#intro-answer').html(JSON.stringify(answers));
             }
             break;
@@ -490,6 +490,6 @@
         }
         getConfig();
     });
-//}());
+}());
 
 console.log('main.js ready');
