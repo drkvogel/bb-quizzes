@@ -70,7 +70,8 @@
             "bot": "ex1.png"
         },
         "topTxt" : "<p>You answered: <span id=\"intro-answer\" style=\"font-weight: bold;\">3<span></p><p>It can be done in: <strong>2</strong></p>",
-        "navTxt" : "<p>Touch \"Next\" to continue.</p>",        
+        "botTxt" : "",
+        "navTxt" : "<p>Touch \"Next\" to continue.</p>",
         "correct": -1,
         "suppressAbandon": true
     },

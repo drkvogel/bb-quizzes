@@ -141,11 +141,13 @@
     function hideDiv(id) {
         //document.getElementById(id).style.display = 'none'; //console.log('hideDiv(): id: ' + id);
         $('#' + id).fadeOut('fast');
+        //$('#' + id).slideUp();
     }
 
     function showDiv(id) {
         //document.getElementById(id).style.display = 'inline'; //console.log('showDiv(): id: ' + id);
-        $('#' + id).fadeIn('fast');
+        //$('#' + id).fadeIn('fast');
+        $('#' + id).slideDown();
     }
 
     function hidePage(page) {
