@@ -270,7 +270,7 @@
             if (page.name === 'intro5') {
                 var ans = answers.pop();
                 console.log('ans: ' + ans);
-                $('#intro-answer').html(ans + (parseInt(ans) === 2 ? " - Correct!" : "")); //$('#intro-answer').html(JSON.stringify(answers));
+                $('#intro-answer').html(ans + (parseInt(ans) === 2 ? ' - Correct!' : '')); //$('#intro-answer').html(JSON.stringify(answers));
             }
             break;
         case 'intro6':
