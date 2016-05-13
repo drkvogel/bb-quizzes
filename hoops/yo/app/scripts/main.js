@@ -237,6 +237,7 @@
             if (page.name.slice(0, 2) === 'ex') {
                 timer.now(); // start timer for all real exercises
                 if (page.name === 'ex1') {
+                    console.log('start game timer');
                     timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
                 }
             }

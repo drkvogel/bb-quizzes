@@ -148,41 +148,65 @@
         "correct": -1
     },
     {
-        "name": "ex10",
+        "name": "ex11",
         "type" : "game",
         "templateId": "game",
-        "image": "t3yw21b.png",
+        "image": "t32by1w.png",
         "correct": -1
     },
     {
-        "name": "ex10",
+        "name": "ex12",
         "type" : "game",
         "templateId": "game",
-        "image": "t3yw2b1.png",
+        "image": "t32wy1b.png",
         "correct": -1
     },
     {
-        "name": "ex10",
+        "name": "ex13",
         "type" : "game",
         "templateId": "game",
-        "image": "t3ywb21.png",
+        "image": "t3bw21y.png",
         "correct": -1
     },
     {
-        "name": "ex",
+        "name": "ex14",
         "type" : "game",
         "templateId": "game",
-        "image": "",
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
+        "image": "t3w2b1y.png",
+        "correct": -1
+    },
+    {
+        "name": "ex15",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3w2yb1.png",
+        "correct": -1
+    },
+    {
+        "name": "ex16",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3wb2y1.png",
+        "correct": -1
+    },
+    {
+        "name": "ex17",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3wy2b1.png",
+        "correct": -1
+    },
+    {
+        "name": "ex18",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3y2b1w.png",
         "correct": -1
     },
     {
         "name": "thanks",
         "templateId": "thanks",
         "suppressAbandon": true,
-        "sheet": "",
-        "images": {},
-        "correct": -1,
         "text": "<p>Thanks for doing the test.</p><p>Please leave comments.</p>"
     }
     ]
