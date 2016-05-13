@@ -268,7 +268,9 @@
                 $('.navCtl').html(navPrevNext);
             }
             if (page.name === 'intro5') {
-                $('#intro-answer').html(answers.pop()); //$('#intro-answer').html(JSON.stringify(answers));
+                var ans = answers.pop();
+                console.log('ans: ' + ans);
+                $('#intro-answer').html(ans + (parseInt(ans) === 2 ? " - Correct!" : "")); //$('#intro-answer').html(JSON.stringify(answers));
             }
             break;
         case 'intro6':

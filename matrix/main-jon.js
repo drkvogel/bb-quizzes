@@ -154,58 +154,37 @@
 
     // http://stackoverflow.com/questions/130396/are-there-constants-in-javascript
     var WIDTH2X2 = 210; // Width of squares in 2x2 grid is 210px // const?
-    var HEIGHT2X2 = 170; // Height of squares in 2x2 grid is 170px // const?
     var WIDTH3X3 = 170; // Width of squares in 3x3 grid is 170px // const?
-    var HEIGHT3X3 = 135; // Height of squares in 3x3 grid is 135px // const?
-
-    function tileWidth(page) {
-        switch(page.templateId) {
-        case 'quiz2x2':
-            return WIDTH2X2;
-        case 'quiz3x3':
-            return WIDTH3X3;
-        default:
-            throw new Error('bad page.templateId: ' + page.templateId);
-        }
-    }
-
-    function tileHeight(page) {
-        switch(page.templateId) {
-        case 'quiz2x2':
-            return HEIGHT2X2;
-        case 'quiz3x3':
-            return HEIGHT3X3;
-        default:
-            throw new Error('bad page.templateId: ' + page.templateId);
-        }
-    }
 
     // js docstring?
     function setBackground(sel, sheet, pos) { // jQuery selector, sprite sheet, offset pos (px)
-
-        var height = document.documentElement.clientHeight;
-
+    
+        var h = document.documentElement.clientHeight
+    
         //var img = 'url("images/' + sheet + '")'; // DON'T include ';' at end of rule, fails silently! (?)
         var img = 'images/' + sheet; // DON'T include ';' at end of rule, fails silently! (?)
         // $(sel).css('background-image', img);    // e.g. background-image: url('images/intro1.png');
         // $(sel).css('background-position', pos); // e.g. background-position: -210px 0px;
         // style="position:absolute;top:0px;left: -840px;"
- //       var scale = 1.0, tileWidth, tileHeight; //var tileWidth = 210; //var tileHeight = 170;
+ //       var scale = 1.0, tileWidth, tileHeight;
  //       var windowToTile = 1.0; // ratio of width of window to width of tile
+       var tileWidth = 210;
+       var tileHeight = 170;
 
-        var scale = height / 860.0; // rough monitor height
+        var scale = h/860.0;
+
         $(sel).attr('src', img);
         $(sel).css('position', 'absolute');
         $(sel).css('top', '0px');
-        $(sel).css('left', parseInt(pos) * scale);
+        $(sel).css('left', parseInt(pos)*scale);
 
         $(sel).attr('width', 1260 * scale); // $ file intro1.png: intro1.png: PNG image data, 1260 x 170, 8-bit colormap, interlaced
-        $(sel).attr('height', tileHeight(currentPage()) * scale);
-        $(sel).parent().css('width', tileWidth(currentPage()) * scale); // <div style="width: 210px;height: 170px;overflow:hidden;position:relative;">
-        $(sel).parent().css('height', tileHeight(currentPage()) * scale);
+        $(sel).attr('height', tileHeight * scale);        
+        $(sel).parent().css('width', tileWidth * scale); // <div style="width: 210px;height: 170px;overflow:hidden;position:relative;">
+        $(sel).parent().css('height', tileHeight * scale);
         $(sel).parent().css('padding', '0');
    //     $(sel).attr('width', tileWidth); // 6 x 210
-   //     $(sel).attr('height', tileHeight);
+   //     $(sel).attr('height', tileHeight);        
    //     $(sel).parent().css('width', tileWidth); // <div style="width: 210px;height: 170px;overflow:hidden;position:relative;">
    //     $(sel).parent().css('height', tileHeight);
         //$(sel).css('background-size', '50%'); // CSS3
@@ -334,6 +313,17 @@
 
     function tileSelector(page) {
         return page.templateId === 'quiz2x2' ? 'div#quiz2x2 #missing2x2' : 'div#quiz3x3 #missing3x3';
+    }
+
+    function tileWidth(page) {
+        switch(page.templateId) {
+        case 'quiz2x2':
+            return WIDTH2X2;
+        case 'quiz3x3':
+            return WIDTH3X3;
+        default:
+            throw new Error('bad page.templateId: ' + page.templateId);
+        }
     }
 
     function clearTile() {
