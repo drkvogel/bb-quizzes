@@ -183,29 +183,26 @@
     // js docstring?
     function setBackground(sel, sheet, pos) { // jQuery selector, sprite sheet, offset pos (px)
 
-        var h = document.documentElement.clientHeight;
+        var height = document.documentElement.clientHeight;
 
         //var img = 'url("images/' + sheet + '")'; // DON'T include ';' at end of rule, fails silently! (?)
         var img = 'images/' + sheet; // DON'T include ';' at end of rule, fails silently! (?)
         // $(sel).css('background-image', img);    // e.g. background-image: url('images/intro1.png');
         // $(sel).css('background-position', pos); // e.g. background-position: -210px 0px;
         // style="position:absolute;top:0px;left: -840px;"
- //       var scale = 1.0, tileWidth, tileHeight;
+ //       var scale = 1.0, tileWidth, tileHeight; //var tileWidth = 210; //var tileHeight = 170;
  //       var windowToTile = 1.0; // ratio of width of window to width of tile
-       //var tileWidth = 210;
-       //var tileHeight = 170;
 
-        var scale = h / 860.0;
-
+        var scale = height / 860.0; // rough monitor height
         $(sel).attr('src', img);
         $(sel).css('position', 'absolute');
         $(sel).css('top', '0px');
         $(sel).css('left', parseInt(pos) * scale);
 
         $(sel).attr('width', 1260 * scale); // $ file intro1.png: intro1.png: PNG image data, 1260 x 170, 8-bit colormap, interlaced
-        $(sel).attr('height', tileHeight() * scale);
-        $(sel).parent().css('width', tileWidth() * scale); // <div style="width: 210px;height: 170px;overflow:hidden;position:relative;">
-        $(sel).parent().css('height', tileHeight() * scale);
+        $(sel).attr('height', tileHeight(currentPage()) * scale);
+        $(sel).parent().css('width', tileWidth(currentPage()) * scale); // <div style="width: 210px;height: 170px;overflow:hidden;position:relative;">
+        $(sel).parent().css('height', tileHeight(currentPage()) * scale);
         $(sel).parent().css('padding', '0');
    //     $(sel).attr('width', tileWidth); // 6 x 210
    //     $(sel).attr('height', tileHeight);
