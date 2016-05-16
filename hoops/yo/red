@@ -3,11 +3,21 @@
 
 # http://stackoverflow.com/questions/216995/
 #shopt -s extglob # can then exclude with wildcards, e.g.: !(images)
-#scp "./dist/* !(images)" drkvogel@web456.webfaction.com:/home/drkvogel/webapps/main/hoops/
+#scp "./dist/* !(images)" $REMOTEUSER@$REMOTEHOST:$REMOTEPATH
 
 REMOTEHOST="red.ctsu.ox.ac.uk"
-REMOTEPATH="/user/cp/public_html/cjb/hoops"  # http://red.ctsu.ox.ac.uk/~cp/cjb/hoops/
 REMOTEUSER="cp"
+REMOTEROOT="/user/cp/public_html/cjb/"  # http://red.ctsu.ox.ac.uk/~cp/cjb/
+
+if [ -z "$1" ]
+then
+    DIR="hoops"
+    echo "No argument supplied, defaulting to '$DIR'"
+else
+    DIR=$1
+fi
+
+REMOTEPATH=$REMOTEROOT$DIR
 
 echo "REMOTEHOST: $REMOTEHOST"
 echo "REMOTEPATH: $REMOTEPATH"
@@ -18,10 +28,3 @@ read -rsp $'Press any key to continue...\n' -n1 key
 scp -r ./dist/* $REMOTEUSER@$REMOTEHOST:$REMOTEPATH
 
 exit 0
-
-# echo "Remember to run gulp first to build into ./dist, and run wf-all first time to copy fonts, images"
-# read -rsp $'Press any key to continue...\n' -n1 key
-
-# scp -r ./dist/scripts/* drkvogel@web456.webfaction.com:/home/drkvogel/webapps/main/hoops/scripts/ # add -v for verbose debugging
-# scp -r ./dist/styles/* drkvogel@web456.webfaction.com:/home/drkvogel/webapps/main/hoops/styles/
-# scp ./dist/* drkvogel@web456.webfaction.com:/home/drkvogel/webapps/main/hoops/
