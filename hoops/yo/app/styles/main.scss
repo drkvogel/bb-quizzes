@@ -92,6 +92,7 @@ body {
 
 #middleImg {
   text-align: center;
+  width: 100%;
   padding: 10px;
 }
 
@@ -149,6 +150,10 @@ body {
 .buttons span {
   background-color: aqua;
   width: 250px;
+}
+
+#imgdiv-a, #imgdiv-b {
+  width: 100%;
 }
 
 #img-a, #img-b {
