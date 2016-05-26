@@ -192,6 +192,16 @@ div#quiz2x2 div.grid3x2 div.row div {
   float: left;
 }
 
+.topTile {
+    overflow: hidden; 
+    position: relative;
+}
+
+.botTile {
+    overflow: hidden; 
+    position: relative;
+}
+
 /*div#quiz2x2 > div.grid3x2 > div.row > div {*/
 div#quiz2x2 > div.grid3x2 > div.row > div {
   padding: 20px;
