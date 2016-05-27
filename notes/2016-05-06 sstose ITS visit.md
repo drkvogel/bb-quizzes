@@ -3,25 +3,9 @@
 
 SMACSS
 BEM
-
 CSS mixins: abstractions base components variables
-
-drupal omega
-omega podcasts
-
 bourbon neat
-
 set class/id with JS and use CSS?
-
-sstose@gmail.com
-pinboard - like diigo
-benfox pusher vid leftpadgate- 
-
-headless drupal -> angular
-Yeoman CMS
-coloursublime.com
-
-
 max-width
 
 [OOCSS, ACSS, BEM, SMACSS: what are they? What should I use? – clubmate.fi](http://clubmate.fi/oocss-acss-bem-smacss-what-are-they-what-should-i-use/)
@@ -38,3 +22,14 @@ max-width
 ["Old" Flexbox and "New" Flexbox | CSS-Tricks](https://css-tricks.com/old-flexbox-and-new-flexbox/)
 
 C:\Users\cbird\Projects\general\dev\web\responsive\responsive.md
+
+## other
+
+sstose@gmail.com
+drupal omega
+omega podcasts
+pinboard - like diigo
+benfox pusher vid leftpadgate- 
+headless drupal -> angular
+Yeoman CMS
+coloursublime.com
