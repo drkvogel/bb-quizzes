@@ -242,7 +242,8 @@
                 }
             }
             // img-a - top-constant.png
-            $('#img-b img').attr('src', 'images/' + page.image);
+            $('#img-b').attr('src', 'images/' + page.image);
+            // or $('#imgdiv-b img').attr('src', 'images/' + page.image);
             $('.botTxt').html('How many moves would it take to make picture A look like picture B?');
             for (var i = 1; i <= 6; i++) {
                 var id = '#ans' + i;
