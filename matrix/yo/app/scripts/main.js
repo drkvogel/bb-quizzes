@@ -527,10 +527,16 @@
         });
     }
 
-    function mykeydown(e) {
-        //e.preventDefault();
-        //console.log("keyboard event"); //e.which);
-        console.log("keyboard event: " + e); //e.which);
+    function keydown(e) {
+        e.preventDefault();
+        console.log("keyboard event: " + e.which);
+        if (e.which === 68) { //console.log('"d" pressed');
+            if ($('#buttons').css('display') === 'none') {
+                showDiv('buttons');
+            } else {
+                hideDiv('buttons');
+            }
+        }
     }
 
     // bind event handlers to elements
@@ -538,8 +544,7 @@
     $('#buttons').on('click', 'a, button', navClick); // need this?
     $('#abandon-btn').on('click', abandonClick); // need this?
     $('#modals').on('click', 'button', modalClick);
-    //$("body").keyup(keyup()); // throws error as doesn't exist at this moment?
-    //$("body").on('keydown', mykeydown()); // 
+    $("body").on('keydown', keydown); // //$("body").keyup(keyup()); // throws error as doesn't exist at this moment?
 
     window.onresize = function(event) {
         showPage(currentPage()); // ?
@@ -551,9 +556,7 @@
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
         //$(document).keydown(mykeydown()); // 
-        $("body").on('keydown', mykeydown; // 
-        //$("body").on('keydown', function(e) { alert('keydown'); }); //
-        //$("body").bind('keydown', mykeydown()); // 
+        //$("body").on('keydown', mykeydown); // 
         if (LIVE) {
             window.onbeforeunload = null;
             window.history.forward();   //prevent repeat after back button - may not work.
