@@ -539,12 +539,13 @@
         }
     }
 
+    $("body").on('keydown', keydown); // //$("body").keyup(keyup()); // throws error as doesn't exist at this moment?
+
     // bind event handlers to elements
     $('#pages').on('click', 'a, button, div.row div img', containerClick); // delegate events
     $('#buttons').on('click', 'a, button', navClick); // need this?
     $('#abandon-btn').on('click', abandonClick); // need this?
     $('#modals').on('click', 'button', modalClick);
-    $("body").on('keydown', keydown); // //$("body").keyup(keyup()); // throws error as doesn't exist at this moment?
 
     window.onresize = function(event) {
         showPage(currentPage()); // ?
@@ -555,6 +556,7 @@
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
+        hideDiv('buttons');
         //$(document).keydown(mykeydown()); // 
         //$("body").on('keydown', mykeydown); // 
         if (LIVE) {
