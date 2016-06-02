@@ -527,10 +527,19 @@
         });
     }
 
+    function mykeydown(e) {
+        //e.preventDefault();
+        //console.log("keyboard event"); //e.which);
+        console.log("keyboard event: " + e); //e.which);
+    }
+
+    // bind event handlers to elements
     $('#pages').on('click', 'a, button, div.row div img', containerClick); // delegate events
     $('#buttons').on('click', 'a, button', navClick); // need this?
     $('#abandon-btn').on('click', abandonClick); // need this?
     $('#modals').on('click', 'button', modalClick);
+    //$("body").keyup(keyup()); // throws error as doesn't exist at this moment?
+    //$("body").on('keydown', mykeydown()); // 
 
     window.onresize = function(event) {
         showPage(currentPage()); // ?
@@ -541,6 +550,10 @@
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
+        //$(document).keydown(mykeydown()); // 
+        $("body").on('keydown', mykeydown; // 
+        //$("body").on('keydown', function(e) { alert('keydown'); }); //
+        //$("body").bind('keydown', mykeydown()); // 
         if (LIVE) {
             window.onbeforeunload = null;
             window.history.forward();   //prevent repeat after back button - may not work.
