@@ -11,6 +11,13 @@ fi
 if [ ! -e $1 -o ! -d $1 ]
 then
     echo "$1 does not exist or is not a directory"
+    exit 0
+fi
+
+if [ ! -e $1/index.html ]
+then
+    echo "$1 does not look like an app directory, exiting"
+    exit 0
 fi
 
 #exit 0
