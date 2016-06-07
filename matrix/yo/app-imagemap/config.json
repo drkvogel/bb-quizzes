@@ -20,11 +20,6 @@
         "name": "intro1",
         "templateId": "quiz2x2",
         "suppressAbandon": true,
-        "sheet": "intro1.png",
-        "images": {
-            "top": [4, 4, 4],
-            "bottom": [0, 1, 2, 3, 4, 5]
-        },
         "correct": 4,
         "text": "Here is a design which is missing a piece on the lower right hand corner. At the bottom are shown six pieces which would fit the missing corner. Your task is the touch the piece which best completes the design at the top."
     },
@@ -32,11 +27,6 @@
         "name": "intro2",
         "templateId": "quiz2x2",
         "suppressAbandon": true,
-        "sheet": "intro2.png",
-        "images": {
-            "top": [4, 4, 4],
-            "bottom": [0, 1, 2, 3, 4, 5]
-        },
         "correct": 4,
         "text": "Here is another practice puzzle. Touch the piece which best completes the design."
     },
@@ -44,11 +34,6 @@
         "name": "intro3",
         "templateId": "quiz3x3",
         "suppressAbandon": true,
-        "sheet": "intro3.png",
-        "images": {
-            "top": [8, 9, 10, 0, 1, 2, 4, 5],
-            "bottom": [7, 1, 3, 12, 8, 6, 9, 13]
-        },
         "correct": 5,
         "text": "This is the last practice puzzle. Again, touch the piece which best completes the design."
     },
@@ -56,167 +41,88 @@
         "name": "getReady",
         "templateId": "getReady",
         "suppressAbandon": true,
-        "sheet": "",
-        "images": {},
         "correct": -1,
         "text": "<p>You will have 2 minutes to do as many puzzles as you can.</p><p>Touch Next when you are ready to begin.</p>"
     },
     {
         "name": "ex1",
         "templateId": "quiz3x3",
-        "sheet": "matrix_ex1.png",
-        "images": {
-            "top": [1, 1, 1, 2, 2, 2, 3, 3],
-            "bottom": [0, 1, 2, 3, 4, 5, 6, 7]
-        },
         "correct": 3
     },
     {
         "name": "ex2",
         "templateId": "quiz2x2",
-        "sheet": "matrix_ex2.png",
-        "images": {
-            "top": [6, 7, 5],
-            "bottom": [0, 1, 2, 5, 3, 4]
-        },
         "correct": 2
     },
     {
         "name": "ex3",
         "templateId": "quiz2x2",
-        "sheet": "matrix_ex3.png",
-        "images": {
-            "top": [0, 1, 2],
-            "bottom": [2, 1, 5, 3, 4, 6]
-        },
         "correct": 5
     },
     {
         "name": "ex4",
         "templateId": "quiz2x2",
-        "sheet": "matrix_ex4.png",
-        "images": {
-            "top": [0, 1, 2],
-            "bottom": [3, 4, 5, 6, 7, 8]
-        },
         "correct": 0
     },
     {
         "name": "ex5",
         "templateId": "quiz2x2",
-        "sheet": "matrix_ex5.png",
-        "images": {
-            "top": [4, 2, 0],
-            "bottom": [0, 1, 2, 3, 4, 5]
-        },
         "correct": 3
     },
     {
         "name": "ex6",
         "templateId": "quiz3x3",
-        "sheet": "matrix_ex6.png",
-        "images": {
-            "top": [0, 1, 2, 3, 4, 5, 6, 7],
-            "bottom": [2, 1, 8, 9, 10, 11, 12, 13]
-        },
         "correct": 5
     },
     {
         "name": "ex7",
         "templateId": "quiz3x3",
-        "sheet": "matrix_ex7.png",
-        "images": {
-            "top": [0, 1, 2, 3, 4, 5, 6, 7],
-            "bottom": [8, 9, 10, 11, 12, 13, 14, 15]
-        },
         "correct": 0
     },
     {
         "name": "ex8",
         "templateId": "quiz3x3",
-        "sheet": "matrix_ex8.png",
-        "images": {
-            "top": [0, 1, 2, 3, 4, 5, 6, 7],
-            "bottom": [6, 8, 2, 0, 9, 10, 11, 4]
-        },
         "correct": 5
     },
     {
         "name": "ex9",
         "templateId": "quiz3x3",
-        "sheet": "matrix_ex9.png",
-        "images": {
-            "top": [0, 1, 2, 3, 4, 5, 6, 7],
-            "bottom": [8, 9, 10, 11, 12, 13, 14, 15]
-        },
         "correct": 3
     },
     {
         "name": "ex10",
         "templateId": "quiz3x3",
-        "sheet": "matrix_ex10.png",
-        "images": {
-            "top": [0, 1, 2, 3, 4, 5, 6, 7],
-            "bottom": [8, 9, 10, 11, 12, 13, 14, 15]
-        },
         "correct": 0
     },
     {
         "name": "ex11",
         "templateId": "quiz3x3",
-        "sheet": "matrix_ex11.png",
-        "images": {
-            "top": [0, 1, 2, 3, 4, 5, 6, 7],
-            "bottom": [8, 9, 10, 11, 12, 13, 14, 15]
-        },
         "correct": 7
     },
     {
         "name": "ex12",
         "templateId": "quiz3x3",
-        "sheet": "matrix_ex12.png",
-        "images": {
-            "top": [0, 1, 2, 3, 4, 5, 6, 7],
-            "bottom": [8, 9, 10, 11, 12, 13, 14, 15]
-        },
         "correct": 1
     },
     {
         "name": "ex13",
         "templateId": "quiz3x3",    
-        "sheet": "matrix_ex13.png",
-        "images": {
-            "top": [0, 1, 2, 3, 4, 5, 6, 7],
-            "bottom": [8, 9, 10, 11, 12, 13, 14, 15]
-        },
         "correct": 4
     },
     {
         "name": "ex14",
         "templateId": "quiz3x3",
-        "sheet": "matrix_ex14.png",
-        "images": {
-            "top": [8, 9, 10, 11, 12, 13, 14, 15],
-            "bottom": [0, 1, 2, 3, 4, 5, 6, 7]
-        },
         "correct": 2
     },
     {
         "name": "ex15",
         "templateId": "quiz3x3",
-        "sheet": "matrix_ex15.png",
-        "images": {
-            "top": [0, 1, 2, 3, 4, 5, 6, 7],
-            "bottom": [8, 9, 10, 11, 12, 13, 14, 15]
-        },
         "correct": 6
     },
     {
         "name": "thanks",
         "templateId": "thanks",
         "suppressAbandon": true,
-        "sheet": "",
-        "images": {},
         "correct": -1,
         "text": "<p>Thanks for doing the test.</p><p>Please leave comments.</p>"
     }

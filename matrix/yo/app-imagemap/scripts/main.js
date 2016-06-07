@@ -272,9 +272,17 @@
         $(sel).html(text + 'ms');
     }
 
+    function startTimer(page) {
+        if (page.name.slice(0, 2) === 'ex') {
+            timer.now(); // start timer for all real exercises
+            if (page.name === 'ex1') {
+                timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
+            }
+        }
+    }
+
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
-        console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
-        //console.log('showPage(): isTimeUp:' + isTimeUp);
+        console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page)); //console.log('showPage(): isTimeUp:' + isTimeUp);
 
         if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
             hideDiv('abandon-div');
@@ -288,15 +296,11 @@
         switch (page.templateId) {
         case 'quiz2x2':
         case 'quiz3x3':
-            //applyStyles(page);
+            // setImage(page.templateId + ' #top', page, '-problem.png');
+            // setImage(page.templateId + ' #bot', page, '-palette.png');
             setImage('#top', page, '-problem.png');
             setImage('#bot', page, '-palette.png');
-            if (page.name.slice(0, 2) === 'ex') {
-                timer.now(); // start timer for all real exercises
-                if (page.name === 'ex1') {
-                    timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
-                }
-            }
+            startTimer(page);
             break;
         case 'home':
         case 'getReady':
@@ -310,7 +314,6 @@
         default:
             throw new Error('unrecogised id');
         }
-
         showDiv((page.templateId));
     }
 
@@ -337,28 +340,8 @@
         }
     }
 
-    function tileSelector(page) {
-        return page.templateId === 'quiz2x2' ? 'div#quiz2x2 #missing2x2' : 'div#quiz3x3 #missing3x3';
-    }
-
-    function clearTile() {
-        $(tileSelector(currentPage())).css('display', 'none');
-    }
-
-    // function fillTile(page, num) {
-    //     var sel, pos;
-    //     pos = '-' + (tileWidth(page) * page.images.bottom[num]) + 'px 0px';
-    //     sel = tileSelector(page);
-    //     setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
-    //     $(sel).css('display', 'inline');
-    // }
-    //function showAnswer(num) {}
-
     function answered(num) {
-        //console.log('got num: ' + num);
-        var page = currentPage();
-
-        //fillTile(page, num);
+        var page = currentPage();  //console.log('got num: ' + num);
         setImage('#top', page, '-sol' + num + '.png');
 
         var correct = Number(num) === page.correct;
@@ -443,11 +426,10 @@
         clearTimeout(timeUpTimeout); // in case triggered manually for testing
         isTimeUp = true;
         console.log('timeUp(): isTimeUp:' + isTimeUp);
-
+    }
         // showModal('timeup-modal'); //alert("Time's up!");
         // hidePage(currentPage());
         // showPage(pageNamed('thanks'));
-    }
 
     function abandonClick() {
         console.log('abandon');
@@ -493,7 +475,8 @@
             hideModal('abandon-modal');
             break;
         case 'tryagain-ok':
-            clearTile();
+            //clearTile();
+            setImage('#top', currentPage(), '-problem.png');
             hideModal('tryagain-modal');
             break;
         case 'timeup-ok':

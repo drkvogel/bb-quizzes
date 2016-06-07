@@ -13,6 +13,8 @@ If there is a "default" shape, i.e. `<area shape="default" href="#" />`, then th
 jQuery to get element name: `$("#elementId").prop('tagName');`. returns tag type in caps. 
 clicking on image map returns two events, on AREA and MAP.
 
+If you want the `area` to go to a new URL, set `href="myNewURL"`, and `style="outline:none;"` to remove the visible click border.
+Else, set `nohref="nohref"`, and no border will be shown.
 
 From GIMP ImageMap plugin (Tools -> Filters -> Web -> Image Map...):
 
@@ -39,13 +41,7 @@ The `usemap` attribute of `<img>` is what connects it to the `<map>`. `#` prefix
 </map>
 ```
 
-
-
-
-
-
-
-Image map created by http://www.image-maps.com/map_image.php:
+## Image map created by http://www.image-maps.com/map_image.php:
 
 ```html
 <img id="Image-Maps-Com-image-maps-2016-06-05-203931" src="http://www.image-maps.com/m/private/0/pb3rmku4u30s3pk8aphisa7af6_intro1-palette.png" border="0" width="680" height="365" orgWidth="680" orgHeight="365" usemap="#image-maps-2016-06-05-203931" alt="" />
