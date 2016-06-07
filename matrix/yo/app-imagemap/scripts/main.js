@@ -259,6 +259,8 @@
     // }
     function setImage(sel, page, extn) {
         var base = 'images/' + page.name + '/' + page.name;
+        console.log('setImage(' + sel + ', ' + page.name + ', ' + extn + ')');
+        console.log('base + extn: ' + base + extn + ')');
         $(sel).attr('src', base + extn);
     }
 
@@ -296,8 +298,8 @@
         switch (page.templateId) {
         case 'quiz2x2':
         case 'quiz3x3':
-            setImage('.' + page.templateId + ' .top', page, '-problem.png');
-            setImage('.' + page.templateId + ' .bot', page, '-palette.png');
+            setImage('#' + page.templateId + ' .top', page, '-problem.png');
+            setImage('#' + page.templateId + ' .bot', page, '-palette.png');
             // setImage('#top', page, '-problem.png');
             // setImage('#bot', page, '-palette.png');
             startTimer(page);
@@ -341,8 +343,9 @@
     }
 
     function answered(num) {
-        var page = currentPage();  //console.log('got num: ' + num);
-        setImage('#top', page, '-sol' + num + '.png');
+        var page = currentPage();  
+        console.log('got num: ' + num);
+        setImage('#' + page.templateId + ' .top', page, '-sol' + num + '.png');
 
         var correct = Number(num) === page.correct;
         var timeTaken;
@@ -534,7 +537,8 @@
 
     // bind event handlers to elements
     //$('#pages').on('click', 'a, button, div.row div img', containerClick); // delegate events
-    $('#pages').on('click', '*', containerClick); // delegate events
+    //$('#pages').on('click', '*', containerClick); // delegate events
+    $('#pages').on('click', 'a, area, button', containerClick); // delegate events
     $('#buttons').on('click', 'a, button', navClick); // need this?
     $('#abandon-btn').on('click', abandonClick); // need this?
     $('#modals').on('click', 'button', modalClick);
