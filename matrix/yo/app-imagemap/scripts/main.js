@@ -490,7 +490,7 @@
         case 'tryagain-ok':
             //clearTile();
             //setImage('#top', currentPage(), '-problem.png');
-            setImage('.' + currentPage().templateId + ' .top', currentPage(), '-problem.png'); 
+            setImage('#' + currentPage().templateId + ' .top', currentPage(), '-problem.png'); 
             hideModal('tryagain-modal');
             break;
         case 'timeup-ok':
@@ -563,6 +563,8 @@
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
         hideDiv('buttons');
+        //$('3x2-map').imageMapResize(); // https://github.com/davidjbradshaw/image-map-resizer
+        //$('4x2-map').imageMapResize(); 
         //$(document).keydown(mykeydown()); // 
         //$("body").on('keydown', mykeydown); // 
         if (LIVE) {
