@@ -1,8 +1,4 @@
-
-
-
-## learns
-
+## html image map learnings
 
 GIMP has an ImageMap plugin (Tools -> Filters -> Web -> Image Map...) to make making image maps quicker.
 
@@ -14,6 +10,8 @@ The fact that the name has spaces, e.g. `usemap="#3x2 matrix image map"` does no
 
 If there is a "default" shape, i.e. `<area shape="default" href="#" />`, then the whole map is clickable even if there are gaps between the hot areas, and this specifies the default link - not what we want in this case. i.e. removing this line means the spaces between the choices in the matrix lower grid (the "palette") are not clickable.
 
+jQuery to get element name: `$("#elementId").prop('tagName');`. returns tag type in caps. 
+clicking on image map returns two events, on AREA and MAP.
 
 
 From GIMP ImageMap plugin (Tools -> Filters -> Web -> Image Map...):
@@ -38,7 +36,7 @@ The `usemap` attribute of `<img>` is what connects it to the `<map>`. `#` prefix
     <area id="bot4" shape="rect" coords="234,195,442,360" href="#" />
     <area id="bot5" shape="rect" coords="468,195,676,360" href="#" />
     <area shape="default" href="#" />
-    </map>
+</map>
 ```
 
 
@@ -52,15 +50,15 @@ Image map created by http://www.image-maps.com/map_image.php:
 ```html
 <img id="Image-Maps-Com-image-maps-2016-06-05-203931" src="http://www.image-maps.com/m/private/0/pb3rmku4u30s3pk8aphisa7af6_intro1-palette.png" border="0" width="680" height="365" orgWidth="680" orgHeight="365" usemap="#image-maps-2016-06-05-203931" alt="" />
 <map name="image-maps-2016-06-05-203931" id="ImageMapsCom-image-maps-2016-06-05-203931">
-<area id="bot0" alt="Answer palette" title="Matrix Puzzle" href="http://red.ctsu.ox.ac.uk/~cp/cjb/matrix" shape="rect" coords="0,0,207,170" style="outline:none;" target="_self"     />
-<area id="bot1" alt="" title="" href="#" shape="rect" coords="235,2,447,172" style="outline:none;" target="_self"     />
-<area id="bot2" alt="" title="" href="#" shape="rect" coords="NaN,NaN,NaN,NaN" style="outline:none;" target="_self"     />
-<area id="bot3" alt="" title="" href="#" shape="rect" coords="1,192,NaN,NaN" style="outline:none;" target="_self"     />
-<area id="bot3" alt="" title="" href="#" shape="rect" coords="0,190,208,365" style="outline:none;" target="_self"     />
-<area id="bot4" alt="" title="" href="#" shape="rect" coords="235,196,445,365" style="outline:none;" target="_self"     />
-<area id="bot5" alt="" title="" href="#" shape="rect" coords="470,197,680,365" style="outline:none;" target="_self"     />
-<area shape="rect" coords="678,363,680,365" alt="Image Map" style="outline:none;" title="Image Map" href="http://www.image-maps.com/index.php?aff=mapped_users_0" />
-</map>
+    <area id="bot0" alt="Answer palette" title="Matrix Puzzle" href="#" shape="rect" coords="0,0,207,170" style="outline:none;" target="_self"     />
+    <area id="bot1" alt="" title="" href="#" shape="rect" coords="235,2,447,172" style="outline:none;" target="_self"     />
+    <area id="bot2" alt="" title="" href="#" shape="rect" coords="NaN,NaN,NaN,NaN" style="outline:none;" target="_self"     />
+    <area id="bot3" alt="" title="" href="#" shape="rect" coords="1,192,NaN,NaN" style="outline:none;" target="_self"     />
+    <area id="bot3" alt="" title="" href="#" shape="rect" coords="0,190,208,365" style="outline:none;" target="_self"     />
+    <area id="bot4" alt="" title="" href="#" shape="rect" coords="235,196,445,365" style="outline:none;" target="_self"     />
+    <area id="bot5" alt="" title="" href="#" shape="rect" coords="470,197,680,365" style="outline:none;" target="_self"     />
+    <area shape="rect" coords="678,363,680,365" alt="Image Map" style="outline:none;" title="Image Map" href="http://www.image-maps.com/index.php?aff=mapped_users_0" />
+    </map>
 ```
 
 tidied up:

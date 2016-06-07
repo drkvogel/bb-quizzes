@@ -389,7 +389,7 @@
         e.preventDefault();
         var clickedEl = $(this),
             elId = clickedEl.attr('id');
-        console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId); // now gets id from loaded page
+        console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId, 'type: ' + clickedEl.prop('tagName')); // now gets id from loaded page
         switch (clickedEl.attr('id')) {
         case 'prev':
             prevPage();
@@ -542,7 +542,8 @@
     $("body").on('keydown', keydown); // //$("body").keyup(keyup()); // throws error as doesn't exist at this moment?
 
     // bind event handlers to elements
-    $('#pages').on('click', 'a, button, div.row div img', containerClick); // delegate events
+    //$('#pages').on('click', 'a, button, div.row div img', containerClick); // delegate events
+    $('#pages').on('click', '*', containerClick); // delegate events
     $('#buttons').on('click', 'a, button', navClick); // need this?
     $('#abandon-btn').on('click', abandonClick); // need this?
     $('#modals').on('click', 'button', modalClick);
