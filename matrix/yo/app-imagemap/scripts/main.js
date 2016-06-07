@@ -107,7 +107,6 @@
     // module.exports = Timer; // module.exports is Node.js, for the server!
 
 
-
     var config,
         pages,
         current,
@@ -141,11 +140,11 @@
     }
 
     function hideDiv(id) {
-        document.getElementById(id).style.display = 'none'; //console.log('hideDiv(): id: ' + id);
+        $('#' + id).fadeOut('fast'); //document.getElementById(id).style.display = 'none'; //console.log('hideDiv(): id: ' + id);
     }
 
     function showDiv(id) {
-        document.getElementById(id).style.display = 'inline'; //console.log('showDiv(): id: ' + id);
+        $('#' + id).slideDown(); //document.getElementById(id).style.display = 'inline'; //console.log('showDiv(): id: ' + id);
     }
 
     function hidePage(page) {
@@ -181,82 +180,86 @@
     }
 
     // js docstring?
-    function setBackground(sel, sheet, pos) { // jQuery selector, sprite sheet, offset pos (px)
+ //    function setBackground(sel, sheet, pos) { // jQuery selector, sprite sheet, offset pos (px)
+ //        var height = document.documentElement.clientHeight;
+ //        //var img = 'url("images/' + sheet + '")'; // DON'T include ';' at end of rule, fails silently! (?)
+ //        var img = 'images/' + sheet; // DON'T include ';' at end of rule, fails silently! (?)
+ //        // $(sel).css('background-image', img);    // e.g. background-image: url('images/intro1.png');
+ //        // $(sel).css('background-position', pos); // e.g. background-position: -210px 0px;
+ //        // style="position:absolute;top:0px;left: -840px;"
+ // //       var scale = 1.0, tileWidth, tileHeight; //var tileWidth = 210; //var tileHeight = 170;
+ // //       var windowToTile = 1.0; // ratio of width of window to width of tile
+ //        var scale = height / 860.0; // rough monitor height
+ //        $(sel).attr('src', img);
+ //        $(sel).css('position', 'absolute');
+ //        $(sel).css('top', '0px');
+ //        $(sel).css('left', parseInt(pos) * scale);
 
-        var height = document.documentElement.clientHeight;
+ //        $(sel).attr('width', 1260 * scale); // $ file intro1.png: intro1.png: PNG image data, 1260 x 170, 8-bit colormap, interlaced
+ //        $(sel).attr('height', tileHeight(currentPage()) * scale);
+ //        $(sel).parent().css('width', tileWidth(currentPage()) * scale); // <div style="width: 210px;height: 170px;overflow:hidden;position:relative;">
+ //        $(sel).parent().css('height', tileHeight(currentPage()) * scale);
+ //        $(sel).parent().css('padding', '0');
+ //   //     $(sel).attr('width', tileWidth); // 6 x 210
+ //   //     $(sel).attr('height', tileHeight);
+ //   //     $(sel).parent().css('width', tileWidth); // <div style="width: 210px;height: 170px;overflow:hidden;position:relative;">
+ //   //     $(sel).parent().css('height', tileHeight);
+ //        //$(sel).css('background-size', '50%'); // CSS3
+ //    }
 
-        //var img = 'url("images/' + sheet + '")'; // DON'T include ';' at end of rule, fails silently! (?)
-        var img = 'images/' + sheet; // DON'T include ';' at end of rule, fails silently! (?)
-        // $(sel).css('background-image', img);    // e.g. background-image: url('images/intro1.png');
-        // $(sel).css('background-position', pos); // e.g. background-position: -210px 0px;
-        // style="position:absolute;top:0px;left: -840px;"
- //       var scale = 1.0, tileWidth, tileHeight; //var tileWidth = 210; //var tileHeight = 170;
- //       var windowToTile = 1.0; // ratio of width of window to width of tile
+ //    function checkImages(page, topExpected, botExpected) {
+ //        // for top grids, last (unfilled) tile is yet to be chosen thus redundant in data
+ //        if (page.images.top.length !== topExpected) {
+ //            throw new Error('Expected ' + topExpected + ' images for top grid in ' + page.name);
+ //        }
+ //        if (page.images.bottom.length !== botExpected) {
+ //            throw new Error('Expected ' + botExpected + ' images for bottom grid in ' + page.name);
+ //        }
+ //    }
 
-        var scale = height / 860.0; // rough monitor height
-        $(sel).attr('src', img);
-        $(sel).css('position', 'absolute');
-        $(sel).css('top', '0px');
-        $(sel).css('left', parseInt(pos) * scale);
+ //    function applyStyles(page) {
+ //        //console.log('applyStyles(): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
+ //        var base, sel, pos, width;
+ //        var top = page.images.top;
+ //        var bot = page.images.bottom;
+ //        // TODO passing page object - good idea? i.e. is this a copy or a reference (or reference to a copy)?
+ //        // saves a few lines a reuses putting checks into a function, but have to pass it page name, top, bottom
+ //        if (page.templateId === 'quiz2x2') {
+ //            checkImages(page, 3, 6); //var TOP_EXPECTED = 3, BOT_EXPECTED = 6;
+ //            width = WIDTH2X2;
+ //            base = 'div#quiz2x2 ';
+ //            $('div.grid2x2 #missing2x2').css('display', 'none');
+ //        } else if (page.templateId === 'quiz3x3') {
+ //            checkImages(page, 8, 8); //var TOP_EXPECTED = 8, BOT_EXPECTED = 8;
+ //            width = WIDTH3X3;
+ //            base = 'div#quiz3x3 ';
+ //            $('div.grid3x3 #missing3x3').css('display', 'none');
+ //        } else {
+ //            throw new Error('templateId: "' + page.templateId + '" not expected');
+ //        }
+ //        // could refactor the next two bits into one function (setBackground(), above)
+ //        // div#quiz2x2 div.grid2x2 div.row div, div#quiz3x3 div.grid3x3 div.row div
+ //        for (var i = 0; i < top.length; i++) { // safer to iterate like this with arrays - but why use arrays anyway?
+ //            sel = base + '#top' + i;
+ //            //pos = '-' + (width * top[i]) + 'px 0px';
+ //            pos = '-' + (width * top[i]);// + 'px';
+ //            setBackground(sel, page.sheet, pos); //console.log('sel: ' + sel + ', img: ' + img + ', pos: ' + pos);
+ //        }
+ //        for (i = 0; i < bot.length; i++) {
+ //            sel = base + '#bot' + i;
+ //            pos = '-' + (width * bot[i]);// + 'px 0px';
+ //            setBackground(sel, page.sheet, pos); //console.log('sel: ' + sel + ', img: ' + img + ', pos: ' + pos);
+ //        }
+ //    }
 
-        $(sel).attr('width', 1260 * scale); // $ file intro1.png: intro1.png: PNG image data, 1260 x 170, 8-bit colormap, interlaced
-        $(sel).attr('height', tileHeight(currentPage()) * scale);
-        $(sel).parent().css('width', tileWidth(currentPage()) * scale); // <div style="width: 210px;height: 170px;overflow:hidden;position:relative;">
-        $(sel).parent().css('height', tileHeight(currentPage()) * scale);
-        $(sel).parent().css('padding', '0');
-   //     $(sel).attr('width', tileWidth); // 6 x 210
-   //     $(sel).attr('height', tileHeight);
-   //     $(sel).parent().css('width', tileWidth); // <div style="width: 210px;height: 170px;overflow:hidden;position:relative;">
-   //     $(sel).parent().css('height', tileHeight);
-        //$(sel).css('background-size', '50%'); // CSS3
-    }
-
-    function checkImages(page, topExpected, botExpected) {
-        // for top grids, last (unfilled) tile is yet to be chosen thus redundant in data
-        if (page.images.top.length !== topExpected) {
-            throw new Error('Expected ' + topExpected + ' images for top grid in ' + page.name);
-        }
-        if (page.images.bottom.length !== botExpected) {
-            throw new Error('Expected ' + botExpected + ' images for bottom grid in ' + page.name);
-        }
-    }
-
-    function applyStyles(page) {
-        //console.log('applyStyles(): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
-        var base, sel, pos, width;
-        var top = page.images.top;
-        var bot = page.images.bottom;
-
-        // TODO passing page object - good idea? i.e. is this a copy or a reference (or reference to a copy)?
-        // saves a few lines a reuses putting checks into a function, but have to pass it page name, top, bottom
-        if (page.templateId === 'quiz2x2') {
-            checkImages(page, 3, 6); //var TOP_EXPECTED = 3, BOT_EXPECTED = 6;
-            width = WIDTH2X2;
-            base = 'div#quiz2x2 ';
-            $('div.grid2x2 #missing2x2').css('display', 'none');
-        } else if (page.templateId === 'quiz3x3') {
-            checkImages(page, 8, 8); //var TOP_EXPECTED = 8, BOT_EXPECTED = 8;
-            width = WIDTH3X3;
-            base = 'div#quiz3x3 ';
-            $('div.grid3x3 #missing3x3').css('display', 'none');
-        } else {
-            throw new Error('templateId: "' + page.templateId + '" not expected');
-        }
-
-        // could refactor the next two bits into one function (setBackground(), above)
-        // div#quiz2x2 div.grid2x2 div.row div, div#quiz3x3 div.grid3x3 div.row div
-        for (var i = 0; i < top.length; i++) { // safer to iterate like this with arrays - but why use arrays anyway?
-            sel = base + '#top' + i;
-            //pos = '-' + (width * top[i]) + 'px 0px';
-            pos = '-' + (width * top[i]);// + 'px';
-            setBackground(sel, page.sheet, pos); //console.log('sel: ' + sel + ', img: ' + img + ', pos: ' + pos);
-        }
-
-        for (i = 0; i < bot.length; i++) {
-            sel = base + '#bot' + i;
-            pos = '-' + (width * bot[i]);// + 'px 0px';
-            setBackground(sel, page.sheet, pos); //console.log('sel: ' + sel + ', img: ' + img + ', pos: ' + pos);
-        }
+    // function applyStyles(page) {
+    //     var base = 'images/' + page.name + '/' + page.name;
+    //     $('#top').attr('src', base + '-problem.png');
+    //     $('#bot').attr('src', base + '-palette.png');
+    // }
+    function setImage(sel, page, extn) {
+        var base = 'images/' + page.name + '/' + page.name;
+        $(sel).attr('src', base + extn);
     }
 
     function showInfo(text) {
@@ -285,7 +288,9 @@
         switch (page.templateId) {
         case 'quiz2x2':
         case 'quiz3x3':
-            applyStyles(page);
+            //applyStyles(page);
+            setImage('#top', page, '-problem.png');
+            setImage('#bot', page, '-palette.png');
             if (page.name.slice(0, 2) === 'ex') {
                 timer.now(); // start timer for all real exercises
                 if (page.name === 'ex1') {
@@ -340,19 +345,21 @@
         $(tileSelector(currentPage())).css('display', 'none');
     }
 
-    function fillTile(page, num) {
-        var sel, pos;
-        pos = '-' + (tileWidth(page) * page.images.bottom[num]) + 'px 0px';
-        sel = tileSelector(page);
-        setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
-        $(sel).css('display', 'inline');
-    }
+    // function fillTile(page, num) {
+    //     var sel, pos;
+    //     pos = '-' + (tileWidth(page) * page.images.bottom[num]) + 'px 0px';
+    //     sel = tileSelector(page);
+    //     setBackground(sel, page.sheet, pos); // jQuery selector, sprite sheet, offset pos (px)
+    //     $(sel).css('display', 'inline');
+    // }
+    //function showAnswer(num) {}
 
     function answered(num) {
         //console.log('got num: ' + num);
         var page = currentPage();
 
-        fillTile(page, num);
+        //fillTile(page, num);
+        setImage('#top', page, '-sol' + num + '.png');
 
         var correct = Number(num) === page.correct;
         var timeTaken;
