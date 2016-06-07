@@ -281,6 +281,17 @@
                 timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
             }
         }
+
+    }
+
+    function showText(page) {
+        var sel = '#' + page.templateId + ' .botText p';
+        if (page.name.slice(0, 5) === 'intro') {
+            console.log('sel: \'' + sel + '\', text: ' + page.text);
+            $(sel).html(page.text);
+        } else {
+            $(sel).html("");
+        }
     }
 
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
@@ -300,9 +311,8 @@
         case 'quiz3x3':
             setImage('#' + page.templateId + ' .top', page, '-problem.png');
             setImage('#' + page.templateId + ' .bot', page, '-palette.png');
-            // setImage('#top', page, '-problem.png');
-            // setImage('#bot', page, '-palette.png');
             startTimer(page);
+            showText(page);
             break;
         case 'home':
         case 'getReady':

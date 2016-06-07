@@ -170,10 +170,19 @@ code {
   margin: auto;
 }
 
-.row {
-  display: block;
+.botText {
+  padding-top: 3em;
+  width: 100%;
   margin: auto;
+  font-size: large;
+  line-height: 2em;
+  text-align: center;
 }
+
+// .row {
+//   display: block;
+//   margin: auto;
+// }
 
 /* grids */
 div.grid2x2, div.grid3x2, div.grid3x3, div.grid4x2 {
@@ -183,41 +192,41 @@ div.grid2x2, div.grid3x2, div.grid3x3, div.grid4x2 {
 }
 
 /* quiz2x2 top and bottom grid tiles*/
-div#quiz2x2 div.grid2x2 div.row div,
-div#quiz2x2 div.grid3x2 div.row div {
-  background-image: none;
-  background-repeat: no-repeat;
-  width: 210px;
-  height: 170px;
-  float: left;
-}
+// div#quiz2x2 div.grid2x2 div.row div,
+// div#quiz2x2 div.grid3x2 div.row div {
+//   background-image: none;
+//   background-repeat: no-repeat;
+//   width: 210px;
+//   height: 170px;
+//   float: left;
+// }
 
-.topTile {
-    overflow: hidden; 
-    position: relative;
-}
+// .topTile {
+//     overflow: hidden; 
+//     position: relative;
+// }
 
-.botTile {
-    overflow: hidden; 
-    position: relative;
-}
+// .botTile {
+//     overflow: hidden; 
+//     position: relative;
+// }
 
 /*div#quiz2x2 > div.grid3x2 > div.row > div {*/
-div#quiz2x2 > div.grid3x2 > div.row > div {
-  padding: 20px;
-  width: 0;
-  margin: auto;
-}
+// div#quiz2x2 > div.grid3x2 > div.row > div {
+//   padding: 20px;
+//   width: 0;
+//   margin: auto;
+// }
 
-/* quiz3x3 top and bottom grid tiles */
-div#quiz3x3 div.grid3x3 div.row div,
-div#quiz3x3 div.grid4x2 div.row div {
-  background-image: none;
-  background-repeat: no-repeat;
-  width: 170px;
-  height: 135px;
-  float: left;
-}
+// /* quiz3x3 top and bottom grid tiles */
+// div#quiz3x3 div.grid3x3 div.row div,
+// div#quiz3x3 div.grid4x2 div.row div {
+//   background-image: none;
+//   background-repeat: no-repeat;
+//   width: 170px;
+//   height: 135px;
+//   float: left;
+// }
 
 /*
 ff unique select for bottom right tile of bottom grid is:
