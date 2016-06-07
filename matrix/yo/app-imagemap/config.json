@@ -21,7 +21,7 @@
         "templateId": "quiz2x2",
         "suppressAbandon": true,
         "correct": 4,
-        "text": "Here is a design which is missing a piece on the lower right hand corner. At the bottom are shown six pieces which would fit the missing corner. Your task is the touch the piece which best completes the design at the top."
+        "text": "Here is a design which is missing a piece on the lower right hand corner. At the bottom are shown six pieces which would fit the missing corner. Your task is to touch the piece which best completes the design at the top. Have a go now..."
     },
     {
         "name": "intro2",

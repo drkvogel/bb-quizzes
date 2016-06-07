@@ -532,9 +532,9 @@
     }
 
     function keydown(e) {
-        e.preventDefault();
         console.log("keyboard event: " + e.which);
         if (e.which === 68) { //console.log('"d" pressed');
+            e.preventDefault();
             if ($('#buttons').css('display') === 'none') {
                 showDiv('buttons');
             } else {
@@ -555,18 +555,13 @@
 
     window.onresize = function(event) {
         showPage(currentPage()); // ?
-        // var windowToTile = 0.1; // ratio of width of window to width of tile
-        // $(window).width();
-        // $(window).height();
     };
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
         hideDiv('buttons');
-        //$('3x2-map').imageMapResize(); // https://github.com/davidjbradshaw/image-map-resizer
-        //$('4x2-map').imageMapResize(); 
-        //$(document).keydown(mykeydown()); // 
-        //$("body").on('keydown', mykeydown); // 
+        $('#3x2-map').imageMapResize(); // https://github.com/davidjbradshaw/image-map-resizer
+        $('#4x2-map').imageMapResize(); 
         if (LIVE) {
             window.onbeforeunload = null;
             window.history.forward();   //prevent repeat after back button - may not work.
@@ -577,3 +572,9 @@
         getConfig();
     });
 }());
+
+        // var windowToTile = 0.1; // ratio of width of window to width of tile
+        // $(window).width();
+        // $(window).height();
+        //$(document).keydown(mykeydown()); // 
+        //$("body").on('keydown', mykeydown); // 

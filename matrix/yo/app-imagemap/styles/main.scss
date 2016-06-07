@@ -170,6 +170,11 @@ code {
   margin: auto;
 }
 
+.top, .bot {
+  width: 100%;
+  height: auto;
+}
+
 .botText, #getReady {
   padding-top: 3em;
   width: 100%;
@@ -189,6 +194,10 @@ div.grid2x2, div.grid3x2, div.grid3x3, div.grid4x2 {
   padding: 10px;
   margin: auto;
   text-align: center;
+}
+
+div.grid3x3, div.grid2x2 {
+  padding: 3em;
 }
 
 /* quiz2x2 top and bottom grid tiles*/
