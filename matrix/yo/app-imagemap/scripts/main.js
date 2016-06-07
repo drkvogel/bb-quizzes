@@ -296,10 +296,10 @@
         switch (page.templateId) {
         case 'quiz2x2':
         case 'quiz3x3':
-            // setImage(page.templateId + ' #top', page, '-problem.png');
-            // setImage(page.templateId + ' #bot', page, '-palette.png');
-            setImage('#top', page, '-problem.png');
-            setImage('#bot', page, '-palette.png');
+            setImage('.' + page.templateId + ' .top', page, '-problem.png');
+            setImage('.' + page.templateId + ' .bot', page, '-palette.png');
+            // setImage('#top', page, '-problem.png');
+            // setImage('#bot', page, '-palette.png');
             startTimer(page);
             break;
         case 'home':
@@ -476,7 +476,8 @@
             break;
         case 'tryagain-ok':
             //clearTile();
-            setImage('#top', currentPage(), '-problem.png');
+            //setImage('#top', currentPage(), '-problem.png');
+            setImage('.' + currentPage().templateId + ' .top', currentPage(), '-problem.png'); 
             hideModal('tryagain-modal');
             break;
         case 'timeup-ok':
