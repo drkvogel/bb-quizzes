@@ -190,6 +190,12 @@ code {
 // }
 
 /* grids */
+
+#quiz2x2, #quiz3x3 { // should always use classes, not ids!
+  width: 50%;
+  margin: auto;
+}
+
 div.grid2x2, div.grid3x2, div.grid3x3, div.grid4x2 {
   padding: 10px;
   margin: auto;
