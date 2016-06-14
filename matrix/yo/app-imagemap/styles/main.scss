@@ -170,7 +170,7 @@ code {
   margin: auto;
 }
 
-.top, .bot {
+.top, .bot { // necessary so containing divs stretch?
   width: 100%;
   height: auto;
 }
@@ -191,8 +191,28 @@ code {
 
 /* grids */
 
-#quiz2x2, #quiz3x3 { // should always use classes, not ids!
+// #quiz2x2, #quiz3x3 { // should always use classes, not ids!
+//   width: 50%;
+//   margin: auto;
+// }
+
+.grid2x2 {
   width: 50%;
+  margin: auto;
+}
+
+.grid3x2 {
+  width: 81%;
+  margin: auto;
+}
+
+.grid3x3 {
+  width: 50%;
+  margin: auto;
+}
+
+.grid4x2 {
+  width: 74%;
   margin: auto;
 }
 
@@ -202,9 +222,9 @@ div.grid2x2, div.grid3x2, div.grid3x3, div.grid4x2 {
   text-align: center;
 }
 
-div.grid3x3, div.grid2x2 {
-  padding: 3em;
-}
+// div.grid3x3, div.grid2x2 { // throws scaling off
+//   padding: 3em;
+// }
 
 /* quiz2x2 top and bottom grid tiles*/
 // div#quiz2x2 div.grid2x2 div.row div,
