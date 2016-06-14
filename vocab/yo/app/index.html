@@ -26,24 +26,114 @@
     <!--[if lt IE 10]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
+
+    <div class="navbar nav header">
+        <div id="buttons" class="nav row">
+          <div id="prev" class="col-md-3"><button class="btn pull-right" id="prev" href="#">&lt; Prev</button></div>
+          <div id="prevTime" class="col-md-2">&nbsp;</div>
+          <div id="info" class="col-md-2">&nbsp;</div>
+          <div id="" class="col-md-2"><button class="btn" id="timeUp" href="#">timeUp</button></div>
+          <div id="next" class="col-md-3"><button class="btn" id="next" href="#">Next &gt;</button></div>
+        </div>
+    </div>
     
-    <div class="container">
-      <div class="header">
+<!--       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a href="#">Home</a></li>
           <li><a href="#">About</a></li>
           <li><a href="#">Contact</a></li>
         </ul>
         <h3 class="text-muted">yo</h3>
-      </div>
+      </div> -->
 
-      <div class="jumbotron">
-        <h1>'Allo, 'Allo!</h1>
-        <p class="lead">Always a pleasure scaffolding your apps.</p>
-        <p><a class="btn btn-lg btn-success" href="#">Splendid!</a></p>
-      </div>
+    <div class="container">
+      <div id="pages"> <!-- style="display: none"> -->
 
-      <div class="row marketing">
+        <!-- home -->
+        <div id="home" class="page" style="display:inline">
+          <div class="jumbotron">
+            <h1>Vocab Quiz</h1>
+            <p class="lead">Welcome to the Vocab quiz</p>
+            <p><a id="start" class="btn btn-lg btn-success" href="#">Start</a></p>
+          </div>
+          <div class="footer">
+            <p>&copy; 2016 NDPH</p>
+          </div>
+        </div>
+
+        <!-- Intro 1 -->
+        <div id="intro1" class="page" style="display:none">
+          <div class="topTxt"></div>
+          <div id="middleImg">
+            <img />
+          </div>
+          <div class="botTxt"></div>
+          <div class="navTxt"></div>
+          <div class="navCtl"></div>
+        </div>
+
+        <!-- getReady -->
+        <div id="getReady" class="page" style="display:none">
+          <p class=" center">You will have 2 minutes to do as many puzzles as you can.</p>
+          <p class=" center">Touch Start when you are ready to begin.</p>
+          <div class="buttons">
+            <!-- <div id="prev"><a id="prev" href="#">&lt; Prev</a></div><div id="next"><a id="next" href="#">Next &gt;</a></div> -->
+            <div id="start"><button class="btn center" id="next" href="#">Start</button></div>
+          </div>
+        </div>
+
+        <!-- game -->
+        <div id="game" class="page" style="display:none">
+          <div id="toptable-container">
+            <table class="toptable">
+              <tr><td><h3>A</h3></td><td id="imgdiv-a"><img id="img-a" src="images/top-constant.png"/></td></tr>
+              <tr><td><h3>B</h3></td><td id="imgdiv-b"><img id="img-b"/></td></tr>
+            </table>
+          </div>
+          <div class="botTxt"></div>
+
+<!--           <table id="answers">
+            <tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+          </table> -->
+<!--           <div id="answers">
+            <button class="btn btn-lg" id="ans1" href="#">1</button>
+            <button class="btn btn-lg" id="ans2" href="#">2</button>
+            <button class="btn btn-lg" id="ans3" href="#">3</button>
+            <button class="btn btn-lg" id="ans4" href="#">4</button>
+            <button class="btn btn-lg" id="ans5" href="#">5</button>
+            <button class="btn btn-lg" id="ans6" href="#">6</button>
+          </div> -->
+           <div class="navCtl"></div>
+        </div>
+
+        <!-- thanks -->
+        <div id="thanks" class="page" style="display:none">
+          <p>Thanks for doing the test.</p>
+          <p>Please leave comments.</p>
+          <!-- <div class="page-text">page-text</div> -->
+          <div id="feedback">
+            <form id="feedbackForm" action="." method="post">
+              <fieldset>
+                Name:<br><input type="text" name="fullname" value=""><br>
+                Email:<br><input type="text" name="email" value=""><br>
+                <p>Comments:</p>
+                <textarea name="comments" rows="10" cols="80"></textarea>
+                <input type="hidden" id="results" name="results" value="tbc"/>
+                <input type="submit" value="Submit">
+              </fieldset>
+            </form>
+          </div>
+        </div>
+
+        <div id="abandon-div" class="row">
+          <button class="btn" id="abandon-btn" href="#">Abandon</button>
+        </div>
+
+      </div> <!-- pages --> 
+    </div> <!-- container -->
+
+
+<!--       <div class="row marketing">
         <div class="col-lg-6">
           <h4>HTML5 Boilerplate</h4>
           <p>HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.</p>
@@ -62,8 +152,8 @@
       <div class="footer">
         <p>♥ from the Yeoman team</p>
       </div>
-    </div>
-    
+ -->   
+
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=

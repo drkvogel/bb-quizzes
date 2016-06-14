@@ -1,0 +1,213 @@
+{
+    "comment": "can't put comments in JSON!",
+    "comment": "timeLimit should be 120000 == 2 minutes",
+    "nextDelay" : 500,
+    "timeLimit" : 120000,
+    "formAction" : "complete.php",
+    "pages":[
+    {
+        "name": "home",
+        "type" : "intro",
+        "templateId": "home",
+        "images": {},
+        "correct": -1,
+        "suppressAbandon" : true
+    },
+    {
+        "name": "intro1",
+        "type" : "intro",
+        "templateId": "intro1",
+        "images": {
+            "top": "intro1.png"
+        },
+        "topTxt" : "<h3>Vocab</h3><p>You will be shown four pictures at a time, and a word.</p>",
+        "botTxt" : "<p>Your task is to select the picture that describes the word.</p>",
+        "navTxt" : "<p>Touch \"Next\" to continue.</p>",
+        "correct": -1
+    },
+    {
+        "name": "intro2",
+        "type" : "intro",
+        "templateId": "intro1",
+        "images": {
+            "top": "intro2.png"
+        },
+        "topTxt" : "<p>The goal is to make picture A look like picture B by moving the hoops on picture A.</p><p>Your task is to work out how to do this in as few moves as possible.</p>",    
+        "botTxt" : "<p>Taking a hoop off one peg and putting it on another is a single move and you can only shift one hoop at a time.</p><p>You might need to shift one hoop to get at the one below it or do something more complicated to swap them around.</p>",
+        "navTxt" : "<p>Touch \"Next\" for an example.</p>",
+        "correct": -1
+    },
+    {
+        "name": "intro3",
+        "type" : "intro",
+        "templateId": "intro1",
+        "images": {
+            "top": "intro3.png"
+        },
+        "topTxt" : "<p>Here you can see that the white hoop in picture A needs to be moved to the middle peg to make it look like picture B.</p>",
+        "botTxt" : "<p>This can be done in a single move, so the answer to the fewest moves question is 1 move.</p>",
+        "navTxt" : "<p>Touch \"Next\" for a practice puzzle</p>",
+        "correct": -1
+    },
+    {
+        "name": "intro4",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3w2b1y.png",
+        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
+        "correct": -1
+    },
+    {
+        "name": "intro5",
+        "type" : "intro",
+        "templateId": "intro1",
+        "images": {
+            "top": "intro5.png",
+            "bot": "ex1.png"
+        },
+        "topTxt" : "<p>You answered: <span id=\"intro-answer\" style=\"font-weight: bold;\">3<span></p><p>It can be done in: <strong>2</strong></p>",
+        "botTxt" : "",
+        "navTxt" : "<p>Touch \"Next\" to continue.</p>",
+        "correct": -1
+    },
+    {
+        "name": "intro6",
+        "type" : "intro",
+        "templateId": "intro6",
+        "navTxt" : "<p>Touch \"Next\" when you are ready to begin. You will have 3 minutes to do as many puzzles as you can.</p>",
+        "correct": -1
+    },
+    {
+        "name": "ex1",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t32by1w.png",
+        "correct": -1
+    },
+    {
+        "name": "ex2",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t32wy1b.png",
+        "correct": -1
+    },
+    {
+        "name": "ex3",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3bw21y.png",
+        "correct": -1
+    },
+    {
+        "name": "ex4",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3w2b1y.png",
+        "correct": -1
+    },
+    {
+        "name": "ex5",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3w2yb1.png",
+        "correct": -1
+    },
+    {
+        "name": "ex6",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3wb2y1.png",
+        "correct": -1
+    },
+    {
+        "name": "ex7",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3wy2b1.png",
+        "correct": -1
+    },
+    {
+        "name": "ex8",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3y2b1w.png",
+        "correct": -1
+    },
+    {
+        "name": "ex9",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3yb21w.png",
+        "correct": -1
+    },
+    {
+        "name": "ex10",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3ybw21.png",
+        "correct": -1
+    },
+    {
+        "name": "ex11",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t32by1w.png",
+        "correct": -1
+    },
+    {
+        "name": "ex12",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t32wy1b.png",
+        "correct": -1
+    },
+    {
+        "name": "ex13",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3bw21y.png",
+        "correct": -1
+    },
+    {
+        "name": "ex14",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3w2b1y.png",
+        "correct": -1
+    },
+    {
+        "name": "ex15",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3w2yb1.png",
+        "correct": -1
+    },
+    {
+        "name": "ex16",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3wb2y1.png",
+        "correct": -1
+    },
+    {
+        "name": "ex17",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3wy2b1.png",
+        "correct": -1
+    },
+    {
+        "name": "ex18",
+        "type" : "game",
+        "templateId": "game",
+        "image": "t3y2b1w.png",
+        "correct": -1
+    },
+    {
+        "name": "thanks",
+        "templateId": "thanks",
+        "suppressAbandon": true,
+        "text": "<p>Thanks for doing the test.</p><p>Please leave comments.</p>"
+    }
+    ]
+}
