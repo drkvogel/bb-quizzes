@@ -176,12 +176,19 @@ code {
 }
 
 .botText, #getReady {
-  padding-top: 3em;
   width: 100%;
   margin: auto;
   font-size: large;
   line-height: 2em;
   text-align: center;
+}
+
+.botText {
+  padding-top: 1em;
+}
+
+#getReady {
+  padding-top: 3em;
 }
 
 // .row {
