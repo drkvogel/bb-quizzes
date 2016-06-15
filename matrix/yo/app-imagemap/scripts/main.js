@@ -327,6 +327,16 @@
             throw new Error('unrecogised id');
         }
         showDiv((page.templateId));
+        switch (page.templateId) {
+        case 'quiz2x2':
+            $('#3x2-map').imageMapResize(); // https://github.com/davidjbradshaw/image-map-resizer
+            break;
+        case 'quiz3x3':
+            $('#4x2-map').imageMapResize();
+            break;
+        default:
+            throw new Error('unrecogised id');
+        }
     }
 
     function prevPage() {
