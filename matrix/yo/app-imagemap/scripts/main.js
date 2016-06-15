@@ -565,6 +565,8 @@
 
     window.onresize = function(event) {
         showPage(currentPage()); // ?
+        showInfo('height: ' + $(window).height()); //attr('height'));
+        $('.container').attr('width', $(window).height()); // sets it but nothing else, doesn't change width
     };
 
     $().ready(function () { //$(document).ready(
