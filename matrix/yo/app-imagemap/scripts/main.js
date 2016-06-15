@@ -572,8 +572,8 @@
         // setting margin-left and margin-right seems to make it shrink...
         var margin = ($(window).width() - $(window).height()) / 2; 
         showInfo('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', / 2: ' + margin); 
-        $('.page').attr('margin-left', margin);
-        $('.page').attr('margin-right', margin);
+        $('.container').css('margin-left', margin);
+        $('.container').css('margin-right', margin);
     };
 
     $().ready(function () { //$(document).ready(
