@@ -306,6 +306,14 @@
         var info = current + '/' + pages.length + ': ' + page.name;
         showInfo(info);
 
+        //$('.container').attr('width', $(window).height()); // sets it but nothing else, doesn't change width
+        // set the margins/padding to (screen width - height) / 2 ?
+        // setting margin-left and margin-right seems to make it shrink...
+        var margin = ($(window).width() - $(window).height()) / 2; 
+        showInfo('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin); 
+        $('.container').css('margin-left', margin);
+        $('.container').css('margin-right', margin);
+
         switch (page.templateId) {
         case 'quiz2x2':
         case 'quiz3x3':
@@ -565,15 +573,6 @@
 
     window.onresize = function(event) {
         showPage(currentPage()); // ?
-        showInfo('height: ' + $(window).height()); //attr('height'));
-        //$('.container').attr('width', $(window).height()); // sets it but nothing else, doesn't change width
-
-        // set the margins/padding to (screen width - height) / 2 ?
-        // setting margin-left and margin-right seems to make it shrink...
-        var margin = ($(window).width() - $(window).height()) / 2; 
-        showInfo('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', / 2: ' + margin); 
-        $('.container').css('margin-left', margin);
-        $('.container').css('margin-right', margin);
     };
 
     $().ready(function () { //$(document).ready(
