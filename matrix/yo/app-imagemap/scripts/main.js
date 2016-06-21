@@ -281,7 +281,6 @@
                 timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
             }
         }
-
     }
 
     function showText(page) {
@@ -335,14 +334,16 @@
             throw new Error('unrecogised id');
         }
 
-        normalizeWidth();
         showDiv((page.templateId));
+        normalizeWidth();
         
         switch (page.templateId) { // only after page is set visible?
         case 'quiz2x2':
+            console.log('$(\'#3x2-map\').imageMapResize(); ');
             $('#3x2-map').imageMapResize(); // https://github.com/davidjbradshaw/image-map-resizer
             break;
         case 'quiz3x3':
+            console.log('$(\'#4x2-map\').imageMapResize(); ');
             $('#4x2-map').imageMapResize();
             break;
         }
