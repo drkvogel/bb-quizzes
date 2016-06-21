@@ -537,6 +537,7 @@
         $('#feedbackForm').attr('action', formAction);
 
         showPage(currentPage());
+        imageMapResize();
     }
 
     function getConfig() {
@@ -580,8 +581,9 @@
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
         hideDiv('buttons');
-        $('#3x2-map').imageMapResize(); // https://github.com/davidjbradshaw/image-map-resizer
-        $('#4x2-map').imageMapResize(); 
+        //$('#3x2-map').imageMapResize(); // https://github.com/davidjbradshaw/image-map-resizer
+        //$('#4x2-map').imageMapResize();
+        //imageMapResize();
         if (LIVE) {
             window.onbeforeunload = null;
             window.history.forward();   //prevent repeat after back button - may not work.
