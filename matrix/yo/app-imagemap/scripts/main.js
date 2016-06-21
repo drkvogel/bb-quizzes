@@ -342,8 +342,6 @@
         case 'quiz3x3':
             $('#4x2-map').imageMapResize();
             break;
-        default:
-            throw new Error('unrecogised id');
         }
     }
 
