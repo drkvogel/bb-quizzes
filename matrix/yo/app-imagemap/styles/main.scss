@@ -70,12 +70,15 @@ body {
   }
 }
 
+
+
 .marketing { /* Supporting marketing content */
   margin: 40px 0;
   p + h4 {
     margin-top: 28px;
   }
 }
+
 
 @media screen and (min-width: 768px) { /* Responsive: Portrait tablets and up */
   .container {
@@ -142,7 +145,7 @@ body {
 /* Not required for template or sticky footer method. */
 
 body > .container {
-  //padding: 5px 5px 0;
+  padding: 5px 5px 0;
 }
 .container .text-muted {
   margin: 50px 0;
@@ -166,8 +169,12 @@ code {
 }
 
 #pages {
-  width: 100%;
+  width: 90%;
   margin: auto;
+}
+
+#abandon-div.row {
+  padding-left: 28%;
 }
 
 .top, .bot { // necessary so containing divs stretch?
@@ -341,52 +348,52 @@ but chrome says just: #bot5
 
 // .box { @include border-radius(10px); }
 
-/*
-Stretchy Sprites by tobyj.net
-Feel free to copy and reuse as you like
-*/
+// /*
+// Stretchy Sprites by tobyj.net
+// Feel free to copy and reuse as you like
+// */
 
-/*Set the max-width to the width of your individual sprites:*/
-.stretchy {
-    display:block; 
-    float:left; 
-    position:relative; 
-    overflow:hidden; 
-    max-width:160px;
-}
-.stretchy .spacer {
-    width: 100%; 
-    height: auto;
-}
-.stretchy .sprite {
-    position:absolute; 
-    top:0; 
-    left:0; 
-    max-width:none; 
-    max-height:100%;
-}
-.stretchy .sprite.s2 {
-    left:-100%;
-}
-.stretchy .sprite.s3 {
-    left:-200%;
-}
-.stretchy .sprite.s4 {
-    left:-300%;
-}
-.stretchy .sprite.s5 {
-    left:-400%;
-}
-.stretchy .sprite.s6 {
-    left:-500%;
-}
+// /*Set the max-width to the width of your individual sprites:*/
+// .stretchy {
+//     display:block; 
+//     float:left; 
+//     position:relative; 
+//     overflow:hidden; 
+//     max-width:160px;
+// }
+// .stretchy .spacer {
+//     width: 100%; 
+//     height: auto;
+// }
+// .stretchy .sprite {
+//     position:absolute; 
+//     top:0; 
+//     left:0; 
+//     max-width:none; 
+//     max-height:100%;
+// }
+// .stretchy .sprite.s2 {
+//     left:-100%;
+// }
+// .stretchy .sprite.s3 {
+//     left:-200%;
+// }
+// .stretchy .sprite.s4 {
+//     left:-300%;
+// }
+// .stretchy .sprite.s5 {
+//     left:-400%;
+// }
+// .stretchy .sprite.s6 {
+//     left:-500%;
+// }
 
-.stretchy.no-limit {
-    max-width: none;
-} /*you could also set this to a pixel size, for example 320px, to limit the maximum*/
+// .stretchy.no-limit {
+//     max-width: none;
+// } /*you could also set this to a pixel size, for example 320px, to limit the maximum*/
 
-.stretchy.no-limit .sprite {
-    min-height: 100%;
-}
+// .stretchy.no-limit .sprite {
+//     min-height: 100%;
+// }
 
 /*END stretchy sprites by tobyj.net*/
