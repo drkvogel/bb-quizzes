@@ -294,11 +294,10 @@
     }
 
     function normalizeWidth() {
-        //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
         var margin = ($(window).width() - $(window).height()) / 2; 
         console.log('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin); 
         $('.container').css('margin-left', margin); // set the margins to (screen width - height) / 2
-        $('.container').css('margin-right', margin);
+        $('.container').css('margin-right', margin); //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
     }
 
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
