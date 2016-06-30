@@ -227,16 +227,18 @@
         // .css('width') e.g. '1200px'
         // .attr(\'width\') - undefined
         // .width() e.g. 1200
-        var margins = $('body').width() + $('.container').width() + $('#pages').width();
+        var margins = ($('body').outerWidth(true) - $('body').innerWidth()) + 
+            ($('.container').outerWidth(true) - $('.container').innerWidth()) + 
+            ($('#pages').outerWidth(true) - $('#pages').innerWidth());
         var setMargin = ($(window).width() - $(window).height() - margins) / 2;
 
         // not width, you eejit! we want to get the margin widths to subtract from the viewport width - height
-        console.log('margins = ($(\'body\').attr(\'width\'): ' + $('body').width() +
-            ', $(\'div.container\').attr(\'width\'): ' + $('.container').width() + 
-            ', $(\'div#pages\').attr(\'width\'): ' + $('#pages').width()); 
-        console.log('$(window).width(): ' + $(window).width() 
-            + ', $(window).height()' + $(window).height() 
-            + ', margins: ' + margins + ', setMargin: ' + setMargin); 
+        console.log('margins = body margin: ' + String($('body').outerWidth(true) - $('body').innerWidth())+
+            ', .container margin: ' + String($('.container').outerWidth(true) + $('.container').innerWidth())+ 
+            ', #pages margin: ' + String($('#pages').outerWidth(true) - $('#pages').innerWidth())); 
+        console.log('$(window).width(): ' + $(window).width() + 
+            ', $(window).height()' + $(window).height() +
+            ', margins: ' + margins + ', setMargin: ' + setMargin); 
 
         // body > div.container > div#pages
 
