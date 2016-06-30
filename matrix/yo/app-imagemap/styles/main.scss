@@ -19,14 +19,14 @@ body {
   min-height: 100%;
 }
 
-/* Space out content a bit */
+// Space out content a bit
 body {
   //padding-top: 5px;
   padding-bottom: 20px;
   height: 100%;
 }
 
-/* Everything but the jumbotron gets side spacing for mobile first views */
+// Everything but the jumbotron gets side spacing for mobile first views
 .header,
 .marketing,
 .footer {
@@ -34,11 +34,11 @@ body {
   padding-right: 15px;
 }
 
-/* Custom page header */
+// Custom page header
 .header {
   border-bottom: 1px solid #e5e5e5;
 
-  /* Make the masthead heading the same height as the navigation */
+  // Make the masthead heading the same height as the navigation 
   h3 {
     margin-top: 0;
     margin-bottom: 0;
@@ -47,7 +47,7 @@ body {
   }
 }
 
-.footer { /* Custom page footer */
+.footer { // Custom page footer
   padding-top: 19px;
   color: #777;
   border-top: 1px solid #e5e5e5;
@@ -63,15 +63,6 @@ body {
   .btn {
     font-size: 21px;
     padding: 14px 24px;
-  }
-}
-
-
-
-.marketing { /* Supporting marketing content */
-  margin: 40px 0;
-  p + h4 {
-    margin-top: 28px;
   }
 }
 
@@ -117,8 +108,7 @@ body {
 //   @include image-2x("intro1-2x.png", 100px, 25px);
 // }
 
-/* Sticky footer styles
--------------------------------------------------- */
+// Sticky footer styles
 html {
   position: relative;
   min-height: 100%;
@@ -136,10 +126,8 @@ body {
   background-color: #f5f5f5;
 }
 
-/* Custom page CSS
--------------------------------------------------- */
-/* Not required for template or sticky footer method. */
-
+// Custom page CSS
+// Not required for template or sticky footer method
 body > .container {
   padding: 5px 5px 0;
 }
@@ -160,7 +148,6 @@ code {
   width: auto;
   //max-width: 680px;
   //max-width: 1400px;
-  //padding-top: 5px;
   padding: 0 15px;
 }
 
@@ -197,27 +184,17 @@ code {
 
 .row {
   margin: 0;
+//   display: block;
+//   margin: auto;
 }
 
 #abandon-div.row {
   padding-left: 28%;
 }
 
-
-
-// .row {
-//   display: block;
-//   margin: auto;
-// }
-
 /* grids */
 
-// #quiz2x2, #quiz3x3 { // should always use classes, not ids!
-//   width: 50%;
-//   margin: auto;
-// }
-
-.grid2x2 {
+.grid2x2 { // should always use classes, not ids!
   width: 50%;
   margin: auto;
 }
@@ -242,6 +219,59 @@ div.grid2x2, div.grid3x2, div.grid3x3, div.grid4x2 {
   margin: auto;
   text-align: center;
 }
+
+.mymodal { // overlay
+    display: none; // Hidden by default
+    position: fixed; // Stay in place
+    z-index: 1; // Sit on top
+    left: 0;
+    top: 0;
+    width: 100%; // Full width
+    height: 100%; // Full height
+    overflow: auto; // Enable scroll if needed
+    background-color: rgb(0,0,0); // Fallback color
+    background-color: rgba(0,0,0,0.4); // Black w/ opacity
+}
+
+.my-modal-content {
+    padding: 10px;
+    width: 400px;
+    height: 200px;
+    // height: 50%;
+    // width: 50%;
+    position: fixed;
+    top: 50%;             // centred
+    left: 50%;
+    margin-top: -100px;   // offset by half of height - should be calculated
+    margin-left: -200px;  // offset by half of width
+    // margin: auto;
+
+    background-color: white;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 20px;
+    z-index: 11; /* 1px higher than the overlay layer */
+}
+
+.navbar { /* Custom page footer */
+  padding-top: 1px;
+  padding-bottom: 1px;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #e5e5e5;
+  max-width: 100%;
+  min-height: 0px;
+}
+
+// @mixin border-radius($radius) {
+//   -webkit-border-radius: $radius;
+//      -moz-border-radius: $radius;
+//       -ms-border-radius: $radius;
+//           border-radius: $radius;
+// }
+
+// .box { @include border-radius(10px); }
+
+//color: #777;
 
 // div.grid3x3, div.grid2x2 { // throws scaling off
 //   padding: 3em;
@@ -302,57 +332,6 @@ but chrome says just: #bot5
 //     color:white;  
 // }
 
-.mymodal { // overlay
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-.my-modal-content {
-    padding: 10px;
-    width: 400px;
-    height: 200px;
-    // height: 50%;
-    // width: 50%;
-    position: fixed;
-    top: 50%;             // centred
-    left: 50%;
-    margin-top: -100px;   // offset by half of height - should be calculated
-    margin-left: -200px;  // offset by half of width
-    // margin: auto;
-
-    background-color: white;
-    border-radius: 5px;
-    text-align: center;
-    line-height: 20px;
-    z-index: 11; /* 1px higher than the overlay layer */
-}
-
-.navbar { /* Custom page footer */
-  padding-top: 1px;
-  padding-bottom: 1px;
-  //color: #777;
-  background-color: #f5f5f5;
-  border-bottom: 1px solid #e5e5e5;
-  max-width: 100%;
-  min-height: 0px;
-}
-
-// @mixin border-radius($radius) {
-//   -webkit-border-radius: $radius;
-//      -moz-border-radius: $radius;
-//       -ms-border-radius: $radius;
-//           border-radius: $radius;
-// }
-
-// .box { @include border-radius(10px); }
 
 // /*
 // Stretchy Sprites by tobyj.net
@@ -406,4 +385,11 @@ but chrome says just: #bot5
 
 // .abcd {
 //   caption-side: "test";
+// }
+
+// .marketing { /* Supporting marketing content */
+//   margin: 40px 0;
+//   p + h4 {
+//     margin-top: 28px;
+//   }
 // }
