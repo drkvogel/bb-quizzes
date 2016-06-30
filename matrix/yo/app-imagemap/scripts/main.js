@@ -223,12 +223,20 @@
         // var margin = ($(window).width() - $(window).height()) / 2;
         // console.log('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin); 
         //console.log('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin); 
-        var margins = $('body').css('width') + $('div.container').css('width') + $('div#pages').css('width');
+        // var margins = $('body').css('width') + $('div.container').css('width') + $('div#pages').css('width');
+        // .css('width') e.g. '1200px'
+        // .attr(\'width\') - undefined
+        // .width() e.g. 1200
+        var margins = $('body').width() + $('.container').width() + $('#pages').width();
         var setMargin = ($(window).width() - $(window).height() - margins) / 2;
-        console.log('margins = ($(\'body\').attr(\'width\'): ' + $('body').css('width') +
-            ', $(\'div.container\').attr(\'width\'): ' + $('.container').css('width') + 
-            ', $(\'div#pages\').attr(\'width\'): ' + $('#pages').css('width')); 
-        console.log('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margins + ', setMargin: ' + setMargin); 
+
+        // not width, you eejit! we want to get the margin widths to subtract from the viewport width - height
+        console.log('margins = ($(\'body\').attr(\'width\'): ' + $('body').width() +
+            ', $(\'div.container\').attr(\'width\'): ' + $('.container').width() + 
+            ', $(\'div#pages\').attr(\'width\'): ' + $('#pages').width()); 
+        console.log('$(window).width(): ' + $(window).width() 
+            + ', $(window).height()' + $(window).height() 
+            + ', margins: ' + margins + ', setMargin: ' + setMargin); 
 
         // body > div.container > div#pages
 
