@@ -9,10 +9,16 @@ REMOTEHOST="red.ctsu.ox.ac.uk"
 REMOTEUSER="cp"
 REMOTEROOT="/user/cp/public_html/cjb/"  # http://red.ctsu.ox.ac.uk/~cp/cjb/
 
+# $ echo "$(dirname "$(pwd)")"
+# /home/cbird/Projects/bb-quizzes/matrix
+# "$(basename "$(dirname "$(pwd)") " )"
+
 if [ -z "$1" ]
 then
-    DIR="vocab"
+    #DIR="vocab"
+    DIR="$(basename "$(dirname "$(pwd)")")"
     echo "No argument supplied, defaulting to '$DIR'"
+    exit
 else
     DIR=$1
 fi
