@@ -212,7 +212,7 @@
     function showText(page) {
         var sel = '#' + page.templateId + ' .botText p';
         if (page.name.slice(0, 5) === 'intro') {
-            console.log('sel: \'' + sel + '\', text: ' + page.text);
+            //console.log('sel: \'' + sel + '\', text: ' + page.text);
             $(sel).html(page.text);
         } else {
             $(sel).html("");
@@ -220,10 +220,20 @@
     }
 
     function normalizeWidth() {
-        var margin = ($(window).width() - $(window).height()) / 2; 
-        console.log('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin); 
-        $('.quizContainer').css('margin-left', margin); // set the margins to (screen width - height) / 2
-        $('.quizContainer').css('margin-right', margin); //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
+        // var margin = ($(window).width() - $(window).height()) / 2;
+        // console.log('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin); 
+        //console.log('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin); 
+        var margins = $('body').css('width') + $('div.container').css('width') + $('div#pages').css('width');
+        var setMargin = ($(window).width() - $(window).height() - margins) / 2;
+        console.log('margins = ($(\'body\').attr(\'width\'): ' + $('body').css('width') +
+            ', $(\'div.container\').attr(\'width\'): ' + $('.container').css('width') + 
+            ', $(\'div#pages\').attr(\'width\'): ' + $('#pages').css('width')); 
+        console.log('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margins + ', setMargin: ' + setMargin); 
+
+        // body > div.container > div#pages
+
+        $('.quizContainer').css('margin-left', setMargin); // set the margins to (screen width - height) / 2
+        $('.quizContainer').css('margin-right', setMargin); //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
         // $('.container').css('margin-left', margin); // set the margins to (screen width - height) / 2
         // $('.container').css('margin-right', margin); //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
     }
