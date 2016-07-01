@@ -227,8 +227,8 @@
         // .css('width') e.g. '1200px'
         // .attr(\'width\') - undefined
         // .width() e.g. 1200
-        var margins = ($('body').outerWidth(true) - $('body').innerWidth()) + 
-            ($('.container').outerWidth(true) - $('.container').innerWidth()) + 
+        var margins = ($('body').outerWidth(true) - $('body').innerWidth() / 2) + 
+            ($('.container').outerWidth(true) - $('.container').innerWidth() / 2) + 
             ($('#pages').outerWidth(true) - $('#pages').innerWidth());
         var setMargin = ($(window).width() - $(window).height() - margins) / 2;
 
