@@ -227,13 +227,13 @@
         // .css('width') e.g. '1200px'
         // .attr(\'width\') - undefined
         // .width() e.g. 1200
-        var margins = ($('body').outerWidth(true) - $('body').innerWidth() / 2) + 
-            ($('.container').outerWidth(true) - $('.container').innerWidth() / 2) + 
-            ($('#pages').outerWidth(true) - $('#pages').innerWidth());
+        var margins = ($('body').outerWidth(true) - $('body').outerWidth() / 2) + 
+            ($('.container').outerWidth(true) - $('.container').outerWidth() / 2) + 
+            ($('#pages').outerWidth(true) - $('#pages').outerWidth());
         var setMargin = ($(window).width() - $(window).height() - margins) / 2;
 
         // not width, you eejit! we want to get the margin widths to subtract from the viewport width - height
-        console.log('margins = body margin: ' + String($('body').outerWidth(true) - $('body').innerWidth())+
+        console.log('margins = body margin: ' + String($('body').outerWidth(true) - $('body').outerWidth())+
             ', .container margin: ' + String($('.container').outerWidth(true) + $('.container').innerWidth())+ 
             ', #pages margin: ' + String($('#pages').outerWidth(true) - $('#pages').innerWidth())); 
         console.log('$(window).width(): ' + $(window).width() + 
@@ -282,7 +282,7 @@
         }
 
         showDiv((page.templateId));
-        normalizeWidth();
+        //normalizeWidth();
         
         switch (page.templateId) { // only after page is set visible?
         case 'quiz2x2':
