@@ -60,13 +60,10 @@ body {
   border-top: 1px solid #e5e5e5;
 }
 
-
-
-
 @media screen and (min-width: 768px) { /* Responsive: Portrait tablets and up */
   .container {
     //max-width: 730px;
-    max-width: 90%;
+    //max-width: 90%; // ???
   }
 
   .header,
@@ -83,8 +80,13 @@ body {
   .jumbotron { /* Remove the bottom border on the jumbotron for visual effect */
     border-bottom: 0;
   }
-}
 
+  .botText {
+    font-size: large;
+    line-height: 2em;
+  }
+
+}
 
 // // https://signalvnoise.com/posts/3271-easy-retina-ready-images-using-scss
 // @mixin image-2x($image, $width, $height) {
@@ -108,18 +110,18 @@ body {
 // Custom page CSS
 // Not required for template or sticky footer method
 body > .container {
-  padding: 5px 5px 0;
+  //padding: 5px 5px 0;
 }
 
 .container {
   width: auto;
   //max-width: 680px;
   //max-width: 1400px;
-  padding: 0 15px;
+  //padding: 0 15px;
 }
 
 #pages {
-  width: 90%;
+  //width: 90%;
   margin: auto;
 }
 
@@ -132,8 +134,6 @@ body > .container {
 .botText, #getReady {
   width: 100%;
   margin: auto;
-  font-size: large;
-  line-height: 2em;
   text-align: center;
 }
 
@@ -150,6 +150,8 @@ body > .container {
 
 /* grids */
 
+// 2x2 + 3x2
+
 .grid2x2 { // should always use classes, not ids!
   width: 50%;
   margin: auto;
@@ -159,6 +161,8 @@ body > .container {
   width: 81%;
   margin: auto;
 }
+
+// 3x3 + 4x2
 
 .grid3x3 {
   width: 50%;
@@ -170,8 +174,14 @@ body > .container {
   margin: auto;
 }
 
+// space lower grid from upper one
+
+.grid3x2, .grid4x1 {
+  padding-top: 5%;
+}
+
 div.grid2x2, div.grid3x2, div.grid3x3, div.grid4x2 {
-  padding: 10px;
+  //padding: 10px;
   margin: auto;
   text-align: center;
 }

@@ -227,23 +227,28 @@
         // .css('width') e.g. '1200px'
         // .attr(\'width\') - undefined
         // .width() e.g. 1200
-        var margins = ($('body').outerWidth(true) - $('body').outerWidth() / 2) + 
-            ($('.container').outerWidth(true) - $('.container').outerWidth() / 2) + 
+        var margins = // ($('body').outerWidth(true) - $('body').outerWidth() / 2) + // body shouldn't have any extra
+            ($('.container').outerWidth(true) - $('.container').outerWidth()) + 
             ($('#pages').outerWidth(true) - $('#pages').outerWidth());
-        var setMargin = ($(window).width() - $(window).height() - margins) / 2;
+        var setMargin = ($(window).width() - ($(window).height() - $('.botText').height()) - margins) / 2;
 
-        // not width, you eejit! we want to get the margin widths to subtract from the viewport width - height
-        console.log('margins = body margin: ' + String($('body').outerWidth(true) - $('body').outerWidth())+
+        // get the margin widths to subtract from the viewport width - height
+        console.log('margins = ' +
             ', .container margin: ' + String($('.container').outerWidth(true) + $('.container').innerWidth())+ 
             ', #pages margin: ' + String($('#pages').outerWidth(true) - $('#pages').innerWidth())); 
         console.log('$(window).width(): ' + $(window).width() + 
             ', $(window).height()' + $(window).height() +
             ', margins: ' + margins + ', setMargin: ' + setMargin); 
 
-        // body > div.container > div#pages
+        // body > div.container > div#pages > div#quiz2x2.quiz > div.gridContainer > .grid2x2 .grid3x2
 
-        $('.quizContainer').css('margin-left', setMargin); // set the margins to (screen width - height) / 2
-        $('.quizContainer').css('margin-right', setMargin); //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
+        if (setMargin > 0) {
+            $('.gridContainer').css('margin-left', setMargin); // set the margins to (screen width - height) / 2
+            $('.gridContainer').css('margin-right', setMargin); //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
+        } else {
+            $('.gridContainer').css('margin-left', 0); // set the margins to (screen width - height) / 2
+            $('.gridContainer').css('margin-right', 0); //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
+        }
         // $('.container').css('margin-left', margin); // set the margins to (screen width - height) / 2
         // $('.container').css('margin-right', margin); //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
     }
@@ -282,7 +287,7 @@
         }
 
         showDiv((page.templateId));
-        //normalizeWidth();
+        normalizeWidth();
         
         switch (page.templateId) { // only after page is set visible?
         case 'quiz2x2':

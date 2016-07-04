@@ -8,10 +8,28 @@ import {stream as wiredep} from 'wiredep';
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
 
-var gutil = require('gulp-util'); // gutil.log('Hello world!');
-var php = require('gulp-connect-php');
 
+// handy utilies inc log to stdout
+// https://www.npmjs.com/package/gulp-util
+var gutil = require('gulp-util'); // gutil.log('Hello world!');
+
+// parse command line arguments
+// http://gulpjs.org/recipes/pass-arguments-from-cli.html
+var gulpif = require('gulp-if');
+var uglify = require('gulp-uglify');
+var minimist = require('minimist');
+var knownOptions = {
+  string: 'env',
+  default: { env: process.env.NODE_ENV || 'production' } // $ gulp scripts --env development
+};
+var options = minimist(process.argv.slice(2), knownOptions);
+// then can test gulpif(options.env === 'option', task())
+// .pipe(gulpif(options.env === 'production', uglify())) // only minify in production
+
+
+// PHP dummy backend
 gulp.task('php', function() {
+var php = require('gulp-connect-php');
   php.server({
     base: 'app'
   });
