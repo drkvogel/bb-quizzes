@@ -256,14 +256,14 @@ code {
   font-size: 80%;
 }
 
-// .jumbotron { /* Main marketing message and sign up button */
-//   text-align: center;
-//   border-bottom: 1px solid #e5e5e5;
-//   .btn {
-//     font-size: 21px;
-//     padding: 14px 24px;
-//   }
-// }
+.jumbotron { /* Main marketing message and sign up button */
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+  .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+  }
+}
 
 // @mixin border-radius($radius) {
 //   -webkit-border-radius: $radius;
