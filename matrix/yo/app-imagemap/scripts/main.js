@@ -185,8 +185,8 @@
     // }
     function setImage(sel, page, extn) {
         var base = 'images/' + page.name + '/' + page.name;
-        console.log('setImage(' + sel + ', ' + page.name + ', ' + extn + ')');
-        console.log('base + extn: ' + base + extn + ')');
+        //console.log('setImage(' + sel + ', ' + page.name + ', ' + extn + ')');
+        //console.log('base + extn: ' + base + extn + ')');
         $(sel).attr('src', base + extn);
     }
 
@@ -282,22 +282,23 @@
         }
 
         showDiv((page.templateId));
-        //normalizeWidth();
+        //normalizeWidth(); // without this, image scales with width but not with height
+
         
         switch (page.templateId) { // only after page is set visible?
         case 'quiz2x2':
-            console.log('$(\'#3x2-map\').imageMapResize(); ');
+            //console.log('$(\'#3x2-map\').imageMapResize(); ');
             $('#3x2-map').imageMapResize(); // https://github.com/davidjbradshaw/image-map-resizer
             break;
         case 'quiz3x3':
-            console.log('$(\'#4x2-map\').imageMapResize(); ');
+            //console.log('$(\'#4x2-map\').imageMapResize(); ');
             $('#4x2-map').imageMapResize();
             break;
         }
     }
 
     function prevPage() {
-        console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
+        //console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
         hidePage(currentPage());
         if (current > 0) {
             current -= 1;
@@ -306,7 +307,7 @@
     }
 
     function nextPage() { // console.log('nextPage(): current: ' + current);// + obj(currentPage());
-        console.log('nextPage(): isTimeUp:' + isTimeUp);
+        //console.log('nextPage(): isTimeUp:' + isTimeUp);
         hidePage(currentPage());
         if (isTimeUp) {
             clearTimeout(nextPageTimeout);
@@ -321,7 +322,7 @@
 
     function answered(num) {
         var page = currentPage();  
-        console.log('got num: ' + num);
+        //console.log('got num: ' + num);
         setImage('#' + page.templateId + ' .top', page, '-sol' + num + '.png');
 
         var correct = Number(num) === page.correct;
@@ -347,9 +348,9 @@
         }
 
         if (correct) { // http://stackoverflow.com/a/33457014/535071
-            console.log('Correct!');
+            //console.log('Correct!');
         } else {
-            console.log('Wrong! correct is: ' + page.correct);
+            //console.log('Wrong! correct is: ' + page.correct);
         }
 
         nextPageTimeout = setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
@@ -359,7 +360,7 @@
         e.preventDefault();
         var clickedEl = $(this),
             elId = clickedEl.attr('id');
-        console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId, 'type: ' + clickedEl.prop('tagName')); // now gets id from loaded page
+        //console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId, 'type: ' + clickedEl.prop('tagName')); // now gets id from loaded page
         switch (clickedEl.attr('id')) {
         case 'prev':
             prevPage();
@@ -370,7 +371,7 @@
             break;
         case 'yes':
         case 'no':
-            console.log('elid: ' + clickedEl.attr('id') + ', html: ' + clickedEl.html());
+            //console.log('elid: ' + clickedEl.attr('id') + ', html: ' + clickedEl.html());
             break;
         default:
             // if parent is a row or grandparent is 3x2 or 4x2 grid?
@@ -383,13 +384,13 @@
     }
 
     function showModal(modal) {
-        console.log('showModal(\'' + modal + '\')');
+        //console.log('showModal(\'' + modal + '\')');
         showDiv('modals');
         showDiv(modal);
     }
 
     function hideModal(modal) {
-        console.log('hideModal(\'' + modal + '\')');
+        //console.log('hideModal(\'' + modal + '\')');
         hideDiv('modals');
         hideDiv(modal);
     }
@@ -412,7 +413,7 @@
         // showPage(pageNamed('thanks'));
 
     function abandonClick() {
-        console.log('abandon');
+        //console.log('abandon');
         showModal('abandon-modal');
     }
 
@@ -441,10 +442,10 @@
 
     function modalClick(e) { // TODO merge into navClick or something
         e.preventDefault();
-        console.log('navClick()');
+        //console.log('modalClick()');
         var pageId = $('.page').attr('id'),
             clickedEl = $(this); //console.log('pageId: '+pageId); // now gets id from loaded page
-        console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
+        //console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
         switch (clickedEl.attr('id')) {
         case 'abandon-yes':
             hideModal('abandon-modal');
