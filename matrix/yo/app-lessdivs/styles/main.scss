@@ -4,12 +4,12 @@ $icon-font-path: '../fonts/';
 @import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 // endbower
 
-.browserupgrade {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
-}
+// .browserupgrade {
+//   margin: 0.2em 0;
+//   background: #ccc;
+//   color: #000;
+//   padding: 0.2em 0;
+// }
 
 html {
   height: 100%; // needed?
@@ -19,8 +19,12 @@ html {
 body {
   min-height: 100%; // needed?
   //padding-top: 5px;
-  padding-bottom: 20px;
+  //padding-bottom: 20px;
   height: 100%;
+}
+
+p {
+  margin: 0; // override type.scss, can overflow over containing div e.g. `.botText`.
 }
 
 // Sticky footer styles
@@ -74,7 +78,8 @@ body {
   }
 
   .header { /* Space out the masthead */
-    margin-bottom: 30px;
+    //margin-bottom: 30px;
+    padding-bottom: 30px;
   }
 
   .jumbotron { /* Remove the bottom border on the jumbotron for visual effect */
@@ -241,13 +246,13 @@ div.grid2x2, div.grid3x2, div.grid3x3, div.grid4x2 {
 // ## other
 
 // horizontal rule
-.container-narrow > hr {
-  margin: 30px 0;
-}
+// .container-narrow > hr {
+//   margin: 30px 0;
+// }
 
-.container .text-muted {
-  margin: 50px 0;
-}
+// .container .text-muted {
+//   margin: 50px 0;
+// }
 
 .footer {
   position: absolute;
