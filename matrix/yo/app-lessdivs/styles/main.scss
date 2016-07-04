@@ -78,7 +78,7 @@ p {
   }
 
   .header { /* Space out the masthead */
-    //margin-bottom: 30px;
+    //margin-bottom: 30px; // margin spills into main content even when hidden?
     padding-bottom: 30px;
   }
 
@@ -181,7 +181,7 @@ body > .container {
 
 // space lower grid from upper one
 
-.grid3x2, .grid4x1 {
+.grid3x2, .grid4x2 {
   padding-top: 5%;
 }
 
