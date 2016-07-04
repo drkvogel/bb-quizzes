@@ -234,6 +234,12 @@
 
         // get the margin widths to subtract from the viewport width - height
         console.log('margins = ' +
+            '($(\'.container\').outerWidth(true)[' + $('.container').outerWidth(true) +
+            '] - $(\'.container\').outerWidth())[' + $('.container').outerWidth() + '] + ' + 
+            '($(\'#pages\').outerWidth(true)[' + $('#pages').outerWidth(true) + 
+            '] - $(\'#pages\').outerWidth()[' + $('#pages').outerWidth() + '])';
+        var setMargin = ($(window).width() - ($(window).height() - $('.botText').height()) - margins) / 2;
+
             ', .container margin: ' + String($('.container').outerWidth(true) + $('.container').innerWidth())+ 
             ', #pages margin: ' + String($('#pages').outerWidth(true) - $('#pages').innerWidth())); 
         console.log('$(window).width(): ' + $(window).width() + 
