@@ -230,6 +230,10 @@
             ($('#pages').outerWidth(true) - $('#pages').width());
         var setMargin = ($(window).width() - ($(window).height() - $('.botText').height()) - margins) / 2;
 
+        // why am I subtracting all the margins etc from the total width/height to find the width/height of the gridContainer, instead of just using the width/height of the gridContainer?
+        //var setMargin = ($(window).width() - ($('.gridContainer').height()) - margins) / 2; 
+            // pretty erratic.... seems like race condition to set and read the height of the element
+
         // get the margin widths to subtract from the viewport width - height
         // body > div.container > div#pages > div#quiz2x2.quiz > div.gridContainer > .grid2x2 .grid3x2
         console.log('margins = ' + '($(\'.container\').outerWidth(true)[' + $('.container').outerWidth(true) + '] - $(\'.container\').width())[' + $('.container').width() + '] + ' +
@@ -420,7 +424,7 @@
         e.preventDefault();
         console.log('navClick()');
         var clickedEl = $(this); //console.log('pageId: '+pageId); // now gets id from loaded page
-        //pageId = $('.page').attr('id'),
+        var pageId = $('.page').attr('id');
         console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
         switch (clickedEl.attr('id')) {
         case 'prev':
@@ -531,7 +535,8 @@
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
-        hideDiv('buttons');
+        //hideDiv('buttons');
+        hideDiv('navbar');
         //$('#3x2-map').imageMapResize(); // https://github.com/davidjbradshaw/image-map-resizer
         //$('#4x2-map').imageMapResize();
         //imageMapResize();
