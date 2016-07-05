@@ -237,11 +237,14 @@
             '($(\'.container\').outerWidth(true)[' + $('.container').outerWidth(true) +
             '] - $(\'.container\').outerWidth())[' + $('.container').outerWidth() + '] + ' + 
             '($(\'#pages\').outerWidth(true)[' + $('#pages').outerWidth(true) + 
-            '] - $(\'#pages\').outerWidth()[' + $('#pages').outerWidth() + '])';
-        var setMargin = ($(window).width() - ($(window).height() - $('.botText').height()) - margins) / 2;
+            '] - $(\'#pages\').outerWidth()[' + $('#pages').outerWidth() + '])');
+        console.log('setMargin = ($(window).width()[' + $(window).width() +
+            '] - ($(window).height()[' + $(window).height() +
+            '] - $(\'.botText\').height()[' + $('.botText').height() +
+            ']) - margins[' + margins + ']) / 2 == ' + setMargin);
 
-            ', .container margin: ' + String($('.container').outerWidth(true) + $('.container').innerWidth())+ 
-            ', #pages margin: ' + String($('#pages').outerWidth(true) - $('#pages').innerWidth())); 
+            // ', .container margin: ' + String($('.container').outerWidth(true) + $('.container').innerWidth())+ 
+            // ', #pages margin: ' + String($('#pages').outerWidth(true) - $('#pages').innerWidth())); 
         console.log('$(window).width(): ' + $(window).width() + 
             ', $(window).height()' + $(window).height() +
             ', margins: ' + margins + ', setMargin: ' + setMargin); 
