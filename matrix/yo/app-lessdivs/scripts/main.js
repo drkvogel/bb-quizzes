@@ -228,16 +228,16 @@
         // .attr(\'width\') - undefined
         // .width() e.g. 1200
         var margins = // ($('body').outerWidth(true) - $('body').outerWidth() / 2) + // body shouldn't have any extra
-            ($('.container').outerWidth(true) - $('.container').outerWidth()) + 
-            ($('#pages').outerWidth(true) - $('#pages').outerWidth());
+            ($('.container').outerWidth(true) - $('.container').width()) +
+            ($('#pages').outerWidth(true) - $('#pages').width());
         var setMargin = ($(window).width() - ($(window).height() - $('.botText').height()) - margins) / 2;
 
         // get the margin widths to subtract from the viewport width - height
         console.log('margins = ' +
             '($(\'.container\').outerWidth(true)[' + $('.container').outerWidth(true) +
-            '] - $(\'.container\').outerWidth())[' + $('.container').outerWidth() + '] + ' + 
+            '] - $(\'.container\').width())[' + $('.container').width() + '] + ' + 
             '($(\'#pages\').outerWidth(true)[' + $('#pages').outerWidth(true) + 
-            '] - $(\'#pages\').outerWidth()[' + $('#pages').outerWidth() + '])');
+            '] - $(\'#pages\').width()[' + $('#pages').width() + ']) == ' + margins);
         console.log('setMargin = ($(window).width()[' + $(window).width() +
             '] - ($(window).height()[' + $(window).height() +
             '] - $(\'.botText\').height()[' + $('.botText').height() +
