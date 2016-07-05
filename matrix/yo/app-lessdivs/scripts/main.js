@@ -220,36 +220,24 @@
     }
 
     function normalizeWidth() {
-        // var margin = ($(window).width() - $(window).height()) / 2;
-        // console.log('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin);
-        //console.log('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin);
         // var margins = $('body').css('width') + $('div.container').css('width') + $('div#pages').css('width');
+        // ', .container margin: ' + String($('.container').outerWidth(true) + $('.container').innerWidth())+
         // .css('width') e.g. '1200px'
         // .attr(\'width\') - undefined
         // .width() e.g. 1200
-        var margins = // ($('body').outerWidth(true) - $('body').outerWidth() / 2) + // body shouldn't have any extra
+        var margins = // body shouldn't have any extra
             ($('.container').outerWidth(true) - $('.container').width()) +
             ($('#pages').outerWidth(true) - $('#pages').width());
         var setMargin = ($(window).width() - ($(window).height() - $('.botText').height()) - margins) / 2;
 
         // get the margin widths to subtract from the viewport width - height
-        console.log('margins = ' +
-            '($(\'.container\').outerWidth(true)[' + $('.container').outerWidth(true) +
-            '] - $(\'.container\').width())[' + $('.container').width() + '] + ' +
-            '($(\'#pages\').outerWidth(true)[' + $('#pages').outerWidth(true) +
-            '] - $(\'#pages\').width()[' + $('#pages').width() + ']) == ' + margins);
-        console.log('setMargin = ($(window).width()[' + $(window).width() +
-            '] - ($(window).height()[' + $(window).height() +
-            '] - $(\'.botText\').height()[' + $('.botText').height() +
-            ']) - margins[' + margins + ']) / 2 == ' + setMargin);
-
-            // ', .container margin: ' + String($('.container').outerWidth(true) + $('.container').innerWidth())+
-            // ', #pages margin: ' + String($('#pages').outerWidth(true) - $('#pages').innerWidth()));
-        console.log('$(window).width(): ' + $(window).width() +
-            ', $(window).height()' + $(window).height() +
-            ', margins: ' + margins + ', setMargin: ' + setMargin);
-
         // body > div.container > div#pages > div#quiz2x2.quiz > div.gridContainer > .grid2x2 .grid3x2
+        console.log('margins = ' + '($(\'.container\').outerWidth(true)[' + $('.container').outerWidth(true) + '] - $(\'.container\').width())[' + $('.container').width() + '] + ' +
+            '($(\'#pages\').outerWidth(true)[' + $('#pages').outerWidth(true) + '] - $(\'#pages\').width()[' + $('#pages').width() + ']) == ' + margins);
+        console.log('setMargin = ($(window).width()[' + $(window).width() + '] - ($(window).height()[' + $(window).height() +
+            '] - $(\'.botText\').height()[' + $('.botText').height() + ']) - margins[' + margins + ']) / 2 == ' + setMargin);
+        console.log('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margins + ', setMargin: ' + setMargin);
+
 
         if (setMargin > 0) {
             $('.gridContainer').css('margin-left', setMargin); // set the margins to (screen width - height) / 2
@@ -258,8 +246,6 @@
             $('.gridContainer').css('margin-left', 0); // set the margins to (screen width - height) / 2
             $('.gridContainer').css('margin-right', 0); //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
         }
-        // $('.container').css('margin-left', margin); // set the margins to (screen width - height) / 2
-        // $('.container').css('margin-right', margin); //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
     }
 
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
@@ -517,10 +503,13 @@
         console.log('keyboard event: ' + e.which);
         if (e.which === 68) { //console.log('"d" pressed');
             e.preventDefault();
-            if ($('#buttons').css('display') === 'none') {
-                showDiv('buttons');
+            //if ($('#buttons').css('display') === 'none') {
+            if ($('#navbar').css('display') === 'none') {
+                //showDiv('buttons');
+                showDiv('navbar');
             } else {
-                hideDiv('buttons');
+                //hideDiv('buttons');
+                hideDiv('navbar');
             }
         }
     }
@@ -531,7 +520,8 @@
     //$('#pages').on('click', 'a, button, div.row div img', containerClick); // delegate events
     //$('#pages').on('click', '*', containerClick); // delegate events
     $('#pages').on('click', 'a, area, button', containerClick); // delegate events
-    $('#buttons').on('click', 'a, button', navClick); // need this?
+    //$('#buttons').on('click', 'a, button', navClick); // need this?
+    $('#navbar').on('click', 'a, button', navClick); // need this?
     $('#abandon-btn').on('click', abandonClick); // need this?
     $('#modals').on('click', 'button', modalClick);
 
