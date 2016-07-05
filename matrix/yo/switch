@@ -1,0 +1,30 @@
+#!/bin/bash
+#!/bin/bash -x
+
+#echo "there are $# args"
+if [ $# -ne 1 ] 
+then
+    echo "1 arg expected, got $#"
+    exit 0
+fi
+
+if [ ! -e $1 -o ! -d $1 ]
+then
+    echo "$1 does not exist or is not a directory"
+    exit 0
+fi
+
+if [ ! -e $1/index.html ]
+then
+    echo "$1 does not look like an app directory, exiting"
+    exit 0
+fi
+
+#exit 0
+
+echo "pointing \"app\" at directory $1..."
+
+\rm app
+ln -s $1 app
+
+echo "done."

@@ -1,0 +1,121 @@
+<html>
+<head>
+
+<!-- file:///home/kvogel/Projects/bb-quizzes/dev/div-layout/index.html -->
+
+<style type="text/css">
+img { /* makes them stretchy, otherwise they are fixed size */
+    width: 100%;
+    height: auto;
+}
+html {
+    xheight: 100%;
+    /*position: absolute; top: 0; bottom: 0; left: 0; right: 0;*/
+    xmin-height: 100%;
+    height: 100%;
+}
+body {
+    min-height: 100%;
+    xheight: 100%;
+}
+#topgrid, #quiz3x3 {
+    margin: auto; /* centre */
+}
+.grid3x3 {
+    margin: auto; /* centre */
+}
+
+.grid3x3 { /*#inner*/
+    display: table;
+    margin: 0 auto;
+}
+
+
+.row {
+    display: block;
+}
+
+.row::after {
+    clear: both;
+    content: " ";
+    display: table;
+}
+div.row div {
+    float: left;
+}
+</style>
+
+</head>
+<body>
+
+<!-- <table id="topgrid">
+  <tr>
+    <td><img src="intro1-single.png" /></td>
+    <td><img src="intro1-single.png" /></td>
+    <td><img src="intro1-single.png" /></td>
+  </tr>
+  <tr>
+    <td><img src="intro1-single.png" /></td>
+    <td><img src="intro1-single.png" /></td>
+    <td><img src="intro1-single.png" /></td>
+  </tr>
+  <tr>
+    <td><img src="intro1-single.png" /></td>
+    <td><img src="intro1-single.png" /></td>
+    <td><img src="intro1-single.png" /></td>
+  </tr>
+</table> -->
+
+          <!-- 3x3 + 4x2 grid -->
+
+           <div id="quiz3x3" class="quiz3x3-4x2" style="display:block">
+            <div class="grid3x3">
+              <div class="row">
+                <div id="top0"><img src="intro1-single.png" /></div>
+                <div id="top1"><img src="intro1-single.png" /></div>
+                <div id="top2"><img src="intro1-single.png" /></div>
+              </div>
+              <div class="row">
+                <div id="top3"><img src="intro1-single.png" /></div>
+                <div id="top4"><img src="intro1-single.png" /></div>
+                <div id="top5"><img src="intro1-single.png" /></div>
+              </div>
+              <div class="row">
+                <div id="top6"><img src="intro1-single.png" /></div>
+                <div id="top7"><img src="intro1-single.png" /></div>
+                <div id="missing3x3"><img src="intro1-single.png" /></div>
+              </div>
+            </div>
+          </div>
+<!--            <div class="grid4x2">
+              <div class="row">
+                <div id="bot0"></div><div id="bot1"></div><div id="bot2"></div><div id="bot3"></div>
+              </div>
+              <div class="row">
+                <div id="bot4"></div><div id="bot5"></div><div id="bot6"></div><div id="bot7"></div>
+              </div>
+            </div>
+ -->
+
+          <!-- 2x2 + 3x2 grid -->
+<!--           <div id="quiz2x2" class="page quiz2x2-3x2" style="display:none">
+            <div class="grid2x2">
+              <div class="row">
+                <div id="top0">&nbsp;</div><div id="top1">&nbsp;</div>
+              </div>
+              <div class="row">
+                <div id="top2">&nbsp;</div><div id="missing2x2">&nbsp;</div>
+              </div>
+            </div>
+            <div class="grid3x2">
+              <div class="row">
+                <div id="bot0">&nbsp;</div><div id="bot1">&nbsp;</div><div id="bot2">&nbsp;</div>
+              </div>
+              <div class="row">
+                <div id="bot3">&nbsp;</div><div id="bot4">&nbsp;</div><div id="bot5">&nbsp;</div>
+              </div>
+            </div>
+          </div>
+ -->
+</body>
+</html>

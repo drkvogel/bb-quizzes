@@ -1,0 +1,195 @@
+$icon-font-path: '../fonts/';
+
+// bower:scss
+@import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+// endbower
+
+.browserupgrade {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+/* Space out content a bit */
+body {
+  padding-top: 0px;
+  padding-bottom: 5px;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Custom page header */
+.header {
+  border-bottom: 1px solid #e5e5e5;
+
+  /* Make the masthead heading the same height as the navigation */
+  h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 40px;
+    padding-bottom: 19px;
+  }
+}
+
+.navbar { /* Custom page footer */
+  padding-top: 1px;
+  padding-bottom: 1px;
+  //color: #777;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #e5e5e5;
+  max-width: 100%;
+  min-height: 0px;
+}
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+}
+
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+  .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+  }
+}
+
+/* Supporting marketing content */
+.marketing {
+  margin: 40px 0;
+  p + h4 {
+    margin-top: 28px;
+  }
+}
+
+#pages {
+  font-size: large;
+  line-height: normal;
+}
+
+.navCtl {
+  text-align: center;
+}
+
+.topTxt {
+  text-align: center;
+}
+
+#middleImg {
+  text-align: center;
+}
+
+#middleImg img {
+  //text-align: center;
+  width: 80%;
+  margin: auto;
+  padding: 10px;
+}
+
+.toptable td {
+  border: 1px;
+  padding: 10px;
+}
+
+.toptable {
+  border: 1px;
+  border-color: black;
+  width: 70%;
+  margin: auto;
+  // background-color: gray;
+}
+
+#toptable-container {
+  text-align: center;
+}
+
+.botTxt {
+  margin: auto;
+  //width: 80%;
+  //height: 100px;
+  text-align: center;
+  font-size: large;
+  padding: 1em;
+}
+
+#answers {
+  margin: auto;
+  width: 80%;
+  text-align: center;
+}
+
+#answers button {
+  padding: 20px;
+  margin: 15px;
+}
+
+#answers td {
+  background-color: lightgrey;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  margin: 20px; // doesn't work - want to space boxes apart?
+}
+
+.buttons {
+  margin: auto;
+  width: 80%;
+  text-align: center;
+}
+
+.buttons span {
+  background-color: aqua;
+  width: 250px;
+}
+
+#imgdiv-a, #imgdiv-b {
+  width: 100%;
+}
+
+#img-a, #img-b {
+  width: 100%;
+}
+
+.navTxt {
+  text-align: center;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  .container {
+    //max-width: 730px;
+  }
+
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing,
+  .footer {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* Space out the masthead */
+  .header {
+    margin-bottom: 30px;
+  }
+
+  /* Remove the bottom border on the jumbotron for visual effect */
+  .jumbotron {
+    border-bottom: 0;
+  }
+}

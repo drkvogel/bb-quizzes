@@ -1,0 +1,35 @@
+            /*Internal Style Sheet*/
+            /*
+              grid        images
+              -------------------
+              2x2 3x2     210x170
+              3x3 4x2     170x135
+            */
+            /* this syntax doesn't work as intended:
+            div.grid2x2 #a1, #b1, #a2, #b2  (attempting to apply to div.grid2x2 #b1/#a2/#b2 as well as #a1 but have to explicitly state containing selector each time) */
+              /*background-position: -20px 0px;*/
+              /*background-color: red;*/
+              /*display: inline;*/
+              /*float: left;*/
+              /*display: inline;*/
+
+div.grid2x2 .row, div.grid3x2 .row, div.grid3x3 .row, div.grid4x2 .row {
+  display: block;
+  margin: auto;
+}
+
+
+            /* quiz2x2 top and bottom grids*/
+            div#quiz2x2 div.grid2x2 div.row div,
+            div#quiz2x2 div.grid3x2 div.row div {
+              background-image: url('images/intro1.png');
+              background-position: 0px 0px;
+              background-repeat: no-repeat;
+              width: 210px;
+              height: 170px;
+              float: left;
+            }
+
+
+            img {
+            }*/

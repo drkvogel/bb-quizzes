@@ -1,0 +1,265 @@
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Matrix Puzzle</title>
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <!-- endbuild -->
+    
+    <!-- build:js scripts/vendor/modernizr.js -->
+    <script src="/bower_components/modernizr/modernizr.js"></script>
+    <!-- endbuild -->
+  </head>
+  <body>
+    <!--[if lt IE 10]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- <div class="container"> -->
+      <div class="navbar nav header">
+          <div id="buttons" class="nav row">
+            <div id="prev" class="col-md-3"><button class="btn pull-right" id="prev" href="#">&lt; Prev</button></div>
+            <div id="prevTime" class="col-md-2">&nbsp;</div>
+            <div id="info" class="col-md-2">&nbsp;</div>
+            <div id="" class="col-md-2"><button class="btn" id="timeUp" href="#">timeUp</button></div>
+            <div id="next" class="col-md-3"><button class="btn" id="next" href="#">Next &gt;</button></div>
+          </div>
+      </div>
+    <!-- </div> -->
+
+
+    <div class="container">
+      <!-- <code>content-container</code> -->
+      <!-- <div id="content-container"> -->
+
+        <div id="pages"> <!-- style="display: none"> -->
+          <div style="width: 75%; margin-right: auto; margin-left: auto;">
+
+          <!-- home -->
+          <div id="home" class="page" style="display:none">
+            <div class="jumbotron">
+              <h1>Matrix Puzzle</h1>
+              <p class="lead">Welcome to the Matrix Puzzle</p>
+              <p><a id="start" class="btn btn-lg btn-success" href="#">Start</a></p>
+            </div>
+          </div>
+
+          <!-- Intro 1 -->
+          <div id="intro1" class="page" style="display:none">
+            <!-- matrix_ex1.png 2x2 squares with vertical slots -->
+            <p>Here is a design which is missing a piece on the lower right hand corner. At the bottom are shown six pieces which would fit the missing corner. Your task is the touch the piece which best completes the design at the top.</p>
+            <p>Have a go now...</p>
+          </div>
+
+          <!-- Intro 2 -->
+          <div id="intro2" class="page" style="display:none">
+            <!-- matrix_ex2.png 2x2 suns -->
+            <p>Here is another practice puzzle. Touch the piece which best completes the design.</p>
+          </div>
+
+          <!-- Intro 3 -->
+          <div id="intro3" class="page" style="display:none">
+            <!-- matrix_ex2.png 3x3  -->
+            <p>This is the last practice puzzle. Again, touch the piece which best completes the design.</p>
+          </div>
+
+          <!-- getReady -->
+          <div id="getReady" class="page" style="display:none">
+            <p class=" center">You will have 2 minutes to do as many puzzles as you can.</p>
+            <p class=" center">Touch Start when you are ready to begin.</p>
+            <div class="buttons">
+              <!-- <div id="prev"><a id="prev" href="#">&lt; Prev</a></div><div id="next"><a id="next" href="#">Next &gt;</a></div> -->
+              <div id="start"><button class="btn center" id="next" href="#">Start</button></div>
+            </div>
+          </div>
+
+          <!-- 2x2 + 3x2 grid -->
+          <div class="quiz" id="quiz2x2" class="page quiz2x2-3x2" style="display:none">
+            <div class="quizContainer">
+              <div class="grid2x2">
+                <img class="top" src="images/blank-2x2-problem.png" />
+              </div>
+              <div class="grid3x2">
+                <img class="bot" src="" usemap="#3x2-map" />
+                <map name="3x2-map" id="3x2-map">
+                  <area id="bot0" shape="rect" coords="0,0,210,170" href="#" nohref="nohref"  style="outline:none;" />
+                  <area id="bot1" shape="rect" coords="234,0,442,165" href="#" nohref="nohref"  style="outline:none;" />
+                  <area id="bot2" shape="rect" coords="468,0,676,165" href="#" nohref="nohref"  style="outline:none;" />
+                  <area id="bot3" shape="rect" coords="0,195,208,360" href="#" nohref="nohref"  style="outline:none;" />
+                  <area id="bot4" shape="rect" coords="234,195,442,360" href="#" nohref="nohref"  style="outline:none;" />
+                  <area id="bot5" shape="rect" coords="468,195,676,360" href="#" nohref="nohref"  style="outline:none;" />
+                </map>
+              </div>
+            </div>
+            <div class="botText">
+              <p>Text goes here</p>
+            </div>
+          </div>
+
+
+          <!-- 3x3 + 4x2 grid -->
+          <div class="quiz" id="quiz3x3" class="page quiz3x3-4x2" style="display:none">
+            <div class="quizContainer">
+              <div class="grid3x3">
+                <img class="top" src="images/blank-3x3-problem.png" />
+              </div>
+              <div class="grid4x2">
+                <img class="bot" src="" usemap="#4x2-map" />
+                <map name="4x2-map" id="4x2-map">
+                  <area id="bot0" shape="rect" coords="0,0,170,135" href="#" nohref="nohref" />
+                  <area id="bot1" shape="rect" coords="195,0,365,135" href="#" nohref="nohref" />
+                  <area id="bot2" shape="rect" coords="390,0,560,135" href="#" nohref="nohref" />
+                  <area id="bot3" shape="rect" coords="585,0,755,135" href="#" nohref="nohref" />
+                  <area id="bot4" shape="rect" coords="0,160,170,295" href="#" nohref="nohref" />
+                  <area id="bot5" shape="rect" coords="196,160,366,295" href="#" nohref="nohref" />
+                  <area id="bot6" shape="rect" coords="391,160,561,295" href="#" nohref="nohref" />
+                  <area id="bot7" shape="rect" coords="585,160,755,295" href="#" nohref="nohref" />
+                </map>
+              </div>
+            </div>
+            <div class="botText">
+              <p>Text goes here</p>
+            </div>
+          </div>
+
+
+          <!-- thanks -->
+          <div id="thanks" class="page" style="display:none">
+            <p>Thanks for doing the test.</p>
+            <p>Please leave comments.</p>
+            <!-- <div class="page-text">page-text</div> -->
+            <div id="feedback">
+              <form id="feedbackForm" action="." method="post">
+                <fieldset>
+                  Name:<br><input type="text" name="fullname" value=""><br>
+                  Email:<br><input type="text" name="email" value=""><br>
+                  <p>Comments:</p>
+                  <textarea name="comments" rows="10" cols="80"></textarea>
+                  <input type="hidden" id="results" name="results" value="tbc"/>
+                  <input type="submit" value="Submit">
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </div>
+        </div> <!-- /pages -->
+      <!-- </div> --> <!-- content-container -->
+
+      <div id="abandon-div" class="row">
+        <button class="btn" id="abandon-btn" href="#">Abandon</button>
+      </div>
+
+    </div> <!-- container -->
+
+
+    <div id="modals" class="mymodal" style="display:none"> <!--  .modal is bootstrap -->
+
+      <!-- try again -->
+      <div id="tryagain-modal" class="my-modal-content" style="display:none">
+        <h3>Incorrect!</h3>
+        <p>Please try again.</p>
+        <div class="buttons row">
+          <div class="center"><button class="btn" id="tryagain-ok" href="#">OK</button></div>
+        </div>
+      </div>
+
+      <div id="timeup-modal" class="my-modal-content" style="display:none">
+        <h3>Time's up!</h3>
+        <div class="buttons row">
+          <div class="center"><button class="btn" id="timeup-ok" href="#">OK</button></div>
+        </div>
+      </div>
+
+      <!-- abandon -->
+      <div id="abandon-modal" class="my-modal-content" style="display:none">
+        <h3>Please check!</h3>
+        <p>You have not yet completed the task.</p>
+        <p>Are you certain you wish to abandon this game?</p>
+        <p>You will not be able to attempt it again.</p>
+        <div class="buttons row">
+          <div id="yes" class="col-md-2"><button class="btn pull-left" id="abandon-yes" href="#">Yes</button></div>
+          <div id="no"  class=""><button class="btn pull-right" id="abandon-no" href="#">No</button></div>
+        </div>  <!-- class="col-md-2" -->
+      </div>
+
+<!--         <div class="buttons row center">
+          <div id="yes" class="col-md-2 center"><button class="btn pull-left" id="abandon-yes" href="#">Yes</button></div>
+          <div id="no" class=""><button class="btn pull-right " id="abandon-no" href="#">No</button></div>
+        </div> -->
+
+
+    </div>
+
+    <div id="stuff" style="display:none">
+      <!-- not sure about this one - supposed to be a "firing up the engines" loading page -->
+      <div id="loading" class="page cover-container"> <!-- getbootstrap.com/examples/cover/ -->
+        <div class="masthead clearfix">
+          <div class="inner">
+            <h3 class="masthead-brand">Cover</h3>
+            <nav>
+              <ul class="nav masthead-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">Features</a></li>
+                <li><a href="#">Contact</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>      
+    </div> <!-- stuff -->
+
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='https://www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+      ga('create','UA-XXXXX-X');ga('send','pageview');
+    </script>
+
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+    
+    <!-- build:js scripts/plugins.js -->
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/affix.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/modal.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/button.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/popover.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/carousel.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab.js"></script>
+    <!-- endbuild -->
+    
+    <!-- build:js scripts/main.js -->
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <!--// <script src="https://raw.githubusercontent.com/davidjbradshaw/imagemap-resizer/master/js/imageMapResizer.min.js"></script> -->
+    <script src="scripts/main.js"></script>
+    <!-- <script src="scripts/imageMapResizer.min.js"></script> -->
+    <script src="scripts/imageMapResizer.js"></script>
+
+    <!-- <script src="scripts/libcog.js"></script> -->
+    <!-- endbuild -->
+  </body>
+</html>

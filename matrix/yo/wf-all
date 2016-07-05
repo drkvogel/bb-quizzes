@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# add -v for verbose debugging
+
+echo "Remember to run gulp first to build into ./dist, and fonts, scripts and styles dirs must exist on server already"
+read -rsp $'Press any key to continue...\n' -n1 key
+
+scp -r ./dist/* drkvogel@web456.webfaction.com:/home/drkvogel/webapps/main/matrix/
+

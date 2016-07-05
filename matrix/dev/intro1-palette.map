@@ -1,0 +1,16 @@
+<img src="intro1-palette.png" width="680" height="365" border="0" usemap="#3x2 matrix image map" />
+
+<map name="3x2 matrix image map">
+<!-- #$-:Image map file created by GIMP Image Map plug-in -->
+<!-- #$-:GIMP Image Map plug-in by Maurits Rijk -->
+<!-- #$-:Please do not edit lines starting with "#$" -->
+<!-- #$VERSION:2.3 -->
+<!-- #$AUTHOR:Chris Bird -->
+<area shape="rect" coords="0,0,210,170" href="#" />
+<area shape="rect" coords="234,0,442,165" href="#" />
+<area shape="rect" coords="468,0,676,165" href="#" />
+<area shape="rect" coords="0,195,208,360" href="#" />
+<area shape="rect" coords="234,195,442,360" href="#" />
+<area shape="rect" coords="468,195,676,360" href="#" />
+<area shape="default" href="#" />
+</map>
