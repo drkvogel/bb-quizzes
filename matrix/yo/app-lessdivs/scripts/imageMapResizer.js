@@ -10,7 +10,7 @@
     function scaleImageMap(){
 
         function resizeMap() {
-            function resizeAreaTag(cachedAreaCoords,idx){
+            function resizeAreaTag(cachedAreaCoords, idx){
                 function scale(coord){
                     var dimension = ( 1 === (isWidth = 1-isWidth) ? 'width' : 'height' );
                     return Math.floor(Number(coord) * scallingFactor[dimension]);

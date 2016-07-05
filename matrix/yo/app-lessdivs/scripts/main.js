@@ -152,33 +152,33 @@
     }
 
     // http://stackoverflow.com/questions/130396/are-there-constants-in-javascript
-    var WIDTH2X2 = 210; // Width of squares in 2x2 grid is 210px // const?
-    var HEIGHT2X2 = 170; // Height of squares in 2x2 grid is 170px // const?
-    var WIDTH3X3 = 170; // Width of squares in 3x3 grid is 170px // const?
-    var HEIGHT3X3 = 135; // Height of squares in 3x3 grid is 135px // const?
+    // var WIDTH2X2 = 210; // Width of squares in 2x2 grid is 210px // const?
+    // var HEIGHT2X2 = 170; // Height of squares in 2x2 grid is 170px // const?
+    // var WIDTH3X3 = 170; // Width of squares in 3x3 grid is 170px // const?
+    // var HEIGHT3X3 = 135; // Height of squares in 3x3 grid is 135px // const?
 
-    function tileWidth(page) {
-        switch(page.templateId) {
-        case 'quiz2x2':
-            return WIDTH2X2;
-        case 'quiz3x3':
-            return WIDTH3X3;
-        default:
-            throw new Error('bad page.templateId: ' + page.templateId);
-        }
-    }
+    // function tileWidth(page) {
+    //     switch(page.templateId) {
+    //     case 'quiz2x2':
+    //         return WIDTH2X2;
+    //     case 'quiz3x3':
+    //         return WIDTH3X3;
+    //     default:
+    //         throw new Error('bad page.templateId: ' + page.templateId);
+    //     }
+    // }
 
-    function tileHeight(page) {
-        switch(page.templateId) {
-        case 'quiz2x2':
-            return HEIGHT2X2;
-        case 'quiz3x3':
-            return HEIGHT3X3;
-        default:
-            throw new Error('bad page.templateId: ' + page.templateId);
-        }
-    }
-    // function applyStyles(page) {
+    // function tileHeight(page) {
+    //     switch(page.templateId) {
+    //     case 'quiz2x2':
+    //         return HEIGHT2X2;
+    //     case 'quiz3x3':
+    //         return HEIGHT3X3;
+    //     default:
+    //         throw new Error('bad page.templateId: ' + page.templateId);
+    //     }
+    // }
+    // // function applyStyles(page) {
     //     var base = 'images/' + page.name + '/' + page.name;
     //     $('#top').attr('src', base + '-problem.png');
     //     $('#bot').attr('src', base + '-palette.png');
@@ -215,14 +215,14 @@
             //console.log('sel: \'' + sel + '\', text: ' + page.text);
             $(sel).html(page.text);
         } else {
-            $(sel).html("");
+            $(sel).html('');
         }
     }
 
     function normalizeWidth() {
         // var margin = ($(window).width() - $(window).height()) / 2;
-        // console.log('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin); 
-        //console.log('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin); 
+        // console.log('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin);
+        //console.log('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin);
         // var margins = $('body').css('width') + $('div.container').css('width') + $('div#pages').css('width');
         // .css('width') e.g. '1200px'
         // .attr(\'width\') - undefined
@@ -235,19 +235,19 @@
         // get the margin widths to subtract from the viewport width - height
         console.log('margins = ' +
             '($(\'.container\').outerWidth(true)[' + $('.container').outerWidth(true) +
-            '] - $(\'.container\').width())[' + $('.container').width() + '] + ' + 
-            '($(\'#pages\').outerWidth(true)[' + $('#pages').outerWidth(true) + 
+            '] - $(\'.container\').width())[' + $('.container').width() + '] + ' +
+            '($(\'#pages\').outerWidth(true)[' + $('#pages').outerWidth(true) +
             '] - $(\'#pages\').width()[' + $('#pages').width() + ']) == ' + margins);
         console.log('setMargin = ($(window).width()[' + $(window).width() +
             '] - ($(window).height()[' + $(window).height() +
             '] - $(\'.botText\').height()[' + $('.botText').height() +
             ']) - margins[' + margins + ']) / 2 == ' + setMargin);
 
-            // ', .container margin: ' + String($('.container').outerWidth(true) + $('.container').innerWidth())+ 
-            // ', #pages margin: ' + String($('#pages').outerWidth(true) - $('#pages').innerWidth())); 
-        console.log('$(window).width(): ' + $(window).width() + 
+            // ', .container margin: ' + String($('.container').outerWidth(true) + $('.container').innerWidth())+
+            // ', #pages margin: ' + String($('#pages').outerWidth(true) - $('#pages').innerWidth()));
+        console.log('$(window).width(): ' + $(window).width() +
             ', $(window).height()' + $(window).height() +
-            ', margins: ' + margins + ', setMargin: ' + setMargin); 
+            ', margins: ' + margins + ', setMargin: ' + setMargin);
 
         // body > div.container > div#pages > div#quiz2x2.quiz > div.gridContainer > .grid2x2 .grid3x2
 
@@ -297,7 +297,7 @@
 
         showDiv((page.templateId));
         normalizeWidth();
-        
+
         switch (page.templateId) { // only after page is set visible?
         case 'quiz2x2':
             //console.log('$(\'#3x2-map\').imageMapResize(); ');
@@ -334,7 +334,7 @@
     }
 
     function answered(num) {
-        var page = currentPage();  
+        var page = currentPage();
         //console.log('got num: ' + num);
         setImage('#' + page.templateId + ' .top', page, '-sol' + num + '.png');
 
@@ -433,8 +433,8 @@
     function navClick(e) {
         e.preventDefault();
         console.log('navClick()');
-        var pageId = $('.page').attr('id'),
-            clickedEl = $(this); //console.log('pageId: '+pageId); // now gets id from loaded page
+        var clickedEl = $(this); //console.log('pageId: '+pageId); // now gets id from loaded page
+        //pageId = $('.page').attr('id'),
         console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
         switch (clickedEl.attr('id')) {
         case 'prev':
@@ -456,8 +456,8 @@
     function modalClick(e) { // TODO merge into navClick or something
         e.preventDefault();
         //console.log('modalClick()');
-        var pageId = $('.page').attr('id'),
-            clickedEl = $(this); //console.log('pageId: '+pageId); // now gets id from loaded page
+        var clickedEl = $(this); //console.log('pageId: '+pageId); // now gets id from loaded page
+        //pageId = $('.page').attr('id'),
         //console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
         switch (clickedEl.attr('id')) {
         case 'abandon-yes':
@@ -471,7 +471,7 @@
         case 'tryagain-ok':
             //clearTile();
             //setImage('#top', currentPage(), '-problem.png');
-            setImage('#' + currentPage().templateId + ' .top', currentPage(), '-problem.png'); 
+            setImage('#' + currentPage().templateId + ' .top', currentPage(), '-problem.png');
             hideModal('tryagain-modal');
             break;
         case 'timeup-ok':
@@ -514,7 +514,7 @@
     }
 
     function keydown(e) {
-        console.log("keyboard event: " + e.which);
+        console.log('keyboard event: ' + e.which);
         if (e.which === 68) { //console.log('"d" pressed');
             e.preventDefault();
             if ($('#buttons').css('display') === 'none') {
@@ -525,7 +525,7 @@
         }
     }
 
-    $("body").on('keydown', keydown); // //$("body").keyup(keyup()); // throws error as doesn't exist at this moment?
+    $('body').on('keydown', keydown); // //$("body").keyup(keyup()); // throws error as doesn't exist at this moment?
 
     // bind event handlers to elements
     //$('#pages').on('click', 'a, button, div.row div img', containerClick); // delegate events
@@ -535,7 +535,7 @@
     $('#abandon-btn').on('click', abandonClick); // need this?
     $('#modals').on('click', 'button', modalClick);
 
-    window.onresize = function(event) {
+    window.onresize = function(event) { // error  event is defined but never used no-unused-vars ?
         showPage(currentPage()); // ?
     };
 
@@ -559,10 +559,8 @@
         // var windowToTile = 0.1; // ratio of width of window to width of tile
         // $(window).width();
         // $(window).height();
-        //$(document).keydown(mykeydown()); // 
-        //$("body").on('keydown', mykeydown); // 
-
-
+        //$(document).keydown(mykeydown()); //
+        //$("body").on('keydown', mykeydown); //
 
     // js docstring?
  //    function setBackground(sel, sheet, pos) { // jQuery selector, sprite sheet, offset pos (px)
