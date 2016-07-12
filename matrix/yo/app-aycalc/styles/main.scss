@@ -64,9 +64,6 @@ p {
   border-top: 1px solid #e5e5e5;
 }
 
-
-
-
 @media screen and (min-width: 768px) { /* Responsive: Portrait tablets and up */
   .container {
     //max-width: 730px;
@@ -139,18 +136,19 @@ body > .container {
   //max-width: 600px;
 }
 
-// .botText, #getReady {
-//   width: 100%;
-//   margin: auto;
-//   font-size: large;
-//   line-height: 2em;
-//   text-align: center;
-// }
+.botText, #getReady {
+  width: 100%;
+  margin: auto;
+  text-align: center;
+}
 
 .botText {
   padding-top: 1em;
 }
 
+#getReady .buttons {
+  padding-top: 2em;
+}
 
 .row {
   margin: 0;
