@@ -460,7 +460,6 @@
             break;
         case 'tryagain-ok':
             //clearTile();
-            //setImage('#top', currentPage(), '-problem.png');
             setImage('#' + currentPage().templateId + ' .top', currentPage(), '-problem.png');
             hideModal('tryagain-modal');
             break;
@@ -507,12 +506,9 @@
         console.log('keyboard event: ' + e.which);
         if (e.which === 68) { //console.log('"d" pressed');
             e.preventDefault();
-            //if ($('#buttons').css('display') === 'none') {
             if ($('#navbar').css('display') === 'none') {
-                //showDiv('buttons');
                 showDiv('navbar');
             } else {
-                //hideDiv('buttons');
                 hideDiv('navbar');
             }
         }
@@ -535,7 +531,6 @@
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
-        //hideDiv('buttons');
         hideDiv('navbar');
         //$('#3x2-map').imageMapResize(); // https://github.com/davidjbradshaw/image-map-resizer
         //$('#4x2-map').imageMapResize();
