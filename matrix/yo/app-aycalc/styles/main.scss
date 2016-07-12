@@ -86,7 +86,7 @@ p {
     border-bottom: 0;
   }
 
-  .botText {
+  .botText, #getReady {
     font-size: large;
     line-height: 2em;
   }
@@ -146,6 +146,9 @@ body > .container {
   padding-top: 1em;
 }
 
+#getReady .buttons {
+  padding-top: 2em;
+}
 
 .row {
   margin: 0;

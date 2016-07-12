@@ -89,7 +89,7 @@ p {
     border-bottom: 0;
   }
 
-  .botText {
+  .botText, #getReady {
     font-size: large;
     line-height: 2em;
   }
@@ -139,13 +139,13 @@ body > .container {
   //max-width: 600px;
 }
 
-.botText, #getReady {
-  width: 100%;
-  margin: auto;
-  font-size: large;
-  line-height: 2em;
-  text-align: center;
-}
+// .botText, #getReady {
+//   width: 100%;
+//   margin: auto;
+//   font-size: large;
+//   line-height: 2em;
+//   text-align: center;
+// }
 
 .botText {
   padding-top: 1em;

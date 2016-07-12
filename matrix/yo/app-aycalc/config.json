@@ -1,9 +1,9 @@
 
 {
     "comment": "can't put comments in JSON!",
-    "comment": "timeLimit should be 120000 == 2 minutes",
+    "comment": "timeLimit should be 180000 == 3 minutes",
     "nextDelay" : 500,
-    "timeLimit" : 120000,
+    "timeLimit" : 180000,
     "formAction" : "complete.php",
     "pages":[
     {
@@ -106,7 +106,7 @@
     },
     {
         "name": "ex13",
-        "templateId": "quiz3x3",    
+        "templateId": "quiz3x3",
         "correct": 4
     },
     {
