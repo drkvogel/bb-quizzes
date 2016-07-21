@@ -219,7 +219,48 @@
         }
     }
 
-    function normalizeWidth() {
+    function normalizeWidthAY() { // Alan's calculation
+        // var margins = // body shouldn't have any extra
+        //     ($('.container').outerWidth(true) - $('.container').width()) +
+        //     ($('#pages').outerWidth(true) - $('#pages').width());
+        // var heightExtra = ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0)
+        //     + ($('.botText').is(':visible') ? $('.botText').height() : 0); // https://api.jquery.com/visible-selector/
+        // var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
+        // var heightScrolled = $(document).height() - $(window).height();
+
+        // console.log('#abandon-div h: ' + $('#abandon-div').height() + ', visible: ' + $('#abandon-div').is(':visible')); // works
+        // console.log('.botText h: ' + $('.botText').height() + ', visible: ' + $('.botText').is(':visible')); // works
+        // console.log('heightExtra: ' + String(heightExtra));
+        // console.log('$(document).height(): ' + $(document).height() + ', $(window).height(): ' + $(window).height());
+        // console.log('heightScrolled: ' + heightScrolled);
+        // if (setMargin > 0) {
+        //     $('.gridContainer').css('margin-left', setMargin); // set the margins to (screen width - height) / 2
+        //     $('.gridContainer').css('margin-right', setMargin); //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
+        // } else {
+        //     $('.gridContainer').css('margin-left', 0); // set the margins to (screen width - height) / 2
+        //     $('.gridContainer').css('margin-right', 0); //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
+        // }
+    }
+
+        // var margins = $('body').css('width') + $('div.container').css('width') + $('div#pages').css('width');
+        // ', .container margin: ' + String($('.container').outerWidth(true) + $('.container').innerWidth())+
+        // .css('width') e.g. '1200px'
+        // .attr(\'width\') - undefined
+        // .width() e.g. 1200
+        //var setMargin = ($(window).width() - ($(window).height() - $('.botText').height()) - margins) / 2;
+        //heightExtra = 0;
+        //console.log('$(\'body\').height(): ' + $('body').height()); // == $(window).height()
+        // why am I subtracting all the margins etc from the total width/height to find the width/height of the gridContainer, instead of just using the width/height of the gridContainer?
+        //var setMargin = ($(window).width() - ($('.gridContainer').height()) - margins) / 2; // pretty erratic.... seems like race condition to set and read the height of the element
+        // get the margin widths to subtract from the viewport width - height
+        // body > div.container > div#pages > div#quiz2x2.quiz > div.gridContainer > .grid2x2 .grid3x2
+        // console.log('margins = ' + '($(\'.container\').outerWidth(true)[' + $('.container').outerWidth(true) + '] - $(\'.container\').width())[' + $('.container').width() + '] + ' +
+        //     '($(\'#pages\').outerWidth(true)[' + $('#pages').outerWidth(true) + '] - $(\'#pages\').width()[' + $('#pages').width() + ']) == ' + margins);
+        // console.log('setMargin = ($(window).width()[' + $(window).width() + '] - ($(window).height()[' + $(window).height() +
+        //     '] - $(\'.botText\').height()[' + $('.botText').height() + ']) - margins[' + margins + ']) / 2 == ' + setMargin);
+        // console.log('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margins + ', setMargin: ' + setMargin);
+
+    function normalizeWidth() { // my calculation, mostly works
         // var margins = $('body').css('width') + $('div.container').css('width') + $('div#pages').css('width');
         // ', .container margin: ' + String($('.container').outerWidth(true) + $('.container').innerWidth())+
         // .css('width') e.g. '1200px'
@@ -228,21 +269,28 @@
         var margins = // body shouldn't have any extra
             ($('.container').outerWidth(true) - $('.container').width()) +
             ($('#pages').outerWidth(true) - $('#pages').width());
-        var setMargin = ($(window).width() - ($(window).height() - $('.botText').height()) - margins) / 2;
+        var heightExtra = ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0)
+            + ($('.botText').is(':visible') ? $('.botText').height() : 0); // https://api.jquery.com/visible-selector/
+        var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
+        //var setMargin = ($(window).width() - ($(window).height() - $('.botText').height()) - margins) / 2;
+        //heightExtra = 0;
+        var heightScrolled = $(document).height() - $(window).height();
 
+        console.log('#abandon-div h: ' + $('#abandon-div').height() + ', visible: ' + $('#abandon-div').is(':visible')); // works
+        console.log('.botText h: ' + $('.botText').height() + ', visible: ' + $('.botText').is(':visible')); // works
+        console.log('heightExtra: ' + String(heightExtra));
+        console.log('$(document).height(): ' + $(document).height() + ', $(window).height(): ' + $(window).height());
+        //console.log('$(\'body\').height(): ' + $('body').height()); // == $(window).height()
+        console.log('heightScrolled: ' + heightScrolled);
         // why am I subtracting all the margins etc from the total width/height to find the width/height of the gridContainer, instead of just using the width/height of the gridContainer?
-        //var setMargin = ($(window).width() - ($('.gridContainer').height()) - margins) / 2; 
-            // pretty erratic.... seems like race condition to set and read the height of the element
-
+        //var setMargin = ($(window).width() - ($('.gridContainer').height()) - margins) / 2; // pretty erratic.... seems like race condition to set and read the height of the element
         // get the margin widths to subtract from the viewport width - height
         // body > div.container > div#pages > div#quiz2x2.quiz > div.gridContainer > .grid2x2 .grid3x2
-        console.log('margins = ' + '($(\'.container\').outerWidth(true)[' + $('.container').outerWidth(true) + '] - $(\'.container\').width())[' + $('.container').width() + '] + ' +
-            '($(\'#pages\').outerWidth(true)[' + $('#pages').outerWidth(true) + '] - $(\'#pages\').width()[' + $('#pages').width() + ']) == ' + margins);
-        console.log('setMargin = ($(window).width()[' + $(window).width() + '] - ($(window).height()[' + $(window).height() +
-            '] - $(\'.botText\').height()[' + $('.botText').height() + ']) - margins[' + margins + ']) / 2 == ' + setMargin);
-        console.log('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margins + ', setMargin: ' + setMargin);
-
-
+        // console.log('margins = ' + '($(\'.container\').outerWidth(true)[' + $('.container').outerWidth(true) + '] - $(\'.container\').width())[' + $('.container').width() + '] + ' +
+        //     '($(\'#pages\').outerWidth(true)[' + $('#pages').outerWidth(true) + '] - $(\'#pages\').width()[' + $('#pages').width() + ']) == ' + margins);
+        // console.log('setMargin = ($(window).width()[' + $(window).width() + '] - ($(window).height()[' + $(window).height() +
+        //     '] - $(\'.botText\').height()[' + $('.botText').height() + ']) - margins[' + margins + ']) / 2 == ' + setMargin);
+        // console.log('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margins + ', setMargin: ' + setMargin);
         if (setMargin > 0) {
             $('.gridContainer').css('margin-left', setMargin); // set the margins to (screen width - height) / 2
             $('.gridContainer').css('margin-right', setMargin); //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
