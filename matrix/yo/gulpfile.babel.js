@@ -240,13 +240,13 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['lint', 'html', 'images-nomin', 'fonts', 'extras'], () => {
+gulp.task('build', ['lint', 'html', 'images', 'fonts', 'extras'], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
-});
+}); // full build
 
-gulp.task('build-nolint', ['html', 'images', 'fonts', 'extras'], () => {
+gulp.task('build-nolint', ['html', 'images-nomin', 'fonts', 'extras'], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
-});
+}); // don't lint, don't minify images (was there a problem with this?)
 
 gulp.task('default', ['clean'], () => {
   gulp.start('build');
