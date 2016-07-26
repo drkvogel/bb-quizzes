@@ -34,7 +34,7 @@ var php = require('gulp-connect-php');
     base: 'app'
   });
 });
- 
+
 gulp.task('styles', () => {
   return gulp.src('app/styles/*.scss')
     .pipe($.plumber())
@@ -144,7 +144,7 @@ gulp.task('extras', () => {
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
-gulp.task('serve', ['styles', 'scripts', 'fonts', 'php'], () => {
+gulp.task('serve', ['styles', 'scripts', 'fonts', 'php'], () => { // with php, for non-Cygwin
   browserSync({
     notify: false,
     port: 9000,
@@ -156,6 +156,32 @@ gulp.task('serve', ['styles', 'scripts', 'fonts', 'php'], () => {
       }
     }
   });
+
+  gulp.watch([
+    'app/*.html',
+    'app/images/**/*',
+    '.tmp/fonts/**/*'
+  ]).on('change', reload);
+
+  gulp.watch('app/styles/**/*.scss', ['styles']);
+  gulp.watch('app/scripts/**/*.js', ['scripts']);
+  gulp.watch('app/fonts/**/*', ['fonts']);
+  gulp.watch('bower.json', ['wiredep', 'fonts']);
+});
+
+gulp.task('serve-cygwin', ['styles', 'scripts', 'fonts'], () => { // no php, for Cygwin
+  browserSync({
+    notify: false,
+    port: 9000,
+    browser: ["chrome"], // "firefox"],
+    // server: {
+    //   baseDir: ['.tmp', 'app'],
+    //   routes: {
+    //     '/bower_components': 'bower_components'
+    //   }
+    // }
+    proxy: 'localhost'
+  }); //.on('error').gutil.log('browserSync error');
 
   gulp.watch([
     'app/*.html',
