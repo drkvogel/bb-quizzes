@@ -482,7 +482,7 @@
 
     function keydown(e) {
         e.preventDefault();
-        console.log("keyboard event: " + e.which);
+        console.log('keyboard event: ' + e.which);
         if (e.which === 68) { //console.log('"d" pressed');
             if ($('#buttons').css('display') === 'none') {
                 showDiv('buttons');
@@ -491,7 +491,7 @@
             }
         }
     }
-    $("body").on('keydown', keydown); 
+    $('body').on('keydown', keydown);
 
     $('#pages').on('click', 'a, button, div.row div', containerClick); // delegate events
     $('#buttons').on('click', 'a, button', navClick); // need this?
@@ -505,8 +505,8 @@
 
         // set the margins/padding to (screen width - height) / 2 ?
         // setting margin-left and margin-right seems to make it shrink...
-        var margin = ($(window).width() - $(window).height()) / 2; 
-        showInfo('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin); 
+        var margin = ($(window).width() - $(window).height()) / 2;
+        showInfo('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin);
         $('.container').css('margin-left', margin);
         $('.container').css('margin-right', margin);
     };
