@@ -1,10 +1,6 @@
 
 
-
-
 ### Snap quiz (Cardiff) auto form submit
-
-
 
 ```html
   <form id="form1" class="viz" action="https://trials.ctsu.ox.ac.uk/~webfu/HMDB3/StoreData.php" method="post">
