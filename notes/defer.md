@@ -23,6 +23,7 @@ dev prev button doesn't work now unless navbar fits on one line
 shrink containing div - too big-
 with `.top, .bot { width: 100%; }`, image map doesn't work-x
 log IP?
+prev button doesn't respond when navbar collapsed due to small screen width
 
 ## fossilised
 
