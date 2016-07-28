@@ -219,7 +219,7 @@ div.grid2x2, div.grid3x2, div.grid3x3, div.grid4x2 {
 
 .my-modal-content {
     padding: 10px;
-    width: 400px;
+    max-width: 290px; //400px;
     height: 200px;
     // height: 50%;
     // width: 50%;
@@ -227,7 +227,7 @@ div.grid2x2, div.grid3x2, div.grid3x3, div.grid4x2 {
     top: 50%;             // centred
     left: 50%;
     margin-top: -100px;   // offset by half of height - should be calculated
-    margin-left: -200px;  // offset by half of width
+    margin-left: -145px;  // offset by half of width
     // margin: auto;
 
     background-color: white;
