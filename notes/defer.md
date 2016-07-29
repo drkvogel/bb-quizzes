@@ -3,6 +3,14 @@
 
 
 fossil workflow too slow/labourious
+unfuddle?
+
+
+git log a single file:
+
+    $ gitk ~/Projects/bb-quizzes/hoops/yo/app/index.html
+    $ git log -p ~/Projects/bb-quizzes/hoops/yo/app/index.html
+
 
 (css?) errors reported by ff
 .replace() e.g. `alert($("a").css("margin-top").replace("px", ""));`

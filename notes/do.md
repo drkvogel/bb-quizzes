@@ -1,5 +1,9 @@
 ## todo
 
+hoops breakpoint remove
+
+
+
 * Implement the re-sizing algorithm for Matrix as specified previously (cap to stop shrinking at 320px)
 * Implement re-sizing in Hoops and finish the interface for that program.
 * Complete documentation for Matrix and produce similar for Hoops,
@@ -17,11 +21,6 @@ Hoops : structure, technology and algorithms
 * Worked numeric examples for screen resolutions of (HxV) 1280x1024, 640x480, 320x480, 750x1334 and 1242x2208
 
 
-
-git log a single file:
-
-    $ gitk ~/Projects/bb-quizzes/hoops/yo/app/index.html
-    $ git log -p ~/Projects/bb-quizzes/hoops/yo/app/index.html
 
 use pesticide.io
 fossilize... 
@@ -44,3 +43,4 @@ hoops: image stops stretching horizontally because .container has a set width - 
     }
 
 /home/cbird/Projects/general/dev/web/responsive/responsive.md
+
