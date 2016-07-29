@@ -3,7 +3,10 @@
 * Implement the re-sizing algorithm for Matrix as specified previously (cap to stop shrinking at 320px)
 * Implement re-sizing in Hoops and finish the interface for that program.
 * Complete documentation for Matrix and produce similar for Hoops,
-* Alter systems so that data is uploaded to server automatically when last screen in test is completed (Jonathan has working code for this which can provide template).  If possible a busy/hourglass cursor could be displayed while data is uploading [don't spend more than an hour on this - if it's not easy to do, then forget it].  After test is completed user should be directed to a simple "Thank You" screen.
+* Alter systems so that data is uploaded to server automatically when last screen in test is completed (Jonathan has working code for this which can provide template).  
+    - function finished()-/
+* If possible a busy/hourglass cursor could be displayed while data is uploading [don't spend more than an hour on this - if it's not easy to do, then forget it].  
+* After test is completed user should be directed to a simple "Thank You" screen.
 
 Matrix : structure, technology and algorithms
 Hoops : structure, technology and algorithms

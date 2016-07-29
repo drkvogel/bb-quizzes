@@ -140,8 +140,8 @@
             <p>Thanks for doing the test.</p>
             <p>Please leave comments.</p>
             <!-- <div class="page-text">page-text</div> -->
-            <div id="feedback">
-              <form id="feedbackForm" action="." method="post">
+             <div id="feedback">
+<!--              <form id="feedbackForm" action="." method="post">
                 <fieldset>
                   Name:<br><input type="text" name="fullname" value=""><br>
                   Email:<br><input type="text" name="email" value=""><br>
@@ -150,6 +150,25 @@
                   <input type="hidden" id="results" name="results" value="tbc"/>
                   <input type="submit" value="Submit">
                 </fieldset>
+              </form> -->
+              <form id="feedbackForm"  method="post">
+                <!-- class="viz" action="https://trials.ctsu.ox.ac.uk/~webfu/HMDB3/StoreData.php" -->
+                <div>
+                  <input type="hidden" name="sid" value="1">
+                  <input type="hidden" name="pid" value="213421343">
+                  <input type="hidden" name="lsq" value="661">
+                  <input type="hidden" name="seqord" value="3">
+                  <input type="hidden" name="studytypeuid" value="1002">
+                  <input type="hidden" id="timererror" name="timererror" value="-1">
+                  <input type="hidden" id="performaceTimer" name="performaceTimer" value="-1">
+                  <input type="hidden" name="datestarted" value="2016-02-29 14:47:31 GMT">
+                  <input type="hidden" id="abandon" name="abandon" value="0">
+                  <input type="hidden" id="mean" name="mean" value="-1">
+                  <input type="hidden" id="demoelapsed" name="demoelapsed" value="-1">
+                  <input type="hidden" id="totelapsed" name="totelapsed" value="-1">
+                  <input type="hidden" id="testelapsed" name="testelapsed" value="-1">
+                  <input type="hidden" id="responses" name="responses" value="">
+                </div>
               </form>
             </div>
           </div>
