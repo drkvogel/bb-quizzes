@@ -1,8 +1,6 @@
 #!/bin/bash
 
-# http://stackoverflow.com/questions/216995/
-shopt -s extglob # can then exclude with wildcards, e.g.: !(images)
-#scp "./dist/* !(images)" drkvogel@web456.webfaction.com:/home/drkvogel/webapps/main/matrix/
+# transfer gulp ./dist directory (built yeoman app) to wf, using basename of parent directory as default dest path
 
 echo "Remember to run gulp first to build into ./dist, and run wf-all first time to copy fonts, images"
 read -rsp $'Press any key to continue...\n' -n1 key
@@ -10,3 +8,8 @@ read -rsp $'Press any key to continue...\n' -n1 key
 scp -r ./dist/scripts/* drkvogel@web456.webfaction.com:/home/drkvogel/webapps/main/matrix/scripts/ # add -v for verbose debugging
 scp -r ./dist/styles/* drkvogel@web456.webfaction.com:/home/drkvogel/webapps/main/matrix/styles/
 scp ./dist/* drkvogel@web456.webfaction.com:/home/drkvogel/webapps/main/matrix/
+# omit ./images
+
+# http://stackoverflow.com/questions/216995/
+shopt -s extglob # can then exclude with wildcards, e.g.: !(images)
+#scp "./dist/* !(images)" drkvogel@web456.webfaction.com:/home/drkvogel/webapps/main/matrix/

@@ -2,6 +2,20 @@
 
 # add -v for verbose debugging
 
+# transfer gulp ./dist directory (built yeoman app) to wf, using basename of parent directory as default dest path
+
+if [ -z "$1" ]
+then
+    DIR="$(basename "$(dirname "$(pwd)")")"
+    echo "No argument supplied, defaulting to '$DIR'"
+    exit
+else
+    DIR=$1
+fi
+
+REMOTEPATH=$REMOTEROOT$DIR
+
+echo "Copying to $REMOTEUSER@$REMOTEHOST:$REMOTEPATH"
 echo "Remember to run gulp first to build into ./dist, and fonts, scripts and styles dirs must exist on server already"
 read -rsp $'Press any key to continue...\n' -n1 key
 

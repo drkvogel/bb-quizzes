@@ -1,9 +1,7 @@
 #!/bin/bash
 # add -v for verbose debugging
 
-# http://stackoverflow.com/questions/216995/
-#shopt -s extglob # can then exclude with wildcards, e.g.: !(images)
-#scp "./dist/* !(images)" $REMOTEUSER@$REMOTEHOST:$REMOTEPATH
+# transfer gulp ./dist directory (built yeoman app) to red, using basename of parent directory as default dest path
 
 REMOTEHOST="red.ctsu.ox.ac.uk"
 REMOTEUSER="cp"
@@ -11,7 +9,6 @@ REMOTEROOT="/user/cp/public_html/cjb/"  # http://red.ctsu.ox.ac.uk/~cp/cjb/
 
 if [ -z "$1" ]
 then
-    #DIR="vocab"
     DIR="$(basename "$(dirname "$(pwd)")")"
     echo "No argument supplied, defaulting to '$DIR'"
     exit
@@ -27,3 +24,7 @@ read -rsp $'Press any key to continue...\n' -n1 key
 
 scp -r ./dist/* $REMOTEUSER@$REMOTEHOST:$REMOTEPATH
 exit 0
+
+# http://stackoverflow.com/questions/216995/
+#shopt -s extglob # can then exclude with wildcards, e.g.: !(images)
+#scp "./dist/* !(images)" $REMOTEUSER@$REMOTEHOST:$REMOTEPATH

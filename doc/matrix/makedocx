@@ -1,3 +1,0 @@
-#!/bin/bash
-
-pandoc -o ~/Dropbox/matrix.docx -f markdown -t docx matrix-doc.md

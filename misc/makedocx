@@ -1,0 +1,32 @@
+#!/bin/bash
+
+
+# are there any .md files?
+if test -n "$(find . -maxdepth 1 -name '*.md' -print -quit)" # http://stackoverflow.com/questions/2937407/test-whether-a-glob-has-any-matches-in-bash/4264351#4264351
+then
+    echo "found a .md file"
+else
+    echo ".md file not found, quitting"
+    exit 0
+fi
+
+# create file with given name, or default to name of parent directory
+if [ -z "$1" ]
+then
+    # DIR="$(basename "$(dirname "$(pwd)")")" # parent dir
+    DIR="$(basename "$(pwd)")"      # basename of current dir
+    echo "No argument supplied, defaulting to '$DIR'"
+    read -rsp $'Press any key to continue...\n' -n1 key
+else
+    DIR=$1
+fi
+
+NAME=$DIR
+#OUTPATH="~/Dropbox/$NAME"
+OUTPATH="./$NAME.docx"
+
+echo "creating $OUTPATH"
+
+#exit 0
+
+pandoc -o $OUTPATH -f markdown -t docx *.md

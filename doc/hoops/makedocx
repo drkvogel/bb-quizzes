@@ -1,3 +1,0 @@
-#!/bin/bash
-
-pandoc -o ~/Dropbox/hoops -f markdown -t docx hoops-doc.md
