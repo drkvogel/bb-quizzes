@@ -219,7 +219,6 @@
         }
     }
 
-    function normalizeWidthAY() { // Alan's calculation
         // var margins = // body shouldn't have any extra
         //     ($('.container').outerWidth(true) - $('.container').width()) +
         //     ($('#pages').outerWidth(true) - $('#pages').width());
@@ -240,6 +239,9 @@
         //     $('.gridContainer').css('margin-left', 0); // set the margins to (screen width - height) / 2
         //     $('.gridContainer').css('margin-right', 0); //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
         // }
+
+    function normalizeWidthAY() { // Alan's calculation
+
     }
 
         // var margins = $('body').css('width') + $('div.container').css('width') + $('div#pages').css('width');

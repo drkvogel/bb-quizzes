@@ -1,31 +1,30 @@
-Matrix Quiz : structure, technology and algorithms
+# Matrix Quiz : structure, technology and algorithms
 
-https://docs.google.com/document/d/1gcFqC2Ys2w95EOjHP7wLUNbz98NkUM6AFgYvDMaRavY/edit#
+<https://docs.google.com/document/d/1gcFqC2Ys2w95EOjHP7wLUNbz98NkUM6AFgYvDMaRavY/>
 
-* representation of the <div>s in the page, description of the purpose of each.
+* representation of the `<div>`s in the page, description of the purpose of each.
 * image dimensions
 * names of any included libraries (e.g. node.js)
 * description with pseudo-code of scaling algorithm based around the method I outlined - i.e. determine separately the scaling in each of the horizontal and vertical directions required to fit the window, then resize using the smaller of these factors as a parameter.
 * Worked numeric examples for screen resolutions of (HxV) 1280x1024, 640x480, 320x480, 750x1334 and 1242x2208
 
-Contents
+## Contents
 
 A document describing the structure, technology and sizing algorithms in the main web-page of the Matrices questionnaire.
 
-* A pictorial representation of the <div>s in the page, accompanied by a brief description of the purpose of each.
-* Details of the image sizes and names of any included libraries (e.g. node.js)
-* A description (with pseudo-code) of the algorithm used to determine the scaling of the image elements.
+* A pictorial representation of the `<div>`s in the page, accompanied by a brief description of the purpose of each.
+* image dimensions
+* included libraries
+* A description (with pseudo-code) of the algorithm used to determine the scaling of the image elements
 * Worked numeric examples for various screen resolutions
 
+---
 
 
-http://red.ctsu.ox.ac.uk/~cp/cjb/matrix
 
 ## Layout
 
-
-
-    
+  
     body                HTML <body> tag
     div.container       Added by Yeoman/Bootstrap to add page margins. Possibly not needed.
     div#pages           A container for the pages, one of which is shown at a time
@@ -63,10 +62,10 @@ Worked numeric examples for screen resolutions of (HxV) 1280x1024, 640x480, 320x
 
 1308 x 598:
 
-margins = ($('.container').outerWidth(true)[1308] - $('.container').width())[1278]
-+ ($('#pages').outerWidth(true)[1278] - $('#pages').width()[1278]) == 30
+    margins = ($('.container').outerWidth(true)[1308] - $('.container').width())[1278]
+    * ($('#pages').outerWidth(true)[1278] - $('#pages').width()[1278]) == 30
 
-setMargin = ($(window).width()[1308] - ($(window).height()[598] - $('.botText').height()[-18]) - margins[30]) / 2 == 331
+    setMargin = ($(window).width()[1308] - ($(window).height()[598] - $('.botText').height()[-18]) - margins[30]) / 2 == 331
 
 1280x1024
 
