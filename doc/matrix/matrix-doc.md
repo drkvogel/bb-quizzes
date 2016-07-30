@@ -90,7 +90,6 @@ Worked numeric examples for screen resolutions of (HxV) 1280x1024, 640x480, 320x
 The build system was created by yeoman running on node.js via npm. It uses the gulp task runner to perform SASS compilation, testing, linting, synchronised browsing, minification, and front-end package management via bower.
 
 The CSS framework is Bootstrap, though I have overridden a lot of it to make things simpler.
-
 The code in main.js uses jQuery.
 
     http://yeoman.io/
@@ -105,8 +104,53 @@ The code in main.js uses jQuery.
 
 ## Details of image sizes
 
-    2016-07-01 14:55:26 ~/Projects/bb-quizzes/matrix/yo/app/images
-    $ find . | xargs file > tmp.txt
+
+images/intro1/intro1-sol5.png:     PNG image data, 420 x 340, 8-bit/color RGBA, non-interlaced
+images/intro1/intro1-palette.png:  PNG image data, 680 x 365, 8-bit/color RGBA, non-interlaced
+
+images/ex5/ex5-sol2.png:           PNG image data, 420 x 340, 8-bit/color RGBA, non-interlaced
+images/ex5/ex5-palette.png:        PNG image data, 680 x 365, 8-bit/color RGBA, non-interlaced
+
+images/ex7/ex7-sol1.png:           PNG image data, 510 x 405, 8-bit/color RGBA, non-interlaced
+images/ex7/ex7-palette.png:        PNG image data, 755 x 295, 8-bit/color RGBA, non-interlaced
+
+images/ex13/ex13-sol4.png:         PNG image data, 511 x 411, 8-bit colormap, non-interlaced
+images/ex13/ex13-palette.png:      PNG image data, 755 x 295, 8-bit/color RGBA, non-interlaced
+
+images/ex14/ex14-sol6.png:         PNG image data, 307 x 302, 8-bit colormap, non-interlaced
+images/ex14/ex14-palette.png:      PNG image data, 755 x 295, 8-bit/color RGBA, non-interlaced
+the one with the coloured squares - top and bottom are clearly different sizes
+
+images/ex15/ex15-sol6.png:         PNG image data, 534 x 422, 8-bit colormap, non-interlaced
+images/ex15/ex15-palette.png:      PNG image data, 755 x 295, 8-bit/color RGBA, non-interlaced
+
+but all palette images overlayed with imagemaps are consistent
+and differences in top images not really noticeable
+
+### 2x2
+
+
+top image:      420px x 340px
+each tile is    210px x 170px
+with no space between them
+
+bottom image:   680px x 365px
+3 tiles wide x 2 tiles high
+each tile is    210px x 170px
+there is a gap of 25px between each tile, horizontally and vertically
+
+# 3x3 problem
+
+top image:      510px x 405px
+each tile is    170px x 135px
+with no space between them
+
+bottom image:   755px x 295px
+4 tiles wide x 2 tiles high
+each tile is    170px x 135px
+there is a gap of 25px between each tile, horizontally and vertically
+
+
 
 
 
