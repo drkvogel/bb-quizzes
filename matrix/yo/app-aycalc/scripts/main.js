@@ -204,6 +204,8 @@
         if (page.name.slice(0, 2) === 'ex') {
             timer.now(); // start timer for all real exercises
             if (page.name === 'ex1') {
+                config.timeStarted = new Date($.now());
+                console.log('config.timeStarted: ' + config.timeStarted);
                 timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
             }
         }
@@ -211,8 +213,7 @@
 
     function showText(page) {
         var sel = '#' + page.templateId + ' .botText p';
-        if (page.name.slice(0, 5) === 'intro') {
-            //console.log('sel: \'' + sel + '\', text: ' + page.text);
+        if (page.name.slice(0, 5) === 'intro') { //console.log('sel: \'' + sel + '\', text: ' + page.text);
             $(sel).html(page.text);
         } else {
             $(sel).html('');
@@ -450,42 +451,45 @@
         hideDiv(modal);
     }
 
-    function writeValue(id, value) {
-        document.getElementById(id).value = value;
-    }
+    // function writeValue(id, value) {
+    //     document.getElementById(id).value = value;
+    // }
 
     function finished() {
         console.log('finished(): answers: ' + JSON.stringify(answers));
         //$('input[name="results"]').val() = JSON.stringify(answers);
-        $('#results').val(JSON.stringify(answers));
         clearTimeout(timeUpTimeout);
 
-        // var possibleE = test_timer.gethasPossibleError() + reaction_timer.gethasPossibleError() + demo_timer.gethasPossibleError() + total_timer.gethasPossibleError();
+        //$('#results').val(JSON.stringify(answers));
+        //var possibleE = test_timer.gethasPossibleError() + reaction_timer.gethasPossibleError() + demo_timer.gethasPossibleError() + total_timer.gethasPossibleError();
         // if (possibleE > 0)
         //     possibleE = 1;
 
         // writeValue("timererror",possibleE); // document.getElementById(id).value = value;
-        // writeValue("performaceTimer",total_timer.gethasPerformance());
+        // writeValue("performanceTimer",total_timer.gethasPerformance());
 
-                  // <input type="hidden" name="sid" value="1">
-                  // <input type="hidden" name="pid" value="213421343">
-                  // <input type="hidden" name="lsq" value="661">
-                  // <input type="hidden" name="seqord" value="3">
-                  // <input type="hidden" name="studytypeuid" value="1002">
-                  // <input type="hidden" id="timererror" name="timererror" value="-1">
-                  // <input type="hidden" id="performaceTimer" name="performaceTimer" value="-1">
-                  // <input type="hidden" name="datestarted" value="2016-02-29 14:47:31 GMT">
-                  // <input type="hidden" id="abandon" name="abandon" value="0">
-                  // <input type="hidden" id="mean" name="mean" value="-1">
-                  // <input type="hidden" id="demoelapsed" name="demoelapsed" value="-1">
-                  // <input type="hidden" id="totelapsed" name="totelapsed" value="-1">
-                  // <input type="hidden" id="testelapsed" name="testelapsed" value="-1"
+        // <input type="hidden" name="sid" value="1">
+        // <input type="hidden" name="pid" value="213421343">
+        // <input type="hidden" name="lsq" value="661">
+        // <input type="hidden" name="seqord" value="3">
+        // <input type="hidden" name="studytypeuid" value="1002">
+        // <input type="hidden" id="timererror" name="timererror" value="-1">
+        // <input type="hidden" id="performanceTimer" name="performanceTimer" value="-1">
+        // <input type="hidden" name="datestarted" value="2016-02-29 14:47:31 GMT">
+        // <input type="hidden" id="abandon" name="abandon" value="0">
+        // <input type="hidden" id="mean" name="mean" value="-1">
+        // <input type="hidden" id="demoelapsed" name="demoelapsed" value="-1">
+        // <input type="hidden" id="totelapsed" name="totelapsed" value="-1">
+        // <input type="hidden" id="testelapsed" name="testelapsed" value="-1"
 
+        // fill in form
         document.getElementById("responses").value = JSON.stringify(answers);
+        document.getElementById("timeStarted").value = config.timeStarted;
+
+        // submit automatically
         window.onbeforeunload = null;
-        document.getElementById("feedbackForm").submit();
+        document.getElementById("feedbackForm").submit(); // action set in init() from config.json
     }
-    // TODO send via $.ajax(); -x
 
     function timeUp() {
         clearTimeout(timeUpTimeout); // in case triggered manually for testing
