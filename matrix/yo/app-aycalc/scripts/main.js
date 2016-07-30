@@ -488,8 +488,12 @@
 
         // submit automatically
         window.onbeforeunload = null;
+        $(window).on('beforeunload', function(){
+            $('*').css('cursor', 'progress');
+        });
         document.getElementById("feedbackForm").submit(); // action set in init() from config.json
     }
+    //$("body").css("cursor", "progress"); // $("body").css("cursor", "default");
 
     function timeUp() {
         clearTimeout(timeUpTimeout); // in case triggered manually for testing

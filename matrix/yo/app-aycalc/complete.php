@@ -2,14 +2,19 @@
 <html>
 <head>
   <title>Matrix Puzzle Complete</title>
+  <style type="text/css">
+    body {
+      cursor: default;
+    }
+  </style>
 </head>
 <body>
   <h3>Matrix Puzzle Complete</h3>
-  <p>Thanks.</p>
+  <p>Thank you.</p>
 <?php 
     // show some fields that we're interested in
-    echo "<p>Time started:</p><blockquote>".$_POST["timeStarted"]."</blockquote>";
-    echo "<p>Results:</p><blockquote>".$_POST["responses"]."</blockquote>";
+    echo "<hr /><p>Time started:</p><blockquote>".$_POST["timeStarted"]."</blockquote>";
+    echo "<p>Answers:</p><blockquote>".$_POST["responses"]."</blockquote>";
 
     // show whole POST contents
     $post = print_r($_POST, true);

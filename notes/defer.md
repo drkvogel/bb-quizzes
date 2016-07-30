@@ -6,10 +6,7 @@ fossil workflow too slow/labourious
 unfuddle?
 
 
-git log a single file:
 
-    $ gitk ~/Projects/bb-quizzes/hoops/yo/app/index.html
-    $ git log -p ~/Projects/bb-quizzes/hoops/yo/app/index.html
 
 
 (css?) errors reported by ff
@@ -26,12 +23,16 @@ I’d just do something like this to centre the tiles of the matrix:
 
 css errors
 tidy up matrix, hoops
-send result by ajax (don't use submit)
 dev prev button doesn't work now unless navbar fits on one line
-shrink containing div - too big-
-with `.top, .bot { width: 100%; }`, image map doesn't work-x
-log IP?
-prev button doesn't respond when navbar collapsed due to small screen width
+leave comments shows previous puzzle on resize
+hourglass if wait on submit?
+//$("body").css("cursor", "progress"); // $("body").css("cursor", "default");
+or
+$(window).on('beforeunload', function(){
+   $('*').css("cursor", "progress");
+});
+* If possible a busy/hourglass cursor could be displayed while data is uploading [don't spend more than an hour on this - if it's not easy to do, then forget it].  
+
 
 ## fossilised
 
@@ -43,7 +44,6 @@ hoops: answers in config - depends on order...
 hoops: puzzles are hard coded and not in pseudo-random order
 prev, next should be closer together, and not off the bottom
 
-sticky footer?
 standardise text sizes
 
 bower install imageMapResizer?
@@ -56,3 +56,5 @@ http://stackoverflow.com/questions/4083351/what-does-jquery-fn-mean/4083362 jQue
 
 
 IIFE to prevent hoisting - but maybe we want global vars to maintain state?
+
+http://stackoverflow.com/questions/9741328/why-do-we-need-a-fieldset-tag
