@@ -56,6 +56,23 @@ Thus, we have the images:
 
 >names of any included libraries (e.g. node.js)
 
+    jquery.js
+    jquery-ui.css
+    modernizr.js
+    browser-sync.js
+    bootstrap.css
+    bootstrap-sass
+
+The build system was created by yeoman running on node.js via npm. It uses the gulp task runner to perform SASS compilation, testing, linting, synchronised browsing, minification, and front-end package management via bower. The CSS framework is Bootstrap, though I have overridden a lot of it to make things simpler. The code in main.js uses jQuery.
+
+    http://yeoman.io/
+    https://nodejs.org/
+    https://www.npmjs.com
+    http://gulpjs.com
+    http://sass-lang.com/
+    https://bower.io/
+    http://getbootstrap.com/
+    https://jquery.com/
 
 ## Description of Scaling Algorithm
 

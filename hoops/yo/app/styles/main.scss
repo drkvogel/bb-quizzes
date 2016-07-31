@@ -59,24 +59,6 @@ body {
   margin: 30px 0;
 }
 
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
-  .btn {
-    font-size: 21px;
-    padding: 14px 24px;
-  }
-}
-
-/* Supporting marketing content */
-.marketing {
-  margin: 40px 0;
-  p + h4 {
-    margin-top: 28px;
-  }
-}
-
 #pages {
   font-size: large;
   line-height: normal;
@@ -173,6 +155,46 @@ body {
   width: auto;
 }
 
+
+// dialogs
+
+#getReady {
+  padding-top: 3em;
+}
+
+.mymodal { // overlay
+    display: none; // Hidden by default
+    position: fixed; // Stay in place
+    z-index: 1; // Sit on top
+    left: 0;
+    top: 0;
+    width: 100%; // Full width
+    height: 100%; // Full height
+    overflow: auto; // Enable scroll if needed
+    background-color: rgb(0,0,0); // Fallback color
+    background-color: rgba(0,0,0,0.4); // Black w/ opacity
+}
+
+.my-modal-content {
+    padding: 10px;
+    width: 290px; //400px;
+    height: 200px;
+    // height: 50%;
+    // width: 50%;
+    position: fixed;
+    top: 50%;             // centred
+    left: 50%;
+    margin-top: -100px;   // offset by half of height - should be calculated
+    margin-left: -145px;  // offset by half of width
+    // margin: auto;
+
+    background-color: white;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 20px;
+    z-index: 11; /* 1px higher than the overlay layer */
+}
+
 // /* Responsive: Portrait tablets and up */
 // @media screen and (min-width: 768px) {
 //   .container {
@@ -195,5 +217,24 @@ body {
 //   /* Remove the bottom border on the jumbotron for visual effect */
 //   .jumbotron {
 //     border-bottom: 0;
+//   }
+// }
+
+
+/* Main marketing message and sign up button */
+// .jumbotron {
+//   text-align: center;
+//   border-bottom: 1px solid #e5e5e5;
+//   .btn {
+//     font-size: 21px;
+//     padding: 14px 24px;
+//   }
+// }
+
+// /* Supporting marketing content */
+// .marketing {
+//   margin: 40px 0;
+//   p + h4 {
+//     margin-top: 28px;
 //   }
 // }

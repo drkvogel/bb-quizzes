@@ -2,14 +2,8 @@
 
 
 
-fossil workflow too slow/labourious
-unfuddle?
 
-
-
-
-
-(css?) errors reported by ff
+errors reported by ff
 .replace() e.g. `alert($("a").css("margin-top").replace("px", ""));`
 
 `bb-quizzes/matrix/main-jon.js`
@@ -21,7 +15,6 @@ I’d just do something like this to centre the tiles of the matrix:
 </div>
 ```
 
-css errors
 tidy up matrix, hoops
 dev prev button doesn't work now unless navbar fits on one line
 leave comments shows previous puzzle on resize

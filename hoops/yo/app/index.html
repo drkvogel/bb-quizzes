@@ -123,25 +123,37 @@
 
     </div> <!-- container -->
     
-        <!-- name -->
-<!--         <div id="" class="page" style="display:none">
+    <!-- modals -->
+    <div id="modals" class="mymodal" style="display:none"> <!--  .modal is bootstrap -->
 
-        </div> -->
-<!--       <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-        <h3 class="text-muted">app</h3>
-      </div>
- -->
-
-<!--       <div class="row marketing">
-        <div class="col-lg-6">
+      <!-- try again -->
+      <div id="tryagain-modal" class="my-modal-content" style="display:none">
+        <h3>Incorrect!</h3>
+        <p>Please try again.</p>
+        <div class="buttons row">
+          <div class="center"><button class="btn" id="tryagain-ok" href="#">OK</button></div>
         </div>
       </div>
- -->
+
+      <!-- abandon -->
+      <div id="abandon-modal" class="my-modal-content" style="display:none">
+        <h3>Please check!</h3>
+        <p>You have not yet completed the task.</p>
+        <p>Are you sure you wish to abandon?</p>
+        <p>You will not be able to attempt it again.</p>
+        <div class="buttons row">
+          <!-- <div id="yes" class="col-md-2"><button class="btn pull-left" id="abandon-yes" href="#">Yes</button></div> -->
+          <div id="yes"><button class="btn pull-left" id="abandon-yes" href="#">Yes</button></div>
+          <div id="no"  class=""><button class="btn pull-right" id="abandon-no" href="#">No</button></div>
+        </div>  <!-- class="col-md-2" -->
+      </div>
+
+    </div> <!-- modals -->
+
+<!--         <div class="buttons row center">
+          <div id="yes" class="col-md-2 center"><button class="btn pull-left" id="abandon-yes" href="#">Yes</button></div>
+          <div id="no" class=""><button class="btn pull-right " id="abandon-no" href="#">No</button></div>
+        </div> -->
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>

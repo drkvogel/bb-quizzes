@@ -1,5 +1,8 @@
 ## done
 
+hoops: scaleImages() on show, not just resize
+hoops: abandon didn't work - put abandon-modal in html
+
 shrink containing div - too big-
 with `.top, .bot { width: 100%; }`, image map doesn't work-x
 log IP?-x
@@ -49,3 +52,6 @@ git log a single file:
 
     $ gitk ~/Projects/bb-quizzes/hoops/yo/app/index.html
     $ git log -p ~/Projects/bb-quizzes/hoops/yo/app/index.html
+
+fossil workflow too slow/labourious, use text-
+unfuddle?-x
