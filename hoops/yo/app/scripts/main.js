@@ -510,8 +510,8 @@
 
         var formAction = config.formAction;
         var loc = location.toString().split('://')[1]; // strip off http://, https://
-        if (loc === 'localhost:9000/') { // served from gulp
-            console.log('loc === localhost:9000/');
+        if (loc.substr(0, 9) === 'localhost') { // served from gulp
+            console.log('loc === localhost');
             formAction = 'http://localhost:8000/' + formAction; // gulp-connect-php - local PHP server
         } // else, is on same server, relative link OK
         $('#feedbackForm').attr('action', formAction);
