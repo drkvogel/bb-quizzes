@@ -3,6 +3,9 @@
 errors reported by ff
 .replace() e.g. `alert($("a").css("margin-top").replace("px", ""));`
 
+hoops - abandon seems to trigger of its own accord
+
+
 `bb-quizzes/matrix/main-jon.js`
 I’d just do something like this to centre the tiles of the matrix:  
 

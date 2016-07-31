@@ -22,6 +22,7 @@ A document describing the structure, technology and sizing algorithms in the mai
 
 ## Layout
 
+![matrix 3x3 layout](3x3-layout.png "matrix 3x3 layout")
   
     body                HTML <body> tag
     div.container       Added by Yeoman/Bootstrap to add page margins. Possibly not needed.

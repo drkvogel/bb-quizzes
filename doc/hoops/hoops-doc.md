@@ -12,8 +12,23 @@
 
 ## Description of page elements
 
->representation of the <div>s in the page, description of the purpose of each.
+![hoops layout](hoops-layout.png "hoops layout")
 
+>representation of the HTML elements in the hoops puzzle, with a description of the purpose of each.
+                            
+    body                    HTML <body> tag
+    div.container           Added by Yeoman/Bootstrap to add page margins. Possibly not needed.
+    div#pages               A container for the pages, one of which is shown at a time
+	div.page#game           A page div for the main puzzle
+	div.toptable-container  A container for the image table. Possibly not needed
+	table.toptable          Table containing cells containing the two images for each puzzle
+	td#imgdiv-a             Containing cell for the upper image
+    img#img-a               The upper image, which is the same on each page
+	td#imgdiv-b             Containing cell for the lower image
+    img#img-b               The lower image, which is different on each page
+	div.botTxt              Holds the explanatory text when required
+	div.answers             Holds the buttons 1-6 for the user to answer the puzzle, as required
+	div.navCtl              Holds the "Prev/Next" navigation buttons in the intro, as needed
 
 
 
