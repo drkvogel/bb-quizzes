@@ -13,14 +13,12 @@
 A document describing the structure, technology and sizing algorithms in the main web-page of the Matrices questionnaire.
 
 * A pictorial representation of the `<div>`s in the page, accompanied by a brief description of the purpose of each.
-* image dimensions
-* included libraries
+* Image dimensions
+* Included libraries
 * A description (with pseudo-code) of the algorithm used to determine the scaling of the image elements
 * Worked numeric examples for various screen resolutions
 
----
-
-
+\newpage
 
 ## Layout
 
@@ -105,6 +103,35 @@ The code in main.js uses jQuery.
 ## Details of image sizes
 
 
+
+
+### 2x2 Puzzle
+
+![2x2 top image](2x2-top.png "2x2 top image")
+
+The top image is 420px x 340px, 2 tiles wide by 2 tiles high
+Each tile is 210px x 170px, with no space between them
+
+![2x2 bottom image](2x2-bottom.png "2x2 bottom image")
+
+The bottom image is 680px x 365px, 3 tiles wide x 2 tiles high
+Each tile is 210px x 170px and there is a gap of 25px between each tile, horizontally and vertically.
+
+# 3x3 Puzzle
+
+![3x3 top image](3x3-top.png "3x3 top image")
+
+The top image is 510px x 405px, 3 tiles wide by 3 tiles high
+Each tile is 170px x 135px, with no space between them
+
+The bottom image is 755px x 295px, 4 tiles wide x 2 tiles high
+Each tile is 170px x 135px and there is a gap of 25px between each tile, horizontally and vertically.
+
+![3x3 bottom image](3x3-bottom.png "3x3 bottom image")
+
+
+## Appendix
+
 images/intro1/intro1-sol5.png:     PNG image data, 420 x 340, 8-bit/color RGBA, non-interlaced
 images/intro1/intro1-palette.png:  PNG image data, 680 x 365, 8-bit/color RGBA, non-interlaced
 
@@ -126,32 +153,3 @@ images/ex15/ex15-palette.png:      PNG image data, 755 x 295, 8-bit/color RGBA, 
 
 but all palette images overlayed with imagemaps are consistent
 and differences in top images not really noticeable
-
-### 2x2
-
-
-top image:      420px x 340px
-each tile is    210px x 170px
-with no space between them
-
-bottom image:   680px x 365px
-3 tiles wide x 2 tiles high
-each tile is    210px x 170px
-there is a gap of 25px between each tile, horizontally and vertically
-
-# 3x3 problem
-
-top image:      510px x 405px
-each tile is    170px x 135px
-with no space between them
-
-bottom image:   755px x 295px
-4 tiles wide x 2 tiles high
-each tile is    170px x 135px
-there is a gap of 25px between each tile, horizontally and vertically
-
-
-
-
-
-

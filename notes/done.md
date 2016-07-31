@@ -37,6 +37,16 @@ hoops: image stops stretching horizontally because .container has a set width - 
         width: 750px;
     }
 
+Google docs - too few options, annoying "features" e.g. spellcheck can't turn off
+doing this - in text, md - have to format it all differently so would have to spend ages making it into a Word doc...
+though pandoc can do this
+what about images?
+
+    2016-07-29 01:32:24 kvogel@yoga3-vlubuntu ~/Projects/bb-quizzes/doc/matrix
+    $ pandoc -o ~/Dropbox/matrix.docx -f markdown -t docx matrix-doc.md
+    $ \ls ~/Dropbox
+
+https://docs.google.com/document/d/12csdd4ncqbiC-Kw6C2bjopYhiiZJoaMxMkKj0DiDBYU/edit#heading=h.fsk7l5xa17k5
 
 
 
@@ -48,6 +58,7 @@ hoops: image stops stretching horizontally because .container has a set width - 
 
 
 
+hoops - use unmin imageMapResizer?-x doesn't use 
 sticky footer?-x
 
 git log a single file:
