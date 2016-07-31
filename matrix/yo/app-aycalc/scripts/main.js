@@ -243,8 +243,6 @@
 
     function normalizeWidthAY() { // Alan's calculation
 
-
-
     }
 
         // var margins = $('body').css('width') + $('div.container').css('width') + $('div#pages').css('width');

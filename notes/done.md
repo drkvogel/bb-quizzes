@@ -1,5 +1,14 @@
 ## done
 
+
+get rid of the other ones (intro1/2/3) - the only ones in use are:
+
+    "templateId": "home",
+    "templateId": "quiz2x2",
+    "templateId": "quiz3x3",
+    "templateId": "getReady",
+    "templateId": "thanks",
+
 description of images - size of icons and spacings between them for the 2 layouts for the Hoops system
 553:31  error  event is defined but never used  no-unused-vars # `/*eslint-disable no-unused-vars*/ `
 hoops - implement form submit
