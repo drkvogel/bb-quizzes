@@ -13,6 +13,24 @@ Hoops : structure, technology and algorithms
 * Worked numeric examples for screen resolutions of (HxV) 1280x1024, 640x480, 320x480, 750x1334 and 1242x2208
 
 
+description of images - size of icons and spacings between them for the 2 layouts for the Hoops system
+
+hoops scales on dev gulp serve, and on red, and http://kvogel.net/hoops/...
+but not brilliantly - text, buttons scroll off bottom
+margin-left, margin-right being calculated and inserted on resize
+
+```html
+    <div style="margin-left: 386.5px; margin-right: 386.5px;" class="container">
+      <div id="pages"> <!-- style="display: none"> -->
+        ...
+      </div> <!-- pages -->
+      <div style="display: none;" id="abandon-div" class="row">
+        <button class="btn" id="abandon-btn" href="#">Abandon</button>
+      </div>
+    </div>
+```
+
+
 
 use pesticide.io
 fossilize... 
