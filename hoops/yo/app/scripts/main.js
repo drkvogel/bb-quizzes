@@ -1,5 +1,7 @@
 /*global $ */
 /*jslint browser:true */ // define 'document'
+/* jshint unused:false */
+/*eslint-disable no-unused-vars*/
 // /*jslint plusplus: true */ // doesn't work with sublime jslint plugin:
 
 // http://stackoverflow.com/questions/950087/include-a-javascript-file-in-another-javascript-file
@@ -365,15 +367,15 @@
         // <input type="hidden" id="testelapsed" name="testelapsed" value="-1"
 
         // fill in form
-        document.getElementById("responses").value = JSON.stringify(answers);
-        document.getElementById("timeStarted").value = config.timeStarted;
+        document.getElementById('responses').value = JSON.stringify(answers);
+        document.getElementById('timeStarted').value = config.timeStarted;
 
         // submit automatically
         window.onbeforeunload = null;
         $(window).on('beforeunload', function(){
             $('*').css('cursor', 'progress');
         });
-        document.getElementById("feedbackForm").submit(); // action set in init() from config.json
+        document.getElementById('feedbackForm').submit(); // action set in init() from config.json
     }
     //$("body").css("cursor", "progress"); // $("body").css("cursor", "default");
 
@@ -542,8 +544,8 @@
             }
         }
     }
-    $('body').on('keydown', keydown);
 
+    $('body').on('keydown', keydown);
     $('#pages').on('click', 'a, button, div.row div', containerClick); // delegate events
     $('#buttons').on('click', 'a, button', navClick); // need this?
     $('#abandon-btn').on('click', abandonClick); // need this?

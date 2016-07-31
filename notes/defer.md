@@ -6,6 +6,8 @@ errors reported by ff
 hoops - abandon seems to trigger of its own accord
 
 
+
+
 `bb-quizzes/matrix/main-jon.js`
 I’d just do something like this to centre the tiles of the matrix:  
 
@@ -26,6 +28,9 @@ $(window).on('beforeunload', function(){
 });
 * If possible a busy/hourglass cursor could be displayed while data is uploading [don't spend more than an hour on this - if it's not easy to do, then forget it].  
 
+pandoc markdown \newpage (force) and \pagebreak (prefer)
+pesticide.io - hold ctrl to see current div
+/home/cbird/Projects/general/dev/web/responsive/responsive.md
 
 ## fossilised
 

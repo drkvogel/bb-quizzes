@@ -1,5 +1,7 @@
 ## done
 
+description of images - size of icons and spacings between them for the 2 layouts for the Hoops system
+553:31  error  event is defined but never used  no-unused-vars # `/*eslint-disable no-unused-vars*/ `
 hoops - implement form submit
 hoops - take off "Next" on intro test, forcing user to make a guess
 hoops: scaleImages() on show, not just resize
