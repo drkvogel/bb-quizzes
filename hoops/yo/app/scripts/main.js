@@ -131,8 +131,7 @@
     }
 
     function pageNamed(name) {
-        //for (var page in pages) { // http://stackoverflow.com/questions/500504/why-is-using-for-in-with-array-iteration-such-a-bad-idea
-        for (var i = 0; i < pages.length; i++) {
+        for (var i = 0; i < pages.length; i++) { // http://stackoverflow.com/questions/500504/why-is-using-for-in-with-array-iteration-such-a-bad-idea
             if (pages[i].name === name) {
                 return pages[i];
             }
@@ -156,56 +155,6 @@
         hideDiv(page.templateId); //console.log('hidePage(): templateId: ' + page.templateId); //+ obj(page) + '\'');
     }
 
-    // http://stackoverflow.com/questions/130396/are-there-constants-in-javascript
-    // var WIDTH2X2 = 210; // Width of squares in 2x2 grid is 210px // const?
-    // var WIDTH3X3 = 170; // Width of squares in 3x3 grid is 170px // const?
-
-    // js docstring?
-    // function setBackground(sel, sheet, pos) { // jQuery selector, sprite sheet, offset pos (px)
-    //     var img = 'url("images/' + sheet + '")'; // DON'T include ';' at end of rule, fails silently! (?)
-    //     $(sel).css('background-image', img);    // e.g. background-image: url('images/intro1.png');
-    //     $(sel).css('background-position', pos); // e.g. background-position: -210px 0px;
-    // }
-
-    // function checkImages(page, topExpected, botExpected) {
-    //     // for top grids, last (unfilled) tile is yet to be chosen thus redundant in data
-    //     if (page.images.top.length !== topExpected) {
-    //         throw new Error('Expected ' + topExpected + ' images for top grid in ' + page.name);
-    //     }
-    //     if (page.images.bottom.length !== botExpected) {
-    //         throw new Error('Expected ' + botExpected + ' images for bottom grid in ' + page.name);
-    //     }
-    // }
-
-    // function applyStyles(page) {
-    //     //console.log('applyStyles(): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
-    //     var base, sel, pos, width, img;
-    //     // var top = page.images.top;
-    //     // var bot = page.images.bottom;
-
-    //     // TODO passing page object - good idea? i.e. is this a copy or a reference (or reference to a copy)?
-    //     // saves a few lines a reuses putting checks into a function, but have to pass it page name, top, bottom
-    //     // if (page.templateId === 'quiz2x2') {
-    //     //     checkImages(page, 3, 6); //var TOP_EXPECTED = 3, BOT_EXPECTED = 6;
-    //     //     width = WIDTH2X2;
-    //     //     base = 'div#quiz2x2 ';
-    //     //     $('div.grid2x2 #missing2x2').css('display', 'none');
-    //     // } else if (page.templateId === 'quiz3x3') {
-    //     //     checkImages(page, 8, 8); //var TOP_EXPECTED = 8, BOT_EXPECTED = 8;
-    //     //     width = WIDTH3X3;
-    //     //     base = 'div#quiz3x3 ';
-    //     //     $('div.grid3x3 #missing3x3').css('display', 'none');
-    //     // } else {
-    //     //     throw new Error('templateId: "' + page.templateId + '" not expected');
-    //     // }
-
-    //     // could refactor the next two bits into one function (setBackground(), above)
-    //     // div#quiz2x2 div.grid2x2 div.row div, div#quiz3x3 div.grid3x3 div.row div
-    //     // sel = base + '#top' + i;
-    //     // pos = '-' + (width * top[i]) + 'px 0px';
-    //     // setBackground(sel, page.sheet, pos); //console.log('sel: ' + sel + ', img: ' + img + ', pos: ' + pos);
-    // }
-
     function showInfo(text) {
         $('#info').html(text);
     }
@@ -216,13 +165,27 @@
         $(sel).html(text + 'ms');
     }
 
+    function scaleImagesAY() {
+
+    }
+
     function scaleImages() {
-        // set the margins/padding to (screen width - height) / 2 ?
-        // setting margin-left and margin-right seems to make it shrink...
-        var margin = ($(window).width() - $(window).height()) / 2;
+        console.log('scaleImages()');
+        var margin = ($(window).width() - $(window).height()) / 2; // set the margins/padding to (screen width - height) / 2
         showInfo('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin);
-        $('.middleImg').css('margin-left', margin);
+        $('.middleImg').css('margin-left', margin); // increasing margin-left and margin-right will make it shrink
         $('.middleImg').css('margin-right', margin);
+    }
+
+    function startTimer(page) {
+        if (page.name.slice(0, 2) === 'ex') {
+            timer.now(); // start timer for all real exercises
+            if (page.name === 'ex1') {
+                config.timeStarted = new Date($.now());
+                console.log('config.timeStarted: ' + config.timeStarted);
+                timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
+            }
+        }
     }
 
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
@@ -239,8 +202,9 @@
         showInfo(info);
 
         var navNext = '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
-        var navPrevNext = '<span class=\"prev\" class=\"col-md-2\"><button class=\"btn pull-left\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span><span id=\"next\" class=\"\"><button class=\"btn pull-right\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
         var navPrev = '<span class=\"prev\" class=\"col-md-2\"><button class=\"btn pull-left\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>';
+        var navPrevNext = '<span class=\"prev\" class=\"col-md-2\"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>' +
+                            '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
         // pull-left pull-right
 
         switch (page.templateId) {
@@ -254,8 +218,7 @@
                 }
             }
             // img-a - top-constant.png
-            $('#img-b').attr('src', 'images/' + page.image);
-            // or $('#imgdiv-b img').attr('src', 'images/' + page.image);
+            $('#img-b').attr('src', 'images/' + page.image); // or $('#imgdiv-b img')
             $('.botTxt').html('How many moves would it take to make picture A look like picture B?');
             for (var i = 1; i <= 6; i++) {
                 var id = '#ans' + i;
@@ -266,6 +229,7 @@
             } else {
                 $('.navCtl').html('');
             }
+            startTimer(page); // timer to show chosen answer before next, and start game timer
             break;
         case 'home':
         case 'getReady':
@@ -273,7 +237,7 @@
             break; // don't do nuttin
         case 'intro': // these are templateIds remember, not page names
             $('.topTxt').html(page.topTxt);
-            $('.middleImg img').attr('src', 'images/' + page.images.top); // example image: intro1.png? not split and don't have A, B labels
+            $('.middleImg img#introImg').attr('src', 'images/' + page.images.top); // e.g. intro1.png - not split and don't have A, B labels
             $('.botTxt').html(page.botTxt);
             $('.navTxt').html(page.navTxt);
             if (page.name === 'intro1') {
@@ -284,7 +248,7 @@
             if (page.name === 'intro5') {
                 var ans = answers.pop();
                 console.log('ans: ' + ans);
-                $('#intro-answer').html(ans + (parseInt(ans) === 2 ? ' - Correct!' : '')); //$('#intro-answer').html(JSON.stringify(answers));
+                $('#intro-answer').html(ans + (parseInt(ans) === 2 ? ' - Correct!' : ''));
             }
             break;
         case 'getReady':
@@ -341,16 +305,7 @@
 
     function finished() {
         console.log('finished(): answers: ' + JSON.stringify(answers));
-        //$('input[name="results"]').val() = JSON.stringify(answers);
         clearTimeout(timeUpTimeout);
-
-        //$('#results').val(JSON.stringify(answers));
-        //var possibleE = test_timer.gethasPossibleError() + reaction_timer.gethasPossibleError() + demo_timer.gethasPossibleError() + total_timer.gethasPossibleError();
-        // if (possibleE > 0)
-        //     possibleE = 1;
-
-        // writeValue("timererror",possibleE); // document.getElementById(id).value = value;
-        // writeValue("performanceTimer",total_timer.gethasPerformance());
 
         // <input type="hidden" name="sid" value="1">
         // <input type="hidden" name="pid" value="213421343">
@@ -367,8 +322,14 @@
         // <input type="hidden" id="testelapsed" name="testelapsed" value="-1"
 
         // fill in form
-        document.getElementById('responses').value = JSON.stringify(answers);
+        document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
         document.getElementById('timeStarted').value = config.timeStarted;
+        //$('#results').val(JSON.stringify(answers));
+        //var possibleE = test_timer.gethasPossibleError() + reaction_timer.gethasPossibleError() + demo_timer.gethasPossibleError() + total_timer.gethasPossibleError();
+        // if (possibleE > 0)
+        //     possibleE = 1;
+        // writeValue("timererror",possibleE); // document.getElementById(id).value = value;
+        // writeValue("performanceTimer",total_timer.gethasPerformance());
 
         // submit automatically
         window.onbeforeunload = null;
@@ -378,14 +339,6 @@
         document.getElementById('feedbackForm').submit(); // action set in init() from config.json
     }
     //$("body").css("cursor", "progress"); // $("body").css("cursor", "default");
-
-    // function finished() {
-    //     console.log('finished(): answers: ' + JSON.stringify(answers));
-    //     //$('input[name="results"]').val() = JSON.stringify(answers);
-    //     $('#results').val(JSON.stringify(answers));
-    //     clearTimeout(timeUpTimeout);
-    //     // TODO send via $.ajax();
-    // }
 
     function timeUp() {
         clearTimeout(timeUpTimeout); // in case triggered manually for testing
@@ -574,3 +527,54 @@
 }());
 
 console.log('main.js ready');
+
+
+    // http://stackoverflow.com/questions/130396/are-there-constants-in-javascript
+    // var WIDTH2X2 = 210; // Width of squares in 2x2 grid is 210px // const?
+    // var WIDTH3X3 = 170; // Width of squares in 3x3 grid is 170px // const?
+
+    // js docstring?
+    // function setBackground(sel, sheet, pos) { // jQuery selector, sprite sheet, offset pos (px)
+    //     var img = 'url("images/' + sheet + '")'; // DON'T include ';' at end of rule, fails silently! (?)
+    //     $(sel).css('background-image', img);    // e.g. background-image: url('images/intro1.png');
+    //     $(sel).css('background-position', pos); // e.g. background-position: -210px 0px;
+    // }
+
+    // function checkImages(page, topExpected, botExpected) {
+    //     // for top grids, last (unfilled) tile is yet to be chosen thus redundant in data
+    //     if (page.images.top.length !== topExpected) {
+    //         throw new Error('Expected ' + topExpected + ' images for top grid in ' + page.name);
+    //     }
+    //     if (page.images.bottom.length !== botExpected) {
+    //         throw new Error('Expected ' + botExpected + ' images for bottom grid in ' + page.name);
+    //     }
+    // }
+
+    // function applyStyles(page) {
+    //     //console.log('applyStyles(): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
+    //     var base, sel, pos, width, img;
+    //     // var top = page.images.top;
+    //     // var bot = page.images.bottom;
+
+    //     // TODO passing page object - good idea? i.e. is this a copy or a reference (or reference to a copy)?
+    //     // saves a few lines a reuses putting checks into a function, but have to pass it page name, top, bottom
+    //     // if (page.templateId === 'quiz2x2') {
+    //     //     checkImages(page, 3, 6); //var TOP_EXPECTED = 3, BOT_EXPECTED = 6;
+    //     //     width = WIDTH2X2;
+    //     //     base = 'div#quiz2x2 ';
+    //     //     $('div.grid2x2 #missing2x2').css('display', 'none');
+    //     // } else if (page.templateId === 'quiz3x3') {
+    //     //     checkImages(page, 8, 8); //var TOP_EXPECTED = 8, BOT_EXPECTED = 8;
+    //     //     width = WIDTH3X3;
+    //     //     base = 'div#quiz3x3 ';
+    //     //     $('div.grid3x3 #missing3x3').css('display', 'none');
+    //     // } else {
+    //     //     throw new Error('templateId: "' + page.templateId + '" not expected');
+    //     // }
+
+    //     // could refactor the next two bits into one function (setBackground(), above)
+    //     // div#quiz2x2 div.grid2x2 div.row div, div#quiz3x3 div.grid3x3 div.row div
+    //     // sel = base + '#top' + i;
+    //     // pos = '-' + (width * top[i]) + 'px 0px';
+    //     // setBackground(sel, page.sheet, pos); //console.log('sel: ' + sel + ', img: ' + img + ', pos: ' + pos);
+    // }

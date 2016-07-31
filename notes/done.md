@@ -1,7 +1,28 @@
 ## done
 
+now top image is wrong - always intro5.png!- set $('.middleImg img#introImg')
+hoops scaling not working - .middleImg margins being set, but image will not scale and is pushed left...
+aha - img width: 100% css: #middleImg now .middleImg
 
-get rid of the other ones (intro1/2/3) - the only ones in use are:
+hoops - allow explanation text to be wider
+  .container needs to be wider - currently scaled by scaleImages()
+rather, new containter round images to be scaled, and apply scaleImages()
+in matrix, it's .gridContainer which has the margins calculated
+.container is outside that, and contains .botTxt
+do the same for hoops so text can flow left and right instead of wrapping
+in matrix, only 2 pages have class="gridContainer", the ones with puzzles, including the intros
+several of the pages in the html are redundant - the text content comes from config.json
+the pages (templates, really) in use in hoops are:
+
+        "templateId": "home",
+        "templateId": "intro1",
+        "templateId": "intro6",
+        "templateId": "game",
+        "templateId": "thanks",
+
+wrap each in a container with a common class that will have margins applied to it - .middleImg, perhaps
+
+matrix: get rid of the other ones (intro1/2/3) - the only ones in use are:
 
     "templateId": "home",
     "templateId": "quiz2x2",

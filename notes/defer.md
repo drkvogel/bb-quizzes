@@ -6,16 +6,9 @@ errors reported by ff
 hoops - abandon seems to trigger of its own accord
 
 
-
+not sure about startTimer
 
 `bb-quizzes/matrix/main-jon.js`
-I’d just do something like this to centre the tiles of the matrix:  
-
-```html
-<div style="width: 75%; margin: auto">
-    ...
-</div>
-```
 
 tidy up matrix, hoops
 leave comments shows previous puzzle on resize
@@ -28,9 +21,6 @@ $(window).on('beforeunload', function(){
 });
 * If possible a busy/hourglass cursor could be displayed while data is uploading [don't spend more than an hour on this - if it's not easy to do, then forget it].  
 
-pandoc markdown \newpage (force) and \pagebreak (prefer)
-pesticide.io - hold ctrl to see current div
-/home/cbird/Projects/general/dev/web/responsive/responsive.md
 
 ## fossilised
 
@@ -52,6 +42,9 @@ or via browsersync
 
 http://stackoverflow.com/questions/4083351/what-does-jquery-fn-mean/4083362 jQuery.fn === jQuery.prototype
 
+pandoc markdown \newpage (force) and \pagebreak (prefer)
+pesticide.io - hold ctrl to see current div
+/home/cbird/Projects/general/dev/web/responsive/responsive.md
 
 IIFE to prevent hoisting - but maybe we want global vars to maintain state?
 
