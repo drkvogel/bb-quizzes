@@ -1,5 +1,6 @@
 ## done
 
+navBar should be devBar (navCtl should be navBar?) # has class="navbar" which is Bootstrap
 now top image is wrong - always intro5.png!- set $('.middleImg img#introImg')
 hoops scaling not working - .middleImg margins being set, but image will not scale and is pushed left...
 aha - img width: 100% css: #middleImg now .middleImg

@@ -593,10 +593,10 @@
         console.log('keyboard event: ' + e.which);
         if (e.which === 68) { //console.log('"d" pressed');
             e.preventDefault();
-            if ($('#navbar').css('display') === 'none') {
-                showDiv('navbar');
+            if ($('#devBar').css('display') === 'none') {
+                showDiv('devBar');
             } else {
-                hideDiv('navbar');
+                hideDiv('devBar');
             }
         }
     }
@@ -608,7 +608,7 @@
     //$('#pages').on('click', '*', containerClick); // delegate events
     $('#pages').on('click', 'a, area, button', containerClick); // delegate events
     //$('#buttons').on('click', 'a, button', navClick); // need this?
-    $('#navbar').on('click', 'a, button', navClick); // need this?
+    $('#devBar').on('click', 'a, button', navClick); // need this?
     $('#abandon-btn').on('click', abandonClick); // need this?
     $('#modals').on('click', 'button', modalClick);
 
@@ -618,7 +618,7 @@
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
-        hideDiv('navbar');
+        hideDiv('devBar');
         //$('#3x2-map').imageMapResize(); // https://github.com/davidjbradshaw/image-map-resizer
         //$('#4x2-map').imageMapResize();
         //imageMapResize();

@@ -237,7 +237,7 @@ div.grid2x2, div.grid3x2, div.grid3x3, div.grid4x2 {
     z-index: 11; /* 1px higher than the overlay layer */
 }
 
-.navbar { /* Custom page footer */
+.navbar { /* Custom page footer */ // e.g. #devBar
   padding-top: 1px;
   padding-bottom: 1px;
   background-color: #f5f5f5;

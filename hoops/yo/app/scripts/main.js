@@ -490,17 +490,17 @@
         e.preventDefault();
         console.log('keyboard event: ' + e.which);
         if (e.which === 68) { //console.log('"d" pressed');
-            if ($('#buttons').css('display') === 'none') {
-                showDiv('buttons');
+            if ($('#devBar').css('display') === 'none') {
+                showDiv('devBar');
             } else {
-                hideDiv('buttons');
+                hideDiv('devBar');
             }
         }
     }
 
     $('body').on('keydown', keydown);
     $('#pages').on('click', 'a, button, div.row div', containerClick); // delegate events
-    $('#buttons').on('click', 'a, button', navClick); // need this?
+    $('#devBar').on('click', 'a, button', navClick); // need this?
     $('#abandon-btn').on('click', abandonClick); // need this?
     $('#modals').on('click', 'button', modalClick);
 
@@ -514,7 +514,7 @@
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
-        hideDiv('buttons');
+        hideDiv('devBar');
         if (LIVE) {
             window.onbeforeunload = null;
             window.history.forward();   //prevent repeat after back button - may not work.

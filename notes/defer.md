@@ -4,6 +4,7 @@ errors reported by ff
 .replace() e.g. `alert($("a").css("margin-top").replace("px", ""));`
 
 hoops - abandon seems to trigger of its own accord
+hide/showDiv should take whole jQuery selectors
 
 
 not sure about startTimer
