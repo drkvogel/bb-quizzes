@@ -221,8 +221,8 @@
         // setting margin-left and margin-right seems to make it shrink...
         var margin = ($(window).width() - $(window).height()) / 2;
         showInfo('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin);
-        $('.container').css('margin-left', margin);
-        $('.container').css('margin-right', margin);
+        $('.middleImg').css('margin-left', margin);
+        $('.middleImg').css('margin-right', margin);
     }
 
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
@@ -271,9 +271,9 @@
         case 'getReady':
         case 'abandon':
             break; // don't do nuttin
-        case 'intro1': // these are templateIds remember, not page names
+        case 'intro': // these are templateIds remember, not page names
             $('.topTxt').html(page.topTxt);
-            $('#middleImg img').attr('src', 'images/' + page.images.top); // example image: intro1.png? not split and don't have A, B labels
+            $('.middleImg img').attr('src', 'images/' + page.images.top); // example image: intro1.png? not split and don't have A, B labels
             $('.botTxt').html(page.botTxt);
             $('.navTxt').html(page.navTxt);
             if (page.name === 'intro1') {
@@ -287,7 +287,7 @@
                 $('#intro-answer').html(ans + (parseInt(ans) === 2 ? ' - Correct!' : '')); //$('#intro-answer').html(JSON.stringify(answers));
             }
             break;
-        case 'intro6':
+        case 'getReady':
             $('.navTxt').html(page.navTxt);
             $('.navCtl').html(navNext);
             break;
