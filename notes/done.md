@@ -1,5 +1,6 @@
 ## done
 
+hoops - take off "Next" on intro test, forcing user to make a guess
 hoops: scaleImages() on show, not just resize
 hoops: abandon didn't work - put abandon-modal in html
 

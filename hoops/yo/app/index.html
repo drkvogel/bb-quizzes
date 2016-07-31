@@ -98,10 +98,8 @@
         <!-- thanks -->
         <div id="thanks" class="page" style="display:none">
           <p>Thanks for doing the test.</p>
-          <p>Please leave comments.</p>
-          <!-- <div class="page-text">page-text</div> -->
-          <div id="feedback">
-            <form id="feedbackForm" action="." method="post">
+           <div id="feedback">
+<!--              <form id="feedbackForm" action="." method="post">
               <fieldset>
                 Name:<br><input type="text" name="fullname" value=""><br>
                 Email:<br><input type="text" name="email" value=""><br>
@@ -110,11 +108,27 @@
                 <input type="hidden" id="results" name="results" value="tbc"/>
                 <input type="submit" value="Submit">
               </fieldset>
+            </form> -->
+            <form id="feedbackForm" method="post">
+              <div>
+                <input type="hidden" id="sid" name="sid" value="1">
+                <input type="hidden" id="pid" name="pid" value="213421343">
+                <input type="hidden" id="lsq" name="lsq" value="661">
+                <input type="hidden" id="seqord" name="seqord" value="3">
+                <input type="hidden" id="studytypeuid" name="studytypeuid" value="1002">
+                <input type="hidden" id="timererror" name="timererror" value="-1">
+                <input type="hidden" id="performanceTimer" name="performanceTimer" value="-1">
+                <input type="hidden" id="timeStarted" name="timeStarted" value="">
+                <input type="hidden" id="abandon" name="abandon" value="0">
+                <input type="hidden" id="mean" name="mean" value="-1">
+                <input type="hidden" id="demoelapsed" name="demoelapsed" value="-1">
+                <input type="hidden" id="totelapsed" name="totelapsed" value="-1">
+                <input type="hidden" id="testelapsed" name="testelapsed" value="-1">
+                <input type="hidden" id="responses" name="responses" value="">
+              </div>
             </form>
           </div>
         </div>
-
-
       </div> <!-- pages -->
 
       <div id="abandon-div" class="row">

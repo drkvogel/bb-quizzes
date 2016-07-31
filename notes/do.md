@@ -1,5 +1,9 @@
 ## todo
 
+hoops - allow explan text to be wider
+hoops - abandon seems to trigger of its own accord
+hoops - implement form submit
+
 * Implement the re-sizing algorithm for Matrix as specified previously (cap to stop shrinking at 320px)
 * Implement re-sizing in Hoops and finish the interface for that program.
 * Complete documentation for Matrix and produce similar for Hoops,

@@ -238,6 +238,7 @@
 
         var navNext = '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
         var navPrevNext = '<span class=\"prev\" class=\"col-md-2\"><button class=\"btn pull-left\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span><span id=\"next\" class=\"\"><button class=\"btn pull-right\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
+        var navPrev = '<span class=\"prev\" class=\"col-md-2\"><button class=\"btn pull-left\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>';
         // pull-left pull-right
 
         switch (page.templateId) {
@@ -259,7 +260,7 @@
                 $(id).removeClass('disabled');
             }
             if (page.name === 'intro4') {
-                $('.navCtl').html(navPrevNext);
+                $('.navCtl').html(navPrev);
             } else {
                 $('.navCtl').html('');
             }
@@ -339,10 +340,50 @@
     function finished() {
         console.log('finished(): answers: ' + JSON.stringify(answers));
         //$('input[name="results"]').val() = JSON.stringify(answers);
-        $('#results').val(JSON.stringify(answers));
         clearTimeout(timeUpTimeout);
-        // TODO send via $.ajax();
+
+        //$('#results').val(JSON.stringify(answers));
+        //var possibleE = test_timer.gethasPossibleError() + reaction_timer.gethasPossibleError() + demo_timer.gethasPossibleError() + total_timer.gethasPossibleError();
+        // if (possibleE > 0)
+        //     possibleE = 1;
+
+        // writeValue("timererror",possibleE); // document.getElementById(id).value = value;
+        // writeValue("performanceTimer",total_timer.gethasPerformance());
+
+        // <input type="hidden" name="sid" value="1">
+        // <input type="hidden" name="pid" value="213421343">
+        // <input type="hidden" name="lsq" value="661">
+        // <input type="hidden" name="seqord" value="3">
+        // <input type="hidden" name="studytypeuid" value="1002">
+        // <input type="hidden" id="timererror" name="timererror" value="-1">
+        // <input type="hidden" id="performanceTimer" name="performanceTimer" value="-1">
+        // <input type="hidden" name="datestarted" value="2016-02-29 14:47:31 GMT">
+        // <input type="hidden" id="abandon" name="abandon" value="0">
+        // <input type="hidden" id="mean" name="mean" value="-1">
+        // <input type="hidden" id="demoelapsed" name="demoelapsed" value="-1">
+        // <input type="hidden" id="totelapsed" name="totelapsed" value="-1">
+        // <input type="hidden" id="testelapsed" name="testelapsed" value="-1"
+
+        // fill in form
+        document.getElementById("responses").value = JSON.stringify(answers);
+        document.getElementById("timeStarted").value = config.timeStarted;
+
+        // submit automatically
+        window.onbeforeunload = null;
+        $(window).on('beforeunload', function(){
+            $('*').css('cursor', 'progress');
+        });
+        document.getElementById("feedbackForm").submit(); // action set in init() from config.json
     }
+    //$("body").css("cursor", "progress"); // $("body").css("cursor", "default");
+
+    // function finished() {
+    //     console.log('finished(): answers: ' + JSON.stringify(answers));
+    //     //$('input[name="results"]').val() = JSON.stringify(answers);
+    //     $('#results').val(JSON.stringify(answers));
+    //     clearTimeout(timeUpTimeout);
+    //     // TODO send via $.ajax();
+    // }
 
     function timeUp() {
         clearTimeout(timeUpTimeout); // in case triggered manually for testing
