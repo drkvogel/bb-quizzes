@@ -2,7 +2,6 @@
 
 hoops - allow explan text to be wider
 hoops - abandon seems to trigger of its own accord
-hoops - implement form submit
 
 * Implement the re-sizing algorithm for Matrix as specified previously (cap to stop shrinking at 320px)
 * Implement re-sizing in Hoops and finish the interface for that program.
@@ -36,7 +35,7 @@ margin-left, margin-right being calculated and inserted on resize
 
 
 
-use pesticide.io
+pesticide.io - hold ctrl to see current div
 fossilize... 
 look at fossil bugs bb-quizzes.fossil
 
@@ -44,7 +43,6 @@ aycalc
     abandon still scrolls off in some dimensions - does it? (`#abandon-div` is outside `#page`)
     js keeps it roughly square but that is not exactly what we want, too much whitespace at the bottom for a start
     abandon button vanishes
-
 
 /home/cbird/Projects/general/dev/web/responsive/responsive.md
 

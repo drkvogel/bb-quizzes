@@ -1,8 +1,5 @@
 ## defer
 
-
-
-
 errors reported by ff
 .replace() e.g. `alert($("a").css("margin-top").replace("px", ""));`
 
@@ -16,8 +13,8 @@ I’d just do something like this to centre the tiles of the matrix:
 ```
 
 tidy up matrix, hoops
-dev prev button doesn't work now unless navbar fits on one line
 leave comments shows previous puzzle on resize
+
 hourglass if wait on submit?
 //$("body").css("cursor", "progress"); // $("body").css("cursor", "default");
 or

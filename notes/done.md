@@ -1,5 +1,6 @@
 ## done
 
+hoops - implement form submit
 hoops - take off "Next" on intro test, forcing user to make a guess
 hoops: scaleImages() on show, not just resize
 hoops: abandon didn't work - put abandon-modal in html
@@ -56,3 +57,4 @@ git log a single file:
 
 fossil workflow too slow/labourious, use text-
 unfuddle?-x
+dev prev button doesn't work now unless navbar fits on one line-x
