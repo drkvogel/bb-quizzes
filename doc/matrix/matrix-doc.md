@@ -33,7 +33,72 @@ A document describing the structure, technology and sizing algorithms in the mai
     img.bot             The bottom grid image, which is changed by main.js
     div.botText         Holds the explanatory text when required
 
+### natural image sizes
+
+    2x2, 3x2
+    img.top natural: 420 x 340
+    img.bot natural: 680 x 365
+
+    3x3, 4x2
+    img.top natural: 510 x 405
+    img.bot natural: 755 x 295
+
+### width (symmetrical about y axis)
+
+    html                -
+    body                -
+    div.container       10px
+    div#pages           -
+    div#quiz2x2.quiz    -
+    div.gridContainer   margins set by calc
+    div.grid3x2         margin: auto, width: 81% e.g. 65.1px
+    img.bot (natural)   680px (quiz2x2) | 755px (quiz3x3)
+    div.grid3x2         margin: auto, width: 81% e.g. 65.1px
+    div.gridContainer   margins set by calc
+    div#quiz2x2.quiz    -
+    div#pages           -  
+    div.container       10px
+    body                -
+    html                -
+
+notes:
+
+* div.container padding: 15px 10px 20px 10px; (N, E, S, W)
+* div#pages has margin: auto but always fills div.container
+* hard-code natural image sizes - see "Can we get the native/natural height of images?"
+
+### height
+
+    html                -
+    body                -
+    #devBar             hidden
+    div.container       padding-top: 15px
+    div#pages           -
+    div#quiz2x2.quiz    -
+    div.gridContainer   -
+    img.top (natural)   340px (quiz2x2) | 405px (quiz3x3)
+    div.grid3x2         padding-top: 5% e.g. 34px
+    img.bot (natural)   365px (quiz2x2) | 295px (quiz3x3)
+    div.gridContainer   -
+    div.botText         72px minimum (if not wrapped) (if visible)
+    div#quiz2x2.quiz    -
+    div#pages           -
+    div#abandon-div     34px (if visible)
+    div.container       padding-bottom: 20px
+    body                -
+    html                -
+
 ## Description of scaling algorithm
+
+### scaleImagesCBsimple()
+
+    setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
+
+// missing some widths and heights?
+try to keep the `div.gridContainer` element square by setting margins
+abandon button scrolls off the bottom at extreme width and short height.
+
+### new scaling algorithm
 
 pseudo-code
 
@@ -63,7 +128,6 @@ This is slighty tricky: there are native javascript attributes: `.naturalWidth` 
 There is a plugin that adds `.naturalHeight()` and `.naturalWidth()` to jQuery.
 Workaround for IE6-IE8: create a `new Image()` element, and get the width and height of that.
 As we know the image dimensions and they are not going to change, we might as well hard-code them.
-
 
 ## Worked examples
 

@@ -1,5 +1,8 @@
 ## defer
 
+Matrix : structure, technology and algorithms
+Hoops : structure, technology and algorithms
+
 errors reported by ff
 hoops - abandon seems to trigger of its own accord
 hide/showDiv should take whole jQuery selectors
