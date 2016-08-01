@@ -220,19 +220,6 @@
         }
     }
 
-        // var margins = // body shouldn't have any extra
-        //     ($('.container').outerWidth(true) - $('.container').width()) +
-        //     ($('#pages').outerWidth(true) - $('#pages').width());
-        // var heightExtra = ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0)
-        //     + ($('.botText').is(':visible') ? $('.botText').height() : 0); // https://api.jquery.com/visible-selector/
-        // var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
-
-        // console.log('#abandon-div h: ' + $('#abandon-div').height() + ', visible: ' + $('#abandon-div').is(':visible')); // works
-        // console.log('.botText h: ' + $('.botText').height() + ', visible: ' + $('.botText').is(':visible')); // works
-        // console.log('heightExtra: ' + String(heightExtra));
-        // console.log('$(document).height(): ' + $(document).height() + ', $(window).height(): ' + $(window).height());
-        // var heightScrolled = $(document).height() - $(window).height(); console.log('heightScrolled: ' + heightScrolled);
-
     // scale images to try to fit all content in the viewport
     // .css('width') is text e.g. '1200px'; .width() is numeric e.g. 1200. .attr('width') is undefined
     // https://api.jquery.com/visible-selector/
@@ -248,13 +235,45 @@
 
     function scaleImagesAY() { // Alan's calculation
         // based on dimensions of unscaled layout
-        var margins =
+
+
+        // natural image dimensions; $('.bot').width() etc is current width
+        var topWidth, topHeight, botWidth, botHeight;
+        if (page.templateId == 'quiz2x2') {
+            topWidth = 420;
+            topHeight = 340;
+            botWidth = 680;
+            botHeight = 365;
+        } else if (page.templateId == 'quiz3x3')
+            topWidth = 510;
+            topHeight = 405;
+            botWidth = 755;
+            botHeight = 295;
+        }
+        // 2x2, 3x2: img.top natural: 420 x 340, img.bot natural: 680 x 365
+        // 3x3, 4x2: img.top natural: 510 x 405, img.bot natural: 755 x 295
+
+        var widthExtra =
             ($('.container').outerWidth(true) - $('.container').width()) +
-            ($('#pages').outerWidth(true) - $('#pages').width()); // body shouldn't have any extra
+            ($('#pages').outerWidth(true) - $('#pages').width());
+
         var heightExtra =
             ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
             ($('.botText').is(':visible') ? $('.botText').height() : 0);
-        var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
+
+        var naturalFullWidth = widthExtra + botWidth; // bottom image is widest
+        var naturalFullHeight = heightExtra + topHeight + botHeight; // combined height of both images
+
+        var scaleH = naturalFullWidth / $(window).width();
+        var scaleV = naturalFullHeight / ($(window).height();
+
+        var scale = scaleH <= scaleV ? scaleH : scaleV;
+
+        // make whole thing smaller by scale?
+        var newWidth = naturalFullWidth * scale;
+        var newHeight = naturalFullHeight * scale;
+
+        //var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
 
         $('.gridContainer').css('margin-left', setMargin);
         $('.gridContainer').css('margin-right', setMargin);

@@ -37,8 +37,6 @@ A document describing the structure, technology and sizing algorithms in the mai
 
 pseudo-code
 
-    # body > div.container > div#pages > div#quiz2x2.quiz > div.gridContainer > .grid2x2 .grid3x2
-
     # get the margin widths
     margins =   ($('.container').outerWidth(true) - $('.container').width()) + 
                 ($('#pages').outerWidth(true) - $('#pages').width())

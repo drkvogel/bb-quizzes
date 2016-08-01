@@ -47,6 +47,9 @@ and then work out what ratio fullHeight to viewport height is
 and then work out what ratio fullWidth to viewport width is
 get the greater/lesser of these # resize using the smaller of these factors as a parameter
 
+naturalFullWidth
+naturalFullHeight
+
 widthExtra
 heightExtra
 
