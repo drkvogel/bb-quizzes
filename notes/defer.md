@@ -7,6 +7,8 @@ hoops - abandon seems to trigger of its own accord
 hide/showDiv should take whole jQuery selectors
 
 
+cache image for next page
+
 not sure about startTimer
 
 `bb-quizzes/matrix/main-jon.js`
