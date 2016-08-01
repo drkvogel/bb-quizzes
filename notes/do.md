@@ -15,19 +15,18 @@ Hoops : structure, technology and algorithms
 
 >determine separately the scaling in each of the horizontal and vertical directions required to fit the window, then resize using the smaller of these factors as a parameter.
 
-uncomputable?
-
 determine the scaling in each of the horizontal and vertical directions required to fit the window
   scaling of what? 
   height and width of whole thing without scaling? which is what? the natural size? depends on how big the viewport is...
-    
-then resize using the smaller of these factors as a parameter.
-
-
+then resize using the smaller of these factors as a parameter
 
 ### scaleImagesCBsimple()
 
-try to keep the content square
+    setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
+
+// missing some widths and heights?
+try to keep the `div.gridContainer` element square by setting margins
+abandon button scrolls off the bottom at extreme width and short height.
 
 ### scaleImagesCBnew()
 
@@ -46,7 +45,7 @@ get the unscaled dimensions of the content:
     and the full-size widths of the wider image (bottom 3x2 or 4x2) added together, including padding
 and then work out what ratio fullHeight to viewport height is
 and then work out what ratio fullWidth to viewport width is
-get the greater/lesser of these
+get the greater/lesser of these # resize using the smaller of these factors as a parameter
 
 widthExtra
 heightExtra
@@ -55,7 +54,7 @@ fullWidth = widthExtra + $('.bot').width()
 fullHeight = heightExtra + $('.top').height() + $('bot').height()
 
 
-width (symmetrical about y axis)
+### width (symmetrical about y axis)
 
     html                -
     body                -
@@ -74,9 +73,9 @@ width (symmetrical about y axis)
     body                -
     html                -
 
-// div.container padding: 15px 10px 20px 10px;
-// div#pages has margin: auto ?
-// hard-code natural image sizes - see "Can we get the native/natural height of image?"
+* div.container padding: 15px 10px 20px 10px; (N, E, S, W)
+* div#pages has margin: auto but always fills div.container
+* hard-code natural image sizes - see "Can we get the native/natural height of images?"
 
     2x2, 3x2
     img.top natural: 420 x 340
@@ -86,7 +85,7 @@ width (symmetrical about y axis)
     img.top natural: 510 x 405
     img.bot natural: 755 x 295
 
-height
+### height
 
     html                -
     body                -
@@ -105,7 +104,7 @@ height
     html                -
 
 
-
+get code to print worked examples
 
 matrix element heights (top to bottom)
 

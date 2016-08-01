@@ -1,5 +1,6 @@
 # Hoops Quiz : structure, technology and algorithms
 
+## Contents
 
 * representation of the <div>s in the page, description of the purpose of each.
 * image dimensions

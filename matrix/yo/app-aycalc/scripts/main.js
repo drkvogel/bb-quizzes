@@ -260,7 +260,7 @@
         $('.gridContainer').css('margin-right', setMargin);
     }
 
-    function scaleImagesCBnew() { // based on current dimeensions
+    function scaleImagesCBnew() { // based on current dimensions
         var margins =
             ($('.container').outerWidth(true) - $('.container').width()) +
             ($('#pages').outerWidth(true) - $('#pages').width());
@@ -279,18 +279,20 @@
     }
 
     function scaleImagesCBsimple() { // my calculation, mostly works
-        var margins =
+        var widthExtra =
             ($('.container').outerWidth(true) - $('.container').width()) +
             ($('#pages').outerWidth(true) - $('#pages').width());
-        var heightExtra =
+            // missing some widths?
+        var heightExtra = // required height of .gridContainer
             ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
             ($('.botText').is(':visible') ? $('.botText').height() : 0);
-        var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
+            // missing some heights?
+        var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
 
-        if (setMargin > 0) {
-            $('.gridContainer').css('margin-left', setMargin);
-            $('.gridContainer').css('margin-right', setMargin);
-        } else {
+        if (setMargins > 0) {
+            $('.gridContainer').css('margin-left', setMargins);
+            $('.gridContainer').css('margin-right', setMargins);
+        } else { // don't set negative margins. content should shrink width-wise if needed
             $('.gridContainer').css('margin-left', 0);
             $('.gridContainer').css('margin-right', 0);
         }

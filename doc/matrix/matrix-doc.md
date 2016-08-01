@@ -1,28 +1,26 @@
 # Matrix Quiz : structure, technology and algorithms
 
-<https://docs.google.com/document/d/1gcFqC2Ys2w95EOjHP7wLUNbz98NkUM6AFgYvDMaRavY/>
-
 * representation of the `<div>`s in the page, description of the purpose of each.
 * image dimensions
 * names of any included libraries (e.g. node.js)
 * description with pseudo-code of scaling algorithm based around the method I outlined - i.e. determine separately the scaling in each of the horizontal and vertical directions required to fit the window, then resize using the smaller of these factors as a parameter.
 * Worked numeric examples for screen resolutions of (HxV) 1280x1024, 640x480, 320x480, 750x1334 and 1242x2208
 
-## Contents
-
 A document describing the structure, technology and sizing algorithms in the main web-page of the Matrices questionnaire.
+
+## Contents
 
 * A pictorial representation of the `<div>`s in the page, accompanied by a brief description of the purpose of each.
 * Image dimensions
-* Included libraries
-* A description (with pseudo-code) of the algorithm used to determine the scaling of the image elements
+* A description of the algorithm used to determine the scaling of the image elements
 * Worked numeric examples for various screen resolutions
+* Included libraries
 
 \newpage
 
 ## Layout
 
-![matrix 3x3 layout](3x3-layout.png "matrix 3x3 layout")
+![matrix 2x2 layout](matrix-layout.png "matrix 2x2 layout")
   
     body                HTML <body> tag
     div.container       Used to add margins around the content
@@ -37,6 +35,7 @@ A document describing the structure, technology and sizing algorithms in the mai
 
 ## Description of scaling algorithm
 
+pseudo-code
 
     # body > div.container > div#pages > div#quiz2x2.quiz > div.gridContainer > .grid2x2 .grid3x2
 
