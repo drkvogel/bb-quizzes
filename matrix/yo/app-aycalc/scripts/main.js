@@ -235,7 +235,7 @@
 
     function scaleImagesAY() { // Alan's calculation
         // based on dimensions of unscaled layout
-
+        console.log('scaleImagesAY()');
 
         // natural image dimensions; $('.bot').width() etc is current width
         var topWidth, topHeight, botWidth, botHeight;
@@ -244,7 +244,7 @@
             topHeight = 340;
             botWidth = 680;
             botHeight = 365;
-        } else if (page.templateId == 'quiz3x3')
+        } else if (page.templateId == 'quiz3x3') {
             topWidth = 510;
             topHeight = 405;
             botWidth = 755;
@@ -265,7 +265,7 @@
         var naturalFullHeight = heightExtra + topHeight + botHeight; // combined height of both images
 
         var scaleH = naturalFullWidth / $(window).width();
-        var scaleV = naturalFullHeight / ($(window).height();
+        var scaleV = naturalFullHeight / $(window).height();
 
         var scale = scaleH <= scaleV ? scaleH : scaleV;
 
@@ -280,6 +280,7 @@
     }
 
     function scaleImagesCBnew() { // based on current dimensions
+        console.log('scaleImagesCBnew()');
         var margins =
             ($('.container').outerWidth(true) - $('.container').width()) +
             ($('#pages').outerWidth(true) - $('#pages').width());
@@ -298,6 +299,7 @@
     }
 
     function scaleImagesCBsimple() { // my calculation, mostly works
+        console.log('scaleImagesCBsimple()');
         var widthExtra =
             ($('.container').outerWidth(true) - $('.container').width()) +
             ($('#pages').outerWidth(true) - $('#pages').width());
@@ -376,8 +378,8 @@
         }
 
         showDiv(page.templateId);
-        scaleImagesCBsimple();
-        //scaleImagesAY();
+        //scaleImagesCBsimple();
+        scaleImagesAY();
         //scaleImagesCBnew();
 
         switch (page.templateId) { // only after page is set visible?
