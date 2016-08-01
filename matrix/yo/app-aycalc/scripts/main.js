@@ -221,9 +221,6 @@
     }
 
     // scale images to try to fit all content in the viewport
-    // .css('width') is text e.g. '1200px'; .width() is numeric e.g. 1200. .attr('width') is undefined
-    // https://api.jquery.com/visible-selector/
-    // body shouldn't have any border or margin
 
 // devBar          usually hidden
 // padding         fixed?
@@ -239,7 +236,7 @@
 
         // natural image dimensions; $('.bot').width() etc is current width
         var topWidth, topHeight, botWidth, botHeight;
-        if (page.templateId == 'quiz2x2') {
+        if (currentPage().templateId == 'quiz2x2') {
             topWidth = 420;
             topHeight = 340;
             botWidth = 680;
@@ -273,8 +270,12 @@
         var newWidth = naturalFullWidth * scale;
         var newHeight = naturalFullHeight * scale;
 
+        console.log('newWidth: ' + newWidth + ', newHeight: ' + newHeight);
+        // so what should the margins be? as that is the only thing we can affect
+
         //var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
 
+        setMargin = 0; // dummy
         $('.gridContainer').css('margin-left', setMargin);
         $('.gridContainer').css('margin-right', setMargin);
     }
@@ -319,6 +320,9 @@
         }
     }
 
+    // .css('width') is text e.g. '1200px'; .width() is numeric e.g. 1200. .attr('width') is undefined
+    // https://api.jquery.com/visible-selector/
+    // body shouldn't have any border or margin
 
         //var heightScrolled = $(document).height() - $(window).height();
         //console.log('#abandon-div h: ' + $('#abandon-div').height() + ', visible: ' + $('#abandon-div').is(':visible')); // works
@@ -378,8 +382,8 @@
         }
 
         showDiv(page.templateId);
-        //scaleImagesCBsimple();
-        scaleImagesAY();
+        scaleImagesCBsimple();
+        //scaleImagesAY();
         //scaleImagesCBnew();
 
         switch (page.templateId) { // only after page is set visible?
