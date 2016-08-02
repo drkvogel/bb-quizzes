@@ -11,6 +11,7 @@ A document describing the structure, technology and sizing algorithms in the mai
 * Included libraries
 
 \newpage
+\pagebreak
 
 ## Layout
 
@@ -56,6 +57,11 @@ A document describing the structure, technology and sizing algorithms in the mai
     div.container       10px
     body                -
     html                -
+
+
+widthExtra = (div.container + div.gridContainer + div.grid3x2 margin) * 2 + img.bot
+widthNatural
+
 
 notes:
 
@@ -126,6 +132,35 @@ notes:
 ### New Scaling Algorithm
 
 #### Pseudo-code
+
+```
+    get natural width/height (naturalFullWidth/Height)
+    get window width/height ($(window).width()/height)
+    allow 200px for text at bottom
+    window - 200px height needs to fit natural width/height
+
+    vertical shrink = (window height - 200px) / naturalFullHeight
+    horizontal shrink = window width / naturalFullWidth
+
+    scale = vShrink < hShrink ? vShrink : hShrink
+
+    targetHeight = naturalFullHeight * scale
+    targetWidth = naturalFullWidth * scale # forget about width... (?) can't change
+
+    targetMiddleHeight = targetHeight - heightExtras
+
+    need h/w ratio of .gridContainer
+    Typical dimensions: 162 x 144
+    162 / 144 == 1.125
+    middleHWRatio = 1.125
+    # what innerWidth of .gridcontainer would create targetMiddleHeight?
+
+    targetMiddleWidth = targetMiddleHeight * middleHWRatio [1.125] # h/w ratio of .gridContainer
+
+    margins = (window.width - widthExtra) / 2
+```
+
+#### JavaScript code
 
     # get the margin widths
     margins =   ($('.container').outerWidth(true) - $('.container').width()) + 
