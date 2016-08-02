@@ -201,9 +201,9 @@
         var info = current + '/' + pages.length + ': ' + page.name;
         showInfo(info);
 
-        var navNext = '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
-        var navPrev = '<span class=\"prev\" class=\"col-md-2\"><button class=\"btn pull-left\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>';
-        var navPrevNext = '<span class=\"prev\" class=\"col-md-2\"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>' +
+        var navNext = '<span><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
+        var navPrev = '<span class=\"col-md-2\"><button class=\"btn pull-left\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>';
+        var navPrevNext = '<span style="margin-right: 40px;"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>' +
                           '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
         // pull-left pull-right
 
@@ -231,7 +231,6 @@
             startTimer(page); // timer to show chosen answer before next, and start game timer
             break;
         case 'home':
-        case 'getReady':
         case 'abandon':
             break; // don't do nuttin
         case 'intro': // these are templateIds remember, not page names

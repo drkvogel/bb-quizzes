@@ -79,7 +79,7 @@
         "name": "getReady",
         "type" : "intro",
         "templateId": "getReady",
-        "navTxt" : "<p>Touch \"Next\" when you are ready to begin. You will have 2 minutes to do as many puzzles as you can.</p>",
+        "navTxt" : "<p>Touch \"Next\" when you are ready to begin.</p><p>You will have 2 minutes to do as many puzzles as you can.</p>",
         "correct": -1,
         "suppressAbandon" : true
     },
