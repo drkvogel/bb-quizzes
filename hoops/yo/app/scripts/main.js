@@ -264,6 +264,10 @@
 
         scaleImages();
         showDiv((page.templateId));
+
+        // (re-)bind clicks
+        // console.log('bind clicks');
+        // $('#pages').on('click', 'a, button, div.row div', containerClick); // delegate events
     }
 
     function prevPage() {
@@ -299,10 +303,6 @@
         hideDiv(modal); //console.log('hideModal(\'' + modal + '\')');
     }
 
-    function finished() {
-        console.log('finished(): answers: ' + JSON.stringify(answers));
-        clearTimeout(timeUpTimeout);
-
         // <input type="hidden" name="sid" value="1">
         // <input type="hidden" name="pid" value="213421343">
         // <input type="hidden" name="lsq" value="661">
@@ -317,15 +317,20 @@
         // <input type="hidden" id="totelapsed" name="totelapsed" value="-1">
         // <input type="hidden" id="testelapsed" name="testelapsed" value="-1"
 
-        // fill in form
-        document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
-        document.getElementById('timeStarted').value = config.timeStarted;
+        // don't need timing stuff
         //$('#results').val(JSON.stringify(answers));
         //var possibleE = test_timer.gethasPossibleError() + reaction_timer.gethasPossibleError() + demo_timer.gethasPossibleError() + total_timer.gethasPossibleError();
         // if (possibleE > 0)
         //     possibleE = 1;
         // writeValue("timererror",possibleE); // document.getElementById(id).value = value;
         // writeValue("performanceTimer",total_timer.gethasPerformance());
+    function finished() {
+        console.log('finished(): answers: ' + JSON.stringify(answers));
+        clearTimeout(timeUpTimeout);
+
+        // fill in form
+        document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
+        document.getElementById('timeStarted').value = config.timeStarted;
 
         // submit automatically
         window.onbeforeunload = null;
@@ -367,6 +372,9 @@
         } else {
             console.log('Wrong! correct is: ' + page.correct);
         }
+
+        //console.log('unbind clicks');
+        //$('#pages').off('click', 'a, button, div.row div', containerClick); // prevent double-click
 
         nextPageTimeout = setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
     }
