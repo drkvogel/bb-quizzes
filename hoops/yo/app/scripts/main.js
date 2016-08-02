@@ -204,12 +204,11 @@
         var navNext = '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
         var navPrev = '<span class=\"prev\" class=\"col-md-2\"><button class=\"btn pull-left\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>';
         var navPrevNext = '<span class=\"prev\" class=\"col-md-2\"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>' +
-                            '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
+                          '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
         // pull-left pull-right
 
         switch (page.templateId) {
         case 'game':
-            //applyStyles(page);
             if (page.name.slice(0, 2) === 'ex') {
                 timer.now(); // start timer for all real exercises
                 if (page.name === 'ex1') {
@@ -292,15 +291,13 @@
     }
 
     function showModal(modal) {
-        console.log('showModal(\'' + modal + '\')');
         showDiv('modals');
-        showDiv(modal);
+        showDiv(modal); //console.log('showModal(\'' + modal + '\')');
     }
 
     function hideModal(modal) {
-        console.log('hideModal(\'' + modal + '\')');
         hideDiv('modals');
-        hideDiv(modal);
+        hideDiv(modal); //console.log('hideModal(\'' + modal + '\')');
     }
 
     function finished() {

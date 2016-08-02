@@ -3,16 +3,13 @@
 make images %width (top auto?)
 
 search TODO
-
 set height px with js
 window.width|height
 height auto body
 body height
 window.screenX|screenY
-
 caniuse.com/svg
 svg fallbacks
-
 
 ### style
 
@@ -29,7 +26,6 @@ http://code.dougneiner.com/coding/using-css-classes-for-states.html
 
 Jon re
 ajax timing messages - or record in-memory and send with results dump (serialize JSON)
-delay on vbox ff btwn div show and background (tiles) change - show div should be last thing- it is!
 use bb-quizzes/matrix/app/scripts/timer.js
 
 ## defer
@@ -51,17 +47,16 @@ emmet, bemmet
 ctrl-m - match bracket
 JsFormat: install with package manager. right-click to use.
 [HTML-CSS-JS Prettify](https://packagecontrol.io/packages/HTML-CSS-JS%20Prettify)
+delay on vbox ff btwn div show and background (tiles) change - show div should be last thing- it is!
 
 >"brace_style": "end-expand", // [collapse|expand|end-expand|none] Put braces on the same line as control statements (default), or put braces on own line (Allman / ANSI style), or just put end braces on own line, or attempt to keep them where they are
 
 ### general
 
-Why so little progress? Borked yo/npm stuff, Occ health, (Optimor), ?, working out how to ftp with gulp, working out how to alt-tab (ctrl-tab) in vbox....
-Need to: find decent time to catch up over coming days. e.g. tomorrow night. forward!
+Why so little progress? Borked yo/npm stuff, Occ health, (Optimor), ?, working out how to ftp with gulp, working out how to alt-tab (ctrl-tab) in vbox.... Need to: find decent time to catch up over coming days. e.g. tomorrow night. forward!
 
 ### browser compatibility
 
-Testing re remote browser testing-
 http://kangax.github.io/compat-table/es6/ awesome!
 OldIE jQuery switching
 
@@ -74,12 +69,6 @@ OldIE jQuery switching
             <script src="/bower_components/jquery/dist/jquery.js"></script>
         <!--<![endif]-->    
         <!-- <script src="jquery-1.9.0.js"></script> -->
-
-and this:
-
-    <script src="scripts/data.js"></script>
-
-ok, ftp command in yo-test, now can ftp...
 
 ## defer
 
@@ -194,7 +183,6 @@ general/dev/js/jslint/jslint.md
 general/dev/js/gulp/gulp.md
 general/dev/js/prototypes.md
 
-
 ### back end
 
 create Rosetta, e.g. ROSETTA *g = new ROSETTA(); in /jonathanpr/BioBankQuizGames/tMatrixBoard.cpp
@@ -221,7 +209,9 @@ are pages/screens fixed? why the data matrices?
 or as many as you can do in 2 minutes - up to 18?
 work out how to display part of css icon
 css sprites-
+Testing re remote browser testing-
+ok, ftp command in yo-test, now can ftp...
 
 >manipulating CSS in javascript can be considered poor practice. Consider add/remove/toggling classes. – Austin Aug 5 '15 at 18:06
-
 >Please add a non-JQuery alternative to the answer. So many new developers think that jQuery *is* Javascript
+

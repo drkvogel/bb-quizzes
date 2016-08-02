@@ -19,6 +19,7 @@ then resize using the smaller of these factors as a parameter
 get the various heights with jquery
 max height of 
 width-wise, if there is enough height, there will be no margins on the images and they will scale to fit anyway (width: 100%)
+// missing some widths and heights?
 
 ### scaleImagesAY()
 
@@ -39,20 +40,10 @@ fullHeight = heightExtra + $('.top').height() + $('bot').height()
 get code to print worked examples
 
 
-hoops element heights (top to bottom)
-
-    devBar          usually hidden
-    padding         fixed?
-    topTxt          fixed, unless width small enough to cause text to wrap  
-    middleImg       the element we want to scale so that it's height combined with the other elements' heights will fit in the viewport
-    botTxt          fixed, unless width small enough to cause text to wrap
-    navCtl          fixed
-    padding         fixed?
-
-
 hoops scales but not brilliantly - text, buttons scroll off bottom. margin-left, margin-right being calculated and inserted on resize - scaleImages()
 fossilize... look at fossil bugs bb-quizzes.fossil
 aycalc
     abandon still scrolls off in some dimensions - does it? (`#abandon-div` is outside `#page`)
     js keeps it roughly square but that is not exactly what we want, too much whitespace at the bottom for a start
+
 
