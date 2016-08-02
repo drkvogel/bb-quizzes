@@ -124,10 +124,34 @@ notes:
 
 ### scaleImagesCBsimple()
 
-    setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
+#### Pseudo-code
+
+    setMargins = (window.width - (window.height() - heightExtra) - widthExtra) / 2;
 
 * Tries to keep the `div.gridContainer` element square by setting the margins of `.gridContainer`
 * The abandon button scrolls off the bottom at extreme width and short height.
+
+#### JavaScript code
+
+```js
+var widthExtra =
+    ($('.container').outerWidth(true) - $('.container').width()) +
+    ($('#pages').outerWidth(true) - $('#pages').width());
+
+var heightExtra = // required height of .gridContainer
+    ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
+    ($('.botText').is(':visible') ? $('.botText').height() : 0);
+
+var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
+
+if (setMargins > 0) {
+    $('.gridContainer').css('margin-left', setMargins);
+    $('.gridContainer').css('margin-right', setMargins);
+} else { // don't set negative margins. content should shrink width-wise if needed
+    $('.gridContainer').css('margin-left', 0);
+    $('.gridContainer').css('margin-right', 0);
+}
+```
 
 ### New Scaling Algorithm
 
@@ -164,20 +188,46 @@ notes:
 
 #### JavaScript code
 
-    # get the margin widths
-    margins =   ($('.container').outerWidth(true) - $('.container').width()) + 
-                ($('#pages').outerWidth(true) - $('#pages').width())
+```js
+        var topWidth, topHeight, botWidth, botHeight;
+        if (currentPage().templateId == 'quiz2x2') {
+            topWidth = 420;
+            topHeight = 340;
+            botWidth = 680;
+            botHeight = 365;
+        } else if (page.templateId == 'quiz3x3') {
+            topWidth = 510;
+            topHeight = 405;
+            botWidth = 755;
+            botHeight = 295;
+        }
 
-    #  subtract from the viewport width – height, divide by 2 for left and right margins
-    setMargin = ($(window).width() - ($(window).height() - $('.botText').height()) - margins) / 2
+        var widthExtra =
+            ($('.container').outerWidth(true) - $('.container').width()) +
+            ($('#pages').outerWidth(true) - $('#pages').width());
 
-    if (setMargin > 0):
-        $('.gridContainer').css('margin-left', setMargin) # set the margins to (screen width - height) / 2
-        $('.gridContainer').css('margin-right', setMargin)
-    else:
-        $('.gridContainer').css('margin-left', 0)  # set the margins to (screen width - height) / 2
-        $('.gridContainer').css('margin-right', 0)
+        var heightExtra =
+            ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
+            ($('.botText').is(':visible') ? $('.botText').height() : 0);
 
+        var naturalFullWidth = widthExtra + botWidth; // bottom image is widest
+        var naturalFullHeight = heightExtra + topHeight + botHeight; // combined height of both images
+
+        var scaleV = ($(window).height() - 200) / naturalFullHeight;
+        var scaleH = $(window).width() / naturalFullWidth;
+        var scale = scaleV <= scaleH ? scaleV : scaleH;
+
+        var targetWidth = naturalFullWidth * scale; // forget about width, it always fits, down to 300px
+        var targetHeight = naturalFullHeight * scale;
+        var targetMiddleHeight = targetHeight - heightExtras;
+
+        var middleHWRatio = 1.125
+        var targetMiddleWidth = targetMiddleHeight * middleHWRatio;
+
+        setMargin = ($(window).width - widthExtra) / 2
+        $('.gridContainer').css('margin-left', setMargin);
+        $('.gridContainer').css('margin-right', setMargin);
+```
 
 ### Can we get the native/natural height of images in JavaScript?
 

@@ -230,18 +230,44 @@
 // navCtl          fixed
 // padding         fixed?
 
-    function scaleImagesAY() { // Alan's calculation
-        // based on dimensions of unscaled layout
+    // get natural width/height (naturalFullWidth/Height)
+    // get window width/height ($(window).width()/height)
+
+    // # allow 200px for text at bottom
+    // # window - 200px height needs to fit natural width/height
+
+    // vertical shrink = (window height - 200px) / naturalFullHeight
+    // horizontal shrink = window width / naturalFullWidth
+
+    // scale = vShrink < hShrink ? vShrink : hShrink
+
+    // targetHeight = naturalFullHeight * scale
+    // targetWidth = naturalFullWidth * scale # forget about width as width always fits, down to 300px
+
+    // targetMiddleHeight = targetHeight - heightExtras
+
+    // # need h/w ratio of .gridContainer
+    // # Typical dimensions: 162 x 144
+    // # 162 / 144 == 1.125
+    // middleHWRatio = 1.125
+
+    // # what innerWidth of .gridContainer would create targetMiddleHeight?
+    // targetMiddleWidth = targetMiddleHeight * middleHWRatio [1.125]
+
+    // # set these margins on .gridContainer to make the targetWidth and targetHeight
+    // margins = (window.width - widthExtra) / 2
+
+    // natural image dimensions; $('.bot').width() etc is current width
+    function scaleImagesAY() { // Alan's calculation based on dimensions of unscaled layout
         console.log('scaleImagesAY()');
 
-        // natural image dimensions; $('.bot').width() etc is current width
         var topWidth, topHeight, botWidth, botHeight;
         if (currentPage().templateId == 'quiz2x2') {
             topWidth = 420;
             topHeight = 340;
             botWidth = 680;
             botHeight = 365;
-        } else if (page.templateId == 'quiz3x3') {
+        } else if (currentPage().templateId == 'quiz3x3') {
             topWidth = 510;
             topHeight = 405;
             botWidth = 755;
@@ -250,6 +276,10 @@
         // 2x2, 3x2: img.top natural: 420 x 340, img.bot natural: 680 x 365
         // 3x3, 4x2: img.top natural: 510 x 405, img.bot natural: 755 x 295
 
+
+        // get natural width/height (naturalFullWidth/Height)
+        // get window width/height ($(window).width()/height)
+        // natural image dimensions; $('.bot').width() etc is current width
         var widthExtra =
             ($('.container').outerWidth(true) - $('.container').width()) +
             ($('#pages').outerWidth(true) - $('#pages').width());
@@ -261,24 +291,41 @@
         var naturalFullWidth = widthExtra + botWidth; // bottom image is widest
         var naturalFullHeight = heightExtra + topHeight + botHeight; // combined height of both images
 
-        var scaleH = naturalFullWidth / $(window).width();
-        var scaleV = naturalFullHeight / $(window).height();
+        // allow 200px for text at bottom
+        // .gridContainer needs to be scaled from natural width/height to fit in
+        // (window height - 200px) x window width
 
-        var scale = scaleH <= scaleV ? scaleH : scaleV;
+        // vertical shrink = (window height - 200px) / naturalFullHeight
+        // horizontal shrink = window width / naturalFullWidth
+        var scaleV = ($(window).height() - 200) / naturalFullHeight;
+        var scaleH = $(window).width() / naturalFullWidth;
 
-        // make whole thing smaller by scale?
-        var newWidth = naturalFullWidth * scale;
-        var newHeight = naturalFullHeight * scale;
+        // scale = vShrink < hShrink ? vShrink : hShrink
+        var scale = scaleV <= scaleH ? scaleV : scaleH;
 
-        console.log('newWidth: ' + newWidth + ', newHeight: ' + newHeight);
-        // so what should the margins be? as that is the only thing we can affect
+        // work out desired dimensions of whole quiz
+        var targetWidth = naturalFullWidth * scale; // forget about width, it always fits, down to 300px
+        var targetHeight = naturalFullHeight * scale;
 
-        //var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
+        // work out desired height of .gridContainer
+        var targetMiddleHeight = targetHeight - heightExtra;
 
-        setMargin = 0; // dummy
-        $('.gridContainer').css('margin-left', setMargin);
-        $('.gridContainer').css('margin-right', setMargin);
+        // need h/w ratio of .gridContainer. Typical dimensions: 162 x 144. 162 / 144 == 1.125
+        var middleHWRatio = 1.125;
+
+        // what innerWidth of .gridContainer would create targetMiddleHeight?
+        var targetMiddleWidth = targetMiddleHeight * middleHWRatio;
+
+        // set these margins on .gridContainer to make the targetWidth and targetHeight
+        var setMargins = ($(window).width - widthExtra) / 2;
+        //setMargin = 0; // dummy
+
+        $('.gridContainer').css('margin-left', setMargins);
+        $('.gridContainer').css('margin-right', setMargins);
+
+        //console.log('newWidth: ' + newWidth + ', newHeight: ' + newHeight);
     }
+    //var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
 
     function scaleImagesCBnew() { // based on current dimensions
         console.log('scaleImagesCBnew()');
@@ -288,11 +335,11 @@
         var heightExtra =
             ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
             ($('.botText').is(':visible') ? $('.botText').height() : 0);
-        var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
+        var setMargins = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
 
-        if (setMargin > 0) {
-            $('.gridContainer').css('margin-left', setMargin);
-            $('.gridContainer').css('margin-right', setMargin);
+        if (setMargins > 0) {
+            $('.gridContainer').css('margin-left', setMargins);
+            $('.gridContainer').css('margin-right', setMargins);
         } else {
             $('.gridContainer').css('margin-left', 0);
             $('.gridContainer').css('margin-right', 0);
@@ -382,8 +429,8 @@
         }
 
         showDiv(page.templateId);
-        scaleImagesCBsimple();
-        //scaleImagesAY();
+        //scaleImagesCBsimple();
+        scaleImagesAY();
         //scaleImagesCBnew();
 
         switch (page.templateId) { // only after page is set visible?
