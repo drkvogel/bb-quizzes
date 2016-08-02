@@ -1,12 +1,12 @@
 # Hoops Quiz : structure, technology and algorithms
 
+## Contents
 
 * representation of the <div>s in the page, description of the purpose of each.
 * image dimensions
 * names of any included libraries (e.g. node.js)
 * description with pseudo-code of scaling algorithm based around the method I outlined - i.e. determine separately the scaling in each of the horizontal and vertical directions required to fit the window, then resize using the smaller of these factors as a parameter.
 * Worked numeric examples for screen resolutions of (HxV) 1280x1024, 640x480, 320x480, 750x1334 and 1242x2208
-
 
 \newpage
 
@@ -15,7 +15,7 @@
 ![hoops layout](hoops-layout.png "hoops layout")
 
 >representation of the HTML elements in the hoops puzzle, with a description of the purpose of each.
-                            
+
     body                    HTML <body> tag
     div.container           Added by Yeoman/Bootstrap to add page margins. Possibly not needed.
     div#pages               A container for the pages, one of which is shown at a time
@@ -29,7 +29,6 @@
 	div.botTxt              Holds the explanatory text when required
 	div.answers             Holds the buttons 1-6 for the user to answer the puzzle, as required
 	div.navCtl              Holds the "Prev/Next" navigation buttons in the intro, as needed
-
 
 
 ## Image Dimensions

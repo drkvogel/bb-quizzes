@@ -1,34 +1,31 @@
 # Matrix Quiz : structure, technology and algorithms
 
-<https://docs.google.com/document/d/1gcFqC2Ys2w95EOjHP7wLUNbz98NkUM6AFgYvDMaRavY/>
-
 * representation of the `<div>`s in the page, description of the purpose of each.
 * image dimensions
 * names of any included libraries (e.g. node.js)
 * description with pseudo-code of scaling algorithm based around the method I outlined - i.e. determine separately the scaling in each of the horizontal and vertical directions required to fit the window, then resize using the smaller of these factors as a parameter.
 * Worked numeric examples for screen resolutions of (HxV) 1280x1024, 640x480, 320x480, 750x1334 and 1242x2208
 
-## Contents
-
 A document describing the structure, technology and sizing algorithms in the main web-page of the Matrices questionnaire.
+
+## Contents
 
 * A pictorial representation of the `<div>`s in the page, accompanied by a brief description of the purpose of each.
 * Image dimensions
-* Included libraries
-* A description (with pseudo-code) of the algorithm used to determine the scaling of the image elements
+* A description of the algorithm used to determine the scaling of the image elements
 * Worked numeric examples for various screen resolutions
+* Included libraries
 
 \newpage
 
 ## Layout
 
-![matrix 3x3 layout](3x3-layout.png "matrix 3x3 layout")
+![matrix 2x2 layout](matrix-layout.png "matrix 2x2 layout")
   
     body                HTML <body> tag
-    div.container       Added by Yeoman/Bootstrap to add page margins. Possibly not needed.
+    div.container       Used to add margins around the content
     div#pages           A container for the pages, one of which is shown at a time
-    div#quiz2x2.quiz    A page div, the 2x2 quiz is shown in this example.
-    div                 Unnecessary, removed.
+    div#quiz2x2.quiz    A page div, the 2x2 quiz is shown in this example
     div.gridContainer   Used to keep grids together and scaled relative to  each other, and to centre using left and right margins
     .grid2x2            Contains the top grid image
     .grid3x2            Contains the bottom grid image, and some padding to distance it from the top grid
@@ -36,10 +33,74 @@ A document describing the structure, technology and sizing algorithms in the mai
     img.bot             The bottom grid image, which is changed by main.js
     div.botText         Holds the explanatory text when required
 
+### natural image sizes
+
+    2x2, 3x2
+    img.top natural: 420 x 340
+    img.bot natural: 680 x 365
+
+    3x3, 4x2
+    img.top natural: 510 x 405
+    img.bot natural: 755 x 295
+
+### width (symmetrical about y axis)
+
+    html                -
+    body                -
+    div.container       10px
+    div#pages           -
+    div#quiz2x2.quiz    -
+    div.gridContainer   margins set by calc
+    div.grid3x2         margin: auto, width: 81% e.g. 65.1px
+    img.bot (natural)   680px (quiz2x2) | 755px (quiz3x3)
+    div.grid3x2         margin: auto, width: 81% e.g. 65.1px
+    div.gridContainer   margins set by calc
+    div#quiz2x2.quiz    -
+    div#pages           -  
+    div.container       10px
+    body                -
+    html                -
+
+notes:
+
+* div.container padding: 15px 10px 20px 10px; (N, E, S, W)
+* div#pages has margin: auto but always fills div.container
+* hard-code natural image sizes - see "Can we get the native/natural height of images?"
+
+### height
+
+    html                -
+    body                -
+    #devBar             hidden
+    div.container       padding-top: 15px
+    div#pages           -
+    div#quiz2x2.quiz    -
+    div.gridContainer   -
+    img.top (natural)   340px (quiz2x2) | 405px (quiz3x3)
+    div.grid3x2         padding-top: 5% e.g. 34px
+    img.bot (natural)   365px (quiz2x2) | 295px (quiz3x3)
+    div.gridContainer   -
+    div.botText         72px minimum (if not wrapped) (if visible)
+    div#quiz2x2.quiz    -
+    div#pages           -
+    div#abandon-div     34px (if visible)
+    div.container       padding-bottom: 20px
+    body                -
+    html                -
+
 ## Description of scaling algorithm
 
+### scaleImagesCBsimple()
 
-    # body > div.container > div#pages > div#quiz2x2.quiz > div.gridContainer > .grid2x2 .grid3x2
+    setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
+
+// missing some widths and heights?
+try to keep the `div.gridContainer` element square by setting margins
+abandon button scrolls off the bottom at extreme width and short height.
+
+### new scaling algorithm
+
+pseudo-code
 
     # get the margin widths
     margins =   ($('.container').outerWidth(true) - $('.container').width()) + 
@@ -54,6 +115,19 @@ A document describing the structure, technology and sizing algorithms in the mai
     else:
         $('.gridContainer').css('margin-left', 0)  # set the margins to (screen width - height) / 2
         $('.gridContainer').css('margin-right', 0)
+
+### Can we get the native/natural height of images in JavaScript?
+
+In order to work out the natural, unscaled dimensions of the content, in order to scale them to fit the viewport, we need to know the original dimensions of the images. Could we do this programmatically? 
+
+This is slighty tricky: there are native javascript attributes: `.naturalWidth` / `.naturalHeight` but for IE, in **IE9+**
+
+    var width = $(this).get(0).naturalWidth; var height = $(this).get(0).naturalHeight; // current element
+    var width = $("selector").get(0).naturalWidth; var height = $("selector").get(0).naturalHeight; // selected element
+
+There is a plugin that adds `.naturalHeight()` and `.naturalWidth()` to jQuery.
+Workaround for IE6-IE8: create a `new Image()` element, and get the width and height of that.
+As we know the image dimensions and they are not going to change, we might as well hard-code them.
 
 ## Worked examples
 
@@ -103,9 +177,6 @@ The code in main.js uses jQuery.
 
 ## Details of image sizes
 
-
-
-
 ### 2x2 Puzzle
 
 ![2x2 top image](2x2-top.png "2x2 top image")
@@ -129,6 +200,7 @@ The bottom image is 755px x 295px, 4 tiles wide x 2 tiles high
 Each tile is 170px x 135px and there is a gap of 25px between each tile, horizontally and vertically.
 
 ![3x3 bottom image](3x3-bottom.png "3x3 bottom image")
+
 
 
 ## Appendix

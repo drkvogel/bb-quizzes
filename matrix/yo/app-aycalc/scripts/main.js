@@ -220,71 +220,118 @@
         }
     }
 
-        // var margins = // body shouldn't have any extra
-        //     ($('.container').outerWidth(true) - $('.container').width()) +
-        //     ($('#pages').outerWidth(true) - $('#pages').width());
-        // var heightExtra = ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0)
-        //     + ($('.botText').is(':visible') ? $('.botText').height() : 0); // https://api.jquery.com/visible-selector/
-        // var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
-        // var heightScrolled = $(document).height() - $(window).height();
+    // scale images to try to fit all content in the viewport
 
-        // console.log('#abandon-div h: ' + $('#abandon-div').height() + ', visible: ' + $('#abandon-div').is(':visible')); // works
-        // console.log('.botText h: ' + $('.botText').height() + ', visible: ' + $('.botText').is(':visible')); // works
-        // console.log('heightExtra: ' + String(heightExtra));
-        // console.log('$(document).height(): ' + $(document).height() + ', $(window).height(): ' + $(window).height());
-        // console.log('heightScrolled: ' + heightScrolled);
-        // if (setMargin > 0) {
-        //     $('.gridContainer').css('margin-left', setMargin); // set the margins to (screen width - height) / 2
-        //     $('.gridContainer').css('margin-right', setMargin); //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
-        // } else {
-        //     $('.gridContainer').css('margin-left', 0); // set the margins to (screen width - height) / 2
-        //     $('.gridContainer').css('margin-right', 0); //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
-        // }
+// devBar          usually hidden
+// padding         fixed?
+// topTxt          fixed, unless width small enough to cause text to wrap
+// gridContainer   the element we want to scale so that it's height combined with the other elements' heights will fit in the viewport
+// botTxt          fixed, unless width small enough to cause text to wrap
+// navCtl          fixed
+// padding         fixed?
 
-    function normalizeWidthAY() { // Alan's calculation
+    function scaleImagesAY() { // Alan's calculation
+        // based on dimensions of unscaled layout
+        console.log('scaleImagesAY()');
 
-    }
+        // natural image dimensions; $('.bot').width() etc is current width
+        var topWidth, topHeight, botWidth, botHeight;
+        if (currentPage().templateId == 'quiz2x2') {
+            topWidth = 420;
+            topHeight = 340;
+            botWidth = 680;
+            botHeight = 365;
+        } else if (page.templateId == 'quiz3x3') {
+            topWidth = 510;
+            topHeight = 405;
+            botWidth = 755;
+            botHeight = 295;
+        }
+        // 2x2, 3x2: img.top natural: 420 x 340, img.bot natural: 680 x 365
+        // 3x3, 4x2: img.top natural: 510 x 405, img.bot natural: 755 x 295
 
-        // var margins = $('body').css('width') + $('div.container').css('width') + $('div#pages').css('width');
-        // ', .container margin: ' + String($('.container').outerWidth(true) + $('.container').innerWidth())+
-        // .css('width') e.g. '1200px'
-        // .attr(\'width\') - undefined
-        // .width() e.g. 1200
-        //var setMargin = ($(window).width() - ($(window).height() - $('.botText').height()) - margins) / 2;
-        //heightExtra = 0;
-        //console.log('$(\'body\').height(): ' + $('body').height()); // == $(window).height()
-        // why am I subtracting all the margins etc from the total width/height to find the width/height of the gridContainer, instead of just using the width/height of the gridContainer?
-        //var setMargin = ($(window).width() - ($('.gridContainer').height()) - margins) / 2; // pretty erratic.... seems like race condition to set and read the height of the element
-        // get the margin widths to subtract from the viewport width - height
-        // body > div.container > div#pages > div#quiz2x2.quiz > div.gridContainer > .grid2x2 .grid3x2
-        // console.log('margins = ' + '($(\'.container\').outerWidth(true)[' + $('.container').outerWidth(true) + '] - $(\'.container\').width())[' + $('.container').width() + '] + ' +
-        //     '($(\'#pages\').outerWidth(true)[' + $('#pages').outerWidth(true) + '] - $(\'#pages\').width()[' + $('#pages').width() + ']) == ' + margins);
-        // console.log('setMargin = ($(window).width()[' + $(window).width() + '] - ($(window).height()[' + $(window).height() +
-        //     '] - $(\'.botText\').height()[' + $('.botText').height() + ']) - margins[' + margins + ']) / 2 == ' + setMargin);
-        // console.log('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margins + ', setMargin: ' + setMargin);
-
-    function normalizeWidth() { // my calculation, mostly works
-        // var margins = $('body').css('width') + $('div.container').css('width') + $('div#pages').css('width');
-        // ', .container margin: ' + String($('.container').outerWidth(true) + $('.container').innerWidth())+
-        // .css('width') e.g. '1200px'
-        // .attr(\'width\') - undefined
-        // .width() e.g. 1200
-        var margins = // body shouldn't have any extra
+        var widthExtra =
             ($('.container').outerWidth(true) - $('.container').width()) +
             ($('#pages').outerWidth(true) - $('#pages').width());
-        var heightExtra = ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0)
-            + ($('.botText').is(':visible') ? $('.botText').height() : 0); // https://api.jquery.com/visible-selector/
-        var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
-        //var setMargin = ($(window).width() - ($(window).height() - $('.botText').height()) - margins) / 2;
-        //heightExtra = 0;
-        var heightScrolled = $(document).height() - $(window).height();
 
-        console.log('#abandon-div h: ' + $('#abandon-div').height() + ', visible: ' + $('#abandon-div').is(':visible')); // works
-        console.log('.botText h: ' + $('.botText').height() + ', visible: ' + $('.botText').is(':visible')); // works
-        console.log('heightExtra: ' + String(heightExtra));
-        console.log('$(document).height(): ' + $(document).height() + ', $(window).height(): ' + $(window).height());
+        var heightExtra =
+            ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
+            ($('.botText').is(':visible') ? $('.botText').height() : 0);
+
+        var naturalFullWidth = widthExtra + botWidth; // bottom image is widest
+        var naturalFullHeight = heightExtra + topHeight + botHeight; // combined height of both images
+
+        var scaleH = naturalFullWidth / $(window).width();
+        var scaleV = naturalFullHeight / $(window).height();
+
+        var scale = scaleH <= scaleV ? scaleH : scaleV;
+
+        // make whole thing smaller by scale?
+        var newWidth = naturalFullWidth * scale;
+        var newHeight = naturalFullHeight * scale;
+
+        console.log('newWidth: ' + newWidth + ', newHeight: ' + newHeight);
+        // so what should the margins be? as that is the only thing we can affect
+
+        //var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
+
+        setMargin = 0; // dummy
+        $('.gridContainer').css('margin-left', setMargin);
+        $('.gridContainer').css('margin-right', setMargin);
+    }
+
+    function scaleImagesCBnew() { // based on current dimensions
+        console.log('scaleImagesCBnew()');
+        var margins =
+            ($('.container').outerWidth(true) - $('.container').width()) +
+            ($('#pages').outerWidth(true) - $('#pages').width());
+        var heightExtra =
+            ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
+            ($('.botText').is(':visible') ? $('.botText').height() : 0);
+        var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
+
+        if (setMargin > 0) {
+            $('.gridContainer').css('margin-left', setMargin);
+            $('.gridContainer').css('margin-right', setMargin);
+        } else {
+            $('.gridContainer').css('margin-left', 0);
+            $('.gridContainer').css('margin-right', 0);
+        }
+    }
+
+    function scaleImagesCBsimple() { // my calculation, mostly works
+        console.log('scaleImagesCBsimple()');
+        var widthExtra =
+            ($('.container').outerWidth(true) - $('.container').width()) +
+            ($('#pages').outerWidth(true) - $('#pages').width());
+            // missing some widths?
+        var heightExtra = // required height of .gridContainer
+            ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
+            ($('.botText').is(':visible') ? $('.botText').height() : 0);
+            // missing some heights?
+        var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
+
+        if (setMargins > 0) {
+            $('.gridContainer').css('margin-left', setMargins);
+            $('.gridContainer').css('margin-right', setMargins);
+        } else { // don't set negative margins. content should shrink width-wise if needed
+            $('.gridContainer').css('margin-left', 0);
+            $('.gridContainer').css('margin-right', 0);
+        }
+    }
+
+    // .css('width') is text e.g. '1200px'; .width() is numeric e.g. 1200. .attr('width') is undefined
+    // https://api.jquery.com/visible-selector/
+    // body shouldn't have any border or margin
+
+        //var heightScrolled = $(document).height() - $(window).height();
+        //console.log('#abandon-div h: ' + $('#abandon-div').height() + ', visible: ' + $('#abandon-div').is(':visible')); // works
+        //console.log('.botText h: ' + $('.botText').height() + ', visible: ' + $('.botText').is(':visible')); // works
+        //console.log('heightExtra: ' + String(heightExtra));
+        //console.log('$(document).height(): ' + $(document).height() + ', $(window).height(): ' + $(window).height());
         //console.log('$(\'body\').height(): ' + $('body').height()); // == $(window).height()
-        console.log('heightScrolled: ' + heightScrolled);
+        //console.log('heightScrolled: ' + heightScrolled);
+
         // why am I subtracting all the margins etc from the total width/height to find the width/height of the gridContainer, instead of just using the width/height of the gridContainer?
         //var setMargin = ($(window).width() - ($('.gridContainer').height()) - margins) / 2; // pretty erratic.... seems like race condition to set and read the height of the element
         // get the margin widths to subtract from the viewport width - height
@@ -294,14 +341,12 @@
         // console.log('setMargin = ($(window).width()[' + $(window).width() + '] - ($(window).height()[' + $(window).height() +
         //     '] - $(\'.botText\').height()[' + $('.botText').height() + ']) - margins[' + margins + ']) / 2 == ' + setMargin);
         // console.log('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margins + ', setMargin: ' + setMargin);
-        if (setMargin > 0) {
-            $('.gridContainer').css('margin-left', setMargin); // set the margins to (screen width - height) / 2
-            $('.gridContainer').css('margin-right', setMargin); //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
-        } else {
-            $('.gridContainer').css('margin-left', 0); // set the margins to (screen width - height) / 2
-            $('.gridContainer').css('margin-right', 0); //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
-        }
-    }
+        // var margins = $('body').css('width') + $('div.container').css('width') + $('div#pages').css('width');
+        // ', .container margin: ' + String($('.container').outerWidth(true) + $('.container').innerWidth())+
+        //var setMargin = ($(window).width() - ($(window).height() - $('.botText').height()) - margins) / 2;
+        //heightExtra = 0;
+        //console.log('$(\'body\').height(): ' + $('body').height()); // == $(window).height()
+        //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
 
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
         console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page)); //console.log('showPage(): isTimeUp:' + isTimeUp);
@@ -336,24 +381,23 @@
             throw new Error('unrecogised id');
         }
 
-        showDiv((page.templateId));
-        normalizeWidth();
+        showDiv(page.templateId);
+        scaleImagesCBsimple();
+        //scaleImagesAY();
+        //scaleImagesCBnew();
 
         switch (page.templateId) { // only after page is set visible?
         case 'quiz2x2':
-            //console.log('$(\'#3x2-map\').imageMapResize(); ');
             $('#3x2-map').imageMapResize(); // https://github.com/davidjbradshaw/image-map-resizer
             break;
         case 'quiz3x3':
-            //console.log('$(\'#4x2-map\').imageMapResize(); ');
             $('#4x2-map').imageMapResize();
             break;
         }
     }
 
     function prevPage() {
-        //console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
-        hidePage(currentPage());
+        hidePage(currentPage()); //console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
         if (current > 0) {
             current -= 1;
         }
@@ -361,8 +405,7 @@
     }
 
     function nextPage() { // console.log('nextPage(): current: ' + current);// + obj(currentPage());
-        //console.log('nextPage(): isTimeUp:' + isTimeUp);
-        hidePage(currentPage());
+        hidePage(currentPage()); //console.log('nextPage(): isTimeUp:' + isTimeUp);
         if (isTimeUp) {
             clearTimeout(nextPageTimeout);
             showPage(pageNamed('thanks'));
@@ -376,8 +419,7 @@
 
     function answered(num) {
         var page = currentPage();
-        //console.log('got num: ' + num);
-        setImage('#' + page.templateId + ' .top', page, '-sol' + num + '.png');
+        setImage('#' + page.templateId + ' .top', page, '-sol' + num + '.png'); //console.log('got num: ' + num);
 
         var correct = Number(num) === page.correct;
         var timeTaken;
@@ -428,7 +470,7 @@
             //console.log('elid: ' + clickedEl.attr('id') + ', html: ' + clickedEl.html());
             break;
         default:
-            // if parent is a row or grandparent is 3x2 or 4x2 grid?
+            // if parent is a row or grandparent is 3x2 or 4x2 grid
             var slice = elId.slice(0, 3);
             if (slice === 'bot') { // bottom grid only
                 var num = elId[3]; // number in id following 'bot' == number of bottom tile selected
@@ -438,14 +480,12 @@
     }
 
     function showModal(modal) {
-        //console.log('showModal(\'' + modal + '\')');
-        showDiv('modals');
+        showDiv('modals');  //console.log('showModal(\'' + modal + '\')');
         showDiv(modal);
     }
 
     function hideModal(modal) {
-        //console.log('hideModal(\'' + modal + '\')');
-        hideDiv('modals');
+        hideDiv('modals');  //console.log('hideModal(\'' + modal + '\')');
         hideDiv(modal);
     }
 
@@ -453,36 +493,33 @@
     //     document.getElementById(id).value = value;
     // }
 
+    // <input type="hidden" name="sid" value="1">
+    // <input type="hidden" name="pid" value="213421343">
+    // <input type="hidden" name="lsq" value="661">
+    // <input type="hidden" name="seqord" value="3">
+    // <input type="hidden" name="studytypeuid" value="1002">
+    // <input type="hidden" id="timererror" name="timererror" value="-1">
+    // <input type="hidden" id="performanceTimer" name="performanceTimer" value="-1">
+    // <input type="hidden" name="datestarted" value="2016-02-29 14:47:31 GMT">
+    // <input type="hidden" id="abandon" name="abandon" value="0">
+    // <input type="hidden" id="mean" name="mean" value="-1">
+    // <input type="hidden" id="demoelapsed" name="demoelapsed" value="-1">
+    // <input type="hidden" id="totelapsed" name="totelapsed" value="-1">
+    // <input type="hidden" id="testelapsed" name="testelapsed" value="-1"
+
     function finished() {
         console.log('finished(): answers: ' + JSON.stringify(answers));
-        //$('input[name="results"]').val() = JSON.stringify(answers);
         clearTimeout(timeUpTimeout);
 
-        //$('#results').val(JSON.stringify(answers));
+        // fill in form
+        document.getElementById("responses").value = JSON.stringify(answers); //$('#results').val(JSON.stringify(answers));
+        document.getElementById("timeStarted").value = config.timeStarted;
         //var possibleE = test_timer.gethasPossibleError() + reaction_timer.gethasPossibleError() + demo_timer.gethasPossibleError() + total_timer.gethasPossibleError();
         // if (possibleE > 0)
         //     possibleE = 1;
 
         // writeValue("timererror",possibleE); // document.getElementById(id).value = value;
         // writeValue("performanceTimer",total_timer.gethasPerformance());
-
-        // <input type="hidden" name="sid" value="1">
-        // <input type="hidden" name="pid" value="213421343">
-        // <input type="hidden" name="lsq" value="661">
-        // <input type="hidden" name="seqord" value="3">
-        // <input type="hidden" name="studytypeuid" value="1002">
-        // <input type="hidden" id="timererror" name="timererror" value="-1">
-        // <input type="hidden" id="performanceTimer" name="performanceTimer" value="-1">
-        // <input type="hidden" name="datestarted" value="2016-02-29 14:47:31 GMT">
-        // <input type="hidden" id="abandon" name="abandon" value="0">
-        // <input type="hidden" id="mean" name="mean" value="-1">
-        // <input type="hidden" id="demoelapsed" name="demoelapsed" value="-1">
-        // <input type="hidden" id="totelapsed" name="totelapsed" value="-1">
-        // <input type="hidden" id="testelapsed" name="testelapsed" value="-1"
-
-        // fill in form
-        document.getElementById("responses").value = JSON.stringify(answers);
-        document.getElementById("timeStarted").value = config.timeStarted;
 
         // submit automatically
         window.onbeforeunload = null;
@@ -491,6 +528,7 @@
         });
         document.getElementById("feedbackForm").submit(); // action set in init() from config.json
     }
+    //$('input[name="results"]').val() = JSON.stringify(answers);
     //$("body").css("cursor", "progress"); // $("body").css("cursor", "default");
 
     function timeUp() {
@@ -503,8 +541,7 @@
         // showPage(pageNamed('thanks'));
 
     function abandonClick() {
-        //console.log('abandon');
-        showModal('abandon-modal');
+        showModal('abandon-modal'); //console.log('abandon');
     }
 
     function navClick(e) {
@@ -532,7 +569,6 @@
 
     function modalClick(e) { // TODO merge into navClick or something
         e.preventDefault();
-        //console.log('modalClick()');
         var clickedEl = $(this); //console.log('pageId: '+pageId); // now gets id from loaded page
         //pageId = $('.page').attr('id'),
         //console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
@@ -601,13 +637,9 @@
         }
     }
 
-    $('body').on('keydown', keydown); // //$("body").keyup(keyup()); // throws error as doesn't exist at this moment?
-
     // bind event handlers to elements
-    //$('#pages').on('click', 'a, button, div.row div img', containerClick); // delegate events
-    //$('#pages').on('click', '*', containerClick); // delegate events
+    $('body').on('keydown', keydown); // $("body").keyup(keyup()); // throws error as doesn't exist at this moment?
     $('#pages').on('click', 'a, area, button', containerClick); // delegate events
-    //$('#buttons').on('click', 'a, button', navClick); // need this?
     $('#devBar').on('click', 'a, button', navClick); // need this?
     $('#abandon-btn').on('click', abandonClick); // need this?
     $('#modals').on('click', 'button', modalClick);
@@ -619,9 +651,6 @@
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
         hideDiv('devBar');
-        //$('#3x2-map').imageMapResize(); // https://github.com/davidjbradshaw/image-map-resizer
-        //$('#4x2-map').imageMapResize();
-        //imageMapResize();
         if (LIVE) {
             window.onbeforeunload = null;
             window.history.forward();   //prevent repeat after back button - may not work.
@@ -633,6 +662,9 @@
     });
 }());
 
+        //$('#3x2-map').imageMapResize(); // https://github.com/davidjbradshaw/image-map-resizer
+        //$('#4x2-map').imageMapResize();
+        //imageMapResize();
         // var windowToTile = 0.1; // ratio of width of window to width of tile
         // $(window).width();
         // $(window).height();
