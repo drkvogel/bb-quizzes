@@ -354,7 +354,7 @@
             // missing some widths?
         var heightExtra = // required height of .gridContainer
             ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
-            ($('.botText').is(':visible') ? $('.botText').height() : 0);
+            ($('.botText').is(':visible') ? $('.botText').height() : 0) + 100;
             // missing some heights?
         var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
 
@@ -429,8 +429,8 @@
         }
 
         showDiv(page.templateId);
-        //scaleImagesCBsimple();
-        scaleImagesAY();
+        scaleImagesCBsimple();
+        //scaleImagesAY();
         //scaleImagesCBnew();
 
         switch (page.templateId) { // only after page is set visible?
