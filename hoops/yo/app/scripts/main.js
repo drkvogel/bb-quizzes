@@ -169,12 +169,30 @@
 
     }
 
-    function scaleImages() {
-        console.log('scaleImages()');
-        var margin = ($(window).width() - $(window).height()) / 2; // set the margins/padding to (screen width - height) / 2
-        showInfo('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin);
-        $('.middleImg').css('margin-left', margin); // increasing margin-left and margin-right will make it shrink
-        $('.middleImg').css('margin-right', margin);
+    //$('.container').attr('width', $(window).height()); // sets it but nothing else, doesn't change width
+    function scaleImagesCBsimple() { //
+        console.log('scaleImagesCBsimple()');
+        //showInfo('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin);
+        var widthExtra =
+            ($('.container').outerWidth(true) - $('.container').width()) +
+            ($('#pages').outerWidth(true) - $('#pages').width()); // missing some widths?
+        var heightExtra = // required height of .gridContainer
+            ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
+            ($('.botTxt').is(':visible') ? $('.botTxt').height() : 0) +
+            ($('.topTxt').is(':visible') ? $('.botTxt').height() : 0) +
+            75;
+            // missing some heights?
+        var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
+        console.log('setMargins '  + setMargins + ', heightExtra: ' + heightExtra + ', widthExtra: ' + widthExtra);
+             //'($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;' +
+
+        if (setMargins > 0) {
+            $('.middleImg').css('margin-left', setMargins);
+            $('.middleImg').css('margin-right', setMargins);
+        } else { // don't set negative margins. content should shrink width-wise if needed
+            $('.middleImg').css('margin-left', 0);
+            $('.middleImg').css('margin-right', 0);
+        }
     }
 
     function startTimer(page) {
@@ -262,8 +280,11 @@
             throw new Error('unrecogised id');
         }
 
-        scaleImages();
+        //scaleImages();
+        scaleImagesCBsimple();
         showDiv((page.templateId));
+
+        //showInfo('height: ' + $(window).height()); //attr('height'));
 
         // (re-)bind clicks
         // console.log('bind clicks');
@@ -510,10 +531,6 @@
 
     window.onresize = function(event) {
         showPage(currentPage()); // ?
-        showInfo('height: ' + $(window).height()); //attr('height'));
-        //$('.container').attr('width', $(window).height()); // sets it but nothing else, doesn't change width
-
-        scaleImages();
     };
 
     $().ready(function () { //$(document).ready(
