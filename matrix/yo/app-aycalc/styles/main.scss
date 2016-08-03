@@ -158,6 +158,11 @@ body > .container {
 
 /* grids */
 
+.gridContainer {
+  // text-align: center;
+  min-width: 100px;
+}
+
 // 2x2 + 3x2
 
 .grid2x2 { // should always use classes, not ids!

@@ -274,9 +274,7 @@
             botWidth = 755;
             botHeight = 295;
         }
-        // get natural width/height (naturalFullWidth/Height)
-        // get window width/height ($(window).width()/height)
-        // natural image dimensions; $('.bot').width() etc is current width
+
         var widthExtra = // total width of elements, excluding centre images
             ($('.container').outerWidth(true) - $('.container').width()) +
             ($('#pages').outerWidth(true) - $('#pages').width());
@@ -285,6 +283,7 @@
             ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
             ($('.botText').is(':visible') ? $('.botText').height() : 0);
 
+        // natural image dimensions; .width(), .height() are current dimensions
         var naturalFullWidth = widthExtra + botWidth; // bottom image is widest
         var naturalFullHeight = heightExtra + topHeight + botHeight;
 
@@ -297,7 +296,7 @@
         var scaleV = ($(window).height() - 200) / naturalFullHeight;
         var scaleH = $(window).width() / naturalFullWidth;
 
-        // scale = vShrink < hShrink ? vShrink : hShrink
+        // select lower of these scaling values
         var scale = scaleV <= scaleH ? scaleV : scaleH;
 
         // work out desired dimensions of whole quiz
@@ -315,11 +314,12 @@
 
         // set these margins on .gridContainer to make the targetWidth and targetHeight
         var setMargins = ($(window).width - widthExtra) / 2;
-
         $('.gridContainer').css('margin-left', setMargins);
         $('.gridContainer').css('margin-right', setMargins);
 
-        //console.log('newWidth: ' + newWidth + ', newHeight: ' + newHeight);
+        console.log('setMargins: ' + setMargins +
+            ', targetWidth: ' + targetWidth);
+            ', targetHeight: ' + targetHeight);
     }
     //var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
 
@@ -404,8 +404,8 @@
         }
 
         showDiv(page.templateId);
-        scaleImagesCBsimple();
-        //scaleImagesAY();
+        //scaleImagesCBsimple();
+        scaleImagesAY();
         //scaleImagesCBnew();
 
         var heightScrolled = $(document).height() - $(window).height();
