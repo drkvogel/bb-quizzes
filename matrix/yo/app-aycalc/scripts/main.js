@@ -354,7 +354,7 @@
             // missing some widths?
         var heightExtra = // required height of .gridContainer
             ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
-            ($('.botText').is(':visible') ? $('.botText').height() : 0) + 100;
+            ($('.botText').is(':visible') ? $('.botText').height() : 0) + 75;
             // missing some heights?
         var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
 
@@ -371,13 +371,11 @@
     // https://api.jquery.com/visible-selector/
     // body shouldn't have any border or margin
 
-        //var heightScrolled = $(document).height() - $(window).height();
         //console.log('#abandon-div h: ' + $('#abandon-div').height() + ', visible: ' + $('#abandon-div').is(':visible')); // works
         //console.log('.botText h: ' + $('.botText').height() + ', visible: ' + $('.botText').is(':visible')); // works
         //console.log('heightExtra: ' + String(heightExtra));
         //console.log('$(document).height(): ' + $(document).height() + ', $(window).height(): ' + $(window).height());
         //console.log('$(\'body\').height(): ' + $('body').height()); // == $(window).height()
-        //console.log('heightScrolled: ' + heightScrolled);
 
         // why am I subtracting all the margins etc from the total width/height to find the width/height of the gridContainer, instead of just using the width/height of the gridContainer?
         //var setMargin = ($(window).width() - ($('.gridContainer').height()) - margins) / 2; // pretty erratic.... seems like race condition to set and read the height of the element
@@ -432,6 +430,9 @@
         scaleImagesCBsimple();
         //scaleImagesAY();
         //scaleImagesCBnew();
+
+        var heightScrolled = $(document).height() - $(window).height();
+        console.log('heightScrolled: ' + heightScrolled);
 
         switch (page.templateId) { // only after page is set visible?
         case 'quiz2x2':
