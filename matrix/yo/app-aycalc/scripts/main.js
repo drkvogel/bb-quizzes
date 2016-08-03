@@ -261,6 +261,7 @@
     function scaleImagesAY() { // Alan's calculation based on dimensions of unscaled layout
         console.log('scaleImagesAY()');
 
+        // we know the natural sizes of the images already
         var topWidth, topHeight, botWidth, botHeight;
         if (currentPage().templateId == 'quiz2x2') {
             topWidth = 420;
@@ -273,23 +274,19 @@
             botWidth = 755;
             botHeight = 295;
         }
-        // 2x2, 3x2: img.top natural: 420 x 340, img.bot natural: 680 x 365
-        // 3x3, 4x2: img.top natural: 510 x 405, img.bot natural: 755 x 295
-
-
         // get natural width/height (naturalFullWidth/Height)
         // get window width/height ($(window).width()/height)
         // natural image dimensions; $('.bot').width() etc is current width
-        var widthExtra =
+        var widthExtra = // total width of elements, excluding centre images
             ($('.container').outerWidth(true) - $('.container').width()) +
             ($('#pages').outerWidth(true) - $('#pages').width());
 
-        var heightExtra =
+        var heightExtra = // total height of elements, excluding centre images
             ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
             ($('.botText').is(':visible') ? $('.botText').height() : 0);
 
         var naturalFullWidth = widthExtra + botWidth; // bottom image is widest
-        var naturalFullHeight = heightExtra + topHeight + botHeight; // combined height of both images
+        var naturalFullHeight = heightExtra + topHeight + botHeight;
 
         // allow 200px for text at bottom
         // .gridContainer needs to be scaled from natural width/height to fit in
@@ -318,7 +315,6 @@
 
         // set these margins on .gridContainer to make the targetWidth and targetHeight
         var setMargins = ($(window).width - widthExtra) / 2;
-        //setMargin = 0; // dummy
 
         $('.gridContainer').css('margin-left', setMargins);
         $('.gridContainer').css('margin-right', setMargins);
@@ -326,25 +322,6 @@
         //console.log('newWidth: ' + newWidth + ', newHeight: ' + newHeight);
     }
     //var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
-
-    function scaleImagesCBnew() { // based on current dimensions
-        console.log('scaleImagesCBnew()');
-        var margins =
-            ($('.container').outerWidth(true) - $('.container').width()) +
-            ($('#pages').outerWidth(true) - $('#pages').width());
-        var heightExtra =
-            ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
-            ($('.botText').is(':visible') ? $('.botText').height() : 0);
-        var setMargins = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
-
-        if (setMargins > 0) {
-            $('.gridContainer').css('margin-left', setMargins);
-            $('.gridContainer').css('margin-right', setMargins);
-        } else {
-            $('.gridContainer').css('margin-left', 0);
-            $('.gridContainer').css('margin-right', 0);
-        }
-    }
 
     function scaleImagesCBsimple() { // my calculation, mostly works
         console.log('scaleImagesCBsimple()');

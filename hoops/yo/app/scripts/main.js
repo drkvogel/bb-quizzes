@@ -177,9 +177,12 @@
             ($('.container').outerWidth(true) - $('.container').width()) +
             ($('#pages').outerWidth(true) - $('#pages').width()); // missing some widths?
         var heightExtra = // required height of .gridContainer
+            ($('#answers').is(':visible') ? $('#answers').height() : 0) +
             ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
             ($('.botTxt').is(':visible') ? $('.botTxt').height() : 0) +
-            ($('.topTxt').is(':visible') ? $('.botTxt').height() : 0) +
+            ($('.topTxt').is(':visible') ? $('.topTxt').height() : 0) +
+            ($('.navTxt').is(':visible') ? $('.navTxt').height() : 0) +
+            ($('.navCtl').is(':visible') ? $('.navCtl').height() : 0) +
             75;
             // missing some heights?
         var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;

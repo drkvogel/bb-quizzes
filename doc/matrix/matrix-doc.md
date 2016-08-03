@@ -30,7 +30,7 @@ A document describing the structure, technology and sizing algorithms in the mai
 
 \newpage
 
-### natural image sizes
+### Natural image sizes
 
     2x2, 3x2
     img.top natural: 420 x 340
@@ -40,7 +40,7 @@ A document describing the structure, technology and sizing algorithms in the mai
     img.top natural: 510 x 405
     img.bot natural: 755 x 295
 
-### width (symmetrical about y axis)
+### Width (symmetrical about y axis)
 
     html                -
     body                -
@@ -59,17 +59,13 @@ A document describing the structure, technology and sizing algorithms in the mai
     html                -
 
 
-widthExtra = (div.container + div.gridContainer + div.grid3x2 margin) * 2 + img.bot
-widthNatural
-
-
 notes:
 
 * div.container padding: 15px 10px 20px 10px; (N, E, S, W)
 * div#pages has margin: auto but always fills div.container
 * hard-code natural image sizes - see "Can we get the native/natural height of images?"
 
-### height
+### Height
 
     html                -
     body                -
@@ -120,7 +116,7 @@ notes:
 
 \newpage
 
-## Description Of Scaling Algorithm
+## Description Of Scaling Algorithms
 
 ### scaleImagesCBsimple()
 
@@ -147,7 +143,7 @@ var setMargins = ($(window).width() - ($(window).height() - heightExtra) - width
 if (setMargins > 0) {
     $('.gridContainer').css('margin-left', setMargins);
     $('.gridContainer').css('margin-right', setMargins);
-} else { // don't set negative margins. content should shrink width-wise if needed
+} else { // content should shrink width-wise if needed
     $('.gridContainer').css('margin-left', 0);
     $('.gridContainer').css('margin-right', 0);
 }
@@ -170,7 +166,7 @@ if (setMargins > 0) {
     scale = vShrink < hShrink ? vShrink : hShrink
 
     targetHeight = naturalFullHeight * scale
-    targetWidth = naturalFullWidth * scale # forget about width as width always fits, down to 300px
+    targetWidth = naturalFullWidth * scale
 
     targetMiddleHeight = targetHeight - heightExtras
 
@@ -180,9 +176,9 @@ if (setMargins > 0) {
     middleHWRatio = 1.125
 
     # what innerWidth of .gridContainer would create targetMiddleHeight?
-    targetMiddleWidth = targetMiddleHeight * middleHWRatio [1.125]
+    targetMiddleWidth = targetMiddleHeight * middleHWRatio
 
-    # set these margins on .gridContainer to make the targetWidth and targetHeight
+    # set margins on .gridContainer to achieve targetWidth and targetHeight
     margins = (window.width - widthExtra) / 2
 ```
 
@@ -210,14 +206,14 @@ if (setMargins > 0) {
             ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
             ($('.botText').is(':visible') ? $('.botText').height() : 0);
 
-        var naturalFullWidth = widthExtra + botWidth; // bottom image is widest
-        var naturalFullHeight = heightExtra + topHeight + botHeight; // combined height of both images
+        var naturalFullWidth = widthExtra + botWidth; // bottom image widest
+        var naturalFullHeight = heightExtra + topHeight + botHeight;
 
         var scaleV = ($(window).height() - 200) / naturalFullHeight;
         var scaleH = $(window).width() / naturalFullWidth;
         var scale = scaleV <= scaleH ? scaleV : scaleH;
 
-        var targetWidth = naturalFullWidth * scale; // forget about width, it always fits, down to 300px
+        var targetWidth = naturalFullWidth * scale;
         var targetHeight = naturalFullHeight * scale;
         var targetMiddleHeight = targetHeight - heightExtras;
 
@@ -293,27 +289,3 @@ The code in main.js uses jQuery.
     https://jquery.com/
 
 \newpage
-
-## Appendix
-
-images/intro1/intro1-sol5.png:     PNG image data, 420 x 340, 8-bit/color RGBA, non-interlaced
-images/intro1/intro1-palette.png:  PNG image data, 680 x 365, 8-bit/color RGBA, non-interlaced
-
-images/ex5/ex5-sol2.png:           PNG image data, 420 x 340, 8-bit/color RGBA, non-interlaced
-images/ex5/ex5-palette.png:        PNG image data, 680 x 365, 8-bit/color RGBA, non-interlaced
-
-images/ex7/ex7-sol1.png:           PNG image data, 510 x 405, 8-bit/color RGBA, non-interlaced
-images/ex7/ex7-palette.png:        PNG image data, 755 x 295, 8-bit/color RGBA, non-interlaced
-
-images/ex13/ex13-sol4.png:         PNG image data, 511 x 411, 8-bit colormap, non-interlaced
-images/ex13/ex13-palette.png:      PNG image data, 755 x 295, 8-bit/color RGBA, non-interlaced
-
-images/ex14/ex14-sol6.png:         PNG image data, 307 x 302, 8-bit colormap, non-interlaced
-images/ex14/ex14-palette.png:      PNG image data, 755 x 295, 8-bit/color RGBA, non-interlaced
-the one with the coloured squares - top and bottom are clearly different sizes
-
-images/ex15/ex15-sol6.png:         PNG image data, 534 x 422, 8-bit colormap, non-interlaced
-images/ex15/ex15-palette.png:      PNG image data, 755 x 295, 8-bit/color RGBA, non-interlaced
-
-but all palette images overlayed with imagemaps are consistent
-and differences in top images not really noticeable
