@@ -30,3 +30,5 @@ echo "creating $OUTPATH"
 #exit 0
 
 pandoc -o $OUTPATH -f markdown -t docx *.md
+
+#libreoffice --convert-to odt *.docx
