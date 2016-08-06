@@ -186,7 +186,7 @@
             75;
             // missing some heights?
         var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
-        console.log('setMargins '  + setMargins + ', heightExtra: ' + heightExtra + ', widthExtra: ' + widthExtra);
+        console.log('setMargins ' + setMargins + ', heightExtra: ' + heightExtra + ', widthExtra: ' + widthExtra);
              //'($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;' +
 
         if (setMargins > 0) {
@@ -205,6 +205,36 @@
                 config.timeStarted = new Date($.now());
                 console.log('config.timeStarted: ' + config.timeStarted);
                 timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
+            }
+        }
+    }
+
+    function containerClick(e) {
+        e.preventDefault();
+        var clickedEl = $(this),
+            elId = clickedEl.attr('id');
+        console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId); // now gets id from loaded page
+        console.log('unbind clicks');
+        $('#pages').off('click', 'a, button, div.row div', containerClick); // prevent double-click
+
+        switch (clickedEl.attr('id')) {
+        case 'prev':
+            prevPage();
+            break;
+        case 'next':
+        case 'start':
+            nextPage();
+            break;
+        case 'yes':     // fixme what are these for?
+        case 'no':
+            console.log('elid: ' + clickedEl.attr('id') + ', html: ' + clickedEl.html());
+            break;
+        default:
+            var slice = elId.slice(0, 3);
+            if (slice === 'ans') { // bottom grid only
+                $('#' + elId).addClass('disabled'); // remember to add '#' back onto ID to make selector
+                var num = elId[3]; // number in id following 'bot' == number of bottom tile selected
+                answered(num);
             }
         }
     }
@@ -330,27 +360,13 @@
         hideDiv(modal); //console.log('hideModal(\'' + modal + '\')');
     }
 
-        // <input type="hidden" name="sid" value="1">
-        // <input type="hidden" name="pid" value="213421343">
-        // <input type="hidden" name="lsq" value="661">
-        // <input type="hidden" name="seqord" value="3">
-        // <input type="hidden" name="studytypeuid" value="1002">
-        // <input type="hidden" id="timererror" name="timererror" value="-1">
-        // <input type="hidden" id="performanceTimer" name="performanceTimer" value="-1">
-        // <input type="hidden" name="datestarted" value="2016-02-29 14:47:31 GMT">
-        // <input type="hidden" id="abandon" name="abandon" value="0">
-        // <input type="hidden" id="mean" name="mean" value="-1">
-        // <input type="hidden" id="demoelapsed" name="demoelapsed" value="-1">
-        // <input type="hidden" id="totelapsed" name="totelapsed" value="-1">
-        // <input type="hidden" id="testelapsed" name="testelapsed" value="-1"
-
-        // don't need timing stuff
-        //$('#results').val(JSON.stringify(answers));
-        //var possibleE = test_timer.gethasPossibleError() + reaction_timer.gethasPossibleError() + demo_timer.gethasPossibleError() + total_timer.gethasPossibleError();
-        // if (possibleE > 0)
-        //     possibleE = 1;
-        // writeValue("timererror",possibleE); // document.getElementById(id).value = value;
-        // writeValue("performanceTimer",total_timer.gethasPerformance());
+    // don't need timing stuff
+    //$('#results').val(JSON.stringify(answers));
+    //var possibleE = test_timer.gethasPossibleError() + reaction_timer.gethasPossibleError() + demo_timer.gethasPossibleError() + total_timer.gethasPossibleError();
+    // if (possibleE > 0)
+    //     possibleE = 1;
+    // writeValue("timererror",possibleE); // document.getElementById(id).value = value;
+    // writeValue("performanceTimer",total_timer.gethasPerformance());
     function finished() {
         console.log('finished(): answers: ' + JSON.stringify(answers));
         clearTimeout(timeUpTimeout);
@@ -401,36 +417,6 @@
         }
 
         nextPageTimeout = setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
-    }
-
-    function containerClick(e) {
-        e.preventDefault();
-        var clickedEl = $(this),
-            elId = clickedEl.attr('id');
-        console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId); // now gets id from loaded page
-        console.log('unbind clicks');
-        $('#pages').off('click', 'a, button, div.row div', containerClick); // prevent double-click
-
-        switch (clickedEl.attr('id')) {
-        case 'prev':
-            prevPage();
-            break;
-        case 'next':
-        case 'start':
-            nextPage();
-            break;
-        case 'yes':     // fixme what are these for?
-        case 'no':
-            console.log('elid: ' + clickedEl.attr('id') + ', html: ' + clickedEl.html());
-            break;
-        default:
-            var slice = elId.slice(0, 3);
-            if (slice === 'ans') { // bottom grid only
-                $('#' + elId).addClass('disabled'); // remember to add '#' back onto ID to make selector
-                var num = elId[3]; // number in id following 'bot' == number of bottom tile selected
-                answered(num);
-            }
-        }
     }
 
     function abandonClick() {

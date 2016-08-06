@@ -263,12 +263,12 @@
 
         // we know the natural sizes of the images already
         var topWidth, topHeight, botWidth, botHeight;
-        if (currentPage().templateId == 'quiz2x2') {
+        if (currentPage().templateId === 'quiz2x2') {
             topWidth = 420;
             topHeight = 340;
             botWidth = 680;
             botHeight = 365;
-        } else if (currentPage().templateId == 'quiz3x3') {
+        } else if (currentPage().templateId === 'quiz3x3') {
             topWidth = 510;
             topHeight = 405;
             botWidth = 755;
@@ -313,13 +313,13 @@
         var targetMiddleWidth = targetMiddleHeight * middleHWRatio;
 
         // set these margins on .gridContainer to make the targetWidth and targetHeight
-        var setMargins = ($(window).width - widthExtra) / 2;
+        var setMargins = ($(window).width - widthExtra - targetMiddleWidth) / 2;
         $('.gridContainer').css('margin-left', setMargins);
         $('.gridContainer').css('margin-right', setMargins);
 
         console.log('setMargins: ' + setMargins +
-            ', targetWidth: ' + targetWidth +
-            ', targetHeight: ' + targetHeight);
+            ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
+            ', targetMiddleWidth: ' + targetMiddleWidth);
     }
     //var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
 
@@ -519,8 +519,8 @@
         clearTimeout(timeUpTimeout);
 
         // fill in form
-        document.getElementById("responses").value = JSON.stringify(answers); //$('#results').val(JSON.stringify(answers));
-        document.getElementById("timeStarted").value = config.timeStarted;
+        document.getElementById('responses').value = JSON.stringify(answers); //$('#results').val(JSON.stringify(answers));
+        document.getElementById('timeStarted').value = config.timeStarted;
         //var possibleE = test_timer.gethasPossibleError() + reaction_timer.gethasPossibleError() + demo_timer.gethasPossibleError() + total_timer.gethasPossibleError();
         // if (possibleE > 0)
         //     possibleE = 1;
@@ -533,7 +533,7 @@
         $(window).on('beforeunload', function(){
             $('*').css('cursor', 'progress');
         });
-        document.getElementById("feedbackForm").submit(); // action set in init() from config.json
+        document.getElementById('feedbackForm').submit(); // action set in init() from config.json
     }
     //$('input[name="results"]').val() = JSON.stringify(answers);
     //$("body").css("cursor", "progress"); // $("body").css("cursor", "default");
