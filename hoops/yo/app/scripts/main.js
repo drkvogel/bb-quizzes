@@ -292,6 +292,9 @@
         // (re-)bind clicks
         // console.log('bind clicks');
         // $('#pages').on('click', 'a, button, div.row div', containerClick); // delegate events
+        console.log('bind clicks');
+        $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
+
     }
 
     function prevPage() {
@@ -372,7 +375,7 @@
     }
 
     function answered(num) {
-        //console.log('got num: ' + num);
+        console.log('answered: ' + num);
         var page = currentPage();
         var correct = Number(num) === page.correct;
         var timeTaken;
@@ -397,9 +400,6 @@
             console.log('Wrong! correct is: ' + page.correct);
         }
 
-        //console.log('unbind clicks');
-        //$('#pages').off('click', 'a, button, div.row div', containerClick); // prevent double-click
-
         nextPageTimeout = setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
     }
 
@@ -408,6 +408,9 @@
         var clickedEl = $(this),
             elId = clickedEl.attr('id');
         console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId); // now gets id from loaded page
+        console.log('unbind clicks');
+        $('#pages').off('click', 'a, button, div.row div', containerClick); // prevent double-click
+
         switch (clickedEl.attr('id')) {
         case 'prev':
             prevPage();
@@ -416,7 +419,7 @@
         case 'start':
             nextPage();
             break;
-        case 'yes':
+        case 'yes':     // fixme what are these for?
         case 'no':
             console.log('elid: ' + clickedEl.attr('id') + ', html: ' + clickedEl.html());
             break;
@@ -460,7 +463,7 @@
 
     function modalClick(e) { // TODO merge into navClick or something
         e.preventDefault();
-        console.log('navClick()');
+        console.log('modalClick()');
         var pageId = $('.page').attr('id'),
             clickedEl = $(this); //console.log('pageId: '+pageId); // now gets id from loaded page
         console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
@@ -527,7 +530,7 @@
     }
 
     $('body').on('keydown', keydown);
-    $('#pages').on('click', 'a, button, div.row div', containerClick); // delegate events
+    //$('#pages').on('click', 'a, button, div.row div', containerClick); // delegate events
     $('#devBar').on('click', 'a, button', navClick); // need this?
     $('#abandon-btn').on('click', abandonClick); // need this?
     $('#modals').on('click', 'button', modalClick);
