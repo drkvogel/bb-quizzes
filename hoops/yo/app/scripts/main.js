@@ -498,7 +498,7 @@
         var loc = location.toString().split('://')[1]; // strip off http://, https://
         if (loc.substr(0, 9) === 'localhost') { // served from gulp
             console.log('loc === localhost');
-            formAction = 'http://localhost:8000/' + formAction; // gulp-connect-php - local PHP server
+            formAction = 'http://localhost:8001/' + formAction; // gulp-connect-php - local PHP server
         } // else, is on same server, relative link OK
         $('#feedbackForm').attr('action', formAction);
 

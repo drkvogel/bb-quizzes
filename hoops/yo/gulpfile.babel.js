@@ -12,7 +12,8 @@ const reload = browserSync.reload;
 gulp.task('php', function() {
 var php = require('gulp-connect-php');
   php.server({
-    base: 'app'
+    base: 'app',
+    port: '8001'
   });
 });
 
