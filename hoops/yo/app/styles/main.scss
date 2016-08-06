@@ -60,7 +60,7 @@ body {
 }
 
 #pages {
-  font-size: large;
+  //font-size: large;
   line-height: normal;
 }
 
@@ -107,7 +107,7 @@ body {
   //width: 80%;
   //height: 100px;
   text-align: center;
-  font-size: large;
+  //font-size: large;
   padding: 1em;
 }
 
@@ -206,6 +206,35 @@ body {
     font-size: 21px;
     padding: 14px 24px;
   }
+}
+
+@media screen and (min-width: 768px) { /* Responsive: Portrait tablets and up */
+  // .container {
+  //   //max-width: 730px;
+  //   //max-width: 90%; // ???
+  // }
+
+  .header,
+  .marketing,
+  .footer { /* Remove the padding we set earlier */
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .header { /* Space out the masthead */
+    //margin-bottom: 30px; // margin spills into main content even when hidden?
+    padding-bottom: 30px;
+  }
+
+  .jumbotron { /* Remove the bottom border on the jumbotron for visual effect */
+    border-bottom: 0;
+  }
+
+  .topTxt, .botTxt, .navTxt, #getReady {
+    font-size: large;
+    line-height: 2em;
+  }
+
 }
 
 // /* Responsive: Portrait tablets and up */
