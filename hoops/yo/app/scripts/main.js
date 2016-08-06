@@ -518,9 +518,9 @@
     }
 
     function keydown(e) {
-        e.preventDefault();
         console.log('keyboard event: ' + e.which);
         if (e.which === 68) { //console.log('"d" pressed');
+            e.preventDefault(); // don't trap other keypresses e.g. ctrl-shift-i for dev tools
             if ($('#devBar').css('display') === 'none') {
                 showDiv('devBar');
             } else {

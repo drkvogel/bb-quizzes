@@ -318,7 +318,7 @@
         $('.gridContainer').css('margin-right', setMargins);
 
         console.log('setMargins: ' + setMargins +
-            ', targetWidth: ' + targetWidth);
+            ', targetWidth: ' + targetWidth +
             ', targetHeight: ' + targetHeight);
     }
     //var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
