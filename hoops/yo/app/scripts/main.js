@@ -141,14 +141,14 @@
 
     function hideDiv(id) {
         //document.getElementById(id).style.display = 'none'; //console.log('hideDiv(): id: ' + id);
-        $('#' + id).fadeOut('fast');
+        $('#' + id).fadeOut(); // 'fast'
         //$('#' + id).slideUp();
     }
 
     function showDiv(id) {
         //document.getElementById(id).style.display = 'inline'; //console.log('showDiv(): id: ' + id);
-        //$('#' + id).fadeIn('fast');
-        $('#' + id).slideDown();
+        $('#' + id).fadeIn('fast');
+        //$('#' + id).slideDown();
     }
 
     function hidePage(page) {
@@ -242,6 +242,10 @@
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
         console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
         console.log('showPage(): isTimeUp:' + isTimeUp);
+        //console.log('unbind clicks');
+        //$('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
+            // seems to cause multiple clicks, erratic behaviour
+
 
         if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
             hideDiv('abandon-div');
@@ -320,8 +324,6 @@
         //showInfo('height: ' + $(window).height()); //attr('height'));
 
         // (re-)bind clicks
-        // console.log('bind clicks');
-        // $('#pages').on('click', 'a, button, div.row div', containerClick); // delegate events
         console.log('bind clicks');
         $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
 
@@ -522,6 +524,8 @@
     $('#modals').on('click', 'button', modalClick);
 
     window.onresize = function(event) {
+        console.log('unbind clicks');
+        $('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
         showPage(currentPage()); // ?
     };
 
