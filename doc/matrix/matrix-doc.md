@@ -244,22 +244,135 @@ As we know the image dimensions and they are not going to change, we might as we
 
 Worked numeric examples for screen resolutions of (HxV) 1280x1024, 640x480, 320x480, 750x1334 and 1242x2208.
 
-1308 x 598:
+1308 x 598
 
-    margins = ($('.container').outerWidth(true)[1308] - $('.container').width())[1278]
-    * ($('#pages').outerWidth(true)[1278] - $('#pages').width()[1278]) == 30
+botHeight = 365
+botWidth = 680
+topHeight = 340
+topWidth = 420
+widthExtra = 20
+heightExtra = 72
+middleHWRatio = 1.125
+naturalFullHeight = 777
+naturalFullWidth = 700
 
-    setMargin = ($(window).width()[1308] - ($(window).height()[598] - $('.botText').height()[-18]) - margins[30]) / 2 == 331
+scaleH = 1.8685714285714285
+scaleV = 0.5122265122265123
+scale = 0.5122265122265123
+targetWidth = 358.56
+targetHeight = 398
+targetMiddleWidth = 366.75
+targetMiddleHeight = 326
+setMargins = 460.63
 
 1280x1024
 
+botHeight = 365
+botWidth = 680
+heightExtra = 72
+topHeight = 340
+topWidth = 420
+widthExtra = 20
+middleHWRatio = 1.125
+naturalFullHeight = 777
+naturalFullWidth = 700
+
+scaleH = 1.8285714285714285
+scaleV = 1.0604890604890604
+scale = 1.0604890604890604
+targetWidth = 742.34
+targetHeight = 824
+targetMiddleHeight = 752
+targetMiddleWidth = 846
+setMargins = 207
+
 640x480
+
+botWidth = 680
+botHeight = 365
+topWidth = 420
+topHeight = 340
+widthExtra = 20
+heightExtra = 60
+middleHWRatio = 1.125
+naturalFullWidth = 700
+naturalFullHeight = 765
+
+scaleH = 0.9142857142857143
+scaleV = 0.3660130718954248
+scale = 0.3660130718954248
+targetWidth = 256.21
+targetHeight = 280
+targetMiddleWidth = 247.5
+targetMiddleHeight = 220
+setMargins = 186.25
+
 
 320x480
 
+botWidth = 680
+botHeight = 365
+topWidth = 420
+topHeight = 340
+widthExtra = 20
+heightExtra = 120
+middleHWRatio = 1.125
+naturalFullWidth = 700
+naturalFullHeight = 825
+
+scaleH = 0.45714285714285713
+scaleV = 0.3393939393939394
+scale = 0.3393939393939394
+targetWidth = 237.58
+targetHeight = 280
+targetMiddleWidth = 180
+targetMiddleHeight = 160
+setMargins = 60
+
 750x1334
 
+botWidth = 680
+botHeight = 365
+topWidth = 420
+topHeight = 340
+widthExtra = 20
+heightExtra = 60
+middleHWRatio = 1.125
+naturalFullWidth = 700
+naturalFullHeight = 765
+
+scaleH = 1.072857142857143
+scaleV = 1.4823529411764707
+scale = 1.072857142857143
+targetWidth = 751
+targetHeight = 820.73
+targetMiddleWidth = 855.83
+targetMiddleHeight = 760.74
+setMargins = -62.41
+
+
 1242x2208
+
+botWidth = 680
+botHeight = 365
+topWidth = 420
+topHeight = 340
+widthExtra = 20
+heightExtra = 72
+middleHWRatio = 1.125
+naturalFullWidth = 700
+naturalFullHeight = 777
+
+scaleH = 1.7757142857142858
+scaleV = 2.584298584298584
+scale = 1.7757142857142858
+targetWidth = 1243
+targetHeight = 1379.73
+targetMiddleWidth = 1471.19625
+targetMiddleHeight = 1307.73
+setMargins = -124.09812499999998
+
+
 
 \newpage
 
