@@ -169,7 +169,7 @@
 
     }
 
-    //$('.container').attr('width', $(window).height()); // sets it but nothing else, doesn't change width
+    // shrink images to try to fit height into viewport, but don't worry about width
     function scaleImagesCBsimple() { //
         console.log('scaleImagesCBsimple()');
         //showInfo('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin);
@@ -182,8 +182,9 @@
             ($('.botTxt').is(':visible') ? $('.botTxt').height() : 0) +
             ($('.topTxt').is(':visible') ? $('.topTxt').height() : 0) +
             ($('.navTxt').is(':visible') ? $('.navTxt').height() : 0) +
-            ($('.navCtl').is(':visible') ? $('.navCtl').height() : 0) +
-            75;
+            ($('.navCtl').is(':visible') ? $('.navCtl').height() : 0)
+            + 50 // fixme arbitrary amount, what should this really be?
+            ;
             // missing some heights?
         var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
         console.log('setMargins ' + setMargins + ', heightExtra: ' + heightExtra + ', widthExtra: ' + widthExtra);

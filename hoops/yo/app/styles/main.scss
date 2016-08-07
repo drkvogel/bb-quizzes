@@ -48,23 +48,18 @@ body {
   min-height: 0px;
 }
 
-/* Custom page footer */
-.footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
-}
 
-.container-narrow > hr {
-  margin: 30px 0;
+.container { // override bootstrap/_grid.scss
+  width: auto;
+  padding: 15px 10px 20px 10px;
 }
 
 #pages {
-  //font-size: large;
   line-height: normal;
 }
 
 .navCtl {
+  padding-top: 15px;
   text-align: center;
 }
 
@@ -102,16 +97,24 @@ body {
   text-align: center;
 }
 
+#imgdiv-a, #imgdiv-b {
+  width: 100%;
+}
+
+#img-a, #img-b {
+  width: 100%;
+}
+
 .botTxt {
   margin: auto;
   //width: 80%;
   //height: 100px;
   text-align: center;
-  //font-size: large;
   padding: 1em;
 }
 
 #answers {
+  //padding-top: 15px;
   margin: auto;
   width: 80%;
   text-align: center;
@@ -120,14 +123,6 @@ body {
 #answers button {
   padding: 20px;
   margin: 15px;
-}
-
-#answers td {
-  background-color: lightgrey;
-  width: 50px;
-  height: 50px;
-  text-align: center;
-  margin: 20px; // doesn't work - want to space boxes apart?
 }
 
 .buttons {
@@ -141,22 +136,92 @@ body {
   width: 250px;
 }
 
-#imgdiv-a, #imgdiv-b {
-  width: 100%;
-}
-
-#img-a, #img-b {
-  width: 100%;
-}
-
 .navTxt {
   text-align: center;
 }
 
-.container { // override bootstrap/_grid.scss
-  width: auto;
-  padding: 15px 10px 20px 10px;
+#abandon-div {
+  padding-top: 15px;
 }
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+}
+
+// .container-narrow > hr {
+//   margin: 30px 0;
+// }
+
+/* dummy "Welcome" page */
+#home {
+  width: 600px;
+  margin: auto;
+}
+
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+  .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+  }
+}
+
+@media screen and (max-width: 700px) { /* Responsive: Portrait tablets and down */
+  #answers button {
+    padding: 10px;
+    margin: 10px;
+  }
+  .btn-lg, .btn-group-lg > .btn {
+      padding: 5px;
+      //font-size: 14px;
+      line-height: 1;
+      border-radius: 3px;
+  }
+}
+
+// this needs to come **after** the previous otherwise is disregarded
+@media screen and (max-width: 440px) { /* Responsive: Mobiles */
+  #answers button {
+    padding: 5px;
+    margin: 5px;
+  }
+  .btn-lg, .btn-group-lg > .btn {
+      padding: 8px;
+      font-size: 16px;
+      line-height: 1;
+      border-radius: 3px;
+  }
+}
+
+@media screen and (min-width: 768px) { /* Responsive: Portrait tablets and up */
+
+  .header,
+  .marketing,
+  .footer { /* Remove the padding we set earlier */
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .header { /* Space out the masthead */
+    //margin-bottom: 30px; // margin spills into main content even when hidden?
+    padding-bottom: 30px;
+  }
+
+  .jumbotron { /* Remove the bottom border on the jumbotron for visual effect */
+    border-bottom: 0;
+  }
+
+  .topTxt, .botTxt, .navTxt, #getReady {
+    font-size: large;
+    line-height: 2em;
+  }
+
+}
+
 
 
 // dialogs
@@ -198,73 +263,6 @@ body {
     z-index: 11; /* 1px higher than the overlay layer */
 }
 
-/* dummy "Welcome" page */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
-  .btn {
-    font-size: 21px;
-    padding: 14px 24px;
-  }
-}
-
-
-
-@media screen and (max-width: 700px) { /* Responsive: Portrait tablets and down */
-  #answers button {
-    padding: 10px;
-    margin: 10px;
-  }
-  .btn-lg, .btn-group-lg > .btn {
-      padding: 5px;
-      //font-size: 14px;
-      line-height: 1;
-      border-radius: 3px;
-  }
-}
-
-// this needs to come **after** the previous otherwise is disregarded
-@media screen and (max-width: 440px) { /* Responsive: Mobiles */
-  #answers button {
-    padding: 5px;
-    margin: 5px;
-  }
-  .btn-lg, .btn-group-lg > .btn {
-      padding: 8px;
-      font-size: 16px;
-      line-height: 1;
-      border-radius: 3px;
-  }
-}
-
-@media screen and (min-width: 768px) { /* Responsive: Portrait tablets and up */
-  // .container {
-  //   //max-width: 730px;
-  //   //max-width: 90%; // ???
-  // }
-
-  .header,
-  .marketing,
-  .footer { /* Remove the padding we set earlier */
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  .header { /* Space out the masthead */
-    //margin-bottom: 30px; // margin spills into main content even when hidden?
-    padding-bottom: 30px;
-  }
-
-  .jumbotron { /* Remove the bottom border on the jumbotron for visual effect */
-    border-bottom: 0;
-  }
-
-  .topTxt, .botTxt, .navTxt, #getReady {
-    font-size: large;
-    line-height: 2em;
-  }
-
-}
 
 // /* Responsive: Portrait tablets and up */
 // @media screen and (min-width: 768px) {
@@ -297,4 +295,12 @@ body {
 //   p + h4 {
 //     margin-top: 28px;
 //   }
+// }
+
+// #answers td {
+//   background-color: lightgrey;
+//   width: 50px;
+//   height: 50px;
+//   text-align: center;
+//   margin: 20px; // doesn't work - want to space boxes apart?
 // }
