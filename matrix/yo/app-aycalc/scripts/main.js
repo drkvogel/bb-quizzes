@@ -313,13 +313,14 @@
         var targetMiddleWidth = targetMiddleHeight * middleHWRatio;
 
         // set these margins on .gridContainer to make the targetWidth and targetHeight
-        var setMargins = ($(window).width - widthExtra - targetMiddleWidth) / 2;
+        var setMargins = ($(window).width() - widthExtra - targetMiddleWidth) / 2;
         $('.gridContainer').css('margin-left', setMargins);
         $('.gridContainer').css('margin-right', setMargins);
 
         console.log('setMargins: ' + setMargins +
             ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
-            ', targetMiddleWidth: ' + targetMiddleWidth);
+            ', targetMiddleWidth: ' + targetMiddleWidth
+             + 'setMargins: ' + setMargins);
     }
     //var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
 
@@ -404,8 +405,8 @@
         }
 
         showDiv(page.templateId);
-        scaleImagesCBsimple();
-        //scaleImagesAY();
+        //scaleImagesCBsimple();
+        scaleImagesAY();
         //scaleImagesCBnew();
 
         var heightScrolled = $(document).height() - $(window).height();
