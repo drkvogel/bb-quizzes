@@ -144,6 +144,14 @@ body {
   padding-top: 15px;
 }
 
+.row { // override bootstrap negative margins?
+  margin: 0;
+}
+
+#abandon-div.row {
+    padding-left: 28%;
+}
+
 /* Custom page footer */
 .footer {
   padding-top: 19px;

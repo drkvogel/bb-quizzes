@@ -183,7 +183,7 @@
             ($('.topTxt').is(':visible') ? $('.topTxt').height() : 0) +
             ($('.navTxt').is(':visible') ? $('.navTxt').height() : 0) +
             ($('.navCtl').is(':visible') ? $('.navCtl').height() : 0)
-            + 50 // fixme arbitrary amount, what should this really be?
+            + 75 // fixme arbitrary amount, what should this really be?
             ;
             // missing some heights?
         var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
@@ -258,7 +258,8 @@
         showInfo(info);
 
         var navNext = '<span><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
-        var navPrev = '<span class=\"col-md-2\"><button class=\"btn pull-left\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>';
+        //var navPrev = '<span class=\"col-md-2\"><button class=\"btn pull-left\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>';
+        var navPrev = '<span><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>';
         var navPrevNext = '<span style="margin-right: 40px;"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>' +
                           '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
         // pull-left pull-right

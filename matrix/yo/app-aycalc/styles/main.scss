@@ -150,7 +150,7 @@ body > .container {
   padding-top: 2em;
 }
 
-.row {
+.row { // override bootstrap negative margins?
   margin: 0;
 //   display: block;
 //   margin: auto;
