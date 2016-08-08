@@ -113,6 +113,6 @@ CREATE TABLE hoops (
     puzzle18      INTEGER       NOT NULL,
     elapsed18     DATE          NOT NULL,
     answer18      INTEGER       NOT NULL,
-    correct18     INTEGER       NOT NULL,
+    correct18     INTEGER       NOT NULL
 );
 \p\g
