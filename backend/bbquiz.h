@@ -3,30 +3,32 @@
 #include "xtime.h"
 #include "live_or_test.h"
 #ifdef __LIVE__
-#define SMSQ_DBNAME "cp_web_live"
+#define BBQUIZ_DBNAME "cp_web_live"
 #else
-#define SMSQ_DBNAME "cp_web_test"
+#define BBQUIZ_DBNAME "cp_web_test"
 #endif
-// #define SMSQ_ADDMSG_BAD_PASSWORD    -1
-// #define SMSQ_ADDMSG_NO_QUOTA        -2
-// #define SMSQ_ADDMSG_INSERT_FAILED   -3
-// #define SMSQ_LEN_PROP_PARAM 20
-// #define SMSQ_LEN_PROP_SVAL  20
-// #define SMSQ_LEN_USERNAME   10
-// #define SMSQ_LEN_PASSWORD   10
-// #define SMSQ_LEN_DESCRIPT   25
-// #define SMSQ_LEN_SRCAPP     25
-// #define SMSQ_LEN_ORIGIN     25
-// #define SMSQ_LEN_DESTNO     16
-// #define SMSQ_LEN_SENDER     16
-// #define SMSQ_LEN_TEXT      160
+
+
+
+#define DBG_SET(x) session_data.debugflags & x
+#define LOG_TIME logtime.setNow();                          \
+                 timebuf = logtime.iso();                   \
+                 fprintf(logfile, "%s ", timebuf.c_str()); fflush(logfile);
+#define LOG_DOT fprintf(logfile, "."); fflush(logfile);
+#define LOG_NL fprintf(logfile, "\n"); fflush(logfile);
+#define LOG_NUM(X) fprintf(logfile, "%d: ", X); fflush(logfile);
+#define LOG_PRINT(x) fprintf(logfile, "%s", x); fflush(logfile);
+#define LOG_PRINT2(x,y) fprintf(logfile, x, y); fflush(logfile);
+
+#define DIR_LOG "./log/"
+
 
 using std::string;
 
 typedef struct {
     int msgid;
-    char src_app[SMSQ_LEN_SRCAPP+1];
-    char origin [SMSQ_LEN_ORIGIN+1];
+    // char src_app[SMSQ_LEN_SRCAPP+1];
+    // char origin [SMSQ_LEN_ORIGIN+1];
     XTIME added;
     XTIME depart;
     int status;
@@ -55,3 +57,17 @@ public:
 };
 
 #endif
+
+// #define SMSQ_ADDMSG_BAD_PASSWORD    -1
+// #define SMSQ_ADDMSG_NO_QUOTA        -2
+// #define SMSQ_ADDMSG_INSERT_FAILED   -3
+// #define SMSQ_LEN_PROP_PARAM 20
+// #define SMSQ_LEN_PROP_SVAL  20
+// #define SMSQ_LEN_USERNAME   10
+// #define SMSQ_LEN_PASSWORD   10
+// #define SMSQ_LEN_DESCRIPT   25
+// #define SMSQ_LEN_SRCAPP     25
+// #define SMSQ_LEN_ORIGIN     25
+// #define SMSQ_LEN_DESTNO     16
+// #define SMSQ_LEN_SENDER     16
+// #define SMSQ_LEN_TEXT      160

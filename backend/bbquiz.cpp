@@ -117,44 +117,44 @@ extern FILE * logfile;
 // }
 
 int get_messages (int status) {
-    int msgnum = 0;
-    smsq_results.clear();
+    // int msgnum = 0;
+    // smsq_results.clear();
 
-    // ignore messages more than SMSQ_DAYS_IGNORE days old
-    char query[256];
-    sprintf(query, "SELECT * FROM smsq WHERE smsqstatus = :ss AND depart > date('now') - date('%d days') ORDER BY destno, depart ASC", SMSQ_DAYS_IGNORE);
-    XQUERY q( db, query );
-    q.param.setInt( "ss", status );
+    // // ignore messages more than SMSQ_DAYS_IGNORE days old
+    // char query[256];
+    // sprintf(query, "SELECT * FROM smsq WHERE smsqstatus = :ss AND depart > date('now') - date('%d days') ORDER BY destno, depart ASC", SMSQ_DAYS_IGNORE);
+    // XQUERY q( db, query );
+    // q.param.setInt( "ss", status );
 
-    if (!q.open()) { throw "Query open failed in get_messages()"; }
+    // if (!q.open()) { throw "Query open failed in get_messages()"; }
 
-    while (q.fetch()) {
-        SmsqRecord smsq_record;
-        smsq_record.msgnum      = ++msgnum;
-        smsq_record.username    = q.result.getString( 0 );
-        smsq_record.msgid       = q.result.getInt( 1 );
-        smsq_record.src_app     = q.result.getString( 2 );
-        smsq_record.origin      = q.result.getString( 3 );
-        smsq_record.added       = q.result.getTime( 4 );
-        smsq_record.depart      = q.result.getTime( 5 );
-        smsq_record.destno      = q.result.getString( 6 );
-        smsq_record.sender      = q.result.getString( 7 );
-        smsq_record.text        = q.result.getString( 8 );
-        smsq_record.valperiod   = q.result.getInt( 9 );
-        smsq_record.priority    = q.result.getInt( 10 );
-        smsq_record.smsqstatus  = q.result.getInt( 11 );
-        smsq_record.smscstatus  = q.result.getInt( 12 );
-        smsq_record.errorcode   = q.result.getInt( 13 );
-        smsq_record.retries     = q.result.getInt( 14 );
-        smsq_record.updatetime  = q.result.getTime( 15 );
-        smsq_results.push_back(smsq_record);
+    // while (q.fetch()) {
+    //     SmsqRecord smsq_record;
+    //     smsq_record.msgnum      = ++msgnum;
+    //     smsq_record.username    = q.result.getString( 0 );
+    //     smsq_record.msgid       = q.result.getInt( 1 );
+    //     smsq_record.src_app     = q.result.getString( 2 );
+    //     smsq_record.origin      = q.result.getString( 3 );
+    //     smsq_record.added       = q.result.getTime( 4 );
+    //     smsq_record.depart      = q.result.getTime( 5 );
+    //     smsq_record.destno      = q.result.getString( 6 );
+    //     smsq_record.sender      = q.result.getString( 7 );
+    //     smsq_record.text        = q.result.getString( 8 );
+    //     smsq_record.valperiod   = q.result.getInt( 9 );
+    //     smsq_record.priority    = q.result.getInt( 10 );
+    //     smsq_record.smsqstatus  = q.result.getInt( 11 );
+    //     smsq_record.smscstatus  = q.result.getInt( 12 );
+    //     smsq_record.errorcode   = q.result.getInt( 13 );
+    //     smsq_record.retries     = q.result.getInt( 14 );
+    //     smsq_record.updatetime  = q.result.getTime( 15 );
+    //     smsq_results.push_back(smsq_record);
 
-        if (smsq_results.size() == 50)
-            break; // XXX limit number of messages handled in any one sweep
-    }
-    q.close();
+    //     if (smsq_results.size() == 50)
+    //         break; // XXX limit number of messages handled in any one sweep
+    // }
+    // q.close();
 
-    return smsq_results.size();
+    // return smsq_results.size();
 }
 
 // void list_messages(char *caption) {
@@ -343,8 +343,8 @@ bool dbErrorCallback
 }
 
 void initDB() {
-    LOG_TIME fprintf(logfile, "initDB: '%s'", SMSQ_DBNAME); LOG_DOT
-    db = new XDB(SMSQ_DBNAME); LOG_DOT
+    LOG_TIME fprintf(logfile, "initDB: '%s'", BBQUIZ_DBNAME); LOG_DOT
+    db = new XDB(BBQUIZ_DBNAME); LOG_DOT
     if (!db->open()) { throw "Failed to open database"; }
     db->setErrorCallBack(dbErrorCallback);
     fprintf(logfile, "done"); LOG_NL
