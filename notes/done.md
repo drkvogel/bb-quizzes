@@ -1,5 +1,13 @@
 ## done
 
+media query - use commas to apply multiple conditions (like a logical OR)
+
+```css
+    @media screen and (max-width: 440px), screen and (max-height: 440px)    /* logical OR */
+    @media screen and (min-width: 768px) and (min-height: 440px)            /* logical AND */
+```
+
+
 * names of any included libraries (e.g. node.js)
 * representation of the `<div>`s in the page, description of the purpose of each.
 * image sizes

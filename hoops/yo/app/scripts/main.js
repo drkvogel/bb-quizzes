@@ -166,7 +166,69 @@
     }
 
     function scaleImagesAY() {
+        console.log('scaleImagesAY()');
+        // copied from matrix
 
+        // // we know the natural sizes of the images already
+        // var topWidth, topHeight, botWidth, botHeight;
+        // if (currentPage().templateId === 'quiz2x2') {
+        //     topWidth = 420;
+        //     topHeight = 340;
+        //     botWidth = 680;
+        //     botHeight = 365;
+        // } else if (currentPage().templateId === 'quiz3x3') {
+        //     topWidth = 510;
+        //     topHeight = 405;
+        //     botWidth = 755;
+        //     botHeight = 295;
+        // }
+
+        // var widthExtra = // total width of elements, excluding centre images
+        //     ($('.container').outerWidth(true) - $('.container').width()) +
+        //     ($('#pages').outerWidth(true) - $('#pages').width());
+
+        // var heightExtra = // total height of elements, excluding centre images
+        //     ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
+        //     ($('.botText').is(':visible') ? $('.botText').height() : 0);
+
+        // // natural image dimensions; .width(), .height() are current dimensions
+        // var naturalFullWidth = widthExtra + botWidth; // bottom image is widest
+        // var naturalFullHeight = heightExtra + topHeight + botHeight;
+
+        // // allow 200px for text at bottom
+        // // .gridContainer needs to be scaled from natural width/height to fit in
+        // // (window height - 200px) x window width
+
+        // // vertical shrink = (window height - 200px) / naturalFullHeight
+        // // horizontal shrink = window width / naturalFullWidth
+        // var scaleV = ($(window).height() - 200) / naturalFullHeight;
+        // var scaleH = $(window).width() / naturalFullWidth;
+
+        // // select lower of these scaling values
+        // var scale = scaleV <= scaleH ? scaleV : scaleH;
+
+        // // work out desired dimensions of whole quiz
+        // var targetWidth = naturalFullWidth * scale; // forget about width, it always fits, down to 300px
+        // var targetHeight = naturalFullHeight * scale;
+
+        // // work out desired height of .gridContainer
+        // var targetMiddleHeight = targetHeight - heightExtra;
+
+        // // need h/w ratio of .gridContainer. Typical dimensions: 162 x 144. 162 / 144 == 1.125
+        // var middleHWRatio = 1.125;
+
+        // // what innerWidth of .gridContainer would create targetMiddleHeight?
+        // var targetMiddleWidth = targetMiddleHeight * middleHWRatio;
+
+        // // set these margins on .gridContainer to make the targetWidth and targetHeight
+        // var setMargins = ($(window).width() - widthExtra - targetMiddleWidth) / 2;
+        // $('.gridContainer').css('margin-left', setMargins);
+        // $('.gridContainer').css('margin-right', setMargins);
+
+        // console.log('setMargins: ' + setMargins +
+        //     ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
+        //     ', targetMiddleWidth: ' + targetMiddleWidth
+        //      + 'setMargins: ' + setMargins);
     }
 
     // shrink images to try to fit height into viewport, but don't worry about width
