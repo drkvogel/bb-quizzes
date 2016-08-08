@@ -309,7 +309,6 @@
         //$('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
             // seems to cause multiple clicks, erratic behaviour
 
-
         if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
             hideDiv('abandon-div');
         } else {
@@ -320,7 +319,6 @@
         showInfo(info);
 
         var navNext = '<span><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
-        //var navPrev = '<span class=\"col-md-2\"><button class=\"btn pull-left\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>';
         var navPrev = '<span><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>';
         var navPrevNext = '<span style="margin-right: 40px;"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>' +
                           '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
@@ -583,8 +581,8 @@
 
     $('body').on('keydown', keydown);
     //$('#pages').on('click', 'a, button, div.row div', containerClick); // delegate events
-    $('#devBar').on('click', 'a, button', navClick); // need this?
-    $('#abandon-btn').on('click', abandonClick); // need this?
+    $('#devBar').on('click', 'a, button', navClick);
+    $('#abandon-btn').on('click', abandonClick);
     $('#modals').on('click', 'button', modalClick);
 
     window.onresize = function(event) {
