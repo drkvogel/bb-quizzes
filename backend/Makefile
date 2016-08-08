@@ -4,7 +4,7 @@ SHELL=/bin/sh
 INC=$(II_SYSTEM)/ingres/files
 LDLIB=-linterp.1 -liiapi 
 CXXFLAGS=$(CCXXFLAGS) -I$(INC)
-OBJS=bbquiz.o rosebase.o rosetta.o \
+OBJS= rosebase.o rosetta.o bbquiz.o \
     xbinob.o xdb.o xencode.o xexec.o xquery.o xsql.o xtime.o xhttp.o xcgi.o
 
 bbquiz : bbquiz.o $(OBJS)

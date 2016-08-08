@@ -6,6 +6,9 @@
 #include <string>
 #include "xtime.h"
 
+#define XHTTP_HOST_NAME "red.ctsu.ox.ac.uk/~cp/cjb/matrix"
+#define XHTTP_HOST_PORT 80
+
 extern std::string timebuf;
 extern XTIME logtime;
 extern FILE * logfile;

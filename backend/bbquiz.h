@@ -1,6 +1,7 @@
 #ifndef _BBQUIZ_
 #define _BBQUIZ_
 #include "xtime.h"
+#include "xdb.h"
 #include "live_or_test.h"
 #ifdef __LIVE__
 #define BBQUIZ_DBNAME "cp_web_live"
@@ -8,7 +9,8 @@
 #define BBQUIZ_DBNAME "cp_web_test"
 #endif
 
-
+#define XHTTP_HOST_NAME "red.ctsu.ox.ac.uk/~cp/cjb/matrix"
+#define XHTTP_HOST_PORT 80
 
 #define DBG_SET(x) session_data.debugflags & x
 #define LOG_TIME logtime.setNow();                          \
@@ -22,6 +24,15 @@
 
 #define DIR_LOG "./log/"
 
+// extern XDB *db;
+// extern std::string timebuf;
+// extern XTIME logtime;
+// extern FILE * logfile;
+
+XDB *db;
+std::string timebuf;
+XTIME logtime;
+FILE * logfile;
 
 using std::string;
 

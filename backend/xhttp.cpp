@@ -17,7 +17,7 @@
 #include <string.h>
 #include "xhttp.h"
 #include "xtime.h"
-#include "smsq.h"
+//#include "bbquiz.h"
 
 #define DBG_LOGFILE logfile
 

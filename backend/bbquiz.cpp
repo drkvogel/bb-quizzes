@@ -9,12 +9,13 @@
 #include <sys/resource.h>
 #endif
 
+#include "bbquiz.h"
+
 #include "xdb.h"
 #include "xquery.h"
 #include "xexec.h"
 #include "xhttp.h"
 
-#include "bbquiz.h"
 // #include "clickatell.h"
 // #include "smsq_exproc.h"
 // #include "smsq_api.h"
@@ -27,11 +28,11 @@
 // extern char smscstatus_descript[][50];
 // extern char smsqstatus_descript[][30];
 // extern session_data_st session_data;
-extern XDB *db;
 
-extern std::string timebuf;
-extern XTIME logtime;
-extern FILE * logfile;
+/*XDB *db;
+std::string timebuf;
+XTIME logtime;
+FILE * logfile; */
 
 //tdvecSmsqRecord smsq_results;
 
@@ -116,7 +117,7 @@ extern FILE * logfile;
 //         update_message_status(msg.msgid, SMSQ_MSG_CLEARED_SEND, -1, -1);
 // }
 
-int get_messages (int status) {
+////int get_messages (int status) {
     // int msgnum = 0;
     // smsq_results.clear();
 
@@ -155,7 +156,7 @@ int get_messages (int status) {
     // q.close();
 
     // return smsq_results.size();
-}
+//}
 
 // void list_messages(char *caption) {
 //     if (0 == smsq_results.size()) return;
@@ -386,8 +387,6 @@ int main(void) {
     // readIniFile();
     // initDB();
     // initSessionData();
-
-
 
     db->close(); LOG_DOT
     delete db; LOG_DOT LOG_NL
