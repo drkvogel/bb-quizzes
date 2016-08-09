@@ -155,6 +155,24 @@ bool dbErrorCallback
 //     return 0;
 // }
 
+void showParams(XCGI * x) { 
+    printf("Method: %s", x->getMethodName().c_str());
+    printf("<h3>%d parameters</h3>\n<table border cellspacing=\"0\">", x->param.count());
+    int np = x->param.count();
+    printf("\n\n<!-- XCGI found %d parameters -->\n", np);
+    for (int i = 0; i < np; i++) {
+        printf( "<tr><td>%d</td><td>%s</td><td>%s</td></tr>", i, x->param.getName(i).c_str(), x->param.getString(i).c_str());
+    }
+    printf("</table>END");
+#ifdef __LIVE__
+    printf("<p>We're live!</p>");
+    boilerplate_foot();
+    return -1;
+#else
+    printf("<!-- Not __LIVE__ -->");
+#endif
+}
+
 int initDB() { // no logging
     db = new XDB(BBQUIZ_DBNAME);
     if (!db->open()) {  throw "Failed to open database"; }
@@ -193,63 +211,37 @@ int main(int argc, char **argv) {
 
     //setUpLogfile();
     // readIniFile();
+    // initSessionData();
 
     XCGI *x = new XCGI(argc, argv);
     x->writeHeader(XCGI::typeHtml);
     boilerplate_head();
 
-#ifdef __LIVE__
-    printf("<p>We're live!</p>");
-    boilerplate_foot();
-    return -1;
-#else
-    printf("<p>Not live</p>");
-#endif
-
+    if (DEBUG) showParams(x); // from cgi_test.cpp
     if (OFFLINE) {
         printf("<p>Currently offline</p>");
         boilerplate_foot();
         return -1;
     }   
 
-    if (DEBUG) { // from cgi_test.cpp
-        printf("Method: %s", x->getMethodName().c_str());
-        printf("<h3>%d parameters</h3>\n<table border cellspacing=\"0\">", x->param.count());
-        int np = x->param.count();
-        printf("\n\n<!-- XCGI found %d parameters -->\n", np);
-        for (i = 0; i < np; i++) {
-            printf( "<tr><td>%d</td><td>%s</td><td>%s</td></tr>", i, x->param.getName(i).c_str(), x->param.getString(i).c_str());
-        }
-        printf("</table>END");
-    }
+    printf("<h1>bbquiz</h1><p>Hello, World</p>\n");
 
     try {
         initDB();
         printf("db opened");
     } catch (char const* err) {
-        printf("db problem: '%s'\nexiting", err);
+        printf("db problem: '%s'; exiting", err);
         boilerplate_foot();
         return -1;
     }
-/*    if (!initDB()) { // not error
-        printf("db opened");
-    } else {
-        printf("db problem, exiting");
-        boilerplate_foot();
-        return -1;
-    }*/
-    // initSessionData();
 
     db->close(); //LOG_DOT
-    //delete db; LOG_DOT LOG_NL
-
-    printf("<h1>bbquiz</h1><p>Hello, World</p>\n");
-
-    //fclose(logfile); // is fclose causing a segfault? - cjb 2009-06-04
     boilerplate_foot();
     return(EXIT_SUCCESS);
 }
 
+    //fclose(logfile); // fclose causing segfault - cjb 2009-06-04, 2016-08-09
+    //delete db; LOG_DOT LOG_NL // segfault
     //sleep(SMSD_CHECK_PERIOD); XXX
     // exitstatus = authenticateWithProvider();
     // /* } catch (char * message) {

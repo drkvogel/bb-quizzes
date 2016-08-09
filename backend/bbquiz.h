@@ -24,12 +24,129 @@
 
 #define DIR_LOG "./log/"
 
-
 std::string timebuf;
 XTIME logtime;
 FILE * logfile;
 
 using std::string;
+
+typedef struct {
+    sesh_id
+    ntests
+    tinstruct
+    tstart
+    tfinish
+    tinsert
+
+    duration1
+    puzzle1
+    elapsed1
+    answer1
+    correct1    
+
+    duration2 
+    puzzle2   
+    elapsed2  
+    answer2   
+    correct2  
+    
+    duration3 
+    puzzle3   
+    elapsed3  
+    answer3   
+    correct3  
+    
+    duration4 
+    puzzle4   
+    elapsed4  
+    answer4   
+    correct4  
+    
+    duration5 
+    puzzle5   
+    elapsed5  
+    answer5   
+    correct5  
+    
+    duration6 
+    puzzle6   
+    elapsed6  
+    answer6   
+    correct6  
+    
+    duration7 
+    puzzle7   
+    elapsed7  
+    answer7   
+    correct7  
+    
+    duration8 
+    puzzle8   
+    elapsed8  
+    answer8   
+    correct8  
+    
+    duration9 
+    puzzle9   
+    elapsed9  
+    answer9   
+    correct9  
+    
+    duration10
+    puzzle10  
+    elapsed10 
+    answer10  
+    correct10 
+    
+    duration11
+    puzzle11  
+    elapsed11 
+    answer11  
+    correct11 
+    
+    duration12
+    puzzle12  
+    elapsed12 
+    answer12  
+    correct12 
+    
+    duration13
+    puzzle13  
+    elapsed13 
+    answer13  
+    correct13 
+    
+    duration14
+    puzzle14  
+    elapsed14 
+    answer14  
+    correct14 
+    
+    duration15
+    puzzle15  
+    elapsed15 
+    answer15  
+    correct15 
+    
+    duration16
+    puzzle16  
+    elapsed16 
+    answer16  
+    correct16 
+    
+    duration17
+    puzzle17  
+    elapsed17 
+    answer17  
+    correct17 
+    
+    duration18
+    puzzle18  
+    elapsed18 
+    answer18  
+    correct18 
+};
+
 
 typedef struct {
     int msgid;
