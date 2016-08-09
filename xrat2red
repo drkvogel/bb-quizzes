@@ -7,7 +7,7 @@
 
 REMOTEHOST="red.ctsu.ox.ac.uk"
 REMOTEUSER="cp"
-REMOTEROOT="/user/cp/proj/bbquizzes"  # http://red.ctsu.ox.ac.uk/~cp/cjb/
+REMOTEROOT="/user/cp/proj/bb-quizzes"  # http://red.ctsu.ox.ac.uk/~cp/cjb/
 
 if [ -z "$1" ]
 then
@@ -20,7 +20,7 @@ fi
 REMOTEPATH=$REMOTEROOT #$DIR
 
 echo "Copying entire repo to $REMOTEUSER@$REMOTEHOST:$REMOTEPATH"
-echo "(dirs must exist on server already?)"
+echo "(dirs must exist on server already? only base target directory)"
 read -rsp $'Press any key to continue...\n' -n1 key
 
 scp -r * $REMOTEUSER@$REMOTEHOST:$REMOTEPATH
