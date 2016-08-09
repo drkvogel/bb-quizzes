@@ -24,11 +24,6 @@
 
 #define DIR_LOG "./log/"
 
-// extern XDB *db;
-// extern std::string timebuf;
-// extern XTIME logtime;
-// extern FILE * logfile;
-
 XDB *db;
 std::string timebuf;
 XTIME logtime;
@@ -45,19 +40,7 @@ typedef struct {
     int status;
     int retries;
     XTIME updatetime;
-} SMSQ_USER_MESSAGES_RECORD;
-
-// enum smsq_status {
-//     SMSQ_MSG_ADDED,
-//     SMSQ_MSG_CLEARED_SEND,
-//     SMSQ_MSG_SENT_TO_PROVIDER,
-//     SMSQ_MSG_DELIVERED_OK,
-//     SMSQ_MSG_RECEIVED_OK,
-//     SMSQ_MSG_SEND_FAILED,
-//     SMSQ_MSG_CANCELLED,
-//     SMSQ_MSG_STATUS_UNKNOWN,
-//     SMSQ_MSG_ABOUT_TO_SEND
-// };
+} BBQUIZ_USER_MESSAGES_RECORD;
 
 class Utilities {
 public:
@@ -68,6 +51,7 @@ public:
 };
 
 #endif
+
 
 // #define SMSQ_ADDMSG_BAD_PASSWORD    -1
 // #define SMSQ_ADDMSG_NO_QUOTA        -2
@@ -82,3 +66,15 @@ public:
 // #define SMSQ_LEN_DESTNO     16
 // #define SMSQ_LEN_SENDER     16
 // #define SMSQ_LEN_TEXT      160
+
+// enum smsq_status {
+//     SMSQ_MSG_ADDED,
+//     SMSQ_MSG_CLEARED_SEND,
+//     SMSQ_MSG_SENT_TO_PROVIDER,
+//     SMSQ_MSG_DELIVERED_OK,
+//     SMSQ_MSG_RECEIVED_OK,
+//     SMSQ_MSG_SEND_FAILED,
+//     SMSQ_MSG_CANCELLED,
+//     SMSQ_MSG_STATUS_UNKNOWN,
+//     SMSQ_MSG_ABOUT_TO_SEND
+// };

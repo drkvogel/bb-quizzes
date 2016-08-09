@@ -15,6 +15,7 @@
 #include "xquery.h"
 #include "xexec.h"
 #include "xhttp.h"
+#include "xcgi.h"
 
 // #include "clickatell.h"
 // #include "smsq_exproc.h"
@@ -377,25 +378,55 @@ void setUpLogfile() {
     fprintf(stderr, "stderr test"); // a little test
 }
 
-int main(void) {
-    // int clickatell_balance;
-    // int exitstatus;
-    // int i;
+void boilerplate_head() {
+    printf("<html><head><title></title></head><body>");
+}
+
+void boilerplate_foot() {
+    printf("</body></html>");
+}
+
+#define DEBUG 0
+// 0: off; 1: on
+
+
+int main(int argc, char **argv) {
+    int exitstatus, i;
     // tdvecSmsqRecord::const_iterator recIt;
+
+
+    XCGI *x = new XCGI(argc, argv);
+    x->writeHeader(XCGI::typeHtml);
+    //printf("<HTML><BODY><H1>CTSU Web Quiz Service</h1>");//<p>Currently offline for testing</p>");
+    boilerplate_head();
+
+    if (DEBUG) { // from cgi_test.cpp
+        printf("Method: %s", x->getMethodName().c_str());
+        printf("<h3>%d parameters</h3>\n<table border cellspacing=\"0\">", x->param.count());
+        int np = x->param.count();
+        printf("\n\n<!-- XCGI found %d parameters -->\n", np);
+        for (i = 0; i < np; i++) {
+            printf( "<tr><td>%d</td><td>%s</td><td>%s</td></tr>", i, x->param.getName(i).c_str(), x->param.getString(i).c_str());
+        }
+        printf("</table>END");
+    }
 
     // setUpLogfile();
     // readIniFile();
     // initDB();
     // initSessionData();
 
-    db->close(); LOG_DOT
-    delete db; LOG_DOT LOG_NL
-    //sleep(SMSD_CHECK_PERIOD); XXX
+    //db->close(); LOG_DOT
+    //delete db; LOG_DOT LOG_NL
+
+    printf("<h1>bbquiz</h1><p>Hello, World</p>\n");
+
     //fclose(logfile); // is fclose causing a segfault? - cjb 2009-06-04
+    boilerplate_foot();
     return(EXIT_SUCCESS);
 }
 
-
+    //sleep(SMSD_CHECK_PERIOD); XXX
     // exitstatus = authenticateWithProvider();
     // /* } catch (char * message) {
     //     LOG_TIME
