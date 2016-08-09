@@ -8,7 +8,7 @@ OBJS= rosebase.o rosetta.o \
     xbinob.o xdb.o xencode.o xexec.o xquery.o xsql.o xtime.o xhttp.o xcgi.o
 
 bbquiz : bbquiz.o $(OBJS)
-	$(CXX) $(CXXFLAGS) -o index.cgi bbquiz.cpp $(OBJS) -L$(II_SYSTEM)/ingres/lib -lingres $(LDLIB)
+	$(CXX) $(CXXFLAGS) -o bbquiz.cgi bbquiz.cpp $(OBJS) -L$(II_SYSTEM)/ingres/lib -lingres $(LDLIB)
 
 clean :
 	rm *.o
