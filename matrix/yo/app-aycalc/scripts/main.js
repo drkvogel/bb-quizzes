@@ -320,7 +320,7 @@
         console.log('setMargins: ' + setMargins +
             ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
             ', targetMiddleWidth: ' + targetMiddleWidth
-             + 'setMargins: ' + setMargins);
+             + ', setMargins: ' + setMargins);
     }
     //var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
 
