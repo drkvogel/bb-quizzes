@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#sftp -o RSAAuthentication=no red.ctsu.ox.ac.uk
+chmod go-w index.cgi
+cp index.cgi ~cp/public_html/bbquiz/

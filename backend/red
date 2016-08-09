@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sftp -o RSAAuthentication=no red.ctsu.ox.ac.uk
