@@ -15,4 +15,4 @@ cp_web_test
     answerN     answer given
     correctN    whether answer is correct
 
-/home/kvogel/Projects/nova/db/sql/cp_nova
+
