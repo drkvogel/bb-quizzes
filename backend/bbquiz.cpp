@@ -26,6 +26,9 @@
 
 XDB *db;
 
+BBQuizRecord rec;
+tdvecBBQuizRecord results;
+
 //tdvecSmsqRecord smsq_results;
 
 ////int get_messages (int status) {
@@ -155,7 +158,7 @@ bool dbErrorCallback
 //     return 0;
 // }
 
-void showParams(XCGI * x) { 
+void showParams(XCGI * x) {
     printf("Method: %s", x->getMethodName().c_str());
     printf("<h3>%d parameters</h3>\n<table border cellspacing=\"0\">", x->param.count());
     int np = x->param.count();
@@ -222,7 +225,7 @@ int main(int argc, char **argv) {
         printf("<p>Currently offline</p>");
         boilerplate_foot();
         return -1;
-    }   
+    }
 
     printf("<h1>bbquiz</h1><p>Hello, World</p>\n");
 
@@ -356,10 +359,10 @@ int main(int argc, char **argv) {
 //     int days_queued;
 
 //     exit_status = clickatell_query_status(msg.msgid);
-    
+
 //     if (SMSQ_EXIT_SUCCESS == exit_status) {
 //         LOG_TIME;
-//         fprintf(logfile, "get_message_status: msgnum:%d, msgid:%d, smsqstatus:%d, smscstatus:%d", 
+//         fprintf(logfile, "get_message_status: msgnum:%d, msgid:%d, smsqstatus:%d, smscstatus:%d",
 //                 msg.msgnum,
 //                 msg.msgid,
 //                 msg.smsqstatus,
@@ -370,7 +373,7 @@ int main(int argc, char **argv) {
 //                 // shouldn't get here - status is discontinued
 //                 printf("CLICKATELL_MSGSTATUS_OK for msgid:%d at ", msg.msgid); LOG_TIME
 //                 fprintf(logfile, "CLICKATELL_MSGSTATUS_OK for msgid:%d at ", msg.msgid); LOG_TIME
-                
+
 //                 // get rid of it anyway
 //                 update_message_status(msg.msgid, SMSQ_MSG_RECEIVED_OK, session_data.smscstatus, CLICKATELL_ERROR_STATUS_OK_RECEIVED);
 //                 break;
@@ -407,7 +410,7 @@ int main(int argc, char **argv) {
 //             case CLICKATELL_MSGSTATUS_ROUTING_ERROR:
 //                 update_message_status(msg.msgid, SMSQ_MSG_CANCELLED, session_data.smscstatus, -1);
 //                 break;
-//             case CLICKATELL_MSGSTATUS_UNKNOWN:                
+//             case CLICKATELL_MSGSTATUS_UNKNOWN:
 //             default:
 //                 // ??? SMSQ_MSG_SEND_FAILED ???
 //                 update_message_status(msg.msgid, SMSQ_MSG_STATUS_UNKNOWN, CLICKATELL_MSGSTATUS_UNKNOWN, -1);
@@ -422,7 +425,7 @@ int main(int argc, char **argv) {
 //         update_message_status(msg.msgid, SMSQ_MSG_STATUS_UNKNOWN, -1, session_data.errornum);
 //         exproc_increment_retries(msg.msgid);
 //     }
-    
+
 //     return EXIT_SUCCESS;
 // }
 

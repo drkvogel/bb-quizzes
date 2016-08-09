@@ -28,136 +28,126 @@ std::string timebuf;
 XTIME logtime;
 FILE * logfile;
 
-using std::string;
+//using std::string;
 
 typedef struct {
-    sesh_id
-    ntests
-    tinstruct
-    tstart
-    tfinish
-    tinsert
+    int sesh_id;
+    int ntests;
+    XTIME tinstruct;
+    XTIME tstart;
+    XTIME tfinish;
+    XTIME tinsert;
 
-    duration1
-    puzzle1
-    elapsed1
-    answer1
-    correct1    
+    int duration1;
+    int puzzle1;
+    int elapsed1;
+    int answer1;
+    int correct1;
 
-    duration2 
-    puzzle2   
-    elapsed2  
-    answer2   
-    correct2  
-    
-    duration3 
-    puzzle3   
-    elapsed3  
-    answer3   
-    correct3  
-    
-    duration4 
-    puzzle4   
-    elapsed4  
-    answer4   
-    correct4  
-    
-    duration5 
-    puzzle5   
-    elapsed5  
-    answer5   
-    correct5  
-    
-    duration6 
-    puzzle6   
-    elapsed6  
-    answer6   
-    correct6  
-    
-    duration7 
-    puzzle7   
-    elapsed7  
-    answer7   
-    correct7  
-    
-    duration8 
-    puzzle8   
-    elapsed8  
-    answer8   
-    correct8  
-    
-    duration9 
-    puzzle9   
-    elapsed9  
-    answer9   
-    correct9  
-    
-    duration10
-    puzzle10  
-    elapsed10 
-    answer10  
-    correct10 
-    
-    duration11
-    puzzle11  
-    elapsed11 
-    answer11  
-    correct11 
-    
-    duration12
-    puzzle12  
-    elapsed12 
-    answer12  
-    correct12 
-    
-    duration13
-    puzzle13  
-    elapsed13 
-    answer13  
-    correct13 
-    
-    duration14
-    puzzle14  
-    elapsed14 
-    answer14  
-    correct14 
-    
-    duration15
-    puzzle15  
-    elapsed15 
-    answer15  
-    correct15 
-    
-    duration16
-    puzzle16  
-    elapsed16 
-    answer16  
-    correct16 
-    
-    duration17
-    puzzle17  
-    elapsed17 
-    answer17  
-    correct17 
-    
-    duration18
-    puzzle18  
-    elapsed18 
-    answer18  
-    correct18 
-};
+    int duration2;
+    int puzzle2;
+    int elapsed2;
+    int answer2;
+    int correct2;
 
+    int duration3;
+    int puzzle3;
+    int elapsed3;
+    int answer3;
+    int correct3;
 
-typedef struct {
-    int msgid;
-    // char src_app[SMSQ_LEN_SRCAPP+1];
-    // char origin [SMSQ_LEN_ORIGIN+1];
-    XTIME added;
-    XTIME depart;
-    int status;
-    int retries;
-    XTIME updatetime;
-} BBQUIZ_USER_MESSAGES_RECORD;
+    int duration4;
+    int puzzle4;
+    int elapsed4;
+    int answer4;
+    int correct4;
+
+    int duration5;
+    int puzzle5;
+    int elapsed5;
+    int answer5;
+    int correct5;
+
+    int duration6;
+    int puzzle6;
+    int elapsed6;
+    int answer6;
+    int correct6;
+
+    int duration7;
+    int puzzle7;
+    int elapsed7;
+    int answer7;
+    int correct7;
+
+    int duration8;
+    int puzzle8;
+    int elapsed8;
+    int answer8;
+    int correct8;
+
+    int duration9;
+    int puzzle9;
+    int elapsed9;
+    int answer9;
+    int correct9;
+
+    int duration10;
+    int puzzle10;
+    int elapsed10;
+    int answer10;
+    int correct10;
+
+    int duration11;
+    int puzzle11;
+    int elapsed11;
+    int answer11;
+    int correct11;
+
+    int duration12;
+    int puzzle12;
+    int elapsed12;
+    int answer12;
+    int correct12;
+
+    int duration13;
+    int puzzle13;
+    int elapsed13;
+    int answer13;
+    int correct13;
+
+    int duration14;
+    int puzzle14;
+    int elapsed14;
+    int answer14;
+    int correct14;
+
+    int duration15;
+    int puzzle15;
+    int elapsed15;
+    int answer15;
+    int correct15;
+
+    int duration16;
+    int puzzle16;
+    int elapsed16;
+    int answer16;
+    int correct16;
+
+    int duration17;
+    int puzzle17;
+    int elapsed17;
+    int answer17;
+    int correct17;
+
+    int duration18;
+    int puzzle18;
+    int elapsed18;
+    int answer18;
+    int correct18;
+} BBQuizRecord;
+
+typedef std::vector< BBQuizRecord > tdvecBBQuizRecord;
 
 class Utilities {
 public:
@@ -195,3 +185,14 @@ public:
 //     SMSQ_MSG_STATUS_UNKNOWN,
 //     SMSQ_MSG_ABOUT_TO_SEND
 // };
+
+// typedef struct {
+//     int msgid;
+//     // char src_app[SMSQ_LEN_SRCAPP+1];
+//     // char origin [SMSQ_LEN_ORIGIN+1];
+//     XTIME added;
+//     XTIME depart;
+//     int status;
+//     int retries;
+//     XTIME updatetime;
+// } BBQUIZ_USER_MESSAGES_RECORD;
