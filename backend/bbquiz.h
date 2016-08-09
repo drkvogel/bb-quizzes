@@ -24,7 +24,7 @@
 
 #define DIR_LOG "./log/"
 
-XDB *db;
+
 std::string timebuf;
 XTIME logtime;
 FILE * logfile;

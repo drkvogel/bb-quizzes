@@ -8,115 +8,25 @@
 #ifndef __WIN32__
 #include <sys/resource.h>
 #endif
-
-#include "bbquiz.h"
-
 #include "xdb.h"
 #include "xquery.h"
 #include "xexec.h"
 #include "xhttp.h"
 #include "xcgi.h"
+#include "bbquiz.h"
 
-// #include "clickatell.h"
-// #include "smsq_exproc.h"
-// #include "smsq_api.h"
+// 0: off; 1: on
+#define DEBUG 0
+#define OFFLINE 0
 
 // bbquiz.cpp
 // c.bird 2016-08-08
 
 // Biobank Cognitive Quizzes backend
 
-// extern char smscstatus_descript[][50];
-// extern char smsqstatus_descript[][30];
-// extern session_data_st session_data;
-
-/*XDB *db;
-std::string timebuf;
-XTIME logtime;
-FILE * logfile; */
+XDB *db;
 
 //tdvecSmsqRecord smsq_results;
-
-// not presently used - runs as cron job instead
-/*void daemonize(void) {
-
-    int i, fd;
-    pid_t pid;
-    struct rlimit rlm;
-
-    pid = fork();
-
-    if (pid == -1) { // what happened there?
-        exit(-1);
-    }
-
-    if (pid != 0) {  // my work here is done
-        exit(0);
-    }
-
-    // create new session and process group
-    if (setsid() == -1)
-        exit(-1);
-
-    // get max no of file descriptors
-    if (getrlimit(RLIMIT_NOFILE, &rlm) < 0)
-        exit(-1);
-
-    // close all fd
-//    for (i=0; i<rlm.rlim_max; i++)
-//        close(i);
-
-    errno = 0;
-
-    // clear permissions
-    umask(0);
-
-    // chdir to root
-    if (chdir("/") < 0)
-        exit(-1);
-}
-*/
-
-// void update_message_status(int msgid, int smsqstatus, int smscstatus, int errorcode) {
-//     LOG_TIME fprintf(logfile, "update_message_status: msgid:%d, smsqstatus:%d [%s], smscstatus:%d [%s], errorcode:%d",
-//                      msgid,
-//                      smsqstatus, smsqstatus >= 0 ? smsqstatus_descript[smsqstatus] : "unchanged",
-//                      smscstatus, smscstatus >= 0 ? smscstatus_descript[smscstatus] : "unchanged",
-//                      errorcode); fflush(logfile);
-//     try {
-//         exproc_update_msg_status(msgid, smsqstatus, smscstatus, errorcode);
-//     } catch (char * message) {
-//         LOG_TIME
-//         fprintf(logfile, "EXCEPTION: %s", message);
-//     }
-//     LOG_DOT
-//     LOG_NL
-// }
-
-// void increment_message_retries(SmsqRecord msg) {
-//     try {
-//         if (msg.retries < session_data.retrylimit) {
-//             LOG_TIME; fprintf(logfile, "increment retries for msgid: %d, retries so far: %d",
-//                                         msg.msgid, msg.retries);
-//             exproc_increment_retries(msg.msgid); LOG_DOT LOG_NL
-//         } else {
-//             LOG_TIME; fprintf(logfile, "retry limit reached for msgid: %d, retries: %d\n",
-//                                         msg.msgid, msg.retries); LOG_NL
-//             session_data.smsqstatus = SMSQ_MSG_CANCELLED;
-//             update_message_status(msg.msgid, session_data.smsqstatus, session_data.smscstatus, -1);
-//         }
-//     } catch (char * message) {
-//         LOG_TIME
-//         fprintf(logfile, "EXCEPTION: %s", message);
-//     }
-// }
-
-// void check_due(SmsqRecord msg) {
-//     XTIME currentTime;
-//     currentTime.setNow();
-//     if (currentTime > msg.depart)
-//         update_message_status(msg.msgid, SMSQ_MSG_CLEARED_SEND, -1, -1);
-// }
 
 ////int get_messages (int status) {
     // int msgnum = 0;
@@ -192,6 +102,229 @@ FILE * logfile; */
 //                 (*recIt).updatetime.iso().c_str()); LOG_NL
 //     }
 // }
+
+// int initSessionData() { // XXX need to intialize other members? no.
+//     LOG_TIME fprintf(logfile, "initSessionData"); LOG_DOT
+//     session_data.retrylimit = SMSQ_RETRY_LIMIT;
+//     sprintf(session_data.api_id, "40510");
+//     sprintf(session_data.username, "ctsu");
+//     sprintf(session_data.password, "SMS123");
+//     fprintf(logfile, "done"); LOG_NL
+//     return EXIT_SUCCESS;
+// }
+
+// void readIniFile() {
+//     FILE* inifile;
+//     char debugstring[128]; //XXX
+
+//     inifile = fopen("smsd.rc", "r");
+//     if (inifile != NULL) {
+//         while (fgets(debugstring, sizeof(debugstring), inifile));
+//         session_data.debugflags = atoi(debugstring);
+//         fclose(inifile);
+//     } else {
+//         fprintf(logfile, "no inifile\n"); fflush(logfile);
+//         inifile = fopen("smsd.rc", "w");
+//         if (NULL != inifile) {
+//             fprintf(logfile, "creating new inifile\n"); fflush(logfile);
+//             fprintf(inifile, "%d", DEBUG_APIRESPONSE | DEBUG_MESSAGES );
+//             fclose(inifile);
+//         } else {
+//             fprintf(logfile, "couldn't create inifile\n"); fflush(logfile);
+//         }
+//         session_data.debugflags = DEBUG_MESSAGES;
+//     }
+// }
+
+bool dbErrorCallback
+(const std::string object, const int instance, const int ecount, const int ecode, const std::string error_txt)
+{
+    std::stringstream sstr;
+    sstr << "Database error:\n  object: " << object << "\n  instance: " << instance << "\n  ecount: " << ecount
+        << "\n  ecode: " << ecode << "\n  error_txt: " << error_txt;
+    LOG_PRINT(sstr.str().c_str());
+    return true; //XXX
+}
+
+// int initDB() {
+//     LOG_TIME fprintf(logfile, "initDB: '%s'\n", BBQUIZ_DBNAME); LOG_DOT
+//     db = new XDB(BBQUIZ_DBNAME); LOG_DOT
+//     if (!db->open()) {  throw "Failed to open database"; }
+//     db->setErrorCallBack(dbErrorCallback);
+//     fprintf(logfile, "done"); LOG_NL
+//     return 0;
+// }
+
+int initDB() { // no logging
+    db = new XDB(BBQUIZ_DBNAME);
+    if (!db->open()) {  throw "Failed to open database"; }
+    db->setErrorCallBack(dbErrorCallback);
+    return 0;
+}
+
+void setUpLogfile() {
+    char logfilename[32];
+    logtime.setNow();
+    sprintf(logfilename, DIR_LOG "bbquiz_%4.4d-%2.2d.log", logtime.asXDATE().getYear(), logtime.asXDATE().getMonth());
+    logfile = fopen(logfilename, "a");
+    if (NULL == logfile) printf("couldn't open logfile"); //XXX
+#ifndef __WIN32__
+    struct rlimit coredumplimit;
+    // p.s. if setting a specific size, these limits are in bytes,
+    // whilst those set by ulimit (in bash) are in 1k blocks
+    coredumplimit.rlim_cur = RLIM_INFINITY; //XXX ?
+    coredumplimit.rlim_max = RLIM_INFINITY;
+    setrlimit(RLIMIT_CORE, &coredumplimit);
+#endif
+    //fprintf(stderr, "stderr test"); // a little test
+}
+
+void boilerplate_head() {
+    printf("<html><head><title></title></head><body>");
+}
+
+void boilerplate_foot() {
+    printf("</body></html>");
+}
+
+int main(int argc, char **argv) {
+    int exitstatus, i;
+    //tdvecHoopsRecord::const_iterator recIt;
+
+    //setUpLogfile();
+    // readIniFile();
+
+    XCGI *x = new XCGI(argc, argv);
+    x->writeHeader(XCGI::typeHtml);
+    boilerplate_head();
+
+#ifdef __LIVE__
+    printf("<p>We're live!</p>");
+    boilerplate_foot();
+    return -1;
+#else
+    printf("<p>Not live</p>");
+#endif
+
+    if (OFFLINE) {
+        printf("<p>Currently offline</p>");
+        boilerplate_foot();
+        return -1;
+    }   
+
+    if (DEBUG) { // from cgi_test.cpp
+        printf("Method: %s", x->getMethodName().c_str());
+        printf("<h3>%d parameters</h3>\n<table border cellspacing=\"0\">", x->param.count());
+        int np = x->param.count();
+        printf("\n\n<!-- XCGI found %d parameters -->\n", np);
+        for (i = 0; i < np; i++) {
+            printf( "<tr><td>%d</td><td>%s</td><td>%s</td></tr>", i, x->param.getName(i).c_str(), x->param.getString(i).c_str());
+        }
+        printf("</table>END");
+    }
+
+    try {
+        initDB();
+        printf("db opened");
+    } catch (char const* err) {
+        printf("db problem: '%s'\nexiting", err);
+        boilerplate_foot();
+        return -1;
+    }
+/*    if (!initDB()) { // not error
+        printf("db opened");
+    } else {
+        printf("db problem, exiting");
+        boilerplate_foot();
+        return -1;
+    }*/
+    // initSessionData();
+
+    db->close(); //LOG_DOT
+    //delete db; LOG_DOT LOG_NL
+
+    printf("<h1>bbquiz</h1><p>Hello, World</p>\n");
+
+    //fclose(logfile); // is fclose causing a segfault? - cjb 2009-06-04
+    boilerplate_foot();
+    return(EXIT_SUCCESS);
+}
+
+    //sleep(SMSD_CHECK_PERIOD); XXX
+    // exitstatus = authenticateWithProvider();
+    // /* } catch (char * message) {
+    //     LOG_TIME
+    //     fprintf(logfile, "EXCEPTION: %s", message);
+    // }*/
+    // if (SMSQ_EXIT_SUCCESS == exitstatus) {
+    //     LOG_TIME fprintf(logfile, "Begin session - "); fflush(logfile);
+
+    //     clickatell_getbalance(&session_data.balance);
+    //     fprintf(logfile, "balance: %dcr\n", session_data.balance); fflush(logfile);
+    //     exproc_update_balance(session_data.balance);
+
+    //     if (session_data.debugflags & DEBUG_SEND_FAILED) {
+    //         get_messages(SMSQ_MSG_SEND_FAILED);
+    //         list_messages("SMSQ_MSG_SEND_FAILED");
+    //         for (recIt = smsq_results.begin(); recIt != smsq_results.end(); recIt++) {
+    //             get_message_status(*recIt);
+    //         }
+    //     }
+
+    //     get_messages(SMSQ_MSG_ADDED);
+    //     //list_messages("SMSQ_MSG_ADDED");
+
+    //     for (recIt = smsq_results.begin(); recIt != smsq_results.end(); recIt++) {
+    //         check_due(*recIt);
+    //     }
+
+    //     get_messages(SMSQ_MSG_CLEARED_SEND);
+    //     list_messages("SMSQ_MSG_CLEARED_SEND");
+
+    //     std::string temp_destno = "dummy"; // dummy number
+    //     for (recIt = smsq_results.begin(); recIt != smsq_results.end(); recIt++) {
+    //         /* anti-spam filter - don't send more than one message to the same number this time */
+    //         if (0 != (*recIt).destno.compare(temp_destno)) {
+    //             temp_destno = (*recIt).destno;
+    //             send_message(*recIt);
+    //         } else {
+    //             LOG_PRINT2("Msg id: %d queued until next sweep to avoid activating spam filter", (*recIt).msgid); LOG_NL;
+    //         }
+    //     }
+
+    //     get_messages(SMSQ_MSG_SENT_TO_PROVIDER);
+    //     list_messages("SMSQ_MSG_SENT_TO_PROVIDER");
+
+    //     for (recIt = smsq_results.begin(); recIt != smsq_results.end(); recIt++) {
+    //         get_message_status(*recIt);
+    //     }
+
+    //     // XXX handle UNKNOWN messages
+    //     get_messages(SMSQ_MSG_STATUS_UNKNOWN);
+    //     list_messages("SMSQ_MSG_STATUS_UNKNOWN");
+
+    //     for (recIt = smsq_results.begin(); recIt != smsq_results.end(); recIt++) {
+    //         get_message_status(*recIt); // increment retries?? have to stop querying at some point
+    //     }
+
+    //     LOG_TIME
+    //     clickatell_getbalance(&session_data.balance); LOG_DOT
+    //     fprintf(logfile, "End session - balance: %dcr", session_data.balance); LOG_DOT
+    //     exproc_update_balance(session_data.balance); LOG_DOT
+    // } else {
+    //     fprintf(logfile, "Authentication failed at"); LOG_TIME LOG_NL
+    //     switch (exitstatus) {
+    //         case SMSQ_EXIT_HTTP_ERROR:
+    //             LOG_PRINT2("SMSQ_EXIT_HTTP_ERROR: errno: %d\n", session_data.errornum);
+    //             break;
+    //         case SMSQ_EXIT_API_ERROR:
+    //             LOG_PRINT2("SMSQ_EXIT_API_ERROR: errno: %d\n", session_data.errornum);
+    //             break;
+    //         default:
+    //             LOG_PRINT2("unknown error: %d\n", session_data.errornum);
+    //             break;
+    //     }
+    // }
 
 // int send_message(SmsqRecord msg) {
 //     int exitstatus;
@@ -301,57 +434,6 @@ FILE * logfile; */
 //     return EXIT_SUCCESS;
 // }
 
-// int initSessionData() { // XXX need to intialize other members? no.
-//     LOG_TIME fprintf(logfile, "initSessionData"); LOG_DOT
-//     session_data.retrylimit = SMSQ_RETRY_LIMIT;
-//     sprintf(session_data.api_id, "40510");
-//     sprintf(session_data.username, "ctsu");
-//     sprintf(session_data.password, "SMS123");
-//     fprintf(logfile, "done"); LOG_NL
-//     return EXIT_SUCCESS;
-// }
-
-// void readIniFile() {
-//     FILE* inifile;
-//     char debugstring[128]; //XXX
-
-//     inifile = fopen("smsd.rc", "r");
-//     if (inifile != NULL) {
-//         while (fgets(debugstring, sizeof(debugstring), inifile));
-//         session_data.debugflags = atoi(debugstring);
-//         fclose(inifile);
-//     } else {
-//         fprintf(logfile, "no inifile\n"); fflush(logfile);
-//         inifile = fopen("smsd.rc", "w");
-//         if (NULL != inifile) {
-//             fprintf(logfile, "creating new inifile\n"); fflush(logfile);
-//             fprintf(inifile, "%d", DEBUG_APIRESPONSE | DEBUG_MESSAGES );
-//             fclose(inifile);
-//         } else {
-//             fprintf(logfile, "couldn't create inifile\n"); fflush(logfile);
-//         }
-//         session_data.debugflags = DEBUG_MESSAGES;
-//     }
-// }
-
-bool dbErrorCallback
-(const std::string object, const int instance, const int ecount, const int ecode, const std::string error_txt)
-{
-    std::stringstream sstr;
-    sstr << "Database error:\n  object: " << object << "\n  instance: " << instance << "\n  ecount: " << ecount
-        << "\n  ecode: " << ecode << "\n  error_txt: " << error_txt;
-    LOG_PRINT(sstr.str().c_str());
-    return true; //XXX
-}
-
-void initDB() {
-    LOG_TIME fprintf(logfile, "initDB: '%s'", BBQUIZ_DBNAME); LOG_DOT
-    db = new XDB(BBQUIZ_DBNAME); LOG_DOT
-    if (!db->open()) { throw "Failed to open database"; }
-    db->setErrorCallBack(dbErrorCallback);
-    fprintf(logfile, "done"); LOG_NL
-}
-
 // int authenticateWithProvider() {
 //     LOG_TIME fprintf(logfile, "authenticating"); LOG_DOT
 //     int exitstatus = clickatell_authenticate(   session_data.api_id,
@@ -361,143 +443,87 @@ void initDB() {
 //     return exitstatus;
 // }
 
-void setUpLogfile() {
-    char logfilename[32];
-    logtime.setNow();
-    sprintf(logfilename, DIR_LOG "bbquiz_%4.4d-%2.2d.log", logtime.asXDATE().getYear(), logtime.asXDATE().getMonth());
-    logfile = fopen(logfilename, "a");
-    if (NULL == logfile) printf("couldn't open logfile"); //XXX
-#ifndef __WIN32__
-    struct rlimit coredumplimit;
-    // p.s. if setting a specific size, these limits are in bytes,
-    // whilst those set by ulimit (in bash) are in 1k blocks
-    coredumplimit.rlim_cur = RLIM_INFINITY; //XXX ?
-    coredumplimit.rlim_max = RLIM_INFINITY;
-    setrlimit(RLIMIT_CORE, &coredumplimit);
-#endif
-    fprintf(stderr, "stderr test"); // a little test
-}
+// extern char smscstatus_descript[][50];
+// extern char smsqstatus_descript[][30];
+// extern session_data_st session_data;
 
-void boilerplate_head() {
-    printf("<html><head><title></title></head><body>");
-}
+// not presently used - runs as cron job instead
+/*void daemonize(void) {
 
-void boilerplate_foot() {
-    printf("</body></html>");
-}
+    int i, fd;
+    pid_t pid;
+    struct rlimit rlm;
 
-#define DEBUG 0
-// 0: off; 1: on
+    pid = fork();
 
-
-int main(int argc, char **argv) {
-    int exitstatus, i;
-    // tdvecSmsqRecord::const_iterator recIt;
-
-
-    XCGI *x = new XCGI(argc, argv);
-    x->writeHeader(XCGI::typeHtml);
-    //printf("<HTML><BODY><H1>CTSU Web Quiz Service</h1>");//<p>Currently offline for testing</p>");
-    boilerplate_head();
-
-    if (DEBUG) { // from cgi_test.cpp
-        printf("Method: %s", x->getMethodName().c_str());
-        printf("<h3>%d parameters</h3>\n<table border cellspacing=\"0\">", x->param.count());
-        int np = x->param.count();
-        printf("\n\n<!-- XCGI found %d parameters -->\n", np);
-        for (i = 0; i < np; i++) {
-            printf( "<tr><td>%d</td><td>%s</td><td>%s</td></tr>", i, x->param.getName(i).c_str(), x->param.getString(i).c_str());
-        }
-        printf("</table>END");
+    if (pid == -1) { // what happened there?
+        exit(-1);
     }
 
-    // setUpLogfile();
-    // readIniFile();
-    // initDB();
-    // initSessionData();
+    if (pid != 0) {  // my work here is done
+        exit(0);
+    }
 
-    //db->close(); LOG_DOT
-    //delete db; LOG_DOT LOG_NL
+    // create new session and process group
+    if (setsid() == -1)
+        exit(-1);
 
-    printf("<h1>bbquiz</h1><p>Hello, World</p>\n");
+    // get max no of file descriptors
+    if (getrlimit(RLIMIT_NOFILE, &rlm) < 0)
+        exit(-1);
 
-    //fclose(logfile); // is fclose causing a segfault? - cjb 2009-06-04
-    boilerplate_foot();
-    return(EXIT_SUCCESS);
+    // close all fd
+//    for (i=0; i<rlm.rlim_max; i++)
+//        close(i);
+
+    errno = 0;
+
+    // clear permissions
+    umask(0);
+
+    // chdir to root
+    if (chdir("/") < 0)
+        exit(-1);
 }
+*/
 
-    //sleep(SMSD_CHECK_PERIOD); XXX
-    // exitstatus = authenticateWithProvider();
-    // /* } catch (char * message) {
-    //     LOG_TIME
-    //     fprintf(logfile, "EXCEPTION: %s", message);
-    // }*/
-    // if (SMSQ_EXIT_SUCCESS == exitstatus) {
-    //     LOG_TIME fprintf(logfile, "Begin session - "); fflush(logfile);
+// void update_message_status(int msgid, int smsqstatus, int smscstatus, int errorcode) {
+//     LOG_TIME fprintf(logfile, "update_message_status: msgid:%d, smsqstatus:%d [%s], smscstatus:%d [%s], errorcode:%d",
+//                      msgid,
+//                      smsqstatus, smsqstatus >= 0 ? smsqstatus_descript[smsqstatus] : "unchanged",
+//                      smscstatus, smscstatus >= 0 ? smscstatus_descript[smscstatus] : "unchanged",
+//                      errorcode); fflush(logfile);
+//     try {
+//         exproc_update_msg_status(msgid, smsqstatus, smscstatus, errorcode);
+//     } catch (char * message) {
+//         LOG_TIME
+//         fprintf(logfile, "EXCEPTION: %s", message);
+//     }
+//     LOG_DOT
+//     LOG_NL
+// }
 
-    //     clickatell_getbalance(&session_data.balance);
-    //     fprintf(logfile, "balance: %dcr\n", session_data.balance); fflush(logfile);
-    //     exproc_update_balance(session_data.balance);
+// void increment_message_retries(SmsqRecord msg) {
+//     try {
+//         if (msg.retries < session_data.retrylimit) {
+//             LOG_TIME; fprintf(logfile, "increment retries for msgid: %d, retries so far: %d",
+//                                         msg.msgid, msg.retries);
+//             exproc_increment_retries(msg.msgid); LOG_DOT LOG_NL
+//         } else {
+//             LOG_TIME; fprintf(logfile, "retry limit reached for msgid: %d, retries: %d\n",
+//                                         msg.msgid, msg.retries); LOG_NL
+//             session_data.smsqstatus = SMSQ_MSG_CANCELLED;
+//             update_message_status(msg.msgid, session_data.smsqstatus, session_data.smscstatus, -1);
+//         }
+//     } catch (char * message) {
+//         LOG_TIME
+//         fprintf(logfile, "EXCEPTION: %s", message);
+//     }
+// }
 
-    //     if (session_data.debugflags & DEBUG_SEND_FAILED) {
-    //         get_messages(SMSQ_MSG_SEND_FAILED);
-    //         list_messages("SMSQ_MSG_SEND_FAILED");
-    //         for (recIt = smsq_results.begin(); recIt != smsq_results.end(); recIt++) {
-    //             get_message_status(*recIt);
-    //         }
-    //     }
-
-    //     get_messages(SMSQ_MSG_ADDED);
-    //     //list_messages("SMSQ_MSG_ADDED");
-
-    //     for (recIt = smsq_results.begin(); recIt != smsq_results.end(); recIt++) {
-    //         check_due(*recIt);
-    //     }
-
-    //     get_messages(SMSQ_MSG_CLEARED_SEND);
-    //     list_messages("SMSQ_MSG_CLEARED_SEND");
-
-    //     std::string temp_destno = "dummy"; // dummy number
-    //     for (recIt = smsq_results.begin(); recIt != smsq_results.end(); recIt++) {
-    //         /* anti-spam filter - don't send more than one message to the same number this time */
-    //         if (0 != (*recIt).destno.compare(temp_destno)) {
-    //             temp_destno = (*recIt).destno;
-    //             send_message(*recIt);
-    //         } else {
-    //             LOG_PRINT2("Msg id: %d queued until next sweep to avoid activating spam filter", (*recIt).msgid); LOG_NL;
-    //         }
-    //     }
-
-    //     get_messages(SMSQ_MSG_SENT_TO_PROVIDER);
-    //     list_messages("SMSQ_MSG_SENT_TO_PROVIDER");
-
-    //     for (recIt = smsq_results.begin(); recIt != smsq_results.end(); recIt++) {
-    //         get_message_status(*recIt);
-    //     }
-
-    //     // XXX handle UNKNOWN messages
-    //     get_messages(SMSQ_MSG_STATUS_UNKNOWN);
-    //     list_messages("SMSQ_MSG_STATUS_UNKNOWN");
-
-    //     for (recIt = smsq_results.begin(); recIt != smsq_results.end(); recIt++) {
-    //         get_message_status(*recIt); // increment retries?? have to stop querying at some point
-    //     }
-
-    //     LOG_TIME
-    //     clickatell_getbalance(&session_data.balance); LOG_DOT
-    //     fprintf(logfile, "End session - balance: %dcr", session_data.balance); LOG_DOT
-    //     exproc_update_balance(session_data.balance); LOG_DOT
-    // } else {
-    //     fprintf(logfile, "Authentication failed at"); LOG_TIME LOG_NL
-    //     switch (exitstatus) {
-    //         case SMSQ_EXIT_HTTP_ERROR:
-    //             LOG_PRINT2("SMSQ_EXIT_HTTP_ERROR: errno: %d\n", session_data.errornum);
-    //             break;
-    //         case SMSQ_EXIT_API_ERROR:
-    //             LOG_PRINT2("SMSQ_EXIT_API_ERROR: errno: %d\n", session_data.errornum);
-    //             break;
-    //         default:
-    //             LOG_PRINT2("unknown error: %d\n", session_data.errornum);
-    //             break;
-    //     }
-    // }
+// void check_due(SmsqRecord msg) {
+//     XTIME currentTime;
+//     currentTime.setNow();
+//     if (currentTime > msg.depart)
+//         update_message_status(msg.msgid, SMSQ_MSG_CLEARED_SEND, -1, -1);
+// }

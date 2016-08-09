@@ -2,4 +2,4 @@
 
 /* switch compile between live or test databases */
 
-#define __LIVE__
+//#define __LIVE__
