@@ -13,6 +13,7 @@
 #include "xexec.h"
 #include "xhttp.h"
 #include "xcgi.h"
+#include "hoops.h"
 #include "bbquiz.h"
 
 // 0: off; 1: on
@@ -21,18 +22,13 @@
 
 // bbquiz.cpp
 // c.bird 2016-08-08
-
 // Biobank Cognitive Quizzes backend
 
 XDB *db;
+// BBQuizRecord rec;
+// tdvecBBQuizRecord results;
 
-BBQuizRecord rec;
-tdvecBBQuizRecord results;
-
-
-bool dbErrorCallback
-(const std::string object, const int instance, const int ecount, const int ecode, const std::string error_txt)
-{
+bool dbErrorCallback (const std::string object, const int instance, const int ecount, const int ecode, const std::string error_txt) {
     std::stringstream sstr;
     sstr << "Database error:\n  object: " << object << "\n  instance: " << instance << "\n  ecount: " << ecount
         << "\n  ecode: " << ecode << "\n  error_txt: " << error_txt;
@@ -134,7 +130,7 @@ int main(int argc, char **argv) {
         return -1;
     }
 
-    printf("<h1>bbquiz</h1><p>Hello, World</p>\n");
+    //printf("<h1>bbquiz</h1><p>Hello, World</p>\n");
 
     try {
         initDB();

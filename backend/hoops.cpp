@@ -1,3 +1,5 @@
+#ifndef _HOOPS_
+#define _HOOPS_
 
 
 
@@ -119,3 +121,5 @@ typedef struct {
 } HoopsRecord; //BBQuizRecord;
 
 typedef std::vector< HoopsRecord > tdvecHoopsRecord;
+
+#endif
