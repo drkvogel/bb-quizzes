@@ -191,8 +191,10 @@ void getHoopsRecords() {
     printf("<table>\n");
     //vecHoopsRecord::const_iterator it;
     for (vecHoopsRecord::const_iterator it = records.begin(); it != records.end(); it++) {
-        printf("<tr><td>%d</td><td>%d</td><td>%s</td><td>%s</td><td>%s</td>");
+        printf("<tr><td>%d</td><td>%d</td><td>%s</td><td>%s</td><td>%s</td>"
+            *it.sesh_id, *it.ntests, *it.tinstruct, *it.tstart, *it.tfinish);
         printf("</tr>\n");
+
     }
     printf("</table>\n");
 }
