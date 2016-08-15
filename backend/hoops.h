@@ -1,8 +1,6 @@
 #ifndef _hoopsH_
 #define _hoopsH_
 
-
-
 typedef struct {
     int sesh_id;
     int ntests;

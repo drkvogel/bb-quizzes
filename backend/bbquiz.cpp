@@ -17,7 +17,7 @@
 #include "bbquiz.h"
 
 // 0: off; 1: on
-#define DEBUG 0
+#define DEBUG 1
 #define OFFLINE 0
 
 // bbquiz.cpp
