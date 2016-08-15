@@ -3,20 +3,14 @@
 make images %width (top auto?)
 
 search TODO
-set height px with js
-window.width|height
+set height px with js-
+window.width()|height()s
 height auto body
-body height
 window.screenX|screenY
 caniuse.com/svg
 svg fallbacks
 
 ### style
-
-bootstrap: dev/bootstrap.md
-fix css/scss
-bootstrap css should go in styles as sass... but how?
-put them in styles folder as .scss, deployed as css but not linked to from HTML, not concatenated into main.css
 
 https://learn.jquery.com/using-jquery-core/css-styling-dimensions/
 http://stackoverflow.com/questions/3730035/how-to-change-css-using-jquery
@@ -30,6 +24,10 @@ use bb-quizzes/matrix/app/scripts/timer.js
 
 ## defer
 
+bootstrap: dev/bootstrap.md
+fix css/scss
+bootstrap css should go in styles as sass... but how?
+put them in styles folder as .scss, deployed as css but not linked to from HTML, not concatenated into main.css
 does js pass by reference?/home/cbird/Projects/general/dev/js/pass-by-ref.md
 record User agent js: `document.getElementById('UserAgent').value = navigator.userAgent;`
 detect device: bb-quizzes/matrix/app/scripts/detect.js
