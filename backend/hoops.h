@@ -1,6 +1,8 @@
 #ifndef _hoopsH_
 #define _hoopsH_
 
+extern XDB *db;
+
 typedef struct {
     int sesh_id;
     int ntests;
@@ -117,7 +119,9 @@ typedef struct {
     int answer18;
     int correct18;
 } HoopsRecord; //BBQuizRecord;
+typedef std::vector< HoopsRecord > vecHoopsRecord;
 
-typedef std::vector< HoopsRecord > tdvecHoopsRecord;
+bool insertHoopsRecord(const HoopsRecord *e);
+void getHoopsRecords();
 
 #endif

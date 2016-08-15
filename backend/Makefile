@@ -5,7 +5,8 @@ INC=$(II_SYSTEM)/ingres/files
 LDLIB=-linterp.1 -liiapi 
 CXXFLAGS=$(CCXXFLAGS) -I$(INC)
 OBJS= rosebase.o rosetta.o \
-    xbinob.o xdb.o xencode.o xexec.o xquery.o xsql.o xtime.o xhttp.o xcgi.o
+    xbinob.o xdb.o xencode.o xexec.o xquery.o xsql.o xtime.o xhttp.o xcgi.o \
+	hoops.o
 
 bbquiz : bbquiz.o $(OBJS)
 	$(CXX) $(CXXFLAGS) -o bbquiz.cgi bbquiz.cpp $(OBJS) -L$(II_SYSTEM)/ingres/lib -lingres $(LDLIB)
