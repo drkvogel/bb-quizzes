@@ -544,3 +544,77 @@ typedef struct {
 //     int retries;
 //     XTIME updatetime;
 // } BBQUIZ_USER_MESSAGES_RECORD;
+
+/*
+    int total_count = 0;
+    std::string tab, chk, ack;
+    DATABASE_ENTRY  e;
+    std::vector<DATABASE_ENTRY> cent;
+    const   std::vector<DATABASE_ENTRY> *acks_todo = NULL;
+    if ( use_cache )
+        {refreshCache();
+        acks_todo = getAcks();
+        }
+    else                // LOAD FROM CENTRAL ACKS_TODO TABLE
+        {std::string    sql = "SELECT DISTINCT trid,cid,tabl"
+            " FROM ack_todo WHERE ";
+        XQUERY  q( db, sql );
+        if ( target_comp )      // TARGET IS A COMPUTER
+            {q.extendSQL( "xu_hid= :h" );
+            q.param.setInt( "h", target_id );
+            }
+        else                // TARGET IS A WHOLE CENTRE
+            {q.extendSQL( "aid= :a" );
+            q.param.setInt( "a", target_id );
+            }
+        if ( ! q.open() )
+            {return( -1 );
+            }
+        while ( q.fetch() )
+            {
+            e.trid = q.result.getInt(0);
+            e.cid  = q.result.getInt(1);
+            tab    = q.result.getString(2);
+            strncpy( e.tabl, tab.c_str(), 12 );
+            cent.push_back( e );
+            }
+        q.close();
+        acks_todo = &cent;
+        }
+    std::vector<DATABASE_ENTRY>::const_iterator ai = acks_todo->begin();    int total_count = 0;
+    std::string tab, chk, ack;
+    DATABASE_ENTRY  e;
+    std::vector<DATABASE_ENTRY> cent;
+    const   std::vector<DATABASE_ENTRY> *acks_todo = NULL;
+    if ( use_cache )
+        {refreshCache();
+        acks_todo = getAcks();
+        }
+    else                // LOAD FROM CENTRAL ACKS_TODO TABLE
+        {std::string    sql = "SELECT DISTINCT trid,cid,tabl"
+            " FROM ack_todo WHERE ";
+        XQUERY  q( db, sql );
+        if ( target_comp )      // TARGET IS A COMPUTER
+            {q.extendSQL( "xu_hid= :h" );
+            q.param.setInt( "h", target_id );
+            }
+        else                // TARGET IS A WHOLE CENTRE
+            {q.extendSQL( "aid= :a" );
+            q.param.setInt( "a", target_id );
+            }
+        if ( ! q.open() )
+            {return( -1 );
+            }
+        while ( q.fetch() )
+            {
+            e.trid = q.result.getInt(0);
+            e.cid  = q.result.getInt(1);
+            tab    = q.result.getString(2);
+            strncpy( e.tabl, tab.c_str(), 12 );
+            cent.push_back( e );
+            }
+        q.close();
+        acks_todo = &cent;
+        }
+    std::vector<DATABASE_ENTRY>::const_iterator ai = acks_todo->begin();
+*/
