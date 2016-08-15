@@ -29,9 +29,15 @@ for i in range(1, last + 1):
     # xe.param.setInt("elapsed1",      e->elapsed1);
     # xe.param.setInt("answer1",       e->answer1);
     # xe.param.setInt("correct1",      e->correct1);
-    print 'xe.param.setInt("duration' + str(i) + '",     e->duration' + str(i) + ');'
-    print 'xe.param.setInt("puzzle' + str(i) + '",       e->puzzle' + str(i) + ');'
-    print 'xe.param.setInt("elapsed' + str(i) + '",      e->elapsed' + str(i) + ');'
-    print 'xe.param.setInt("answer' + str(i) + '",       e->answer' + str(i) + ');'
-    print 'xe.param.setInt("correct' + str(i) + '",      e->correct' + str(i) + ');'
-    print
+    # print 'xe.param.setInt("duration' + str(i) + '",     e->duration' + str(i) + ');'
+    # print 'xe.param.setInt("puzzle' + str(i) + '",       e->puzzle' + str(i) + ');'
+    # print 'xe.param.setInt("elapsed' + str(i) + '",      e->elapsed' + str(i) + ');'
+    # print 'xe.param.setInt("answer' + str(i) + '",       e->answer' + str(i) + ');'
+    # print 'xe.param.setInt("correct' + str(i) + '",      e->correct' + str(i) + ');'
+    # print
+
+    # printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration1, it->puzzle1, it->elapsed1, it->answer1, it->correct1);
+    #print 'printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration' + str(i) + ', it->puzzle' + str(i) + ', it->elapsed' + str(i) + ', it->answer' + str(i) + ', it->correct' + str(i) + ');'
+
+    # printf("<td>duration1</td><td>puzzle1</td><td>elapsed1</td><td>answer1</td><td>correct1</td>\n");
+    print 'printf("<td>duration' + str(i) + '</td><td>puzzle' + str(i) + '</td><td>elapsed' + str(i) + '</td><td>answer' + str(i) + '</td><td>correct' + str(i) + '</td>\\n");'

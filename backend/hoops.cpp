@@ -193,16 +193,54 @@ void getHoopsRecords() {
         records.push_back(rec);
     }
     q.close();
-       
+
     printf("<code>");
     printf("<h3>%d results:</h3>\n", records.size());
     printf("<table border=\"1\" cellspacing=\"0\">\n");
     printf("<thead><td>sesh_id</td><td>ntests</td><td>tinstruct</td><td>tstart</td><td>tfinish</td>\n");
+
     printf("<td>duration1</td><td>puzzle1</td><td>elapsed1</td><td>answer1</td><td>correct1</td>\n");
+    printf("<td>duration2</td><td>puzzle2</td><td>elapsed2</td><td>answer2</td><td>correct2</td>\n");
+    printf("<td>duration3</td><td>puzzle3</td><td>elapsed3</td><td>answer3</td><td>correct3</td>\n");
+    printf("<td>duration4</td><td>puzzle4</td><td>elapsed4</td><td>answer4</td><td>correct4</td>\n");
+    printf("<td>duration5</td><td>puzzle5</td><td>elapsed5</td><td>answer5</td><td>correct5</td>\n");
+    printf("<td>duration6</td><td>puzzle6</td><td>elapsed6</td><td>answer6</td><td>correct6</td>\n");
+    printf("<td>duration7</td><td>puzzle7</td><td>elapsed7</td><td>answer7</td><td>correct7</td>\n");
+    printf("<td>duration8</td><td>puzzle8</td><td>elapsed8</td><td>answer8</td><td>correct8</td>\n");
+    printf("<td>duration9</td><td>puzzle9</td><td>elapsed9</td><td>answer9</td><td>correct9</td>\n");
+    printf("<td>duration10</td><td>puzzle10</td><td>elapsed10</td><td>answer10</td><td>correct10</td>\n");
+    printf("<td>duration11</td><td>puzzle11</td><td>elapsed11</td><td>answer11</td><td>correct11</td>\n");
+    printf("<td>duration12</td><td>puzzle12</td><td>elapsed12</td><td>answer12</td><td>correct12</td>\n");
+    printf("<td>duration13</td><td>puzzle13</td><td>elapsed13</td><td>answer13</td><td>correct13</td>\n");
+    printf("<td>duration14</td><td>puzzle14</td><td>elapsed14</td><td>answer14</td><td>correct14</td>\n");
+    printf("<td>duration15</td><td>puzzle15</td><td>elapsed15</td><td>answer15</td><td>correct15</td>\n");
+    printf("<td>duration16</td><td>puzzle16</td><td>elapsed16</td><td>answer16</td><td>correct16</td>\n");
+    printf("<td>duration17</td><td>puzzle17</td><td>elapsed17</td><td>answer17</td><td>correct17</td>\n");
+    printf("<td>duration18</td><td>puzzle18</td><td>elapsed18</td><td>answer18</td><td>correct18</td>\n");
+
     printf("</thead>\n");
     for (vecHoopsRecord::const_iterator it = records.begin(); it != records.end(); it++) {
         printf("<tr><td>%d</td><td>%d</td><td>%s</td><td>%s</td><td>%s</td>", it->sesh_id, it->ntests, it->tinstruct.iso().c_str(), it->tstart.iso().c_str(), it->tfinish.iso().c_str());
+
         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration1, it->puzzle1, it->elapsed1, it->answer1, it->correct1);
+        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration2, it->puzzle2, it->elapsed2, it->answer2, it->correct2);
+        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration3, it->puzzle3, it->elapsed3, it->answer3, it->correct3);
+        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration4, it->puzzle4, it->elapsed4, it->answer4, it->correct4);
+        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration5, it->puzzle5, it->elapsed5, it->answer5, it->correct5);
+        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration6, it->puzzle6, it->elapsed6, it->answer6, it->correct6);
+        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration7, it->puzzle7, it->elapsed7, it->answer7, it->correct7);
+        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration8, it->puzzle8, it->elapsed8, it->answer8, it->correct8);
+        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration9, it->puzzle9, it->elapsed9, it->answer9, it->correct9);
+        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration10, it->puzzle10, it->elapsed10, it->answer10, it->correct10);
+        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration11, it->puzzle11, it->elapsed11, it->answer11, it->correct11);
+        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration12, it->puzzle12, it->elapsed12, it->answer12, it->correct12);
+        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration13, it->puzzle13, it->elapsed13, it->answer13, it->correct13);
+        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration14, it->puzzle14, it->elapsed14, it->answer14, it->correct14);
+        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration15, it->puzzle15, it->elapsed15, it->answer15, it->correct15);
+        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration16, it->puzzle16, it->elapsed16, it->answer16, it->correct16);
+        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration17, it->puzzle17, it->elapsed17, it->answer17, it->correct17);
+        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration18, it->puzzle18, it->elapsed18, it->answer18, it->correct18);
+
         printf("</tr>\n");
     }
     printf("</table>\n");
