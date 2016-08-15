@@ -183,19 +183,27 @@ void getHoopsRecords() {
         rec.tinstruct = q.result.getTime("tinstruct"); // getDate?
         rec.tstart    = q.result.getTime("tstart");
         rec.tfinish   = q.result.getTime("tstart");
+
+        rec.duration1 = q.result.getInt("duration1");
+        rec.puzzle1   = q.result.getInt("puzzle1");
+        rec.elapsed1  = q.result.getInt("elapsed1");
+        rec.answer1   = q.result.getInt("answer1");
+        rec.correct1  = q.result.getInt("correct1");
+
         records.push_back(rec);
     }
     q.close();
-
+       
     printf("<code>");
     printf("<h3>%d results:</h3>\n", records.size());
-    printf("<table border=\"1\">\n");
-    printf("<thead><td>sesh_id</td><td>ntests</td><td>tinstruct</td><td>tstart</td><td>tfinish</thead>",
+    printf("<table border=\"1\" cellspacing=\"0\">\n");
+    printf("<thead><td>sesh_id</td><td>ntests</td><td>tinstruct</td><td>tstart</td><td>tfinish</td>\n");
+    printf("<td>duration1</td><td>puzzle1</td><td>elapsed1</td><td>answer1</td><td>correct1</td>\n");
+    printf("</thead>\n");
     for (vecHoopsRecord::const_iterator it = records.begin(); it != records.end(); it++) {
-        printf("<tr><td>%d</td><td>%d</td><td>%s</td><td>%s</td><td>%s</td>",
-            it->sesh_id, it->ntests, it->tinstruct.iso().c_str(), it->tstart.iso().c_str(), it->tfinish.iso().c_str());
+        printf("<tr><td>%d</td><td>%d</td><td>%s</td><td>%s</td><td>%s</td>", it->sesh_id, it->ntests, it->tinstruct.iso().c_str(), it->tstart.iso().c_str(), it->tfinish.iso().c_str());
+        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration1, it->puzzle1, it->elapsed1, it->answer1, it->correct1);
         printf("</tr>\n");
-
     }
     printf("</table>\n");
     printf("</code>");

@@ -122,12 +122,12 @@ int main(int argc, char **argv) {
     //printf("<h1>bbquiz</h1><p>Hello, World</p>\n");
     try {
         initDB();
-        printf("<p><code>db opened.built: %s. action: '%s'</code></p>", __TIME__, x->param.getStringDefault("action", "").c_str());
+        printf("<p><code>db opened. built: %s %s. action: '%s'</code></p>", __DATE__, __TIME__, x->param.getStringDefault("action", "").c_str());
         if (0 == strcmp("insert", x->param.getStringDefault("action", "").c_str())) {
             HoopsRecord rec;
-            rec.sesh_id = -1;
-            rec.ntests = -1;
-            rec.tinstruct = "2016-08-15 16:30";
+            rec.sesh_id = x->param.getIntDefault("sesh_id", -1);
+            rec.ntests = x->param.getIntDefault("ntests", -1);
+            rec.tinstruct = "2016-08-15 16:30"; //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
             rec.tstart = "";
             rec.tfinish = "";
             rec.tinsert = "";
