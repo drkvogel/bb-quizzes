@@ -550,8 +550,10 @@
             console.log('loc === localhost');
             formAction = 'http://localhost:8001/' + formAction; // gulp-connect-php - local PHP server
         } // else, is on same server, relative link OK
+        # scratch that, point to red:
+        formAction = 'http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/';
         $('#feedbackForm').attr('action', formAction);
-
+        console.log('formAction: ' + formAction);
         showPage(currentPage());
     }
 
