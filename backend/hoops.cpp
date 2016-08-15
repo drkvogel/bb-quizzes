@@ -161,7 +161,7 @@ bool insertHoopsRecord(const HoopsRecord *e) {
     xe.param.setInt("answer18",       e->answer18);
     xe.param.setInt("correct18",      e->correct18);
 
-    printf("<p>sql:</p><pre>%s</pre> ", sql.c_str());
+    printf("<p>sql:</p><p>%s</p> ", sql.c_str());
 
     return (xe.exec());
 }
@@ -176,7 +176,7 @@ void getHoopsRecords() {
         printf("Database error");
         throw "Database error";
     }
-    printf("<p>q.fetch():</p>");
+    //printf("<p>q.fetch():</p>\n");
     while (q.fetch()) {
         rec.sesh_id   = q.result.getInt("sesh_id");
         rec.ntests    = q.result.getInt("ntests");
@@ -187,7 +187,7 @@ void getHoopsRecords() {
     }
     q.close();
 
-    printf("<h3>Results:</h3>\n");
+    printf("<h3>%d results:</h3>\n", records.size());
     printf("<table>\n");
     //vecHoopsRecord::const_iterator it;
     for (vecHoopsRecord::const_iterator it = records.begin(); it != records.end(); it++) {

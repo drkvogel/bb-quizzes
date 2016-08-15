@@ -47,15 +47,15 @@ bool dbErrorCallback (const std::string object, const int instance, const int ec
 // }
 
 void showParams(XCGI * x) {
-    printf("<h2>Parameters</h2>")
-    printf("Method: %s", x->getMethodName().c_str());
-    printf("<p>%d parameters:</p>\n<table border cellspacing=\"0\">", x->param.count());
+    //printf("<h2>Parameters</h2>");
+    printf("<code>Method: %s; %d parameters", x->getMethodName().c_str(), x->param.count());
+    printf("<table border cellspacing=\"0\">");
     int np = x->param.count();
     printf("\n\n<!-- XCGI found %d parameters -->\n", np);
     for (int i = 0; i < np; i++) {
         printf( "<tr><td>%d</td><td>%s</td><td>%s</td></tr>", i, x->param.getName(i).c_str(), x->param.getString(i).c_str());
     }
-    printf("</table>END");
+    printf("</table></code>");
 #ifdef __LIVE__
     printf("<p>We're live!</p>");
     boilerplate_foot();
@@ -91,6 +91,11 @@ void setUpLogfile() {
 
 void boilerplate_head() {
     printf("<html><head><title></title></head><body>");
+    printf("<h1>BB Quizzes Backend</h1>");
+    printf("<form action=\"#\">\n"
+        "<button type=\"submit\" name=\"action\" value=\"insert\" />Insert</button>\n"
+        "<button type=\"submit\" name=\"action\" value=\"view\" />View</button>\n"
+        "</form>");
 }
 
 void boilerplate_foot() {
@@ -117,9 +122,7 @@ int main(int argc, char **argv) {
     //printf("<h1>bbquiz</h1><p>Hello, World</p>\n");
     try {
         initDB();
-        printf("<p><code>db opened</code></p>");
-        printf("<p><code>built: %s</code></p>", __TIME__);
-        printf("<p>action: '%s'</p>", x->param.getStringDefault("action", "").c_str());
+        printf("<p><code>db opened.built: %s. action: '%s'</code></p>", __TIME__, x->param.getStringDefault("action", "").c_str());
         if (0 == strcmp("insert", x->param.getStringDefault("action", "").c_str())) {
             HoopsRecord rec;
             rec.sesh_id = -1;
@@ -141,17 +144,21 @@ int main(int argc, char **argv) {
             rec.answer1 = -1;
             rec.correct1 = -1;
 
-            insertHoopsRecord(&rec);
+            if (insertHoopsRecord(&rec)) {
+                printf("<p>Data inserted.</p>");
+            } else {
+                printf("<p>Not inserted!</p>");
+            }
         } else if (0 == strcmp("view", x->param.getStringDefault("action", "").c_str())) {
             getHoopsRecords();
+        } else {
+            printf("<p>No action selected.</p>");
         }
     } catch (char const* err) {
         printf("error: '%s'; exiting", err);
         boilerplate_foot();
         return -1;
     }
-
-
 
     db->close(); //LOG_DOT
     boilerplate_foot();
