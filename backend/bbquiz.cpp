@@ -17,7 +17,7 @@
 #include "bbquiz.h"
 
 // 0: off; 1: on
-#define DEBUG 0
+#define DEBUG 1
 #define OFFLINE 0
 
 // bbquiz.cpp
@@ -32,7 +32,8 @@ bool dbErrorCallback (const std::string object, const int instance, const int ec
     std::stringstream sstr;
     sstr << "Database error:\n  object: " << object << "\n  instance: " << instance << "\n  ecount: " << ecount
         << "\n  ecode: " << ecode << "\n  error_txt: " << error_txt;
-    LOG_PRINT(sstr.str().c_str());
+    //LOG_PRINT(sstr.str().c_str()); // crashes if logfile not set up
+    printf("error: '%s'\n", sstr.str().c_str());
     return true; //XXX
 }
 
@@ -95,14 +96,11 @@ void boilerplate_foot() {
     printf("</body></html>");
 }
 
-
-int main(int argc, char **argv) {
-    int exitstatus, i;
-    //tdvecHoopsRecord::const_iterator recIt;
     //setUpLogfile();
     // readIniFile();
     // initSessionData();
 
+int main(int argc, char **argv) {
     XCGI *x = new XCGI(argc, argv);
     x->writeHeader(XCGI::typeHtml);
     boilerplate_head();
@@ -115,17 +113,35 @@ int main(int argc, char **argv) {
     }
 
     //printf("<h1>bbquiz</h1><p>Hello, World</p>\n");
-
     try {
         initDB();
-        printf("db opened");
+        printf("<p><code>db opened</code></p>");
+        printf("<p>action: '%s'</p>", x->param.getStringDefault("action", "").c_str());
+        if (0 == strcmp("insert", x->param.getStringDefault("action", "").c_str())) {
+            HoopsRecord rec;
+            rec.sesh_id = -1;
+            rec.ntests = -1;
+            rec.tinstruct = "2016-08-15 16:30";
+            rec.tstart = "";
+            rec.tfinish = "";
+            rec.tinsert = "";
+            rec.duration1 = -1;
+            rec.puzzle1 = -1;
+            rec.elapsed1 = -1;
+            rec.answer1 = -1;
+            rec.correct1 = -1;
+
+            insertHoopsRecord(&rec);
+        } else if (0 == strcmp("view", x->param.getStringDefault("action", "").c_str())) {
+            getHoopsRecords();
+        }
     } catch (char const* err) {
-        printf("db problem: '%s'; exiting", err);
+        printf("error: '%s'; exiting", err);
         boilerplate_foot();
         return -1;
     }
 
-    //x->param.getStringDefault("destno", "");
+    
 
     db->close(); //LOG_DOT
     boilerplate_foot();

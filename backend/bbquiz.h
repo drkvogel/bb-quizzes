@@ -25,7 +25,8 @@
 std::string timebuf;
 XTIME logtime;
 FILE * logfile;
-//using std::string;
+
+using std::string;
 
 typedef struct {
     int sesh_id;
