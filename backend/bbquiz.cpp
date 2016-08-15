@@ -47,8 +47,9 @@ bool dbErrorCallback (const std::string object, const int instance, const int ec
 // }
 
 void showParams(XCGI * x) {
+    printf("<h2>Parameters</h2>")
     printf("Method: %s", x->getMethodName().c_str());
-    printf("<h3>%d parameters</h3>\n<table border cellspacing=\"0\">", x->param.count());
+    printf("<p>%d parameters:</p>\n<table border cellspacing=\"0\">", x->param.count());
     int np = x->param.count();
     printf("\n\n<!-- XCGI found %d parameters -->\n", np);
     for (int i = 0; i < np; i++) {
@@ -105,7 +106,8 @@ int main(int argc, char **argv) {
     x->writeHeader(XCGI::typeHtml);
     boilerplate_head();
 
-    if (DEBUG) showParams(x); // from cgi_test.cpp
+    //if (DEBUG)
+    showParams(x); // from cgi_test.cpp
     if (OFFLINE) {
         printf("<p>Currently offline</p>");
         boilerplate_foot();
@@ -116,6 +118,7 @@ int main(int argc, char **argv) {
     try {
         initDB();
         printf("<p><code>db opened</code></p>");
+        printf("<p><code>built: %s</code></p>", __TIME__);
         printf("<p>action: '%s'</p>", x->param.getStringDefault("action", "").c_str());
         if (0 == strcmp("insert", x->param.getStringDefault("action", "").c_str())) {
             HoopsRecord rec;
@@ -125,7 +128,14 @@ int main(int argc, char **argv) {
             rec.tstart = "";
             rec.tfinish = "";
             rec.tinsert = "";
+
             rec.duration1 = -1;
+            rec.puzzle1 = -1;
+            rec.elapsed1 = -1;
+            rec.answer1 = -1;
+            rec.correct1 = -1;
+
+            rec.duration2 = -1;
             rec.puzzle1 = -1;
             rec.elapsed1 = -1;
             rec.answer1 = -1;
@@ -141,7 +151,7 @@ int main(int argc, char **argv) {
         return -1;
     }
 
-    
+
 
     db->close(); //LOG_DOT
     boilerplate_foot();
