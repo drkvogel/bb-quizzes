@@ -32,7 +32,7 @@ void levelData::rndLevels() // not random at all! and not used
 		m_newRndLevel.push(i);					// push 0-17 onto m_newRndLevel
 
 	for(int i = 0; i<m_MAX_LEVEL;i++)
-		m_rndLevel[i] = m_newRndLevel.pop();	// pop them back off into m_rndLevel? why?
+		m_rndLevel[i] = m_newRndLevel.pop();	// pop them back off into m_rndLevel in a random order
 
 	m_isInitalised = true;
 }
