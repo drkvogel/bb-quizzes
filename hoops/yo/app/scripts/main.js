@@ -639,6 +639,18 @@
         // for... in should be avoided as the order is not guaranteed and inherited properties are also enumerated
     }
 
+    // int levelData::getGameLevel(int index) {
+    //     assert(m_isInitalised);
+    //     assert(index < MAX_LEVELS);
+    //     return m_rndLevel[index];
+    // }
+
+    // int levelData::getExpectedAnswer(int index) {
+    //     assert(m_isInitalised);
+    //     assert(index < MAX_LEVELS);
+    //     return m_answers[m_rndLevel[index]];
+    // }
+
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
         hideDiv('devBar');
