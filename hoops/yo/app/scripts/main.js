@@ -550,7 +550,7 @@
             console.log('loc === localhost');
             formAction = 'http://localhost:8001/' + formAction; // gulp-connect-php - local PHP server
         } // else, is on same server, relative link OK
-        # scratch that, point to red:
+        // scratch that, point to red:
         formAction = 'http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/';
         $('#feedbackForm').attr('action', formAction);
         console.log('formAction: ' + formAction);
@@ -563,6 +563,7 @@
             config = data;
             pages = data.pages;
             init();
+            randTest();
         }).fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
             var err = 'error getting JSON: ' + textStatus + ', errorThrown: ' + errorThrown;
             console.log(err);
@@ -592,6 +593,51 @@
         $('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
         showPage(currentPage()); // ?
     };
+
+// const int levelData::m_answers[MAX_LEVELS] = {1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5};
+// int levelData::m_rndLevel[MAX_LEVELS] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17};
+// int levelData::m_sudoRndLevelList[MAX_LEVELS] = {1, 3, 2, 1, 4, 2, 5, 2, 2, 3, 1, 5, 4, 4, 5, 4, 1, 5};
+
+// m_levelData = levelData::getRandomiseWithFixedDifficulty();
+//     pLevelData->rndFixedLevels();
+
+// void levelData::rndFixedLevels() {
+//     rndIntArray m_newRndLevel[5];
+
+//     for (int i=0; i<MAX_LEVELS; i++) {
+//         int forLevel = m_answers[ i ];
+//         m_newRndLevel[ forLevel-1 ].push( i ); // populate m_newRndLevel with wanted 'level' (number of moves, i.e. the answer)
+//     }
+
+//     for (int i=0; i<MAX_LEVELS; i++) {
+//         int wantedLevel = m_sudoRndLevelList[ i ];
+//         m_rndLevel[ i ] = m_newRndLevel[ wantedLevel-1 ].pop();
+//     }
+// }
+    function randTest() { // copy jon's levelData::rndFixedLevels()
+        var MAX_LEVELS = 18;
+        var m_answers = [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5]; // [MAX_LEVELS]
+        var m_rndLevel = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]; // [MAX_LEVELS]
+        var m_sudoRndLevelList = [1, 3, 2, 1, 4, 2, 5, 2, 2, 3, 1, 5, 4, 4, 5, 4, 1, 5]; // [MAX_LEVELS]
+
+        console.log("randTest() before: m_rndLevel: " + m_rndLevel);
+
+        var m_newRndLevel = new Array(); // with 5 slots
+        rndIntArray
+
+        for (var i=0; i<MAX_LEVELS; i++) { // iterate, not enumerate
+            var forLevel = m_answers[i] - 1;
+            m_newRndLevel[forLevel].push(i);
+        }
+
+        for (i=0; i<MAX_LEVELS; i++) {
+            var wantedLevel = m_sudoRndLevelList[i];
+            m_rndLevel[i] = m_newRndLevel[wantedLevel-1].pop();
+        }
+        console.log("randTest() after: m_rndLevel: " + m_rndLevel);
+
+        // for... in should be avoided as the order is not guaranteed and inherited properties are also enumerated
+    }
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');

@@ -3,7 +3,7 @@
     "comment": "timeLimit should be 120000 == 2 minutes",
     "nextDelay" : 500,
     "timeLimit" : 120000,
-    //"formAction" : "complete.php",
+    "comment": "formAction was complete.php",
     "formAction" : "http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/",
     "pages":[
     {

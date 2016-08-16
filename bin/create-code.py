@@ -3,6 +3,8 @@
 import sys
 
 # python avoid new line with print: sys.stdout.write or trailing comma
+# http://stackoverflow.com/questions/11266068/python-avoid-new-line-with-print-command
+# bidirectional clipboard not working virtual box windows to linux
 
 last = 18
 

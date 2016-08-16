@@ -13,28 +13,26 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-levelData *levelData::getRandomisedLevels()
-{
+levelData *levelData::getRandomisedLevels() { // not used
 	levelData *pLevelData = new levelData();
 	pLevelData->rndLevels();
 	return pLevelData;
 }
 
-levelData *levelData::getRandomiseWithFixedDifficulty()
-{
+levelData *levelData::getRandomiseWithFixedDifficulty() {
 	levelData *pLevelData = new levelData();
 	pLevelData->rndFixedLevels();
 	return pLevelData;
 }
 
-void levelData::rndLevels()
+void levelData::rndLevels() // not random at all! and not used
 {
 	rndIntArray m_newRndLevel;
 	for(int i = 0; i<m_MAX_LEVEL;i++)
-		m_newRndLevel.push(i);
+		m_newRndLevel.push(i);					// push 0-17 onto m_newRndLevel
 
 	for(int i = 0; i<m_MAX_LEVEL;i++)
-		m_rndLevel[i] = m_newRndLevel.pop();
+		m_rndLevel[i] = m_newRndLevel.pop();	// pop them back off into m_rndLevel? why?
 
 	m_isInitalised = true;
 }
@@ -42,34 +40,31 @@ void levelData::rndLevels()
 void levelData::rndFixedLevels()
 {
 	rndIntArray m_newRndLevel[5]; //should called default constuctor.. check this
-	for (int i=0;i<MAX_LEVELS;i++)
-	{
+	for (int i=0;i<MAX_LEVELS;i++) {
 		int forLevel = m_answers[i];
 		m_newRndLevel[forLevel-1].push(i);
 	}
-//and serve up
-	for (int i=0;i<MAX_LEVELS;i++)
-	{
+
+	//and serve up
+	for (int i=0;i<MAX_LEVELS;i++) {
 		int wantedLevel = m_sudoRndLevelList[i];
 		m_rndLevel[i] = m_newRndLevel[wantedLevel-1].pop();
 	}
+
 	m_isInitalised = true;
 }
 
-levelData::levelData() : m_MAX_LEVEL(MAX_LEVELS)
-{
+levelData::levelData() : m_MAX_LEVEL(MAX_LEVELS) {
 	m_isInitalised = false;
 }
 
-int levelData::getGameLevel(int index)
-{
+int levelData::getGameLevel(int index) {
 	assert(m_isInitalised);
 	assert(index < MAX_LEVELS);
 	return m_rndLevel[index];
 }
 
-int levelData::getExpectedAnswer(int index)
-{
+int levelData::getExpectedAnswer(int index) {
 	assert(m_isInitalised);
 	assert(index < MAX_LEVELS);
 	return m_answers[m_rndLevel[index]];
