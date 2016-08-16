@@ -1,4 +1,4 @@
-
+-- see hoops.sql, matrix.sql
 
     -- sesh_id     incremental int8 session id, allocate from counter when test first cgi starts and passed to Javascript to be returned with results
     -- tinstruct   client time when instructions started
@@ -12,21 +12,21 @@
     -- answerN     answer given
     -- correctN    whether answer is correct
 
-CREATE TABLE matrix (
-    sesh_id     INTEGER       NOT NULL,
-    ntests      INTEGER       NOT NULL,
-    tinstruct   DATE          NOT NULL,
-    tstart      DATE          NOT NULL,
-    tfinish     DATE          NOT NULL,
-    tinsert     DATE          NOT NULL WITH DEFAULT 'now',
+-- CREATE TABLE matrix (
+--     sesh_id     INTEGER       NOT NULL,
+--     ntests      INTEGER       NOT NULL,
+--     tinstruct   DATE          NOT NULL,
+--     tstart      DATE          NOT NULL,
+--     tfinish     DATE          NOT NULL,
+--     tinsert     DATE          NOT NULL WITH DEFAULT 'now',
 
-    duration    DATE          NOT NULL,
-    puzzle      INTEGER       NOT NULL,  
-    elapsed     DATE          NOT NULL,
-    answer      INTEGER       NOT NULL,  
-    correct     INTEGER       NOT NULL,
-);
-\p\g
+--     duration    DATE          NOT NULL,
+--     puzzle      INTEGER       NOT NULL,  
+--     elapsed     DATE          NOT NULL,
+--     answer      INTEGER       NOT NULL,  
+--     correct     INTEGER       NOT NULL,
+-- );
+-- \p\g
 
 
     -- id          INTEGER       NOT NULL,
