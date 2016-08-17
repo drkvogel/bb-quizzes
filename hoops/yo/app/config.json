@@ -3,7 +3,8 @@
     "comment": "timeLimit should be 120000 == 2 minutes",
     "nextDelay" : 500,
     "timeLimit" : 120000,
-    "formAction" : "complete.php",
+    "comment": "formAction was complete.php",
+    "formAction" : "http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/",
     "pages":[
     {
         "name": "home",
@@ -16,7 +17,7 @@
     {
         "name": "intro1",
         "type" : "intro",
-        "templateId": "intro1",
+        "templateId": "intro",
         "images": {
             "top": "intro1.png"
         },
@@ -29,11 +30,11 @@
     {
         "name": "intro2",
         "type" : "intro",
-        "templateId": "intro1",
+        "templateId": "intro",
         "images": {
             "top": "intro2.png"
         },
-        "topTxt" : "<p>The goal is to make picture A look like picture B by moving the hoops on picture A.</p><p>Your task is to work out how to do this in as few moves as possible.</p>",    
+        "topTxt" : "<p>The goal is to make picture A look like picture B by moving the hoops on picture A.</p><p>Your task is to work out how to do this in as few moves as possible.</p>",
         "botTxt" : "<p>Taking a hoop off one peg and putting it on another is a single move and you can only shift one hoop at a time.</p><p>You might need to shift one hoop to get at the one below it or do something more complicated to swap them around.</p>",
         "navTxt" : "<p>Touch \"Next\" for an example.</p>",
         "correct": -1,
@@ -42,7 +43,7 @@
     {
         "name": "intro3",
         "type" : "intro",
-        "templateId": "intro1",
+        "templateId": "intro",
         "images": {
             "top": "intro3.png"
         },
@@ -64,7 +65,7 @@
     {
         "name": "intro5",
         "type" : "intro",
-        "templateId": "intro1",
+        "templateId": "intro",
         "images": {
             "top": "intro5.png",
             "bot": "ex1.png"
@@ -76,10 +77,10 @@
         "suppressAbandon" : true
     },
     {
-        "name": "intro6",
+        "name": "getReady",
         "type" : "intro",
-        "templateId": "intro6",
-        "navTxt" : "<p>Touch \"Next\" when you are ready to begin. You will have 3 minutes to do as many puzzles as you can.</p>",
+        "templateId": "getReady",
+        "navTxt" : "<p>Touch \"Next\" when you are ready to begin.</p><p>You will have 2 minutes to do as many puzzles as you can.</p>",
         "correct": -1,
         "suppressAbandon" : true
     },

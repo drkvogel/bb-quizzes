@@ -48,41 +48,18 @@ body {
   min-height: 0px;
 }
 
-/* Custom page footer */
-.footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
-}
 
-.container-narrow > hr {
-  margin: 30px 0;
-}
-
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
-  .btn {
-    font-size: 21px;
-    padding: 14px 24px;
-  }
-}
-
-/* Supporting marketing content */
-.marketing {
-  margin: 40px 0;
-  p + h4 {
-    margin-top: 28px;
-  }
+.container { // override bootstrap/_grid.scss
+  width: auto;
+  padding: 15px 10px 20px 10px;
 }
 
 #pages {
-  font-size: large;
   line-height: normal;
 }
 
 .navCtl {
+  padding-top: 15px;
   text-align: center;
 }
 
@@ -90,15 +67,17 @@ body {
   text-align: center;
 }
 
-#middleImg {
+.middleImg {
   text-align: center;
+  min-width: 100px;
 }
 
-#middleImg img {
+.middleImg img {
   //text-align: center;
   width: 80%;
   margin: auto;
   padding: 10px;
+  min-width: 100px;
 }
 
 .toptable td {
@@ -118,16 +97,24 @@ body {
   text-align: center;
 }
 
+#imgdiv-a, #imgdiv-b {
+  width: 100%;
+}
+
+#img-a, #img-b {
+  width: 100%;
+}
+
 .botTxt {
   margin: auto;
   //width: 80%;
   //height: 100px;
   text-align: center;
-  font-size: large;
   padding: 1em;
 }
 
 #answers {
+  //padding-top: 15px;
   margin: auto;
   width: 80%;
   text-align: center;
@@ -136,14 +123,6 @@ body {
 #answers button {
   padding: 20px;
   margin: 15px;
-}
-
-#answers td {
-  background-color: lightgrey;
-  width: 50px;
-  height: 50px;
-  text-align: center;
-  margin: 20px; // doesn't work - want to space boxes apart?
 }
 
 .buttons {
@@ -157,39 +136,179 @@ body {
   width: 250px;
 }
 
-#imgdiv-a, #imgdiv-b {
-  width: 100%;
-}
-
-#img-a, #img-b {
-  width: 100%;
-}
-
 .navTxt {
   text-align: center;
 }
 
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-  .container {
-    //max-width: 730px;
-  }
+#abandon-div {
+  padding-top: 15px;
+}
 
-  /* Remove the padding we set earlier */
+.row { // override bootstrap negative margins?
+  margin: 0;
+}
+
+#abandon-div.row {
+    padding-left: 28%;
+}
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+}
+
+// .container-narrow > hr {
+//   margin: 30px 0;
+// }
+
+/* dummy "Welcome" page */
+#home {
+  width: 600px;
+  margin: auto;
+}
+
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+  .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+  }
+}
+
+@media screen and (max-width: 700px) { /* Responsive: Portrait tablets and down */
+  #answers button {
+    padding: 10px;
+    margin: 10px;
+  }
+  .btn-lg, .btn-group-lg > .btn {
+      padding: 5px;
+      //font-size: 14px;
+      line-height: 1;
+      border-radius: 3px;
+  }
+}
+
+// this needs to come **after** the previous otherwise is disregarded
+// logical OR
+@media screen and (max-width: 440px), screen and (max-height: 440px) { /* Responsive: Mobiles */
+  #answers button {
+    padding: 5px;
+    margin: 5px;
+  }
+  .btn-lg, .btn-group-lg > .btn {
+      padding: 8px;
+      font-size: 16px;
+      line-height: 1;
+      border-radius: 3px;
+  }
+}
+
+// logical AND
+@media screen and (min-width: 768px) and (min-height: 440px) { /* Responsive: Portrait tablets and up */
   .header,
   .marketing,
-  .footer {
+  .footer { /* Remove the padding we set earlier */
     padding-left: 0;
     padding-right: 0;
   }
 
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
+  .header { /* Space out the masthead */
+    //margin-bottom: 30px; // margin spills into main content even when hidden?
+    padding-bottom: 30px;
   }
 
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
+  .jumbotron { /* Remove the bottom border on the jumbotron for visual effect */
     border-bottom: 0;
   }
+
+  .topTxt, .botTxt, .navTxt, #getReady {
+    font-size: large;
+    line-height: 2em;
+  }
 }
+
+
+
+// dialogs
+
+#getReady {
+  padding-top: 3em;
+}
+
+.mymodal { // overlay
+    display: none; // Hidden by default
+    position: fixed; // Stay in place
+    z-index: 1; // Sit on top
+    left: 0;
+    top: 0;
+    width: 100%; // Full width
+    height: 100%; // Full height
+    overflow: auto; // Enable scroll if needed
+    background-color: rgb(0,0,0); // Fallback color
+    background-color: rgba(0,0,0,0.4); // Black w/ opacity
+}
+
+.my-modal-content {
+    padding: 10px;
+    width: 290px; //400px;
+    height: 200px;
+    // height: 50%;
+    // width: 50%;
+    position: fixed;
+    top: 50%;             // centred
+    left: 50%;
+    margin-top: -100px;   // offset by half of height - should be calculated
+    margin-left: -145px;  // offset by half of width
+    // margin: auto;
+
+    background-color: white;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 20px;
+    z-index: 11; /* 1px higher than the overlay layer */
+}
+
+
+// /* Responsive: Portrait tablets and up */
+// @media screen and (min-width: 768px) {
+//   .container {
+//     //max-width: 730px;
+//   }
+
+//   /* Remove the padding we set earlier */
+//   .header,
+//   .marketing,
+//   .footer {
+//     padding-left: 0;
+//     padding-right: 0;
+//   }
+
+//   /* Space out the masthead */
+//   .header {
+//     margin-bottom: 30px;
+//   }
+
+//   /* Remove the bottom border on the jumbotron for visual effect */
+//   .jumbotron {
+//     border-bottom: 0;
+//   }
+// }
+
+// /* Supporting marketing content */
+// .marketing {
+//   margin: 40px 0;
+//   p + h4 {
+//     margin-top: 28px;
+//   }
+// }
+
+// #answers td {
+//   background-color: lightgrey;
+//   width: 50px;
+//   height: 50px;
+//   text-align: center;
+//   margin: 20px; // doesn't work - want to space boxes apart?
+// }

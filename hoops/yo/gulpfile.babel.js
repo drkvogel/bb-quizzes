@@ -8,6 +8,15 @@ import {stream as wiredep} from 'wiredep';
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
 
+// PHP dummy backend
+gulp.task('php', function() {
+var php = require('gulp-connect-php');
+  php.server({
+    base: 'app',
+    port: '8001'
+  });
+});
+
 gulp.task('styles', () => {
   return gulp.src('app/styles/*.scss')
     .pipe($.plumber())
@@ -90,7 +99,7 @@ gulp.task('extras', () => {
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
-gulp.task('serve', ['styles', 'scripts', 'fonts'], () => {
+gulp.task('serve', ['styles', 'scripts', 'fonts', 'php'], () => {
   browserSync({
     notify: false,
     port: 9000,

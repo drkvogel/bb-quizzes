@@ -31,7 +31,8 @@ var options = minimist(process.argv.slice(2), knownOptions);
 gulp.task('php', function() {
 var php = require('gulp-connect-php');
   php.server({
-    base: 'app'
+    base: 'app',
+    port: '8000'
   });
 });
 
@@ -148,7 +149,7 @@ gulp.task('serve', ['styles', 'scripts', 'fonts', 'php'], () => { // with php, f
   browserSync({
     notify: false,
     port: 9000,
-    browser: ["google-chrome"], // "firefox"],
+    browser: ["firefox"], // "firefox"], "google-chrome"
     server: {
       baseDir: ['.tmp', 'app'],
       routes: {

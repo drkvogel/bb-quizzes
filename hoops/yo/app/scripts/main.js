@@ -1,5 +1,7 @@
 /*global $ */
 /*jslint browser:true */ // define 'document'
+/* jshint unused:false */
+/*eslint-disable no-unused-vars*/
 // /*jslint plusplus: true */ // doesn't work with sublime jslint plugin:
 
 // http://stackoverflow.com/questions/950087/include-a-javascript-file-in-another-javascript-file
@@ -129,8 +131,7 @@
     }
 
     function pageNamed(name) {
-        //for (var page in pages) { // http://stackoverflow.com/questions/500504/why-is-using-for-in-with-array-iteration-such-a-bad-idea
-        for (var i = 0; i < pages.length; i++) {
+        for (var i = 0; i < pages.length; i++) { // http://stackoverflow.com/questions/500504/why-is-using-for-in-with-array-iteration-such-a-bad-idea
             if (pages[i].name === name) {
                 return pages[i];
             }
@@ -140,19 +141,532 @@
 
     function hideDiv(id) {
         //document.getElementById(id).style.display = 'none'; //console.log('hideDiv(): id: ' + id);
-        $('#' + id).fadeOut('fast');
+        $('#' + id).fadeOut(); // 'fast'
         //$('#' + id).slideUp();
     }
 
     function showDiv(id) {
         //document.getElementById(id).style.display = 'inline'; //console.log('showDiv(): id: ' + id);
-        //$('#' + id).fadeIn('fast');
-        $('#' + id).slideDown();
+        $('#' + id).fadeIn('fast');
+        //$('#' + id).slideDown();
     }
 
     function hidePage(page) {
         hideDiv(page.templateId); //console.log('hidePage(): templateId: ' + page.templateId); //+ obj(page) + '\'');
     }
+
+    function showInfo(text) {
+        $('#info').html(text);
+    }
+
+    function showTime(text, correct) {
+        var sel = '#prevTime';
+        $(sel).css('color', correct ? 'green' : 'red');
+        $(sel).html(text + 'ms');
+    }
+
+    function scaleImagesAY() {
+        console.log('scaleImagesAY()');
+        // copied from matrix
+
+        // // we know the natural sizes of the images already
+        // var topWidth, topHeight, botWidth, botHeight;
+        // if (currentPage().templateId === 'quiz2x2') {
+        //     topWidth = 420;
+        //     topHeight = 340;
+        //     botWidth = 680;
+        //     botHeight = 365;
+        // } else if (currentPage().templateId === 'quiz3x3') {
+        //     topWidth = 510;
+        //     topHeight = 405;
+        //     botWidth = 755;
+        //     botHeight = 295;
+        // }
+
+        // var widthExtra = // total width of elements, excluding centre images
+        //     ($('.container').outerWidth(true) - $('.container').width()) +
+        //     ($('#pages').outerWidth(true) - $('#pages').width());
+
+        // var heightExtra = // total height of elements, excluding centre images
+        //     ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
+        //     ($('.botText').is(':visible') ? $('.botText').height() : 0);
+
+        // // natural image dimensions; .width(), .height() are current dimensions
+        // var naturalFullWidth = widthExtra + botWidth; // bottom image is widest
+        // var naturalFullHeight = heightExtra + topHeight + botHeight;
+
+        // // allow 200px for text at bottom
+        // // .gridContainer needs to be scaled from natural width/height to fit in
+        // // (window height - 200px) x window width
+
+        // // vertical shrink = (window height - 200px) / naturalFullHeight
+        // // horizontal shrink = window width / naturalFullWidth
+        // var scaleV = ($(window).height() - 200) / naturalFullHeight;
+        // var scaleH = $(window).width() / naturalFullWidth;
+
+        // // select lower of these scaling values
+        // var scale = scaleV <= scaleH ? scaleV : scaleH;
+
+        // // work out desired dimensions of whole quiz
+        // var targetWidth = naturalFullWidth * scale; // forget about width, it always fits, down to 300px
+        // var targetHeight = naturalFullHeight * scale;
+
+        // // work out desired height of .gridContainer
+        // var targetMiddleHeight = targetHeight - heightExtra;
+
+        // // need h/w ratio of .gridContainer. Typical dimensions: 162 x 144. 162 / 144 == 1.125
+        // var middleHWRatio = 1.125;
+
+        // // what innerWidth of .gridContainer would create targetMiddleHeight?
+        // var targetMiddleWidth = targetMiddleHeight * middleHWRatio;
+
+        // // set these margins on .gridContainer to make the targetWidth and targetHeight
+        // var setMargins = ($(window).width() - widthExtra - targetMiddleWidth) / 2;
+        // $('.gridContainer').css('margin-left', setMargins);
+        // $('.gridContainer').css('margin-right', setMargins);
+
+        // console.log('setMargins: ' + setMargins +
+        //     ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
+        //     ', targetMiddleWidth: ' + targetMiddleWidth
+        //      + 'setMargins: ' + setMargins);
+    }
+
+    // shrink images to try to fit height into viewport, but don't worry about width
+    function scaleImagesCBsimple() { //
+        console.log('scaleImagesCBsimple()');
+        //showInfo('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin);
+        var widthExtra =
+            ($('.container').outerWidth(true) - $('.container').width()) +
+            ($('#pages').outerWidth(true) - $('#pages').width()); // missing some widths?
+        var heightExtra = // required height of .gridContainer
+            ($('#answers').is(':visible') ? $('#answers').height() : 0) +
+            ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
+            ($('.botTxt').is(':visible') ? $('.botTxt').height() : 0) +
+            ($('.topTxt').is(':visible') ? $('.topTxt').height() : 0) +
+            ($('.navTxt').is(':visible') ? $('.navTxt').height() : 0) +
+            ($('.navCtl').is(':visible') ? $('.navCtl').height() : 0)
+            + 75 // fixme arbitrary amount, what should this really be?
+            ;
+            // missing some heights?
+        var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
+        console.log('setMargins ' + setMargins + ', heightExtra: ' + heightExtra + ', widthExtra: ' + widthExtra);
+             //'($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;' +
+
+        if (setMargins > 0) {
+            $('.middleImg').css('margin-left', setMargins);
+            $('.middleImg').css('margin-right', setMargins);
+        } else { // don't set negative margins. content should shrink width-wise if needed
+            $('.middleImg').css('margin-left', 0);
+            $('.middleImg').css('margin-right', 0);
+        }
+    }
+
+    function startTimer(page) {
+        if (page.name.slice(0, 2) === 'ex') {
+            timer.now(); // start timer for all real exercises
+            if (page.name === 'ex1') {
+                config.timeStarted = new Date($.now());
+                console.log('config.timeStarted: ' + config.timeStarted);
+                timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
+            }
+        }
+    }
+
+    function containerClick(e) {
+        e.preventDefault();
+        var clickedEl = $(this),
+            elId = clickedEl.attr('id');
+        console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId); // now gets id from loaded page
+        console.log('unbind clicks');
+        $('#pages').off('click', 'a, button, div.row div', containerClick); // prevent double-click
+
+        switch (clickedEl.attr('id')) {
+        case 'prev':
+            prevPage();
+            break;
+        case 'next':
+        case 'start':
+            nextPage();
+            break;
+        case 'yes':     // fixme what are these for?
+        case 'no':
+            console.log('elid: ' + clickedEl.attr('id') + ', html: ' + clickedEl.html());
+            break;
+        default:
+            var slice = elId.slice(0, 3);
+            if (slice === 'ans') { // bottom grid only
+                $('#' + elId).addClass('disabled'); // remember to add '#' back onto ID to make selector
+                var num = elId[3]; // number in id following 'bot' == number of bottom tile selected
+                answered(num);
+            }
+        }
+    }
+
+    function showPage(page) { // prevPage() and nextPage() should handle hiding current
+        console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
+        console.log('showPage(): isTimeUp:' + isTimeUp);
+        //console.log('unbind clicks');
+        //$('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
+            // seems to cause multiple clicks, erratic behaviour
+
+        if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
+            hideDiv('abandon-div');
+        } else {
+            showDiv('abandon-div');
+        }
+
+        var info = current + '/' + pages.length + ': ' + page.name;
+        showInfo(info);
+
+        var navNext = '<span><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
+        var navPrev = '<span><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>';
+        var navPrevNext = '<span style="margin-right: 40px;"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>' +
+                          '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
+        // pull-left pull-right
+
+        switch (page.templateId) {
+        case 'game':
+            if (page.name.slice(0, 2) === 'ex') {
+                timer.now(); // start timer for all real exercises
+                if (page.name === 'ex1') {
+                    console.log('start game timer');
+                    timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
+                }
+            }
+            // img-a - top-constant.png
+            $('#img-b').attr('src', 'images/' + page.image); // or $('#imgdiv-b img')
+            $('.botTxt').html('How many moves would it take to make picture A look like picture B?');
+            for (var i = 1; i <= 6; i++) {
+                var id = '#ans' + i;
+                $(id).removeClass('disabled');
+            }
+            if (page.name === 'intro4') {
+                $('.navCtl').html(navPrev);
+            } else {
+                $('.navCtl').html('');
+            }
+            startTimer(page); // timer to show chosen answer before next, and start game timer
+            break;
+        case 'home':
+        case 'abandon':
+            break; // don't do nuttin
+        case 'intro': // these are templateIds remember, not page names
+            $('.topTxt').html(page.topTxt);
+            $('.middleImg img#introImg').attr('src', 'images/' + page.images.top); // e.g. intro1.png - not split and don't have A, B labels
+            $('.botTxt').html(page.botTxt);
+            $('.navTxt').html(page.navTxt);
+            if (page.name === 'intro1') {
+                $('.navCtl').html(navNext);
+            } else {
+                $('.navCtl').html(navPrevNext);
+            }
+            if (page.name === 'intro5') {
+                var ans = answers.pop();
+                console.log('ans: ' + ans);
+                $('#intro-answer').html(ans + (parseInt(ans) === 2 ? ' - Correct!' : ''));
+            }
+            break;
+        case 'getReady':
+            $('.navTxt').html(page.navTxt);
+            $('.navCtl').html(navNext);
+            break;
+        case 'thanks':
+            clearTimeout(timeUpTimeout);
+            clearTimeout(nextPageTimeout);
+            finished();
+            break;
+        default:
+            throw new Error('unrecogised id');
+        }
+
+        //scaleImages();
+        scaleImagesCBsimple();
+        showDiv((page.templateId));
+
+        //showInfo('height: ' + $(window).height()); //attr('height'));
+
+        // (re-)bind clicks
+        console.log('bind clicks');
+        $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
+
+    }
+
+    function prevPage() {
+        console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
+        hidePage(currentPage());
+        if (current > 0) {
+            current -= 1;
+        }
+        showPage(currentPage());
+    }
+
+    function nextPage() { // console.log('nextPage(): current: ' + current);// + obj(currentPage());
+        console.log('nextPage(): isTimeUp:' + isTimeUp);
+        hidePage(currentPage());
+        if (isTimeUp) {
+            clearTimeout(nextPageTimeout);
+            showPage(pageNamed('thanks'));
+        } else if (current + 1 < pages.length) {
+            current += 1;
+            showPage(currentPage());
+        } else {
+            console.log('nextPage(): hit the end at current: ' + current);
+        }
+    }
+
+    function showModal(modal) {
+        showDiv('modals');
+        showDiv(modal); //console.log('showModal(\'' + modal + '\')');
+    }
+
+    function hideModal(modal) {
+        hideDiv('modals');
+        hideDiv(modal); //console.log('hideModal(\'' + modal + '\')');
+    }
+
+    // don't need timing stuff
+    //$('#results').val(JSON.stringify(answers));
+    //var possibleE = test_timer.gethasPossibleError() + reaction_timer.gethasPossibleError() + demo_timer.gethasPossibleError() + total_timer.gethasPossibleError();
+    // if (possibleE > 0)
+    //     possibleE = 1;
+    // writeValue("timererror",possibleE); // document.getElementById(id).value = value;
+    // writeValue("performanceTimer",total_timer.gethasPerformance());
+    function finished() {
+        console.log('finished(): answers: ' + JSON.stringify(answers));
+        clearTimeout(timeUpTimeout);
+
+        // fill in form
+        document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
+        document.getElementById('timeStarted').value = config.timeStarted;
+
+        // submit automatically
+        window.onbeforeunload = null;
+        $(window).on('beforeunload', function(){
+            $('*').css('cursor', 'progress');
+        });
+        document.getElementById('feedbackForm').submit(); // action set in init() from config.json
+    }
+    //$("body").css("cursor", "progress"); // $("body").css("cursor", "default");
+
+    function timeUp() {
+        clearTimeout(timeUpTimeout); // in case triggered manually for testing
+        isTimeUp = true;
+        console.log('timeUp(): isTimeUp:' + isTimeUp);
+    }
+
+    function answered(num) {
+        console.log('answered: ' + num);
+        var page = currentPage();
+        var correct = Number(num) === page.correct;
+        var timeTaken;
+        if (page.name.slice(0, 2) === 'ex') { // real exercise
+            timer.lap();
+            timeTaken = timer.getElapsed();
+            showTime(timeTaken, correct);
+            var answer = {
+                page: page.name,
+                answer: num,
+                correct: correct,
+                time: timeTaken
+            };
+            answers.push(answer);
+        } else if (page.name.slice(0, 5) === 'intro') {
+            answers.push(num);
+        }
+
+        if (correct) { // http://stackoverflow.com/a/33457014/535071
+            console.log('Correct!');
+        } else {
+            console.log('Wrong! correct is: ' + page.correct);
+        }
+
+        nextPageTimeout = setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
+    }
+
+    function abandonClick() {
+        console.log('abandon');
+        showModal('abandon-modal');
+    }
+
+    function navClick(e) {
+        e.preventDefault();
+        console.log('navClick()');
+        var pageId = $('.page').attr('id'),
+            clickedEl = $(this); //console.log('pageId: '+pageId); // now gets id from loaded page
+        console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
+        switch (clickedEl.attr('id')) {
+        case 'prev':
+            prevPage();
+            break;
+        case 'next':
+        case 'start':
+            nextPage();
+            break;
+        case 'timeUp':
+            clearTimeout(timeUpTimeout);
+            timeUp();
+            break;
+        default:
+            console.log('got unexpected element id: ' + clickedEl.attr('id')); //+', html: ''+clickedEl.html()+''');
+        }
+    }
+
+    function modalClick(e) { // TODO merge into navClick or something
+        e.preventDefault();
+        console.log('modalClick()');
+        var pageId = $('.page').attr('id'),
+            clickedEl = $(this); //console.log('pageId: '+pageId); // now gets id from loaded page
+        console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
+        switch (clickedEl.attr('id')) {
+        case 'abandon-yes':
+            hideModal('abandon-modal');
+            hidePage(currentPage());
+            showPage(pageNamed('thanks'));
+            break;
+        case 'abandon-no':
+            hideModal('abandon-modal');
+            break;
+        case 'tryagain-ok':
+            hideModal('tryagain-modal');
+            break;
+        case 'timeup-ok':
+            hideModal('timeup-modal');
+            break;
+        default:
+            console.log('got unexpected element id: ' + clickedEl.attr('id')); //+', html: ''+clickedEl.html()+''');
+        }
+    }
+
+    function init() {
+        timer = new Timer();
+        isTimeUp = false;
+        current = 0;
+
+        $('#button').css('display', LIVE ? 'none' : 'inline');
+
+        var formAction = config.formAction;
+        var loc = location.toString().split('://')[1]; // strip off http://, https://
+        if (loc.substr(0, 9) === 'localhost') { // served from gulp
+            console.log('loc === localhost');
+            formAction = 'http://localhost:8001/' + formAction; // gulp-connect-php - local PHP server
+        } // else, is on same server, relative link OK
+        // scratch that, point to red:
+        formAction = 'http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/';
+        $('#feedbackForm').attr('action', formAction);
+        console.log('formAction: ' + formAction);
+        showPage(currentPage());
+    }
+
+    function getConfig() {
+        $.getJSON('./config.json', function (data) {
+            console.log('getConfig(): got JSON');
+            config = data;
+            pages = data.pages;
+            init();
+            randTest();
+        }).fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
+            var err = 'error getting JSON: ' + textStatus + ', errorThrown: ' + errorThrown;
+            console.log(err);
+        });
+    }
+
+    function keydown(e) {
+        console.log('keyboard event: ' + e.which);
+        if (e.which === 68) { //console.log('"d" pressed');
+            e.preventDefault(); // don't trap other keypresses e.g. ctrl-shift-i for dev tools
+            if ($('#devBar').css('display') === 'none') {
+                showDiv('devBar');
+            } else {
+                hideDiv('devBar');
+            }
+        }
+    }
+
+    $('body').on('keydown', keydown);
+    //$('#pages').on('click', 'a, button, div.row div', containerClick); // delegate events
+    $('#devBar').on('click', 'a, button', navClick);
+    $('#abandon-btn').on('click', abandonClick);
+    $('#modals').on('click', 'button', modalClick);
+
+    window.onresize = function(event) {
+        console.log('unbind clicks');
+        $('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
+        showPage(currentPage()); // ?
+    };
+
+// const int levelData::m_answers[MAX_LEVELS] = {1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5};
+// int levelData::m_rndLevel[MAX_LEVELS] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17};
+// int levelData::m_sudoRndLevelList[MAX_LEVELS] = {1, 3, 2, 1, 4, 2, 5, 2, 2, 3, 1, 5, 4, 4, 5, 4, 1, 5};
+
+// m_levelData = levelData::getRandomiseWithFixedDifficulty();
+//     pLevelData->rndFixedLevels();
+
+// void levelData::rndFixedLevels() {
+//     rndIntArray m_newRndLevel[5];
+
+//     for (int i=0; i<MAX_LEVELS; i++) {
+//         int forLevel = m_answers[ i ];
+//         m_newRndLevel[ forLevel-1 ].push( i ); // populate m_newRndLevel with wanted 'level' (number of moves, i.e. the answer)
+//     }
+
+//     for (int i=0; i<MAX_LEVELS; i++) {
+//         int wantedLevel = m_sudoRndLevelList[ i ];
+//         m_rndLevel[ i ] = m_newRndLevel[ wantedLevel-1 ].pop();
+//     }
+// }
+    function randTest() { // copy jon's levelData::rndFixedLevels()
+        var MAX_LEVELS = 18;
+        var m_answers = [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5]; // [MAX_LEVELS]
+        var m_rndLevel = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]; // [MAX_LEVELS]
+        var m_sudoRndLevelList = [1, 3, 2, 1, 4, 2, 5, 2, 2, 3, 1, 5, 4, 4, 5, 4, 1, 5]; // [MAX_LEVELS]
+
+        console.log("randTest() before: m_rndLevel: " + m_rndLevel);
+
+        var m_newRndLevel = new Array(); // with 5 slots
+        rndIntArray
+
+        for (var i=0; i<MAX_LEVELS; i++) { // iterate, not enumerate
+            var forLevel = m_answers[i] - 1;
+            m_newRndLevel[forLevel].push(i);
+        }
+
+        for (i=0; i<MAX_LEVELS; i++) {
+            var wantedLevel = m_sudoRndLevelList[i];
+            m_rndLevel[i] = m_newRndLevel[wantedLevel-1].pop();
+        }
+        console.log("randTest() after: m_rndLevel: " + m_rndLevel);
+
+        // for... in should be avoided as the order is not guaranteed and inherited properties are also enumerated
+    }
+
+    // int levelData::getGameLevel(int index) {
+    //     assert(m_isInitalised);
+    //     assert(index < MAX_LEVELS);
+    //     return m_rndLevel[index];
+    // }
+
+    // int levelData::getExpectedAnswer(int index) {
+    //     assert(m_isInitalised);
+    //     assert(index < MAX_LEVELS);
+    //     return m_answers[m_rndLevel[index]];
+    // }
+
+    $().ready(function () { //$(document).ready(
+        console.log('Document ready');
+        hideDiv('devBar');
+        if (LIVE) {
+            window.onbeforeunload = null;
+            window.history.forward();   //prevent repeat after back button - may not work.
+            window.onbeforeunload = function() {
+                return 'The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?';
+            };
+        }
+        getConfig();
+    });
+}());
+
+console.log('main.js ready');
+
 
     // http://stackoverflow.com/questions/130396/are-there-constants-in-javascript
     // var WIDTH2X2 = 210; // Width of squares in 2x2 grid is 210px // const?
@@ -203,326 +717,3 @@
     //     // pos = '-' + (width * top[i]) + 'px 0px';
     //     // setBackground(sel, page.sheet, pos); //console.log('sel: ' + sel + ', img: ' + img + ', pos: ' + pos);
     // }
-
-    function showInfo(text) {
-        $('#info').html(text);
-    }
-
-    function showTime(text, correct) {
-        var sel = '#prevTime';
-        $(sel).css('color', correct ? 'green' : 'red');
-        $(sel).html(text + 'ms');
-    }
-
-    function showPage(page) { // prevPage() and nextPage() should handle hiding current
-        console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
-        console.log('showPage(): isTimeUp:' + isTimeUp);
-
-        if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
-            hideDiv('abandon-div');
-        } else {
-            showDiv('abandon-div');
-        }
-
-        var info = current + '/' + pages.length + ': ' + page.name;
-        showInfo(info);
-
-        var navNext = '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
-        var navPrevNext = '<span class=\"prev\" class=\"col-md-2\"><button class=\"btn pull-left\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span><span id=\"next\" class=\"\"><button class=\"btn pull-right\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
-        // pull-left pull-right
-
-        switch (page.templateId) {
-        case 'game':
-            //applyStyles(page);
-            if (page.name.slice(0, 2) === 'ex') {
-                timer.now(); // start timer for all real exercises
-                if (page.name === 'ex1') {
-                    console.log('start game timer');
-                    timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
-                }
-            }
-            // img-a - top-constant.png
-            $('#img-b').attr('src', 'images/' + page.image);
-            // or $('#imgdiv-b img').attr('src', 'images/' + page.image);
-            $('.botTxt').html('How many moves would it take to make picture A look like picture B?');
-            for (var i = 1; i <= 6; i++) {
-                var id = '#ans' + i;
-                $(id).removeClass('disabled');
-            }
-            if (page.name === 'intro4') {
-                $('.navCtl').html(navPrevNext);
-            } else {
-                $('.navCtl').html('');
-            }
-            break;
-        case 'home':
-        case 'getReady':
-        case 'abandon':
-            break; // don't do nuttin
-        case 'intro1': // these are templateIds remember, not page names
-            $('.topTxt').html(page.topTxt);
-            $('#middleImg img').attr('src', 'images/' + page.images.top); // example image: intro1.png? not split and don't have A, B labels
-            $('.botTxt').html(page.botTxt);
-            $('.navTxt').html(page.navTxt);
-            if (page.name === 'intro1') {
-                $('.navCtl').html(navNext);
-            } else {
-                $('.navCtl').html(navPrevNext);
-            }
-            if (page.name === 'intro5') {
-                var ans = answers.pop();
-                console.log('ans: ' + ans);
-                $('#intro-answer').html(ans + (parseInt(ans) === 2 ? ' - Correct!' : '')); //$('#intro-answer').html(JSON.stringify(answers));
-            }
-            break;
-        case 'intro6':
-            $('.navTxt').html(page.navTxt);
-            $('.navCtl').html(navNext);
-            break;
-        case 'thanks':
-            clearTimeout(timeUpTimeout);
-            clearTimeout(nextPageTimeout);
-            finished();
-            break;
-        default:
-            throw new Error('unrecogised id');
-        }
-
-        showDiv((page.templateId));
-    }
-
-    function prevPage() {
-        console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
-        hidePage(currentPage());
-        if (current > 0) {
-            current -= 1;
-        }
-        showPage(currentPage());
-    }
-
-    function nextPage() { // console.log('nextPage(): current: ' + current);// + obj(currentPage());
-        console.log('nextPage(): isTimeUp:' + isTimeUp);
-        hidePage(currentPage());
-        if (isTimeUp) {
-            clearTimeout(nextPageTimeout);
-            showPage(pageNamed('thanks'));
-        } else if (current + 1 < pages.length) {
-            current += 1;
-            showPage(currentPage());
-        } else {
-            console.log('nextPage(): hit the end at current: ' + current);
-        }
-    }
-
-    function showModal(modal) {
-        console.log('showModal(\'' + modal + '\')');
-        showDiv('modals');
-        showDiv(modal);
-    }
-
-    function hideModal(modal) {
-        console.log('hideModal(\'' + modal + '\')');
-        hideDiv('modals');
-        hideDiv(modal);
-    }
-
-    function finished() {
-        console.log('finished(): answers: ' + JSON.stringify(answers));
-        //$('input[name="results"]').val() = JSON.stringify(answers);
-        $('#results').val(JSON.stringify(answers));
-        clearTimeout(timeUpTimeout);
-        // TODO send via $.ajax();
-    }
-
-    function timeUp() {
-        clearTimeout(timeUpTimeout); // in case triggered manually for testing
-        isTimeUp = true;
-        console.log('timeUp(): isTimeUp:' + isTimeUp);
-    }
-
-    function answered(num) {
-        //console.log('got num: ' + num);
-        var page = currentPage();
-        var correct = Number(num) === page.correct;
-        var timeTaken;
-        if (page.name.slice(0, 2) === 'ex') { // real exercise
-            timer.lap();
-            timeTaken = timer.getElapsed();
-            showTime(timeTaken, correct);
-            var answer = {
-                page: page.name,
-                answer: num,
-                correct: correct,
-                time: timeTaken
-            };
-            answers.push(answer);
-        } else if (page.name.slice(0, 5) === 'intro') {
-            answers.push(num);
-        }
-
-        if (correct) { // http://stackoverflow.com/a/33457014/535071
-            console.log('Correct!');
-        } else {
-            console.log('Wrong! correct is: ' + page.correct);
-        }
-
-        nextPageTimeout = setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
-    }
-
-    function containerClick(e) {
-        e.preventDefault();
-        var clickedEl = $(this),
-            elId = clickedEl.attr('id');
-        console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId); // now gets id from loaded page
-        switch (clickedEl.attr('id')) {
-        case 'prev':
-            prevPage();
-            break;
-        case 'next':
-        case 'start':
-            nextPage();
-            break;
-        case 'yes':
-        case 'no':
-            console.log('elid: ' + clickedEl.attr('id') + ', html: ' + clickedEl.html());
-            break;
-        default:
-            var slice = elId.slice(0, 3);
-            if (slice === 'ans') { // bottom grid only
-                $('#' + elId).addClass('disabled'); // remember to add '#' back onto ID to make selector
-                var num = elId[3]; // number in id following 'bot' == number of bottom tile selected
-                answered(num);
-            }
-        }
-    }
-
-    function abandonClick() {
-        console.log('abandon');
-        showModal('abandon-modal');
-    }
-
-    function navClick(e) {
-        e.preventDefault();
-        console.log('navClick()');
-        var pageId = $('.page').attr('id'),
-            clickedEl = $(this); //console.log('pageId: '+pageId); // now gets id from loaded page
-        console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
-        switch (clickedEl.attr('id')) {
-        case 'prev':
-            prevPage();
-            break;
-        case 'next':
-        case 'start':
-            nextPage();
-            break;
-        case 'timeUp':
-            clearTimeout(timeUpTimeout);
-            timeUp();
-            break;
-        default:
-            console.log('got unexpected element id: ' + clickedEl.attr('id')); //+', html: ''+clickedEl.html()+''');
-        }
-    }
-
-    function modalClick(e) { // TODO merge into navClick or something
-        e.preventDefault();
-        console.log('navClick()');
-        var pageId = $('.page').attr('id'),
-            clickedEl = $(this); //console.log('pageId: '+pageId); // now gets id from loaded page
-        console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
-        switch (clickedEl.attr('id')) {
-        case 'abandon-yes':
-            hideModal('abandon-modal');
-            hidePage(currentPage());
-            showPage(pageNamed('thanks'));
-            break;
-        case 'abandon-no':
-            hideModal('abandon-modal');
-            break;
-        case 'tryagain-ok':
-            hideModal('tryagain-modal');
-            break;
-        case 'timeup-ok':
-            hideModal('timeup-modal');
-            break;
-        default:
-            console.log('got unexpected element id: ' + clickedEl.attr('id')); //+', html: ''+clickedEl.html()+''');
-        }
-    }
-
-    function init() {
-        timer = new Timer();
-        isTimeUp = false;
-        current = 0;
-
-        $('#button').css('display', LIVE ? 'none' : 'inline');
-
-        var formAction = config.formAction;
-        var loc = location.toString().split('://')[1]; // strip off http://, https://
-        if (loc === 'localhost:9000/') { // served from gulp
-            console.log('loc === localhost:9000/');
-            formAction = 'http://localhost:8000/' + formAction; // gulp-connect-php - local PHP server
-        } // else, is on same server, relative link OK
-        $('#feedbackForm').attr('action', formAction);
-
-        showPage(currentPage());
-    }
-
-    function getConfig() {
-        $.getJSON('./config.json', function (data) {
-            console.log('getConfig(): got JSON');
-            config = data;
-            pages = data.pages;
-            init();
-        }).fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
-            var err = 'error getting JSON: ' + textStatus + ', errorThrown: ' + errorThrown;
-            console.log(err);
-        });
-    }
-
-    function keydown(e) {
-        e.preventDefault();
-        console.log('keyboard event: ' + e.which);
-        if (e.which === 68) { //console.log('"d" pressed');
-            if ($('#buttons').css('display') === 'none') {
-                showDiv('buttons');
-            } else {
-                hideDiv('buttons');
-            }
-        }
-    }
-    $('body').on('keydown', keydown);
-
-    $('#pages').on('click', 'a, button, div.row div', containerClick); // delegate events
-    $('#buttons').on('click', 'a, button', navClick); // need this?
-    $('#abandon-btn').on('click', abandonClick); // need this?
-    $('#modals').on('click', 'button', modalClick);
-
-    window.onresize = function(event) {
-        showPage(currentPage()); // ?
-        showInfo('height: ' + $(window).height()); //attr('height'));
-        //$('.container').attr('width', $(window).height()); // sets it but nothing else, doesn't change width
-
-        // set the margins/padding to (screen width - height) / 2 ?
-        // setting margin-left and margin-right seems to make it shrink...
-        var margin = ($(window).width() - $(window).height()) / 2;
-        showInfo('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin);
-        $('.container').css('margin-left', margin);
-        $('.container').css('margin-right', margin);
-    };
-
-    $().ready(function () { //$(document).ready(
-        console.log('Document ready');
-        hideDiv('buttons');
-        if (LIVE) {
-            window.onbeforeunload = null;
-            window.history.forward();   //prevent repeat after back button - may not work.
-            window.onbeforeunload = function() {
-                return 'The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?';
-            };
-        }
-        getConfig();
-    });
-}());
-
-console.log('main.js ready');

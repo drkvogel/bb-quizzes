@@ -1,0 +1,15 @@
+#!/bin/bash
+# ssh to red, ignore warning:
+
+# Add correct host key in /user/cp/.ssh/known_hosts to get rid of this message.
+# Offending key in /user/cp/.ssh/known_hosts:4
+# RSA host key for red has changed and you have requested strict checking.
+# Host key verification failed. 
+
+#ssh -o RSAAuthentication=no red.ctsu.ox.ac.uk
+
+ssh cp@red.ctsu.ox.ac.uk
+
+# sftp -o RSAAuthentication=no red.ctsu.ox.ac.uk <<EOF
+# cd public_html/cjb/bbquiz
+# EOF

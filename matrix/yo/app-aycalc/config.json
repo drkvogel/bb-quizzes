@@ -4,7 +4,8 @@
     "comment": "timeLimit should be 180000 == 3 minutes",
     "nextDelay" : 500,
     "timeLimit" : 180000,
-    "formAction" : "complete.php",
+    //"formAction" : "complete.php",
+    "formAction" : "http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/",
     "pages":[
     {
         "name": "home",
@@ -42,7 +43,7 @@
         "templateId": "getReady",
         "suppressAbandon": true,
         "correct": -1,
-        "text": "<p>You will have 2 minutes to do as many puzzles as you can.</p><p>Touch Next when you are ready to begin.</p>"
+        "text": "<p>You will have 3 minutes to do as many puzzles as you can.</p><p>Touch Next when you are ready to begin.</p>"
     },
     {
         "name": "ex1",

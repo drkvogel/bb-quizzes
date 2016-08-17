@@ -27,25 +27,19 @@
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <!-- <div class="container"> -->
-      <div class="navbar nav header" id="navbar">
-          <div id="buttons" class="nav row">
-            <div id="prev" class="col-md-3"><button class="btn pull-right" id="prev" href="#">&lt; Prev</button></div>
-            <div id="prevTime" class="col-md-2">&nbsp;</div>
-            <div id="info" class="col-md-2">&nbsp;</div>
-            <div id="" class="col-md-2"><button class="btn" id="timeUp" href="#">timeUp</button></div>
-            <div id="next" class="col-md-3"><button class="btn" id="next" href="#">Next &gt;</button></div>
-          </div>
-      </div>
-    <!-- </div> -->
-
+    <div class="navbar nav header" id="devBar">
+        <div id="buttons" class="nav row">
+          <div id="prev" class="col-md-3"><button class="btn pull-right" id="prev" href="#">&lt; Prev</button></div>
+          <div id="prevTime" class="col-md-2">&nbsp;</div>
+          <div id="info" class="col-md-2">&nbsp;</div>
+          <div id="" class="col-md-2"><button class="btn" id="timeUp" href="#">timeUp</button></div>
+          <div id="next" class="col-md-3"><button class="btn" id="next" href="#">Next &gt;</button></div>
+        </div>
+    </div>
 
     <div class="container">
-      <!-- <code>content-container</code> -->
-      <!-- <div id="content-container"> -->
 
         <div id="pages"> <!-- style="display: none"> -->
-          <!-- <div style="width: 75%; margin-right: auto; margin-left: auto;"> -->
 
           <!-- home -->
           <div id="home" class="page" style="display:none">
@@ -54,25 +48,9 @@
               <p class="lead">Welcome to the Matrix Puzzle</p>
               <p><a id="start" class="btn btn-lg btn-success" href="#">Start</a></p>
             </div>
-          </div>
-
-          <!-- Intro 1 -->
-          <div id="intro1" class="page" style="display:none">
-            <!-- matrix_ex1.png 2x2 squares with vertical slots -->
-            <p>Here is a design which is missing a piece on the lower right hand corner. At the bottom are shown six pieces which would fit the missing corner. Your task is the touch the piece which best completes the design at the top.</p>
-            <p>Have a go now...</p>
-          </div>
-
-          <!-- Intro 2 -->
-          <div id="intro2" class="page" style="display:none">
-            <!-- matrix_ex2.png 2x2 suns -->
-            <p>Here is another practice puzzle. Touch the piece which best completes the design.</p>
-          </div>
-
-          <!-- Intro 3 -->
-          <div id="intro3" class="page" style="display:none">
-            <!-- matrix_ex2.png 3x3  -->
-            <p>This is the last practice puzzle. Again, touch the piece which best completes the design.</p>
+            <div class="footer">
+              <p>&copy; 2016 NDPH</p>
+            </div>
           </div>
 
           <!-- getReady -->
@@ -80,7 +58,6 @@
             <p class=" center">You will have 2 minutes to do as many puzzles as you can.</p>
             <p class=" center">Touch Start when you are ready to begin.</p>
             <div class="buttons">
-              <!-- <div id="prev"><a id="prev" href="#">&lt; Prev</a></div><div id="next"><a id="next" href="#">Next &gt;</a></div> -->
               <div id="start"><button class="btn center" id="next" href="#">Start</button></div>
             </div>
           </div>
@@ -108,7 +85,6 @@
             </div>
           </div>
 
-
           <!-- 3x3 + 4x2 grid -->
           <div class="quiz" id="quiz3x3" class="page quiz3x3-4x2" style="display:none">
             <div class="gridContainer">
@@ -134,34 +110,21 @@
             </div>
           </div>
 
-
           <!-- thanks -->
           <div id="thanks" class="page" style="display:none">
             <p>Thanks for doing the test.</p>
             <p>Please leave comments.</p>
-            <!-- <div class="page-text">page-text</div> -->
-             <div id="feedback">
-<!--              <form id="feedbackForm" action="." method="post">
-                <fieldset>
-                  Name:<br><input type="text" name="fullname" value=""><br>
-                  Email:<br><input type="text" name="email" value=""><br>
-                  <p>Comments:</p>
-                  <textarea name="comments" rows="10" cols="80"></textarea>
-                  <input type="hidden" id="results" name="results" value="tbc"/>
-                  <input type="submit" value="Submit">
-                </fieldset>
-              </form> -->
-              <form id="feedbackForm"  method="post">
-                <!-- class="viz" action="https://trials.ctsu.ox.ac.uk/~webfu/HMDB3/StoreData.php" -->
+            <div id="feedback">
+              <form id="feedbackForm" method="post">
                 <div>
-                  <input type="hidden" name="sid" value="1">
-                  <input type="hidden" name="pid" value="213421343">
-                  <input type="hidden" name="lsq" value="661">
-                  <input type="hidden" name="seqord" value="3">
-                  <input type="hidden" name="studytypeuid" value="1002">
+                  <input type="hidden" id="sid" name="sid" value="1">
+                  <input type="hidden" id="pid" name="pid" value="213421343">
+                  <input type="hidden" id="lsq" name="lsq" value="661">
+                  <input type="hidden" id="seqord" name="seqord" value="3">
+                  <input type="hidden" id="studytypeuid" name="studytypeuid" value="1002">
                   <input type="hidden" id="timererror" name="timererror" value="-1">
-                  <input type="hidden" id="performaceTimer" name="performaceTimer" value="-1">
-                  <input type="hidden" name="datestarted" value="2016-02-29 14:47:31 GMT">
+                  <input type="hidden" id="performanceTimer" name="performanceTimer" value="-1">
+                  <input type="hidden" id="timeStarted" name="timeStarted" value="">
                   <input type="hidden" id="abandon" name="abandon" value="0">
                   <input type="hidden" id="mean" name="mean" value="-1">
                   <input type="hidden" id="demoelapsed" name="demoelapsed" value="-1">
@@ -172,9 +135,8 @@
               </form>
             </div>
           </div>
-        <!-- </div> --> <!-- <div style="width: 75%; margin-right: auto; margin-left: auto;"> -->
+
         </div> <!-- /pages -->
-      <!-- </div> --> <!-- content-container -->
 
       <div id="abandon-div" class="row">
         <button class="btn" id="abandon-btn" href="#">Abandon</button>
@@ -182,8 +144,7 @@
 
     </div> <!-- container -->
 
-
-    <div id="modals" class="mymodal" style="display:none"> <!--  .modal is bootstrap -->
+    <div id="modals" class="mymodal" style="display:none"> <!-- .modal is bootstrap -->
 
       <!-- try again -->
       <div id="tryagain-modal" class="my-modal-content" style="display:none">
@@ -208,48 +169,12 @@
         <p>Are you sure you wish to abandon?</p>
         <p>You will not be able to attempt it again.</p>
         <div class="buttons row">
-          <!-- <div id="yes" class="col-md-2"><button class="btn pull-left" id="abandon-yes" href="#">Yes</button></div> -->
           <div id="yes"><button class="btn pull-left" id="abandon-yes" href="#">Yes</button></div>
           <div id="no"  class=""><button class="btn pull-right" id="abandon-no" href="#">No</button></div>
         </div>  <!-- class="col-md-2" -->
       </div>
 
-<!--         <div class="buttons row center">
-          <div id="yes" class="col-md-2 center"><button class="btn pull-left" id="abandon-yes" href="#">Yes</button></div>
-          <div id="no" class=""><button class="btn pull-right " id="abandon-no" href="#">No</button></div>
-        </div> -->
-
-
-    </div>
-
-    <div id="stuff" style="display:none">
-      <!-- not sure about this one - supposed to be a "firing up the engines" loading page -->
-      <div id="loading" class="page cover-container"> <!-- getbootstrap.com/examples/cover/ -->
-        <div class="masthead clearfix">
-          <div class="inner">
-            <h3 class="masthead-brand">Cover</h3>
-            <nav>
-              <ul class="nav masthead-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Features</a></li>
-                <li><a href="#">Contact</a></li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </div>      
-    </div> <!-- stuff -->
-
-
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-    <script>
-      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-      e.src='https://www.google-analytics.com/analytics.js';
-      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-      ga('create','UA-XXXXX-X');ga('send','pageview');
-    </script>
+    </div> <!-- modals -->
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
@@ -273,13 +198,46 @@
     <!-- endbuild -->
     
     <!-- build:js scripts/main.js -->
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <!--// <script src="https://raw.githubusercontent.com/davidjbradshaw/imagemap-resizer/master/js/imageMapResizer.min.js"></script> -->
     <script src="scripts/main.js"></script>
-    <!-- <script src="scripts/imageMapResizer.min.js"></script> -->
     <script src="scripts/imageMapResizer.js"></script>
 
     <!-- <script src="scripts/libcog.js"></script> -->
     <!-- endbuild -->
   </body>
 </html>
+
+    <!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
+    <!--// <script src="https://raw.githubusercontent.com/davidjbradshaw/imagemap-resizer/master/js/imageMapResizer.min.js"></script> -->
+    <!-- <script src="scripts/imageMapResizer.min.js"></script> -->
+<!-- <div class="page-text">page-text</div> -->
+<!--         <div class="buttons row center">
+          <div id="yes" class="col-md-2 center"><button class="btn pull-left" id="abandon-yes" href="#">Yes</button></div>
+          <div id="no" class=""><button class="btn pull-right " id="abandon-no" href="#">No</button></div>
+        </div> -->
+<!--     <div id="stuff" style="display:none">
+      <!-- not sure about this one - supposed to be a "firing up the engines" loading page ->
+      <div id="loading" class="page cover-container"> <!-- getbootstrap.com/examples/cover/ ->
+        <div class="masthead clearfix">
+          <div class="inner">
+            <h3 class="masthead-brand">Cover</h3>
+            <nav>
+              <ul class="nav masthead-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">Features</a></li>
+                <li><a href="#">Contact</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>      
+    </div> <!-- stuff --> 
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <!-- <script>
+      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='https://www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+      ga('create','UA-XXXXX-X');ga('send','pageview');
+    </script> -->
