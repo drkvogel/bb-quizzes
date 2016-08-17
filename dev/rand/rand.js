@@ -105,7 +105,7 @@ RandIntArray3.prototype.hello = function() {
 ////
 
 function RandIntArray(_size) {
-    var size, used, data = new Array();
+    var size, used, data = []; //new Array();
 
     console.log("RandIntArray constructor");
     size = _size;
@@ -119,8 +119,7 @@ function RandIntArray(_size) {
     };
     this.pop = function() {
         if (used <= 0) {
-            //throw new Exception('tried to pop empty stack');
-            return null;
+            return null; //throw new Exception('tried to pop empty stack');
         }
         used--;
         console.log("pop()" + String(data[used]));
@@ -131,14 +130,23 @@ function RandIntArray(_size) {
             console.log('data[' + String(i) + ']: ' + String(data[i]));
         }
         // body...
-    }
+    };
 }
 // RandIntArray3.prototype.hello = function() {
 //     console.log('hello2 from function RandIntArray');
 // };
 
+//var myArray = [];              // empty array
+//var myArray = [1,2,3];         // initialised array
+//var myArray = new Array(18);   // array with 18 undefined elements
+
 function randTest () {
-    var rand1 = new RandIntArray(18);
+    var rand1 = new RandIntArray(18);   // array with 18 undefined elements
+    console.log("");
+    console.log("");
+    console.log("");
+    console.log("");
+    console.log("");
     rand1.push(1);
     rand1.push(2);
     rand1.push(3);
