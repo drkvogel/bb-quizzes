@@ -10,7 +10,7 @@ destroydb $xdb
 createdb -i $xdb
 
 sql $xdb < hoops.sql
-#sql $xdb < matrix.sql
+sql $xdb < matrix.sql
 
 #! /bin/sh
 
