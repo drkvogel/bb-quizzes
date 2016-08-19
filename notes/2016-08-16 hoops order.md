@@ -21,15 +21,6 @@ const int TOWEROFLONDON_GAME::m_TOL_wantedGameData[6] = {0, 1, 2, 0, 3, 0}; // f
 for (int i = 0; i < 6; i++) m_toparray[i] = m_TOLgameData[index][i];    // top images
 for (int i = 0; i < 6; i++) m_bottomarray[i] = m_TOL_wantedGameData[i]; // bottom image
 
-    missing: 
-    t3w2by1 white, black + yellow, none         {0, 0, 2, 1, 3, 0}
-    t3w2y1b white, yellow, black                {0, 0, 2, 0, 3, 1}
-    t3y2wb1 yellow, white + black, none         {0, 0, 3, 2, 1, 0}
-    t32yb3w none, yellow + black, white         {0, 0, 3, 2, 1, 0} ?
-    t3wyb21 white + yellow + black, none, none  {2, 3, 1, 0, 0, 0}
-
-
-
 levelData *m_levelData;
 int index = m_levelData->getGameLevel(m_GameID); // just returns m_rndLevel[m_GameID], which is the same as m_GameID?
 
@@ -62,25 +53,9 @@ void levelData::rndFixedLevels() //{
     2016-08-16 10:58:41 cbird@q108-vlubuntu ~/Projects/bb-quizzes/hoops/yo/app/images
     $ ls -1
     top-constant.png t3bw2y1 check - same as m_TOL_wantedGameData
-    t32by1w.png-
-    t32wy1b.png-
-    t3bw21y.png-
-    t3w2b1y.png-
-    t3w2yb1.png-
-    t3wb2y1.png-
-    t3wy2b1.png-
-    t3y2b1w.png-
-    t3yb21w.png-
-    t3ybw21.png-
-    t3yw21b.png-
-    t3yw2b1.png-
+    t32by1w.png- t32wy1b.png- t3bw21y.png- t3w2b1y.png- t3w2yb1.png- t3wb2y1.png- t3wy2b1.png- t3y2b1w.png- t3yb21w.png- t3ybw21.png- t3yw21b.png- t3yw2b1.png-
     t3ywb21.png- # 13, need 18 - 5 missing
-    intro1.png
-    intro2.png
-    intro3.png
-    intro4.png
-    intro5-orig.png
-    intro5.png
+    intro1.png intro2.png intro3.png intro4.png intro5-orig.png intro5.png
 
     missing: 
     t3w2by1 white, black + yellow, none
@@ -88,4 +63,48 @@ void levelData::rndFixedLevels() //{
     t3y2wb1 yellow, white + black, none
     t32yb3w none, yellow + black, white
     t3wyb21 white + yellow + black, none, none
+
+C:\Users\cbird\Projects\general\personal\todos\2016-08-19 missing hoops.md
+
+
+
+
+```cpp
+/*
+    t3w2by1 white, black + yellow, none         {0, 0, 2, 1, 3, 0} 2
+    t3w2y1b white, yellow, black                {0, 0, 2, 0, 3, 1} 3
+    t3y2wb1 yellow, white + black, none         {0, 0, 3, 2, 1, 0} 11
+    t32yb1w none, yellow + black, white         {0, 0, 0, 3, 1, 2} 13
+    t3wyb21 white + yellow + black, none, none  {2, 3, 1, 0, 0, 0} 17
+
+const int TOWEROFLONDON_GAME::m_TOLgameData[18][6] = {
+    {0, 1, 2, 0, 0, 3}, {3, 1, 2, 0, 0, 0}, {0, 0, 2, 1, 3, 0},    2
+    {0, 0, 2, 0, 3, 1}, {0, 0, 0, 2, 3, 1}, {0, 0, 2, 0, 1, 3},    5
+    {0, 0, 0, 1, 3, 2}, {0, 3, 2, 0, 0, 1}, {0, 3, 2, 0, 1, 0},    8
+    {0, 0, 2, 3, 1, 0}, {0, 2, 1, 0, 3, 0}, {0, 0, 3, 2, 1, 0},    11
+    {0, 3, 1, 0, 0, 2}, {0, 0, 0, 3, 1, 2}, {0, 2, 3, 0, 1, 0},    14
+    {0, 0, 3, 0, 1, 2}, {3, 2, 1, 0, 0, 0}, {2, 3, 1, 0, 0, 0}};   17
+    */
+
+bool TOWEROFLONDON_GAME::initGame(const int gameid) 
+    int index = m_levelData->getGameLevel(m_GameID);
+    for (int i = 0; i < 6; i++) 
+        //m_bottomarray[i] = m_TOLgameData[index][i];
+        m_bottomarray[i] = m_TOLgameData[17][i];
+    }
+}
+```
+
+    2016-08-19 21:41:51 cbird@Q108 ~/Projects/bb-quizzes
+    $ gst
+    # On branch master
+    # Changes to be committed:
+    #   (use "git reset HEAD <file>..." to unstage)
+    #
+    #       new file:   hoops/dev/images/missing/t32yb1w.png
+    #       new file:   hoops/dev/images/missing/t3w2by1.png
+    #       new file:   hoops/dev/images/missing/t3w2y1b.png
+    #       new file:   hoops/dev/images/missing/t3wyb21.png
+    #       new file:   hoops/dev/images/missing/t3y2wb1.png
+    #
 
