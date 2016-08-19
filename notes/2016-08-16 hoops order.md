@@ -21,6 +21,15 @@ const int TOWEROFLONDON_GAME::m_TOL_wantedGameData[6] = {0, 1, 2, 0, 3, 0}; // f
 for (int i = 0; i < 6; i++) m_toparray[i] = m_TOLgameData[index][i];    // top images
 for (int i = 0; i < 6; i++) m_bottomarray[i] = m_TOL_wantedGameData[i]; // bottom image
 
+    missing: 
+    t3w2by1 white, black + yellow, none         {0, 0, 2, 1, 3, 0}
+    t3w2y1b white, yellow, black                {0, 0, 2, 0, 3, 1}
+    t3y2wb1 yellow, white + black, none         {0, 0, 3, 2, 1, 0}
+    t32yb3w none, yellow + black, white         {0, 0, 3, 2, 1, 0} ?
+    t3wyb21 white + yellow + black, none, none  {2, 3, 1, 0, 0, 0}
+
+
+
 levelData *m_levelData;
 int index = m_levelData->getGameLevel(m_GameID); // just returns m_rndLevel[m_GameID], which is the same as m_GameID?
 
@@ -73,4 +82,10 @@ void levelData::rndFixedLevels() //{
     intro5-orig.png
     intro5.png
 
-    missing: t3w2by1, t3w2y1b, t3y2wb1, t32yb3w, t3wyb21
+    missing: 
+    t3w2by1 white, black + yellow, none
+    t3w2y1b white, yellow, black
+    t3y2wb1 yellow, white + black, none
+    t32yb3w none, yellow + black, white
+    t3wyb21 white + yellow + black, none, none
+
