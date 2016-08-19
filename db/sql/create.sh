@@ -9,8 +9,12 @@ set xdb = ( $own$end )
 destroydb $xdb
 createdb -i $xdb
 
-sql $xdb < hoops.sql
-#sql $xdb < matrix.sql
+./create-create.py > ./create.sql
+
+sql $xdb < create.sql
+
+# sql $xdb < hoops.sql
+# sql $xdb < matrix.sql
 
 #! /bin/sh
 
