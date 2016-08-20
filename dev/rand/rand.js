@@ -141,11 +141,11 @@ function RandIntArrayCppStyle(_data,_size) {
 //     console.log('hello2 from function RandIntArray');
 // };
 
-function RandIntArray(_data) {
+function RandIntArray(data) {
     //var size, used, data = []; //new Array();
     console.log("RandIntArray constructor");
 
-    data = _data;
+    //data = _data;
     //size = data.length;
     console.log('data: ' + String(data));
     console.log('data.length: ' + String(data.length));
@@ -162,17 +162,16 @@ function RandIntArray(_data) {
             return null; //throw new Exception('tried to pop empty stack');
         }
         var randIndex = Math.floor((Math.random() * data.length));
-        console.log("pop() random idx: " + String(randIndex) + " (" + String(data[randIndex]) + ") out of data.length: " + String(data.length));
+        console.log("pop() random idx: " + String(randIndex) + " (" + String(data[randIndex]) + "), data.length: " + String(data.length));
         return data.splice(randIndex, 1);
     };
     this.list = function() {
-        for (var i=0; i<data.length; i++) {
-            console.log('data[' + String(i) + ']: ' + String(data[i]));
+        for (var i = 0; i < data.length; i++) {
+            process.stdout.write('[' + String(i) + ']: ' + String(data[i]) + ' '); //console.log('data[' + String(i) + ']: ' + String(data[i]));
         }
-        // body...
+        console.log(''); // cause of process.stdout.write()
     };
 }
-
 
 //var myArray = [];              // empty array
 //var myArray = [1,2,3];         // initialised array
@@ -182,10 +181,6 @@ function randCppStyleTest () {
     var rand1 = new RandIntArray(18);   // array with 18 undefined elements
     //var init = [1,2,3,4,5];
     //var rand1 = new RandIntArray(init);   //
-    console.log("");
-    console.log("");
-    console.log("");
-    console.log("");
     console.log("");
     rand1.push(1); rand1.push(2); rand1.push(3); rand1.push(4); rand1.push(5); rand1.list();
     rand1.pop(); rand1.list();
@@ -198,6 +193,9 @@ function randTest () {
     var init = Array.apply(null, Array(18)).map(function (_, i) {return i;}); // [0, 1, 2, 3, 4, ...]
     var rand1 = new RandIntArray(init);   //
     console.log("");
+    rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list();
+    rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list();
+    rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list();
     rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list();
 }
 

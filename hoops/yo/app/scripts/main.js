@@ -302,6 +302,39 @@
         }
     }
 
+    function RandIntArray(data) {
+        // console.log("RandIntArray constructor");
+        // console.log('data: ' + String(data));
+        // console.log('data.length: ' + String(data.length));
+
+        this.pop = function() {
+            if (data.length <= 0) {
+                return null; //throw new Exception('tried to pop empty stack');
+            }
+            var randIndex = Math.floor((Math.random() * data.length));
+            console.log("pop() random idx: " + String(randIndex) + " (" + String(data[randIndex]) + "), data.length: " + String(data.length));
+            return data.splice(randIndex, 1);
+        };
+        this.list = function() {
+            for (var i=0; i<data.length; i++) {
+                //console.log('data[' + String(i) + ']: ' + String(data[i]));
+                process.stdout.write('[' + String(i) + ']: ' + String(data[i]) + ' ');
+            }
+            console.log('');
+            // body...
+        };
+    }
+
+    function getNextImage() {
+        var images = [  't3bw21y', 't3ybw21', 't3w2by1', 't3w2y1b',
+                        't32wy1b', 't3w2b1y', 't32by1w', 't3yw21b',
+                        't3yw2b1', 't3w2yb1',
+                        't3wb2y1', 't3y2wb1', 't3yb21w', 't32yb3w',
+                        't3wy2b1', 't3y2b1w', 't3ywb21', 't3wyb21'];
+
+        return randIntArray.pop();
+    }
+
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
         console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
         console.log('showPage(): isTimeUp:' + isTimeUp);
@@ -543,6 +576,9 @@
         current = 0;
 
         $('#button').css('display', LIVE ? 'none' : 'inline');
+
+        var seqInit = Array.apply(null, Array(18)).map(function (_, i) {return i;}); // [0, 1, 2, 3, 4, ...]
+        var randIntArray = new RandIntArray(seqInit);
 
         var formAction = config.formAction;
         var loc = location.toString().split('://')[1]; // strip off http://, https://
