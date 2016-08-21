@@ -28,11 +28,12 @@ levelData *levelData::getRandomiseWithFixedDifficulty() {
 void levelData::rndFixedLevels() {
 	rndIntArray m_newRndLevel[5]; 			// **5 arrays** - when popped, each returns random number from list
 	for (int i=0; i<MAX_LEVELS; i++) {		// MAX_LEVELS == number of puzzles == 18
-		int forLevel = m_answers[i];		// 1, 2, 3, 4, 5
+		int forLevel = m_answers[i];		// 1, 1, 1, 1, 2, 2, 2 ...
 		m_newRndLevel[forLevel-1].push(i);	// 
 			// 0,1,2,3  4,5,6,7  8,9  10,11,12,13  14,15,16,17 - these come back in rnd order
 	}
 
+	// static int m_rndLevel[MAX_LEVELS];
 	for (int i=0; i<MAX_LEVELS; i++) {
 		int wantedLevel = m_sudoRndLevelList[i];			// 1, 3, 2, 1, 4, 2, 5, 2, 2, 3, 1, 5, 4, 4, 5, 4, 1, 5
 		m_rndLevel[i] = m_newRndLevel[wantedLevel-1].pop();	// e.g. 2,1,3,0  5,7,6,4  9,8  12,10,11,13  14,17,15,16

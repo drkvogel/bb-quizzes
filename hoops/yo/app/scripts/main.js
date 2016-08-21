@@ -10,6 +10,7 @@
     'use strict';
 
     var LIVE = false; // const? JSHint doesn't like it
+    var levels = [];
 
     //var Timer = require('./timer'); // require is a node thing, unless you use requirejs
     // copied/adapted from Jonathan's bb-quizzes/snap/Snap_files/Timer.js
@@ -302,29 +303,6 @@
         }
     }
 
-    function RandIntArray(data) {
-        // console.log("RandIntArray constructor");
-        // console.log('data: ' + String(data));
-        // console.log('data.length: ' + String(data.length));
-
-        this.pop = function() {
-            if (data.length <= 0) {
-                return null; //throw new Exception('tried to pop empty stack');
-            }
-            var randIndex = Math.floor((Math.random() * data.length));
-            console.log("pop() random idx: " + String(randIndex) + " (" + String(data[randIndex]) + "), data.length: " + String(data.length));
-            return data.splice(randIndex, 1);
-        };
-        this.list = function() {
-            for (var i=0; i<data.length; i++) {
-                //console.log('data[' + String(i) + ']: ' + String(data[i]));
-                process.stdout.write('[' + String(i) + ']: ' + String(data[i]) + ' ');
-            }
-            console.log('');
-            // body...
-        };
-    }
-
     function getNextImage() {
         var images = [  't3bw21y', 't3ybw21', 't3w2by1', 't3w2y1b',
                         't32wy1b', 't3w2b1y', 't32by1w', 't3yw21b',
@@ -570,6 +548,34 @@
         }
     }
 
+    function RandIntArray(data) {
+        this.pop = function() {
+            if (data.length <= 0) {
+                return null; //throw new Exception('tried to pop empty stack');
+            }
+            var randIndex = Math.floor((Math.random() * data.length));
+            return data.splice(randIndex, 1);
+        };
+    }
+
+    function randLevels() { // copy jon's levelData::rndFixedLevels()
+        var MAX_LEVELS = 18;
+        var pseudoRandLevelList = [1, 3, 2, 1, 4, 2, 5, 2, 2, 3, 1, 5, 4, 4, 5, 4, 1, 5]; // [MAX_LEVELS]
+        var levels = [], randLevels = [];
+
+        levels.push(new RandIntArray([0, 1, 2, 3]));
+        levels.push(new RandIntArray([4, 5, 6, 7]));
+        levels.push(new RandIntArray([8, 9]));
+        levels.push(new RandIntArray([10, 11, 12, 13]));
+        levels.push(new RandIntArray([14, 15, 16, 17]));
+
+        for (var i = 0; i < MAX_LEVELS; i++) {
+             var wantedLevel = pseudoRandLevelList[i];
+             randLevels[i] = levels[wantedLevel-1].pop();
+        }
+        return randLevels;
+    }
+
     function init() {
         timer = new Timer();
         isTimeUp = false;
@@ -577,8 +583,10 @@
 
         $('#button').css('display', LIVE ? 'none' : 'inline');
 
-        var seqInit = Array.apply(null, Array(18)).map(function (_, i) {return i;}); // [0, 1, 2, 3, 4, ...]
-        var randIntArray = new RandIntArray(seqInit);
+        //var seqInit = Array.apply(null, Array(18)).map(function (_, i) {return i;}); // [0, 1, 2, 3, 4, ...]
+        //var randIntArray = new RandIntArray(seqInit);
+        levels = randLevels();
+        console.log('levels: ' + levels);
 
         var formAction = config.formAction;
         var loc = location.toString().split('://')[1]; // strip off http://, https://
@@ -618,8 +626,7 @@
         }
     }
 
-    $('body').on('keydown', keydown);
-    //$('#pages').on('click', 'a, button, div.row div', containerClick); // delegate events
+    $('body').on('keydown', keydown); //$('#pages').on('click', 'a, button, div.row div', containerClick); // delegate events
     $('#devBar').on('click', 'a, button', navClick);
     $('#abandon-btn').on('click', abandonClick);
     $('#modals').on('click', 'button', modalClick);
@@ -650,30 +657,6 @@
 //         m_rndLevel[ i ] = m_newRndLevel[ wantedLevel-1 ].pop();
 //     }
 // }
-    function randTest() { // copy jon's levelData::rndFixedLevels()
-        var MAX_LEVELS = 18;
-        var m_answers = [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5]; // [MAX_LEVELS]
-        var m_rndLevel = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]; // [MAX_LEVELS]
-        var m_sudoRndLevelList = [1, 3, 2, 1, 4, 2, 5, 2, 2, 3, 1, 5, 4, 4, 5, 4, 1, 5]; // [MAX_LEVELS]
-
-        console.log("randTest() before: m_rndLevel: " + m_rndLevel);
-
-        var m_newRndLevel = new Array(); // with 5 slots
-        rndIntArray
-
-        for (var i=0; i<MAX_LEVELS; i++) { // iterate, not enumerate
-            var forLevel = m_answers[i] - 1;
-            m_newRndLevel[forLevel].push(i);
-        }
-
-        for (i=0; i<MAX_LEVELS; i++) {
-            var wantedLevel = m_sudoRndLevelList[i];
-            m_rndLevel[i] = m_newRndLevel[wantedLevel-1].pop();
-        }
-        console.log("randTest() after: m_rndLevel: " + m_rndLevel);
-
-        // for... in should be avoided as the order is not guaranteed and inherited properties are also enumerated
-    }
 
     // int levelData::getGameLevel(int index) {
     //     assert(m_isInitalised);
