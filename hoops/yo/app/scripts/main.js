@@ -9,8 +9,18 @@
     // used to set "use strict" for whole scope so jslint doesn't complain, but then have to indent whole scope...
     'use strict';
 
-    var LIVE = false; // const? JSHint doesn't like it
-    var levels = [];
+    var LIVE = false, // const? JSHint doesn't like it
+        FADEIN = 5000,
+        FADEOUT = 5000,
+        config,
+        pages,
+        current,
+        timer,
+        isTimeUp = false,
+        nextPageTimeout,
+        timeUpTimeout,
+        levels = [],
+        answers = [];
 
     //var Timer = require('./timer'); // require is a node thing, unless you use requirejs
     // copied/adapted from Jonathan's bb-quizzes/snap/Snap_files/Timer.js
@@ -40,12 +50,13 @@
     Timer.prototype.findnow = function() {
         var nowish = 0,
             count = 0,
-            diff = 0;
+            diff = 0,
+            testVal = 0;
         do {
             nowish = this.getTime();
-            var testVal = this.getTime();
+            testVal = this.getTime();
             diff = testVal - nowish;
-            count++;
+            count++; // jslint complains about ++
         } while (((diff < 0) || (diff > 2)) && (count < 10));
         if (count >= 6) {
             this.hasPossibleError = true; //keep the start val :(
@@ -109,16 +120,6 @@
     };
     // module.exports = Timer; // module.exports is Node.js, for the server!
 
-    var config,
-        pages,
-        current,
-        timer,
-        isTimeUp = false,
-        nextPageTimeout,
-        timeUpTimeout,
-        answers = [];
-
-    var FADEIN = 5000, FADEOUT = 5000;
 
     // function preload() {
     //     //images[25] = new Image();
@@ -305,13 +306,41 @@
         }
     }
 
+    function RandIntArray(data) {
+        this.pop = function() {
+            if (data.length <= 0) {
+                return null; //throw new Exception('tried to pop empty stack');
+            }
+            var randIndex = Math.floor((Math.random() * data.length));
+            return data.splice(randIndex, 1);
+        };
+    }
+
+    function randLevels() { // copy jon's levelData::rndFixedLevels()
+        var MAX_LEVELS = 18;
+        var pseudoRandLevelList = [1, 3, 2, 1, 4, 2, 5, 2, 2, 3, 1, 5, 4, 4, 5, 4, 1, 5]; // [MAX_LEVELS]
+        var nonRandlevels = []; //, randLevels = [];
+
+        nonRandlevels.push(new RandIntArray([0, 1, 2, 3]));
+        nonRandlevels.push(new RandIntArray([4, 5, 6, 7]));
+        nonRandlevels.push(new RandIntArray([8, 9]));
+        nonRandlevels.push(new RandIntArray([10, 11, 12, 13]));
+        nonRandlevels.push(new RandIntArray([14, 15, 16, 17]));
+
+        for (var i = 0; i < MAX_LEVELS; i++) {
+             var wantedLevel = pseudoRandLevelList[i];
+             randLevels[i] = nonRandlevels[wantedLevel - 1].pop();
+        }
+        return randLevels;
+    }
+
     function getNextImage() {
-        var images = [  't3bw21y', 't3ybw21', 't3w2by1', 't3w2y1b',
-                        't32wy1b', 't3w2b1y', 't32by1w', 't3yw21b',
-                        't3yw2b1', 't3w2yb1',
-                        't3wb2y1', 't3y2wb1', 't3yb21w', 't32yb3w',
-                        't3wy2b1', 't3y2b1w', 't3ywb21', 't3wyb21'];
-        return randIntArray.pop();
+        var images = ['t3bw21y', 't3ybw21', 't3w2by1', 't3w2y1b',
+                      't32wy1b', 't3w2b1y', 't32by1w', 't3yw21b',
+                      't3yw2b1', 't3w2yb1',
+                      't3wb2y1', 't3y2wb1', 't3yb21w', 't32yb3w',
+                      't3wy2b1', 't3y2b1w', 't3ywb21', 't3wyb21'];
+        return levels.pop();
     }
 
         //console.log('unbind clicks');
@@ -544,34 +573,6 @@
         default:
             console.log('got unexpected element id: ' + clickedEl.attr('id')); //+', html: ''+clickedEl.html()+''');
         }
-    }
-
-    function RandIntArray(data) {
-        this.pop = function() {
-            if (data.length <= 0) {
-                return null; //throw new Exception('tried to pop empty stack');
-            }
-            var randIndex = Math.floor((Math.random() * data.length));
-            return data.splice(randIndex, 1);
-        };
-    }
-
-    function randLevels() { // copy jon's levelData::rndFixedLevels()
-        var MAX_LEVELS = 18;
-        var pseudoRandLevelList = [1, 3, 2, 1, 4, 2, 5, 2, 2, 3, 1, 5, 4, 4, 5, 4, 1, 5]; // [MAX_LEVELS]
-        var levels = [], randLevels = [];
-
-        levels.push(new RandIntArray([0, 1, 2, 3]));
-        levels.push(new RandIntArray([4, 5, 6, 7]));
-        levels.push(new RandIntArray([8, 9]));
-        levels.push(new RandIntArray([10, 11, 12, 13]));
-        levels.push(new RandIntArray([14, 15, 16, 17]));
-
-        for (var i = 0; i < MAX_LEVELS; i++) {
-             var wantedLevel = pseudoRandLevelList[i];
-             randLevels[i] = levels[wantedLevel-1].pop();
-        }
-        return randLevels;
     }
 
     function init() {
