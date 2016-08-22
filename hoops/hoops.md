@@ -42,6 +42,15 @@ for (int i = 0; i < 6; i++)
     m_toparray[i] = m_TOLgameData[index][i];
 ```
 
+regex: t[321wyb]{6}
+
+add quotes: `s/(t[321wyb]{6})/"\1"/` # {6} match exactly 6; (...) capture group; \1 first captured group
+
+"t3bw21y", "t3ybw21", "t3w2by1", "t3w2y1b",
+"t32wy1b", "t3w2b1y", "t32by1w", "t3yw21b",
+"t3yw2b1", "t3w2yb1",
+"t3wb2y1", "t3y2wb1", "t3yb21w", "t32yb3w",
+"t3wy2b1", "t3y2b1w", "t3ywb21", "t3wyb21",
 
 ```cpp
 class rndIntArray //}

@@ -309,16 +309,15 @@
                         't3yw2b1', 't3w2yb1',
                         't3wb2y1', 't3y2wb1', 't3yb21w', 't32yb3w',
                         't3wy2b1', 't3y2b1w', 't3ywb21', 't3wyb21'];
-
         return randIntArray.pop();
     }
 
-    function showPage(page) { // prevPage() and nextPage() should handle hiding current
-        console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
-        console.log('showPage(): isTimeUp:' + isTimeUp);
         //console.log('unbind clicks');
         //$('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
             // seems to cause multiple clicks, erratic behaviour
+    function showPage(page) { // prevPage() and nextPage() should handle hiding current
+        console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
+        //console.log('showPage(): isTimeUp:' + isTimeUp);
 
         if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
             hideDiv('abandon-div');
@@ -329,11 +328,10 @@
         var info = current + '/' + pages.length + ': ' + page.name;
         showInfo(info);
 
-        var navNext = '<span><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
+        var navNext = '<span><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>'; // pull-left pull-right
         var navPrev = '<span><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>';
         var navPrevNext = '<span style="margin-right: 40px;"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>' +
                           '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
-        // pull-left pull-right
 
         switch (page.templateId) {
         case 'game':
@@ -393,13 +391,11 @@
         //scaleImages();
         scaleImagesCBsimple();
         showDiv((page.templateId));
-
         //showInfo('height: ' + $(window).height()); //attr('height'));
 
         // (re-)bind clicks
         console.log('bind clicks');
         $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
-
     }
 
     function prevPage() {
@@ -581,25 +577,22 @@
         isTimeUp = false;
         current = 0;
 
-        $('#button').css('display', LIVE ? 'none' : 'inline');
+        levels = randLevels(); console.log('levels: ' + levels);
 
-        //var seqInit = Array.apply(null, Array(18)).map(function (_, i) {return i;}); // [0, 1, 2, 3, 4, ...]
-        //var randIntArray = new RandIntArray(seqInit);
-        levels = randLevels();
-        console.log('levels: ' + levels);
-
+        // set the results form target
         var formAction = config.formAction;
         var loc = location.toString().split('://')[1]; // strip off http://, https://
         if (loc.substr(0, 9) === 'localhost') { // served from gulp
             console.log('loc === localhost');
             formAction = 'http://localhost:8001/' + formAction; // gulp-connect-php - local PHP server
         } // else, is on same server, relative link OK
-        // scratch that, point to red:
-        formAction = 'http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/';
+        formAction = 'http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/'; // scratch that, point to red
         $('#feedbackForm').attr('action', formAction);
         console.log('formAction: ' + formAction);
+
         showPage(currentPage());
     }
+        //$('#button').css('display', LIVE ? 'none' : 'inline');
 
     function getConfig() {
         $.getJSON('./config.json', function (data) {
@@ -607,7 +600,6 @@
             config = data;
             pages = data.pages;
             init();
-            randTest();
         }).fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
             var err = 'error getting JSON: ' + textStatus + ', errorThrown: ' + errorThrown;
             console.log(err);
@@ -636,39 +628,6 @@
         $('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
         showPage(currentPage()); // ?
     };
-
-// const int levelData::m_answers[MAX_LEVELS] = {1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5};
-// int levelData::m_rndLevel[MAX_LEVELS] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17};
-// int levelData::m_sudoRndLevelList[MAX_LEVELS] = {1, 3, 2, 1, 4, 2, 5, 2, 2, 3, 1, 5, 4, 4, 5, 4, 1, 5};
-
-// m_levelData = levelData::getRandomiseWithFixedDifficulty();
-//     pLevelData->rndFixedLevels();
-
-// void levelData::rndFixedLevels() {
-//     rndIntArray m_newRndLevel[5];
-
-//     for (int i=0; i<MAX_LEVELS; i++) {
-//         int forLevel = m_answers[ i ];
-//         m_newRndLevel[ forLevel-1 ].push( i ); // populate m_newRndLevel with wanted 'level' (number of moves, i.e. the answer)
-//     }
-
-//     for (int i=0; i<MAX_LEVELS; i++) {
-//         int wantedLevel = m_sudoRndLevelList[ i ];
-//         m_rndLevel[ i ] = m_newRndLevel[ wantedLevel-1 ].pop();
-//     }
-// }
-
-    // int levelData::getGameLevel(int index) {
-    //     assert(m_isInitalised);
-    //     assert(index < MAX_LEVELS);
-    //     return m_rndLevel[index];
-    // }
-
-    // int levelData::getExpectedAnswer(int index) {
-    //     assert(m_isInitalised);
-    //     assert(index < MAX_LEVELS);
-    //     return m_answers[m_rndLevel[index]];
-    // }
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
