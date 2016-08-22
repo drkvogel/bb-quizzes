@@ -118,6 +118,8 @@
         timeUpTimeout,
         answers = [];
 
+    var FADEIN = 5000, FADEOUT = 5000;
+
     // function preload() {
     //     //images[25] = new Image();
     //     //ges[25].src = 'Snap/snap_images/Rear.GIF';
@@ -142,13 +144,13 @@
 
     function hideDiv(id) {
         //document.getElementById(id).style.display = 'none'; //console.log('hideDiv(): id: ' + id);
-        $('#' + id).fadeOut(); // 'fast'
+        $('#' + id).fadeOut(FADEOUT); // 'fast'
         //$('#' + id).slideUp();
     }
 
     function showDiv(id) {
         //document.getElementById(id).style.display = 'inline'; //console.log('showDiv(): id: ' + id);
-        $('#' + id).fadeIn('fast');
+        $('#' + id).fadeIn(FADEIN); // 'fast'
         //$('#' + id).slideDown();
     }
 
