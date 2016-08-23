@@ -5,7 +5,7 @@
 // /*jslint plusplus: true */ // doesn't work with sublime jslint plugin:
 
 // http://stackoverflow.com/questions/950087/include-a-javascript-file-in-another-javascript-file
-(function () { // Immediately-Invoked Function Expression (IIFE)
+(function () { // Immediately-Invoked Function Expression (IIFE) / Anonymous closure: hide vars from global namespace
     // used to set "use strict" for whole scope so jslint doesn't complain, but then have to indent whole scope...
     'use strict';
 
@@ -19,6 +19,7 @@
         isTimeUp = false,
         nextPageTimeout,
         timeUpTimeout,
+        enabled = false, // enable UI
         levels = [],
         answers = [];
 
@@ -278,11 +279,17 @@
 
     function containerClick(e) {
         e.preventDefault();
-        var clickedEl = $(this),
-            elId = clickedEl.attr('id');
-        console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId); // now gets id from loaded page
+
+        if (!enabled) {
+            console.log('input disabled');
+            return;
+        }
         console.log('unbind clicks');
         $('#pages').off('click', 'a, button, div.row div', containerClick); // prevent double-click
+
+        console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId); // now gets id from loaded page
+        var clickedEl = $(this),
+            elId = clickedEl.attr('id');
 
         switch (clickedEl.attr('id')) {
         case 'prev':
@@ -356,8 +363,7 @@
             showDiv('abandon-div');
         }
 
-        var info = current + '/' + pages.length + ': ' + page.name;
-        showInfo(info);
+        var info = current + '/' + pages.length + ': ' + page.name; showInfo(info);
 
         var navNext = '<span><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>'; // pull-left pull-right
         var navPrev = '<span><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>';
@@ -527,8 +533,8 @@
     }
 
     function navClick(e) {
-        e.preventDefault();
         console.log('navClick()');
+        e.preventDefault();
         var pageId = $('.page').attr('id'),
             clickedEl = $(this); //console.log('pageId: '+pageId); // now gets id from loaded page
         console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
