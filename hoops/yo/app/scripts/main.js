@@ -5,11 +5,23 @@
 // /*jslint plusplus: true */ // doesn't work with sublime jslint plugin:
 
 // http://stackoverflow.com/questions/950087/include-a-javascript-file-in-another-javascript-file
-(function () { // Immediately-Invoked Function Expression (IIFE)
+(function () { // Immediately-Invoked Function Expression (IIFE) / Anonymous closure: hide vars from global namespace
     // used to set "use strict" for whole scope so jslint doesn't complain, but then have to indent whole scope...
     'use strict';
 
-    var LIVE = false; // const? JSHint doesn't like it
+    var LIVE = false, // const? JSHint doesn't like it
+        FADEIN = 5000,
+        FADEOUT = 5000,
+        config,
+        pages,
+        current,
+        timer,
+        isTimeUp = false,
+        nextPageTimeout,
+        timeUpTimeout,
+        enabled = false, // enable UI
+        levels = [],
+        answers = [];
 
     //var Timer = require('./timer'); // require is a node thing, unless you use requirejs
     // copied/adapted from Jonathan's bb-quizzes/snap/Snap_files/Timer.js
@@ -39,12 +51,13 @@
     Timer.prototype.findnow = function() {
         var nowish = 0,
             count = 0,
-            diff = 0;
+            diff = 0,
+            testVal = 0;
         do {
             nowish = this.getTime();
-            var testVal = this.getTime();
+            testVal = this.getTime();
             diff = testVal - nowish;
-            count++;
+            count++; // jslint complains about ++
         } while (((diff < 0) || (diff > 2)) && (count < 10));
         if (count >= 6) {
             this.hasPossibleError = true; //keep the start val :(
@@ -108,14 +121,6 @@
     };
     // module.exports = Timer; // module.exports is Node.js, for the server!
 
-    var config,
-        pages,
-        current,
-        timer,
-        isTimeUp = false,
-        nextPageTimeout,
-        timeUpTimeout,
-        answers = [];
 
     // function preload() {
     //     //images[25] = new Image();
@@ -141,13 +146,13 @@
 
     function hideDiv(id) {
         //document.getElementById(id).style.display = 'none'; //console.log('hideDiv(): id: ' + id);
-        $('#' + id).fadeOut(); // 'fast'
+        $('#' + id).fadeOut(FADEOUT); // 'fast'
         //$('#' + id).slideUp();
     }
 
     function showDiv(id) {
         //document.getElementById(id).style.display = 'inline'; //console.log('showDiv(): id: ' + id);
-        $('#' + id).fadeIn('fast');
+        $('#' + id).fadeIn(FADEIN); // 'fast'
         //$('#' + id).slideDown();
     }
 
@@ -274,11 +279,17 @@
 
     function containerClick(e) {
         e.preventDefault();
-        var clickedEl = $(this),
-            elId = clickedEl.attr('id');
-        console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId); // now gets id from loaded page
+
+        if (!enabled) {
+            console.log('input disabled');
+            return;
+        }
         console.log('unbind clicks');
         $('#pages').off('click', 'a, button, div.row div', containerClick); // prevent double-click
+
+        console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId); // now gets id from loaded page
+        var clickedEl = $(this),
+            elId = clickedEl.attr('id');
 
         switch (clickedEl.attr('id')) {
         case 'prev':
@@ -302,12 +313,49 @@
         }
     }
 
-    function showPage(page) { // prevPage() and nextPage() should handle hiding current
-        console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
-        console.log('showPage(): isTimeUp:' + isTimeUp);
+    function RandIntArray(data) {
+        this.pop = function() {
+            if (data.length <= 0) {
+                return null; //throw new Exception('tried to pop empty stack');
+            }
+            var randIndex = Math.floor((Math.random() * data.length));
+            return data.splice(randIndex, 1);
+        };
+    }
+
+    function randLevels() { // copy jon's levelData::rndFixedLevels()
+        var MAX_LEVELS = 18;
+        var pseudoRandLevelList = [1, 3, 2, 1, 4, 2, 5, 2, 2, 3, 1, 5, 4, 4, 5, 4, 1, 5]; // [MAX_LEVELS]
+        var nonRandlevels = []; //, randLevels = [];
+
+        nonRandlevels.push(new RandIntArray([0, 1, 2, 3]));
+        nonRandlevels.push(new RandIntArray([4, 5, 6, 7]));
+        nonRandlevels.push(new RandIntArray([8, 9]));
+        nonRandlevels.push(new RandIntArray([10, 11, 12, 13]));
+        nonRandlevels.push(new RandIntArray([14, 15, 16, 17]));
+
+        for (var i = 0; i < MAX_LEVELS; i++) {
+             var wantedLevel = pseudoRandLevelList[i];
+             randLevels[i] = nonRandlevels[wantedLevel - 1].pop();
+        }
+        return randLevels;
+    }
+
+    function getNextImage() {
+        var images = ['t3bw21y', 't3ybw21', 't3w2by1', 't3w2y1b',
+                      't32wy1b', 't3w2b1y', 't32by1w', 't3yw21b',
+                      't3yw2b1', 't3w2yb1',
+                      't3wb2y1', 't3y2wb1', 't3yb21w', 't32yb3w',
+                      't3wy2b1', 't3y2b1w', 't3ywb21', 't3wyb21'];
+        return levels.pop();
+    }
+
         //console.log('unbind clicks');
         //$('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
             // seems to cause multiple clicks, erratic behaviour
+    function showPage(page) { // prevPage() and nextPage() should handle hiding current
+        console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
+        //console.log('showPage(): isTimeUp:' + isTimeUp);
 
         if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
             hideDiv('abandon-div');
@@ -315,14 +363,12 @@
             showDiv('abandon-div');
         }
 
-        var info = current + '/' + pages.length + ': ' + page.name;
-        showInfo(info);
+        var info = current + '/' + pages.length + ': ' + page.name; showInfo(info);
 
-        var navNext = '<span><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
+        var navNext = '<span><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>'; // pull-left pull-right
         var navPrev = '<span><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>';
         var navPrevNext = '<span style="margin-right: 40px;"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>' +
                           '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
-        // pull-left pull-right
 
         switch (page.templateId) {
         case 'game':
@@ -382,13 +428,11 @@
         //scaleImages();
         scaleImagesCBsimple();
         showDiv((page.templateId));
-
         //showInfo('height: ' + $(window).height()); //attr('height'));
 
         // (re-)bind clicks
         console.log('bind clicks');
         $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
-
     }
 
     function prevPage() {
@@ -489,8 +533,8 @@
     }
 
     function navClick(e) {
-        e.preventDefault();
         console.log('navClick()');
+        e.preventDefault();
         var pageId = $('.page').attr('id'),
             clickedEl = $(this); //console.log('pageId: '+pageId); // now gets id from loaded page
         console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
@@ -542,20 +586,22 @@
         isTimeUp = false;
         current = 0;
 
-        $('#button').css('display', LIVE ? 'none' : 'inline');
+        levels = randLevels(); console.log('levels: ' + levels);
 
+        // set the results form target
         var formAction = config.formAction;
         var loc = location.toString().split('://')[1]; // strip off http://, https://
         if (loc.substr(0, 9) === 'localhost') { // served from gulp
             console.log('loc === localhost');
             formAction = 'http://localhost:8001/' + formAction; // gulp-connect-php - local PHP server
         } // else, is on same server, relative link OK
-        // scratch that, point to red:
-        formAction = 'http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/';
+        formAction = 'http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/'; // scratch that, point to red
         $('#feedbackForm').attr('action', formAction);
         console.log('formAction: ' + formAction);
+
         showPage(currentPage());
     }
+        //$('#button').css('display', LIVE ? 'none' : 'inline');
 
     function getConfig() {
         $.getJSON('./config.json', function (data) {
@@ -563,7 +609,6 @@
             config = data;
             pages = data.pages;
             init();
-            randTest();
         }).fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
             var err = 'error getting JSON: ' + textStatus + ', errorThrown: ' + errorThrown;
             console.log(err);
@@ -582,8 +627,7 @@
         }
     }
 
-    $('body').on('keydown', keydown);
-    //$('#pages').on('click', 'a, button, div.row div', containerClick); // delegate events
+    $('body').on('keydown', keydown); //$('#pages').on('click', 'a, button, div.row div', containerClick); // delegate events
     $('#devBar').on('click', 'a, button', navClick);
     $('#abandon-btn').on('click', abandonClick);
     $('#modals').on('click', 'button', modalClick);
@@ -593,63 +637,6 @@
         $('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
         showPage(currentPage()); // ?
     };
-
-// const int levelData::m_answers[MAX_LEVELS] = {1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5};
-// int levelData::m_rndLevel[MAX_LEVELS] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17};
-// int levelData::m_sudoRndLevelList[MAX_LEVELS] = {1, 3, 2, 1, 4, 2, 5, 2, 2, 3, 1, 5, 4, 4, 5, 4, 1, 5};
-
-// m_levelData = levelData::getRandomiseWithFixedDifficulty();
-//     pLevelData->rndFixedLevels();
-
-// void levelData::rndFixedLevels() {
-//     rndIntArray m_newRndLevel[5];
-
-//     for (int i=0; i<MAX_LEVELS; i++) {
-//         int forLevel = m_answers[ i ];
-//         m_newRndLevel[ forLevel-1 ].push( i ); // populate m_newRndLevel with wanted 'level' (number of moves, i.e. the answer)
-//     }
-
-//     for (int i=0; i<MAX_LEVELS; i++) {
-//         int wantedLevel = m_sudoRndLevelList[ i ];
-//         m_rndLevel[ i ] = m_newRndLevel[ wantedLevel-1 ].pop();
-//     }
-// }
-    function randTest() { // copy jon's levelData::rndFixedLevels()
-        var MAX_LEVELS = 18;
-        var m_answers = [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5]; // [MAX_LEVELS]
-        var m_rndLevel = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]; // [MAX_LEVELS]
-        var m_sudoRndLevelList = [1, 3, 2, 1, 4, 2, 5, 2, 2, 3, 1, 5, 4, 4, 5, 4, 1, 5]; // [MAX_LEVELS]
-
-        console.log("randTest() before: m_rndLevel: " + m_rndLevel);
-
-        var m_newRndLevel = new Array(); // with 5 slots
-        rndIntArray
-
-        for (var i=0; i<MAX_LEVELS; i++) { // iterate, not enumerate
-            var forLevel = m_answers[i] - 1;
-            m_newRndLevel[forLevel].push(i);
-        }
-
-        for (i=0; i<MAX_LEVELS; i++) {
-            var wantedLevel = m_sudoRndLevelList[i];
-            m_rndLevel[i] = m_newRndLevel[wantedLevel-1].pop();
-        }
-        console.log("randTest() after: m_rndLevel: " + m_rndLevel);
-
-        // for... in should be avoided as the order is not guaranteed and inherited properties are also enumerated
-    }
-
-    // int levelData::getGameLevel(int index) {
-    //     assert(m_isInitalised);
-    //     assert(index < MAX_LEVELS);
-    //     return m_rndLevel[index];
-    // }
-
-    // int levelData::getExpectedAnswer(int index) {
-    //     assert(m_isInitalised);
-    //     assert(index < MAX_LEVELS);
-    //     return m_answers[m_rndLevel[index]];
-    // }
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');

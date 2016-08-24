@@ -1,4 +1,4 @@
-/*global $ */
+///*global $ */
 /*jslint browser:true */ // define 'document'
 // /*jslint plusplus: true */ // doesn't work with sublime jslint plugin:
 

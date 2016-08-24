@@ -104,12 +104,17 @@ RandIntArray3.prototype.hello = function() {
 
 ////
 
-function RandIntArray(_size) {
+function RandIntArrayCppStyle(_data,_size) {
     var size, used, data = []; //new Array();
 
     console.log("RandIntArray constructor");
     size = _size;
     used = 0;
+
+    data = _data;
+    size = data.length;
+    console.log('data: ' + String(data));
+    console.log('data.length: ' + String(data.length));
     console.log('size: ' + String(size));
 
     this.push = function(newInt) {
@@ -135,56 +140,109 @@ function RandIntArray(_size) {
 // RandIntArray3.prototype.hello = function() {
 //     console.log('hello2 from function RandIntArray');
 // };
+    //var size, used, data = []; //new Array();
+    // console.log("RandIntArray constructor");
+
+    // //data = _data;
+    // //size = data.length;
+    // console.log('data: ' + String(data));
+    // console.log('data.length: ' + String(data.length));
+    //console.log('size: ' + String(size));
+
+    // this.push = function(newInt) {
+    //     console.log('push(): ' + String(newInt));
+    //     data[used] = newInt;
+    //     used++;
+    // };
+        //console.log("pop() random idx: " + String(randIndex) + " (" + String(data[randIndex]) + "), data.length: " + String(data.length));
+
+function RandIntArray(data) {
+    this.pop = function() {
+        if (data.length <= 0) {
+            return null; //throw new Exception('tried to pop empty stack');
+        }
+        var randIndex = Math.floor((Math.random() * data.length));
+        return data.splice(randIndex, 1);
+    };
+    this.list = function() {
+        for (var i = 0; i < data.length; i++) {
+            process.stdout.write('[' + String(i) + ']: ' + String(data[i]) + ' '); //console.log('data[' + String(i) + ']: ' + String(data[i]));
+        }
+        console.log(''); // cause of process.stdout.write()
+    };
+}
+
+function RandIntArray(data) {
+    this.pop = function() {
+        if (data.length <= 0) {
+            return null; //throw new Exception('tried to pop empty stack');
+        }
+        var randIndex = Math.floor((Math.random() * data.length));
+        return data.splice(randIndex, 1);
+    };
+    this.list = function() {
+        for (var i = 0; i < data.length; i++) {
+            process.stdout.write('[' + String(i) + ']: ' + String(data[i]) + ' '); //console.log('data[' + String(i) + ']: ' + String(data[i]));
+        }
+        console.log(''); // cause of process.stdout.write()
+    };
+}
 
 //var myArray = [];              // empty array
 //var myArray = [1,2,3];         // initialised array
 //var myArray = new Array(18);   // array with 18 undefined elements
 
-function randTest () {
+function randCppStyleTest () {
     var rand1 = new RandIntArray(18);   // array with 18 undefined elements
+    //var init = [1,2,3,4,5];
+    //var rand1 = new RandIntArray(init);   //
     console.log("");
-    console.log("");
-    console.log("");
-    console.log("");
-    console.log("");
-    rand1.push(1);
-    rand1.push(2);
-    rand1.push(3);
-    rand1.push(4);
-    rand1.push(5);
-    rand1.list();
-    rand1.pop();
-    rand1.list();
-    rand1.push(11);
-    rand1.list();
+    rand1.push(1); rand1.push(2); rand1.push(3); rand1.push(4); rand1.push(5); rand1.list();
+    rand1.pop(); rand1.list();
+    rand1.push(11); rand1.list();
 }
 
-
-function randLevels() { // copy jon's levelData::rndFixedLevels()
-    var MAX_LEVELS = 18;
-    var m_answers = [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5]; // [MAX_LEVELS]
-    var m_rndLevel = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]; // [MAX_LEVELS]
-    var m_sudoRndLevelList = [1, 3, 2, 1, 4, 2, 5, 2, 2, 3, 1, 5, 4, 4, 5, 4, 1, 5]; // [MAX_LEVELS]
-
-    console.log("randLevels() before: m_rndLevel: " + m_rndLevel);
+function randTest () {
+    //var rand1 = new RandIntArray(18);   // array with 18 undefined elements
+    //var init = [1,2,3,4,5];
+    var init = Array.apply(null, Array(18)).map(function (_, i) {return i;}); // [0, 1, 2, 3, 4, ...]
+    var rand1 = new RandIntArray(init);   //
+    console.log("");
+    rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list();
+    rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list();
+    rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list();
+    rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list(); rand1.pop(); rand1.list();
+}
 
 //    var m_newRndLevel = new Array(); // with 5 slots
 //    var rndIntArray = Object.create(null);
-
-    // for (var i=0; i<MAX_LEVELS; i++) { // iterate, not enumerate, through levels 1-5
+    // for (var i = 0; i < MAX_LEVELS; i++) {
     //     var forLevel = m_answers[i] - 1;
     //     m_newRndLevel[forLevel].push(i);
     // }
 
-    // for (i=0; i<MAX_LEVELS; i++) {
-    //     var wantedLevel = m_sudoRndLevelList[i];
-    //     m_rndLevel[i] = m_newRndLevel[wantedLevel-1].pop();
-    // }
-    console.log("randLevels() after: m_rndLevel: " + m_rndLevel);
+function randLevels() { // copy jon's levelData::rndFixedLevels()
+    var MAX_LEVELS = 18;
+    var pseudoRandLevelList = [1, 3, 2, 1, 4, 2, 5, 2, 2, 3, 1, 5, 4, 4, 5, 4, 1, 5]; // [MAX_LEVELS]
+    var levels = [], randLevels = [];
+
+    levels.push(new RandIntArray([0, 1, 2, 3]));
+    levels.push(new RandIntArray([4, 5, 6, 7]));
+    levels.push(new RandIntArray([8, 9]));
+    levels.push(new RandIntArray([10, 11, 12, 13]));
+    levels.push(new RandIntArray([14, 15, 16, 17]));
+
+    for (var i = 0; i < MAX_LEVELS; i++) {
+         var wantedLevel = pseudoRandLevelList[i];
+         randLevels[i] = levels[wantedLevel-1].pop();
+    }
+    return randLevels;
 }
 
-randTest();
-//randLevels();
+//randTest();
+console.log('randLevels: ' + randLevels());
+
+
 
     // for... in should be avoided as the order is not guaranteed and inherited properties are also enumerated
 

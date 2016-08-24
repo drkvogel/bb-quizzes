@@ -99,7 +99,7 @@ gulp.task('extras', () => {
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
-gulp.task('serve', ['styles', 'scripts', 'fonts', 'php'], () => {
+gulp.task('serve', ['styles', 'scripts', 'fonts'], () => { // , 'php'
   browserSync({
     notify: false,
     port: 9000,

@@ -85,122 +85,14 @@
         "suppressAbandon" : true
     },
     {
-        "name": "ex1",
+        "name": "ex",
         "type" : "game",
         "templateId": "game",
-        "image": "t32by1w.png",
-        "correct": -1
-    },
-    {
-        "name": "ex2",
-        "type" : "game",
-        "templateId": "game",
-        "image": "t32wy1b.png",
-        "correct": -1
-    },
-    {
-        "name": "ex3",
-        "type" : "game",
-        "templateId": "game",
-        "image": "t3bw21y.png",
-        "correct": -1
-    },
-    {
-        "name": "ex4",
-        "type" : "game",
-        "templateId": "game",
-        "image": "t3w2b1y.png",
-        "correct": -1
-    },
-    {
-        "name": "ex5",
-        "type" : "game",
-        "templateId": "game",
-        "image": "t3w2yb1.png",
-        "correct": -1
-    },
-    {
-        "name": "ex6",
-        "type" : "game",
-        "templateId": "game",
-        "image": "t3wb2y1.png",
-        "correct": -1
-    },
-    {
-        "name": "ex7",
-        "type" : "game",
-        "templateId": "game",
-        "image": "t3wy2b1.png",
-        "correct": -1
-    },
-    {
-        "name": "ex8",
-        "type" : "game",
-        "templateId": "game",
-        "image": "t3y2b1w.png",
-        "correct": -1
-    },
-    {
-        "name": "ex9",
-        "type" : "game",
-        "templateId": "game",
-        "image": "t3yb21w.png",
-        "correct": -1
-    },
-    {
-        "name": "ex10",
-        "type" : "game",
-        "templateId": "game",
-        "image": "t3ybw21.png",
-        "correct": -1
-    },
-    {
-        "name": "ex11",
-        "type" : "game",
-        "templateId": "game",
-        "image": "t32by1w.png",
-        "correct": -1
-    },
-    {
-        "name": "ex12",
-        "type" : "game",
-        "templateId": "game",
-        "image": "t32wy1b.png",
-        "correct": -1
-    },
-    {
-        "name": "ex13",
-        "type" : "game",
-        "templateId": "game",
-        "image": "t3bw21y.png",
-        "correct": -1
-    },
-    {
-        "name": "ex14",
-        "type" : "game",
-        "templateId": "game",
-        "image": "t3w2b1y.png",
-        "correct": -1
-    },
-    {
-        "name": "ex15",
-        "type" : "game",
-        "templateId": "game",
-        "image": "t3w2yb1.png",
-        "correct": -1
-    },
-    {
-        "name": "ex16",
-        "type" : "game",
-        "templateId": "game",
-        "image": "t3wb2y1.png",
-        "correct": -1
-    },
-    {
-        "name": "ex17",
-        "type" : "game",
-        "templateId": "game",
-        "image": "t3wy2b1.png",
+        "images": ["t3bw21y", "t3ybw21", "t3w2by1", "t3w2y1b",
+            "t32wy1b", "t3w2b1y", "t32by1w", "t3yw21b",
+            "t3yw2b1", "t3w2yb1",
+            "t3wb2y1", "t3y2wb1", "t3yb21w", "t32yb3w",
+            "t3wy2b1", "t3y2b1w", "t3ywb21", "t3wyb21"],
         "correct": -1
     },
     {
