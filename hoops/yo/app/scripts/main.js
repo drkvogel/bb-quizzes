@@ -21,7 +21,11 @@
         timeUpTimeout,
         enabled = false, // enable UI
         levels = [],
-        answers = [];
+        answers = [],
+        navNext = '<span><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>', // pull-left pull-right
+        navPrev = '<span><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>',
+        navPrevNext = '<span style="margin-right: 40px;"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>' +
+                          '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
 
     //var Timer = require('./timer'); // require is a node thing, unless you use requirejs
     // copied/adapted from Jonathan's bb-quizzes/snap/Snap_files/Timer.js
@@ -143,22 +147,6 @@
         }
         throw new Error('unknown page: ' + name);
     }
-
-    // function hideDiv(id) {
-    //     //document.getElementById(id).style.display = 'none'; //console.log('hideDiv(): id: ' + id);
-    //     $('#' + id).fadeOut(FADEOUT); // 'fast'
-    //     //$('#' + id).slideUp();
-    // }
-
-    // function showDiv(id) {
-    //     //document.getElementById(id).style.display = 'inline'; //console.log('showDiv(): id: ' + id);
-    //     $('#' + id).fadeIn(FADEIN); // 'fast'
-    //     //$('#' + id).slideDown();
-    // }
-
-    // function hidePage(page) {
-    //     hideDiv(page.templateId); //console.log('hidePage(): templateId: ' + page.templateId); //+ obj(page) + '\'');
-    // }
 
     function showInfo(text) {
         $('#info').html(text);
@@ -336,43 +324,28 @@
 
         for (var i = 0; i < MAX_LEVELS; i++) {
              var wantedLevel = pseudoRandLevelList[i];
-             // randLevels[i] = nonRandlevels[wantedLevel - 1].pop();
              levels[i] = nonRandlevels[wantedLevel - 1].pop();
         }
-        //return randLevels;
     }
 
     function getNextImage() {
-        var images = ['t3bw21y', 't3ybw21', 't3w2by1', 't3w2y1b',
-                      't32wy1b', 't3w2b1y', 't32by1w', 't3yw21b',
-                      't3yw2b1', 't3w2yb1',
-                      't3wb2y1', 't3y2wb1', 't3yb21w', 't32yb3w',
-                      't3wy2b1', 't3y2b1w', 't3ywb21', 't3wyb21'];
-        return levels.pop();
+        // var images = ['t3bw21y', 't3ybw21', 't3w2by1', 't3w2y1b',
+        //               't32wy1b', 't3w2b1y', 't32by1w', 't3yw21b',
+        //               't3yw2b1', 't3w2yb1',
+        //               't3wb2y1', 't3y2wb1', 't3yb21w', 't32yb3w',
+        //               't3wy2b1', 't3y2b1w', 't3ywb21', 't3wyb21'];
+        // return levels.pop();
+        return config.images[levels.pop()] + '.png';
     }
 
-        //console.log('unbind clicks');
-        //$('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
-            // seems to cause multiple clicks, erratic behaviour
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
-        console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
-        //console.log('showPage(): isTimeUp:' + isTimeUp);
-
+        console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); // page: ' + obj(page)); isTimeUp:' + isTimeUp);
         if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
-            //hideDiv('abandon-div');
             $('#abandon-div').hide(); //fadeOut(FADEOUT);
         } else {
-            // showDiv('abandon-div');
             $('#abandon-div').fadeIn(FADEOUT);
         }
-
         var info = current + '/' + pages.length + ': ' + page.name; showInfo(info);
-
-        var navNext = '<span><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>'; // pull-left pull-right
-        var navPrev = '<span><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>';
-        var navPrevNext = '<span style="margin-right: 40px;"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>' +
-                          '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
-
         switch (page.templateId) {
         case 'game':
             if (page.name.slice(0, 2) === 'ex') {
@@ -383,7 +356,8 @@
                 }
             }
             // img-a - top-constant.png
-            $('#img-b').attr('src', 'images/' + page.image); // or $('#imgdiv-b img')
+            // $('#img-b').attr('src', 'images/' + page.image); // or $('#imgdiv-b img')
+            $('#img-b').attr('src', 'images/' + getNextImage()); // or $('#imgdiv-b img')
             $('.botTxt').html('How many moves would it take to make picture A look like picture B?');
             for (var i = 1; i <= 6; i++) {
                 var id = '#ans' + i;
@@ -436,14 +410,12 @@
     }
 
     function showPageFinished() {
-        // (re-)bind clicks
-        console.log('bind clicks');
+        console.log('bind clicks'); // (re-)bind clicks
         $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
     }
 
     function prevPage() {
         console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
-        //hidePage(currentPage());
         $('#' + currentPage().templateId).fadeOut(FADEOUT, prevPageFinished);
     }
 
@@ -457,7 +429,6 @@
 
     function nextPage() { // console.log('nextPage(): current: ' + current);// + obj(currentPage());
         console.log('nextPage(): isTimeUp:' + isTimeUp);
-        //hidePage(currentPage());
         $('#' + currentPage().templateId).fadeOut(FADEOUT, nextPageFinished);
     }
 
@@ -475,15 +446,11 @@
     }
 
     function showModal(modal) {
-        // showDiv('modals');
-        // showDiv(modal); //console.log('showModal(\'' + modal + '\')');
         $('#modals').show();
         $('#' + modal).show(); //fadeIn(FADEIN); //console.log('showModal(\'' + modal + '\')');
     }
 
     function hideModal(modal) {
-        // hideDiv('modals');
-        // hideDiv(modal); //console.log('hideModal(\'' + modal + '\')');
         $('#modals').hide();
         $('#' + modal).hide(); //fadeOut(FADEOUT);
     }
@@ -543,8 +510,21 @@
         } else {
             console.log('Wrong! correct is: ' + page.correct);
         }
+        //nextPageTimeout = setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
+        $('#' + currentPage().templateId).fadeOut(FADEOUT, answeredFinished);
+    }
 
-        nextPageTimeout = setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
+    function answeredFinished() {
+        console.log('answeredFinished()');
+        if (isTimeUp) {
+            clearTimeout(nextPageTimeout);
+            showPage(pageNamed('thanks'));
+        } else if (current + 1 < pages.length) {
+            current += 1;
+            showPage(currentPage());
+        } else {
+            console.log('nextPage(): hit the end at current: ' + current);
+        }
     }
 
     function abandonClick() {
@@ -623,7 +603,6 @@
 
         showPage(currentPage());
     }
-        //$('#button').css('display', LIVE ? 'none' : 'inline');
 
     function getConfig() {
         $.getJSON('./config.json', function (data) {
@@ -642,10 +621,8 @@
         if (e.which === 68) { //console.log('"d" pressed');
             e.preventDefault(); // don't trap other keypresses e.g. ctrl-shift-i for dev tools
             if ($('#devBar').css('display') === 'none') {
-                //showDiv('devBar');
                 $('#devBar').show();
             } else {
-                // hideDiv('devBar');
                 $('#devBar').hide();
             }
         }
@@ -728,3 +705,7 @@ console.log('main.js ready');
     //     // pos = '-' + (width * top[i]) + 'px 0px';
     //     // setBackground(sel, page.sheet, pos); //console.log('sel: ' + sel + ', img: ' + img + ', pos: ' + pos);
     // }
+
+        //console.log('unbind clicks');
+        //$('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
+            // seems to cause multiple clicks, erratic behaviour
