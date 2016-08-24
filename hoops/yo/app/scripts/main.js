@@ -10,8 +10,8 @@
     'use strict';
 
     var LIVE = false, // const? JSHint doesn't like it
-        FADEIN = 5000,
-        FADEOUT = 5000,
+        FADEIN = 1000,
+        FADEOUT = 1000,
         config,
         pages,
         current,
@@ -144,21 +144,21 @@
         throw new Error('unknown page: ' + name);
     }
 
-    function hideDiv(id) {
-        //document.getElementById(id).style.display = 'none'; //console.log('hideDiv(): id: ' + id);
-        $('#' + id).fadeOut(FADEOUT); // 'fast'
-        //$('#' + id).slideUp();
-    }
+    // function hideDiv(id) {
+    //     //document.getElementById(id).style.display = 'none'; //console.log('hideDiv(): id: ' + id);
+    //     $('#' + id).fadeOut(FADEOUT); // 'fast'
+    //     //$('#' + id).slideUp();
+    // }
 
-    function showDiv(id) {
-        //document.getElementById(id).style.display = 'inline'; //console.log('showDiv(): id: ' + id);
-        $('#' + id).fadeIn(FADEIN); // 'fast'
-        //$('#' + id).slideDown();
-    }
+    // function showDiv(id) {
+    //     //document.getElementById(id).style.display = 'inline'; //console.log('showDiv(): id: ' + id);
+    //     $('#' + id).fadeIn(FADEIN); // 'fast'
+    //     //$('#' + id).slideDown();
+    // }
 
-    function hidePage(page) {
-        hideDiv(page.templateId); //console.log('hidePage(): templateId: ' + page.templateId); //+ obj(page) + '\'');
-    }
+    // function hidePage(page) {
+    //     hideDiv(page.templateId); //console.log('hidePage(): templateId: ' + page.templateId); //+ obj(page) + '\'');
+    // }
 
     function showInfo(text) {
         $('#info').html(text);
@@ -282,7 +282,7 @@
 
         if (!enabled) {
             console.log('input disabled');
-            return;
+            //return;
         }
         console.log('unbind clicks');
         $('#pages').off('click', 'a, button, div.row div', containerClick); // prevent double-click
@@ -358,9 +358,11 @@
         //console.log('showPage(): isTimeUp:' + isTimeUp);
 
         if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
-            hideDiv('abandon-div');
+            //hideDiv('abandon-div');
+            $('#abandon-div').fadeOut(FADEOUT);
         } else {
-            showDiv('abandon-div');
+            // showDiv('abandon-div');
+            $('#abandon-div').fadeIn(FADEOUT);
         }
 
         var info = current + '/' + pages.length + ': ' + page.name; showInfo(info);
@@ -427,7 +429,8 @@
 
         //scaleImages();
         scaleImagesCBsimple();
-        showDiv((page.templateId));
+        //showDiv((page.templateId));
+        $('#' + page.templateId).fadeIn(FADEIN);
         //showInfo('height: ' + $(window).height()); //attr('height'));
 
         // (re-)bind clicks
@@ -437,7 +440,8 @@
 
     function prevPage() {
         console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
-        hidePage(currentPage());
+        //hidePage(currentPage());
+        $('#' + currentPage().templateId).fadeOut(FADEOUT);
         if (current > 0) {
             current -= 1;
         }
@@ -446,7 +450,8 @@
 
     function nextPage() { // console.log('nextPage(): current: ' + current);// + obj(currentPage());
         console.log('nextPage(): isTimeUp:' + isTimeUp);
-        hidePage(currentPage());
+        //hidePage(currentPage());
+        $('#' + currentPage().templateId).fadeOut(FADEOUT);
         if (isTimeUp) {
             clearTimeout(nextPageTimeout);
             showPage(pageNamed('thanks'));
@@ -459,13 +464,17 @@
     }
 
     function showModal(modal) {
-        showDiv('modals');
-        showDiv(modal); //console.log('showModal(\'' + modal + '\')');
+        // showDiv('modals');
+        // showDiv(modal); //console.log('showModal(\'' + modal + '\')');
+        $('modals').show();
+        $('#' + modal).fadeIn(FADEIN); //console.log('showModal(\'' + modal + '\')');
     }
 
     function hideModal(modal) {
-        hideDiv('modals');
-        hideDiv(modal); //console.log('hideModal(\'' + modal + '\')');
+        // hideDiv('modals');
+        // hideDiv(modal); //console.log('hideModal(\'' + modal + '\')');
+        $('modals').hide();
+        $('#' + modal).fadeOut(FADEOUT);
     }
 
     // don't need timing stuff
@@ -620,9 +629,11 @@
         if (e.which === 68) { //console.log('"d" pressed');
             e.preventDefault(); // don't trap other keypresses e.g. ctrl-shift-i for dev tools
             if ($('#devBar').css('display') === 'none') {
-                showDiv('devBar');
+                //showDiv('devBar');
+                $('#devBar').show();
             } else {
-                hideDiv('devBar');
+                // hideDiv('devBar');
+                $('#devBar').hide();
             }
         }
     }
@@ -640,7 +651,7 @@
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
-        hideDiv('devBar');
+        $('#devBar').hide();
         if (LIVE) {
             window.onbeforeunload = null;
             window.history.forward();   //prevent repeat after back button - may not work.
