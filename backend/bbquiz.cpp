@@ -14,6 +14,7 @@
 #include "xhttp.h"
 #include "xcgi.h"
 #include "hoops.h"
+#include "matrix.h"
 #include "bbquiz.h"
 
 // 0: off; 1: on
@@ -151,6 +152,7 @@ int main(int argc, char **argv) {
             }
         } else if (0 == strcmp("view", x->param.getStringDefault("action", "").c_str())) {
             getHoopsRecords();
+            getMatrixRecords();
         } else {
             printf("<p>No action selected.</p>");
         }
