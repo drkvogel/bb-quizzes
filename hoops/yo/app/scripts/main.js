@@ -10,8 +10,8 @@
     'use strict';
 
     var LIVE = false, // const? JSHint doesn't like it
-        FADEIN = 1000,
-        FADEOUT = 1000,
+        FADEIN = 300,
+        FADEOUT = 300,
         config,
         pages,
         current,
@@ -336,9 +336,10 @@
 
         for (var i = 0; i < MAX_LEVELS; i++) {
              var wantedLevel = pseudoRandLevelList[i];
-             randLevels[i] = nonRandlevels[wantedLevel - 1].pop();
+             // randLevels[i] = nonRandlevels[wantedLevel - 1].pop();
+             levels[i] = nonRandlevels[wantedLevel - 1].pop();
         }
-        return randLevels;
+        //return randLevels;
     }
 
     function getNextImage() {
@@ -359,7 +360,7 @@
 
         if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
             //hideDiv('abandon-div');
-            $('#abandon-div').fadeOut(FADEOUT);
+            $('#abandon-div').hide(); //fadeOut(FADEOUT);
         } else {
             // showDiv('abandon-div');
             $('#abandon-div').fadeIn(FADEOUT);
@@ -430,9 +431,11 @@
         //scaleImages();
         scaleImagesCBsimple();
         //showDiv((page.templateId));
-        $('#' + page.templateId).fadeIn(FADEIN);
+        $('#' + page.templateId).fadeIn(FADEIN, showPageFinished);
         //showInfo('height: ' + $(window).height()); //attr('height'));
+    }
 
+    function showPageFinished() {
         // (re-)bind clicks
         console.log('bind clicks');
         $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
@@ -441,7 +444,11 @@
     function prevPage() {
         console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
         //hidePage(currentPage());
-        $('#' + currentPage().templateId).fadeOut(FADEOUT);
+        $('#' + currentPage().templateId).fadeOut(FADEOUT, prevPageFinished);
+    }
+
+    function prevPageFinished() {
+        console.log('prevPageFinished()');
         if (current > 0) {
             current -= 1;
         }
@@ -451,7 +458,11 @@
     function nextPage() { // console.log('nextPage(): current: ' + current);// + obj(currentPage());
         console.log('nextPage(): isTimeUp:' + isTimeUp);
         //hidePage(currentPage());
-        $('#' + currentPage().templateId).fadeOut(FADEOUT);
+        $('#' + currentPage().templateId).fadeOut(FADEOUT, nextPageFinished);
+    }
+
+    function nextPageFinished() {
+        console.log('nextPageFinished()');
         if (isTimeUp) {
             clearTimeout(nextPageTimeout);
             showPage(pageNamed('thanks'));
@@ -466,15 +477,15 @@
     function showModal(modal) {
         // showDiv('modals');
         // showDiv(modal); //console.log('showModal(\'' + modal + '\')');
-        $('modals').show();
-        $('#' + modal).fadeIn(FADEIN); //console.log('showModal(\'' + modal + '\')');
+        $('#modals').show();
+        $('#' + modal).show(); //fadeIn(FADEIN); //console.log('showModal(\'' + modal + '\')');
     }
 
     function hideModal(modal) {
         // hideDiv('modals');
         // hideDiv(modal); //console.log('hideModal(\'' + modal + '\')');
-        $('modals').hide();
-        $('#' + modal).fadeOut(FADEOUT);
+        $('#modals').hide();
+        $('#' + modal).hide(); //fadeOut(FADEOUT);
     }
 
     // don't need timing stuff
@@ -595,7 +606,9 @@
         isTimeUp = false;
         current = 0;
 
-        levels = randLevels(); console.log('levels: ' + levels);
+        //levels = randLevels();
+        randLevels();
+        console.log('levels: ' + levels);
 
         // set the results form target
         var formAction = config.formAction;
