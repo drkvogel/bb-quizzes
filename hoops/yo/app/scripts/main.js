@@ -357,15 +357,18 @@
             }
             // img-a - top-constant.png
             // $('#img-b').attr('src', 'images/' + page.image); // or $('#imgdiv-b img')
-            $('#img-b').attr('src', 'images/' + getNextImage()); // or $('#imgdiv-b img')
             $('.botTxt').html('How many moves would it take to make picture A look like picture B?');
             for (var i = 1; i <= 6; i++) {
                 var id = '#ans' + i;
                 $(id).removeClass('disabled');
             }
-            if (page.name === 'intro4') {
+            if (page.name === 'intro4') { // practice example
+                $('#img-a').attr('src', 'images/t3bw21y.png');
+                $('#img-b').attr('src', 'images/t3yw2b1.png'); // or $('#imgdiv-b img')
                 $('.navCtl').html(navPrev);
             } else {
+                $('#img-a').attr('src', 'images/top-constant.png');  // top-constant is t3bw2y1
+                $('#img-b').attr('src', 'images/' + getNextImage()); // pseudo-random
                 $('.navCtl').html('');
             }
             startTimer(page); // timer to show chosen answer before next, and start game timer
