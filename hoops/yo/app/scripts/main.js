@@ -268,16 +268,16 @@
     function containerClick(e) {
         e.preventDefault();
 
-        if (!enabled) {
-            console.log('input disabled');
-            //return;
-        }
+        // if (!enabled) {
+        //     console.log('input disabled');
+        //     //return;
+        // }
         console.log('unbind clicks');
         $('#pages').off('click', 'a, button, div.row div', containerClick); // prevent double-click
 
-        console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId); // now gets id from loaded page
         var clickedEl = $(this),
             elId = clickedEl.attr('id');
+        console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId); // now gets id from loaded page
 
         switch (clickedEl.attr('id')) {
         case 'prev':
@@ -414,12 +414,13 @@
         $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
     }
 
+
     function prevPage() {
         console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
         $('#' + currentPage().templateId).fadeOut(FADEOUT, prevPageFinished);
     }
 
-    function prevPageFinished() {
+    function prevPageFinished() { // eslint throws no-use-before-define, but this is OK in ES5 due to hoisting
         console.log('prevPageFinished()');
         if (current > 0) {
             current -= 1;
@@ -564,7 +565,7 @@
         switch (clickedEl.attr('id')) {
         case 'abandon-yes':
             hideModal('abandon-modal');
-            hidePage(currentPage());
+            $('#' + currentPage().templateId).hide();
             showPage(pageNamed('thanks'));
             break;
         case 'abandon-no':
