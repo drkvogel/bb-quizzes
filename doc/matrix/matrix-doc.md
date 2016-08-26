@@ -405,85 +405,85 @@ The code in main.js uses jQuery.
     Structure:HEAP
     Compression:None
 
-        Key Field   Type        Null    Default Comment
-        sesh_id     INTEGER4    No      None    Session ID
-        ntests      INTEGER4    No      None    Number of puzzles completed
-        tinstruct   INGRESDATE  No      None    Time the instructions were shown to the user
-        tstart      INGRESDATE  No      None    Time the quiz was started
-        tfinish     INGRESDATE  No      None    Time the quiz was finished
-        tinsert     INGRESDATE  No      'now'   Time the row was inserted into the database (default 'now')
-        duration1   INTEGER4    No      None    Time taken to answer puzzle
-        elapsed1    INTEGER4    No      None    Cumulative time elapsed
-        answer1     INTEGER4    No      None    Answer given by user
-        correct1    INTEGER4    No      None    Correct answer
-        duration2   INTEGER4    No      None    Time taken to answer puzzle
-        elapsed2    INTEGER4    No      None    Cumulative time elapsed
-        answer2     INTEGER4    No      None    Answer given by user
-        correct2    INTEGER4    No      None    Correct answer
-        duration3   INTEGER4    No      None    Time taken to answer puzzle
-        elapsed3    INTEGER4    No      None    Cumulative time elapsed
-        answer3     INTEGER4    No      None    Answer given by user
-        correct3    INTEGER4    No      None    Correct answer
-        duration4   INTEGER4    No      None    Time taken to answer puzzle
-        elapsed4    INTEGER4    No      None    Cumulative time elapsed
-        answer4     INTEGER4    No      None    Answer given by user
-        correct4    INTEGER4    No      None    Correct answer
-        duration5   INTEGER4    No      None    Time taken to answer puzzle
-        elapsed5    INTEGER4    No      None    Cumulative time elapsed
-        answer5     INTEGER4    No      None    Answer given by user
-        correct5    INTEGER4    No      None    Correct answer
-        duration6   INTEGER4    No      None    Time taken to answer puzzle
-        elapsed6    INTEGER4    No      None    Cumulative time elapsed
-        answer6     INTEGER4    No      None    Answer given by user
-        correct6    INTEGER4    No      None    Correct answer
-        duration7   INTEGER4    No      None    Time taken to answer puzzle
-        elapsed7    INTEGER4    No      None    Cumulative time elapsed
-        answer7     INTEGER4    No      None    Answer given by user
-        correct7    INTEGER4    No      None    Correct answer
-        duration8   INTEGER4    No      None    Time taken to answer puzzle
-        elapsed8    INTEGER4    No      None    Cumulative time elapsed
-        answer8     INTEGER4    No      None    Answer given by user
-        correct8    INTEGER4    No      None    Correct answer
-        duration9   INTEGER4    No      None    Time taken to answer puzzle
-        elapsed9    INTEGER4    No      None    Cumulative time elapsed
-        answer9     INTEGER4    No      None    Answer given by user
-        correct9    INTEGER4    No      None    Correct answer
-        duration10  INTEGER4    No      None    Time taken to answer puzzle
-        elapsed10   INTEGER4    No      None    Cumulative time elapsed
-        answer10    INTEGER4    No      None    Answer given by user
-        correct10   INTEGER4    No      None    Correct answer
-        duration11  INTEGER4    No      None    Time taken to answer puzzle
-        elapsed11   INTEGER4    No      None    Cumulative time elapsed
-        answer11    INTEGER4    No      None    Answer given by user
-        correct11   INTEGER4    No      None    Correct answer
-        duration12  INTEGER4    No      None    Time taken to answer puzzle
-        elapsed12   INTEGER4    No      None    Cumulative time elapsed
-        answer12    INTEGER4    No      None    Answer given by user
-        correct12   INTEGER4    No      None    Correct answer
-        duration13  INTEGER4    No      None    Time taken to answer puzzle
-        elapsed13   INTEGER4    No      None    Cumulative time elapsed
-        answer13    INTEGER4    No      None    Answer given by user
-        correct13   INTEGER4    No      None    Correct answer
-        duration14  INTEGER4    No      None    Time taken to answer puzzle
-        elapsed14   INTEGER4    No      None    Cumulative time elapsed
-        answer14    INTEGER4    No      None    Answer given by user
-        correct14   INTEGER4    No      None    Correct answer
-        duration15  INTEGER4    No      None    Time taken to answer puzzle
-        elapsed15   INTEGER4    No      None    Cumulative time elapsed
-        answer15    INTEGER4    No      None    Answer given by user
-        correct15   INTEGER4    No      None    Correct answer
-        duration16  INTEGER4    No      None    Time taken to answer puzzle
-        elapsed16   INTEGER4    No      None    Cumulative time elapsed
-        answer16    INTEGER4    No      None    Answer given by user
-        correct16   INTEGER4    No      None    Correct answer
-        duration17  INTEGER4    No      None    Time taken to answer puzzle
-        elapsed17   INTEGER4    No      None    Cumulative time elapsed
-        answer17    INTEGER4    No      None    Answer given by user
-        correct17   INTEGER4    No      None    Correct answer
-        duration18  INTEGER4    No      None    Time taken to answer puzzle
-        elapsed18   INTEGER4    No      None    Cumulative time elapsed
-        answer18    INTEGER4    No      None    Answer given by user
-        correct18   INTEGER4    No      None    Correct answer
+    Key Field   Type        Null    Default Comment
+    sesh_id     INTEGER4    No      None    Session ID
+    ntests      INTEGER4    No      None    Number of puzzles completed
+    tinstruct   INGRESDATE  No      None    Time the instructions were shown to the user
+    tstart      INGRESDATE  No      None    Time the quiz was started
+    tfinish     INGRESDATE  No      None    Time the quiz was finished
+    tinsert     INGRESDATE  No      'now'   Time the row was inserted into the database (default 'now')
+    duration1   INTEGER4    No      None    Time taken to answer puzzle
+    elapsed1    INTEGER4    No      None    Cumulative time elapsed
+    answer1     INTEGER4    No      None    Answer given by user
+    correct1    INTEGER4    No      None    Correct answer
+    duration2   INTEGER4    No      None    Time taken to answer puzzle
+    elapsed2    INTEGER4    No      None    Cumulative time elapsed
+    answer2     INTEGER4    No      None    Answer given by user
+    correct2    INTEGER4    No      None    Correct answer
+    duration3   INTEGER4    No      None    Time taken to answer puzzle
+    elapsed3    INTEGER4    No      None    Cumulative time elapsed
+    answer3     INTEGER4    No      None    Answer given by user
+    correct3    INTEGER4    No      None    Correct answer
+    duration4   INTEGER4    No      None    Time taken to answer puzzle
+    elapsed4    INTEGER4    No      None    Cumulative time elapsed
+    answer4     INTEGER4    No      None    Answer given by user
+    correct4    INTEGER4    No      None    Correct answer
+    duration5   INTEGER4    No      None    Time taken to answer puzzle
+    elapsed5    INTEGER4    No      None    Cumulative time elapsed
+    answer5     INTEGER4    No      None    Answer given by user
+    correct5    INTEGER4    No      None    Correct answer
+    duration6   INTEGER4    No      None    Time taken to answer puzzle
+    elapsed6    INTEGER4    No      None    Cumulative time elapsed
+    answer6     INTEGER4    No      None    Answer given by user
+    correct6    INTEGER4    No      None    Correct answer
+    duration7   INTEGER4    No      None    Time taken to answer puzzle
+    elapsed7    INTEGER4    No      None    Cumulative time elapsed
+    answer7     INTEGER4    No      None    Answer given by user
+    correct7    INTEGER4    No      None    Correct answer
+    duration8   INTEGER4    No      None    Time taken to answer puzzle
+    elapsed8    INTEGER4    No      None    Cumulative time elapsed
+    answer8     INTEGER4    No      None    Answer given by user
+    correct8    INTEGER4    No      None    Correct answer
+    duration9   INTEGER4    No      None    Time taken to answer puzzle
+    elapsed9    INTEGER4    No      None    Cumulative time elapsed
+    answer9     INTEGER4    No      None    Answer given by user
+    correct9    INTEGER4    No      None    Correct answer
+    duration10  INTEGER4    No      None    Time taken to answer puzzle
+    elapsed10   INTEGER4    No      None    Cumulative time elapsed
+    answer10    INTEGER4    No      None    Answer given by user
+    correct10   INTEGER4    No      None    Correct answer
+    duration11  INTEGER4    No      None    Time taken to answer puzzle
+    elapsed11   INTEGER4    No      None    Cumulative time elapsed
+    answer11    INTEGER4    No      None    Answer given by user
+    correct11   INTEGER4    No      None    Correct answer
+    duration12  INTEGER4    No      None    Time taken to answer puzzle
+    elapsed12   INTEGER4    No      None    Cumulative time elapsed
+    answer12    INTEGER4    No      None    Answer given by user
+    correct12   INTEGER4    No      None    Correct answer
+    duration13  INTEGER4    No      None    Time taken to answer puzzle
+    elapsed13   INTEGER4    No      None    Cumulative time elapsed
+    answer13    INTEGER4    No      None    Answer given by user
+    correct13   INTEGER4    No      None    Correct answer
+    duration14  INTEGER4    No      None    Time taken to answer puzzle
+    elapsed14   INTEGER4    No      None    Cumulative time elapsed
+    answer14    INTEGER4    No      None    Answer given by user
+    correct14   INTEGER4    No      None    Correct answer
+    duration15  INTEGER4    No      None    Time taken to answer puzzle
+    elapsed15   INTEGER4    No      None    Cumulative time elapsed
+    answer15    INTEGER4    No      None    Answer given by user
+    correct15   INTEGER4    No      None    Correct answer
+    duration16  INTEGER4    No      None    Time taken to answer puzzle
+    elapsed16   INTEGER4    No      None    Cumulative time elapsed
+    answer16    INTEGER4    No      None    Answer given by user
+    correct16   INTEGER4    No      None    Correct answer
+    duration17  INTEGER4    No      None    Time taken to answer puzzle
+    elapsed17   INTEGER4    No      None    Cumulative time elapsed
+    answer17    INTEGER4    No      None    Answer given by user
+    correct17   INTEGER4    No      None    Correct answer
+    duration18  INTEGER4    No      None    Time taken to answer puzzle
+    elapsed18   INTEGER4    No      None    Cumulative time elapsed
+    answer18    INTEGER4    No      None    Answer given by user
+    correct18   INTEGER4    No      None    Correct answer
 
     Secondary Indices:None
     Constraints:None
