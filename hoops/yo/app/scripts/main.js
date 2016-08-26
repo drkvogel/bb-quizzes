@@ -10,8 +10,8 @@
     'use strict';
 
     var LIVE = false, // const? JSHint doesn't like it
-        FADEIN = 300,
-        FADEOUT = 300,
+        FADEIN = 100,
+        FADEOUT = 100,
         config,
         pages,
         current,
@@ -357,7 +357,7 @@
             }
             // img-a - top-constant.png
             // $('#img-b').attr('src', 'images/' + page.image); // or $('#imgdiv-b img')
-            $('.botTxt').html('How many moves would it take to make picture A look like picture B?');
+            $('.botTxt').html('How many moves would it take to make picture B look like picture A?');
             for (var i = 1; i <= 6; i++) {
                 var id = '#ans' + i;
                 $(id).removeClass('disabled');
