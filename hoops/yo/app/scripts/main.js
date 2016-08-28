@@ -329,12 +329,6 @@
     }
 
     function getNextImage() {
-        // var images = ['t3bw21y', 't3ybw21', 't3w2by1', 't3w2y1b',
-        //               't32wy1b', 't3w2b1y', 't32by1w', 't3yw21b',
-        //               't3yw2b1', 't3w2yb1',
-        //               't3wb2y1', 't3y2wb1', 't3yb21w', 't32yb3w',
-        //               't3wy2b1', 't3y2b1w', 't3ywb21', 't3wyb21'];
-        // return levels.pop();
         return config.images[levels.pop()] + '.png';
     }
 
@@ -399,7 +393,7 @@
         case 'thanks':
             clearTimeout(timeUpTimeout);
             clearTimeout(nextPageTimeout);
-            finished();
+            //finished();
             break;
         default:
             throw new Error('unrecogised id');
@@ -407,8 +401,8 @@
 
         //scaleImages();
         scaleImagesCBsimple();
-        //showDiv((page.templateId));
-        $('#' + page.templateId).fadeIn(FADEIN, showPageFinished);
+
+        $('#' + page.templateId).fadeIn(FADEIN, showPageFinished); //showDiv((page.templateId));
         //showInfo('height: ' + $(window).height()); //attr('height'));
     }
 
@@ -416,7 +410,6 @@
         console.log('bind clicks'); // (re-)bind clicks
         $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
     }
-
 
     function prevPage() {
         console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
@@ -520,9 +513,11 @@
 
     function answeredFinished() {
         console.log('answeredFinished()');
+        console.log('isTimeUp: ' + isTimeUp);
         if (isTimeUp) {
             clearTimeout(nextPageTimeout);
-            showPage(pageNamed('thanks'));
+            // showPage(pageNamed('thanks'));
+            console.log('showPage(pageNamed(\'thanks\'));');
         } else if (current + 1 < pages.length) {
             current += 1;
             showPage(currentPage());
