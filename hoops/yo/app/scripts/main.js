@@ -635,8 +635,8 @@
     $('#modals').on('click', 'button', modalClick);
 
     window.onresize = function(event) {
-        console.log('unbind clicks');
-        $('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
+        // console.log('unbind clicks');
+        // $('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
         scaleImages(); //showPage(currentPage()); // ?
     };
 
