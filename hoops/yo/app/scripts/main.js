@@ -158,6 +158,37 @@
         $(sel).html(text + 'ms');
     }
 
+    function RandIntArray(data) {
+        this.pop = function() {
+            if (data.length <= 0) {
+                return null; //throw new Exception('tried to pop empty stack');
+            }
+            var randIndex = Math.floor((Math.random() * data.length));
+            return data.splice(randIndex, 1);
+        };
+    }
+
+    function randLevels() { // copy jon's levelData::rndFixedLevels()
+        var MAX_LEVELS = 18;
+        var pseudoRandLevelList = [1, 3, 2, 1, 4, 2, 5, 2, 2, 3, 1, 5, 4, 4, 5, 4, 1, 5]; // [MAX_LEVELS]
+        var nonRandlevels = []; //, randLevels = [];
+
+        nonRandlevels.push(new RandIntArray([0, 1, 2, 3]));
+        nonRandlevels.push(new RandIntArray([4, 5, 6, 7]));
+        nonRandlevels.push(new RandIntArray([8, 9]));
+        nonRandlevels.push(new RandIntArray([10, 11, 12, 13]));
+        nonRandlevels.push(new RandIntArray([14, 15, 16, 17]));
+
+        for (var i = 0; i < MAX_LEVELS; i++) {
+             var wantedLevel = pseudoRandLevelList[i];
+             levels[i] = nonRandlevels[wantedLevel - 1].pop();
+        }
+    }
+
+    function getNextImage() {
+        return config.puzzles[levels.pop()];
+    }
+
     function scaleImagesAY() {
         console.log('scaleImagesAY()');
         // copied from matrix
@@ -269,14 +300,13 @@
         }
     }
 
-    function containerClick(e) {
-        e.preventDefault();
-
         // if (!enabled) {
         //     console.log('input disabled');
         //     //return;
         // }
         //console.log('unbind clicks');
+    function containerClick(e) {
+        e.preventDefault();
         $('#pages').off('click', 'a, button, div.row div', containerClick); // prevent double-click
 
         var clickedEl = $(this),
@@ -305,37 +335,6 @@
         }
     }
 
-    function RandIntArray(data) {
-        this.pop = function() {
-            if (data.length <= 0) {
-                return null; //throw new Exception('tried to pop empty stack');
-            }
-            var randIndex = Math.floor((Math.random() * data.length));
-            return data.splice(randIndex, 1);
-        };
-    }
-
-    function randLevels() { // copy jon's levelData::rndFixedLevels()
-        var MAX_LEVELS = 18;
-        var pseudoRandLevelList = [1, 3, 2, 1, 4, 2, 5, 2, 2, 3, 1, 5, 4, 4, 5, 4, 1, 5]; // [MAX_LEVELS]
-        var nonRandlevels = []; //, randLevels = [];
-
-        nonRandlevels.push(new RandIntArray([0, 1, 2, 3]));
-        nonRandlevels.push(new RandIntArray([4, 5, 6, 7]));
-        nonRandlevels.push(new RandIntArray([8, 9]));
-        nonRandlevels.push(new RandIntArray([10, 11, 12, 13]));
-        nonRandlevels.push(new RandIntArray([14, 15, 16, 17]));
-
-        for (var i = 0; i < MAX_LEVELS; i++) {
-             var wantedLevel = pseudoRandLevelList[i];
-             levels[i] = nonRandlevels[wantedLevel - 1].pop();
-        }
-    }
-
-    function getNextImage() {
-        return config.images[levels.pop()] + '.png';
-    }
-
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
         console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); // page: ' + obj(page)); isTimeUp:' + isTimeUp);
         if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
@@ -347,15 +346,6 @@
         showInfo(info);
         switch (page.templateId) {
         case 'game':
-            if (page.name.slice(0, 2) === 'ex') {
-                timer.now(); // start timer for all real exercises
-                if (page.name === 'ex') {
-                    console.log('start game timer');
-                    timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
-                }
-            }
-            // img-a - top-constant.png
-            // $('#img-b').attr('src', 'images/' + page.image); // or $('#imgdiv-b img')
             $('.botTxt').html('How many moves would it take to make picture B look like picture A?');
             for (var i = 1; i <= 6; i++) {
                 var id = '#ans' + i;
@@ -370,6 +360,10 @@
                 var txt = 'getNextImage(): ' + image
                 showInfo(txt);
                 console.log(txt);
+                if (image == undefined) {
+                    showPage(pageNamed('thanks'));
+                    return;
+                }
                 $('#img-a').attr('src', 'images/top-constant.png');  // top-constant is t3bw2y1
                 $('#img-b').attr('src', 'images/' + image); // pseudo-random
                 $('.navCtl').html('');
@@ -402,31 +396,34 @@
         case 'thanks':
             clearTimeout(timeUpTimeout);
             clearTimeout(nextPageTimeout);
-            finished();
             break;
         default:
             throw new Error('unrecogised id');
         }
 
         scaleImages();
-
-        $('#' + page.templateId).fadeIn(FADEIN, showPageFinished);
+        $('#' + page.templateId).fadeIn(FADEIN, showPage2);
         //showInfo('height: ' + $(window).height()); //attr('height'));
     }
 
-    function showPageFinished() {
-        console.log('bind clicks'); // (re-)bind clicks
+    function showPage2() {
+        console.log('showPage2: bind clicks'); // (re-)bind clicks
+        console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)bind clicks
         $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
+        if (currentPage().name === 'thanks') {
+            console.log('currentPage().name === \'thanks\'');
+            setTimeout(3000, finished());
+        }
     }
 
 
     function prevPage() {
         console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
-        $('#' + currentPage().templateId).fadeOut(FADEOUT, prevPageFinished);
+        $('#' + currentPage().templateId).fadeOut(FADEOUT, prevPage2);
     }
 
-    function prevPageFinished() { // eslint throws no-use-before-define, but this is OK in ES5 due to hoisting
-        console.log('prevPageFinished()');
+    function prevPage2() { // eslint throws no-use-before-define, but this is OK in ES5 due to hoisting
+        console.log('prevPage2()');
         if (current > 0) {
             current -= 1;
         }
@@ -435,20 +432,26 @@
 
     function nextPage() { // console.log('nextPage(): current: ' + current);// + obj(currentPage());
         console.log('nextPage(): isTimeUp:' + isTimeUp);
-        $('#' + currentPage().templateId).fadeOut(FADEOUT, nextPageFinished);
+        $('#' + currentPage().templateId).fadeOut(FADEOUT, nextPage2);
     }
 
-    function nextPageFinished() {
-        console.log('nextPageFinished()');
-        if (isTimeUp) {
+    function nextPage2() {
+        console.log('nextPage2()');
+        console.log('current + 1 < pages.length: ' + String(current + 1 < pages.length));
+        var page;
+        if (isTimeUp) {                             // time up
             clearTimeout(nextPageTimeout);
-            showPage(pageNamed('thanks'));
-        } else if (current + 1 < pages.length) {
+            page = pageNamed('thanks');
+        } else if (currentPage().name === 'ex') {            // live game
+            page = currentPage();
+        } else if (current + 1 < pages.length) {    // intro screens
             current += 1;
-            showPage(currentPage());
+            page = currentPage();
         } else {
             console.log('nextPage(): hit the end at current: ' + current);
+            page = currentPage();
         }
+        showPage(page);
     }
 
     function showModal(modal) {
@@ -461,13 +464,6 @@
         $('#' + modal).hide(); //fadeOut(FADEOUT);
     }
 
-    // don't need timing stuff
-    //$('#results').val(JSON.stringify(answers));
-    //var possibleE = test_timer.gethasPossibleError() + reaction_timer.gethasPossibleError() + demo_timer.gethasPossibleError() + total_timer.gethasPossibleError();
-    // if (possibleE > 0)
-    //     possibleE = 1;
-    // writeValue("timererror",possibleE); // document.getElementById(id).value = value;
-    // writeValue("performanceTimer",total_timer.gethasPerformance());
     function finished() {
         console.log('finished(): answers: ' + JSON.stringify(answers));
         clearTimeout(timeUpTimeout);
@@ -525,11 +521,11 @@
         if (isTimeUp) {
             clearTimeout(nextPageTimeout);
             showPage(pageNamed('thanks'));
-        } else if (current + 1 < pages.length) {
+        } else if (currentPage().name.slice(0, 5) == 'intro') {
             current += 1;
             showPage(currentPage());
         } else {
-            console.log('nextPage(): hit the end at current: ' + current);
+            showPage(currentPage());
         }
     }
 
@@ -642,8 +638,7 @@
     window.onresize = function(event) {
         console.log('unbind clicks');
         $('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
-        //showPage(currentPage()); // ?
-        scaleImages();
+        scaleImages(); //showPage(currentPage()); // ?
     };
 
     $().ready(function () { //$(document).ready(
@@ -716,3 +711,11 @@ console.log('main.js ready');
         //console.log('unbind clicks');
         //$('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
             // seems to cause multiple clicks, erratic behaviour
+
+    // don't need timing stuff
+    //$('#results').val(JSON.stringify(answers));
+    //var possibleE = test_timer.gethasPossibleError() + reaction_timer.gethasPossibleError() + demo_timer.gethasPossibleError() + total_timer.gethasPossibleError();
+    // if (possibleE > 0)
+    //     possibleE = 1;
+    // writeValue("timererror",possibleE); // document.getElementById(id).value = value;
+    // writeValue("performanceTimer",total_timer.gethasPerformance());
