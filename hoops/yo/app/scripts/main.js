@@ -300,6 +300,9 @@
         }
     }
 
+    function containerClick(e) {
+        e.preventDefault();
+
         // if (!enabled) {
         //     console.log('input disabled');
         //     //return;
@@ -345,6 +348,10 @@
         }
     }
 
+    function getNextImage() {
+        return config.images[levels.pop()] + '.png';
+    }
+
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
         console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); // page: ' + obj(page)); isTimeUp:' + isTimeUp);
         if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
@@ -356,7 +363,7 @@
         showInfo(info);
         switch (page.templateId) {
         case 'game':
-            $('.botTxt').html('How many moves would it take to make picture B look like picture A?');
+             $('.botTxt').html('How many moves would it take to make picture B look like picture A?');
             for (var i = 1; i <= 6; i++) {
                 var id = '#ans' + i;
                 $(id).removeClass('disabled');
@@ -406,6 +413,7 @@
         case 'thanks':
             clearTimeout(timeUpTimeout);
             clearTimeout(nextPageTimeout);
+            finished();
             break;
         default:
             throw new Error('unrecogised id');
