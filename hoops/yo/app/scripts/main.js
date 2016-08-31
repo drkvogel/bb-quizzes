@@ -22,6 +22,7 @@
         enabled = false, // enable UI
         levels = [],
         answers = [],
+        puzzle = null,
         navNext = '<span><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>', // pull-left pull-right
         navPrev = '<span><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>',
         navPrevNext = '<span style="margin-right: 40px;"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>' +
@@ -185,10 +186,6 @@
         }
     }
 
-    function getNextImage() {
-        return config.puzzles[levels.pop()];
-    }
-
     function scaleImagesAY() {
         console.log('scaleImagesAY()');
         // copied from matrix
@@ -300,9 +297,6 @@
         }
     }
 
-    function containerClick(e) {
-        e.preventDefault();
-
         // if (!enabled) {
         //     console.log('input disabled');
         //     //return;
@@ -348,8 +342,8 @@
         }
     }
 
-    function getNextImage() {
-        return config.images[levels.pop()] + '.png';
+    function getNextPuzzle() {
+        return config.puzzles[levels.pop()];
     }
 
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
@@ -373,14 +367,15 @@
                 $('#img-b').attr('src', 'images/t3yw2b1.png'); // or $('#imgdiv-b img')
                 $('.navCtl').html(navPrev);
             } else {
-                var image = getNextImage();
-                var txt = 'getNextImage(): ' + image;
-                showInfo(txt);
-                console.log(txt);
-                if (image === undefined) {
+                puzzle = getNextPuzzle();
+                if (puzzle === undefined) { // nothing left on stack, finished all puzzles
                     showPage(pageNamed('thanks'));
                     return;
                 }
+                var image = puzzle.i;
+                var txt = 'getNextPuzzle(): ' + image;
+                showInfo(txt);
+                console.log(txt);
                 $('#img-a').attr('src', 'images/top-constant.png');  // top-constant is t3bw2y1
                 $('#img-b').attr('src', 'images/' + image); // pseudo-random
                 $('.navCtl').html('');

@@ -8,8 +8,8 @@
     "puzzles": [
         {"i": "t3bw21y.png", "c": 0},
         {"i": "t3ybw21.png", "c": 0},
-        {"i": "t3w2by1.png", "c":S0},
-        {"i": "t3w2y1b.png", "c": 0}.
+        {"i": "t3w2by1.png", "c": 0},
+        {"i": "t3w2y1b.png", "c": 0},
         {"i": "t32wy1b.png", "c": 0},
         {"i": "t3w2b1y.png", "c": 0},
         {"i": "t32by1w.png", "c": 0},
@@ -24,7 +24,7 @@
         {"i": "t3y2b1w.png", "c": 0},
         {"i": "t3ywb21.png", "c": 0},
         {"i": "t3wyb21.png", "c": 0}
-    ]
+    ],
     "pages":[
         {
             "name": "home",
