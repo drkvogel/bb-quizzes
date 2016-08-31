@@ -335,6 +335,16 @@
         }
     }
 
+    function showPage2() {
+        console.log('showPage2: bind clicks'); // (re-)bind clicks
+        console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)bind clicks
+        $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
+        if (currentPage().name === 'thanks') {
+            console.log('currentPage().name === \'thanks\'');
+            setTimeout(3000, finished());
+        }
+    }
+
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
         console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); // page: ' + obj(page)); isTimeUp:' + isTimeUp);
         if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
@@ -357,10 +367,10 @@
                 $('.navCtl').html(navPrev);
             } else {
                 var image = getNextImage();
-                var txt = 'getNextImage(): ' + image
+                var txt = 'getNextImage(): ' + image;
                 showInfo(txt);
                 console.log(txt);
-                if (image == undefined) {
+                if (image === undefined) {
                     showPage(pageNamed('thanks'));
                     return;
                 }
@@ -406,22 +416,6 @@
         //showInfo('height: ' + $(window).height()); //attr('height'));
     }
 
-    function showPage2() {
-        console.log('showPage2: bind clicks'); // (re-)bind clicks
-        console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)bind clicks
-        $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
-        if (currentPage().name === 'thanks') {
-            console.log('currentPage().name === \'thanks\'');
-            setTimeout(3000, finished());
-        }
-    }
-
-
-    function prevPage() {
-        console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
-        $('#' + currentPage().templateId).fadeOut(FADEOUT, prevPage2);
-    }
-
     function prevPage2() { // eslint throws no-use-before-define, but this is OK in ES5 due to hoisting
         console.log('prevPage2()');
         if (current > 0) {
@@ -430,9 +424,9 @@
         showPage(currentPage());
     }
 
-    function nextPage() { // console.log('nextPage(): current: ' + current);// + obj(currentPage());
-        console.log('nextPage(): isTimeUp:' + isTimeUp);
-        $('#' + currentPage().templateId).fadeOut(FADEOUT, nextPage2);
+    function prevPage() {
+        console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
+        $('#' + currentPage().templateId).fadeOut(FADEOUT, prevPage2);
     }
 
     function nextPage2() {
@@ -452,6 +446,11 @@
             page = currentPage();
         }
         showPage(page);
+    }
+
+    function nextPage() { // console.log('nextPage(): current: ' + current);// + obj(currentPage());
+        console.log('nextPage(): isTimeUp:' + isTimeUp);
+        $('#' + currentPage().templateId).fadeOut(FADEOUT, nextPage2);
     }
 
     function showModal(modal) {
@@ -487,6 +486,19 @@
         console.log('timeUp(): isTimeUp:' + isTimeUp);
     }
 
+    function answered2() {
+        console.log('answeredFinished()');
+        if (isTimeUp) {
+            clearTimeout(nextPageTimeout);
+            showPage(pageNamed('thanks'));
+        } else if (currentPage().name.slice(0, 5) === 'intro') {
+            current += 1;
+            showPage(currentPage());
+        } else {
+            showPage(currentPage());
+        }
+    }
+
     function answered(num) {
         console.log('answered: ' + num);
         var page = currentPage();
@@ -513,20 +525,7 @@
             console.log('Wrong! correct is: ' + page.correct);
         }
         //nextPageTimeout = setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
-        $('#' + currentPage().templateId).fadeOut(FADEOUT, answeredFinished);
-    }
-
-    function answeredFinished() {
-        console.log('answeredFinished()');
-        if (isTimeUp) {
-            clearTimeout(nextPageTimeout);
-            showPage(pageNamed('thanks'));
-        } else if (currentPage().name.slice(0, 5) == 'intro') {
-            current += 1;
-            showPage(currentPage());
-        } else {
-            showPage(currentPage());
-        }
+        $('#' + currentPage().templateId).fadeOut(FADEOUT, answered2);
     }
 
     function abandonClick() {
