@@ -254,6 +254,10 @@
         }
     }
 
+    function scaleImages() {
+        scaleImagesCBsimple();
+    }
+
     function startTimer(page) {
         if (page.name.slice(0, 2) === 'ex') {
             timer.now(); // start timer for all real exercises
@@ -272,7 +276,7 @@
         //     console.log('input disabled');
         //     //return;
         // }
-        console.log('unbind clicks');
+        //console.log('unbind clicks');
         $('#pages').off('click', 'a, button, div.row div', containerClick); // prevent double-click
 
         var clickedEl = $(this),
@@ -329,12 +333,6 @@
     }
 
     function getNextImage() {
-        // var images = ['t3bw21y', 't3ybw21', 't3w2by1', 't3w2y1b',
-        //               't32wy1b', 't3w2b1y', 't32by1w', 't3yw21b',
-        //               't3yw2b1', 't3w2yb1',
-        //               't3wb2y1', 't3y2wb1', 't3yb21w', 't32yb3w',
-        //               't3wy2b1', 't3y2b1w', 't3ywb21', 't3wyb21'];
-        // return levels.pop();
         return config.images[levels.pop()] + '.png';
     }
 
@@ -345,12 +343,13 @@
         } else {
             $('#abandon-div').fadeIn(FADEOUT);
         }
-        var info = current + '/' + pages.length + ': ' + page.name; showInfo(info);
+        var info = current + '/' + pages.length + ': ' + page.name + ', timeUp: ' + String(isTimeUp);
+        showInfo(info);
         switch (page.templateId) {
         case 'game':
             if (page.name.slice(0, 2) === 'ex') {
                 timer.now(); // start timer for all real exercises
-                if (page.name === 'ex1') {
+                if (page.name === 'ex') {
                     console.log('start game timer');
                     timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
                 }
@@ -367,8 +366,12 @@
                 $('#img-b').attr('src', 'images/t3yw2b1.png'); // or $('#imgdiv-b img')
                 $('.navCtl').html(navPrev);
             } else {
+                var image = getNextImage();
+                var txt = 'getNextImage(): ' + image
+                showInfo(txt);
+                console.log(txt);
                 $('#img-a').attr('src', 'images/top-constant.png');  // top-constant is t3bw2y1
-                $('#img-b').attr('src', 'images/' + getNextImage()); // pseudo-random
+                $('#img-b').attr('src', 'images/' + image); // pseudo-random
                 $('.navCtl').html('');
             }
             startTimer(page); // timer to show chosen answer before next, and start game timer
@@ -405,9 +408,8 @@
             throw new Error('unrecogised id');
         }
 
-        //scaleImages();
-        scaleImagesCBsimple();
-        //showDiv((page.templateId));
+        scaleImages();
+
         $('#' + page.templateId).fadeIn(FADEIN, showPageFinished);
         //showInfo('height: ' + $(window).height()); //attr('height'));
     }
@@ -640,7 +642,8 @@
     window.onresize = function(event) {
         console.log('unbind clicks');
         $('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
-        showPage(currentPage()); // ?
+        //showPage(currentPage()); // ?
+        scaleImages();
     };
 
     $().ready(function () { //$(document).ready(
