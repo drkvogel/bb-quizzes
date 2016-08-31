@@ -254,7 +254,6 @@
 
     // shrink images to try to fit height into viewport, but don't worry about width
     function scaleImagesCBsimple() { //
-        console.log('scaleImagesCBsimple()');
         //showInfo('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin);
         var widthExtra =
             ($('.container').outerWidth(true) - $('.container').width()) +
@@ -270,7 +269,7 @@
             ;
             // missing some heights?
         var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
-        console.log('setMargins ' + setMargins + ', heightExtra: ' + heightExtra + ', widthExtra: ' + widthExtra);
+        //console.log('scaleImagesCBsimple(): setMargins ' + setMargins + ', heightExtra: ' + heightExtra + ', widthExtra: ' + widthExtra);
              //'($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;' +
 
         if (setMargins > 0) {
@@ -308,7 +307,7 @@
 
         var clickedEl = $(this),
             elId = clickedEl.attr('id');
-        console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId); // now gets id from loaded page
+        //console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId); // now gets id from loaded page
 
         switch (clickedEl.attr('id')) {
         case 'prev':
@@ -333,8 +332,8 @@
     }
 
     function showPage2() {
-        console.log('showPage2: bind clicks'); // (re-)bind clicks
-        console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)bind clicks
+        //console.log('showPage2: bind clicks'); // (re-)bind clicks
+        //console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)bind clicks
         $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
         if (currentPage().name === 'thanks') {
             console.log('currentPage().name === \'thanks\'');
@@ -347,7 +346,7 @@
     }
 
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
-        console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); // page: ' + obj(page)); isTimeUp:' + isTimeUp);
+        //console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); // page: ' + obj(page)); isTimeUp:' + isTimeUp);
         if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
             $('#abandon-div').hide(); //fadeOut(FADEOUT);
         } else {
@@ -363,8 +362,9 @@
                 $(id).removeClass('disabled');
             }
             if (page.name === 'intro4') { // practice example
-                $('#img-a').attr('src', 'images/t3bw21y.png');
-                $('#img-b').attr('src', 'images/t3yw2b1.png'); // or $('#imgdiv-b img')
+                puzzle = config.practice;
+                $('#img-a').attr('src', 'images/' + puzzle.a);
+                $('#img-b').attr('src', 'images/' + puzzle.b); // or $('#imgdiv-b img')
                 $('.navCtl').html(navPrev);
             } else {
                 puzzle = getNextPuzzle();
@@ -372,13 +372,11 @@
                     showPage(pageNamed('thanks'));
                     return;
                 }
-                var image = puzzle.i;
-                var txt = 'getNextPuzzle(): ' + image;
-                showInfo(txt);
-                console.log(txt);
+                //var image = puzzle.i; var txt = 'getNextPuzzle(): ' + image; showInfo(txt); console.log(txt);
                 $('#img-a').attr('src', 'images/top-constant.png');  // top-constant is t3bw2y1
-                $('#img-b').attr('src', 'images/' + image); // pseudo-random
+                $('#img-b').attr('src', 'images/' + puzzle.b); // pseudo-random
                 $('.navCtl').html('');
+                console.log('puzzle.b: ' + puzzle.b + ', correct: ' + puzzle.c);
             }
             startTimer(page); // timer to show chosen answer before next, and start game timer
             break;
@@ -397,7 +395,7 @@
             }
             if (page.name === 'intro5') {
                 var ans = answers.pop();
-                console.log('ans: ' + ans);
+                console.log('intro5 ans: ' + ans);
                 $('#intro-answer').html(ans + (parseInt(ans) === 2 ? ' - Correct!' : ''));
             }
             break;
@@ -420,7 +418,7 @@
     }
 
     function prevPage2() { // eslint throws no-use-before-define, but this is OK in ES5 due to hoisting
-        console.log('prevPage2()');
+        //console.log('prevPage2()');
         if (current > 0) {
             current -= 1;
         }
@@ -428,13 +426,12 @@
     }
 
     function prevPage() {
-        console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
+        //console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
         $('#' + currentPage().templateId).fadeOut(FADEOUT, prevPage2);
     }
 
     function nextPage2() {
-        console.log('nextPage2()');
-        console.log('current + 1 < pages.length: ' + String(current + 1 < pages.length));
+        //console.log('nextPage2(): current + 1 < pages.length: ' + String(current + 1 < pages.length));
         var page;
         if (isTimeUp) {                             // time up
             clearTimeout(nextPageTimeout);
@@ -452,7 +449,7 @@
     }
 
     function nextPage() { // console.log('nextPage(): current: ' + current);// + obj(currentPage());
-        console.log('nextPage(): isTimeUp:' + isTimeUp);
+        //console.log('nextPage(): isTimeUp:' + isTimeUp);
         $('#' + currentPage().templateId).fadeOut(FADEOUT, nextPage2);
     }
 
@@ -490,7 +487,7 @@
     }
 
     function answered2() {
-        console.log('answeredFinished()');
+        //console.log('answeredFinished()');
         if (isTimeUp) {
             clearTimeout(nextPageTimeout);
             showPage(pageNamed('thanks'));
@@ -503,18 +500,18 @@
     }
 
     function answered(num) {
-        console.log('answered: ' + num);
         var page = currentPage();
-        var correct = Number(num) === page.correct;
+        var isCorrect = Number(num) === puzzle.c;
+        console.log('answered: ' + num + ', correct: ' + puzzle.c + ', isCorrect: ' + isCorrect);
         var timeTaken;
         if (page.name.slice(0, 2) === 'ex') { // real exercise
             timer.lap();
             timeTaken = timer.getElapsed();
-            showTime(timeTaken, correct);
+            showTime(timeTaken, isCorrect);
             var answer = {
                 page: page.name,
                 answer: num,
-                correct: correct,
+                correct: isCorrect,
                 time: timeTaken
             };
             answers.push(answer);
@@ -522,11 +519,11 @@
             answers.push(num);
         }
 
-        if (correct) { // http://stackoverflow.com/a/33457014/535071
-            console.log('Correct!');
-        } else {
-            console.log('Wrong! correct is: ' + page.correct);
-        }
+        // if (isCorrect) { // http://stackoverflow.com/a/33457014/535071
+        //     console.log('Correct!');
+        // } else {
+        //     console.log('Wrong! correct is: ' + puzzle.c);
+        // }
         //nextPageTimeout = setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
         $('#' + currentPage().templateId).fadeOut(FADEOUT, answered2);
     }
