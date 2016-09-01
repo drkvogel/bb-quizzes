@@ -10,6 +10,7 @@
     'use strict';
 
     var LIVE = false, // const? JSHint doesn't like it
+        MAX_LEVELS = 18,
         FADEIN = 100,
         FADEOUT = 100,
         config,
@@ -170,8 +171,6 @@
     }
 
     function randLevels() { // copy jon's levelData::rndFixedLevels()
-        var MAX_LEVELS = 18;
-        //var pseudoRandLevelList = [1, 3, 2, 1, 4, 2, 5, 2, 2, 3, 1, 5, 4, 4, 5, 4, 1, 5]; // [MAX_LEVELS]
         var pseudoRandLevelList = [5, 1, 4, 5, 4, 4, 5, 1, 3, 2, 2, 5, 2, 4, 1, 2, 3, 1]; // reversed from Jon's; hardest first
         var nonRandlevels = [];
 
@@ -289,7 +288,8 @@
     function startTimer(page) {
         if (page.name.slice(0, 2) === 'ex') {
             timer.now(); // start timer for all real exercises
-            if (page.name === 'ex1') {
+            //if (page.name === 'ex1') {
+            if (levels.length === MAX_LEVELS - 1) { // first puzzle just been popped off
                 config.timeStarted = new Date($.now());
                 console.log('config.timeStarted: ' + config.timeStarted);
                 timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
