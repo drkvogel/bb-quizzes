@@ -512,7 +512,7 @@
             timeTaken = timer.getElapsed();
             showTime(timeTaken, isCorrect);
             var answer = {
-                page: page.name,
+                puzzle: puzzle.b,
                 answer: num,
                 correct: isCorrect,
                 time: timeTaken
