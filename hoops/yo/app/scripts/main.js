@@ -346,6 +346,10 @@
         }
     }
 
+    function getNextPuzzle() {
+        return config.puzzles[levels.pop()];
+    }
+
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
         //console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); // page: ' + obj(page)); isTimeUp:' + isTimeUp);
         if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
