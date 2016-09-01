@@ -159,7 +159,7 @@
         $(sel).html(text + 'ms');
     }
 
-    function RandIntArray(data) {
+    function RandIntArray(data) { // remove a randomly-chosen element from the list and return it
         this.pop = function() {
             if (data.length <= 0) {
                 return null; //throw new Exception('tried to pop empty stack');
@@ -171,8 +171,9 @@
 
     function randLevels() { // copy jon's levelData::rndFixedLevels()
         var MAX_LEVELS = 18;
-        var pseudoRandLevelList = [1, 3, 2, 1, 4, 2, 5, 2, 2, 3, 1, 5, 4, 4, 5, 4, 1, 5]; // [MAX_LEVELS]
-        var nonRandlevels = []; //, randLevels = [];
+        //var pseudoRandLevelList = [1, 3, 2, 1, 4, 2, 5, 2, 2, 3, 1, 5, 4, 4, 5, 4, 1, 5]; // [MAX_LEVELS]
+        var pseudoRandLevelList = [5, 1, 4, 5, 4, 4, 5, 1, 3, 2, 2, 5, 2, 4, 1, 2, 3, 1]; // reversed from Jon's; hardest first
+        var nonRandlevels = [];
 
         nonRandlevels.push(new RandIntArray([0, 1, 2, 3]));
         nonRandlevels.push(new RandIntArray([4, 5, 6, 7]));
@@ -182,7 +183,7 @@
 
         for (var i = 0; i < MAX_LEVELS; i++) {
              var wantedLevel = pseudoRandLevelList[i];
-             levels[i] = nonRandlevels[wantedLevel - 1].pop();
+             levels[i] = nonRandlevels[wantedLevel - 1].pop(); // easiest end popped off first
         }
     }
 
