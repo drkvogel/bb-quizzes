@@ -332,18 +332,18 @@
         }
     }
 
-    function showPage2() {
-        //console.log('showPage2: bind clicks'); // (re-)bind clicks
-        //console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)bind clicks
-        $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
-        if (currentPage().name === 'thanks') {
-            console.log('currentPage().name === \'thanks\'');
-            setTimeout(3000, finished());
-        }
-    }
-
     function getNextPuzzle() {
         return config.puzzles[levels.pop()];
+    }
+
+    function showPage2() {
+        //console.log('showPage2: bind clicks'); // (re-)bind clicks
+        console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)bind clicks
+        $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
+        if (currentPage().name === 'thanks') { // redundant?
+            console.log('currentPage().name === \'thanks\'');
+            setTimeout(finished, 3000);
+        }
     }
 
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
@@ -407,7 +407,9 @@
         case 'thanks':
             clearTimeout(timeUpTimeout);
             clearTimeout(nextPageTimeout);
-            finished();
+            //finished();
+            console.log('setTimeout(finished, 3000);');
+            setTimeout(finished, 3000);
             break;
         default:
             throw new Error('unrecogised id');
@@ -636,8 +638,8 @@
     $('#modals').on('click', 'button', modalClick);
 
     window.onresize = function(event) {
-        console.log('unbind clicks');
-        $('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
+        //console.log('unbind clicks');
+        //$('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
         scaleImages(); //showPage(currentPage()); // ?
     };
 
