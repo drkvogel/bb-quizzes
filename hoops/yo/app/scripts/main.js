@@ -407,8 +407,8 @@
         case 'thanks':
             clearTimeout(timeUpTimeout);
             clearTimeout(nextPageTimeout);
-            //finished();
-            console.log('setTimeout(finished, 3000);');
+            $('*').css('cursor', 'progress');
+            console.log('setTimeout(finished, 3000)');
             setTimeout(finished, 3000);
             break;
         default:
@@ -477,7 +477,7 @@
         // submit automatically
         window.onbeforeunload = null;
         $(window).on('beforeunload', function(){
-            $('*').css('cursor', 'progress');
+            $('*').css('cursor', 'default');
         });
         document.getElementById('feedbackForm').submit(); // action set in init() from config.json
     }
