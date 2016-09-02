@@ -339,4 +339,138 @@ get rid of wrappers and chain show/hide/fade
     you shouldn't and don't pause in js - split function and setTimeout, use callbacks
     http://stackoverflow.com/questions/2989549/how-do-i-make-fadeout-blocking-in-jquery
     http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/
+double click allowed in real game but not on demo puzzle- cause .fade() non-blocking and in real game next div is same page
 
+no comment on tables themselves, but on columns - how to put this in doc? copy from create-create.py
+DAR collects these! http://inweb.ctsu.ox.ac.uk/~ingres/dar/red/assets_red_cp_web_test.htm (see below)
+
+    [cp@red ~]$ sql cp_web_test
+    $ HELP COMMENT TABLE matrix;\g
+    Table matrix has no comments.
+    $ HELP COMMENT COLUMN matrix sesh_id;\g
+    Table:  matrix Owner:  cp Column: sesh_id Long Remark: Session ID
+
+
+Fix data bug in hoops which appears to be resulting in incorrect data being output. [This is #1 priority]
+    hoops logic bb-quizzes/notes/2016-08-16 hoops order.md
+
+
+* Implement the re-sizing algorithm for Matrix as specified previously (cap to stop shrinking at 320px)
+* description with pseudo-code of scaling algorithm based around the method I outlined - i.e. determine separately the scaling in each of the horizontal and vertical directions required to fit the window, then resize using the smaller of these factors as a parameter.
+  scaling of what?   height and width of whole thing without scaling? which is what? the natural size? depends on how big the viewport is...
+then resize using the smaller of these factors as a parameter
+
+not sure about startTimer
+leave comments shows previous puzzle on resize
+tidy up matrix, hoops
+standardise text sizes-?
+hourglass if wait on submit? If possible a busy/hourglass cursor could be displayed while data is uploading
+
+
+### practice puzzle is different each time and should be fixed:
+
+Jon-touchscreens.exe hoops fixed answer 
+A t3yw2b1       t3yw2b1.png exists
+B t3bw21y       t3bw21y.png exists
+
+hoops
+A t3bw2y1        aka top-constant.png
+B (changes)
+
+should be
+A t3bw21y (same as exe B)   or 0, 1, 2, 0, 0, 3
+B t3yw2b1                   or ...
+
+top-constant is t3bw2y1
+
+---
+
+Collected db comments from DAR http://inweb.ctsu.ox.ac.uk/~ingres/dar/red/assets_red_cp_web_test.htm
+-> hoops-doc.md, matrix-doc.md
+
+invert hoops logic - A-B <-> B-A
+make picture B look like picture A
+intro2 - swap images
+
+now lower game image changes on resize....as each resize triggers showPage().... just rescale
+follow levels[] data
+
+good news: answers are correctly matched to images
+but, the order doesn't seem right - got a lot of 5s right from the start
+levels: 1,8,5,2,13,6,16,7,4,9,3,15,10,12,17,11,0,14
+order of correct answers: 5 1 4 5 4 4 5 1 3 2 2 5 2 4 1 2 3 1
+reversed: 1 3 2 1 4 2 5 2 2 3 1 5 4 4 5 4 1 5 (same as pseudoRandLevelList)
+because wanted levels being popped off in reverse order
+got a really difficult one first up: t3wyb21.png ans 5, correct
+levels: 2,8,5,1,11,4,16,6,7,9,0,15,13,12,14,10,3,17
+answered: 5, correct: 5, isCorrect: true main.js:516:9
+Correct! main.js:536:13
+puzzle.b: t3w2y1b.png, correct: t3w2y1b.png
+
+clicks ignored after resize! unbound but not rebound?
+timer didn't seem to time out, answered all 18 though going slow. total time == 409996 = 6.8 minutes? startTimer when on first puzzle
+don't advance beyond game div until finished-
+thanks page doesn't pause-
+
+description of images - size of icons and spacings between them for the 2 layouts
+Produce a similar document for the Hoops system
+
+Thu Jul 28 16:09:04 2016
+please check yes/no too wide
+because box `.my-modal-content` is fixed width:
+
+```css
+.my-modal-content {
+    position: fixed;
+    background-color: #FFF;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 20px;
+    top: 50%;            // centre in viewport
+    left: 50%;           // but need to need to offset topleft corner with margns
+    margin-left: -200px; // half of _width
+    margin-top: -100px;  // half of _height
+    z-index: 11;
+    padding: 10px;
+    height: 200px;
+    width: 400px;
+}
+```
+
+made <300px so should fit on any screen >300.
+d for developer
+end of quiz:
+    should send results immediately rather than relying on user to submit for
+    rather than send AJAX on completion, Jon has a method of submitting a form automatically with JavaScript
+    easier to do on back end with xcgi.c instead of writing AJAX endpoint
+    C:\code\jonathanpr\webserver\htdocs\HMDB3\Snap\snap.php|.html|.js
+
+biobank web bug in middle of night caused wait condition while database was locked
+abandon still scrolls off bottom, particularly on 3x3 puzzles (scaling algorithm)
+Implement AY re-sizing algorithm
+
+* Implement the re-sizing algorithm for Matrix as specified previously.
+* It is not necessary to support resolutions of less than 320 pixels horizontally. Algorithm can be capped to stop shrinking at this point.
+* Implement re-sizing in Hoops and finish the interface for that program.
+* Alter systems so that data is uploaded to server automatically when last screen in test is completed (Jonathan has working code for this which can provide template).  If possible a busy/hourglass cursor could be displayed while data is uploading [don't spend more than an hour on this - if it's not easy to do, then forget it].  After test is completed user should be directed to a simple "Thank You" screen.
+
+
+### sftp to red
+
+    red         ssh
+    redftp      put bbquiz.cgi in red:~cb/cjb/bbquiz/
+    redftpi     ssh to red interactively
+
+    2016-08-15 14:44:24 cp@xrat ~/Projects/bb-quizzes/backend
+    $ ./red
+    Warning: the RSA host key for 'red.ctsu.ox.ac.uk' differs from the key for the IP address '163.1.206.2'
+    Offending key for IP in /user/cp/.ssh/known_hosts:4
+    Matching host key in /user/cp/.ssh/known_hosts:29
+    Are you sure you want to continue connecting (yes/no)? yes
+    [cp@red ~]$ less /etc/ssh/ssh_host_rsa_key.pub
+    # added to xrat:~/.ssh/known_hosts
+    # could have just deleted and logged in again, would have recreated it
+
+http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/?a=1&b=2&c=3 got params
+
+/home/cbird/.config/sublime-text-2/Packages/SideBarEnhancements -> q108-vlubuntu
