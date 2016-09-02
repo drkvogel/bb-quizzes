@@ -16,6 +16,7 @@
         config,
         pages,
         current,
+        puzzleCount = 0,
         timer,
         isTimeUp = false,
         nextPageTimeout,
@@ -133,7 +134,7 @@
     //     //ges[25].src = 'Snap/snap_images/Rear.GIF';
     // }
 
-    // function obj(o) { // log formatted object to console
+    // function logObj(o) { // log formatted object to console
     //     return JSON.stringify(o, null, 4);
     // }
 
@@ -288,7 +289,6 @@
     function startTimer(page) {
         if (page.name.slice(0, 2) === 'ex') {
             timer.now(); // start timer for all real exercises
-            //if (page.name === 'ex1') {
             if (levels.length === MAX_LEVELS - 1) { // first puzzle just been popped off
                 config.timeStarted = new Date($.now());
                 console.log('config.timeStarted: ' + config.timeStarted);
@@ -307,8 +307,7 @@
         $('#pages').off('click', 'a, button, div.row div', containerClick); // prevent double-click
 
         var clickedEl = $(this),
-            elId = clickedEl.attr('id');
-        //console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId); // now gets id from loaded page
+            elId = clickedEl.attr('id'); //console.log('containerClick(): clickedEl: ' + elId); // now gets id from loaded page
 
         switch (clickedEl.attr('id')) {
         case 'prev':
@@ -337,7 +336,6 @@
     }
 
     function showPage2() {
-        //console.log('showPage2: bind clicks'); // (re-)bind clicks
         console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)bind clicks
         $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
         if (currentPage().name === 'thanks') { // redundant?
@@ -421,15 +419,13 @@
     }
 
     function prevPage2() { // eslint throws no-use-before-define, but this is OK in ES5 due to hoisting
-        //console.log('prevPage2()');
         if (current > 0) {
             current -= 1;
-        }
+        } //console.log('prevPage2()');
         showPage(currentPage());
     }
 
-    function prevPage() {
-        //console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
+    function prevPage() { //console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
         $('#' + currentPage().templateId).fadeOut(FADEOUT, prevPage2);
     }
 
@@ -481,7 +477,6 @@
         });
         document.getElementById('feedbackForm').submit(); // action set in init() from config.json
     }
-    //$("body").css("cursor", "progress"); // $("body").css("cursor", "default");
 
     function timeUp() {
         clearTimeout(timeUpTimeout); // in case triggered manually for testing
@@ -490,7 +485,7 @@
     }
 
     function answered2() {
-        //console.log('answeredFinished()');
+        //console.log('answered2()');
         if (isTimeUp) {
             clearTimeout(nextPageTimeout);
             showPage(pageNamed('thanks'));
@@ -512,6 +507,7 @@
             timeTaken = timer.getElapsed();
             showTime(timeTaken, isCorrect);
             var answer = {
+                count: ++puzzleCount, // should be number of puzzles taken
                 puzzle: puzzle.b,
                 answer: num,
                 correct: isCorrect,
@@ -521,13 +517,6 @@
         } else if (page.name.slice(0, 5) === 'intro') {
             answers.push(num);
         }
-
-        // if (isCorrect) { // http://stackoverflow.com/a/33457014/535071
-        //     console.log('Correct!');
-        // } else {
-        //     console.log('Wrong! correct is: ' + puzzle.c);
-        // }
-        //nextPageTimeout = setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
         $('#' + currentPage().templateId).fadeOut(FADEOUT, answered2);
     }
 
@@ -590,21 +579,9 @@
         isTimeUp = false;
         current = 0;
 
-        //levels = randLevels();
-        randLevels();
-        console.log('levels: ' + levels);
-
-        // set the results form target
-        var formAction = config.formAction;
-        var loc = location.toString().split('://')[1]; // strip off http://, https://
-        if (loc.substr(0, 9) === 'localhost') { // served from gulp
-            console.log('loc === localhost');
-            formAction = 'http://localhost:8001/' + formAction; // gulp-connect-php - local PHP server
-        } // else, is on same server, relative link OK
-        formAction = 'http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/'; // scratch that, point to red
-        $('#feedbackForm').attr('action', formAction);
-        console.log('formAction: ' + formAction);
-
+        randLevels(); console.log('levels: ' + levels);
+        $('#feedbackForm').attr('action', config.formAction); // set the results form target
+        //console.log('formAction: ' + config.formAction);
         showPage(currentPage());
     }
 
@@ -638,9 +615,7 @@
     $('#modals').on('click', 'button', modalClick);
 
     window.onresize = function(event) {
-        //console.log('unbind clicks');
-        //$('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
-        scaleImages(); //showPage(currentPage()); // ?
+        scaleImages();
     };
 
     $().ready(function () { //$(document).ready(
@@ -659,6 +634,25 @@
 
 console.log('main.js ready');
 
+        // var formAction = config.formAction;
+        // var loc = location.toString().split('://')[1]; // strip off http://, https://
+        // if (loc.substr(0, 9) === 'localhost') { // served from gulp
+        //     console.log('loc === localhost');
+        //     formAction = 'http://localhost:8001/' + formAction; // gulp-connect-php - local PHP server
+        // } // else, is on same server, relative link OK
+        // formAction = 'http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/'; // scratch that, point to red
+    //$("body").css("cursor", "progress"); // $("body").css("cursor", "default");
+
+
+        //console.log('unbind clicks');
+        //$('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
+
+        // if (isCorrect) { // http://stackoverflow.com/a/33457014/535071
+        //     console.log('Correct!');
+        // } else {
+        //     console.log('Wrong! correct is: ' + puzzle.c);
+        // }
+        //nextPageTimeout = setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
 
     // http://stackoverflow.com/questions/130396/are-there-constants-in-javascript
     // var WIDTH2X2 = 210; // Width of squares in 2x2 grid is 210px // const?
