@@ -149,20 +149,7 @@ $('#blah').fadeOut(2000, function(){
 });
 ```
 
-though fadeout, fadein are wrapped in funcs:
-
-```js
-    function hideDiv(id) {
-        $('#' + id).fadeOut(); // 'fast'
-    }
-    function showDiv(id) {
-        $('#' + id).fadeIn('fast');
-    }
-    function nextPage() {
-        hidePage(currentPage());
-    }
----
-
+though fadeout, fadein are wrapped in funcs: hideDiv(id), showDiv(id) hidePage(currentPage())
 
 `xev` shows keypresses in X Windows
 * Fix multiple-click bug in hoops which allows users to 'stack' mouse clicks and move through without properly answering.
