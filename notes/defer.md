@@ -30,6 +30,14 @@ make modular
 https://lodash.com/docs
 .done() - Promises?
 
+pesticide stopped working in q108-vlubuntu ff
+suppressAbandon -> showAbandon
+
+
+matrix: get rid of blank images; unnecessary bandwidth
+abandon POST var, etc
+
+
 scale func left over in aborted gulp/browsersync-served window, that actually works...:
 
 ```js

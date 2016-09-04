@@ -2,6 +2,12 @@
 
 before meeting: docs ready, cgis pushed, git lsd printout
 
+hoops scrolls off bottom: intro1 intro2
+clear click border
+
+hoops doc
+record cumulative time, number answered
+
 
 * Include worked examples of re-sizing in documentation.
 * Fix data bug in hoops which appears to be resulting in incorrect data being output. Please check the output thoroughly
