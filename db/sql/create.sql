@@ -6,6 +6,7 @@ CREATE TABLE hoops (
     tstart       DATE       NOT NULL,
     tfinish      DATE       NOT NULL,
     tinsert      DATE       NOT NULL WITH DEFAULT 'now',
+    responses    LONG VARCHAR,   
 
     duration1    DATE          NOT NULL,
     puzzle1      INTEGER       NOT NULL,
@@ -122,6 +123,7 @@ COMMENT ON COLUMN hoops.tinstruct IS 'Time the instructions were shown to the us
 COMMENT ON COLUMN hoops.tstart IS 'Time the quiz was started';
 COMMENT ON COLUMN hoops.tfinish IS 'Time the quiz was finished';
 COMMENT ON COLUMN hoops.tinsert IS 'Time the row was inserted into the database (default ''now'')';
+COMMENT ON COLUMN hoops.responses IS 'Responses from quiz - blob of JSON data to be parsed by backend';
 COMMENT ON COLUMN hoops.duration1 IS 'Time taken to answer puzzle';
 COMMENT ON COLUMN hoops.puzzle1 IS 'Puzzle chosen by algorithm';
 COMMENT ON COLUMN hoops.elapsed1 IS 'Cumulative time elapsed';
@@ -221,6 +223,7 @@ CREATE TABLE matrix (
     tstart       DATE       NOT NULL,
     tfinish      DATE       NOT NULL,
     tinsert      DATE       NOT NULL WITH DEFAULT 'now',
+    responses    LONG VARCHAR,   
 
     duration1    DATE          NOT NULL,
     elapsed1     DATE          NOT NULL,
@@ -319,6 +322,7 @@ COMMENT ON COLUMN matrix.tinstruct IS 'Time the instructions were shown to the u
 COMMENT ON COLUMN matrix.tstart IS 'Time the quiz was started';
 COMMENT ON COLUMN matrix.tfinish IS 'Time the quiz was finished';
 COMMENT ON COLUMN matrix.tinsert IS 'Time the row was inserted into the database (default ''now'')';
+COMMENT ON COLUMN matrix.responses IS 'Responses from quiz - blob of JSON data to be parsed by backend';
 COMMENT ON COLUMN matrix.duration1 IS 'Time taken to answer puzzle';
 COMMENT ON COLUMN matrix.elapsed1 IS 'Cumulative time elapsed';
 COMMENT ON COLUMN matrix.answer1 IS 'Answer given by user';
