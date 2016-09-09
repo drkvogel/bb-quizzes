@@ -107,6 +107,7 @@ typedef struct {
 typedef std::vector< MatrixRecord > vecMatrixRecord;
 
 void parseResponses(const MatrixRecord *e);
+void testInsert();
 bool insertRecord(const MatrixRecord *e);
 void getRecords();
 

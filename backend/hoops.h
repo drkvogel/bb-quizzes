@@ -126,6 +126,7 @@ typedef struct {
 typedef std::vector< HoopsRecord > vecHoopsRecord;
 
 void parseResponses(const HoopsRecord *e);
+void testInsert();
 bool insertRecord(const HoopsRecord *e);
 void getRecords();
 

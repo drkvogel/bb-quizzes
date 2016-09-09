@@ -47,14 +47,17 @@ bool dbErrorCallback (const std::string object, const int instance, const int ec
 
 void showParams(XCGI * x) {
     //printf("<h2>Parameters</h2>");
-    printf("<code><p>Method: %s; %d parameters</p>\n", x->getMethodName().c_str(), x->param.count());
-    printf("<table border cellspacing=\"0\">\n");
+    printf("<code>"); //<p; %d parameters</p>\n", x->getMethodName().c_str(), x->param.count());
     int np = x->param.count();
-    printf("<!-- XCGI found %d parameters -->\n", np);
-    for (int i = 0; i < np; i++) {
-        printf( "<tr><td>%d</td><td>%s</td><td>%s</td></tr>\n", i, x->param.getName(i).c_str(), x->param.getString(i).c_str());
+    printf("<table border cellspacing=\"0\">\n");
+    printf("<thead><td colspan=\"3\">XCGI method %s found %d parameters</td>\n", x->getMethodName().c_str(), np);
+    if (np > 0) {
+        for (int i = 0; i < np; i++) {
+            printf( "<tr><td>%d</td><td>%s</td><td>%s</td></tr>\n", i, x->param.getName(i).c_str(), x->param.getString(i).c_str());
+        }
     }
-    printf("</table></code>\n");
+    printf("</table>\n");
+    printf("</code>\n");
 #ifdef __LIVE__
     printf("<p>We're live!</p>\n");
     boilerplate_foot();
@@ -90,10 +93,18 @@ void setUpLogfile() {
 
 void boilerplate_head() {
     printf("<html><head><title>BB Quizzes Backend</title></head>\n<body>\n");
-    printf("<h1>BB Quizzes Backend</h1>\n");
+    printf("<h1><a href=\".\">BB Quizzes Backend</a></h1>\n");
     printf("<form action=\"#\">\n"
-        "<button type=\"submit\" name=\"action\" value=\"insert\" />Insert</button>\n"
+        "<table border=1 cellspacing=0>\n"
+        "<tr><td>\n"
+        "<input type=\"radio\" name=\"quiz\" value=\"hoops\" checked>Hoops</input>"
+        "<input type=\"radio\" name=\"quiz\" value=\"matrix\">Matrix</input>"
+        "</td></tr>\n"
+        "<tr><td>\n"
         "<button type=\"submit\" name=\"action\" value=\"view\" />View</button>\n"
+        "<button type=\"submit\" name=\"action\" value=\"insert\" />Insert</button>\n"
+        "</tr></td>\n"
+        "</table>\n"
         "</form>\n");
 }
 
@@ -111,7 +122,7 @@ int main(int argc, char **argv) {
     boilerplate_head();
 
     //if (DEBUG)
-    showParams(x); // from cgi_test.cpp
+    //showParams(x); // from cgi_test.cpp
     if (OFFLINE) {
         printf("<p>Currently offline</p>");
         boilerplate_foot();
@@ -121,37 +132,25 @@ int main(int argc, char **argv) {
     try {
         initDB();
         printf("<p><code>db opened. built: %s %s. action: '%s'</code></p>\n", __DATE__, __TIME__, x->param.getStringDefault("action", "").c_str());
+
         if (0 == strcmp("insert", x->param.getStringDefault("action", "").c_str())) {
-            Hoops::HoopsRecord rec;
-            rec.sesh_id = x->param.getIntDefault("sesh_id", -1);
-            rec.ntests = x->param.getIntDefault("ntests", -1);
-            rec.tinstruct = "2016-08-15 16:30"; //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
-            rec.tstart = "";
-            rec.tfinish = "";
-            rec.tinsert = "";
-
-            rec.responses = "[{\"puzzle\":\"t3w2by1.png\",\"answer\":\"4\",\"correct\":false,\"time\":761},{\"puzzle\":\"t3yw2b1.png\",\"answer\":\"4\",\"correct\":false,\"time\":628},{\"puzzle\":\"t32by1w.png\",\"answer\":\"4\",\"correct\":false,\"time\":3380},{\"puzzle\":\"t3bw21y.png\",\"answer\":\"4\",\"correct\":false,\"time\":509},{\"puzzle\":\"t3y2wb1.png\",\"answer\":\"4\",\"correct\":true,\"time\":320},{\"puzzle\":\"t3w2b1y.png\",\"answer\":\"4\",\"correct\":false,\"time\":401},{\"puzzle\":\"t3y2b1w.png\",\"answer\":\"4\",\"correct\":false,\"time\":384},{\"puzzle\":\"t3yw21b.png\",\"answer\":\"4\",\"correct\":false,\"time\":369},{\"puzzle\":\"t32wy1b.png\",\"answer\":\"4\",\"correct\":false,\"time\":354},{\"puzzle\":\"t3w2yb1.png\",\"answer\":\"4\",\"correct\":false,\"time\":369},{\"puzzle\":\"t3w2y1b.png\",\"answer\":\"4\",\"correct\":false,\"time\":333},{\"puzzle\":\"t3wy2b1.png\",\"answer\":\"4\",\"correct\":false,\"time\":394},{\"puzzle\":\"t3wb2y1.png\",\"answer\":\"4\",\"correct\":true,\"time\":364},{\"puzzle\":\"t32yb1w.png\",\"answer\":\"4\",\"correct\":true,\"time\":385},{\"puzzle\":\"t3ywb21.png\",\"answer\":\"4\",\"correct\":false,\"time\":358},{\"puzzle\":\"t3yb21w.png\",\"answer\":\"4\",\"correct\":true,\"time\":452},{\"puzzle\":\"t3ybw21.png\",\"answer\":\"4\",\"correct\":false,\"time\":376},{\"puzzle\":\"t3wyb21.png\",\"answer\":\"4\",\"correct\":false,\"time\":384}]";
-
-//             rec.duration1 = "";
-//             rec.puzzle1 = -1;
-//             rec.elapsed1 = -1;
-//             rec.answer1 = -1;
-//             rec.correct1 = -1;
-// 
-//             rec.duration2 = -1;
-//             rec.puzzle1 = -1;
-//             rec.elapsed1 = -1;
-//             rec.answer1 = -1;
-//             rec.correct1 = -1;
-
-            if (Hoops::insertRecord(&rec)) {
-                printf("<p>Data inserted.</p>\n");
+            if (0 == strcmp("hoops",x->param.getStringDefault("quiz", "").c_str())) {
+                Hoops::testInsert();
+            } else if (0 == strcmp("matrix",x->param.getStringDefault("quiz", "").c_str())) {
+                Matrix::testInsert();
             } else {
-                printf("<p>Not inserted!</p>\n");
+                printf("<p>Quiz '%s' not understood.</p>", x->param.getStringDefault("quiz", "").c_str());
+                throw "abort";
             }
         } else if (0 == strcmp("view", x->param.getStringDefault("action", "").c_str())) {
-            Hoops::getRecords();
-            Matrix::getRecords();
+            if (0 == strcmp("hoops",x->param.getStringDefault("quiz", "").c_str())) {
+                Hoops::getRecords();
+            } else if (0 == strcmp("matrix",x->param.getStringDefault("quiz", "").c_str())) {
+                Matrix::getRecords();
+            } else {
+                printf("<p>Quiz '%s' not understood.</p>", x->param.getStringDefault("quiz", "").c_str());
+                throw "abort";
+            }
         } else {
             printf("<p>No action selected.</p>\n");
         }

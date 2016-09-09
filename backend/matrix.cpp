@@ -21,6 +21,11 @@ void Matrix::parseResponses(const MatrixRecord *e) {
     }
 }
 
+void Matrix::testInsert() {
+    //
+    printf("Todo");    
+}
+
 bool Matrix::insertRecord(const MatrixRecord *e) {
     std::string sql =
         "INSERT INTO matrix (sesh_id, ntests, tinstruct, tstart, tfinish, tinsert,"
