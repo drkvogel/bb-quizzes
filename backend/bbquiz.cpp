@@ -118,12 +118,11 @@ int main(int argc, char **argv) {
         return -1;
     }
 
-    //printf("<h1>bbquiz</h1><p>Hello, World</p>\n");
     try {
         initDB();
         printf("<p><code>db opened. built: %s %s. action: '%s'</code></p>\n", __DATE__, __TIME__, x->param.getStringDefault("action", "").c_str());
         if (0 == strcmp("insert", x->param.getStringDefault("action", "").c_str())) {
-            HoopsRecord rec;
+            Hoops::HoopsRecord rec;
             rec.sesh_id = x->param.getIntDefault("sesh_id", -1);
             rec.ntests = x->param.getIntDefault("ntests", -1);
             rec.tinstruct = "2016-08-15 16:30"; //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
@@ -145,14 +144,14 @@ int main(int argc, char **argv) {
 //             rec.answer1 = -1;
 //             rec.correct1 = -1;
 
-            if (insertHoopsRecord(&rec)) {
+            if (Hoops::insertRecord(&rec)) {
                 printf("<p>Data inserted.</p>\n");
             } else {
                 printf("<p>Not inserted!</p>\n");
             }
         } else if (0 == strcmp("view", x->param.getStringDefault("action", "").c_str())) {
-            getHoopsRecords();
-            getMatrixRecords();
+            Hoops::getRecords();
+            Matrix::getRecords();
         } else {
             printf("<p>No action selected.</p>\n");
         }

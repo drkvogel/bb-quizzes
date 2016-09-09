@@ -4,7 +4,7 @@
 #include "nxjson.h"
 
 
-void parseResponses(const HoopsRecord *e) {
+void Hoops::parseResponses(const HoopsRecord *e) {
     char buf[1600];
     strcpy(buf, e->responses.c_str());
     const nx_json* json = nx_json_parse(buf, 0);
@@ -22,7 +22,7 @@ void parseResponses(const HoopsRecord *e) {
     }
 }
 
-bool insertHoopsRecord(const HoopsRecord *e) {
+bool Hoops::insertRecord(const HoopsRecord *e) {
 
     std::string sql =
         "INSERT INTO hoops (sesh_id, ntests, tinstruct, tstart, tfinish, tinsert,"
@@ -187,7 +187,7 @@ bool insertHoopsRecord(const HoopsRecord *e) {
     return (xe.exec());
 }
 
-void getHoopsRecords() {
+void Hoops::getRecords() {
     vecHoopsRecord records;
     HoopsRecord rec;
     std::string sql = "SELECT * FROM hoops";

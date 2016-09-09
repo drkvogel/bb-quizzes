@@ -3,6 +3,8 @@
 
 extern XDB *db;
 
+namespace Matrix {
+
 typedef struct {
     int sesh_id;
     int ntests;
@@ -104,7 +106,10 @@ typedef struct {
 } MatrixRecord; //BBQuizRecord;
 typedef std::vector< MatrixRecord > vecMatrixRecord;
 
-bool insertMatrixRecord(const MatrixRecord *e);
-void getMatrixRecords();
+void parseResponses(const MatrixRecord *e);
+bool insertRecord(const MatrixRecord *e);
+void getRecords();
+
+} // namespace Matrix
 
 #endif

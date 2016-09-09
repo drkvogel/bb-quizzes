@@ -1,8 +1,27 @@
 #include "xquery.h"
 #include "xexec.h"
 #include "matrix.h"
+#include "nxjson.h"
 
-bool insertMatrixRecord(const MatrixRecord *e) {
+void Matrix::parseResponses(const MatrixRecord *e) {
+    char buf[1600];
+    strcpy(buf, e->responses.c_str());
+    const nx_json* json = nx_json_parse(buf, 0);
+
+    if (json) {
+        const nx_json* arr = nx_json_get(json, "array");
+    
+        for (int i = 0; i < arr->length; i++) {
+            const nx_json* item = nx_json_item(arr, i);
+            printf("arr[%d]=(%d) %ld %lf %s\n", i, (int)item->type, item->int_value, item->dbl_value, item->text_value);
+        }
+        nx_json_free(json);
+    } else {
+        throw "Error parsing JSON";
+    }
+}
+
+bool Matrix::insertRecord(const MatrixRecord *e) {
     std::string sql =
         "INSERT INTO matrix (sesh_id, ntests, tinstruct, tstart, tfinish, tinsert,"
         " duration1, elapsed1, answer1, correct1, "
@@ -148,7 +167,7 @@ bool insertMatrixRecord(const MatrixRecord *e) {
     return (xe.exec());
 }
 
-void getMatrixRecords() {
+void Matrix::getRecords() {
     vecMatrixRecord records;
     MatrixRecord rec;
     std::string sql = "SELECT * FROM matrix";

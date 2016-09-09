@@ -3,6 +3,8 @@
 
 extern XDB *db;
 
+namespace Hoops {
+
 typedef struct {
     int sesh_id;
     int ntests;
@@ -123,7 +125,10 @@ typedef struct {
 } HoopsRecord; //BBQuizRecord;
 typedef std::vector< HoopsRecord > vecHoopsRecord;
 
-bool insertHoopsRecord(const HoopsRecord *e);
-void getHoopsRecords();
+void parseResponses(const HoopsRecord *e);
+bool insertRecord(const HoopsRecord *e);
+void getRecords();
+
+} // namespace Hoops
 
 #endif
