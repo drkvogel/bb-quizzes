@@ -199,14 +199,13 @@ void getHoopsRecords() {
     } else {
         printf("Database open");
     }
-    //printf("<p>q.fetch():</p>\n");
     while (q.fetch()) {
         rec.sesh_id   = q.result.getInt("sesh_id");
         rec.ntests    = q.result.getInt("ntests");
         rec.tinstruct = q.result.getTime("tinstruct"); // getDate?
         rec.tstart    = q.result.getTime("tstart");
         rec.tfinish   = q.result.getTime("tstart");
-        //rec.responses = q.result.getString("responses"); // JSON blob
+        rec.responses = q.result.getString("responses"); // JSON blob
         records.push_back(rec);
     }
     q.close();
