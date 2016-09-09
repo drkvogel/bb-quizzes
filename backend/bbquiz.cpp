@@ -91,7 +91,7 @@ void setUpLogfile() {
 }
 
 void boilerplate_head() {
-    printf("<html><head><title></title></head><body>");
+    printf("<html><head><title>BB Quizzes Backend</title></head><body>");
     printf("<h1>BB Quizzes Backend</h1>");
     printf("<form action=\"#\">\n"
         "<button type=\"submit\" name=\"action\" value=\"insert\" />Insert</button>\n"

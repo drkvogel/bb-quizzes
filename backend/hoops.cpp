@@ -1,8 +1,12 @@
 #include "xquery.h"
 #include "xexec.h"
 #include "hoops.h"
+#include "nxjson.h"
 
 bool insertHoopsRecord(const HoopsRecord *e) {
+
+    const nx_json* json=nx_json_parse("some JSON", 0);
+
     std::string sql =
         "INSERT INTO hoops (sesh_id, ntests, tinstruct, tstart, tfinish, tinsert,"
         " duration1, puzzle1, elapsed1, answer1, correct1, "
