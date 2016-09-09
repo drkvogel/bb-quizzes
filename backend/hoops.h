@@ -11,6 +11,8 @@ typedef struct {
     XTIME tfinish;
     XTIME tinsert;
 
+    std::string responses; //char responses[1600];
+
     int duration1;
     int puzzle1;
     int elapsed1;

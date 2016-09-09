@@ -10,6 +10,7 @@ typedef struct {
     XTIME tstart;
     XTIME tfinish;
     XTIME tinsert;
+    std::string responses;
 
     int duration1;
     int elapsed1;

@@ -143,7 +143,7 @@ bool insertMatrixRecord(const MatrixRecord *e) {
     xe.param.setInt("answer18",       e->answer18);
     xe.param.setInt("correct18",      e->correct18);
 
-    printf("<p>sql:</p><p>%s</p> ", sql.c_str());
+    printf("<p>sql:</p>\n<p>%s</p>\n", sql.c_str());
 
     return (xe.exec());
 }
@@ -153,7 +153,7 @@ void getMatrixRecords() {
     MatrixRecord rec;
     std::string sql = "SELECT * FROM matrix";
     XQUERY q(db, sql);
-    printf("this is %s\n", __FILE__);
+    printf("<p>this is %s</p>\n", __FILE__);
     if (!q.open()) {
         printf("Database error");
         throw "Database error";
@@ -175,34 +175,36 @@ void getMatrixRecords() {
     }
     q.close();
 
-    printf("<code>");
+    printf("<code>\n");
     printf("<h3>%d results:</h3>\n", records.size());
     printf("<table border=\"1\" cellspacing=\"0\">\n");
-    printf("<thead><td>sesh_id</td><td>ntests</td><td>tinstruct</td><td>tstart</td><td>tfinish</td>\n");
 
-    printf("<td>duration1</td><td>elapsed1</td><td>answer1</td><td>correct1</td>\n");
-    printf("<td>duration2</td><td>elapsed2</td><td>answer2</td><td>correct2</td>\n");
-    printf("<td>duration3</td><td>elapsed3</td><td>answer3</td><td>correct3</td>\n");
-    printf("<td>duration4</td><td>elapsed4</td><td>answer4</td><td>correct4</td>\n");
-    printf("<td>duration5</td><td>elapsed5</td><td>answer5</td><td>correct5</td>\n");
-    printf("<td>duration6</td><td>elapsed6</td><td>answer6</td><td>correct6</td>\n");
-    printf("<td>duration7</td><td>elapsed7</td><td>answer7</td><td>correct7</td>\n");
-    printf("<td>duration8</td><td>elapsed8</td><td>answer8</td><td>correct8</td>\n");
-    printf("<td>duration9</td><td>elapsed9</td><td>answer9</td><td>correct9</td>\n");
-    printf("<td>duration10</td><td>elapsed10</td><td>answer10</td><td>correct10</td>\n");
-    printf("<td>duration11</td><td>elapsed11</td><td>answer11</td><td>correct11</td>\n");
-    printf("<td>duration12</td><td>elapsed12</td><td>answer12</td><td>correct12</td>\n");
-    printf("<td>duration13</td><td>elapsed13</td><td>answer13</td><td>correct13</td>\n");
-    printf("<td>duration14</td><td>elapsed14</td><td>answer14</td><td>correct14</td>\n");
-    printf("<td>duration15</td><td>elapsed15</td><td>answer15</td><td>correct15</td>\n");
-    printf("<td>duration16</td><td>elapsed16</td><td>answer16</td><td>correct16</td>\n");
-    printf("<td>duration17</td><td>elapsed17</td><td>answer17</td><td>correct17</td>\n");
-    printf("<td>duration18</td><td>elapsed18</td><td>answer18</td><td>correct18</td>\n");
-
+    // column headers
+    printf("<thead><td>sesh_id</td><td>ntests</td><td>tinstruct</td><td>tstart</td><td>tfinish</td>");
+    printf("<td>responses</td>");
+    printf("<td>duration1</td><td>elapsed1</td><td>answer1</td><td>correct1</td>");
+    printf("<td>duration2</td><td>elapsed2</td><td>answer2</td><td>correct2</td>");
+    printf("<td>duration3</td><td>elapsed3</td><td>answer3</td><td>correct3</td>");
+    printf("<td>duration4</td><td>elapsed4</td><td>answer4</td><td>correct4</td>");
+    printf("<td>duration5</td><td>elapsed5</td><td>answer5</td><td>correct5</td>");
+    printf("<td>duration6</td><td>elapsed6</td><td>answer6</td><td>correct6</td>");
+    printf("<td>duration7</td><td>elapsed7</td><td>answer7</td><td>correct7</td>");
+    printf("<td>duration8</td><td>elapsed8</td><td>answer8</td><td>correct8</td>");
+    printf("<td>duration9</td><td>elapsed9</td><td>answer9</td><td>correct9</td>");
+    printf("<td>duration10</td><td>elapsed10</td><td>answer10</td><td>correct10</td>");
+    printf("<td>duration11</td><td>elapsed11</td><td>answer11</td><td>correct11</td>");
+    printf("<td>duration12</td><td>elapsed12</td><td>answer12</td><td>correct12</td>");
+    printf("<td>duration13</td><td>elapsed13</td><td>answer13</td><td>correct13</td>");
+    printf("<td>duration14</td><td>elapsed14</td><td>answer14</td><td>correct14</td>");
+    printf("<td>duration15</td><td>elapsed15</td><td>answer15</td><td>correct15</td>");
+    printf("<td>duration16</td><td>elapsed16</td><td>answer16</td><td>correct16</td>");
+    printf("<td>duration17</td><td>elapsed17</td><td>answer17</td><td>correct17</td>");
+    printf("<td>duration18</td><td>elapsed18</td><td>answer18</td><td>correct18</td>");
     printf("</thead>\n");
     for (vecMatrixRecord::const_iterator it = records.begin(); it != records.end(); it++) {
-        printf("<tr><td>%d</td><td>%d</td><td>%s</td><td>%s</td><td>%s</td>", it->sesh_id, it->ntests, it->tinstruct.iso().c_str(), it->tstart.iso().c_str(), it->tfinish.iso().c_str());
-
+        printf("<tr>");
+        printf("<td>%d</td><td>%d</td><td>%s</td><td>%s</td><td>%s</td>", it->sesh_id, it->ntests, it->tinstruct.iso().c_str(), it->tstart.iso().c_str(), it->tfinish.iso().c_str());
+        printf("<td>%s</td>", it->responses.c_str());
         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration1, it->elapsed1, it->answer1, it->correct1);
         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration2, it->elapsed2, it->answer2, it->correct2);
         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration3, it->elapsed3, it->answer3, it->correct3);
@@ -221,9 +223,8 @@ void getMatrixRecords() {
         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration16, it->elapsed16, it->answer16, it->correct16);
         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration17, it->elapsed17, it->answer17, it->correct17);
         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration18, it->elapsed18, it->answer18, it->correct18);
-
         printf("</tr>\n");
     }
     printf("</table>\n");
-    printf("</code>");
+    printf("</code>\n");
 }

@@ -31,10 +31,8 @@ XDB *db;
 
 bool dbErrorCallback (const std::string object, const int instance, const int ecount, const int ecode, const std::string error_txt) {
     std::stringstream sstr;
-    sstr << "Database error:\n  object: " << object << "\n  instance: " << instance << "\n  ecount: " << ecount
-        << "\n  ecode: " << ecode << "\n  error_txt: " << error_txt;
-    //LOG_PRINT(sstr.str().c_str()); // crashes if logfile not set up
-    printf("error: '%s'\n", sstr.str().c_str());
+    sstr <<"Database error:\n object: "<<object<<"\n instance: "<<instance<<"\n ecount: "<<ecount<<"\n ecode: "<<ecode<<"\n error_txt: "<<error_txt;
+    printf("error: '%s'\n", sstr.str().c_str()); //LOG_PRINT(sstr.str().c_str()); // crashes if logfile not set up
     return true; //XXX
 }
 
@@ -49,27 +47,27 @@ bool dbErrorCallback (const std::string object, const int instance, const int ec
 
 void showParams(XCGI * x) {
     //printf("<h2>Parameters</h2>");
-    printf("<code>Method: %s; %d parameters", x->getMethodName().c_str(), x->param.count());
-    printf("<table border cellspacing=\"0\">");
+    printf("<code><p>Method: %s; %d parameters</p>\n", x->getMethodName().c_str(), x->param.count());
+    printf("<table border cellspacing=\"0\">\n");
     int np = x->param.count();
-    printf("\n\n<!-- XCGI found %d parameters -->\n", np);
+    printf("<!-- XCGI found %d parameters -->\n", np);
     for (int i = 0; i < np; i++) {
-        printf( "<tr><td>%d</td><td>%s</td><td>%s</td></tr>", i, x->param.getName(i).c_str(), x->param.getString(i).c_str());
+        printf( "<tr><td>%d</td><td>%s</td><td>%s</td></tr>\n", i, x->param.getName(i).c_str(), x->param.getString(i).c_str());
     }
-    printf("</table></code>");
+    printf("</table></code>\n");
 #ifdef __LIVE__
-    printf("<p>We're live!</p>");
+    printf("<p>We're live!</p>\n");
     boilerplate_foot();
     return -1;
 #else
-    printf("<!-- Not __LIVE__ -->");
+    printf("<!-- Not __LIVE__ -->\n");
 #endif
 }
 
 int initDB() { // no logging
     db = new XDB(BBQUIZ_DBNAME);
-    if (!db->open()) {  throw "Failed to open database"; }
     db->setErrorCallBack(dbErrorCallback);
+    if (!db->open()) {  throw "Failed to open database"; }
     return 0;
 }
 
@@ -91,16 +89,16 @@ void setUpLogfile() {
 }
 
 void boilerplate_head() {
-    printf("<html><head><title>BB Quizzes Backend</title></head><body>");
-    printf("<h1>BB Quizzes Backend</h1>");
+    printf("<html><head><title>BB Quizzes Backend</title></head>\n<body>\n");
+    printf("<h1>BB Quizzes Backend</h1>\n");
     printf("<form action=\"#\">\n"
         "<button type=\"submit\" name=\"action\" value=\"insert\" />Insert</button>\n"
         "<button type=\"submit\" name=\"action\" value=\"view\" />View</button>\n"
-        "</form>");
+        "</form>\n");
 }
 
 void boilerplate_foot() {
-    printf("</body></html>");
+    printf("</body>\n</html>\n");
 }
 
     //setUpLogfile();
@@ -123,7 +121,7 @@ int main(int argc, char **argv) {
     //printf("<h1>bbquiz</h1><p>Hello, World</p>\n");
     try {
         initDB();
-        printf("<p><code>db opened. built: %s %s. action: '%s'</code></p>", __DATE__, __TIME__, x->param.getStringDefault("action", "").c_str());
+        printf("<p><code>db opened. built: %s %s. action: '%s'</code></p>\n", __DATE__, __TIME__, x->param.getStringDefault("action", "").c_str());
         if (0 == strcmp("insert", x->param.getStringDefault("action", "").c_str())) {
             HoopsRecord rec;
             rec.sesh_id = x->param.getIntDefault("sesh_id", -1);
@@ -146,23 +144,24 @@ int main(int argc, char **argv) {
             rec.correct1 = -1;
 
             if (insertHoopsRecord(&rec)) {
-                printf("<p>Data inserted.</p>");
+                printf("<p>Data inserted.</p>\n");
             } else {
-                printf("<p>Not inserted!</p>");
+                printf("<p>Not inserted!</p>\n");
             }
         } else if (0 == strcmp("view", x->param.getStringDefault("action", "").c_str())) {
             getHoopsRecords();
             getMatrixRecords();
         } else {
-            printf("<p>No action selected.</p>");
+            printf("<p>No action selected.</p>\n");
         }
-    } catch (char const* err) {
+    } catch (char * err) {
         printf("error: '%s'; exiting", err);
         boilerplate_foot();
         return -1;
     }
 
     db->close(); //LOG_DOT
+    delete db;
     boilerplate_foot();
     return(EXIT_SUCCESS);
 }

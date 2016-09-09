@@ -17,6 +17,7 @@ CREATE TABLE hoops (
     tstart       DATE       NOT NULL,
     tfinish      DATE       NOT NULL,
     tinsert      DATE       NOT NULL WITH DEFAULT 'now',
+    responses    LONG VARCHAR,   
 """  
     for i in range(1, hoops_last + 1):
         print "    duration" + str(i) + "    DATE          NOT NULL,"
@@ -37,7 +38,8 @@ def print_hoops_comments():
     print "COMMENT ON COLUMN hoops.tstart IS 'Time the quiz was started';"
     print "COMMENT ON COLUMN hoops.tfinish IS 'Time the quiz was finished';"
     print "COMMENT ON COLUMN hoops.tinsert IS 'Time the row was inserted into the database (default ''now'')';"
-   
+    print "COMMENT ON COLUMN hoops.responses IS 'Responses from quiz - blob of JSON data to be parsed by backend';"
+    
     for i in range(1, hoops_last + 1):
         print "COMMENT ON COLUMN hoops.duration" + str(i) + " IS 'Time taken to answer puzzle';"
         print "COMMENT ON COLUMN hoops.puzzle" + str(i) + " IS 'Puzzle chosen by algorithm';"
@@ -63,6 +65,7 @@ CREATE TABLE matrix (
     tstart       DATE       NOT NULL,
     tfinish      DATE       NOT NULL,
     tinsert      DATE       NOT NULL WITH DEFAULT 'now',
+    responses    LONG VARCHAR,   
 """  
     for i in range(1, matrix_last + 1):
         print "    duration" + str(i) + "    DATE          NOT NULL,"
@@ -85,6 +88,7 @@ def print_matrix_comments():
     print "COMMENT ON COLUMN matrix.tstart IS 'Time the quiz was started';"
     print "COMMENT ON COLUMN matrix.tfinish IS 'Time the quiz was finished';"
     print "COMMENT ON COLUMN matrix.tinsert IS 'Time the row was inserted into the database (default ''now'')';"
+    print "COMMENT ON COLUMN matrix.responses IS 'Responses from quiz - blob of JSON data to be parsed by backend';"
    
     for i in range(1, matrix_last + 1):
         print "COMMENT ON COLUMN matrix.duration" + str(i) + " IS 'Time taken to answer puzzle';"
