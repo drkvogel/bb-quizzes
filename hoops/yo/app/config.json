@@ -5,108 +5,117 @@
     "timeLimit" : 120000,
     "comment": "formAction was complete.php",
     "formAction" : "http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/",
+    "comment": "answers: 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5 - are these right?",
+    "practice": {"a": "t3bw21y.png", "b": "t3yw2b1.png", "c": 2},
+    "puzzles": [
+        {"b": "t3bw21y.png", "c": 1},
+        {"b": "t3ybw21.png", "c": 1},
+        {"b": "t3w2by1.png", "c": 1},
+        {"b": "t3w2y1b.png", "c": 1},
+        {"b": "t32wy1b.png", "c": 2},
+        {"b": "t3w2b1y.png", "c": 2},
+        {"b": "t32by1w.png", "c": 2},
+        {"b": "t3yw21b.png", "c": 2},
+        {"b": "t3yw2b1.png", "c": 3},
+        {"b": "t3w2yb1.png", "c": 3},
+        {"b": "t3wb2y1.png", "c": 4},
+        {"b": "t3y2wb1.png", "c": 4},
+        {"b": "t3yb21w.png", "c": 4},
+        {"b": "t32yb1w.png", "c": 4},
+        {"b": "t3wy2b1.png", "c": 5},
+        {"b": "t3y2b1w.png", "c": 5},
+        {"b": "t3ywb21.png", "c": 5},
+        {"b": "t3wyb21.png", "c": 5}
+    ],
     "pages":[
-    {
-        "name": "home",
-        "type" : "intro",
-        "templateId": "home",
-        "images": {},
-        "correct": -1,
-        "suppressAbandon" : true
-    },
-    {
-        "name": "intro1",
-        "type" : "intro",
-        "templateId": "intro",
-        "images": {
-            "top": "intro1.png"
+        {
+            "name": "home",
+            "type" : "intro",
+            "templateId": "home",
+            "images": {},
+            "correct": -1,
+            "suppressAbandon" : true
         },
-        "topTxt" : "<h3>Hoops</h3><p>You will be shown two pictures at a time</p>",
-        "botTxt" : "<p>Each picture shows a set of three pegs onto which black, yellow and white hoops have been placed</p><p>The left peg can hold 3 hoops, the middle peg 2 hoops and the right peg only 1 hoop</p>",
-        "navTxt" : "<p>Touch \"Next\" to continue.</p>",
-        "correct": -1,
-        "suppressAbandon" : true
-    },
-    {
-        "name": "intro2",
-        "type" : "intro",
-        "templateId": "intro",
-        "images": {
-            "top": "intro2.png"
+        {
+            "name": "intro1",
+            "type" : "intro",
+            "templateId": "intro",
+            "images": {
+                "top": "intro2-rev.png"
+            },
+            "topTxt" : "<h3>Hoops</h3><p>You will be shown two pictures at a time</p>",
+            "botTxt" : "<p>Each picture shows a set of three pegs onto which black, yellow and white hoops have been placed</p><p>The left peg can hold 3 hoops, the middle peg 2 hoops and the right peg only 1 hoop</p>",
+            "navTxt" : "<p>Touch \"Next\" to continue.</p>",
+            "correct": -1,
+            "suppressAbandon" : true
         },
-        "topTxt" : "<p>The goal is to make picture A look like picture B by moving the hoops on picture A.</p><p>Your task is to work out how to do this in as few moves as possible.</p>",
-        "botTxt" : "<p>Taking a hoop off one peg and putting it on another is a single move and you can only shift one hoop at a time.</p><p>You might need to shift one hoop to get at the one below it or do something more complicated to swap them around.</p>",
-        "navTxt" : "<p>Touch \"Next\" for an example.</p>",
-        "correct": -1,
-        "suppressAbandon" : true
-    },
-    {
-        "name": "intro3",
-        "type" : "intro",
-        "templateId": "intro",
-        "images": {
-            "top": "intro3.png"
+        {
+            "name": "intro2",
+            "type" : "intro",
+            "templateId": "intro",
+            "images": {
+                "top": "intro2-rev.png"
+            },
+            "topTxt" : "<p>The goal is to make picture B look like picture A by moving the hoops on picture B.</p><p>Your task is to work out how to do this in as few moves as possible.</p>",
+            "botTxt" : "<p>Taking a hoop off one peg and putting it on another is a single move and you can only shift one hoop at a time.</p><p>You might need to shift one hoop to get at the one below it or do something more complicated to swap them around.</p>",
+            "navTxt" : "<p>Touch \"Next\" for an example.</p>",
+            "correct": -1,
+            "suppressAbandon" : true
         },
-        "topTxt" : "<p>Here you can see that the white hoop in picture A needs to be moved to the middle peg to make it look like picture B.</p>",
-        "botTxt" : "<p>This can be done in a single move, so the answer to the fewest moves question is 1 move.</p>",
-        "navTxt" : "<p>Touch \"Next\" for a practice puzzle</p>",
-        "correct": -1,
-        "suppressAbandon" : true
-    },
-    {
-        "name": "intro4",
-        "type" : "game",
-        "templateId": "game",
-        "image": "t3w2b1y.png",
-        "botTxt" : "<p>How many moves would it take to make picture A look like picture B?</p>",
-        "correct": -1,
-        "suppressAbandon" : true
-    },
-    {
-        "name": "intro5",
-        "type" : "intro",
-        "templateId": "intro",
-        "images": {
-            "top": "intro5.png",
-            "bot": "ex1.png"
+        {
+            "name": "intro3",
+            "type" : "intro",
+            "templateId": "intro",
+            "images": {
+                "top": "intro3.png"
+            },
+            "topTxt" : "<p>Here you can see that the white hoop in picture B needs to be moved to the middle peg to make it look like picture A.</p>",
+            "botTxt" : "<p>This can be done in a single move, so the answer to the fewest moves question is 1 move.</p>",
+            "navTxt" : "<p>Touch \"Next\" for a practice puzzle</p>",
+            "correct": -1,
+            "suppressAbandon" : true
         },
-        "topTxt" : "<p>You answered: <span id=\"intro-answer\" style=\"font-weight: bold;\">3<span></p><p>It can be done in: <strong>2</strong></p>",
-        "botTxt" : "",
-        "navTxt" : "<p>Touch \"Next\" to continue.</p>",
-        "correct": -1,
-        "suppressAbandon" : true
-    },
-    {
-        "name": "getReady",
-        "type" : "intro",
-        "templateId": "getReady",
-        "navTxt" : "<p>Touch \"Next\" when you are ready to begin.</p><p>You will have 2 minutes to do as many puzzles as you can.</p>",
-        "correct": -1,
-        "suppressAbandon" : true
-    },
-    {
-        "name": "ex",
-        "type" : "game",
-        "templateId": "game",
-        "images": ["t3bw21y", "t3ybw21", "t3w2by1", "t3w2y1b",
-            "t32wy1b", "t3w2b1y", "t32by1w", "t3yw21b",
-            "t3yw2b1", "t3w2yb1",
-            "t3wb2y1", "t3y2wb1", "t3yb21w", "t32yb3w",
-            "t3wy2b1", "t3y2b1w", "t3ywb21", "t3wyb21"],
-        "correct": -1
-    },
-    {
-        "name": "ex18",
-        "type" : "game",
-        "templateId": "game",
-        "image": "t3y2b1w.png",
-        "correct": -1
-    },
-    {
-        "name": "thanks",
-        "templateId": "thanks",
-        "suppressAbandon": true,
-        "text": "<p>Thanks for doing the test.</p><p>Please leave comments.</p>"
-    }
+        {
+            "name": "intro4",
+            "type" : "game",
+            "templateId": "game",
+            "image": "t3w2b1y.png",
+            "botTxt" : "<p>How many moves would it take to make picture B look like picture A?</p>",
+            "correct": -1,
+            "suppressAbandon" : true
+        },
+        {
+            "name": "intro5",
+            "type" : "intro",
+            "templateId": "intro",
+            "images": {
+                "top": "intro5.png",
+                "bot": "ex1.png"
+            },
+            "topTxt" : "<p>You answered: <span id=\"intro-answer\" style=\"font-weight: bold;\">3<span></p><p>It can be done in: <strong>2</strong></p>",
+            "botTxt" : "",
+            "navTxt" : "<p>Touch \"Next\" to continue.</p>",
+            "correct": -1,
+            "suppressAbandon" : true
+        },
+        {
+            "name": "getReady",
+            "type" : "intro",
+            "templateId": "getReady",
+            "navTxt" : "<p>Touch \"Next\" when you are ready to begin.</p><p>You will have 2 minutes to do as many puzzles as you can.</p>",
+            "correct": -1,
+            "suppressAbandon" : true
+        },
+        {
+            "name": "ex",
+            "type" : "game",
+            "templateId": "game"
+        },
+        {
+            "name": "thanks",
+            "templateId": "thanks",
+            "suppressAbandon": true,
+            "text": "<p>Thanks for doing the test.</p><p>Please leave comments.</p>"
+        }
     ]
 }

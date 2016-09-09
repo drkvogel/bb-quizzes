@@ -10,18 +10,25 @@
     'use strict';
 
     var LIVE = false, // const? JSHint doesn't like it
-        FADEIN = 5000,
-        FADEOUT = 5000,
+        MAX_LEVELS = 18,
+        FADEIN = 100,
+        FADEOUT = 100,
         config,
         pages,
         current,
+        puzzleCount = 0,
         timer,
         isTimeUp = false,
         nextPageTimeout,
         timeUpTimeout,
         enabled = false, // enable UI
         levels = [],
-        answers = [];
+        answers = [],
+        puzzle = null,
+        navNext = '<span><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>', // pull-left pull-right
+        navPrev = '<span><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>',
+        navPrevNext = '<span style="margin-right: 40px;"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>' +
+                          '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
 
     //var Timer = require('./timer'); // require is a node thing, unless you use requirejs
     // copied/adapted from Jonathan's bb-quizzes/snap/Snap_files/Timer.js
@@ -127,7 +134,7 @@
     //     //ges[25].src = 'Snap/snap_images/Rear.GIF';
     // }
 
-    // function obj(o) { // log formatted object to console
+    // function logObj(o) { // log formatted object to console
     //     return JSON.stringify(o, null, 4);
     // }
 
@@ -144,22 +151,6 @@
         throw new Error('unknown page: ' + name);
     }
 
-    function hideDiv(id) {
-        //document.getElementById(id).style.display = 'none'; //console.log('hideDiv(): id: ' + id);
-        $('#' + id).fadeOut(FADEOUT); // 'fast'
-        //$('#' + id).slideUp();
-    }
-
-    function showDiv(id) {
-        //document.getElementById(id).style.display = 'inline'; //console.log('showDiv(): id: ' + id);
-        $('#' + id).fadeIn(FADEIN); // 'fast'
-        //$('#' + id).slideDown();
-    }
-
-    function hidePage(page) {
-        hideDiv(page.templateId); //console.log('hidePage(): templateId: ' + page.templateId); //+ obj(page) + '\'');
-    }
-
     function showInfo(text) {
         $('#info').html(text);
     }
@@ -168,6 +159,32 @@
         var sel = '#prevTime';
         $(sel).css('color', correct ? 'green' : 'red');
         $(sel).html(text + 'ms');
+    }
+
+    function RandIntArray(data) { // remove a randomly-chosen element from the list and return it
+        this.pop = function() {
+            if (data.length <= 0) {
+                return null; //throw new Exception('tried to pop empty stack');
+            }
+            var randIndex = Math.floor((Math.random() * data.length));
+            return data.splice(randIndex, 1);
+        };
+    }
+
+    function randLevels() { // copy jon's levelData::rndFixedLevels()
+        var pseudoRandLevelList = [5, 1, 4, 5, 4, 4, 5, 1, 3, 2, 2, 5, 2, 4, 1, 2, 3, 1]; // reversed from Jon's; hardest first
+        var nonRandlevels = [];
+
+        nonRandlevels.push(new RandIntArray([0, 1, 2, 3]));
+        nonRandlevels.push(new RandIntArray([4, 5, 6, 7]));
+        nonRandlevels.push(new RandIntArray([8, 9]));
+        nonRandlevels.push(new RandIntArray([10, 11, 12, 13]));
+        nonRandlevels.push(new RandIntArray([14, 15, 16, 17]));
+
+        for (var i = 0; i < MAX_LEVELS; i++) {
+             var wantedLevel = pseudoRandLevelList[i];
+             levels[i] = nonRandlevels[wantedLevel - 1].pop(); // easiest end popped off first
+        }
     }
 
     function scaleImagesAY() {
@@ -238,7 +255,6 @@
 
     // shrink images to try to fit height into viewport, but don't worry about width
     function scaleImagesCBsimple() { //
-        console.log('scaleImagesCBsimple()');
         //showInfo('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin);
         var widthExtra =
             ($('.container').outerWidth(true) - $('.container').width()) +
@@ -254,7 +270,7 @@
             ;
             // missing some heights?
         var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
-        console.log('setMargins ' + setMargins + ', heightExtra: ' + heightExtra + ', widthExtra: ' + widthExtra);
+        //console.log('scaleImagesCBsimple(): setMargins ' + setMargins + ', heightExtra: ' + heightExtra + ', widthExtra: ' + widthExtra);
              //'($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;' +
 
         if (setMargins > 0) {
@@ -266,10 +282,14 @@
         }
     }
 
+    function scaleImages() {
+        scaleImagesCBsimple();
+    }
+
     function startTimer(page) {
         if (page.name.slice(0, 2) === 'ex') {
             timer.now(); // start timer for all real exercises
-            if (page.name === 'ex1') {
+            if (levels.length === MAX_LEVELS - 1) { // first puzzle just been popped off
                 config.timeStarted = new Date($.now());
                 console.log('config.timeStarted: ' + config.timeStarted);
                 timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
@@ -277,19 +297,17 @@
         }
     }
 
+        // if (!enabled) {
+        //     console.log('input disabled');
+        //     //return;
+        // }
+        //console.log('unbind clicks');
     function containerClick(e) {
         e.preventDefault();
-
-        if (!enabled) {
-            console.log('input disabled');
-            return;
-        }
-        console.log('unbind clicks');
         $('#pages').off('click', 'a, button, div.row div', containerClick); // prevent double-click
 
-        console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId); // now gets id from loaded page
         var clickedEl = $(this),
-            elId = clickedEl.attr('id');
+            elId = clickedEl.attr('id'); //console.log('containerClick(): clickedEl: ' + elId); // now gets id from loaded page
 
         switch (clickedEl.attr('id')) {
         case 'prev':
@@ -313,83 +331,51 @@
         }
     }
 
-    function RandIntArray(data) {
-        this.pop = function() {
-            if (data.length <= 0) {
-                return null; //throw new Exception('tried to pop empty stack');
-            }
-            var randIndex = Math.floor((Math.random() * data.length));
-            return data.splice(randIndex, 1);
-        };
+    function getNextPuzzle() {
+        return config.puzzles[levels.pop()];
     }
 
-    function randLevels() { // copy jon's levelData::rndFixedLevels()
-        var MAX_LEVELS = 18;
-        var pseudoRandLevelList = [1, 3, 2, 1, 4, 2, 5, 2, 2, 3, 1, 5, 4, 4, 5, 4, 1, 5]; // [MAX_LEVELS]
-        var nonRandlevels = []; //, randLevels = [];
-
-        nonRandlevels.push(new RandIntArray([0, 1, 2, 3]));
-        nonRandlevels.push(new RandIntArray([4, 5, 6, 7]));
-        nonRandlevels.push(new RandIntArray([8, 9]));
-        nonRandlevels.push(new RandIntArray([10, 11, 12, 13]));
-        nonRandlevels.push(new RandIntArray([14, 15, 16, 17]));
-
-        for (var i = 0; i < MAX_LEVELS; i++) {
-             var wantedLevel = pseudoRandLevelList[i];
-             randLevels[i] = nonRandlevels[wantedLevel - 1].pop();
+    function showPage2() {
+        console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)bind clicks
+        $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
+        if (currentPage().name === 'thanks') { // redundant?
+            console.log('currentPage().name === \'thanks\'');
+            setTimeout(finished, 3000);
         }
-        return randLevels;
     }
 
-    function getNextImage() {
-        var images = ['t3bw21y', 't3ybw21', 't3w2by1', 't3w2y1b',
-                      't32wy1b', 't3w2b1y', 't32by1w', 't3yw21b',
-                      't3yw2b1', 't3w2yb1',
-                      't3wb2y1', 't3y2wb1', 't3yb21w', 't32yb3w',
-                      't3wy2b1', 't3y2b1w', 't3ywb21', 't3wyb21'];
-        return levels.pop();
-    }
-
-        //console.log('unbind clicks');
-        //$('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
-            // seems to cause multiple clicks, erratic behaviour
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
-        console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page));
-        //console.log('showPage(): isTimeUp:' + isTimeUp);
-
+        //console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); // page: ' + obj(page)); isTimeUp:' + isTimeUp);
         if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
-            hideDiv('abandon-div');
+            $('#abandon-div').hide(); //fadeOut(FADEOUT);
         } else {
-            showDiv('abandon-div');
+            $('#abandon-div').fadeIn(FADEOUT);
         }
-
-        var info = current + '/' + pages.length + ': ' + page.name; showInfo(info);
-
-        var navNext = '<span><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>'; // pull-left pull-right
-        var navPrev = '<span><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>';
-        var navPrevNext = '<span style="margin-right: 40px;"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>' +
-                          '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>';
-
+        var info = current + '/' + pages.length + ': ' + page.name + ', timeUp: ' + String(isTimeUp);
+        showInfo(info);
         switch (page.templateId) {
         case 'game':
-            if (page.name.slice(0, 2) === 'ex') {
-                timer.now(); // start timer for all real exercises
-                if (page.name === 'ex1') {
-                    console.log('start game timer');
-                    timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
-                }
-            }
-            // img-a - top-constant.png
-            $('#img-b').attr('src', 'images/' + page.image); // or $('#imgdiv-b img')
-            $('.botTxt').html('How many moves would it take to make picture A look like picture B?');
+             $('.botTxt').html('How many moves would it take to make picture B look like picture A?');
             for (var i = 1; i <= 6; i++) {
                 var id = '#ans' + i;
                 $(id).removeClass('disabled');
             }
-            if (page.name === 'intro4') {
+            if (page.name === 'intro4') { // practice example
+                puzzle = config.practice;
+                $('#img-a').attr('src', 'images/' + puzzle.a);
+                $('#img-b').attr('src', 'images/' + puzzle.b); // or $('#imgdiv-b img')
                 $('.navCtl').html(navPrev);
             } else {
+                puzzle = getNextPuzzle();
+                if (puzzle === undefined) { // nothing left on stack, finished all puzzles
+                    showPage(pageNamed('thanks'));
+                    return;
+                }
+                //var image = puzzle.i; var txt = 'getNextPuzzle(): ' + image; showInfo(txt); console.log(txt);
+                $('#img-a').attr('src', 'images/top-constant.png');  // top-constant is t3bw2y1
+                $('#img-b').attr('src', 'images/' + puzzle.b); // pseudo-random
                 $('.navCtl').html('');
+                console.log('puzzle.b: ' + puzzle.b + ', correct: ' + puzzle.c);
             }
             startTimer(page); // timer to show chosen answer before next, and start game timer
             break;
@@ -408,7 +394,7 @@
             }
             if (page.name === 'intro5') {
                 var ans = answers.pop();
-                console.log('ans: ' + ans);
+                console.log('intro5 ans: ' + ans);
                 $('#intro-answer').html(ans + (parseInt(ans) === 2 ? ' - Correct!' : ''));
             }
             break;
@@ -419,62 +405,63 @@
         case 'thanks':
             clearTimeout(timeUpTimeout);
             clearTimeout(nextPageTimeout);
-            finished();
+            $('*').css('cursor', 'progress');
+            console.log('setTimeout(finished, 3000)');
+            setTimeout(finished, 3000);
             break;
         default:
             throw new Error('unrecogised id');
         }
 
-        //scaleImages();
-        scaleImagesCBsimple();
-        showDiv((page.templateId));
+        scaleImages();
+        $('#' + page.templateId).fadeIn(FADEIN, showPage2);
         //showInfo('height: ' + $(window).height()); //attr('height'));
-
-        // (re-)bind clicks
-        console.log('bind clicks');
-        $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
     }
 
-    function prevPage() {
-        console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
-        hidePage(currentPage());
+    function prevPage2() { // eslint throws no-use-before-define, but this is OK in ES5 due to hoisting
         if (current > 0) {
             current -= 1;
-        }
+        } //console.log('prevPage2()');
         showPage(currentPage());
     }
 
-    function nextPage() { // console.log('nextPage(): current: ' + current);// + obj(currentPage());
-        console.log('nextPage(): isTimeUp:' + isTimeUp);
-        hidePage(currentPage());
-        if (isTimeUp) {
+    function prevPage() { //console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
+        $('#' + currentPage().templateId).fadeOut(FADEOUT, prevPage2);
+    }
+
+    function nextPage2() {
+        //console.log('nextPage2(): current + 1 < pages.length: ' + String(current + 1 < pages.length));
+        var page;
+        if (isTimeUp) {                             // time up
             clearTimeout(nextPageTimeout);
-            showPage(pageNamed('thanks'));
-        } else if (current + 1 < pages.length) {
+            page = pageNamed('thanks');
+        } else if (currentPage().name === 'ex') {            // live game
+            page = currentPage();
+        } else if (current + 1 < pages.length) {    // intro screens
             current += 1;
-            showPage(currentPage());
+            page = currentPage();
         } else {
             console.log('nextPage(): hit the end at current: ' + current);
+            page = currentPage();
         }
+        showPage(page);
+    }
+
+    function nextPage() { // console.log('nextPage(): current: ' + current);// + obj(currentPage());
+        //console.log('nextPage(): isTimeUp:' + isTimeUp);
+        $('#' + currentPage().templateId).fadeOut(FADEOUT, nextPage2);
     }
 
     function showModal(modal) {
-        showDiv('modals');
-        showDiv(modal); //console.log('showModal(\'' + modal + '\')');
+        $('#modals').show();
+        $('#' + modal).show(); //fadeIn(FADEIN); //console.log('showModal(\'' + modal + '\')');
     }
 
     function hideModal(modal) {
-        hideDiv('modals');
-        hideDiv(modal); //console.log('hideModal(\'' + modal + '\')');
+        $('#modals').hide();
+        $('#' + modal).hide(); //fadeOut(FADEOUT);
     }
 
-    // don't need timing stuff
-    //$('#results').val(JSON.stringify(answers));
-    //var possibleE = test_timer.gethasPossibleError() + reaction_timer.gethasPossibleError() + demo_timer.gethasPossibleError() + total_timer.gethasPossibleError();
-    // if (possibleE > 0)
-    //     possibleE = 1;
-    // writeValue("timererror",possibleE); // document.getElementById(id).value = value;
-    // writeValue("performanceTimer",total_timer.gethasPerformance());
     function finished() {
         console.log('finished(): answers: ' + JSON.stringify(answers));
         clearTimeout(timeUpTimeout);
@@ -486,11 +473,10 @@
         // submit automatically
         window.onbeforeunload = null;
         $(window).on('beforeunload', function(){
-            $('*').css('cursor', 'progress');
+            $('*').css('cursor', 'default');
         });
         document.getElementById('feedbackForm').submit(); // action set in init() from config.json
     }
-    //$("body").css("cursor", "progress"); // $("body").css("cursor", "default");
 
     function timeUp() {
         clearTimeout(timeUpTimeout); // in case triggered manually for testing
@@ -498,33 +484,40 @@
         console.log('timeUp(): isTimeUp:' + isTimeUp);
     }
 
+    function answered2() {
+        //console.log('answered2()');
+        if (isTimeUp) {
+            clearTimeout(nextPageTimeout);
+            showPage(pageNamed('thanks'));
+        } else if (currentPage().name.slice(0, 5) === 'intro') {
+            current += 1;
+            showPage(currentPage());
+        } else {
+            showPage(currentPage());
+        }
+    }
+
     function answered(num) {
-        console.log('answered: ' + num);
         var page = currentPage();
-        var correct = Number(num) === page.correct;
+        var isCorrect = Number(num) === puzzle.c;
+        console.log('answered: ' + num + ', correct: ' + puzzle.c + ', isCorrect: ' + isCorrect);
         var timeTaken;
         if (page.name.slice(0, 2) === 'ex') { // real exercise
             timer.lap();
             timeTaken = timer.getElapsed();
-            showTime(timeTaken, correct);
+            showTime(timeTaken, isCorrect);
             var answer = {
-                page: page.name,
+                count: ++puzzleCount, // should be number of puzzles taken
+                puzzle: puzzle.b,
                 answer: num,
-                correct: correct,
+                correct: isCorrect,
                 time: timeTaken
             };
             answers.push(answer);
         } else if (page.name.slice(0, 5) === 'intro') {
             answers.push(num);
         }
-
-        if (correct) { // http://stackoverflow.com/a/33457014/535071
-            console.log('Correct!');
-        } else {
-            console.log('Wrong! correct is: ' + page.correct);
-        }
-
-        nextPageTimeout = setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
+        $('#' + currentPage().templateId).fadeOut(FADEOUT, answered2);
     }
 
     function abandonClick() {
@@ -564,7 +557,7 @@
         switch (clickedEl.attr('id')) {
         case 'abandon-yes':
             hideModal('abandon-modal');
-            hidePage(currentPage());
+            $('#' + currentPage().templateId).hide();
             showPage(pageNamed('thanks'));
             break;
         case 'abandon-no':
@@ -586,22 +579,11 @@
         isTimeUp = false;
         current = 0;
 
-        levels = randLevels(); console.log('levels: ' + levels);
-
-        // set the results form target
-        var formAction = config.formAction;
-        var loc = location.toString().split('://')[1]; // strip off http://, https://
-        if (loc.substr(0, 9) === 'localhost') { // served from gulp
-            console.log('loc === localhost');
-            formAction = 'http://localhost:8001/' + formAction; // gulp-connect-php - local PHP server
-        } // else, is on same server, relative link OK
-        formAction = 'http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/'; // scratch that, point to red
-        $('#feedbackForm').attr('action', formAction);
-        console.log('formAction: ' + formAction);
-
+        randLevels(); console.log('levels: ' + levels);
+        $('#feedbackForm').attr('action', config.formAction); // set the results form target
+        //console.log('formAction: ' + config.formAction);
         showPage(currentPage());
     }
-        //$('#button').css('display', LIVE ? 'none' : 'inline');
 
     function getConfig() {
         $.getJSON('./config.json', function (data) {
@@ -620,9 +602,9 @@
         if (e.which === 68) { //console.log('"d" pressed');
             e.preventDefault(); // don't trap other keypresses e.g. ctrl-shift-i for dev tools
             if ($('#devBar').css('display') === 'none') {
-                showDiv('devBar');
+                $('#devBar').show();
             } else {
-                hideDiv('devBar');
+                $('#devBar').hide();
             }
         }
     }
@@ -633,14 +615,12 @@
     $('#modals').on('click', 'button', modalClick);
 
     window.onresize = function(event) {
-        console.log('unbind clicks');
-        $('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
-        showPage(currentPage()); // ?
+        scaleImages();
     };
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
-        hideDiv('devBar');
+        $('#devBar').hide();
         if (LIVE) {
             window.onbeforeunload = null;
             window.history.forward();   //prevent repeat after back button - may not work.
@@ -654,6 +634,25 @@
 
 console.log('main.js ready');
 
+        // var formAction = config.formAction;
+        // var loc = location.toString().split('://')[1]; // strip off http://, https://
+        // if (loc.substr(0, 9) === 'localhost') { // served from gulp
+        //     console.log('loc === localhost');
+        //     formAction = 'http://localhost:8001/' + formAction; // gulp-connect-php - local PHP server
+        // } // else, is on same server, relative link OK
+        // formAction = 'http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/'; // scratch that, point to red
+    //$("body").css("cursor", "progress"); // $("body").css("cursor", "default");
+
+
+        //console.log('unbind clicks');
+        //$('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
+
+        // if (isCorrect) { // http://stackoverflow.com/a/33457014/535071
+        //     console.log('Correct!');
+        // } else {
+        //     console.log('Wrong! correct is: ' + puzzle.c);
+        // }
+        //nextPageTimeout = setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
 
     // http://stackoverflow.com/questions/130396/are-there-constants-in-javascript
     // var WIDTH2X2 = 210; // Width of squares in 2x2 grid is 210px // const?
@@ -704,3 +703,15 @@ console.log('main.js ready');
     //     // pos = '-' + (width * top[i]) + 'px 0px';
     //     // setBackground(sel, page.sheet, pos); //console.log('sel: ' + sel + ', img: ' + img + ', pos: ' + pos);
     // }
+
+        //console.log('unbind clicks');
+        //$('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way
+            // seems to cause multiple clicks, erratic behaviour
+
+    // don't need timing stuff
+    //$('#results').val(JSON.stringify(answers));
+    //var possibleE = test_timer.gethasPossibleError() + reaction_timer.gethasPossibleError() + demo_timer.gethasPossibleError() + total_timer.gethasPossibleError();
+    // if (possibleE > 0)
+    //     possibleE = 1;
+    // writeValue("timererror",possibleE); // document.getElementById(id).value = value;
+    // writeValue("performanceTimer",total_timer.gethasPerformance());

@@ -29,11 +29,11 @@
     
     <div class="navbar nav header" id="devBar">
         <div id="buttons" class="nav row">
-          <div id="prev" class="col-md-3"><button class="btn pull-right" id="prev" href="#">&lt; Prev</button></div>
-          <div id="prevTime" class="col-md-2">&nbsp;</div>
-          <div id="info" class="col-md-2">&nbsp;</div>
-          <div id="" class="col-md-2"><button class="btn" id="timeUp" href="#">timeUp</button></div>
-          <div id="next" class="col-md-3"><button class="btn" id="next" href="#">Next &gt;</button></div>
+          <div id="prev" class="col-md-1"><button class="btn" id="prev" href="#">&lt; Prev</button></div>
+          <div id="prevTime" class="col-md-1">&nbsp;</div>
+          <div id="info" class="col-md-3">&nbsp;</div>
+          <div id="" class="col-md-1"><button class="btn" id="timeUp" href="#">sim timeUp</button></div>
+          <div id="next" class="col-md-1  pull-right"><button class="btn" id="next" href="#">Next &gt;</button></div>
         </div>
     </div>
 
@@ -97,8 +97,14 @@
 
         <!-- thanks -->
         <div id="thanks" class="page" style="display:none">
-          <p>Thanks for doing the test.</p>
-           <div id="feedback">
+          <div class="jumbotron">
+            <h1>Hoops Quiz</h1>
+            <p class="lead">Thanks for doing the test.</p>
+          </div>
+          <div class="footer">
+            <p>&copy; 2016 NDPH</p>
+          </div>
+          <div id="feedback">
 <!--              <form id="feedbackForm" action="." method="post">
               <fieldset>
                 Name:<br><input type="text" name="fullname" value=""><br>
@@ -127,8 +133,9 @@
                 <input type="hidden" id="responses" name="responses" value="">
               </div>
             </form>
-          </div>
-        </div>
+          </div> <!-- feedback -->
+        </div> <!-- thanks -->
+
       </div> <!-- pages -->
 
       <div id="abandon-div" class="row">
