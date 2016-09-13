@@ -47,6 +47,7 @@
             <p class="lead">Welcome to the Hoops quiz</p>
             <p><a id="start" class="btn btn-lg btn-success" href="#">Start</a></p>
           </div>
+          <div class="debug"></div>
           <div class="footer">
             <p>&copy; 2016 NDPH</p>
           </div>
@@ -116,18 +117,18 @@
               </fieldset>
             </form> -->
             <form id="feedbackForm" method="post">
-              <div>
 <!--            <input type="hidden" id="timererror" name="timererror" value="-1">
                 <input type="hidden" id="performanceTimer" name="performanceTimer" value="-1"> -->
-                <input type="hidden" id="quiz_id" name="quiz_id" value="hoops">
-                <input type="hidden" id="sesh_id" name="sesh_id" value="">
-                <input type="hidden" id="tinstruct" name="tinstruct" value="">
-                <input type="hidden" id="tstart" name="tstart" value="">
-                <input type="hidden" id="tfinish" name="tfinish" value="">
-                <input type="hidden" id="tinsert" name="tinsert" value="">
-                <input type="hidden" id="ntests" name="ntests" value="">
-                <input type="hidden" id="responses" name="responses" value="">
-              </div>
+              <input type="hidden" id="action" name="action" value="insert">
+              <input type="hidden" id="quiz" name="quiz" value="hoops">
+              <input type="hidden" id="quiz_id" name="quiz_id" value="hoops">
+              <input type="hidden" id="sesh_id" name="sesh_id" value="">
+              <input type="hidden" id="tinstruct" name="tinstruct" value="">
+              <input type="hidden" id="tstart" name="tstart" value="">
+              <input type="hidden" id="tfinish" name="tfinish" value="">
+              <input type="hidden" id="tinsert" name="tinsert" value="">
+              <input type="hidden" id="ntests" name="ntests" value="">
+              <input type="hidden" id="responses" name="responses" value="">
             </form>
           </div> <!-- feedback -->
         </div> <!-- thanks -->

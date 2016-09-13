@@ -52,6 +52,7 @@ public:
 	static	const	int	typeHtml	= 'H';
 	static	const	int	typePlain	= 'P';
 	static	const	int	typeTiff	= 'T';
+    static  const   int typeJSON    = 'J';
 
 	static	const	int	invalidInt	= (-999666333);
 };

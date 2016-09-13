@@ -10,6 +10,7 @@
     'use strict';
 
     var LIVE = false, // const? JSHint doesn't like it
+        LOCAL = false,
         MAX_LEVELS = 18,
         FADEIN = 100,
         FADEOUT = 100,
@@ -29,10 +30,10 @@
         navPrev = '<span><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>',
         navPrevNext = '<span style="margin-right: 40px;"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>' +
                           '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>',
-        sesh_id  = null,
+        seshID = null,
         tinstruct = null,
         tstart = null,
-        tfinish  = null,
+        tfinish = null,
         tinsert = null,
         ntests = null,
         responses = null;
@@ -473,11 +474,10 @@
         console.log('finished(): answers: ' + JSON.stringify(answers));
         clearTimeout(timeUpTimeout);
 
-        // fill in form
+        // fill in form and submit automatically
+        document.getElementById('sesh_id').value = config.seshID;
+        document.getElementById('tstart').value = config.timeStarted;
         document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
-        document.getElementById('timeStarted').value = config.timeStarted;
-
-        // submit automatically
         window.onbeforeunload = null;
         $(window).on('beforeunload', function(){
             $('*').css('cursor', 'default');
@@ -593,13 +593,24 @@
     }
 
     function getConfig() {
-        $.getJSON('./config.json', function (data) {
-            console.log('getConfig(): got JSON');
-            config = data;
-            pages = data.pages;
-            init();
+        var idserve = LOCAL ? 'idserve-dummy.json' : '../bbquiz/idserve.cgi'; // bb-quizzes/hoops/yo/app/idserve-dummy.json
+        $.getJSON('./config.json', function (configData) {
+            console.log('getConfig(): got config.json');
+            config = configData;
+            pages = configData.pages;
+            $.getJSON(idserve, function (seshData) {
+                console.log('getConfig(): got idserve.cgi');
+                //console.log('getConfig(): seshData: ' + JSON.stringify(seshData));
+                console.log('getConfig(): seshData.session.seshID: ' + seshData.session.seshID);
+                config.seshID = seshData.session.seshID;
+                $('#home .debug').html('<code>config.seshID: ' + config.seshID + '</code>');
+                init();
+            }).fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
+                var err = 'error getting idserve.cgi: ' + textStatus + ', errorThrown: ' + errorThrown;
+                console.log(err);
+            });
         }).fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
-            var err = 'error getting JSON: ' + textStatus + ', errorThrown: ' + errorThrown;
+            var err = 'error getting config.json: ' + textStatus + ', errorThrown: ' + errorThrown;
             console.log(err);
         });
     }
@@ -635,6 +646,11 @@
                 return 'The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?';
             };
         }
+        var loc = location.toString().split('://')[1]; // strip off http://, https://
+        if (loc.substr(0, 9) === 'localhost') { // served from gulp
+            LOCAL = true;
+        }
+        console.log('LOCAL: ' + LOCAL);
         getConfig();
     });
 }());

@@ -1,6 +1,8 @@
 #ifndef _matrixH_
 #define _matrixH_
 
+#include "xcgi.h"
+
 extern XDB *db;
 
 namespace Matrix {
@@ -107,6 +109,7 @@ typedef struct {
 typedef std::vector< MatrixRecord > vecMatrixRecord;
 
 void parseResponses(const MatrixRecord *e);
+void insert(XCGI * x);
 void testInsert();
 bool insertRecord(const MatrixRecord *e);
 void getRecords();

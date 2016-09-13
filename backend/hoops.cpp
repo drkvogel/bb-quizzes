@@ -22,8 +22,26 @@ void Hoops::parseResponses(const HoopsRecord *e) {
     }
 }
 
-void Hoops::testInsert() {
-    // insert some dummy data
+void Hoops::insert(XCGI * x) { // real insert by frontend
+//void Hoops::insert() { // real insert by frontend
+    HoopsRecord rec;
+    printf("<p>this is %s</p>\n", __FILE__);
+    int np = x->param.count();
+    printf("<p>there are %d params</p>", np);
+    printf("<p>sesh_id: '%s'</p>", x->param.getStringDefault("sesh_id", "(default)").c_str()); // should be getInt
+    //rec.sesh_id = x->param.getInt("sesh_id"); // seems to crash it
+        // terminate called after throwing an instance of 'std::string'
+    rec.ntests = -1; //x->param.getIntDefault("ntests", -1);
+    rec.tinstruct = ""; //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
+    rec.tstart = "";
+    rec.tfinish = "";
+    rec.tinsert = "";
+    rec.responses = "";
+    //printf("TODO");
+    //printf("<p>sesh_id: '%d'</p>", rec.sesh_id);
+}
+
+void Hoops::testInsert() { // insert some dummy data
     HoopsRecord rec;
     rec.sesh_id = -1;//x->param.getIntDefault("sesh_id", -1);
     rec.ntests = -1; //x->param.getIntDefault("ntests", -1);
@@ -53,9 +71,9 @@ void Hoops::testInsert() {
 }
 
 bool Hoops::insertRecord(const HoopsRecord *e) {
-
     std::string sql =
         "INSERT INTO hoops (sesh_id, ntests, tinstruct, tstart, tfinish, tinsert,"
+        " responses,"
         " duration1, puzzle1, elapsed1, answer1, correct1, "
         " duration2, puzzle2, elapsed2, answer2, correct2, "
         " duration3, puzzle3, elapsed3, answer3, correct3, "
@@ -74,8 +92,9 @@ bool Hoops::insertRecord(const HoopsRecord *e) {
         " duration16, puzzle16, elapsed16, answer16, correct16, "
         " duration17, puzzle17, elapsed17, answer17, correct17, "
         " duration18, puzzle18, elapsed18, answer18, correct18 "
-        " )"
+        " )\n"
         " VALUES (:sesh_id, :ntests, :tinstruct, :tstart, :tfinish, DATE('now'), "
+        " :responses,"
         " :duration1, :puzzle1, :elapsed1, :answer1, :correct1, "
         " :duration2, :puzzle2, :elapsed2, :answer2, :correct2, "
         " :duration3, :puzzle3, :elapsed3, :answer3, :correct3, "
@@ -94,7 +113,7 @@ bool Hoops::insertRecord(const HoopsRecord *e) {
         " :duration16, :puzzle16, :elapsed16, :answer16, :correct16, "
         " :duration17, :puzzle17, :elapsed17, :answer17, :correct17, "
         " :duration18, :puzzle18, :elapsed18, :answer18, :correct18 "
-        " )";
+        " )\n";
 
     XEXEC xe(db, sql);
 
@@ -103,6 +122,7 @@ bool Hoops::insertRecord(const HoopsRecord *e) {
     xe.param.setTime("tinstruct",    e->tinstruct);
     xe.param.setTime("tstart",       e->tstart);
     xe.param.setTime("tfinish",      e->tfinish);
+    xe.param.setString("responses",  e->responses);
 
     xe.param.setInt("duration1",     e->duration1);
     xe.param.setInt("puzzle1",       e->puzzle1);
@@ -212,7 +232,7 @@ bool Hoops::insertRecord(const HoopsRecord *e) {
     xe.param.setInt("answer18",       e->answer18);
     xe.param.setInt("correct18",      e->correct18);
 
-    printf("<p>sql:</p><p>%s</p> ", sql.c_str());
+    printf("<p>sql:</p><code>%s</code> ", sql.c_str());
 
     return (xe.exec());
 }
@@ -269,6 +289,7 @@ void Hoops::getRecords() {
     for (vecHoopsRecord::const_iterator it = records.begin(); it != records.end(); it++) {
         printf("<tr>");
         printf("<td>%d</td><td>%d</td><td>%s</td><td>%s</td><td>%s</td>", it->sesh_id, it->ntests, it->tinstruct.iso().c_str(), it->tstart.iso().c_str(), it->tfinish.iso().c_str());
+        //printf("<td>%s</td>", "[...]");
         printf("<td>%s</td>", it->responses.c_str());
         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration1, it->puzzle1, it->elapsed1, it->answer1, it->correct1);
         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration2, it->puzzle2, it->elapsed2, it->answer2, it->correct2);

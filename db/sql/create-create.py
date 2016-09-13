@@ -20,14 +20,14 @@ CREATE TABLE hoops (
     responses    LONG VARCHAR,   
 """  
     for i in range(1, hoops_last + 1):
-        print "    duration" + str(i) + "    DATE   ,"#       NOT NULL,"
-        print "    puzzle" + str(i) + "      INTEGER,"#       NOT NULL,"
-        print "    elapsed" + str(i) + "     DATE   ,"#       NOT NULL,"
-        print "    answer" + str(i) + "      INTEGER,"#       NOT NULL,"
+        print "    duration" + str(i) + "    INTEGER,"
+        print "    puzzle" + str(i) + "      INTEGER,"
+        print "    elapsed" + str(i) + "     INTEGER,"
+        print "    answer" + str(i) + "      INTEGER,"
         if i == hoops_last:
-            print "    correct" + str(i) + "     INTEGER"#       NOT NULL", # take off final comma and no newline
+            print "    correct" + str(i) + "     INTEGER", # take off final comma and no newline (comma after string)
         else:
-            print "    correct" + str(i) + "     INTEGER,"#       NOT NULL,"
+            print "    correct" + str(i) + "     INTEGER,"
         print   # separate groups with newline
     print ");"
 
@@ -68,13 +68,13 @@ CREATE TABLE matrix (
     responses    LONG VARCHAR,   
 """  
     for i in range(1, matrix_last + 1):
-        print "    duration" + str(i) + "    DATE    ," #      NOT NULL,"
-        print "    elapsed" + str(i) + "     DATE    ," #     NOT NULL,"
-        print "    answer" + str(i) + "      INTEGER ," #     NOT NULL,"
+        print "    duration" + str(i) + "    INTEGER,"
+        print "    elapsed" + str(i) + "     INTEGER,"
+        print "    answer" + str(i) + "      INTEGER,"
         if i == matrix_last:
-            print "    correct" + str(i) + "     INTEGER"#       NOT NULL", # take off final comma and no newline
+            print "    correct" + str(i) + "     INTEGER", # take off final comma and no newline
         else:
-            print "    correct" + str(i) + "     INTEGER,"#       NOT NULL,"
+            print "    correct" + str(i) + "     INTEGER,"
         print   # separate groups with newline
     print ");"
 

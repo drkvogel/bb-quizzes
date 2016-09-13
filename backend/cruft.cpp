@@ -1,3 +1,66 @@
+#include <string.h>
+#include <sstream>
+#include <stdlib.h>
+#include <stdio.h>
+#include <errno.h>
+#include <time.h>
+#include <malloc.h>
+#ifndef __WIN32__
+#include <sys/resource.h>
+#endif
+#include "xdb.h"
+#include "xquery.h"
+#include "xexec.h"
+#include "xhttp.h"
+#include "xcgi.h"
+
+// cruft.cpp
+// unused code
+
+void setUpLogfile() {
+    char logfilename[32];
+    logtime.setNow();
+    sprintf(logfilename, DIR_LOG "bbquiz_%4.4d-%2.2d.log", logtime.asXDATE().getYear(), logtime.asXDATE().getMonth());
+    logfile = fopen(logfilename, "a");
+    if (NULL == logfile) printf("couldn't open logfile"); //XXX
+#ifndef __WIN32__
+    struct rlimit coredumplimit;
+    // n.b. if setting a specific size, these limits are in bytes, whilst those set by ulimit (in bash) are in 1k blocks
+    coredumplimit.rlim_cur = RLIM_INFINITY; //XXX ?
+    coredumplimit.rlim_max = RLIM_INFINITY;
+    setrlimit(RLIMIT_CORE, &coredumplimit);
+#endif
+    //fprintf(stderr, "stderr test"); // a little test
+}
+
+    setUpLogfile();
+    readIniFile();
+    initSessionData();
+        printf("<p><code>action: '%s'</code></p>\n", x->param.getStringDefault("action", "").c_str());
+        printf("<p><code>quiz: '%s'</code></p>\n", x->param.getStringDefault("quiz", "").c_str());
+    printf("<form action=\"#\">\n"
+        "<table border=1 cellspacing=0>\n"
+        "<tr><td>\n"
+        "<input type=\"radio\" name=\"quiz\" value=\"hoops\" checked>Hoops</input>"
+        "<input type=\"radio\" name=\"quiz\" value=\"matrix\">Matrix</input>"
+        "</td></tr>\n"
+        "<tr><td>\n"
+        "<button type=\"submit\" name=\"action\" value=\"view\" />View</button>\n"
+        "<button type=\"submit\" name=\"action\" value=\"insert\" />Insert</button>\n"
+        "</tr></td>\n"
+        "</table>\n"
+        "</form>\n");
+int initDB() {
+    LOG_TIME fprintf(logfile, "initDB: '%s'\n", BBQUIZ_DBNAME); LOG_DOT
+    db = new XDB(BBQUIZ_DBNAME); LOG_DOT
+    if (!db->open()) {  throw "Failed to open database"; }
+    db->setErrorCallBack(dbErrorCallback);
+    fprintf(logfile, "done"); LOG_NL
+    return 0;
+}
+    printf("<li><a href=\"?quiz=matrix&action=start\">Start Matrix Quiz</a></li>\n");
+    printf("<li><a href=\"?quiz=hoops&action=start\">Start Hoops Quiz</a></li>\n");
+
 
 /*
 typedef struct {

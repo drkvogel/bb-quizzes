@@ -25,6 +25,9 @@
 std::string timebuf;
 XTIME logtime;
 FILE * logfile;
+XCGI * x;
+XDB *db;
+// BBQuizRecord rec; // tdvecBBQuizRecord results;
 
 using std::string;
 
@@ -37,7 +40,6 @@ typedef struct {
     XTIME tinsert;
 } BBQuizRecord;
 typedef std::vector< BBQuizRecord > tdvecBBQuizRecord;
-
 
 class Utilities {
 public:
