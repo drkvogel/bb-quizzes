@@ -114,8 +114,14 @@
         isTimeUp = false,
         nextPageTimeout,
         timeUpTimeout,
-        answers = [];
-
+        answers = [], // use 'responses' instead?
+        sesh_id  = null,
+        tinstruct = null,
+        tstart = null,
+        tfinish  = null,
+        tinsert = null,
+        ntests = null,
+        responses = null;
     // function preload() {
     //     //images[25] = new Image();
     //     //ges[25].src = 'Snap/snap_images/Rear.GIF';
