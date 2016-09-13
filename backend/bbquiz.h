@@ -25,6 +25,7 @@
 std::string timebuf;
 XTIME logtime;
 FILE * logfile;
+XCGI * x;
 
 using std::string;
 

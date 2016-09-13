@@ -10,6 +10,8 @@ OBJS= rosebase.o rosetta.o \
 
 bbquiz : bbquiz.o $(OBJS)
 	$(CXX) $(CXXFLAGS) -o bbquiz.cgi bbquiz.cpp $(OBJS) -L$(II_SYSTEM)/ingres/lib -lingres $(LDLIB)
+	chmod go-w bbquiz.cgi
+	cp bbquiz.cgi ~cp/public_html/bbquiz/
 
 clean :
 	rm *.o

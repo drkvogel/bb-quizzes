@@ -116,13 +116,36 @@ void boilerplate_foot() {
     // readIniFile();
     // initSessionData();
 
+void showOptions() {
+    printf("<h3>Options</h3>\n<ul>\n");
+    printf("<li><a href=\"?quiz=matrix&action=start\">Start Matrix Quiz</a></li>\n");
+    printf("<li><a href=\"?quiz=hoops&action=start\">Start Hoops Quiz</a></li>\n");
+    printf("</ul>\n");
+}
+
+void startMatrix() {
+    printf("matrix");
+}
+
+void startHoops() {
+    printf("hoops");
+}
+
+bool paramIs(const char * param, const char * value) {
+    bool result = (0 == strcmp(value, x->param.getStringDefault(param, "").c_str()));
+    printf("<p><code>paramIs(): param: '%s', value: '%s'", param, value);
+    printf("; result: %s</code></p>", result ? "yes":"no");
+    return result;
+}
+
+
 int main(int argc, char **argv) {
-    XCGI *x = new XCGI(argc, argv);
+    x = new XCGI(argc, argv); // global! naughty!
     x->writeHeader(XCGI::typeHtml);
     boilerplate_head();
 
     //if (DEBUG)
-    //showParams(x); // from cgi_test.cpp
+    showParams(x); // from cgi_test.cpp
     if (OFFLINE) {
         printf("<p>Currently offline</p>");
         boilerplate_foot();
@@ -131,28 +154,37 @@ int main(int argc, char **argv) {
 
     try {
         initDB();
-        printf("<p><code>db opened. built: %s %s. action: '%s'</code></p>\n", __DATE__, __TIME__, x->param.getStringDefault("action", "").c_str());
+        printf("<p><code>db opened. built: %s %s.</code></p>\n", __DATE__, __TIME__);
+        printf("<p><code>action: '%s'</code></p>\n", x->param.getStringDefault("action", "").c_str());
+        printf("<p><code>quiz: '%s'</code></p>\n", x->param.getStringDefault("quiz", "").c_str());
+        printf("<p><code>action: '%s'</code></p>\n", x->param.getStringDefault("action", "").c_str());
+        printf("<p><code>quiz: '%s'</code></p>\n", x->param.getStringDefault("quiz", "").c_str());
 
-        if (0 == strcmp("insert", x->param.getStringDefault("action", "").c_str())) {
-            if (0 == strcmp("hoops",x->param.getStringDefault("quiz", "").c_str())) {
+        if (paramIs("action", "insert")) {
+            if (paramIs("quiz", "hoops")) {
                 Hoops::testInsert();
-            } else if (0 == strcmp("matrix",x->param.getStringDefault("quiz", "").c_str())) {
+            } else if (paramIs("quiz", "matrix")) {
                 Matrix::testInsert();
             } else {
                 printf("<p>Quiz '%s' not understood.</p>", x->param.getStringDefault("quiz", "").c_str());
                 throw "abort";
             }
-        } else if (0 == strcmp("view", x->param.getStringDefault("action", "").c_str())) {
-            if (0 == strcmp("hoops",x->param.getStringDefault("quiz", "").c_str())) {
+        } else if (paramIs("action", "view")) {
+            if (paramIs("quiz", "hoops")) {
                 Hoops::getRecords();
-            } else if (0 == strcmp("matrix",x->param.getStringDefault("quiz", "").c_str())) {
+            } else if (paramIs("quiz", "matrix")) {
                 Matrix::getRecords();
             } else {
                 printf("<p>Quiz '%s' not understood.</p>", x->param.getStringDefault("quiz", "").c_str());
                 throw "abort";
             }
+        } else if (paramIs("action", "start") && paramIs("quiz", "matrix")) {
+            startMatrix();
+        } else if (paramIs("action", "start") && paramIs("quiz", "hoops")) {
+            startHoops();
         } else {
             printf("<p>No action selected.</p>\n");
+            showOptions();
         }
     } catch (char * err) {
         printf("error: '%s'; exiting", err);
