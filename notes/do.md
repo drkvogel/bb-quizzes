@@ -2,15 +2,12 @@
 
 before meeting: docs ready, cgis pushed, git lsd printout
 
-hoops scrolls off bottom: intro1 intro2
-clear click border
-
+get c++ to serve config.json, put sesh_id in it - use JSON parser?
 hoops doc
 record cumulative time, number answered
 
 
 * Include worked examples of re-sizing in documentation.
-* Fix data bug in hoops which appears to be resulting in incorrect data being output. Please check the output thoroughly
 * I'm glad you've been able to get a dummy CGI saving to database and have sent me the hoops documentation and database field types, however all the other jobs from our last meeting are still in the ToDo list.
 * Please discuss the hoops data format/algorithm with Jonathan rather than spending time trying to deduce it from the code.  All I care about is getting a working system - if 10 minutes of his time can save hours of yours then that's a win as far as I'm concerned.
 * I'm away for a week now so our next meeting is on 29th Aug.  As this is a fortnight I'd expect you can completely finish all the tasks from our previous meeting (as listed below) by then.
@@ -23,17 +20,13 @@ Please consider this pre-approved but, once you know them, drop me an email rega
 Matrix still looks crap on phone: 
     Too much space, Abandon should stick to bottom, Can multiple click
     matrix looks shite on rotated phone - should use media queries to flow images
-did scaleImagesCBSimple() work? 
-    push cbsimple to red
+did scaleImagesCBSimple() work? push cbsimple to red
 Matrices and Hoops documentation and attach them to the appropriate bugs general.git\dev\pandoc.md
     algorithm workings (though algorithm works)
     db comments -> db doc -> ay eml | tee bugzilla
 backend insert - save data to database from CGIs
 
-
-
 * Please send me electronically the Matrices and Hoops documentation and attach them to the appropriate bugs.
-* Fix data bug in hoops which appears to be resulting in incorrect data being output. [This is #1 priority]
 * Save data for both quizzes to database from CGIs.
 
 supposed to do worked examples...
@@ -45,7 +38,6 @@ there is still a border left around the last clicked image map...
 * Complete documentation for Hoops
 * Worked numeric examples for screen resolutions of (HxV) 1280x1024, 640x480, 320x480, 750x1334 and 1242x2208
 
-
 ### scaleImagesCBnew()
 
 get the various heights with jquery
@@ -53,9 +45,7 @@ max height of
 width-wise, if there is enough height, there will be no margins on the images and they will scale to fit anyway (width: 100%)
 // missing some widths and heights?
 
-
 Galaxy Core Prime - 800 x 480
-
 
 get code to print worked examples
 hoops scales but not brilliantly - text, buttons scroll off bottom. margin-left, margin-right being calculated and inserted on resize - scaleImages()
