@@ -129,6 +129,7 @@ typedef std::vector< HoopsRecord > vecHoopsRecord;
 
 void parseResponses(const HoopsRecord *e);
 void insert(XCGI * x);
+//void insert();
 void testInsert();
 bool insertRecord(const HoopsRecord *e);
 void getRecords();

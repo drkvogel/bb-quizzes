@@ -47,7 +47,7 @@ void showParams(XCGI * x) {
     boilerplate_foot();
     return -1;
 #else
-    printf("<!-- Not __LIVE__ -->\n");
+    printf("Not __LIVE__\n");
 #endif
 }
 
@@ -80,23 +80,18 @@ bool paramIs(const char * param, const char * value) {
 void showOptions() {
     printf("<table border=1 cellspacing=0><thead><tr><th>Quiz</th><th colspan=3>Actions</th></tr></thead>\n");
     printf("<tr><td>Matrix</td>");
-    //printf("<td><a href=\"?quiz=matrix&action=start\">Start</a></td>");
-    printf("<td><a href=\"../matrix\">Start</a></td>");
+    printf("<td><a href=\"../matrix\">Start</a></td>"); //printf("<td><a href=\"?quiz=matrix&action=start\">Start</a></td>");
     printf("<td><a href=\"?quiz=matrix&action=view\">View responses</a></td>");
     printf("<td><a href=\"?quiz=matrix&action=insertDummy\">Insert dummy data</a></td>");
     printf("</tr>\n");
     printf("<tr><td>Hoops</td>");
-    //printf("<td><a href=\"?quiz=hoops&action=start\">Start</a></td>");
-    printf("<td><a href=\"../hoops\">Start</a></td>");
+    printf("<td><a href=\"../hoops\">Start</a></td>"); //printf("<td><a href=\"?quiz=hoops&action=start\">Start</a></td>");
     printf("<td><a href=\"?quiz=hoops&action=view\">View responses</a></td>");
     printf("<td><a href=\"?quiz=hoops&action=insertDummy\">Insert dummy data</a></td>");
     printf("</tr>\n");
     printf("<tr><td>-</td>");
     printf("<td colspan=3><a href=\"idserve.cgi\">idserve.cgi</a></td>");
-/*    printf("<td><a href=\"?quiz=hoops&action=view\">View responses</a></td>");
-    printf("<td><a href=\"?quiz=hoops&action=insertDummy\">Insert dummy data</a></td>");*/
     printf("</tr>\n");
-
     printf("</table>\n");
 }
 
@@ -120,11 +115,14 @@ int main(int argc, char **argv) {
     try {
         initDB();
         printf("<p><code>db opened. built: %s %s. %d params.</code></p>\n", __DATE__, __TIME__, x->param.count());
+        printf("\n\n<!-- "); showParams(x); printf("-->\n\n"); // always show params in comments
         showOptions();
         if (x->param.isEmpty()) {
             printf("<p>No action selected.</p>\n");
         } else if (paramIs("action", "insert") && paramIs("quiz", "hoops")) { // real insert by frontend
+            printf("<p>Hoops::insert(x)</p>\n");
             Hoops::insert(x);
+            //Hoops::insert();
         } else if (paramIs("action", "insert") && paramIs("quiz", "matrix")) {
             Matrix::insert(x);
         } else if (paramIs("action", "insertDummy") && paramIs("quiz", "hoops")) {
@@ -142,11 +140,8 @@ int main(int argc, char **argv) {
         } else {
             printf("<p>Parameters not understood.</p>");
             showParams(x); // from cgi_test.cpp //if (DEBUG)
-            throw "abort";
+            //throw "abort";
         }
-        printf("\n\n<!-- ");
-        showParams(x); // always show params in comments
-        printf("-->\n\n");
     } catch (char * err) {
         printf("error: '%s'; exiting", err);
         boilerplate_foot();

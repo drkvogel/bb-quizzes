@@ -23,16 +23,20 @@ void Hoops::parseResponses(const HoopsRecord *e) {
 }
 
 void Hoops::insert(XCGI * x) { // real insert by frontend
+//void Hoops::insert() { // real insert by frontend
     HoopsRecord rec;
+    printf("<p>this is %s</p>\n", __FILE__);
     int np = x->param.count();
-    printf("there are %s params", np);
-    rec.sesh_id = -1;//x->param.getIntDefault("sesh_id", -1);
+    printf("<p>there are %d params</p>", np);
+    printf("<p>sesh_id: '%s'</p>", x->param.getStringDefault("sesh_id", "(default)").c_str()); // should be getInt
+    rec.sesh_id = -1; //x->param.getIntDefault("sesh_id", -1);
     rec.ntests = -1; //x->param.getIntDefault("ntests", -1);
     rec.tinstruct = ""; //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
     rec.tstart = "";
     rec.tfinish = "";
     rec.tinsert = "";
     rec.responses = "";
+    printf("TODO");
 }
 
 void Hoops::testInsert() { // insert some dummy data
