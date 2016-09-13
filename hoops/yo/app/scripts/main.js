@@ -10,6 +10,7 @@
     'use strict';
 
     var LIVE = false, // const? JSHint doesn't like it
+        LOCAL = false,
         MAX_LEVELS = 18,
         FADEIN = 100,
         FADEOUT = 100,
@@ -593,13 +594,25 @@
     }
 
     function getConfig() {
+        var idserve = LOCAL ? 'idserve-dummy.json' : '../backend/idserve.cgi'; // bb-quizzes/hoops/yo/app/idserve-dummy.json
         $.getJSON('./config.json', function (data) {
-            console.log('getConfig(): got JSON');
+            console.log('getConfig(): got config.json');
             config = data;
             pages = data.pages;
-            init();
+            //init();
+            $.getJSON(idserve, function (data) {
+                console.log('getConfig(): got idserve.cgi');
+                console.log('getConfig(): data.session.sesh_id: ' + data.session.sesh_id);
+                //config = data;
+                //pages = data.pages;
+                config.sesh_id = data.session.sesh_id;
+                init();
+            }).fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
+                var err = 'error getting idserve.cgi: ' + textStatus + ', errorThrown: ' + errorThrown;
+                console.log(err);
+            });
         }).fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
-            var err = 'error getting JSON: ' + textStatus + ', errorThrown: ' + errorThrown;
+            var err = 'error getting config.json: ' + textStatus + ', errorThrown: ' + errorThrown;
             console.log(err);
         });
     }
@@ -635,6 +648,11 @@
                 return 'The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?';
             };
         }
+        var loc = location.toString().split('://')[1]; // strip off http://, https://
+        if (loc.substr(0, 9) === 'localhost') { // served from gulp
+            LOCAL = true;
+        }
+        console.log('LOCAL: ' + LOCAL);
         getConfig();
     });
 }());
