@@ -30,10 +30,10 @@
         navPrev = '<span><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>',
         navPrevNext = '<span style="margin-right: 40px;"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>' +
                           '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>',
-        sesh_id  = null,
+        seshID = null,
         tinstruct = null,
         tstart = null,
-        tfinish  = null,
+        tfinish = null,
         tinsert = null,
         ntests = null,
         responses = null;
@@ -594,18 +594,17 @@
     }
 
     function getConfig() {
-        var idserve = LOCAL ? 'idserve-dummy.json' : '../backend/idserve.cgi'; // bb-quizzes/hoops/yo/app/idserve-dummy.json
-        $.getJSON('./config.json', function (data) {
+        var idserve = LOCAL ? 'idserve-dummy.json' : '../bbquiz/idserve.cgi'; // bb-quizzes/hoops/yo/app/idserve-dummy.json
+        $.getJSON('./config.json', function (configData) {
             console.log('getConfig(): got config.json');
-            config = data;
-            pages = data.pages;
-            //init();
-            $.getJSON(idserve, function (data) {
+            config = configData;
+            pages = configData.pages;
+            $.getJSON(idserve, function (seshData) {
                 console.log('getConfig(): got idserve.cgi');
-                console.log('getConfig(): data.session.sesh_id: ' + data.session.sesh_id);
-                //config = data;
-                //pages = data.pages;
-                config.sesh_id = data.session.sesh_id;
+                console.log('getConfig(): seshData: ' + JSON.stringify(seshData));
+                console.log('getConfig(): seshData.session.seshID: ' + seshData.session.seshID);
+                config.seshID = seshData.session.seshID;
+                $('#home .debug').html('<code>config.seshID: ' + config.seshID + '</code>');
                 init();
             }).fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
                 var err = 'error getting idserve.cgi: ' + textStatus + ', errorThrown: ' + errorThrown;
