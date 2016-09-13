@@ -48,7 +48,8 @@ int main(int argc, char **argv) {
         char timestring[32];
         strcpy(timestring, ctime(&tnow));
         timestring[24] = '\0'; // remove annoying non-configurable newline added by ctime
-        printf("{\n  \"session\": {\n    \"comment\" : \"some JSON\",\n    \"seshID\": \"%s\"\n  }\n}", timestring);
+        //printf("{\n  \"session\": {\n    \"comment\" : \"some JSON\",\n    \"seshID\": \"%s\"\n  }\n}", timestring);
+        printf("{\n  \"session\": {\n    \"comment\" : \"some JSON\",\n    \"seshID\": \"%d\"\n  }\n}", (int)tnow);
         printf("\n"); // always end with newline
     } catch (char * err) {
         printf("error: '%s'; exiting", err);
