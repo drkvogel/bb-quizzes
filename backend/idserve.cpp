@@ -41,7 +41,6 @@ XCGI * x;
 int main(int argc, char **argv) {
     x = new XCGI(argc, argv); // global! naughty!
     x->writeHeader(XCGI::typeJSON);
-    //boilerplate_head();
     try {
         //initDB();
         time_t  tnow;
@@ -49,7 +48,7 @@ int main(int argc, char **argv) {
         char timestring[32];
         strcpy(timestring, ctime(&tnow));
         timestring[24] = '\0'; // remove annoying non-configurable newline added by ctime
-        printf("{\"session\":\n  {\n    \"comment\" : \"some JSON\",\n    \"sesh_id\": \"%s\"\n  }\n}", timestring);
+        printf("{\n  \"session\": {\n    \"comment\" : \"some JSON\",\n    \"seshID\": \"%s\"\n  }\n}", timestring);
         printf("\n"); // always end with newline
     } catch (char * err) {
         printf("error: '%s'; exiting", err);
@@ -59,8 +58,8 @@ int main(int argc, char **argv) {
 
 /*    db->close();
     delete db;*/
-    //boilerplate_foot();
     return(EXIT_SUCCESS);
 }
 
-
+    //boilerplate_head();
+//boilerplate_foot();
