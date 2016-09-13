@@ -119,7 +119,7 @@ int main(int argc, char **argv) {
     }
     try {
         initDB();
-        printf("<p><code>db opened. built: %s %s.</code></p>\n", __DATE__, __TIME__);
+        printf("<p><code>db opened. built: %s %s. %d params.</code></p>\n", __DATE__, __TIME__, x->param.count());
         showOptions();
         if (x->param.isEmpty()) {
             printf("<p>No action selected.</p>\n");
@@ -144,6 +144,9 @@ int main(int argc, char **argv) {
             showParams(x); // from cgi_test.cpp //if (DEBUG)
             throw "abort";
         }
+        printf("\n\n<!-- ");
+        showParams(x); // always show params in comments
+        printf("-->\n\n");
     } catch (char * err) {
         printf("error: '%s'; exiting", err);
         boilerplate_foot();
