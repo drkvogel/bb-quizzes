@@ -58,22 +58,6 @@ int initDB() { // no logging
     return 0;
 }
 
-void setUpLogfile() {
-    char logfilename[32];
-    logtime.setNow();
-    sprintf(logfilename, DIR_LOG "bbquiz_%4.4d-%2.2d.log", logtime.asXDATE().getYear(), logtime.asXDATE().getMonth());
-    logfile = fopen(logfilename, "a");
-    if (NULL == logfile) printf("couldn't open logfile"); //XXX
-#ifndef __WIN32__
-    struct rlimit coredumplimit;
-    // n.b. if setting a specific size, these limits are in bytes, whilst those set by ulimit (in bash) are in 1k blocks
-    coredumplimit.rlim_cur = RLIM_INFINITY; //XXX ?
-    coredumplimit.rlim_max = RLIM_INFINITY;
-    setrlimit(RLIMIT_CORE, &coredumplimit);
-#endif
-    //fprintf(stderr, "stderr test"); // a little test
-}
-
 void boilerplate_head() {
     printf("<html>\n<head>\n");
     printf("<title>BB Quizzes Backend</title>");
@@ -96,15 +80,23 @@ bool paramIs(const char * param, const char * value) {
 void showOptions() {
     printf("<table border=1 cellspacing=0><thead><tr><th>Quiz</th><th colspan=3>Actions</th></tr></thead>\n");
     printf("<tr><td>Matrix</td>");
-    printf("<td><a href=\"?quiz=matrix&action=start\">Start</a></td>");
+    //printf("<td><a href=\"?quiz=matrix&action=start\">Start</a></td>");
+    printf("<td><a href=\"../matrix\">Start</a></td>");
     printf("<td><a href=\"?quiz=matrix&action=view\">View responses</a></td>");
     printf("<td><a href=\"?quiz=matrix&action=insertDummy\">Insert dummy data</a></td>");
     printf("</tr>\n");
     printf("<tr><td>Hoops</td>");
-    printf("<td><a href=\"?quiz=hoops&action=start\">Start</a></td>");
+    //printf("<td><a href=\"?quiz=hoops&action=start\">Start</a></td>");
+    printf("<td><a href=\"../hoops\">Start</a></td>");
     printf("<td><a href=\"?quiz=hoops&action=view\">View responses</a></td>");
     printf("<td><a href=\"?quiz=hoops&action=insertDummy\">Insert dummy data</a></td>");
     printf("</tr>\n");
+    printf("<tr><td>-</td>");
+    printf("<td colspan=3><a href=\"idserve.cgi\">idserve.cgi</a></td>");
+/*    printf("<td><a href=\"?quiz=hoops&action=view\">View responses</a></td>");
+    printf("<td><a href=\"?quiz=hoops&action=insertDummy\">Insert dummy data</a></td>");*/
+    printf("</tr>\n");
+
     printf("</table>\n");
 }
 
@@ -164,30 +156,3 @@ int main(int argc, char **argv) {
     return(EXIT_SUCCESS);
 }
 
-    //setUpLogfile();
-    // readIniFile();
-    // initSessionData();
-        //printf("<p><code>action: '%s'</code></p>\n", x->param.getStringDefault("action", "").c_str());
-        //printf("<p><code>quiz: '%s'</code></p>\n", x->param.getStringDefault("quiz", "").c_str());
-/*    printf("<form action=\"#\">\n"
-        "<table border=1 cellspacing=0>\n"
-        "<tr><td>\n"
-        "<input type=\"radio\" name=\"quiz\" value=\"hoops\" checked>Hoops</input>"
-        "<input type=\"radio\" name=\"quiz\" value=\"matrix\">Matrix</input>"
-        "</td></tr>\n"
-        "<tr><td>\n"
-        "<button type=\"submit\" name=\"action\" value=\"view\" />View</button>\n"
-        "<button type=\"submit\" name=\"action\" value=\"insert\" />Insert</button>\n"
-        "</tr></td>\n"
-        "</table>\n"
-        "</form>\n");*/
-// int initDB() {
-//     LOG_TIME fprintf(logfile, "initDB: '%s'\n", BBQUIZ_DBNAME); LOG_DOT
-//     db = new XDB(BBQUIZ_DBNAME); LOG_DOT
-//     if (!db->open()) {  throw "Failed to open database"; }
-//     db->setErrorCallBack(dbErrorCallback);
-//     fprintf(logfile, "done"); LOG_NL
-//     return 0;
-// }
-/*    printf("<li><a href=\"?quiz=matrix&action=start\">Start Matrix Quiz</a></li>\n");
-    printf("<li><a href=\"?quiz=hoops&action=start\">Start Hoops Quiz</a></li>\n");*/

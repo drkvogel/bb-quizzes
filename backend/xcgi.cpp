@@ -352,6 +352,10 @@ void XCGI::writeHeader( const int typ )
 		{mime_fmt = "image/tiff";
 		printf( "content-type: image/tiff\n\n" );
 		}
+    else if ( typeJSON == typ )
+        {mime_fmt = "application/json";
+        printf( "content-type: application/json\n\n" );
+        }
 	else
 		{mime_fmt = "text/plain";
 		printf( "content-type: text/plain\n\n" );
