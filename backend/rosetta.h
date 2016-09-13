@@ -83,8 +83,7 @@ public:
 	void	clear( void );
 	ROSETTA &operator=( const ROSETTA &p );
 	bool 	insert( const ROSETTA *extra );
-	bool 	insertFiltered( const ROSETTA *extra, const ROSETTA_FILTER filter,
-			const bool recurse );
+	bool 	insertFiltered( const ROSETTA *extra, const ROSETTA_FILTER filter, const bool recurse );
 	bool	insertFlag(    const ROSETTA &src, const std::string name );
 	bool	insertInt(     const ROSETTA &src, const std::string name );
 	bool	insertBool(    const ROSETTA &src, const std::string name );
@@ -104,8 +103,7 @@ public:
 	bool	hasTag( const int index, const std::string tag_name ) const;
 	bool	hasTag( const std::string name, const std::string tag_name ) const;
 						// SERIALIZATION
-	bool	serializeIn( const std::string serial_in,
-		const bool stop_on_error = true );
+	bool	serializeIn( const std::string serial_in, const bool stop_on_error = true );
 	std::string	serializeOut( void ) const;
 	std::string 	exportXML( const std::string name ) const;
 	std::string 	exportFlatXML( const std::string label ) const;

@@ -22,8 +22,18 @@ void Hoops::parseResponses(const HoopsRecord *e) {
     }
 }
 
-void Hoops::testInsert() {
-    // insert some dummy data
+void Hoops::insert() { // real insert by frontend
+    HoopsRecord rec;
+    rec.sesh_id = -1;//x->param.getIntDefault("sesh_id", -1);
+    rec.ntests = -1; //x->param.getIntDefault("ntests", -1);
+    rec.tinstruct = ""; //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
+    rec.tstart = "";
+    rec.tfinish = "";
+    rec.tinsert = "";
+    rec.responses = "";
+}
+
+void Hoops::testInsert() { // insert some dummy data
     HoopsRecord rec;
     rec.sesh_id = -1;//x->param.getIntDefault("sesh_id", -1);
     rec.ntests = -1; //x->param.getIntDefault("ntests", -1);
