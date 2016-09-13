@@ -21,12 +21,12 @@ void Matrix::parseResponses(const MatrixRecord *e) {
     }
 }
 
-void Matrix::testInsert() {
+void Matrix::insert(XCGI * x) {
     //
     printf("Todo");    
 }
 
-void Matrix::insert() {
+void Matrix::testInsert() {
     //
     printf("Todo");    
 }
@@ -186,8 +186,9 @@ void Matrix::getRecords() {
     if (!q.open()) {
         printf("Database error");
         throw "Database error";
+    } else {
+        printf("Database open");
     }
-    //printf("<p>q.fetch():</p>\n");
     while (q.fetch()) {
         rec.sesh_id   = q.result.getInt("sesh_id");
         rec.ntests    = q.result.getInt("ntests");

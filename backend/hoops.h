@@ -1,6 +1,8 @@
 #ifndef _hoopsH_
 #define _hoopsH_
 
+#include "xcgi.h"
+
 extern XDB *db;
 
 namespace Hoops {
@@ -126,7 +128,7 @@ typedef struct {
 typedef std::vector< HoopsRecord > vecHoopsRecord;
 
 void parseResponses(const HoopsRecord *e);
-void insert();
+void insert(XCGI * x);
 void testInsert();
 bool insertRecord(const HoopsRecord *e);
 void getRecords();
