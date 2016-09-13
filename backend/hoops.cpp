@@ -29,14 +29,16 @@ void Hoops::insert(XCGI * x) { // real insert by frontend
     int np = x->param.count();
     printf("<p>there are %d params</p>", np);
     printf("<p>sesh_id: '%s'</p>", x->param.getStringDefault("sesh_id", "(default)").c_str()); // should be getInt
-    rec.sesh_id = -1; //x->param.getIntDefault("sesh_id", -1);
+    //rec.sesh_id = x->param.getInt("sesh_id"); // seems to crash it
+        // terminate called after throwing an instance of 'std::string'
     rec.ntests = -1; //x->param.getIntDefault("ntests", -1);
     rec.tinstruct = ""; //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
     rec.tstart = "";
     rec.tfinish = "";
     rec.tinsert = "";
     rec.responses = "";
-    printf("TODO");
+    //printf("TODO");
+    //printf("<p>sesh_id: '%d'</p>", rec.sesh_id);
 }
 
 void Hoops::testInsert() { // insert some dummy data
