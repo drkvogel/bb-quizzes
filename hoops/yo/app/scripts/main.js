@@ -474,11 +474,10 @@
         console.log('finished(): answers: ' + JSON.stringify(answers));
         clearTimeout(timeUpTimeout);
 
-        // fill in form
+        // fill in form and submit automatically
+        document.getElementById('sesh_id').value = config.seshID;
+        document.getElementById('tstart').value = config.timeStarted;
         document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
-        document.getElementById('timeStarted').value = config.timeStarted;
-
-        // submit automatically
         window.onbeforeunload = null;
         $(window).on('beforeunload', function(){
             $('*').css('cursor', 'default');
@@ -601,7 +600,7 @@
             pages = configData.pages;
             $.getJSON(idserve, function (seshData) {
                 console.log('getConfig(): got idserve.cgi');
-                console.log('getConfig(): seshData: ' + JSON.stringify(seshData));
+                //console.log('getConfig(): seshData: ' + JSON.stringify(seshData));
                 console.log('getConfig(): seshData.session.seshID: ' + seshData.session.seshID);
                 config.seshID = seshData.session.seshID;
                 $('#home .debug').html('<code>config.seshID: ' + config.seshID + '</code>');
