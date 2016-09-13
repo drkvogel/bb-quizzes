@@ -65,7 +65,6 @@ void Hoops::testInsert() { // insert some dummy data
 }
 
 bool Hoops::insertRecord(const HoopsRecord *e) {
-
     std::string sql =
         "INSERT INTO hoops (sesh_id, ntests, tinstruct, tstart, tfinish, tinsert,"
         " responses,"
@@ -117,7 +116,6 @@ bool Hoops::insertRecord(const HoopsRecord *e) {
     xe.param.setTime("tinstruct",    e->tinstruct);
     xe.param.setTime("tstart",       e->tstart);
     xe.param.setTime("tfinish",      e->tfinish);
-
     xe.param.setString("responses",  e->responses);
 
     xe.param.setInt("duration1",     e->duration1);
@@ -285,6 +283,7 @@ void Hoops::getRecords() {
     for (vecHoopsRecord::const_iterator it = records.begin(); it != records.end(); it++) {
         printf("<tr>");
         printf("<td>%d</td><td>%d</td><td>%s</td><td>%s</td><td>%s</td>", it->sesh_id, it->ntests, it->tinstruct.iso().c_str(), it->tstart.iso().c_str(), it->tfinish.iso().c_str());
+        //printf("<td>%s</td>", "[...]");
         printf("<td>%s</td>", it->responses.c_str());
         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration1, it->puzzle1, it->elapsed1, it->answer1, it->correct1);
         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration2, it->puzzle2, it->elapsed2, it->answer2, it->correct2);
