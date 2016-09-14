@@ -291,6 +291,7 @@
     }
 
     function scaleImages() {
+        console.log('scaleImages()');
         scaleImagesCBsimple();
     }
 

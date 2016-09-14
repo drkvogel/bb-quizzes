@@ -32,7 +32,30 @@
 	div.answers             Holds the buttons 1-6, as required
 	div.navCtl              Holds the "Prev/Next" buttons, as needed
 
-hoops element heights (top to bottom)
+### Element heights (top to bottom)
+
+    html                -
+    body                -
+    #devBar             hidden
+    div.container       padding-top: 15px
+    div#pages           -
+    div#game            -
+    div.middleImg       -
+    table.toptable      
+    td#imgdiv-a         
+    img#img-a           
+    td#imgdiv-b         
+    img#img-b           
+    div.middleImg       -
+    div.botText         72px minimum (if not wrapped) (if visible)
+    div#answers         -
+    div.navCtl          
+    div#pages           -
+    div#abandon-div     34px (if visible)
+    div.container       padding-bottom: 20px
+    body                -
+    html                -
+
 
 
 \newpage
