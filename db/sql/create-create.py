@@ -12,7 +12,7 @@ def print_hoops_puzzle_fields():
     print """
 CREATE TABLE hoops (
     sesh_id      INTEGER    NOT NULL,
-    ntests       INTEGER    NOT NULL,
+    ntests       INTEGER2   NOT NULL,
     tinstruct    DATE       NOT NULL,
     tstart       DATE       NOT NULL,
     tfinish      DATE       NOT NULL,
@@ -20,14 +20,14 @@ CREATE TABLE hoops (
     responses    LONG VARCHAR,   
 """  
     for i in range(1, hoops_last + 1):
-        print "    duration" + str(i) + "    INTEGER,"
-        print "    puzzle" + str(i) + "      INTEGER,"
-        print "    elapsed" + str(i) + "     INTEGER,"
-        print "    answer" + str(i) + "      INTEGER,"
+        print "    duration" + str(i) + "    INTEGER2,"
+        print "    puzzle" + str(i) + "      INTEGER2,"
+        print "    elapsed" + str(i) + "     INTEGER2,"
+        print "    answer" + str(i) + "      INTEGER2,"
         if i == hoops_last:
-            print "    correct" + str(i) + "     INTEGER", # take off final comma and no newline (comma after string)
+            print "    correct" + str(i) + "     INTEGER2", # take off final comma and no newline (comma after string)
         else:
-            print "    correct" + str(i) + "     INTEGER,"
+            print "    correct" + str(i) + "     INTEGER2,"
         print   # separate groups with newline
     print ");"
 
@@ -60,7 +60,7 @@ def print_matrix_puzzle_fields():
     print """
 CREATE TABLE matrix (
     sesh_id      INTEGER    NOT NULL,
-    ntests       INTEGER    NOT NULL,
+    ntests       INTEGER2   NOT NULL,
     tinstruct    DATE       NOT NULL,
     tstart       DATE       NOT NULL,
     tfinish      DATE       NOT NULL,
@@ -68,13 +68,13 @@ CREATE TABLE matrix (
     responses    LONG VARCHAR,   
 """  
     for i in range(1, matrix_last + 1):
-        print "    duration" + str(i) + "    INTEGER,"
-        print "    elapsed" + str(i) + "     INTEGER,"
-        print "    answer" + str(i) + "      INTEGER,"
+        print "    duration" + str(i) + "    INTEGER2,"
+        print "    elapsed" + str(i) + "     INTEGER2,"
+        print "    answer" + str(i) + "      INTEGER2,"
         if i == matrix_last:
-            print "    correct" + str(i) + "     INTEGER", # take off final comma and no newline
+            print "    correct" + str(i) + "     INTEGER2", # take off final comma and no newline
         else:
-            print "    correct" + str(i) + "     INTEGER,"
+            print "    correct" + str(i) + "     INTEGER2,"
         print   # separate groups with newline
     print ");"
 
