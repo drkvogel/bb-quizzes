@@ -259,6 +259,31 @@
         //     ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
         //     ', targetMiddleWidth: ' + targetMiddleWidth
         //      + 'setMargins: ' + setMargins);
+
+        var widthExtra =
+            ($('.container').outerWidth(true) - $('.container').width()) +
+            ($('#pages').outerWidth(true) - $('#pages').width()); // missing some widths?
+        var heightExtra = // required height of .gridContainer
+            ($('#answers').is(':visible') ? $('#answers').height() : 0) +
+            ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
+            ($('.botTxt').is(':visible') ? $('.botTxt').height() : 0) +
+            ($('.topTxt').is(':visible') ? $('.topTxt').height() : 0) +
+            ($('.navTxt').is(':visible') ? $('.navTxt').height() : 0) +
+            ($('.navCtl').is(':visible') ? $('.navCtl').height() : 0)
+            + 75 // fixme arbitrary amount, what should this really be?
+            ;
+            // missing some heights?
+        var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
+        //console.log('scaleImagesCBsimple(): setMargins ' + setMargins + ', heightExtra: ' + heightExtra + ', widthExtra: ' + widthExtra);
+             //'($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;' +
+
+        if (setMargins > 0) {
+            $('.middleImg').css('margin-left', setMargins);
+            $('.middleImg').css('margin-right', setMargins);
+        } else { // don't set negative margins. content should shrink width-wise if needed
+            $('.middleImg').css('margin-left', 0);
+            $('.middleImg').css('margin-right', 0);
+        }
     }
 
     // shrink images to try to fit height into viewport, but don't worry about width
