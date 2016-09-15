@@ -1,1 +1,1 @@
-./bbquiz.cgi -qs "action=insert"
+./bbquiz.cgi -qs "quiz=hoops&action=insert"
