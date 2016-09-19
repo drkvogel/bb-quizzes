@@ -5,32 +5,47 @@
 
 
 void Hoops::parseResponses(const HoopsRecord *e) {
-    char buf[1600];
-    strcpy(buf, e->responses.c_str());
-    const nx_json* json = nx_json_parse(buf, 0);
-
-    if (json) {
-        const nx_json* arr = nx_json_get(json, "array");
-        for (int i = 0; i < arr->length; i++) {
+     printf("<code>parseResponses()</code>");
+    try {
+        char buf[1600];
+        strcpy(buf, e->responses.c_str()); // nxson modifies string in place, don't destroy original responses
+        const nx_json* json = nx_json_parse(buf, 0);
+        if (!json) {
+            printf("<code>didn't get json</code>"); throw "Error parsing JSON";
+        }
+        const nx_json* node = nx_json_item(json, 0); // should be object, first item in array
+        if (NX_JSON_NULL == node->type) {
+            printf("<code>NX_JSON_NULL node</code>");
+            throw "Error parsing JSON";       
+        }
+        printf("<code>got json node type: %d, arr->length: %d</code>", node->type, node->length);
+        printf("count: %d, puzzle: '%s', answer: %s, correct: %d, time: %d<br />",
+            nx_json_get(node, "count")->int_value,
+            nx_json_get(node, "puzzle")->text_value,
+            nx_json_get(node, "answer")->text_value, // should be int
+            nx_json_get(node, "correct")->int_value,   // n
+            nx_json_get(node, "time")->int_value);
+/*        for (int i=0; i < arr->length; i++) {
             const nx_json* item = nx_json_item(arr, i);
             printf("arr[%d]=(%d) %ld %lf %s\n", i, (int)item->type, item->int_value, item->dbl_value, item->text_value);
-        }
+        }*/
         nx_json_free(json);
-    } else {
-        throw "Error parsing JSON";
+    } catch(...) {
+        printf("<code>Error parsing JSON</code>");
     }
 }
 
 void Hoops::insert(XCGI * x) { // real insert by frontend
     HoopsRecord rec;
-    printf("<p>this is %s</p>\n", __FILE__);
+    printf("<code>this is %s. </code>\n", __FILE__);
     int np = x->param.count();
-    printf("<p>there are %d params</p>", np);
-    printf("<p>sesh_id (string param): '%s'</p>", x->param.getStringDefault("sesh_id", "(default)").c_str()); // should be getInt? no, use getString and convert
-    rec.sesh_id = atoi(x->param.getString("sesh_id").c_str()); // seems to crash it
+    printf("<code>there are %d params</code>", np);
+    //printf("<p>sesh_id (string param): '%s'</p>", x->param.getStringDefault("sesh_id", "(default)").c_str()); // should be getInt? no, use getString and convert
+    //rec.sesh_id = atoi(x->param.getString("sesh_id").c_str());
     rec.sesh_id = x->paramAsInt("sesh_id");
-    printf("<p>sesh_id (rec.sesh_id = atoi(getString(\"sesh_id\"))): %d</p>", rec.sesh_id);
-    rec.ntests = x->paramAsInt("ntests");
+    printf("<p>sesh_id: %d</p>", rec.sesh_id);
+    //printf("<p>sesh_id (rec.sesh_id = atoi(getString(\"sesh_id\"))): %d</p>", rec.sesh_id);
+    //rec.ntests = x->paramAsInt("ntests"); // can be determined from responses 
 
     // up to date xcgi.cpp/h has getParam, paramExists, but not this copy
     rec.tinstruct.set(x->param.getString("tinstruct").c_str()); // = ""; //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
