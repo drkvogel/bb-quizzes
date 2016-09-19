@@ -3,6 +3,8 @@
 #include "hoops.h"
 #include "bbquiz.h"
 
+const short MAX_LEVELS = 18;
+
 char * nx_json_type_names[] = {
     "NX_JSON_NULL", "NX_JSON_OBJECT", "NX_JSON_ARRAY", "NX_JSON_STRING", "NX_JSON_INTEGER", "NX_JSON_DOUBLE", "NX_JSON_BOOL"
 };
@@ -64,7 +66,7 @@ void Hoops::insert(XCGI * x) { // real insert by frontend
     printf("done.</code>\n");
 }
 
-bool Hoops::insertRecord(const HoopsRecord *e) {
+bool Hoops::insertRecord(const HoopsRecord *rec) {
     std::string sql =
         "INSERT INTO hoops (sesh_id, ntests, tinstruct, tstart, tfinish, tinsert,"
         " responses,"
@@ -111,12 +113,48 @@ bool Hoops::insertRecord(const HoopsRecord *e) {
 
     XEXEC xe(db, sql);
 
-    xe.param.setInt("sesh_id",       e->sesh_id);
-    xe.param.setInt("ntests",        e->ntests);
-    xe.param.setTime("tinstruct",    e->tinstruct);
-    xe.param.setTime("tstart",       e->tstart);
-    xe.param.setTime("tfinish",      e->tfinish);
-    xe.param.setString("responses",  e->responses);
+    xe.param.setInt("sesh_id",       rec->sesh_id);
+    xe.param.setTime("tinstruct",    rec->tinstruct);
+    xe.param.setTime("tstart",       rec->tstart);
+    xe.param.setTime("tfinish",      rec->tfinish);
+    xe.param.setString("responses",  rec->responses);
+    xe.param.setInt("ntests",        rec->ntests);
+
+    char fieldname[12];
+    for (int i=0; i<rec->answers.size(); i++) { // safer, should agree with rec->ntests
+        //printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>",
+        int idx = i+1;      
+        sprintf(fieldname, "duration%d", idx);
+        xe.param.setInt(fieldname,  rec->answers[i].duration);
+        sprintf(fieldname, "puzzle%d", idx);
+        xe.param.setInt(fieldname,  rec->answers[i].puzzle);
+        sprintf(fieldname, "elapsed%d", idx);
+        xe.param.setInt(fieldname,  rec->answers[i].elapsed);
+        sprintf(fieldname, "answer%d", idx);
+        xe.param.setInt(fieldname,  rec->answers[i].answer);
+        sprintf(fieldname, "correct%d", idx);
+        xe.param.setInt(fieldname,  rec->answers[i].correct);
+        // string("duration") + string(idx)
+    }
+    for (int idx=rec->answers.size()+1; idx<=MAX_LEVELS - rec->answers.size(); idx++) {
+        sprintf(fieldname, "duration%d", idx);
+        xe.param.setInt(fieldname,  -1);
+        sprintf(fieldname, "puzzle%d", idx);
+        xe.param.setInt(fieldname,  -1);
+        sprintf(fieldname, "elapsed%d", idx);
+        xe.param.setInt(fieldname,  -1);
+        sprintf(fieldname, "answer%d", idx);
+        xe.param.setInt(fieldname,  -1);
+        sprintf(fieldname, "correct%d", idx);
+        xe.param.setInt(fieldname,  -1);
+
+/*        xe.param.setInt(string("duration") + string(i), -1);
+        xe.param.setInt(string("puzzle") + string(i),   -1);
+        xe.param.setInt(string("elapsed") + string(i),  -1);
+        xe.param.setInt(string("answer") + string(i),   -1);
+        xe.param.setInt(string("correct") + string(i),  -1);*/
+    }
+
 
 //     xe.param.setInt("duration1",     e->duration1);
 //     xe.param.setInt("puzzle1",       e->puzzle1);
@@ -259,36 +297,43 @@ void Hoops::getRecords() {
     printf("<table border=\"1\" cellspacing=\"0\">\n");
 
     // these are just the column headers:
-    printf("<thead><td>sesh_id</td><td>ntests</td><td>tinstruct</td><td>tstart</td><td>tfinish</td>\n");
-    printf("<td>responses</td>");
-    printf("<td>duration1</td><td>puzzle1</td><td>elapsed1</td><td>answer1</td><td>correct1</td>");
-    printf("<td>duration2</td><td>puzzle2</td><td>elapsed2</td><td>answer2</td><td>correct2</td>");
-    printf("<td>duration3</td><td>puzzle3</td><td>elapsed3</td><td>answer3</td><td>correct3</td>");
-    printf("<td>duration4</td><td>puzzle4</td><td>elapsed4</td><td>answer4</td><td>correct4</td>");
-    printf("<td>duration5</td><td>puzzle5</td><td>elapsed5</td><td>answer5</td><td>correct5</td>");
-    printf("<td>duration6</td><td>puzzle6</td><td>elapsed6</td><td>answer6</td><td>correct6</td>");
-    printf("<td>duration7</td><td>puzzle7</td><td>elapsed7</td><td>answer7</td><td>correct7</td>");
-    printf("<td>duration8</td><td>puzzle8</td><td>elapsed8</td><td>answer8</td><td>correct8</td>");
-    printf("<td>duration9</td><td>puzzle9</td><td>elapsed9</td><td>answer9</td><td>correct9</td>");
-    printf("<td>duration10</td><td>puzzle10</td><td>elapsed10</td><td>answer10</td><td>correct10</td>");
-    printf("<td>duration11</td><td>puzzle11</td><td>elapsed11</td><td>answer11</td><td>correct11</td>");
-    printf("<td>duration12</td><td>puzzle12</td><td>elapsed12</td><td>answer12</td><td>correct12</td>");
-    printf("<td>duration13</td><td>puzzle13</td><td>elapsed13</td><td>answer13</td><td>correct13</td>");
-    printf("<td>duration14</td><td>puzzle14</td><td>elapsed14</td><td>answer14</td><td>correct14</td>");
-    printf("<td>duration15</td><td>puzzle15</td><td>elapsed15</td><td>answer15</td><td>correct15</td>");
-    printf("<td>duration16</td><td>puzzle16</td><td>elapsed16</td><td>answer16</td><td>correct16</td>");
-    printf("<td>duration17</td><td>puzzle17</td><td>elapsed17</td><td>answer17</td><td>correct17</td>");
-    printf("<td>duration18</td><td>puzzle18</td><td>elapsed18</td><td>answer18</td><td>correct18</td>\n");
+    printf("<thead><td>sesh_id</td><td>tinstruct</td><td>tstart</td><td>tfinish</td>\n");
+    printf("<td>responses</td><td>ntests</td>");
+    for (int i=1; i<=MAX_LEVELS; i++) {
+        printf("<td>duration%d</td><td>puzzle%d</td><td>elapsed%d</td><td>answer%d</td><td>correct%d</td>", i, i, i, i, i);
+    }
+//     printf("<td>duration1</td><td>puzzle1</td><td>elapsed1</td><td>answer1</td><td>correct1</td>");
+//     printf("<td>duration2</td><td>puzzle2</td><td>elapsed2</td><td>answer2</td><td>correct2</td>");
+//     printf("<td>duration3</td><td>puzzle3</td><td>elapsed3</td><td>answer3</td><td>correct3</td>");
+//     printf("<td>duration4</td><td>puzzle4</td><td>elapsed4</td><td>answer4</td><td>correct4</td>");
+//     printf("<td>duration5</td><td>puzzle5</td><td>elapsed5</td><td>answer5</td><td>correct5</td>");
+//     printf("<td>duration6</td><td>puzzle6</td><td>elapsed6</td><td>answer6</td><td>correct6</td>");
+//     printf("<td>duration7</td><td>puzzle7</td><td>elapsed7</td><td>answer7</td><td>correct7</td>");
+//     printf("<td>duration8</td><td>puzzle8</td><td>elapsed8</td><td>answer8</td><td>correct8</td>");
+//     printf("<td>duration9</td><td>puzzle9</td><td>elapsed9</td><td>answer9</td><td>correct9</td>");
+//     printf("<td>duration10</td><td>puzzle10</td><td>elapsed10</td><td>answer10</td><td>correct10</td>");
+//     printf("<td>duration11</td><td>puzzle11</td><td>elapsed11</td><td>answer11</td><td>correct11</td>");
+//     printf("<td>duration12</td><td>puzzle12</td><td>elapsed12</td><td>answer12</td><td>correct12</td>");
+//     printf("<td>duration13</td><td>puzzle13</td><td>elapsed13</td><td>answer13</td><td>correct13</td>");
+//     printf("<td>duration14</td><td>puzzle14</td><td>elapsed14</td><td>answer14</td><td>correct14</td>");
+//     printf("<td>duration15</td><td>puzzle15</td><td>elapsed15</td><td>answer15</td><td>correct15</td>");
+//     printf("<td>duration16</td><td>puzzle16</td><td>elapsed16</td><td>answer16</td><td>correct16</td>");
+//     printf("<td>duration17</td><td>puzzle17</td><td>elapsed17</td><td>answer17</td><td>correct17</td>");
+//     printf("<td>duration18</td><td>puzzle18</td><td>elapsed18</td><td>answer18</td><td>correct18</td>\n");
     printf("</thead>\n");
     for (vecHoopsRecord::const_iterator rec = records.begin(); rec != records.end(); rec++) {
         printf("<tr>");
-        printf("<td>%d</td><td>%d</td><td>%s</td><td>%s</td><td>%s</td>", rec->sesh_id, rec->ntests, rec->tinstruct.iso().c_str(), rec->tstart.iso().c_str(), rec->tfinish.iso().c_str());
+        printf("<td>%d</td><td>%s</td><td>%s</td><td>%s</td>", rec->sesh_id, rec->tinstruct.iso().c_str(), rec->tstart.iso().c_str(), rec->tfinish.iso().c_str());
         //printf("<td>%s</td>", "[...]");
-        printf("<td>%s</td>", rec->responses.c_str());
-        for (int i=0; i<rec->ntests; i++) {
+        printf("<td>%s</td><td>%d</td>", rec->responses.c_str(), rec->ntests);
+        //for (int i=0; i<rec->ntests; i++) {
+        for (int i=0; i<rec->answers.size(); i++) { // safer, should agree with rec->ntests
             printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>",
                 rec->answers[i].duration, rec->answers[i].puzzle, rec->answers[i].elapsed,
                 rec->answers[i].answer, rec->answers[i].correct);
+        }
+        for (int i=0; i<MAX_LEVELS - rec->answers.size(); i++) {
+            printf("<td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>");
         }
 /*        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration1, it->puzzle1, it->elapsed1, it->answer1, it->correct1);
         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration2, it->puzzle2, it->elapsed2, it->answer2, it->correct2);
