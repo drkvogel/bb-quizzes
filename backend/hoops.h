@@ -3,6 +3,7 @@
 
 #include "xcgi.h"
 #include "nxjson.h"
+//#include "bbquiz.h"
 
 extern XDB *db;
 

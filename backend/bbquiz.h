@@ -41,6 +41,10 @@ typedef struct {
 } BBQuizRecord;
 typedef std::vector< BBQuizRecord > tdvecBBQuizRecord;
 
+// char * nx_json_type_names[] = {
+//     "NX_JSON_NULL", "NX_JSON_OBJECT", "NX_JSON_ARRAY", "NX_JSON_STRING", "NX_JSON_INTEGER", "NX_JSON_DOUBLE", "NX_JSON_BOOL"
+// };
+
 class Utilities {
 public:
     bool alphanumeric(string);

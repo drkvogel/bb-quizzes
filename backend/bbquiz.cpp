@@ -90,6 +90,7 @@ void showOptions() {
     printf("<td><a href=\"?quiz=hoops&action=insertDummy\">Insert dummy data</a></td>");
     printf("</tr>\n");
     printf("</table>\n");
+    printf("<hr>\n");
 }
 
 void startMatrix() {
