@@ -1,38 +1,59 @@
 #include "xquery.h"
 #include "xexec.h"
 #include "hoops.h"
-#include "nxjson.h"
 
+char * nx_json_type_names[] = {
+    "NX_JSON_NULL", "NX_JSON_OBJECT", "NX_JSON_ARRAY", "NX_JSON_STRING", "NX_JSON_INTEGER", "NX_JSON_DOUBLE", "NX_JSON_BOOL" };
+
+void Hoops::printAnswer(const nx_json* node) {
+    printf("[node type: %s, length: %d]: count: %d, puzzle: '%s', answer: %s, correct: %d, time: %d<br />",
+        nx_json_type_names[node->type],
+        node->length,
+        nx_json_get(node, "count")->int_value,
+        nx_json_get(node, "puzzle")->text_value,
+        nx_json_get(node, "answer")->text_value, // should be int
+        nx_json_get(node, "correct")->int_value,
+        nx_json_get(node, "time")->int_value);
+}
 
 void Hoops::parseResponses(const HoopsRecord *e) {
-     printf("<code>parseResponses()</code>");
+    printf("<code>parseResponses()<br />");
     try {
         char buf[1600];
+        int idx = 0;
         strcpy(buf, e->responses.c_str()); // nxson modifies string in place, don't destroy original responses
-        const nx_json* json = nx_json_parse(buf, 0);
-        if (!json) {
-            printf("<code>didn't get json</code>"); throw "Error parsing JSON";
+        const nx_json* arr = nx_json_parse(buf, 0);
+        if (!arr) {
+            printf("didn't get json<br />"); throw "Error parsing JSON";
         }
-        const nx_json* node = nx_json_item(json, 0); // should be object, first item in array
-        if (NX_JSON_NULL == node->type) {
-            printf("<code>NX_JSON_NULL node</code>");
-            throw "Error parsing JSON";       
-        }
-        printf("<code>got json node type: %d, arr->length: %d</code>", node->type, node->length);
-        printf("count: %d, puzzle: '%s', answer: %s, correct: %d, time: %d<br />",
-            nx_json_get(node, "count")->int_value,
-            nx_json_get(node, "puzzle")->text_value,
-            nx_json_get(node, "answer")->text_value, // should be int
-            nx_json_get(node, "correct")->int_value,   // n
-            nx_json_get(node, "time")->int_value);
-/*        for (int i=0; i < arr->length; i++) {
+        printf("got json node type: %s, arr->length: %d<br />", nx_json_type_names[arr->type], arr->length);
+
+//         // get first item in array, should be NX_JSON_OBJECT
+//         const nx_json* node = nx_json_item(arr, 0);
+//         if (NX_JSON_NULL == node->type) {
+//             printf("NX_JSON_NULL node<br />");
+//             throw "Error parsing JSON";
+//         }
+//         printf("got json node type: %s, length: %d<br />", nx_json_type_names[node->type], node->length);
+//         printAnswer(node);
+// 
+//         const nx_json* ans;
+//         while ((ans = nx_json_item(json, idx++)) && ans->type != NX_JSON_NULL) { // doesn't finish...
+//             printf("ans %d: ", idx);
+//             printAnswer(ans);
+//             if (idx > 20) return;
+//         }
+
+        for (int i=0; i < arr->length; i++) {
             const nx_json* item = nx_json_item(arr, i);
-            printf("arr[%d]=(%d) %ld %lf %s\n", i, (int)item->type, item->int_value, item->dbl_value, item->text_value);
-        }*/
-        nx_json_free(json);
+            //printf("arr[%d]=(%d) %ld %lf %s<br />\n", i, (int)item->type, item->int_value, item->dbl_value, item->text_value);
+            printAnswer(item);
+        }
+        nx_json_free(arr);
     } catch(...) {
-        printf("<code>Error parsing JSON</code>");
+        printf("Error parsing JSON");
     }
+    printf("</code>\n");
 }
 
 void Hoops::insert(XCGI * x) { // real insert by frontend

@@ -89,9 +89,9 @@ void showOptions() {
     printf("<td><a href=\"?quiz=hoops&action=view\">View responses</a></td>");
     printf("<td><a href=\"?quiz=hoops&action=insertDummy\">Insert dummy data</a></td>");
     printf("</tr>\n");
-    printf("<tr><td>-</td>");
+/*    printf("<tr><td>-</td>");
     printf("<td colspan=3><a href=\"idserve.cgi\">idserve.cgi</a></td>");
-    printf("</tr>\n");
+    printf("</tr>\n");*/
     printf("</table>\n");
 }
 

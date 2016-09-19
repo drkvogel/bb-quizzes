@@ -2,6 +2,7 @@
 #define _hoopsH_
 
 #include "xcgi.h"
+#include "nxjson.h"
 
 extern XDB *db;
 
@@ -128,8 +129,8 @@ typedef struct {
 typedef std::vector< HoopsRecord > vecHoopsRecord;
 
 void parseResponses(const HoopsRecord *e);
+void printAnswer(const nx_json* node);
 void insert(XCGI * x);
-//void insert();
 void testInsert();
 bool insertRecord(const HoopsRecord *e);
 void getRecords();
