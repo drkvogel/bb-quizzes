@@ -61,6 +61,27 @@ int initDB() {
     printf("<li><a href=\"?quiz=matrix&action=start\">Start Matrix Quiz</a></li>\n");
     printf("<li><a href=\"?quiz=hoops&action=start\">Start Hoops Quiz</a></li>\n");
 
+/*    printf("<tr><td>-</td>");
+    printf("<td colspan=3><a href=\"idserve.cgi\">idserve.cgi</a></td>");
+    printf("</tr>\n");*/
+
+//printf("arr[%d]=(%d) %ld %lf %s<br />\n", i, (int)item->type, item->int_value, item->dbl_value, item->text_value);
+
+//         // get first item in array, should be NX_JSON_OBJECT
+//         const nx_json* node = nx_json_item(arr, 0);
+//         if (NX_JSON_NULL == node->type) {
+//             printf("NX_JSON_NULL node<br />");
+//             throw "Error parsing JSON";
+//         }
+//         printf("got json node type: %s, length: %d<br />", nx_json_type_names[node->type], node->length);
+//         printAnswer(node);
+// 
+//         const nx_json* ans;
+//         while ((ans = nx_json_item(json, idx++)) && ans->type != NX_JSON_NULL) { // doesn't finish...
+//             printf("ans %d: ", idx);
+//             printAnswer(ans);
+//             if (idx > 20) return;
+//         }
 
 /*
 typedef struct {

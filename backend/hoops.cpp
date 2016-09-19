@@ -16,7 +16,7 @@ void Hoops::printAnswer(const nx_json* node) {
         nx_json_get(node, "time")->int_value);
 }
 
-void Hoops::parseResponses(const HoopsRecord *e) {
+void Hoops::parseResponses(HoopsRecord *e) {
     printf("<code>parseResponses()<br />");
     try {
         char buf[1600];
@@ -26,29 +26,14 @@ void Hoops::parseResponses(const HoopsRecord *e) {
         if (!arr) {
             printf("didn't get json<br />"); throw "Error parsing JSON";
         }
-        printf("got json node type: %s, arr->length: %d<br />", nx_json_type_names[arr->type], arr->length);
+        //printf("got json node type: %s, arr->length: %d<br />", nx_json_type_names[arr->type], arr->length);
 
-//         // get first item in array, should be NX_JSON_OBJECT
-//         const nx_json* node = nx_json_item(arr, 0);
-//         if (NX_JSON_NULL == node->type) {
-//             printf("NX_JSON_NULL node<br />");
-//             throw "Error parsing JSON";
-//         }
-//         printf("got json node type: %s, length: %d<br />", nx_json_type_names[node->type], node->length);
-//         printAnswer(node);
-// 
-//         const nx_json* ans;
-//         while ((ans = nx_json_item(json, idx++)) && ans->type != NX_JSON_NULL) { // doesn't finish...
-//             printf("ans %d: ", idx);
-//             printAnswer(ans);
-//             if (idx > 20) return;
-//         }
-
+        e->ntests = arr->length;
         for (int i=0; i < arr->length; i++) {
             const nx_json* item = nx_json_item(arr, i);
-            //printf("arr[%d]=(%d) %ld %lf %s<br />\n", i, (int)item->type, item->int_value, item->dbl_value, item->text_value);
             printAnswer(item);
         }
+
         nx_json_free(arr);
     } catch(...) {
         printf("Error parsing JSON");
@@ -58,27 +43,29 @@ void Hoops::parseResponses(const HoopsRecord *e) {
 
 void Hoops::insert(XCGI * x) { // real insert by frontend
     HoopsRecord rec;
-    printf("<code>this is %s. </code>\n", __FILE__);
+    printf("<code>this is Hoops::insert() in %s.<br />\n", __FILE__);
     int np = x->param.count();
-    printf("<code>there are %d params</code>", np);
-    //printf("<p>sesh_id (string param): '%s'</p>", x->param.getStringDefault("sesh_id", "(default)").c_str()); // should be getInt? no, use getString and convert
-    //rec.sesh_id = atoi(x->param.getString("sesh_id").c_str());
-    rec.sesh_id = x->paramAsInt("sesh_id");
-    printf("<p>sesh_id: %d</p>", rec.sesh_id);
-    //printf("<p>sesh_id (rec.sesh_id = atoi(getString(\"sesh_id\"))): %d</p>", rec.sesh_id);
-    //rec.ntests = x->paramAsInt("ntests"); // can be determined from responses 
 
     // up to date xcgi.cpp/h has getParam, paramExists, but not this copy
+    rec.sesh_id = x->paramAsInt("sesh_id");
     rec.tinstruct.set(x->param.getString("tinstruct").c_str()); // = ""; //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
     rec.tstart.set(x->param.getString("tstart").c_str());
     rec.tfinish.set(x->param.getString("tfinish").c_str()); 
     rec.tinsert.set(x->param.getString("tinsert").c_str());
-    rec.responses = x->param.getString("responses");
+    // rec.ntests can be determined from responses
 
+    printf("<p>sesh_id: %d</p>", rec.sesh_id);
+
+    rec.responses = x->param.getString("responses");
     parseResponses(&rec);
 
-    printf("done");
+    printf("done.</code>\n");
 }
+
+    //printf("<code>there are %d params</code>", np);
+    //printf("<p>sesh_id (string param): '%s'</p>", x->param.getStringDefault("sesh_id", "(default)").c_str()); // should be getInt? no, use getString and convert
+    //rec.sesh_id = atoi(x->param.getString("sesh_id").c_str());
+    //printf("<p>sesh_id (rec.sesh_id = atoi(getString(\"sesh_id\"))): %d</p>", rec.sesh_id);   
 
     //printf("<p>sesh_id: '%d'</p>", rec.sesh_id);
 /*

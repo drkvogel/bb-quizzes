@@ -128,7 +128,7 @@ typedef struct {
 } HoopsRecord; //BBQuizRecord;
 typedef std::vector< HoopsRecord > vecHoopsRecord;
 
-void parseResponses(const HoopsRecord *e);
+void parseResponses(HoopsRecord *e);
 void printAnswer(const nx_json* node);
 void insert(XCGI * x);
 void testInsert();
