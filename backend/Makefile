@@ -17,7 +17,7 @@ bbquiz : bbquiz.o $(OBJBBQUIZ)
 
 nodb : bbquiz.o $(OBJBBQUIZ)
 	echo "make nodb"
-	$(CXX) $(CCXXFLAGS) -o bbquiz.cgi bbquiz.cpp $(OBJBBQUIZ)
+	$(CXX) $(CCXXFLAGS) -o index.cgi bbquiz.cpp $(OBJBBQUIZ)
 
 #chmod go-w bbquiz.cgi
 #cp bbquiz.cgi $(TARGETDIR)
