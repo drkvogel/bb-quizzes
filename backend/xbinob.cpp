@@ -4,6 +4,9 @@
 #include <stdio.h>
 //#include <mem.h>
 #include <string>
+#include <cstring>
+using namespace std;
+
 //===========================================================================
 bool XBINOB::use_exceptions = true;
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -125,7 +125,8 @@ int main(int argc, char **argv) {
             printf("<p>No action selected.</p>\n");
         } else if (paramIs("action", "insert") && paramIs("quiz", "hoops")) { // real insert by frontend
             //printf("<p>Hoops::insert(x)</p>\n");
-            Hoops::insert(x);
+            //Hoops::insert(x);
+            Hoops::getParams(x);
             //Hoops::insert();
         } else if (paramIs("action", "insert") && paramIs("quiz", "matrix")) {
             Matrix::insert(x);

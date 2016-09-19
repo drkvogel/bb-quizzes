@@ -30,6 +30,21 @@ typedef struct {
     std::string responses; //char responses[1600];
     vecHoopsAnswer answers;
 
+} HoopsRecord; //BBQuizRecord;
+typedef std::vector< HoopsRecord > vecHoopsRecord;
+
+void parseResponses(HoopsRecord *rec);
+void printAnswer(const nx_json* node);
+HoopsRecord getParams(XCGI * x);
+void testInsert();
+bool insertRecord(const HoopsRecord *e);
+void getRecords();
+
+} // namespace Hoops
+
+#endif
+
+
 /*    int duration1;
     int puzzle1;
     int elapsed1;
@@ -137,16 +152,3 @@ typedef struct {
     int elapsed18;
     int answer18;
     int correct18;*/
-} HoopsRecord; //BBQuizRecord;
-typedef std::vector< HoopsRecord > vecHoopsRecord;
-
-void parseResponses(HoopsRecord *e);
-void printAnswer(const nx_json* node);
-void insert(XCGI * x);
-void testInsert();
-bool insertRecord(const HoopsRecord *e);
-void getRecords();
-
-} // namespace Hoops
-
-#endif

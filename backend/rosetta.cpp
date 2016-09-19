@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <algorithm>
+#include <cstring>
+using namespace std;
+
 //===========================================================================
 #define	AND		'&'
 #define	BAR		'|'

@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <algorithm>
 #include <math.h>
+#include <cstring>
+using namespace std;
 #include "rosebase.h"
 #include "rosetta.h"
 //===========================================================================
