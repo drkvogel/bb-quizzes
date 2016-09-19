@@ -10,6 +10,16 @@ extern XDB *db;
 namespace Hoops {
 
 typedef struct {
+    int duration;
+    int puzzle; // string/char*?
+    int elapsed;
+    int answer;
+    int correct;
+} HoopsAnswer;
+
+typedef std::vector< HoopsAnswer > vecHoopsAnswer;
+
+typedef struct {
     int sesh_id;
     int ntests;
     XTIME tinstruct;
@@ -18,8 +28,9 @@ typedef struct {
     XTIME tinsert;
 
     std::string responses; //char responses[1600];
+    vecHoopsAnswer answers;
 
-    int duration1;
+/*    int duration1;
     int puzzle1;
     int elapsed1;
     int answer1;
@@ -125,7 +136,7 @@ typedef struct {
     int puzzle18;
     int elapsed18;
     int answer18;
-    int correct18;
+    int correct18;*/
 } HoopsRecord; //BBQuizRecord;
 typedef std::vector< HoopsRecord > vecHoopsRecord;
 
