@@ -47,6 +47,10 @@ extern "C" {
 
 #define IS_WHITESPACE(c) ((unsigned char)(c)<=(unsigned char)' ')
 
+// char * nx_json_type_names[] = {
+//     "NX_JSON_NULL", "NX_JSON_OBJECT", "NX_JSON_ARRAY", "NX_JSON_STRING", "NX_JSON_INTEGER", "NX_JSON_DOUBLE", "NX_JSON_BOOL"
+// };
+
 static const nx_json dummy={ NX_JSON_NULL };
 
 static nx_json* create_json(nx_json_type type, const char* key, nx_json* parent) {

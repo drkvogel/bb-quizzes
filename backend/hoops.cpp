@@ -1,6 +1,7 @@
 #include "xquery.h"
 #include "xexec.h"
 #include "hoops.h"
+#include "bbquiz.h"
 
 char * nx_json_type_names[] = {
     "NX_JSON_NULL", "NX_JSON_OBJECT", "NX_JSON_ARRAY", "NX_JSON_STRING", "NX_JSON_INTEGER", "NX_JSON_DOUBLE", "NX_JSON_BOOL"

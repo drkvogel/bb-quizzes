@@ -23,10 +23,10 @@ nodb : bbquiz.o $(OBJBBQUIZ)
 #cp bbquiz.cgi $(TARGETDIR)
 #cp main.css $(TARGETDIR)
 
-idserve: idserve.o $(OBJCOMMON)
-	$(CXX) $(CXXFLAGS) -o idserve.cgi idserve.cpp $(OBJCOMMON) -L$(II_SYSTEM)/ingres/lib -lingres $(LDLIB)
-	chmod go-w idserve.cgi
-	cp idserve.cgi $(TARGETDIR)
+# idserve: idserve.o $(OBJCOMMON)
+# 	$(CXX) $(CXXFLAGS) -o idserve.cgi idserve.cpp $(OBJCOMMON) -L$(II_SYSTEM)/ingres/lib -lingres $(LDLIB)
+# 	chmod go-w idserve.cgi
+# 	cp idserve.cgi $(TARGETDIR)
 
 clean :
 	echo "make clean"

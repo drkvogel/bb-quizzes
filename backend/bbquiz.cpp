@@ -24,7 +24,13 @@
 // bbquiz.cpp
 // Biobank Cognitive Quizzes backend
 // c.bird 2016-08-08
-// 
+
+std::string timebuf;
+XTIME logtime;
+FILE * logfile;
+XCGI * x;
+XDB *db;
+
 bool dbErrorCallback (const std::string object, const int instance, const int ecount, const int ecode, const std::string error_txt) {
     std::stringstream sstr;
     sstr <<"Database error:\n object: "<<object<<"\n instance: "<<instance<<"\n ecount: "<<ecount<<"\n ecode: "<<ecode<<"\n error_txt: "<<error_txt;

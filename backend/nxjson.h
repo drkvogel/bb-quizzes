@@ -35,6 +35,8 @@ typedef enum nx_json_type {
   NX_JSON_BOOL     // this is a boolean; value can be found in int_value field
 } nx_json_type;
 
+//char * nx_json_type_names[7]; //sizeof(nx_json_type)];
+
 typedef struct nx_json {
   nx_json_type type;       // type of json node, see above
   const char* key;         // key of the property; for object's children only
