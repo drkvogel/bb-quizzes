@@ -36,7 +36,8 @@
         tfinish = null,
         tinsert = null,
         ntests = null,
-        responses = null;
+        responses = null,
+        urlParams = {};
 
     //var Timer = require('./timer'); // require is a node thing, unless you use requirejs
     // copied/adapted from Jonathan's bb-quizzes/snap/Snap_files/Timer.js
@@ -612,6 +613,17 @@
         isTimeUp = false;
         current = 0;
 
+        if (LOCAL) {
+            config.seshID = 4321;
+        } else {
+            if (!urlParams.hasOwnProperty('sesh_id')) {
+                throw new Error('not LOCAL and sesh_id not found in urlParams');
+            }
+            config.seshID = urlParams['sesh_id'];
+        }
+        console.log('config.sesh_id: ' + config.seshID);
+        $('#home .debug').html('<code>config.seshID: ' + config.seshID + '</code>');
+
         randLevels(); console.log('levels: ' + levels);
         $('#feedbackForm').attr('action', config.formAction); // set the results form target
         //console.log('formAction: ' + config.formAction);
@@ -619,22 +631,11 @@
     }
 
     function getConfig() {
-        var idserve = LOCAL ? 'idserve-dummy.json' : '../bbquiz/idserve.cgi'; // bb-quizzes/hoops/yo/app/idserve-dummy.json
         $.getJSON('./config.json', function (configData) {
             console.log('getConfig(): got config.json');
             config = configData;
             pages = configData.pages;
-            $.getJSON(idserve, function (seshData) {
-                console.log('getConfig(): got idserve.cgi');
-                //console.log('getConfig(): seshData: ' + JSON.stringify(seshData));
-                console.log('getConfig(): seshData.session.seshID: ' + seshData.session.seshID);
-                config.seshID = seshData.session.seshID;
-                $('#home .debug').html('<code>config.seshID: ' + config.seshID + '</code>');
-                init();
-            }).fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
-                var err = 'error getting idserve.cgi: ' + textStatus + ', errorThrown: ' + errorThrown;
-                console.log(err);
-            });
+            init();
         }).fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
             var err = 'error getting config.json: ' + textStatus + ', errorThrown: ' + errorThrown;
             console.log(err);
@@ -661,6 +662,20 @@
     window.onresize = function(event) {
         scaleImages();
     };
+
+    (window.onpopstate = function() {
+        var match,
+            pl = /\+/g,  // Regex for replacing addition symbol with a space
+            search = /([^&=]+)=?([^&]*)/g,
+            decode = function(s) { return decodeURIComponent(s.replace(pl, ' ')); },
+            query = window.location.search.substring(1);
+        while (match = search.exec(query)) {
+           urlParams[decode(match[1])] = decode(match[2]);
+        }
+        for (var urlParam in urlParams) {
+            console.log('urlParam: ' + urlParam + " is " + urlParams[urlParam]);
+        }
+    })();
 
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
@@ -692,6 +707,18 @@ console.log('main.js ready');
         // formAction = 'http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/'; // scratch that, point to red
     //$("body").css("cursor", "progress"); // $("body").css("cursor", "default");
 
+        //var idserve = LOCAL ? 'idserve-dummy.json' : '../bbquiz/idserve.cgi'; // bb-quizzes/hoops/yo/app/idserve-dummy.json
+            // $.getJSON(idserve, function (seshData) {
+            //     console.log('getConfig(): got idserve.cgi');
+            //     //console.log('getConfig(): seshData: ' + JSON.stringify(seshData));
+            //     console.log('getConfig(): seshData.session.seshID: ' + seshData.session.seshID);
+            //     config.seshID = seshData.session.seshID;
+            //     $('#home .debug').html('<code>config.seshID: ' + config.seshID + '</code>');
+            //     init();
+            // }).fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
+            //     var err = 'error getting idserve.cgi: ' + textStatus + ', errorThrown: ' + errorThrown;
+            //     console.log(err);
+            // });
 
         //console.log('unbind clicks');
         //$('#pages').off('click', 'a, button, div.row div', containerClick); // in case resized, or showPage() called another way

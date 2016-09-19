@@ -11,7 +11,6 @@ void Hoops::parseResponses(const HoopsRecord *e) {
 
     if (json) {
         const nx_json* arr = nx_json_get(json, "array");
-    
         for (int i = 0; i < arr->length; i++) {
             const nx_json* item = nx_json_item(arr, i);
             printf("arr[%d]=(%d) %ld %lf %s\n", i, (int)item->type, item->int_value, item->dbl_value, item->text_value);
@@ -23,23 +22,37 @@ void Hoops::parseResponses(const HoopsRecord *e) {
 }
 
 void Hoops::insert(XCGI * x) { // real insert by frontend
-//void Hoops::insert() { // real insert by frontend
     HoopsRecord rec;
     printf("<p>this is %s</p>\n", __FILE__);
     int np = x->param.count();
     printf("<p>there are %d params</p>", np);
-    printf("<p>sesh_id: '%s'</p>", x->param.getStringDefault("sesh_id", "(default)").c_str()); // should be getInt
-    //rec.sesh_id = x->param.getInt("sesh_id"); // seems to crash it
-        // terminate called after throwing an instance of 'std::string'
-    rec.ntests = -1; //x->param.getIntDefault("ntests", -1);
-    rec.tinstruct = ""; //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
-    rec.tstart = "";
-    rec.tfinish = "";
-    rec.tinsert = "";
-    rec.responses = "";
-    //printf("TODO");
-    //printf("<p>sesh_id: '%d'</p>", rec.sesh_id);
+    printf("<p>sesh_id (string param): '%s'</p>", x->param.getStringDefault("sesh_id", "(default)").c_str()); // should be getInt? no, use getString and convert
+    rec.sesh_id = atoi(x->param.getString("sesh_id").c_str()); // seems to crash it
+    rec.sesh_id = x->paramAsInt("sesh_id");
+    printf("<p>sesh_id (rec.sesh_id = atoi(getString(\"sesh_id\"))): %d</p>", rec.sesh_id);
+    rec.ntests = x->paramAsInt("ntests");
+
+    // up to date xcgi.cpp/h has getParam, paramExists, but not this copy
+    rec.tinstruct.set(x->param.getString("tinstruct").c_str()); // = ""; //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
+    rec.tstart.set(x->param.getString("tstart").c_str());
+    rec.tfinish.set(x->param.getString("tfinish").c_str()); 
+    rec.tinsert.set(x->param.getString("tinsert").c_str());
+    rec.responses = x->param.getString("responses");
+
+    parseResponses(&rec);
+
+    printf("done");
 }
+
+    //printf("<p>sesh_id: '%d'</p>", rec.sesh_id);
+/*
+    printf("about to get int");
+    try {
+        rec.sesh_id = x->param.getInt("sesh_id"); // seems to crash it
+    } catch (std::string e) {
+        printf("caught exception: '%s'", e.c_str());
+        // terminate called after throwing an instance of std::string
+    }*/ 
 
 void Hoops::testInsert() { // insert some dummy data
     HoopsRecord rec;
