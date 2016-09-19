@@ -613,10 +613,14 @@
         isTimeUp = false;
         current = 0;
 
-        if (!urlParams.hasOwnProperty('sesh_id')) {
-            throw new Error('sesh_id not found in urlParams');
+        if (LOCAL) {
+            config.seshID = 4321;
+        } else {
+            if (!urlParams.hasOwnProperty('sesh_id')) {
+                throw new Error('not LOCAL and sesh_id not found in urlParams');
+            }
+            config.seshID = urlParams['sesh_id'];
         }
-        config.seshID = urlParams['sesh_id'];
         console.log('config.sesh_id: ' + config.seshID);
         $('#home .debug').html('<code>config.seshID: ' + config.seshID + '</code>');
 
