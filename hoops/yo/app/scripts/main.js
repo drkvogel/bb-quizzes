@@ -609,20 +609,25 @@
     }
 
     function init() {
-        timer = new Timer();
+        timer = new Timer(); // globals
         isTimeUp = false;
         current = 0;
+        var msg;
 
         if (LOCAL) {
             config.seshID = 4321;
         } else {
             if (!urlParams.hasOwnProperty('sesh_id')) {
-                throw new Error('not LOCAL and sesh_id not found in urlParams');
+                msg = 'not LOCAL and sesh_id not found in urlParams';
+                $('#home .debug').html('<code>' + msg + '</code>');
+                throw new Error(msg);
             }
-            config.seshID = urlParams['sesh_id'];
+            config.seshID = urlParams.sesh_id; //urlParams['sesh_id'];
+                // error  ["sesh_id"] is better written in dot notation                    dot-notation
         }
-        console.log('config.sesh_id: ' + config.seshID);
-        $('#home .debug').html('<code>config.seshID: ' + config.seshID + '</code>');
+        msg = 'config.sesh_id: ' + config.seshID;
+        console.log(msg);
+        $('#home .debug').html('<code>' + msg + '</code>');
 
         randLevels(); console.log('levels: ' + levels);
         $('#feedbackForm').attr('action', config.formAction); // set the results form target
@@ -673,7 +678,7 @@
            urlParams[decode(match[1])] = decode(match[2]);
         }
         for (var urlParam in urlParams) {
-            console.log('urlParam: ' + urlParam + " is " + urlParams[urlParam]);
+            console.log('urlParam: ' + urlParam + ' is ' + urlParams[urlParam]);
         }
     })();
 
