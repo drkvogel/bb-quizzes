@@ -357,7 +357,7 @@
             if (slice === 'ans') { // bottom grid only
                 $('#' + elId).addClass('disabled'); // remember to add '#' back onto ID to make selector
                 var num = elId[3]; // number in id following 'bot' == number of bottom tile selected
-                answered(num);
+                answered(Number(num)); // otherwise gets quoted in JSON and has to be translated from string on backend
             }
         }
     }
@@ -531,7 +531,7 @@
 
     function answered(num) {
         var page = currentPage();
-        var isCorrect = Number(num) === puzzle.c;
+        var isCorrect = num === puzzle.c;
         console.log('answered: ' + num + ', correct: ' + puzzle.c + ', isCorrect: ' + isCorrect);
         var timeTaken;
         if (page.name.slice(0, 2) === 'ex') { // real exercise
@@ -539,9 +539,9 @@
             timeTaken = timer.getElapsed();
             showTime(timeTaken, isCorrect);
             var answer = {
-                count: ++puzzleCount, // should be number of puzzles taken
-                puzzle: puzzle.b,
-                answer: num,
+                count: ++puzzleCount,   // should be number of puzzles taken
+                puzzle: puzzle.n,       // number of puzzle, not image name - config.json should be only mapping
+                answer: num, //Number(num),
                 correct: isCorrect,
                 time: timeTaken
             };
