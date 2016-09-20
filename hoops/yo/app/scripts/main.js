@@ -26,10 +26,6 @@
         levels = [],
         answers = [],
         puzzle = null,
-        navNext = '<span><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>', // pull-left pull-right
-        navPrev = '<span><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>',
-        navPrevNext = '<span style="margin-right: 40px;"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>' +
-                          '<span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>',
         seshID = null,
         tinstruct = null,
         tstart = null,
@@ -400,7 +396,7 @@
                 puzzle = config.practice;
                 $('#img-a').attr('src', 'images/' + puzzle.a);
                 $('#img-b').attr('src', 'images/' + puzzle.b); // or $('#imgdiv-b img')
-                $('.navCtl').html(navPrev);
+                $('.navCtl').html(config.navPrev);
             } else {
                 puzzle = getNextPuzzle();
                 if (puzzle === undefined) { // nothing left on stack, finished all puzzles
@@ -424,9 +420,9 @@
             $('.botTxt').html(page.botTxt);
             $('.navTxt').html(page.navTxt);
             if (page.name === 'intro1') {
-                $('.navCtl').html(navNext);
+                $('.navCtl').html(config.navNext);
             } else {
-                $('.navCtl').html(navPrevNext);
+                $('.navCtl').html(config.navPrevNext);
             }
             if (page.name === 'intro5') {
                 var ans = answers.pop();
@@ -436,7 +432,7 @@
             break;
         case 'getReady':
             $('.navTxt').html(page.navTxt);
-            $('.navCtl').html(navNext);
+            $('.navCtl').html(config.navStart);
             break;
         case 'thanks':
             clearTimeout(timeUpTimeout);

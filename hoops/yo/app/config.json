@@ -5,7 +5,10 @@
     "timeLimit" : 120000,
     "comment": "formAction was complete.php",
     "formAction" : "http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/",
-    "comment": "answers: 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5 - are these right?",
+    "navNext" : "<span><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>",
+    "navStart" : "<span><button class=\"btn\" id=\"next\" href=\"#\">Start &gt;&gt;</button></span>",
+    "navPrev" : "<span><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>",
+    "navPrevNext" : "<span style=\"margin-right: 40px;\"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span><span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>",
     "practice": {"a": "t3bw21y.png", "b": "t3yw2b1.png", "c": 2},
     "puzzles": [
         {"b": "t3bw21y.png", "c": 1},
@@ -102,7 +105,7 @@
             "name": "getReady",
             "type" : "intro",
             "templateId": "getReady",
-            "navTxt" : "<p>Touch \"Next\" when you are ready to begin.</p><p>You will have 2 minutes to do as many puzzles as you can.</p>",
+            "navTxt" : "<p>Touch \"Start\" when you are ready to begin.</p><p>You will have 2 minutes to do as many puzzles as you can.</p>",
             "correct": -1,
             "suppressAbandon" : true
         },
