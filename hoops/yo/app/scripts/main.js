@@ -447,6 +447,7 @@
 
         //scaleImages();
         $('#' + page.templateId).fadeIn(FADEIN, showPage2);
+        scaleImages();
         //showInfo('height: ' + $(window).height()); //attr('height'));
     }
 
@@ -467,7 +468,7 @@
         if (isTimeUp) {                             // time up
             clearTimeout(nextPageTimeout);
             page = pageNamed('thanks');
-        } else if (currentPage().name === 'ex') {            // live game
+        } else if (currentPage().name === 'ex') {   // live game
             page = currentPage();
         } else if (current + 1 < pages.length) {    // intro screens
             current += 1;
