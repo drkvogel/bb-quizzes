@@ -317,11 +317,18 @@
         scaleImagesCBsimple();
     }
 
+    function isoDate() {
+        var date = new Date();
+        return date.toISOString().substring(0, 19); // strip milliseconds
+            // what about timezone?
+    }
+
     function startTimer(page) {
         if (page.name.slice(0, 2) === 'ex') {
             timer.now(); // start timer for all real exercises
             if (levels.length === MAX_LEVELS - 1) { // first puzzle just been popped off
-                config.timeStarted = new Date($.now());
+                //config.timeStarted = new Date($.now()).toISOString(); // d.toISOString() is not a function - Date($.now()) creates
+                config.timeStarted = isoDate();
                 console.log('config.timeStarted: ' + config.timeStarted);
                 timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
             }
@@ -501,6 +508,7 @@
 
         // fill in form and submit automatically
         document.getElementById('sesh_id').value = config.seshID;
+        document.getElementById('tinstruct').value = config.tinstruct;
         document.getElementById('tstart').value = config.timeStarted;
         document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
         window.onbeforeunload = null;
@@ -631,6 +639,8 @@
         $('#feedbackForm').attr('action', config.formAction); // set the results form target
         //console.log('formAction: ' + config.formAction);
         showPage(currentPage());
+        config.tinstruct = isoDate();
+        console.log('config.tinstruct: ' + config.tinstruct);
     }
 
     function getConfig() {
