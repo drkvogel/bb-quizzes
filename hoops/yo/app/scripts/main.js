@@ -537,25 +537,32 @@
         }
     }
 
-    function answered(num) {
+    function answered(ans) {
         var page = currentPage();
-        var isCorrect = num === puzzle.c;
-        console.log('answered: ' + num + ', correct: ' + puzzle.c + ', isCorrect: ' + isCorrect);
+        var isCorrect = ans === puzzle.c;
+        console.log('answered: ' + ans + ', correct: ' + puzzle.c + ', isCorrect: ' + isCorrect + ", elapsed? " + timer.getElapsed());
         var timeTaken;
         if (page.name.slice(0, 2) === 'ex') { // real exercise
             timer.lap();
             timeTaken = timer.getElapsed();
             showTime(timeTaken, isCorrect);
+
+            // duration        Time taken to answer puzzle
+            // puzzle          Puzzle chosen by algorithm
+            // elapsed         Cumulative time elapsed
+            // answer          Answer given by user
+            // correct         Correct answer
             var answer = {
                 count: ++puzzleCount,   // should be number of puzzles taken
+                duration: timeTaken,
                 puzzle: puzzle.n,       // number of puzzle, not image name - config.json should be only mapping
-                answer: num, //Number(num),
-                correct: isCorrect,
-                time: timeTaken
+                elapsed: -1,            // ?
+                answer: ans,            // ans should be is Number(),
+                correct: puzzle.c       // correct answer, not bool
             };
             answers.push(answer);
         } else if (page.name.slice(0, 5) === 'intro') {
-            answers.push(num);
+            answers.push(ans);
         }
         $('#' + currentPage().templateId).fadeOut(FADEOUT, answered2);
     }
