@@ -83,15 +83,27 @@ bool paramIs(const char * param, const char * value) {
     return result;
 }
 
+int now() { // UNIX time in seconds
+    time_t  tnow;
+    time(&tnow); // ctime(&tnow)
+    return (int)tnow;
+/*    char timestring[32];
+    strcpy(timestring, ctime(&tnow));
+    timestring[24] = '\0'; // remove annoying non-configurable newline added by ctime
+    //printf("{\n  \"session\": {\n    \"comment\" : \"some JSON\",\n    \"seshID\": \"%s\"\n  }\n}", timestring);*/
+    //printf("{\n  \"session\": {\n    \"comment\" : \"some JSON\",\n    \"seshID\": \"%d\"\n  }\n}", (int)tnow);
+
+}
+
 void showOptions() {
     printf("<table border=1 cellspacing=0><thead><tr><th>Quiz</th><th colspan=3>Actions</th></tr></thead>\n");
     printf("<tr><td>Matrix</td>");
-    printf("<td><a href=\"../matrix/?sesh_id=1234\">Start</a></td>"); //printf("<td><a href=\"?quiz=matrix&action=start\">Start</a></td>");
+    printf("<td><a href=\"../matrix/?sesh_id=%d\">Start</a></td>", now()); //printf("<td><a href=\"?quiz=matrix&action=start\">Start</a></td>");
     printf("<td><a href=\"?quiz=matrix&action=view\">View responses</a></td>");
     printf("<td><a href=\"?quiz=matrix&action=insertDummy\">Insert dummy data</a></td>");
     printf("</tr>\n");
     printf("<tr><td>Hoops</td>");
-    printf("<td><a href=\"../hoops/?sesh_id=1234\">Start</a></td>"); //printf("<td><a href=\"?quiz=hoops&action=start\">Start</a></td>");
+    printf("<td><a href=\"../hoops/?sesh_id=%d\">Start</a></td>", now()); //printf("<td><a href=\"?quiz=hoops&action=start\">Start</a></td>");
     printf("<td><a href=\"?quiz=hoops&action=view\">View responses</a></td>");
     printf("<td><a href=\"?quiz=hoops&action=insertDummy\">Insert dummy data</a></td>");
     printf("</tr>\n");
