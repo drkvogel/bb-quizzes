@@ -31,7 +31,11 @@ namespace Hoops {
 
     void parseResponses(HoopsRecord *rec);
     void printAnswer(const nx_json* node);
-    HoopsRecord getParams(XCGI * x);
+
+    void printJSONAnswer(const nx_json* node);
+    void printHoopsAnswer(HoopsAnswer & ans);
+
+    HoopsRecord getPayload(XCGI * x);
     void testInsert();
     bool insertRecord(const HoopsRecord *e);
     void getRecords();
