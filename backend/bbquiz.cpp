@@ -148,6 +148,7 @@ int main(int argc, char **argv) {
             Matrix::testInsert();
         } else if (paramIs("action", "view") && paramIs("quiz", "hoops")) {
             Hoops::getRecords();
+            Hoops::printRecords();
         } else if (paramIs("action", "view") && paramIs("quiz", "matrix")) {
             Matrix::getRecords();
         } else if (paramIs("action", "start") && paramIs("quiz", "matrix")) {

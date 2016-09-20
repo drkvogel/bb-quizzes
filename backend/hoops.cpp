@@ -12,6 +12,8 @@ char * nx_json_type_names[] = {
     "NX_JSON_NULL", "NX_JSON_OBJECT", "NX_JSON_ARRAY", "NX_JSON_STRING", "NX_JSON_INTEGER", "NX_JSON_DOUBLE", "NX_JSON_BOOL"
 };
 
+Hoops::vecHoopsRecord records;
+
 void Hoops::printAnswer(const nx_json* node) {
     printf("[node type: %s, length: %d]: count: %d, puzzle: %d, answer: %d, correct: %d, time: %d<br />",
         nx_json_type_names[node->type], node->length,
@@ -151,8 +153,8 @@ bool Hoops::insertRecord(const HoopsRecord *rec) {
 }
 
 void Hoops::getRecords() {
-    vecHoopsRecord records;
-    HoopsRecord rec;
+    records.clear();
+    
     std::string sql = "SELECT * FROM hoops";
     XQUERY q(db, sql);
     printf("<p>this is %s</p>\n", __FILE__);
@@ -162,6 +164,7 @@ void Hoops::getRecords() {
     } else {
         printf("Database open");
     }
+    HoopsRecord rec;
     while (q.fetch()) {
         rec.sesh_id   = q.result.getInt("sesh_id");
         rec.tinstruct = q.result.getTime("tinstruct"); // getDate?
@@ -175,54 +178,70 @@ void Hoops::getRecords() {
         records.push_back(rec);
     }
     q.close();
+}
 
+void Hoops::printRecords() {
     printf("<code>\n");
     printf("<h3>%d results:</h3>\n", records.size());
     printf("<table border=\"1\" cellspacing=\"0\">\n");
 
-    // these are just the column headers:
+    // print column headers
     printf("<thead><td>sesh_id</td><td>tinstruct</td><td>tstart</td><td>tfinish</td>\n");
     printf("<td>responses</td><td>ntests</td>");
     for (int i=1; i<=MAX_LEVELS; i++) {
         printf("<td>duration%d</td><td>puzzle%d</td><td>elapsed%d</td><td>answer%d</td><td>correct%d</td>", i, i, i, i, i);
     }
-//     printf("<td>duration1</td><td>puzzle1</td><td>elapsed1</td><td>answer1</td><td>correct1</td>");
-//     printf("<td>duration2</td><td>puzzle2</td><td>elapsed2</td><td>answer2</td><td>correct2</td>");
-//     printf("<td>duration3</td><td>puzzle3</td><td>elapsed3</td><td>answer3</td><td>correct3</td>");
-//     printf("<td>duration4</td><td>puzzle4</td><td>elapsed4</td><td>answer4</td><td>correct4</td>");
-//     printf("<td>duration5</td><td>puzzle5</td><td>elapsed5</td><td>answer5</td><td>correct5</td>");
-//     printf("<td>duration6</td><td>puzzle6</td><td>elapsed6</td><td>answer6</td><td>correct6</td>");
-//     printf("<td>duration7</td><td>puzzle7</td><td>elapsed7</td><td>answer7</td><td>correct7</td>");
-//     printf("<td>duration8</td><td>puzzle8</td><td>elapsed8</td><td>answer8</td><td>correct8</td>");
-//     printf("<td>duration9</td><td>puzzle9</td><td>elapsed9</td><td>answer9</td><td>correct9</td>");
-//     printf("<td>duration10</td><td>puzzle10</td><td>elapsed10</td><td>answer10</td><td>correct10</td>");
-//     printf("<td>duration11</td><td>puzzle11</td><td>elapsed11</td><td>answer11</td><td>correct11</td>");
-//     printf("<td>duration12</td><td>puzzle12</td><td>elapsed12</td><td>answer12</td><td>correct12</td>");
-//     printf("<td>duration13</td><td>puzzle13</td><td>elapsed13</td><td>answer13</td><td>correct13</td>");
-//     printf("<td>duration14</td><td>puzzle14</td><td>elapsed14</td><td>answer14</td><td>correct14</td>");
-//     printf("<td>duration15</td><td>puzzle15</td><td>elapsed15</td><td>answer15</td><td>correct15</td>");
-//     printf("<td>duration16</td><td>puzzle16</td><td>elapsed16</td><td>answer16</td><td>correct16</td>");
-//     printf("<td>duration17</td><td>puzzle17</td><td>elapsed17</td><td>answer17</td><td>correct17</td>");
-//     printf("<td>duration18</td><td>puzzle18</td><td>elapsed18</td><td>answer18</td><td>correct18</td>\n");
     printf("</thead>\n");
+
+    // print records
     for (vecHoopsRecord::const_iterator rec = records.begin(); rec != records.end(); rec++) {
-        printf("<tr>");
-        printf("<td>%d</td><td>%s</td><td>%s</td><td>%s</td>", rec->sesh_id, rec->tinstruct.iso().c_str(), rec->tstart.iso().c_str(), rec->tfinish.iso().c_str());
-        //printf("<td>%s</td>", "[...]");
-        printf("<td>%s</td><td>%d</td>", rec->responses.c_str(), rec->ntests);
-        //for (int i=0; i<rec->ntests; i++) {
-        for (int i=0; i<rec->answers.size(); i++) { // safer, should agree with rec->ntests
-            printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>",
-                rec->answers[i].duration, rec->answers[i].puzzle, rec->answers[i].elapsed,
-                rec->answers[i].answer, rec->answers[i].correct);
-        }
-        for (int i=0; i<MAX_LEVELS - rec->answers.size(); i++) {
-            printf("<td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>");
-        }
-        printf("</tr>\n");
+        printRecord(*rec);
     }
     printf("</table>\n");
     printf("</code>");
+}
+
+void Hoops::printRecord(Hoops::HoopsRecord rec) {
+    printf("<tr>");
+    printf("<td>%d</td><td>%s</td><td>%s</td><td>%s</td>",
+        rec.sesh_id, rec.tinstruct.iso().c_str(), rec.tstart.iso().c_str(), rec.tfinish.iso().c_str());
+    printf("<td>%s</td><td>%d</td>",
+        rec.responses.c_str(), rec.ntests);
+    for (int i=0; i<rec.answers.size(); i++) { // safer, should agree with rec->ntests
+        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>",
+            rec.answers[i].duration, rec.answers[i].puzzle, rec.answers[i].elapsed,
+            rec.answers[i].answer, rec.answers[i].correct);
+    }
+    for (int i=0; i<MAX_LEVELS - rec.answers.size(); i++) { // fill remainder
+        printf("<td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>");
+    }
+    printf("</tr>\n");
+}
+
+void Hoops::testInsert() { // insert some dummy data
+    HoopsRecord rec;
+    rec.sesh_id = -1;//x->param.getIntDefault("sesh_id", -1);
+    rec.ntests = -1; //x->param.getIntDefault("ntests", -1);
+    rec.tinstruct = "2016-08-15 16:30"; //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
+    rec.tstart = "2016-08-15 16:31";
+    rec.tfinish = "2016-08-15 16:32";
+    rec.tinsert = "2016-08-15 16:33";
+    rec.responses = "[{\"puzzle\":\"t3w2by1.png\",\"answer\":\"4\",\"correct\":false,\"time\":761},{\"puzzle\":\"t3yw2b1.png\",\"answer\":\"4\",\"correct\":false,\"time\":628},{\"puzzle\":\"t32by1w.png\",\"answer\":\"4\",\"correct\":false,\"time\":3380},{\"puzzle\":\"t3bw21y.png\",\"answer\":\"4\",\"correct\":false,\"time\":509},{\"puzzle\":\"t3y2wb1.png\",\"answer\":\"4\",\"correct\":true,\"time\":320},{\"puzzle\":\"t3w2b1y.png\",\"answer\":\"4\",\"correct\":false,\"time\":401},{\"puzzle\":\"t3y2b1w.png\",\"answer\":\"4\",\"correct\":false,\"time\":384},{\"puzzle\":\"t3yw21b.png\",\"answer\":\"4\",\"correct\":false,\"time\":369},{\"puzzle\":\"t32wy1b.png\",\"answer\":\"4\",\"correct\":false,\"time\":354},{\"puzzle\":\"t3w2yb1.png\",\"answer\":\"4\",\"correct\":false,\"time\":369},{\"puzzle\":\"t3w2y1b.png\",\"answer\":\"4\",\"correct\":false,\"time\":333},{\"puzzle\":\"t3wy2b1.png\",\"answer\":\"4\",\"correct\":false,\"time\":394},{\"puzzle\":\"t3wb2y1.png\",\"answer\":\"4\",\"correct\":true,\"time\":364},{\"puzzle\":\"t32yb1w.png\",\"answer\":\"4\",\"correct\":true,\"time\":385},{\"puzzle\":\"t3ywb21.png\",\"answer\":\"4\",\"correct\":false,\"time\":358},{\"puzzle\":\"t3yb21w.png\",\"answer\":\"4\",\"correct\":true,\"time\":452},{\"puzzle\":\"t3ybw21.png\",\"answer\":\"4\",\"correct\":false,\"time\":376},{\"puzzle\":\"t3wyb21.png\",\"answer\":\"4\",\"correct\":false,\"time\":384}]";
+
+    for (int i=0; i<MAX_LEVELS; i++) { // fill remainder
+        HoopsAnswer ans;
+        ans.duration = -1;
+        ans.puzzle = -1;
+        ans.elapsed = -1;
+        ans.answer = -1;
+        ans.correct = -1;
+        rec.answers.push_back(ans);
+    }
+    if (Hoops::insertRecord(&rec)) {
+        printf("<p>Data inserted.</p>\n");
+    } else {
+        printf("<p>Not inserted!</p>\n");
+    }
 }
 
     //printf("<code>there are %d params</code>", np);
@@ -239,36 +258,6 @@ void Hoops::getRecords() {
         printf("caught exception: '%s'", e.c_str());
         // terminate called after throwing an instance of std::string
     }*/ 
-
-void Hoops::testInsert() { // insert some dummy data
-    HoopsRecord rec;
-    rec.sesh_id = -1;//x->param.getIntDefault("sesh_id", -1);
-    rec.ntests = -1; //x->param.getIntDefault("ntests", -1);
-    rec.tinstruct = "2016-08-15 16:30"; //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
-    rec.tstart = "";
-    rec.tfinish = "";
-    rec.tinsert = "";
-    rec.responses = "[{\"puzzle\":\"t3w2by1.png\",\"answer\":\"4\",\"correct\":false,\"time\":761},{\"puzzle\":\"t3yw2b1.png\",\"answer\":\"4\",\"correct\":false,\"time\":628},{\"puzzle\":\"t32by1w.png\",\"answer\":\"4\",\"correct\":false,\"time\":3380},{\"puzzle\":\"t3bw21y.png\",\"answer\":\"4\",\"correct\":false,\"time\":509},{\"puzzle\":\"t3y2wb1.png\",\"answer\":\"4\",\"correct\":true,\"time\":320},{\"puzzle\":\"t3w2b1y.png\",\"answer\":\"4\",\"correct\":false,\"time\":401},{\"puzzle\":\"t3y2b1w.png\",\"answer\":\"4\",\"correct\":false,\"time\":384},{\"puzzle\":\"t3yw21b.png\",\"answer\":\"4\",\"correct\":false,\"time\":369},{\"puzzle\":\"t32wy1b.png\",\"answer\":\"4\",\"correct\":false,\"time\":354},{\"puzzle\":\"t3w2yb1.png\",\"answer\":\"4\",\"correct\":false,\"time\":369},{\"puzzle\":\"t3w2y1b.png\",\"answer\":\"4\",\"correct\":false,\"time\":333},{\"puzzle\":\"t3wy2b1.png\",\"answer\":\"4\",\"correct\":false,\"time\":394},{\"puzzle\":\"t3wb2y1.png\",\"answer\":\"4\",\"correct\":true,\"time\":364},{\"puzzle\":\"t32yb1w.png\",\"answer\":\"4\",\"correct\":true,\"time\":385},{\"puzzle\":\"t3ywb21.png\",\"answer\":\"4\",\"correct\":false,\"time\":358},{\"puzzle\":\"t3yb21w.png\",\"answer\":\"4\",\"correct\":true,\"time\":452},{\"puzzle\":\"t3ybw21.png\",\"answer\":\"4\",\"correct\":false,\"time\":376},{\"puzzle\":\"t3wyb21.png\",\"answer\":\"4\",\"correct\":false,\"time\":384}]";
-
-// rec.duration1 = "";
-// rec.puzzle1 = -1;
-// rec.elapsed1 = -1;
-// rec.answer1 = -1;
-// rec.correct1 = -1;
-//
-// rec.duration2 = -1;
-// rec.puzzle1 = -1;
-// rec.elapsed1 = -1;
-// rec.answer1 = -1;
-// rec.correct1 = -1;
-
-    if (Hoops::insertRecord(&rec)) {
-        printf("<p>Data inserted.</p>\n");
-    } else {
-        printf("<p>Not inserted!</p>\n");
-    }
-}
-
 
 
 /*        xe.param.setInt(string("duration") + string(i), -1);
@@ -407,3 +396,24 @@ void Hoops::testInsert() { // insert some dummy data
         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration18, it->puzzle18, it->elapsed18, it->answer18, it->correct18);*/
 
 //printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>",
+
+//     printf("<td>duration1</td><td>puzzle1</td><td>elapsed1</td><td>answer1</td><td>correct1</td>");
+//     printf("<td>duration2</td><td>puzzle2</td><td>elapsed2</td><td>answer2</td><td>correct2</td>");
+//     printf("<td>duration3</td><td>puzzle3</td><td>elapsed3</td><td>answer3</td><td>correct3</td>");
+//     printf("<td>duration4</td><td>puzzle4</td><td>elapsed4</td><td>answer4</td><td>correct4</td>");
+//     printf("<td>duration5</td><td>puzzle5</td><td>elapsed5</td><td>answer5</td><td>correct5</td>");
+//     printf("<td>duration6</td><td>puzzle6</td><td>elapsed6</td><td>answer6</td><td>correct6</td>");
+//     printf("<td>duration7</td><td>puzzle7</td><td>elapsed7</td><td>answer7</td><td>correct7</td>");
+//     printf("<td>duration8</td><td>puzzle8</td><td>elapsed8</td><td>answer8</td><td>correct8</td>");
+//     printf("<td>duration9</td><td>puzzle9</td><td>elapsed9</td><td>answer9</td><td>correct9</td>");
+//     printf("<td>duration10</td><td>puzzle10</td><td>elapsed10</td><td>answer10</td><td>correct10</td>");
+//     printf("<td>duration11</td><td>puzzle11</td><td>elapsed11</td><td>answer11</td><td>correct11</td>");
+//     printf("<td>duration12</td><td>puzzle12</td><td>elapsed12</td><td>answer12</td><td>correct12</td>");
+//     printf("<td>duration13</td><td>puzzle13</td><td>elapsed13</td><td>answer13</td><td>correct13</td>");
+//     printf("<td>duration14</td><td>puzzle14</td><td>elapsed14</td><td>answer14</td><td>correct14</td>");
+//     printf("<td>duration15</td><td>puzzle15</td><td>elapsed15</td><td>answer15</td><td>correct15</td>");
+//     printf("<td>duration16</td><td>puzzle16</td><td>elapsed16</td><td>answer16</td><td>correct16</td>");
+//     printf("<td>duration17</td><td>puzzle17</td><td>elapsed17</td><td>answer17</td><td>correct17</td>");
+//     printf("<td>duration18</td><td>puzzle18</td><td>elapsed18</td><td>answer18</td><td>correct18</td>\n");
+
+

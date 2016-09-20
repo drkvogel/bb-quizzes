@@ -8,38 +8,35 @@
 extern XDB *db;
 
 namespace Hoops {
+    typedef struct {
+        int duration;
+        int puzzle;
+        int elapsed;
+        int answer;
+        int correct;
+    } HoopsAnswer;
+    typedef std::vector< HoopsAnswer > vecHoopsAnswer;
+    
+    typedef struct {
+        int sesh_id;
+        int ntests;
+        XTIME tinstruct;
+        XTIME tstart;
+        XTIME tfinish;
+        XTIME tinsert;
+        std::string responses; //char responses[1600];
+        vecHoopsAnswer answers;    
+    } HoopsRecord; //BBQuizRecord;
+    typedef std::vector< HoopsRecord > vecHoopsRecord;
 
-typedef struct {
-    int duration;
-    int puzzle;
-    int elapsed;
-    int answer;
-    int correct;
-} HoopsAnswer;
-
-typedef std::vector< HoopsAnswer > vecHoopsAnswer;
-
-typedef struct {
-    int sesh_id;
-    int ntests;
-    XTIME tinstruct;
-    XTIME tstart;
-    XTIME tfinish;
-    XTIME tinsert;
-
-    std::string responses; //char responses[1600];
-    vecHoopsAnswer answers;
-
-} HoopsRecord; //BBQuizRecord;
-typedef std::vector< HoopsRecord > vecHoopsRecord;
-
-void parseResponses(HoopsRecord *rec);
-void printAnswer(const nx_json* node);
-HoopsRecord getParams(XCGI * x);
-void testInsert();
-bool insertRecord(const HoopsRecord *e);
-void getRecords();
-
+    void parseResponses(HoopsRecord *rec);
+    void printAnswer(const nx_json* node);
+    HoopsRecord getParams(XCGI * x);
+    void testInsert();
+    bool insertRecord(const HoopsRecord *e);
+    void getRecords();
+    void printRecords();
+    void printRecord(HoopsRecord rec);
 } // namespace Hoops
 
 #endif
