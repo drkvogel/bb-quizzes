@@ -13,11 +13,11 @@ char * nx_json_type_names[] = {
 };
 
 void Hoops::printAnswer(const nx_json* node) {
-    printf("[node type: %s, length: %d]: count: %d, puzzle: '%s', answer: %s, correct: %d, time: %d<br />",
+    printf("[node type: %s, length: %d]: count: %d, puzzle: %d, answer: %d, correct: %d, time: %d<br />",
         nx_json_type_names[node->type], node->length,
         nx_json_get(node, "count")->int_value,
-        nx_json_get(node, "puzzle")->text_value,
-        nx_json_get(node, "answer")->text_value, // should be int
+        nx_json_get(node, "puzzle")->int_value,
+        nx_json_get(node, "answer")->int_value,
         nx_json_get(node, "correct")->int_value,
         nx_json_get(node, "time")->int_value);
 }

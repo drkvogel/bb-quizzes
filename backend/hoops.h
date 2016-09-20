@@ -11,7 +11,7 @@ namespace Hoops {
 
 typedef struct {
     int duration;
-    int puzzle; // string/char*?
+    int puzzle;
     int elapsed;
     int answer;
     int correct;
