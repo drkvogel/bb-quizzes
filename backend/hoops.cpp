@@ -132,8 +132,7 @@ bool Hoops::insertRecord(const HoopsRecord *rec) {
         xe.param.setInt(fieldname,  rec->answers[i].correct);
     }
 
-    // insert nulls for the rest?
-    // otherwise fields have to have defaults
+    // insert 'nulls' (-1) for the rest explicitly, otherwise fields have to have defaults
     for (int idx=rec->answers.size()+1; idx<=MAX_LEVELS - rec->answers.size(); idx++) {
         sprintf(fieldname, "duration%d", idx);
         xe.param.setInt(fieldname,  -1);

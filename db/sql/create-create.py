@@ -20,14 +20,14 @@ CREATE TABLE hoops (
     responses    LONG VARCHAR,   
 """  
     for i in range(1, hoops_last + 1):
-        print "    duration" + str(i) + "    INTEGER2,"
-        print "    puzzle" + str(i) + "      INTEGER2,"
+        print "    duration" + str(i) + "    INTEGER2"
+        print "    puzzle" + str(i) + "      INTEGER1,"
         print "    elapsed" + str(i) + "     INTEGER2,"
-        print "    answer" + str(i) + "      INTEGER2,"
+        print "    answer" + str(i) + "      INTEGER1,"
         if i == hoops_last:
-            print "    correct" + str(i) + "     INTEGER2", # take off final comma and no newline (comma after string)
+            print "    correct" + str(i) + "     INTEGER1", # take off final comma and no newline (comma after string)
         else:
-            print "    correct" + str(i) + "     INTEGER2,"
+            print "    correct" + str(i) + "     INTEGER1,"
         print   # separate groups with newline
     print ");"
 
@@ -70,11 +70,11 @@ CREATE TABLE matrix (
     for i in range(1, matrix_last + 1):
         print "    duration" + str(i) + "    INTEGER2,"
         print "    elapsed" + str(i) + "     INTEGER2,"
-        print "    answer" + str(i) + "      INTEGER2,"
+        print "    answer" + str(i) + "      INTEGER1,"
         if i == matrix_last:
-            print "    correct" + str(i) + "     INTEGER2", # take off final comma and no newline
+            print "    correct" + str(i) + "     INTEGER1", # take off final comma and no newline
         else:
-            print "    correct" + str(i) + "     INTEGER2,"
+            print "    correct" + str(i) + "     INTEGER1,"
         print   # separate groups with newline
     print ");"
 
