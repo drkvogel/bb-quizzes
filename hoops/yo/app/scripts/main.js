@@ -371,7 +371,8 @@
     }
 
     function showPage2() {
-        console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)bind clicks
+        console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)scaleImages();bind clicks
+        scaleImages();
         $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
         if (currentPage().name === 'thanks') { // redundant?
             console.log('currentPage().name === \'thanks\'');
@@ -448,7 +449,7 @@
             throw new Error('unrecogised id');
         }
 
-        scaleImages();
+        //scaleImages();
         $('#' + page.templateId).fadeIn(FADEIN, showPage2);
         //showInfo('height: ' + $(window).height()); //attr('height'));
     }
