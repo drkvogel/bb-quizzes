@@ -31,7 +31,7 @@ void Hoops::parseResponses(HoopsRecord *e) {
         if (!arr) {
             printf("didn't get json<br />"); throw "Error parsing JSON";
         }
-        //printf("got json node type: %s, arr->length: %d<br />", nx_json_type_names[arr->type], arr->length);
+        printf("got json node type: %s, arr->length: %d<br />", nx_json_type_names[arr->type], arr->length);
         e->ntests = arr->length;
         for (int i=0; i < arr->length; i++) {
             const nx_json* item = nx_json_item(arr, i);
