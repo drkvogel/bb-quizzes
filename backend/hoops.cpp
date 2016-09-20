@@ -116,6 +116,8 @@ bool Hoops::insertRecord(const HoopsRecord *rec) {
     xe.param.setInt("ntests",        rec->ntests);
 
     char fieldname[12];
+
+    // insert answered puzzles
     for (int i=0; i<rec->answers.size(); i++) { // safer, should agree with rec->ntests
         int idx = i+1;      
         sprintf(fieldname, "duration%d", idx);
@@ -129,6 +131,9 @@ bool Hoops::insertRecord(const HoopsRecord *rec) {
         sprintf(fieldname, "correct%d", idx);
         xe.param.setInt(fieldname,  rec->answers[i].correct);
     }
+
+    // insert nulls for the rest?
+    // otherwise fields have to have defaults
     for (int idx=rec->answers.size()+1; idx<=MAX_LEVELS - rec->answers.size(); idx++) {
         sprintf(fieldname, "duration%d", idx);
         xe.param.setInt(fieldname,  -1);
