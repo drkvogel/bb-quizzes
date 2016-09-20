@@ -77,13 +77,13 @@ Hoops::HoopsRecord Hoops::getPayload(XCGI * x) { // get responses from frontend
     printf("<code>this is Hoops::insert() in %s.<br />\n", __FILE__); //int np = x->param.count();
 
     rec.sesh_id = x->paramAsInt("sesh_id"); // up to date xcgi.cpp/h has getParam, paramExists, but not this copy
-//     rec.tinstruct.set(x->param.getString("tinstruct").c_str()); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
+    rec.tinstruct.set(x->param.getString("tinstruct").c_str()); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
 //     rec.tstart.set(x->param.getString("tstart").c_str());
 //     rec.tfinish.set(x->param.getString("tfinish").c_str()); 
 //     rec.tinsert.set(x->param.getString("tinsert").c_str());
 
     printf("<p>nowString().c_str(): '%s'</p>", nowString().c_str()); // bad format for XTIME::set()
-    rec.tinstruct.set("2016-08-15T16:30:00"); // nowString().c_str()); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
+    //rec.tinstruct.set("2016-08-15T16:30:00"); // nowString().c_str()); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
     rec.tstart.set("2016-08-15T16:30:00"); //nowString().c_str());
     rec.tfinish.set("2016-08-15T16:30:00"); //nowString().c_str()); 
     rec.tinsert.set("2016-08-15T16:30:00"); //nowString().c_str());
