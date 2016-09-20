@@ -20,7 +20,7 @@ CREATE TABLE hoops (
     responses    LONG VARCHAR,   
 """  
     for i in range(1, hoops_last + 1):
-        print "    duration" + str(i) + "    INTEGER2"
+        print "    duration" + str(i) + "    INTEGER2,"
         print "    puzzle" + str(i) + "      INTEGER1,"
         print "    elapsed" + str(i) + "     INTEGER2,"
         print "    answer" + str(i) + "      INTEGER1,"
