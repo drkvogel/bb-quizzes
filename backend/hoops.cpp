@@ -45,20 +45,14 @@ void Hoops::parseResponses(HoopsRecord *rec) {
             printJSONAnswer(item);
             HoopsAnswer ans;
 
-
-    // duration        Time taken to answer puzzle
-    // puzzle          Puzzle chosen by algorithm
-    // elapsed         Cumulative time elapsed
-    // answer          Answer given by user
-    // correct         Correct answer
             // nx_json_get(node, "count")->int_value,
             //nx_json_get(node, "time")->int_value);
             // oops, need duration, elapsed, (count?)
-            ans.duration    = nx_json_get(item, "time"      )->int_value;
-            ans.puzzle      = nx_json_get(item, "puzzle"    )->int_value;
-            ans.elapsed     = -1; //???
-            ans.answer      = nx_json_get(item, "answer"    )->int_value;
-            ans.correct     = nx_json_get(item, "correct"   )->int_value;
+            ans.duration    = nx_json_get(item, "time"      )->int_value; // Time taken to answer puzzle
+            ans.puzzle      = nx_json_get(item, "puzzle"    )->int_value; // Puzzle chosen by algorithm, as number
+            ans.elapsed     = -1; //  ?? // Cumulative time elapsed
+            ans.answer      = nx_json_get(item, "answer"    )->int_value; // Answer given by user
+            ans.correct     = nx_json_get(item, "correct"   )->int_value; // Correct answer
             printHoopsAnswer(ans);
             rec->answers.push_back(ans);
         }
