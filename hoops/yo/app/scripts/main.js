@@ -318,9 +318,9 @@
     }
 
     function isoDate() {
-        var date = new Date();
+        var date = new Date(); // date.toISOString() is UTC/GMT with milliseconds, e.g. '2016-09-21T10:47:54.671Z'
         return date.toISOString().substring(0, 19); // strip milliseconds
-            // what about timezone?
+            // timezone not needed, is GMT
     }
 
     function startTimer(page) {
