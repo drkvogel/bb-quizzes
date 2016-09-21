@@ -27,7 +27,7 @@ void Hoops::printJSONAnswer(const nx_json* node) {
 void Hoops::printHoopsAnswer(HoopsAnswer & ans) {
     printf("ans: duration: %d, puzzle: %d, elapsed: %d, answer: %d, correct: %d<br />\n",
             ans.duration, ans.puzzle, ans.elapsed, ans.answer, ans.correct);
-} 
+}
 
 void Hoops::parseResponses(HoopsRecord *rec) {
     printf("<code>parseResponses()<br />");
@@ -84,13 +84,13 @@ Hoops::HoopsRecord Hoops::getPayload(XCGI * x) { // get responses from frontend
     rec.sesh_id = x->paramAsInt("sesh_id"); // up to date xcgi.cpp/h has getParam, paramExists, but not this copy
     rec.tinstruct.set(x->param.getString("tinstruct").c_str()); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
 //     rec.tstart.set(x->param.getString("tstart").c_str());
-//     rec.tfinish.set(x->param.getString("tfinish").c_str()); 
+//     rec.tfinish.set(x->param.getString("tfinish").c_str());
 //     rec.tinsert.set(x->param.getString("tinsert").c_str());
 
     printf("<p>nowString().c_str(): '%s'</p>", nowString().c_str()); // bad format for XTIME::set()
     //rec.tinstruct.set("2016-08-15T16:30:00"); // nowString().c_str()); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
     rec.tstart.set("2016-08-15T16:30:00"); //nowString().c_str());
-    rec.tfinish.set("2016-08-15T16:30:00"); //nowString().c_str()); 
+    rec.tfinish.set("2016-08-15T16:30:00"); //nowString().c_str());
     rec.tinsert.set("2016-08-15T16:30:00"); //nowString().c_str());
     printf("<p>tinstruct: '%s', tstart: '%s', tfinish: '%s'</p>",
         rec.tinstruct.iso().c_str(), rec.tstart.iso().c_str(), rec.tfinish.iso().c_str());
@@ -103,7 +103,7 @@ Hoops::HoopsRecord Hoops::getPayload(XCGI * x) { // get responses from frontend
 }
 
 bool Hoops::insertRecord(const HoopsRecord *rec) {
-    printf("<p>Hoops::insertRecord()</p>\n");
+    printf("<p><code>Hoops::insertRecord()</p>\n");
     std::string sql =
         "INSERT INTO hoops (sesh_id, ntests, tinstruct, tstart, tfinish, tinsert,"
         " responses,"
@@ -147,9 +147,9 @@ bool Hoops::insertRecord(const HoopsRecord *rec) {
         " :duration17, :puzzle17, :elapsed17, :answer17, :correct17, "
         " :duration18, :puzzle18, :elapsed18, :answer18, :correct18 "
         " )\n";
-    printf("<p>made sql</p>\n");
+    printf("made sql...\n");
     XEXEC xe(db, sql);
-    printf("<p>made XEXEC object</p>\n");
+    printf("made XEXEC object...\n");
 
     xe.param.setInt("sesh_id",       rec->sesh_id);
     xe.param.setTime("tinstruct",    rec->tinstruct);
@@ -158,8 +158,8 @@ bool Hoops::insertRecord(const HoopsRecord *rec) {
     xe.param.setString("responses",  rec->responses);
     xe.param.setInt("ntests",        rec->ntests);
 
-    printf("<p>put header stuff in</p>\n");
-    printf("<p>tinstruct: '%s', tstart: '%s', tfinish: '%s'",
+    printf("put in header stuff...\n");
+    printf("tinstruct: '%s', tstart: '%s', tfinish: '%s'...",
         rec->tinstruct.iso().c_str(), rec->tstart.iso().c_str(), rec->tfinish.iso().c_str());
     char fieldname[12];
 
@@ -173,7 +173,7 @@ bool Hoops::insertRecord(const HoopsRecord *rec) {
         sprintf(fieldname, "answer%d", idx);    xe.param.setInt(fieldname,  rec->answers[i].answer);
         sprintf(fieldname, "correct%d", idx);   xe.param.setInt(fieldname,  rec->answers[i].correct);
     }
-    printf("<p>put %d answered in</p>\n", rec->answers.size());
+    printf("put %d answered in...\n", rec->answers.size());
 
     // insert 'nulls' (-1) for the rest explicitly, otherwise fields have to have defaults
     for (int idx=rec->answers.size()+1; idx<=MAX_LEVELS - rec->answers.size(); idx++) {
@@ -182,10 +182,10 @@ bool Hoops::insertRecord(const HoopsRecord *rec) {
         sprintf(fieldname, "elapsed%d", idx);   xe.param.setInt(fieldname,  -1);
         sprintf(fieldname, "answer%d", idx);    xe.param.setInt(fieldname,  -1);
         sprintf(fieldname, "correct%d", idx);   xe.param.setInt(fieldname,  -1);
-
     }
-    printf("<p>put padding in</p>\n");
-    printf("<p>sql:</p><code>%s</code> ", sql.c_str());
+    printf("put padding in...\n");
+    //printf("<p>sql:</p><code>%s</code> ", sql.c_str());
+    printf("</p></code>\n");
     return (xe.exec());
 }
 
@@ -195,8 +195,7 @@ void Hoops::getRecords() {
     XQUERY q(db, sql);
     printf("<p>this is %s</p>\n", __FILE__);
     if (!q.open()) {
-        printf("Database error");
-        throw "Database error";
+        printf("Database error"); throw "Database error";
     } else {
         printf("Database open");
     }
@@ -210,18 +209,12 @@ void Hoops::getRecords() {
         rec.ntests    = q.result.getInt("ntests");          // is ntests sane?
         for (int i=0; i<rec.ntests && i<MAX_LEVELS; i++) {
             HoopsAnswer ans;
-            int idx = i+1;
-            char fieldname[16];
-            sprintf(fieldname, "duration%d", idx);
-            ans.duration = q.result.getInt(fieldname);
-            sprintf(fieldname, "puzzle%d", idx);
-            ans.puzzle = q.result.getInt(fieldname);
-            sprintf(fieldname, "elapsed%d", idx);
-            ans.elapsed = q.result.getInt(fieldname);
-            sprintf(fieldname, "answer%d", idx);
-            ans.answer = q.result.getInt(fieldname);
-            sprintf(fieldname, "correct%d", idx);
-            ans.correct = q.result.getInt(fieldname);
+            int idx = i+1; char fieldname[16];
+            sprintf(fieldname, "duration%d", idx);  ans.duration = q.result.getInt(fieldname);
+            sprintf(fieldname, "puzzle%d", idx);    ans.puzzle = q.result.getInt(fieldname);
+            sprintf(fieldname, "elapsed%d", idx);   ans.elapsed = q.result.getInt(fieldname);
+            sprintf(fieldname, "answer%d", idx);    ans.answer = q.result.getInt(fieldname);
+            sprintf(fieldname, "correct%d", idx);   ans.correct = q.result.getInt(fieldname);
             rec.answers.push_back(ans);
         }
         records.push_back(rec);
@@ -283,7 +276,7 @@ void Hoops::testInsert() { // insert some dummy data
         rec.answers.push_back(ans);
     }
     if (Hoops::insertRecord(&rec)) {
-        printf("<p>Data inserted.</p>\n");
+        printf("<p>Dummy data inserted.</p>\n");
     } else {
         printf("<p>Not inserted!</p>\n");
     }
@@ -292,7 +285,7 @@ void Hoops::testInsert() { // insert some dummy data
     //printf("<code>there are %d params</code>", np);
     //printf("<p>sesh_id (string param): '%s'</p>", x->param.getStringDefault("sesh_id", "(default)").c_str()); // should be getInt? no, use getString and convert
     //rec.sesh_id = atoi(x->param.getString("sesh_id").c_str());
-    //printf("<p>sesh_id (rec.sesh_id = atoi(getString(\"sesh_id\"))): %d</p>", rec.sesh_id);   
+    //printf("<p>sesh_id (rec.sesh_id = atoi(getString(\"sesh_id\"))): %d</p>", rec.sesh_id);
 
     //printf("<p>sesh_id: '%d'</p>", rec.sesh_id);
 /*
@@ -302,6 +295,6 @@ void Hoops::testInsert() { // insert some dummy data
     } catch (std::string e) {
         printf("caught exception: '%s'", e.c_str());
         // terminate called after throwing an instance of std::string
-    }*/ 
+    }*/
 
 
