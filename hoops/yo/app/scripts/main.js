@@ -316,7 +316,7 @@
         scaleImagesCBsimple();
     }
 
-    function isoDate() {
+    function isoDate() { // return date string in format yyyy-mm-ddThh:mm:ss, suitable for parsing by xtime.cpp
         var date = new Date(); // date.toISOString() is UTC/GMT with milliseconds, e.g. '2016-09-21T10:47:54.671Z'
         return date.toISOString().substring(0, 19); // strip milliseconds
             // timezone not needed, is GMT
@@ -326,10 +326,9 @@
         if (page.name.slice(0, 2) === 'ex') {
             timer.now(); // start timer for all real exercises
             if (levels.length === MAX_LEVELS - 1) { // first puzzle just been popped off
-                //config.timeStarted = new Date($.now()).toISOString(); // d.toISOString() is not a function - Date($.now()) creates
                 config.timeStarted = isoDate();
                 console.log('config.timeStarted: ' + config.timeStarted);
-                timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
+                timeUpTimeout = setTimeout(timeUp, config.timeLimit);
             }
         }
     }
