@@ -30,7 +30,7 @@ void Hoops::printHoopsAnswer(HoopsAnswer & ans) {
 }
 
 void Hoops::parseResponses(HoopsRecord *rec) {
-    printf("<code>parseResponses()<br />");
+    printf("<code>parseResponses():");
     try {
         char buf[1600]; int idx = 0;
         strcpy(buf, rec->responses.c_str()); // nxson modifies string in place, don't destroy original responses
@@ -42,9 +42,7 @@ void Hoops::parseResponses(HoopsRecord *rec) {
         rec->ntests = arr->length;
         for (int i=0; i < arr->length; i++) {
             const nx_json* item = nx_json_item(arr, i);
-            printJSONAnswer(item);
             HoopsAnswer ans;
-
             // nx_json_get(node, "count")->int_value,
             //nx_json_get(node, "time")->int_value);
             // oops, need duration, elapsed, (count?)
@@ -53,7 +51,8 @@ void Hoops::parseResponses(HoopsRecord *rec) {
             ans.elapsed     = -1; //  ?? // Cumulative time elapsed
             ans.answer      = nx_json_get(item, "answer"    )->int_value; // Answer given by user
             ans.correct     = nx_json_get(item, "correct"   )->int_value; // Correct answer
-            printHoopsAnswer(ans);
+            //printJSONAnswer(item); 
+            //printHoopsAnswer(ans);
             rec->answers.push_back(ans);
         }
         nx_json_free(arr);
@@ -72,29 +71,33 @@ string nowString() { // UNIX time in seconds
 }
 
 Hoops::HoopsRecord Hoops::getPayload(XCGI * x) { // get responses from frontend
-    HoopsRecord rec;
     printf("<code>this is Hoops::insert() in %s.<br />\n", __FILE__); //int np = x->param.count();
 
+    HoopsRecord rec;
     rec.sesh_id = x->paramAsInt("sesh_id"); // up to date xcgi.cpp/h has getParam, paramExists, but not this copy
     rec.tinstruct.set(x->param.getString("tinstruct").c_str()); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
+    rec.tstart.set(x->param.getString("tstart").c_str()); //nowString().c_str());
+    rec.tfinish.set("2000-01-01T00:00:00"); // dummy value
+    printf("<p>tinstruct: '%s', tstart: '%s', tfinish: '%s'</p>",
+        rec.tinstruct.iso().c_str(), rec.tstart.iso().c_str(), rec.tfinish.iso().c_str());
+    rec.responses = x->param.getString("responses");
+    //rec.ntests = x->paramAsInt("ntests");
+    rec.ntests = -1;
+    parseResponses(&rec); // rec.ntests can be determined from responses? or should be passed from frontend and checked
+
+    printf("sesh_id: %d", rec.sesh_id);
+    printf("<p>done</p>\n");
+    return rec;
+}
+
+    //rec.tinsert.set(""); // set in SQL - shouldn't be in struct
 //     rec.tstart.set(x->param.getString("tstart").c_str());
 //     rec.tfinish.set(x->param.getString("tfinish").c_str());
 //     rec.tinsert.set(x->param.getString("tinsert").c_str());
 
-    printf("<p>nowString().c_str(): '%s'</p>", nowString().c_str()); // bad format for XTIME::set()
+    //printf("<p>nowString().c_str(): '%s'</p>", nowString().c_str()); // bad format for XTIME::set()
     //rec.tinstruct.set("2016-08-15T16:30:00"); // nowString().c_str()); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
-    rec.tstart.set("2016-08-15T16:30:00"); //nowString().c_str());
-    rec.tfinish.set("2016-08-15T16:30:00"); //nowString().c_str());
-    rec.tinsert.set("2016-08-15T16:30:00"); //nowString().c_str());
-    printf("<p>tinstruct: '%s', tstart: '%s', tfinish: '%s'</p>",
-        rec.tinstruct.iso().c_str(), rec.tstart.iso().c_str(), rec.tfinish.iso().c_str());
-    rec.responses = x->param.getString("responses");
-    parseResponses(&rec); // rec.ntests can be determined from responses
 
-    printf("<p>sesh_id: %d</p>", rec.sesh_id);
-    printf("done.</code>\n");
-    return rec;
-}
 
 bool Hoops::insertRecord(const HoopsRecord *rec) {
     printf("<p><code>Hoops::insertRecord()</p>\n");
@@ -141,7 +144,7 @@ bool Hoops::insertRecord(const HoopsRecord *rec) {
         " :duration17, :puzzle17, :elapsed17, :answer17, :correct17, "
         " :duration18, :puzzle18, :elapsed18, :answer18, :correct18 "
         " )\n";
-    printf("made sql...\n");
+    //printf("made sql...\n");
     XEXEC xe(db, sql);
     printf("made XEXEC object...\n");
 
@@ -152,32 +155,32 @@ bool Hoops::insertRecord(const HoopsRecord *rec) {
     xe.param.setString("responses",  rec->responses);
     xe.param.setInt("ntests",        rec->ntests);
 
-    printf("put in header stuff...\n");
+    printf("put in header fields...\n");
     printf("tinstruct: '%s', tstart: '%s', tfinish: '%s'...",
         rec->tinstruct.iso().c_str(), rec->tstart.iso().c_str(), rec->tfinish.iso().c_str());
     char fieldname[12];
 
     // insert answered puzzles
     for (int i=0; i<rec->answers.size(); i++) { // safer, should agree with rec->ntests
-        int idx = i+1;
-        printf("answer %d/%d<br />", idx, rec->answers.size());
-        sprintf(fieldname, "duration%d", idx);  xe.param.setInt(fieldname,  rec->answers[i].duration); printf("field: '%s', value: %d<br />\n", fieldname,  rec->answers[i].duration);
-        sprintf(fieldname, "puzzle%d", idx);    xe.param.setInt(fieldname,  rec->answers[i].puzzle);
-        sprintf(fieldname, "elapsed%d", idx);   xe.param.setInt(fieldname,  rec->answers[i].elapsed);
-        sprintf(fieldname, "answer%d", idx);    xe.param.setInt(fieldname,  rec->answers[i].answer);
-        sprintf(fieldname, "correct%d", idx);   xe.param.setInt(fieldname,  rec->answers[i].correct);
+        //printf("answer %d/%d<br />", i+1, rec->answers.size());
+        printf("%d ", i+1);
+        sprintf(fieldname, "duration%d", i+1);  xe.param.setInt(fieldname,  rec->answers[i].duration); //printf("field: '%s', value: %d<br />\n", fieldname,  rec->answers[i].duration);
+        sprintf(fieldname, "puzzle%d", i+1);    xe.param.setInt(fieldname,  rec->answers[i].puzzle);
+        sprintf(fieldname, "elapsed%d", i+1);   xe.param.setInt(fieldname,  rec->answers[i].elapsed);
+        sprintf(fieldname, "answer%d", i+1);    xe.param.setInt(fieldname,  rec->answers[i].answer);
+        sprintf(fieldname, "correct%d", i+1);   xe.param.setInt(fieldname,  rec->answers[i].correct);
     }
-    printf("put %d answered in...\n", rec->answers.size());
+    printf("put %d answered puzzles in...<br />\n", rec->answers.size());
 
     // insert 'nulls' (-1) for the rest explicitly, otherwise fields have to have defaults
-    for (int idx=rec->answers.size()+1; idx<=MAX_LEVELS - rec->answers.size(); idx++) {
-        sprintf(fieldname, "duration%d", idx);  xe.param.setInt(fieldname,  -1);
-        sprintf(fieldname, "puzzle%d", idx);    xe.param.setInt(fieldname,  -1);
-        sprintf(fieldname, "elapsed%d", idx);   xe.param.setInt(fieldname,  -1);
-        sprintf(fieldname, "answer%d", idx);    xe.param.setInt(fieldname,  -1);
-        sprintf(fieldname, "correct%d", idx);   xe.param.setInt(fieldname,  -1);
+    for (int i = rec->answers.size()+1; i <= MAX_LEVELS; i++) {
+        sprintf(fieldname, "duration%d", i);    xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
+        sprintf(fieldname, "puzzle%d", i);      xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
+        sprintf(fieldname, "elapsed%d", i);     xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
+        sprintf(fieldname, "answer%d", i);      xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
+        sprintf(fieldname, "correct%d", i);     xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
     }
-    printf("put padding in...\n");
+    printf("put %d null records in...\n", MAX_LEVELS - rec->answers.size());
     //printf("<p>sql:</p><code>%s</code> ", sql.c_str());
     printf("</p></code>\n");
     return (xe.exec());
@@ -255,10 +258,10 @@ void Hoops::testInsert() { // insert some dummy data
     HoopsRecord rec;
     rec.sesh_id = -1;//x->param.getIntDefault("sesh_id", -1);
     rec.ntests = -1; //x->param.getIntDefault("ntests", -1);
-    rec.tinstruct = "2016-08-15 16:30"; //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
-    rec.tstart = "2016-08-15 16:31";
-    rec.tfinish = "2016-08-15 16:32";
-    rec.tinsert = "2016-08-15 16:33";
+    rec.tinstruct = "2000-01-01T00:00:00"; //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
+    rec.tstart = "2000-01-01T00:00:00";
+    rec.tfinish = "2000-01-01T00:00:00";
+    //rec.tinsert = "2016-08-15 16:33";
     rec.responses = "[{\"puzzle\":\"t3w2by1.png\",\"answer\":\"4\",\"correct\":false,\"time\":761},{\"puzzle\":\"t3yw2b1.png\",\"answer\":\"4\",\"correct\":false,\"time\":628},{\"puzzle\":\"t32by1w.png\",\"answer\":\"4\",\"correct\":false,\"time\":3380},{\"puzzle\":\"t3bw21y.png\",\"answer\":\"4\",\"correct\":false,\"time\":509},{\"puzzle\":\"t3y2wb1.png\",\"answer\":\"4\",\"correct\":true,\"time\":320},{\"puzzle\":\"t3w2b1y.png\",\"answer\":\"4\",\"correct\":false,\"time\":401},{\"puzzle\":\"t3y2b1w.png\",\"answer\":\"4\",\"correct\":false,\"time\":384},{\"puzzle\":\"t3yw21b.png\",\"answer\":\"4\",\"correct\":false,\"time\":369},{\"puzzle\":\"t32wy1b.png\",\"answer\":\"4\",\"correct\":false,\"time\":354},{\"puzzle\":\"t3w2yb1.png\",\"answer\":\"4\",\"correct\":false,\"time\":369},{\"puzzle\":\"t3w2y1b.png\",\"answer\":\"4\",\"correct\":false,\"time\":333},{\"puzzle\":\"t3wy2b1.png\",\"answer\":\"4\",\"correct\":false,\"time\":394},{\"puzzle\":\"t3wb2y1.png\",\"answer\":\"4\",\"correct\":true,\"time\":364},{\"puzzle\":\"t32yb1w.png\",\"answer\":\"4\",\"correct\":true,\"time\":385},{\"puzzle\":\"t3ywb21.png\",\"answer\":\"4\",\"correct\":false,\"time\":358},{\"puzzle\":\"t3yb21w.png\",\"answer\":\"4\",\"correct\":true,\"time\":452},{\"puzzle\":\"t3ybw21.png\",\"answer\":\"4\",\"correct\":false,\"time\":376},{\"puzzle\":\"t3wyb21.png\",\"answer\":\"4\",\"correct\":false,\"time\":384}]";
     for (int i=0; i<MAX_LEVELS; i++) { // fill remainder
         HoopsAnswer ans;

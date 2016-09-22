@@ -19,11 +19,11 @@ namespace Hoops {
     
     typedef struct {
         int sesh_id;
-        int ntests;
         XTIME tinstruct;
         XTIME tstart;
         XTIME tfinish;
-        XTIME tinsert;
+        // tinsert set in SQL
+        int ntests;
         std::string responses; //char responses[1600];
         vecHoopsAnswer answers;    
     } HoopsRecord; //BBQuizRecord;
