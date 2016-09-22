@@ -19,6 +19,7 @@
         current,
         puzzleCount = 0,
         timer,
+        timerWholeTest,
         isTimeUp = false,
         nextPageTimeout,
         timeUpTimeout,
@@ -326,6 +327,7 @@
         if (page.name.slice(0, 2) === 'ex') {
             timer.now(); // start timer for all real exercises
             if (levels.length === MAX_LEVELS - 1) { // first puzzle just been popped off
+                timerWholeTest.now(); // start timer for the whole test (for "elapsed" field)
                 config.timeStarted = isoDate();
                 console.log('config.timeStarted: ' + config.timeStarted);
                 timeUpTimeout = setTimeout(timeUp, config.timeLimit);
@@ -543,15 +545,16 @@
         var timeTaken;
         if (page.name.slice(0, 2) === 'ex') { // real exercise
             timer.lap();
+            timerWholeTest.lap();
             timeTaken = timer.getElapsed();
             showTime(timeTaken, isCorrect);
             var answer = {
-                count: ++puzzleCount,   // should be number of puzzles taken
-                duration: timeTaken,    // duration        Time taken to answer puzzle
-                puzzle: puzzle.n,       // number of puzzle, not image name - config.json should be only mapping
-                elapsed: -1,            // Cumulative time elapsed
-                answer: ans,            // Answer given by user, ans should be Number() type
-                correct: puzzle.c       // correct answer, not bool
+                count: ++puzzleCount,                   // should be number of puzzles taken
+                duration: timeTaken,                    // Time taken to answer puzzle
+                puzzle: puzzle.n,                       // number of puzzle, not image name - config.json should be only mapping
+                elapsed: timerWholeTest.getElapsed(),    // Cumulative time elapsed
+                answer: ans,                            // Answer given by user, ans should be Number() type
+                correct: puzzle.c                       // correct answer, not bool
             };
             answers.push(answer);
         } else if (page.name.slice(0, 5) === 'intro') {
@@ -616,6 +619,7 @@
 
     function init() {
         timer = new Timer(); // globals
+        timerWholeTest = new Timer(); // globals
         isTimeUp = false;
         current = 0;
         var msg;
