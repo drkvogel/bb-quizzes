@@ -39,6 +39,7 @@ void Hoops::parseResponses(HoopsRecord *rec) {
             printf("didn't get json<br />"); throw "Error parsing JSON";
         }
         printf("got json node type: %s, arr->length: %d<br />", nx_json_type_names[arr->type], arr->length);
+        printf("ntests reported by payload: %d; number of tests in responses JSON blob: %d<br />", rec->ntests, arr->length);
         if (rec->ntests != arr->length) {
             char * errmsg = "<p>ERROR: rec->ntests != arr->length</p>"; 
             printf("%s", errmsg); throw errmsg;
@@ -46,12 +47,12 @@ void Hoops::parseResponses(HoopsRecord *rec) {
         for (int i=0; i < arr->length; i++) {
             const nx_json* item = nx_json_item(arr, i);
             HoopsAnswer ans;
-            // nx_json_get(node, "count")->int_value,
-            //nx_json_get(node, "time")->int_value);
+            printf("%d ", nx_json_get(item, "count")->int_value);
+            printf("elapsed: %d<br />", nx_json_get(item, "elapsed")->int_value);
             // oops, need duration, elapsed, (count?)
-            ans.duration    = nx_json_get(item, "time"      )->int_value; // Time taken to answer puzzle
+            ans.duration    = nx_json_get(item, "duration"  )->int_value; // Time taken to answer puzzle
             ans.puzzle      = nx_json_get(item, "puzzle"    )->int_value; // Puzzle chosen by algorithm, as number
-            ans.elapsed     = -1; //  ?? // Cumulative time elapsed
+            ans.elapsed     = nx_json_get(item, "elapsed"   )->int_value; // Cumulative time elapsed since start of test
             ans.answer      = nx_json_get(item, "answer"    )->int_value; // Answer given by user
             ans.correct     = nx_json_get(item, "correct"   )->int_value; // Correct answer
             //printJSONAnswer(item); 
@@ -74,7 +75,7 @@ string nowString() { // UNIX time in seconds
 }
 
 Hoops::HoopsRecord Hoops::getPayload(XCGI * x) { // get responses from frontend
-    printf("<code>this is Hoops::insert() in %s.<br />\n", __FILE__); //int np = x->param.count();
+    printf("<code>this is Hoops::getPayload() in %s.<br />\n", __FILE__); //int np = x->param.count();
 
     HoopsRecord rec;
     rec.sesh_id = x->paramAsInt("sesh_id"); // up to date xcgi.cpp/h has getParam, paramExists, but not this copy
