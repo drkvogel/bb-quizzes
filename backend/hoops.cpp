@@ -39,7 +39,10 @@ void Hoops::parseResponses(HoopsRecord *rec) {
             printf("didn't get json<br />"); throw "Error parsing JSON";
         }
         printf("got json node type: %s, arr->length: %d<br />", nx_json_type_names[arr->type], arr->length);
-        rec->ntests = arr->length;
+        if (rec->ntests != arr->length) {
+            char * errmsg = "<p>ERROR: rec->ntests != arr->length</p>"; 
+            printf("%s", errmsg); throw errmsg;
+        }
         for (int i=0; i < arr->length; i++) {
             const nx_json* item = nx_json_item(arr, i);
             HoopsAnswer ans;
@@ -81,8 +84,7 @@ Hoops::HoopsRecord Hoops::getPayload(XCGI * x) { // get responses from frontend
     printf("<p>tinstruct: '%s', tstart: '%s', tfinish: '%s'</p>",
         rec.tinstruct.iso().c_str(), rec.tstart.iso().c_str(), rec.tfinish.iso().c_str());
     rec.responses = x->param.getString("responses");
-    //rec.ntests = x->paramAsInt("ntests");
-    rec.ntests = -1;
+    rec.ntests = x->paramAsInt("ntests");
     parseResponses(&rec); // rec.ntests can be determined from responses? or should be passed from frontend and checked
 
     printf("sesh_id: %d", rec.sesh_id);
