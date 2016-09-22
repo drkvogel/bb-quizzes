@@ -89,21 +89,6 @@ int nowUNIX() { // UNIX time in seconds
     return (int)tnow;
 }
 
-// string nowString() { // UNIX time in seconds
-//     time_t  tnow;
-//     char timestring[32];
-//     strcpy(timestring, ctime(&tnow));
-//     timestring[24] = '\0'; // remove annoying non-configurable newline added by ctime
-//     //time(&tnow); // ctime(&tnow)
-//     return string(timestring);
-// }
-
-/*    char timestring[32];
-    strcpy(timestring, ctime(&tnow));
-    timestring[24] = '\0'; // remove annoying non-configurable newline added by ctime
-    //printf("{\n  \"session\": {\n    \"comment\" : \"some JSON\",\n    \"seshID\": \"%s\"\n  }\n}", timestring);*/
-    //printf("{\n  \"session\": {\n    \"comment\" : \"some JSON\",\n    \"seshID\": \"%d\"\n  }\n}", (int)tnow);
-
 void showOptions() {
     printf("<table border=1 cellspacing=0><thead><tr><th>Quiz</th><th colspan=3>Actions</th></tr></thead>\n");
     printf("<tr><td>Matrix</td>");
@@ -118,14 +103,6 @@ void showOptions() {
     printf("</tr>\n");
     printf("</table>\n");
     printf("<hr>\n");
-}
-
-void startMatrix() {
-    printf("<p>startMatrix()</p>");
-}
-
-void startHoops() {
-    printf("<p>startHoops()</p>");
 }
 
 int main(int argc, char **argv) {
@@ -144,12 +121,10 @@ int main(int argc, char **argv) {
         showOptions();
         if (x->param.isEmpty()) {
             printf("<p>No action selected.</p>\n");
-        } else if (paramIs("action", "insert") && paramIs("quiz", "hoops")) { // real insert by frontend
-            printf("<p>about to Hoops::getPayload()</p>\n");
+        } else if (paramIs("action", "insert") && paramIs("quiz_id", "2222")) { // real insert by frontend
             Hoops::HoopsRecord rec = Hoops::getPayload(x);
-            printf("<p>done Hoops::getPayload()</p>\n");
             if (Hoops::insertRecord(&rec)) {
-                printf("<p>insert succeeded!</p>\n");
+                printf("<p>insert succeeded</p>\n");
             } else {
                 printf("<p>insert did not succeed...</p>\n");
             }
@@ -164,10 +139,10 @@ int main(int argc, char **argv) {
             Hoops::printRecords();
         } else if (paramIs("action", "view") && paramIs("quiz", "matrix")) {
             Matrix::getRecords();
-        } else if (paramIs("action", "start") && paramIs("quiz", "matrix")) {
+/*        } else if (paramIs("action", "start") && paramIs("quiz", "matrix")) {
             startMatrix();
         } else if (paramIs("action", "start") && paramIs("quiz", "hoops")) {
-            startHoops();
+            startHoops();*/
         } else {
             printf("<p>Parameters not understood.</p>");
             showParams(x); // from cgi_test.cpp //if (DEBUG)
@@ -184,4 +159,28 @@ int main(int argc, char **argv) {
     boilerplate_foot();
     return(EXIT_SUCCESS);
 }
+
+// void startMatrix() {
+//     printf("<p>startMatrix()</p>");
+// }
+// 
+// void startHoops() {
+//     printf("<p>startHoops()</p>");
+// }
+
+
+// string nowString() { // UNIX time in seconds
+//     time_t  tnow;
+//     char timestring[32];
+//     strcpy(timestring, ctime(&tnow));
+//     timestring[24] = '\0'; // remove annoying non-configurable newline added by ctime
+//     //time(&tnow); // ctime(&tnow)
+//     return string(timestring);
+// }
+
+/*    char timestring[32];
+    strcpy(timestring, ctime(&tnow));
+    timestring[24] = '\0'; // remove annoying non-configurable newline added by ctime
+    //printf("{\n  \"session\": {\n    \"comment\" : \"some JSON\",\n    \"seshID\": \"%s\"\n  }\n}", timestring);*/
+    //printf("{\n  \"session\": {\n    \"comment\" : \"some JSON\",\n    \"seshID\": \"%d\"\n  }\n}", (int)tnow);
 
