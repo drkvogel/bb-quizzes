@@ -36,8 +36,8 @@
         responses = null,
         urlParams = {};
 
-    // //var Timer = require('./timer'); // require is a node thing, unless you use requirejs
-    // // copied/adapted from Jonathan's bb-quizzes/snap/Snap_files/Timer.js
+    //var Timer = require('./timer'); // require is a node thing, unless you use requirejs
+    // copied/adapted from Jonathan's bb-quizzes/snap/Snap_files/Timer.js
 
     var Timer = function() {
         this.isValid = false;
@@ -132,7 +132,6 @@
         return this.isValid;
     };
     // module.exports = Timer; // module.exports is Node.js, for the server!
-
 
     // function preload() {
     //     //images[25] = new Image();

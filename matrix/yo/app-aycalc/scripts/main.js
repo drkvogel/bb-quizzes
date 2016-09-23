@@ -1,13 +1,40 @@
 /*global $ */
 /*jslint browser:true */ // define 'document'
+///* jshint unused:false */
+///*eslint-disable no-unused-vars*/
 // /*jslint plusplus: true */ // doesn't work with sublime jslint plugin:
 
 // http://stackoverflow.com/questions/950087/include-a-javascript-file-in-another-javascript-file
-(function () { // Immediately-Invoked Function Expression (IIFE)
+(function () { // Immediately-Invoked Function Expression (IIFE) / Anonymous closure: hide vars from global namespace
     // used to set "use strict" for whole scope so jslint doesn't complain, but then have to indent whole scope...
     'use strict';
 
-    var LIVE = false; // const? JSHint doesn't like it
+    var LIVE = false, // const? JSHint doesn't like it
+        LOCAL = false,
+        MAX_LEVELS = 18,
+        FADEIN = 100,
+        FADEOUT = 100,
+        config,
+        pages,
+        current,
+        //puzzleCount = 0,
+        timer,
+        timerWholeTest,
+        isTimeUp = false,
+        nextPageTimeout,
+        timeUpTimeout,
+        enabled = false, // enable UI
+        levels = [],
+        answers = [],
+        //puzzle = null,
+        seshID = null,
+        tinstruct = null,
+        tstart = null,
+        tfinish = null,
+        tinsert = null,
+        ntests = null,
+        responses = null,
+        urlParams = {};
 
     //var Timer = require('./timer'); // require is a node thing, unless you use requirejs
     // copied/adapted from Jonathan's bb-quizzes/snap/Snap_files/Timer.js
@@ -37,10 +64,11 @@
     Timer.prototype.findnow = function() {
         var nowish = 0,
             count = 0,
-            diff = 0;
+            diff = 0,
+            testVal = 0;
         do {
             nowish = this.getTime();
-            var testVal = this.getTime();
+            testVal = this.getTime();
             diff = testVal - nowish;
             count++;
         } while (((diff < 0) || (diff > 2)) && (count < 10));
@@ -68,7 +96,6 @@
         if (!this.isValid || this.startts === 0 || this.lapts === 0) {
             return -1;
         }
-
         var diff = this.lapts - this.startts;
         if (diff < 0) {
             this.hasPossibleError = true;
@@ -106,28 +133,12 @@
     };
     // module.exports = Timer; // module.exports is Node.js, for the server!
 
-
-    var config,
-        pages,
-        current,
-        timer,
-        isTimeUp = false,
-        nextPageTimeout,
-        timeUpTimeout,
-        answers = [], // use 'responses' instead?
-        sesh_id  = null,
-        tinstruct = null,
-        tstart = null,
-        tfinish  = null,
-        tinsert = null,
-        ntests = null,
-        responses = null;
     // function preload() {
     //     //images[25] = new Image();
     //     //ges[25].src = 'Snap/snap_images/Rear.GIF';
     // }
 
-    // function obj(o) { // log formatted object to console
+    // function logObj(o) { // log formatted object to console
     //     return JSON.stringify(o, null, 4);
     // }
 
@@ -136,8 +147,7 @@
     }
 
     function pageNamed(name) {
-        //for (var page in pages) { // http://stackoverflow.com/questions/500504/why-is-using-for-in-with-array-iteration-such-a-bad-idea
-        for (var i = 0; i < pages.length; i++) {
+        for (var i = 0; i < pages.length; i++) { // http://stackoverflow.com/questions/500504/why-is-using-for-in-with-array-iteration-such-a-bad-idea
             if (pages[i].name === name) {
                 return pages[i];
             }
@@ -190,10 +200,8 @@
     //     $('#bot').attr('src', base + '-palette.png');
     // }
     function setImage(sel, page, extn) {
-        var base = 'images/' + page.name + '/' + page.name;
-        //console.log('setImage(' + sel + ', ' + page.name + ', ' + extn + ')');
-        //console.log('base + extn: ' + base + extn + ')');
-        $(sel).attr('src', base + extn);
+        var base = 'images/' + page.name + '/' + page.name; //console.log('setImage(' + sel + ', ' + page.name + ', ' + extn + ')');
+        $(sel).attr('src', base + extn); //console.log('base + extn: ' + base + extn + ')');
     }
 
     function showInfo(text) {
@@ -204,6 +212,12 @@
         var sel = '#prevTime';
         $(sel).css('color', correct ? 'green' : 'red');
         $(sel).html(text + 'ms');
+    }
+
+    function isoDate() { // return date string in format yyyy-mm-ddThh:mm:ss, suitable for parsing by xtime.cpp
+        var date = new Date(); // date.toISOString() is UTC/GMT with milliseconds, e.g. '2016-09-21T10:47:54.671Z'
+        return date.toISOString().substring(0, 19); // strip milliseconds
+            // timezone not needed, is GMT
     }
 
     function startTimer(page) {
@@ -381,14 +395,12 @@
         console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page)); //console.log('showPage(): isTimeUp:' + isTimeUp);
 
         if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
-            hideDiv('abandon-div');
+            $('#abandon-div').hide(); //fadeOut(FADEOUT);
         } else {
-            showDiv('abandon-div');
+            $('#abandon-div').fadeIn(FADEOUT);
         }
-
-        var info = current + '/' + pages.length + ': ' + page.name;
+        var info = current + '/' + pages.length + ': ' + page.name + ', timeUp: ' + String(isTimeUp);
         showInfo(info);
-
         switch (page.templateId) {
         case 'quiz2x2':
         case 'quiz3x3':
@@ -404,7 +416,9 @@
         case 'thanks':
             clearTimeout(timeUpTimeout);
             clearTimeout(nextPageTimeout);
-            finished();
+            $('*').css('cursor', 'progress');
+            console.log('setTimeout(finished, 3000)');
+            setTimeout(finished, 3000);
             break;
         default:
             throw new Error('unrecogised id');
@@ -512,33 +526,29 @@
     }
 
     function showModal(modal) {
-        showDiv('modals');  //console.log('showModal(\'' + modal + '\')');
-        showDiv(modal);
+        $('#modals').show();
+        $('#' + modal).show(); //fadeIn(FADEIN); //console.log('showModal(\'' + modal + '\')');
     }
 
     function hideModal(modal) {
-        hideDiv('modals');  //console.log('hideModal(\'' + modal + '\')');
-        hideDiv(modal);
+        $('#modals').hide();
+        $('#' + modal).hide(); //fadeOut(FADEOUT);
     }
 
     function finished() {
         console.log('finished(): answers: ' + JSON.stringify(answers));
         clearTimeout(timeUpTimeout);
 
-        // fill in form
-        document.getElementById('responses').value = JSON.stringify(answers); //$('#results').val(JSON.stringify(answers));
-        document.getElementById('timeStarted').value = config.timeStarted;
-        //var possibleE = test_timer.gethasPossibleError() + reaction_timer.gethasPossibleError() + demo_timer.gethasPossibleError() + total_timer.gethasPossibleError();
-        // if (possibleE > 0)
-        //     possibleE = 1;
-
-        // writeValue("timererror",possibleE); // document.getElementById(id).value = value;
-        // writeValue("performanceTimer",total_timer.gethasPerformance());
-
-        // submit automatically
+        // fill in form and submit automatically
+        document.getElementById('sesh_id').value = config.seshID;
+        document.getElementById('tinstruct').value = config.tinstruct;
+        document.getElementById('tstart').value = config.timeStarted;
+        document.getElementById('tfinish').value = isoDate(); // now
+        document.getElementById('ntests').value = answers.length;
+        document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
         window.onbeforeunload = null;
         $(window).on('beforeunload', function(){
-            $('*').css('cursor', 'progress');
+            $('*').css('cursor', 'default');
         });
         document.getElementById('feedbackForm').submit(); // action set in init() from config.json
     }
@@ -589,7 +599,8 @@
         switch (clickedEl.attr('id')) {
         case 'abandon-yes':
             hideModal('abandon-modal');
-            hidePage(currentPage());
+            //hidePage(currentPage());
+	    $('#' + currentPage().templateId).hide();
             showPage(pageNamed('thanks'));
             break;
         case 'abandon-no':
@@ -609,9 +620,26 @@
     }
 
     function init() {
-        timer = new Timer();
+        timer = new Timer(); // globals
+        timerWholeTest = new Timer(); // globals
         isTimeUp = false;
         current = 0;
+        var msg;
+
+        if (LOCAL) {
+            config.seshID = 4321;
+        } else {
+            if (!urlParams.hasOwnProperty('sesh_id')) {
+                msg = 'not LOCAL and sesh_id not found in urlParams';
+                $('#home .debug').html('<code>' + msg + '</code>');
+                throw new Error(msg);
+            }
+            config.seshID = urlParams.sesh_id; //urlParams['sesh_id'];
+                // error  ["sesh_id"] is better written in dot notation                    dot-notation
+        }
+        msg = 'config.sesh_id: ' + config.seshID;
+        console.log(msg);
+        $('#home .debug').html('<code>' + msg + '</code>');
 
         $('#button').css('display', LIVE ? 'none' : 'inline');
 
@@ -625,16 +653,18 @@
 
         showPage(currentPage());
         imageMapResize();
+	config.tinstruct = isoDate();
+        console.log('config.tinstruct: ' + config.tinstruct);
     }
 
     function getConfig() {
-        $.getJSON('./config.json', function (data) {
-            console.log('getConfig(): got JSON');
-            config = data;
-            pages = data.pages;
+        $.getJSON('./config.json', function (configData) {
+            console.log('getConfig(): got config.json');
+            config = configData;
+            pages = configData.pages;
             init();
         }).fail(function (jqxhr, textStatus, errorThrown) { // jqxhr not needed here, but position of args important, not name
-            var err = 'error getting JSON: ' + textStatus + ', errorThrown: ' + errorThrown;
+            var err = 'error getting config.json: ' + textStatus + ', errorThrown: ' + errorThrown;
             console.log(err);
         });
     }
@@ -642,11 +672,11 @@
     function keydown(e) {
         console.log('keyboard event: ' + e.which);
         if (e.which === 68) { //console.log('"d" pressed');
-            e.preventDefault();
+            e.preventDefault(); // don't trap other keypresses e.g. ctrl-shift-i for dev tools
             if ($('#devBar').css('display') === 'none') {
-                showDiv('devBar');
+                $('#devBar').show();
             } else {
-                hideDiv('devBar');
+                $('#devBar').hide();
             }
         }
     }
@@ -662,9 +692,25 @@
         showPage(currentPage()); // ?
     };
 
+    (window.onpopstate = function() {
+        var match,
+            pl = /\+/g,  // Regex for replacing addition symbol with a space
+            search = /([^&=]+)=?([^&]*)/g,
+            decode = function(s) { return decodeURIComponent(s.replace(pl, ' ')); },
+            query = window.location.search.substring(1);
+        // eslint-disable-next-line no-cond-assign <--- doesn't work, but eslint-disable-line does:
+        while (match = search.exec(query)) { // eslint-disable-line no-cond-assign
+           urlParams[decode(match[1])] = decode(match[2]);
+        }
+        for (var urlParam in urlParams) {
+            console.log('urlParam: ' + urlParam + ' is ' + urlParams[urlParam]);
+        }
+    })();
+
     $().ready(function () { //$(document).ready(
         console.log('Document ready');
-        hideDiv('devBar');
+        //hideDiv('devBar');
+        $('#devBar').hide();
         if (LIVE) {
             window.onbeforeunload = null;
             window.history.forward();   //prevent repeat after back button - may not work.
@@ -672,9 +718,16 @@
                 return 'The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?';
             };
         }
+        var loc = location.toString().split('://')[1]; // strip off http://, https://
+        if (loc.substr(0, 9) === 'localhost') { // served from gulp
+            LOCAL = true;
+        }
+        console.log('LOCAL: ' + LOCAL);
         getConfig();
     });
 }());
+
+console.log('main.js ready');
 
         //$('#3x2-map').imageMapResize(); // https://github.com/davidjbradshaw/image-map-resizer
         //$('#4x2-map').imageMapResize();
