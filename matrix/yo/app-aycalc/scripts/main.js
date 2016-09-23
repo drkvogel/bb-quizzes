@@ -339,8 +339,8 @@
 
         console.log('setMargins: ' + setMargins +
             ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
-            ', targetMiddleWidth: ' + targetMiddleWidth
-             + ', setMargins: ' + setMargins);
+            ', targetMiddleWidth: ' + targetMiddleWidth +
+            ', setMargins: ' + setMargins);
     }
     //var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
 
@@ -620,8 +620,9 @@
     }
 
     function init() {
-        timer = new Timer(); // globals
-        timerWholeTest = new Timer(); // globals
+        // globals
+        timer = new Timer();
+        timerWholeTest = new Timer();
         isTimeUp = false;
         current = 0;
         var msg;
@@ -634,26 +635,24 @@
                 $('#home .debug').html('<code>' + msg + '</code>');
                 throw new Error(msg);
             }
-            config.seshID = urlParams.sesh_id; //urlParams['sesh_id'];
-                // error  ["sesh_id"] is better written in dot notation                    dot-notation
+            config.seshID = urlParams.sesh_id; //urlParams['sesh_id']; // error  ["sesh_id"] is better written in dot notation                    dot-notation
         }
-        msg = 'config.sesh_id: ' + config.seshID;
-        console.log(msg);
+        msg = 'config.sesh_id: ' + config.seshID; console.log(msg);
         $('#home .debug').html('<code>' + msg + '</code>');
-
         $('#button').css('display', LIVE ? 'none' : 'inline');
 
-        var formAction = config.formAction;
-        var loc = location.toString().split('://')[1]; // strip off http://, https://
-        if (loc.substr(0, 9) === 'localhost') { // served from gulp
-            console.log('loc === localhost');
-            formAction = 'http://localhost:8000/' + formAction; // gulp-connect-php - local PHP server
-        } // else, is on same server, relative link OK
-        $('#feedbackForm').attr('action', formAction);
+        // var formAction = config.formAction;
+        // var loc = location.toString().split('://')[1]; // strip off http://, https://
+        // //if (loc.substr(0, 9) === 'localhost') { // served from gulp
+        // if (LOCAL) {
+        //     console.log('loc === localhost');
+        //     formAction = 'http://localhost:8000/' + formAction; // gulp-connect-php - local PHP server
+        // } // else, is on same server, relative link OK
+        $('#feedbackForm').attr('action', config.formAction);
 
         showPage(currentPage());
         imageMapResize();
-	config.tinstruct = isoDate();
+	    config.tinstruct = isoDate();
         console.log('config.tinstruct: ' + config.tinstruct);
     }
 

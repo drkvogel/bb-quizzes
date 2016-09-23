@@ -1,10 +1,8 @@
-
 {
     "comment": "can't put comments in JSON!",
     "comment": "timeLimit should be 180000 == 3 minutes",
     "nextDelay" : 500,
     "timeLimit" : 180000,
-    //"formAction" : "complete.php",
     "formAction" : "http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/",
     "pages":[
     {
