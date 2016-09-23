@@ -382,7 +382,10 @@ const nx_json* nx_json_item(const nx_json* json, int idx) {
   }
   return &dummy; // never return null
 }
-
+/*
+char * nx_json_type_names[] = {
+    "NX_JSON_NULL", "NX_JSON_OBJECT", "NX_JSON_ARRAY", "NX_JSON_STRING", "NX_JSON_INTEGER", "NX_JSON_DOUBLE", "NX_JSON_BOOL"
+};*/
 
 #ifdef  __cplusplus
 }

@@ -28,10 +28,10 @@ namespace Hoops {
         vecHoopsAnswer answers;    
     } HoopsRecord; //BBQuizRecord;
     typedef std::vector< HoopsRecord > vecHoopsRecord;
+//     vecHoopsRecord records;
 
     void parseResponses(HoopsRecord *rec);
     void printAnswer(const nx_json* node);
-
     void printJSONAnswer(const nx_json* node);
     void printHoopsAnswer(HoopsAnswer & ans);
 

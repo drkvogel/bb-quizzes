@@ -3,7 +3,26 @@
 #include "matrix.h"
 #include "nxjson.h"
 
-void Matrix::parseResponses(const MatrixRecord *e) {
+Matrix::vecRecord MatrixRecords;
+
+void Matrix::printJSONAnswer(const nx_json* node) {
+    printf("[node type: %s, length: %d]: count: %d, puzzle: %d, answer: %d, correct: %d, time: %d<br />",
+        //nx_json_type_names[node->type],
+        "[nx_json_type_names not implemented here]",
+        node->length,
+        nx_json_get(node, "count")->int_value,
+        nx_json_get(node, "puzzle")->int_value,
+        nx_json_get(node, "answer")->int_value,
+        nx_json_get(node, "correct")->int_value,
+        nx_json_get(node, "time")->int_value);
+}
+
+void Matrix::printAnswer(Answer & ans) {
+    printf("ans: duration: %d, puzzle: %d, elapsed: %d, answer: %d, correct: %d<br />\n",
+            ans.duration, ans.puzzle, ans.elapsed, ans.answer, ans.correct);
+}
+
+void Matrix::parseResponses(Record *e) {
     char buf[1600];
     strcpy(buf, e->responses.c_str());
     const nx_json* json = nx_json_parse(buf, 0);
@@ -21,17 +40,27 @@ void Matrix::parseResponses(const MatrixRecord *e) {
     }
 }
 
-void Matrix::insert(XCGI * x) {
-    //
-    printf("Todo");    
+Matrix::Record Matrix::getPayload(XCGI * x) { // get responses from frontend
+    printf("<code>this is getPayload() in %s.<br />\n", __FILE__); //int np = x->param.count();
+    Record rec;
+    rec.sesh_id = x->paramAsInt("sesh_id"); // up to date xcgi.cpp/h has getParam, paramExists, but not this copy
+    rec.tinstruct.set(x->param.getString("tinstruct").c_str()); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
+    rec.tstart.set(x->param.getString("tstart").c_str()); //nowString().c_str());
+    rec.tfinish.set(x->param.getString("tfinish").c_str());
+    //printf("<p>tinstruct.iso(): '%s', tstart.iso(): '%s', tfinish.iso(): '%s'</p>", rec.tinstruct.iso().c_str(), rec.tstart.iso().c_str(), rec.tfinish.iso().c_str());
+    rec.responses = x->param.getString("responses");
+    printf("<p>responses:</p><pre>%s</pre>\n", rec.responses.c_str());
+    rec.ntests = x->paramAsInt("ntests");
+    parseResponses(&rec); // rec.ntests can be determined from responses? or should be passed from frontend and checked
+    printf("sesh_id: %d", rec.sesh_id);
+    printf("<p>done</p>\n");
+    return rec;
 }
-
 void Matrix::testInsert() {
-    //
-    printf("Todo");    
+    printf("Todo");
 }
 
-bool Matrix::insertRecord(const MatrixRecord *e) {
+bool Matrix::insertRecord(const Record *e) {
     std::string sql =
         "INSERT INTO matrix (sesh_id, ntests, tinstruct, tstart, tfinish, tinsert,"
         " duration1, elapsed1, answer1, correct1, "
@@ -82,95 +111,95 @@ bool Matrix::insertRecord(const MatrixRecord *e) {
     xe.param.setTime("tstart",       e->tstart);
     xe.param.setTime("tfinish",      e->tfinish);
 
-    xe.param.setInt("duration1",     e->duration1);
-    xe.param.setInt("elapsed1",      e->elapsed1);
-    xe.param.setInt("answer1",       e->answer1);
-    xe.param.setInt("correct1",      e->correct1);
-
-    xe.param.setInt("duration2",     e->duration2);
-    xe.param.setInt("elapsed2",      e->elapsed2);
-    xe.param.setInt("answer2",       e->answer2);
-    xe.param.setInt("correct2",      e->correct2);
-
-    xe.param.setInt("duration3",     e->duration3);
-    xe.param.setInt("elapsed3",      e->elapsed3);
-    xe.param.setInt("answer3",       e->answer3);
-    xe.param.setInt("correct3",      e->correct3);
-
-    xe.param.setInt("duration4",     e->duration4);
-    xe.param.setInt("elapsed4",      e->elapsed4);
-    xe.param.setInt("answer4",       e->answer4);
-    xe.param.setInt("correct4",      e->correct4);
-
-    xe.param.setInt("duration5",     e->duration5);
-    xe.param.setInt("elapsed5",      e->elapsed5);
-    xe.param.setInt("answer5",       e->answer5);
-    xe.param.setInt("correct5",      e->correct5);
-
-    xe.param.setInt("duration6",     e->duration6);
-    xe.param.setInt("elapsed6",      e->elapsed6);
-    xe.param.setInt("answer6",       e->answer6);
-    xe.param.setInt("correct6",      e->correct6);
-
-    xe.param.setInt("duration7",     e->duration7);
-    xe.param.setInt("elapsed7",      e->elapsed7);
-    xe.param.setInt("answer7",       e->answer7);
-    xe.param.setInt("correct7",      e->correct7);
-
-    xe.param.setInt("duration8",     e->duration8);
-    xe.param.setInt("elapsed8",      e->elapsed8);
-    xe.param.setInt("answer8",       e->answer8);
-    xe.param.setInt("correct8",      e->correct8);
-
-    xe.param.setInt("duration9",     e->duration9);
-    xe.param.setInt("elapsed9",      e->elapsed9);
-    xe.param.setInt("answer9",       e->answer9);
-    xe.param.setInt("correct9",      e->correct9);
-
-    xe.param.setInt("duration10",     e->duration10);
-    xe.param.setInt("elapsed10",      e->elapsed10);
-    xe.param.setInt("answer10",       e->answer10);
-    xe.param.setInt("correct10",      e->correct10);
-
-    xe.param.setInt("duration11",     e->duration11);
-    xe.param.setInt("elapsed11",      e->elapsed11);
-    xe.param.setInt("answer11",       e->answer11);
-    xe.param.setInt("correct11",      e->correct11);
-
-    xe.param.setInt("duration12",     e->duration12);
-    xe.param.setInt("elapsed12",      e->elapsed12);
-    xe.param.setInt("answer12",       e->answer12);
-    xe.param.setInt("correct12",      e->correct12);
-
-    xe.param.setInt("duration13",     e->duration13);
-    xe.param.setInt("elapsed13",      e->elapsed13);
-    xe.param.setInt("answer13",       e->answer13);
-    xe.param.setInt("correct13",      e->correct13);
-
-    xe.param.setInt("duration14",     e->duration14);
-    xe.param.setInt("elapsed14",      e->elapsed14);
-    xe.param.setInt("answer14",       e->answer14);
-    xe.param.setInt("correct14",      e->correct14);
-
-    xe.param.setInt("duration15",     e->duration15);
-    xe.param.setInt("elapsed15",      e->elapsed15);
-    xe.param.setInt("answer15",       e->answer15);
-    xe.param.setInt("correct15",      e->correct15);
-
-    xe.param.setInt("duration16",     e->duration16);
-    xe.param.setInt("elapsed16",      e->elapsed16);
-    xe.param.setInt("answer16",       e->answer16);
-    xe.param.setInt("correct16",      e->correct16);
-
-    xe.param.setInt("duration17",     e->duration17);
-    xe.param.setInt("elapsed17",      e->elapsed17);
-    xe.param.setInt("answer17",       e->answer17);
-    xe.param.setInt("correct17",      e->correct17);
-
-    xe.param.setInt("duration18",     e->duration18);
-    xe.param.setInt("elapsed18",      e->elapsed18);
-    xe.param.setInt("answer18",       e->answer18);
-    xe.param.setInt("correct18",      e->correct18);
+//     xe.param.setInt("duration1",     e->duration1);
+//     xe.param.setInt("elapsed1",      e->elapsed1);
+//     xe.param.setInt("answer1",       e->answer1);
+//     xe.param.setInt("correct1",      e->correct1);
+// 
+//     xe.param.setInt("duration2",     e->duration2);
+//     xe.param.setInt("elapsed2",      e->elapsed2);
+//     xe.param.setInt("answer2",       e->answer2);
+//     xe.param.setInt("correct2",      e->correct2);
+// 
+//     xe.param.setInt("duration3",     e->duration3);
+//     xe.param.setInt("elapsed3",      e->elapsed3);
+//     xe.param.setInt("answer3",       e->answer3);
+//     xe.param.setInt("correct3",      e->correct3);
+// 
+//     xe.param.setInt("duration4",     e->duration4);
+//     xe.param.setInt("elapsed4",      e->elapsed4);
+//     xe.param.setInt("answer4",       e->answer4);
+//     xe.param.setInt("correct4",      e->correct4);
+// 
+//     xe.param.setInt("duration5",     e->duration5);
+//     xe.param.setInt("elapsed5",      e->elapsed5);
+//     xe.param.setInt("answer5",       e->answer5);
+//     xe.param.setInt("correct5",      e->correct5);
+// 
+//     xe.param.setInt("duration6",     e->duration6);
+//     xe.param.setInt("elapsed6",      e->elapsed6);
+//     xe.param.setInt("answer6",       e->answer6);
+//     xe.param.setInt("correct6",      e->correct6);
+// 
+//     xe.param.setInt("duration7",     e->duration7);
+//     xe.param.setInt("elapsed7",      e->elapsed7);
+//     xe.param.setInt("answer7",       e->answer7);
+//     xe.param.setInt("correct7",      e->correct7);
+// 
+//     xe.param.setInt("duration8",     e->duration8);
+//     xe.param.setInt("elapsed8",      e->elapsed8);
+//     xe.param.setInt("answer8",       e->answer8);
+//     xe.param.setInt("correct8",      e->correct8);
+// 
+//     xe.param.setInt("duration9",     e->duration9);
+//     xe.param.setInt("elapsed9",      e->elapsed9);
+//     xe.param.setInt("answer9",       e->answer9);
+//     xe.param.setInt("correct9",      e->correct9);
+// 
+//     xe.param.setInt("duration10",     e->duration10);
+//     xe.param.setInt("elapsed10",      e->elapsed10);
+//     xe.param.setInt("answer10",       e->answer10);
+//     xe.param.setInt("correct10",      e->correct10);
+// 
+//     xe.param.setInt("duration11",     e->duration11);
+//     xe.param.setInt("elapsed11",      e->elapsed11);
+//     xe.param.setInt("answer11",       e->answer11);
+//     xe.param.setInt("correct11",      e->correct11);
+// 
+//     xe.param.setInt("duration12",     e->duration12);
+//     xe.param.setInt("elapsed12",      e->elapsed12);
+//     xe.param.setInt("answer12",       e->answer12);
+//     xe.param.setInt("correct12",      e->correct12);
+// 
+//     xe.param.setInt("duration13",     e->duration13);
+//     xe.param.setInt("elapsed13",      e->elapsed13);
+//     xe.param.setInt("answer13",       e->answer13);
+//     xe.param.setInt("correct13",      e->correct13);
+// 
+//     xe.param.setInt("duration14",     e->duration14);
+//     xe.param.setInt("elapsed14",      e->elapsed14);
+//     xe.param.setInt("answer14",       e->answer14);
+//     xe.param.setInt("correct14",      e->correct14);
+// 
+//     xe.param.setInt("duration15",     e->duration15);
+//     xe.param.setInt("elapsed15",      e->elapsed15);
+//     xe.param.setInt("answer15",       e->answer15);
+//     xe.param.setInt("correct15",      e->correct15);
+// 
+//     xe.param.setInt("duration16",     e->duration16);
+//     xe.param.setInt("elapsed16",      e->elapsed16);
+//     xe.param.setInt("answer16",       e->answer16);
+//     xe.param.setInt("correct16",      e->correct16);
+// 
+//     xe.param.setInt("duration17",     e->duration17);
+//     xe.param.setInt("elapsed17",      e->elapsed17);
+//     xe.param.setInt("answer17",       e->answer17);
+//     xe.param.setInt("correct17",      e->correct17);
+// 
+//     xe.param.setInt("duration18",     e->duration18);
+//     xe.param.setInt("elapsed18",      e->elapsed18);
+//     xe.param.setInt("answer18",       e->answer18);
+//     xe.param.setInt("correct18",      e->correct18);
 
     printf("<p>sql:</p>\n<p>%s</p>\n", sql.c_str());
 
@@ -178,8 +207,8 @@ bool Matrix::insertRecord(const MatrixRecord *e) {
 }
 
 void Matrix::getRecords() {
-    vecMatrixRecord records;
-    MatrixRecord rec;
+    //vecRecord records;
+    Record rec;
     std::string sql = "SELECT * FROM matrix";
     XQUERY q(db, sql);
     printf("<p>this is %s</p>\n", __FILE__);
@@ -196,17 +225,17 @@ void Matrix::getRecords() {
         rec.tstart    = q.result.getTime("tstart");
         rec.tfinish   = q.result.getTime("tstart");
 
-        rec.duration1 = q.result.getInt("duration1");
-        rec.elapsed1  = q.result.getInt("elapsed1");
-        rec.answer1   = q.result.getInt("answer1");
-        rec.correct1  = q.result.getInt("correct1");
+//         rec.duration1 = q.result.getInt("duration1");
+//         rec.elapsed1  = q.result.getInt("elapsed1");
+//         rec.answer1   = q.result.getInt("answer1");
+//         rec.correct1  = q.result.getInt("correct1");
 
-        records.push_back(rec);
+        MatrixRecords.push_back(rec);
     }
     q.close();
 
     printf("<code>\n");
-    printf("<h3>%d results:</h3>\n", records.size());
+    printf("<h3>%d results:</h3>\n", MatrixRecords.size());
     printf("<table border=\"1\" cellspacing=\"0\">\n");
 
     // column headers
@@ -231,30 +260,65 @@ void Matrix::getRecords() {
     printf("<td>duration17</td><td>elapsed17</td><td>answer17</td><td>correct17</td>");
     printf("<td>duration18</td><td>elapsed18</td><td>answer18</td><td>correct18</td>");
     printf("</thead>\n");
-    for (vecMatrixRecord::const_iterator it = records.begin(); it != records.end(); it++) {
+    for (vecRecord::const_iterator it = MatrixRecords.begin(); it != MatrixRecords.end(); it++) {
         printf("<tr>");
         printf("<td>%d</td><td>%d</td><td>%s</td><td>%s</td><td>%s</td>", it->sesh_id, it->ntests, it->tinstruct.iso().c_str(), it->tstart.iso().c_str(), it->tfinish.iso().c_str());
         printf("<td>%s</td>", it->responses.c_str());
-        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration1, it->elapsed1, it->answer1, it->correct1);
-        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration2, it->elapsed2, it->answer2, it->correct2);
-        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration3, it->elapsed3, it->answer3, it->correct3);
-        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration4, it->elapsed4, it->answer4, it->correct4);
-        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration5, it->elapsed5, it->answer5, it->correct5);
-        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration6, it->elapsed6, it->answer6, it->correct6);
-        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration7, it->elapsed7, it->answer7, it->correct7);
-        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration8, it->elapsed8, it->answer8, it->correct8);
-        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration9, it->elapsed9, it->answer9, it->correct9);
-        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration10, it->elapsed10, it->answer10, it->correct10);
-        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration11, it->elapsed11, it->answer11, it->correct11);
-        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration12, it->elapsed12, it->answer12, it->correct12);
-        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration13, it->elapsed13, it->answer13, it->correct13);
-        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration14, it->elapsed14, it->answer14, it->correct14);
-        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration15, it->elapsed15, it->answer15, it->correct15);
-        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration16, it->elapsed16, it->answer16, it->correct16);
-        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration17, it->elapsed17, it->answer17, it->correct17);
-        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration18, it->elapsed18, it->answer18, it->correct18);
+//         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration1, it->elapsed1, it->answer1, it->correct1);
+//         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration2, it->elapsed2, it->answer2, it->correct2);
+//         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration3, it->elapsed3, it->answer3, it->correct3);
+//         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration4, it->elapsed4, it->answer4, it->correct4);
+//         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration5, it->elapsed5, it->answer5, it->correct5);
+//         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration6, it->elapsed6, it->answer6, it->correct6);
+//         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration7, it->elapsed7, it->answer7, it->correct7);
+//         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration8, it->elapsed8, it->answer8, it->correct8);
+//         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration9, it->elapsed9, it->answer9, it->correct9);
+//         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration10, it->elapsed10, it->answer10, it->correct10);
+//         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration11, it->elapsed11, it->answer11, it->correct11);
+//         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration12, it->elapsed12, it->answer12, it->correct12);
+//         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration13, it->elapsed13, it->answer13, it->correct13);
+//         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration14, it->elapsed14, it->answer14, it->correct14);
+//         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration15, it->elapsed15, it->answer15, it->correct15);
+//         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration16, it->elapsed16, it->answer16, it->correct16);
+//         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration17, it->elapsed17, it->answer17, it->correct17);
+//         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>", it->duration18, it->elapsed18, it->answer18, it->correct18);
         printf("</tr>\n");
     }
     printf("</table>\n");
     printf("</code>\n");
+}
+
+void Matrix::printRecords() {
+    printf("<code>\n");
+    printf("<h3>%d results:</h3>\n", MatrixRecords.size());
+    printf("<table border=\"1\" cellspacing=\"0\">\n");
+    printf("<thead><td>sesh_id</td><td>tinstruct</td><td>tstart</td><td>tfinish</td>\n"); // column headers
+    printf("<td>responses</td><td>ntests</td>");
+    for (int i = 1; i <= MAX_LEVELS; i++) {
+        printf("<td>duration%d</td><td>puzzle%d</td><td>elapsed%d</td><td>answer%d</td><td>correct%d</td>", i, i, i, i, i);
+    }
+    printf("</thead>\n");
+    for (vecRecord::const_iterator rec = MatrixRecords.begin(); rec != MatrixRecords.end(); rec++) { // records
+        printRecord(*rec);
+    }
+    printf("</table>\n");
+    printf("</code>");
+}
+
+void Matrix::printRecord(Matrix::Record rec) {
+    printf("<tr>");
+    printf("<td>%d</td><td>%s</td><td>%s</td><td>%s</td>",
+        rec.sesh_id, rec.tinstruct.iso().c_str(), rec.tstart.iso().c_str(), rec.tfinish.iso().c_str());
+    printf("<td>%s</td>", rec.responses.c_str());
+    //printf("<td>...</td>");
+    printf("<td>%d</td>", rec.ntests);
+    for (int i=0; i<rec.answers.size(); i++) { // safer, should agree with rec->ntests
+        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>",
+            rec.answers[i].duration, rec.answers[i].puzzle, rec.answers[i].elapsed,
+            rec.answers[i].answer, rec.answers[i].correct);
+    }
+    for (int i=0; i<MAX_LEVELS - rec.answers.size(); i++) { // fill remainder
+        printf("<td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>");
+    }
+    printf("</tr>\n");
 }
