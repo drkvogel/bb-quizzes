@@ -8,11 +8,13 @@ using namespace std;
 
 const short MAX_LEVELS = 18;
 
+Hoops::vecHoopsRecord records;
+
 char * nx_json_type_names[] = {
     "NX_JSON_NULL", "NX_JSON_OBJECT", "NX_JSON_ARRAY", "NX_JSON_STRING", "NX_JSON_INTEGER", "NX_JSON_DOUBLE", "NX_JSON_BOOL"
 };
 
-Hoops::vecHoopsRecord records;
+// Hoops::vecHoopsRecord records;
 
 void Hoops::printJSONAnswer(const nx_json* node) {
     printf("[node type: %s, length: %d]: count: %d, puzzle: %d, answer: %d, correct: %d, time: %d<br />",
@@ -74,7 +76,7 @@ string nowString() { // UNIX time in seconds
 }
 
 Hoops::HoopsRecord Hoops::getPayload(XCGI * x) { // get responses from frontend
-    printf("<code>this is Hoops::getPayload() in %s.<br />\n", __FILE__); //int np = x->param.count();
+    printf("<code>this is getPayload() in %s.<br />\n", __FILE__); //int np = x->param.count();
 
     HoopsRecord rec;
     rec.sesh_id = x->paramAsInt("sesh_id"); // up to date xcgi.cpp/h has getParam, paramExists, but not this copy

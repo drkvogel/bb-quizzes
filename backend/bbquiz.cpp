@@ -128,8 +128,13 @@ int main(int argc, char **argv) {
             } else {
                 printf("<p>insert did not succeed...</p>\n");
             }
-        } else if (paramIs("action", "insert") && paramIs("quiz", "matrix")) {
-            Matrix::insert(x);
+        } else if (paramIs("action", "insert") && paramIs("quiz", "1111")) {
+            Matrix::Record rec = Matrix::getPayload(x);
+            if (Matrix::insertRecord(&rec)) {
+                printf("<p>insert succeeded</p>\n");
+            } else {
+                printf("<p>insert did not succeed...</p>\n");
+            }
         } else if (paramIs("action", "insertDummy") && paramIs("quiz", "hoops")) {
             Hoops::testInsert();
         } else if (paramIs("action", "insertDummy") && paramIs("quiz", "matrix")) {
@@ -139,10 +144,7 @@ int main(int argc, char **argv) {
             Hoops::printRecords();
         } else if (paramIs("action", "view") && paramIs("quiz", "matrix")) {
             Matrix::getRecords();
-/*        } else if (paramIs("action", "start") && paramIs("quiz", "matrix")) {
-            startMatrix();
-        } else if (paramIs("action", "start") && paramIs("quiz", "hoops")) {
-            startHoops();*/
+            Matrix::printRecords();
         } else {
             printf("<p>Parameters not understood.</p>");
             showParams(x); // from cgi_test.cpp //if (DEBUG)
@@ -159,6 +161,11 @@ int main(int argc, char **argv) {
     boilerplate_foot();
     return(EXIT_SUCCESS);
 }
+
+/*        } else if (paramIs("action", "start") && paramIs("quiz", "matrix")) {
+            startMatrix();
+        } else if (paramIs("action", "start") && paramIs("quiz", "hoops")) {
+            startHoops();*/
 
 // void startMatrix() {
 //     printf("<p>startMatrix()</p>");

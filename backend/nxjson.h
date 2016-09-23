@@ -59,6 +59,8 @@ void nx_json_free(const nx_json* js);
 const nx_json* nx_json_get(const nx_json* json, const char* key); // get object's property by key
 const nx_json* nx_json_item(const nx_json* json, int idx); // get array element by index
 
+// added
+// char * nx_json_type_names[]; // nxjson.h:63: error: storage size of ‘nx_json_type_names’ isn't known
 
 #ifdef  __cplusplus
 }
