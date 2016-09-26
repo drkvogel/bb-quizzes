@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <cstring>
 #include "xquery.h"
 #include "xexec.h"
 #include "matrix.h"
