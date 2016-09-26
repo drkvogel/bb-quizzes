@@ -6,6 +6,6 @@
 sftp -o RSAAuthentication=no red.ctsu.ox.ac.uk <<EOF
 cd public_html/cjb/bbquiz
 put bbquiz.cgi
-put idserve.cgi
+#put idserve.cgi
 put main.css
 EOF
