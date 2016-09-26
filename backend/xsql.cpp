@@ -2,6 +2,8 @@
 #include "rosetta.h"
 #include "xdb.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <cstring>
 //===========================================================================
 const	std::string	XSQL::blob = "XSQL_BLOB";	// ROSETTA TAG FOR BLOB
 const	std::string	XSQL::null = "XSQL_NULL";	// ROSETTA TAG FOR NULL
