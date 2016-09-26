@@ -1,0 +1,28 @@
+#!/bin/bash
+# add -v for verbose debugging
+
+# http://stackoverflow.com/questions/216995/
+#shopt -s extglob # can then exclude with wildcards, e.g.: !(images)
+#scp "./dist/* !(images)" $REMOTEUSER@$REMOTEHOST:$REMOTEPATH
+
+REMOTEHOST="oqsweb.ndph.ox.ac.uk"
+REMOTEUSER="webman"
+REMOTEROOT="/user/webman/public_html/bbquiz/"  # http://oqsweb.ndph.ox.ac.uk/~cp/cjb/
+
+if [ -z "$1" ]
+then
+    DIR="hoops"
+    echo "No argument supplied, defaulting to '$DIR'"
+else
+    DIR=$1
+fi
+
+REMOTEPATH=$REMOTEROOT$DIR
+
+echo "Copying to $REMOTEUSER@$REMOTEHOST:$REMOTEPATH"
+echo "Remember to run gulp first to build into ./dist, and fonts, scripts and styles dirs must exist on server already"
+read -rsp $'Press any key to continue...\n' -n1 key
+
+scp -r ./dist/* $REMOTEUSER@$REMOTEHOST:$REMOTEPATH
+
+exit 0
