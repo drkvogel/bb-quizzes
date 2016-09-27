@@ -6,8 +6,8 @@
 #scp "./dist/* !(images)" $REMOTEUSER@$REMOTEHOST:$REMOTEPATH
 
 REMOTEHOST="oqsweb.ndph.ox.ac.uk"
-REMOTEUSER="webman"
-REMOTEROOT="/user/webman/public_html/bbquiz/"  # http://oqsweb.ndph.ox.ac.uk/~cp/cjb/
+REMOTEUSER="cp"
+REMOTEROOT="/user/cp/public_html/bbquiz/"  # http://oqsweb.ndph.ox.ac.uk/~cp/cjb/
 
 if [ -z "$1" ]
 then

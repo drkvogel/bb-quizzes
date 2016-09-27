@@ -1,28 +1,31 @@
 #!/bin/bash
 # add -v for verbose debugging
 
-REMOTEHOST="oqsweb.ndph.ox.ac.uk"
-REMOTEUSER="webman"
-REMOTEROOT="/user/webman/proj/bb-quizzes/"
-REMOTEPATH=$REMOTEROOT #$DIR
-
-echo "rsyncing entire repo to $REMOTEUSER@$REMOTEHOST:$REMOTEPATH"
-echo "(dirs must exist on server already? only base target directory)"
-read -rsp $'Press any key to continue...\n' -n1 key
-
-## rsync -anv . webman@oqsweb:~/proj    # dry run, verbose, archive (keep perms) 
-rsync -a . $REMOTEUSER@$REMOTEHOST:$REMOTEPATH  # no trailing slash for src: send dir as well
-
-exit 0
-
 # http://stackoverflow.com/questions/216995/
 #shopt -s extglob # can then exclude with wildcards, e.g.: !(images)
 #scp "./dist/* !(images)" $REMOTEUSER@$REMOTEHOST:$REMOTEPATH
 
+REMOTEHOST="oqsweb.ndph.ox.ac.uk"
+REMOTEUSER="cp"
+REMOTEROOT="/user/cp/cjb/proj/bb-quizzes/"  # http://red.ctsu.ox.ac.uk/~cp/cjb/
+
 # if [ -z "$1" ]
 # then
-#     DIR="matrix"
+#     DIR="matrix/"
 #     echo "No argument supplied, defaulting to '$DIR'"
 # else
 #     DIR=$1
 # fi
+
+REMOTEPATH=$REMOTEROOT #$DIR
+
+#echo "Copying entire repo to $REMOTEUSER@$REMOTEHOST:$REMOTEPATH"
+echo "rsync dummy run:"
+rsync -anvC ./ $REMOTEUSER@$REMOTEHOST:$REMOTEPATH
+echo "about to rsync entire repo to $REMOTEUSER@$REMOTEHOST:$REMOTEPATH"
+echo "(base target directory must exist on server already)"
+read -rsp $'Press any key to continue...\n' -n1 key
+
+rsync -avC ./ $REMOTEUSER@$REMOTEHOST:$REMOTEPATH
+
+exit 0
