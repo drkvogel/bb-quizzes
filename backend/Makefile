@@ -2,17 +2,17 @@ SHELL=/bin/sh
 CXX=g++
 CCXXFLAGS=-Dint_lnx -g
 INC=$(II_SYSTEM)/ingres/files
-LDLIB=-linterp.1 -liiapi 
+LDLIB=-linterp.1 -liiapi /lib64/libdl.so.2 /lib64/libcrypt.so.1 
 CXXFLAGS=$(CCXXFLAGS) -I$(INC)
 OBJCOMMON=rosebase.o rosetta.o xbinob.o xdb.o xencode.o xexec.o xquery.o xsql.o xtime.o xhttp.o xcgi.o
 OBJBBQUIZ=$(OBJCOMMON) hoops.o matrix.o nxjson.o
-TARGETDIR=~cp/public_html/bbquiz/
+TARGETDIR=~/public_html/bbquiz/
 
 bbquiz : bbquiz.o $(OBJBBQUIZ)
 	echo "make bbquiz"
 	$(CXX) $(CXXFLAGS) -o bbquiz.cgi bbquiz.cpp $(OBJBBQUIZ) -L$(II_SYSTEM)/ingres/lib -lingres $(LDLIB)
 	chmod go-w bbquiz.cgi
-	cp bbquiz.cgi $(TARGETDIR)
+	cp bbquiz.cgi $(TARGETDIR)index.cgi
 	cp main.css $(TARGETDIR)
 
 nodb : bbquiz.o $(OBJBBQUIZ)

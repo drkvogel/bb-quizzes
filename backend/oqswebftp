@@ -1,0 +1,11 @@
+#!/bin/bash
+# sftp to red, put bbquiz.cgi
+
+#sftp -o RSAAuthentication=no red.ctsu.ox.ac.uk
+
+cp bbquiz.cgi index.cgi
+sftp -o RSAAuthentication=no cp@oqsweb.ndph.ox.ac.uk <<EOF
+cd public_html/bbquiz
+put index.cgi
+put main.css
+EOF

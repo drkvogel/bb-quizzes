@@ -3,6 +3,7 @@
 #include "xexec.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <cstring>
 #if X_BDE
 #include <vcl.h>
 #endif
@@ -461,7 +462,7 @@ bool XDB::ingOpen( void )
 	connParm.co_genParm.gp_callback = NULL;
 	connParm.co_genParm.gp_closure = NULL;
 	connParm.co_target     = (char *) malloc( database_name.size() + 1 );
-	strcpy( connParm.co_target, database_name.c_str() );
+	std::strcpy( connParm.co_target, database_name.c_str() );
 	connParm.co_connHandle = 0;
 	connParm.co_type       = IIAPI_CT_SQL;
 	connParm.co_tranHandle = NULL;

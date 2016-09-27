@@ -1,25 +1,21 @@
-#!/bin/tcsh
-cd ~/Projects/bb-quizzes/db/sql
+#!/bin/sh
+# no tcsh, csh on webman@oqsweb
 
-#set end = $argv[1]
-set end = 'test'
-set own = 'cp_web_'
-set xdb = ( $own$end )
+#end = $argv[1]
+end='test'
+own='cp_web_'
+xdb=$own$end
+
+#echo "xdb: $xdb"
+#exit 0
 
 destroydb $xdb
 createdb -i $xdb
-
 ./create-create.py > ./create.sql
-
 sql $xdb < create.sql
 
-# sql $xdb < hoops.sql
-# sql $xdb < matrix.sql
-
-#! /bin/sh
-
 sql iidbdb << GRANTED
-grant access on database cp_web_test to cp;
+grant access on database cp_web_test to apache;
 \p\g
 \q
 GRANTED

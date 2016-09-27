@@ -4,6 +4,8 @@
 /*		UTILITIES FOR CONSTRUCTING CGI SCRIPTS			*/
 /*===========================================================================*/
 #include <stdio.h>
+#include <stdlib.h>
+#include <cstring>
 #include <stdarg.h>
 #include "xbasic.h"
 #include "xtime.h"
