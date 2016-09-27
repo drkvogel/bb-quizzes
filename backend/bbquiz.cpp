@@ -128,7 +128,7 @@ int main(int argc, char **argv) {
             } else {
                 printf("<p>insert did not succeed...</p>\n");
             }
-        } else if (paramIs("action", "insert") && paramIs("quiz", "1111")) {
+        } else if (paramIs("action", "insert") && paramIs("quiz_id", "1111")) {
             Matrix::Record rec = Matrix::getPayload(x);
             if (Matrix::insertRecord(&rec)) {
                 printf("<p>insert succeeded</p>\n");
