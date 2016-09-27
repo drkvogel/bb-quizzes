@@ -13,6 +13,7 @@ destroydb $xdb
 createdb -i $xdb
 ./create-create.py > ./create.sql
 sql $xdb < create.sql
+sql $xdb < grant.sql
 
 sql iidbdb << GRANTED
 grant access on database cp_web_test to apache;
