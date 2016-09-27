@@ -3,7 +3,7 @@
     "comment": "timeLimit should be 180000 == 3 minutes",
     "nextDelay" : 500,
     "timeLimit" : 180000,
-    "formAction" : "http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/",
+    "formAction" : "http://oqsweb.ndph.ox.ac.uk/~cp/bbquiz/",
     "pages":[
     {
         "name": "home",
