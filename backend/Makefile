@@ -6,7 +6,7 @@ LDLIB=-linterp.1 -liiapi /lib64/libdl.so.2 /lib64/libcrypt.so.1
 CXXFLAGS=$(CCXXFLAGS) -I$(INC)
 OBJCOMMON=rosebase.o rosetta.o xbinob.o xdb.o xencode.o xexec.o xquery.o xsql.o xtime.o xhttp.o xcgi.o
 OBJBBQUIZ=$(OBJCOMMON) hoops.o matrix.o nxjson.o
-TARGETDIR=~webman/public_html/bbquiz/
+TARGETDIR=~/public_html/bbquiz/
 
 bbquiz : bbquiz.o $(OBJBBQUIZ)
 	echo "make bbquiz"
