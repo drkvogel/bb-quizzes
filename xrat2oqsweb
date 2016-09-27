@@ -11,7 +11,7 @@ REMOTEROOT="/user/cp/cjb/proj/bb-quizzes/"  # http://red.ctsu.ox.ac.uk/~cp/cjb/
 
 # if [ -z "$1" ]
 # then
-#     DIR="matrix"
+#     DIR="matrix/"
 #     echo "No argument supplied, defaulting to '$DIR'"
 # else
 #     DIR=$1
@@ -20,10 +20,12 @@ REMOTEROOT="/user/cp/cjb/proj/bb-quizzes/"  # http://red.ctsu.ox.ac.uk/~cp/cjb/
 REMOTEPATH=$REMOTEROOT #$DIR
 
 #echo "Copying entire repo to $REMOTEUSER@$REMOTEHOST:$REMOTEPATH"
-echo "rsyncing entire repo to $REMOTEUSER@$REMOTEHOST:$REMOTEPATH"
-echo "(dirs must exist on server already? only base target directory)"
+echo "rsync dummy run:"
+rsync -anvC ./ $REMOTEUSER@$REMOTEHOST:$REMOTEPATH
+echo "about to rsync entire repo to $REMOTEUSER@$REMOTEHOST:$REMOTEPATH"
+echo "(base target directory must exist on server already)"
 read -rsp $'Press any key to continue...\n' -n1 key
 
-rsync -ra ./ $REMOTEUSER@$REMOTEHOST:$REMOTEPATH
+rsync -avC ./ $REMOTEUSER@$REMOTEHOST:$REMOTEPATH
 
 exit 0
