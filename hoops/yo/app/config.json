@@ -4,7 +4,7 @@
     "nextDelay" : 500,
     "timeLimit" : 120000,
     "comment": "formAction was complete.php",
-    "formAction" : "http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/",
+    "formAction" : "http://oqsweb.ndph.ox.ac.uk/~cp/bbquiz/",
     "navNext" : "<span><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>",
     "navStart" : "<span><button class=\"btn\" id=\"next\" href=\"#\">Start &gt;&gt;</button></span>",
     "navPrev" : "<span><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>",
