@@ -1,5 +1,6 @@
 #!/bin/bash
-
+WEB_BASE=~cp/public_html/bbquiz
 #sftp -o RSAAuthentication=no red.ctsu.ox.ac.uk
 chmod go-w bbquiz.cgi
-cp bbquiz.cgi ~cp/public_html/bbquiz/
+cp wrapper.pl $WEB_BASE/index.cgi
+cp bbquiz.cgi $WEB_BASE/
