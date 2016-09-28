@@ -64,7 +64,8 @@ void Matrix::testInsert() {
 bool Matrix::insertRecord(const MatrixRecord *rec) {
     printf("<p><code>Matrix::insertRecord()</p>\n");
     std::string sql =
-        "INSERT INTO matrix (sesh_id, ntests, tinstruct, tstart, tfinish, tinsert,"
+        "INSERT INTO matrix (sesh_id, tinstruct, tstart, tfinish, tinsert, "
+        " ntests,responses, "
         " duration1, elapsed1, answer1, correct1, "
         " duration2, elapsed2, answer2, correct2, "
         " duration3, elapsed3, answer3, correct3, "
@@ -84,7 +85,8 @@ bool Matrix::insertRecord(const MatrixRecord *rec) {
         " duration17, elapsed17, answer17, correct17, "
         " duration18, elapsed18, answer18, correct18 "
         " )"
-        " VALUES (:sesh_id, :ntests, :tinstruct, :tstart, :tfinish, DATE('now'), "
+        " VALUES (:sesh_id, :tinstruct, :tstart, :tfinish, DATE('now'), "
+        " :ntests, :responses, "
         " :duration1, :elapsed1, :answer1, :correct1, "
         " :duration2, :elapsed2, :answer2, :correct2, "
         " :duration3, :elapsed3, :answer3, :correct3, "
@@ -108,16 +110,11 @@ bool Matrix::insertRecord(const MatrixRecord *rec) {
     XEXEC xe(db, sql);
 
     xe.param.setInt("sesh_id",       rec->sesh_id);
-    xe.param.setInt("ntests",        rec->ntests);
     xe.param.setTime("tinstruct",    rec->tinstruct);
     xe.param.setTime("tstart",       rec->tstart);
     xe.param.setTime("tfinish",      rec->tfinish);
-
-//     xe.param.setInt("duration1",     e->duration1);
-//     xe.param.setInt("elapsed1",      e->elapsed1);
-//     xe.param.setInt("answer1",       e->answer1);
-//     xe.param.setInt("correct1",      e->correct1);
-
+    xe.param.setInt("ntests",        rec->ntests);
+    xe.param.setString("responses",  rec->responses);
     printf("added header fields...<br />\n");
     //printf("tinstruct: '%s', tstart: '%s', tfinish: '%s'...", rec->tinstruct.iso().c_str(), rec->tstart.iso().c_str(), rec->tfinish.iso().c_str());
     char fieldname[12];
@@ -184,12 +181,16 @@ void Matrix::printRecords() {
     printf("<code>\n");
     printf("<h3>%d results:</h3>\n", MatrixRecords.size());
     printf("<table border=\"1\" cellspacing=\"0\">\n");
-    printf("<thead><td>sesh_id</td><td>tinstruct</td><td>tstart</td><td>tfinish</td>\n"); // column headers
+
+    // column headers
+    printf("<thead><td>sesh_id</td><td>tinstruct</td><td>tstart</td><td>tfinish</td>\n"); 
     printf("<td>responses</td><td>ntests</td>");
     for (int i = 1; i <= MAX_LEVELS; i++) {
         printf("<td>duration%d</td><td>puzzle%d</td<td>elapsed%d</td><td>answer%d</td><td>correct%d</td>", i, i, i, i, i);
     }
     printf("</thead>\n");
+
+    // values
     for (vecRecord::const_iterator rec = MatrixRecords.begin(); rec != MatrixRecords.end(); rec++) { // records
         printRecord(*rec);
     }
