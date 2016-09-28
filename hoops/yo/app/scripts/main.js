@@ -196,30 +196,21 @@
         // copied from matrix
 
         // // we know the natural sizes of the images already
-        // var topWidth, topHeight, botWidth, botHeight;
-        // if (currentPage().templateId === 'quiz2x2') {
-        //     topWidth = 420;
-        //     topHeight = 340;
-        //     botWidth = 680;
-        //     botHeight = 365;
-        // } else if (currentPage().templateId === 'quiz3x3') {
-        //     topWidth = 510;
-        //     topHeight = 405;
-        //     botWidth = 755;
-        //     botHeight = 295;
-        // }
+        // 748 x 291
+        var topWidth = 748, topHeight = 291, botWidth = 748, botHeight = 291;
 
-        // var widthExtra = // total width of elements, excluding centre images
-        //     ($('.container').outerWidth(true) - $('.container').width()) +
-        //     ($('#pages').outerWidth(true) - $('#pages').width());
+        var widthExtra = // total width of elements, excluding centre images
+            ($('.container').outerWidth(true) - $('.container').width()) +
+            ($('#pages').outerWidth(true) - $('#pages').width());
 
-        // var heightExtra = // total height of elements, excluding centre images
-        //     ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
-        //     ($('.botText').is(':visible') ? $('.botText').height() : 0);
+        var heightExtra = // total height of elements, excluding centre images
+            ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
+            ($('.botText').is(':visible') ? $('.botText').height() : 0);
+        // more to add here
 
         // // natural image dimensions; .width(), .height() are current dimensions
-        // var naturalFullWidth = widthExtra + botWidth; // bottom image is widest
-        // var naturalFullHeight = heightExtra + topHeight + botHeight;
+        var naturalFullWidth = widthExtra + $('.middleImg'); // although this is variable? use natural image dimensions?
+        var naturalFullHeight = heightExtra + topHeight + botHeight;
 
         // // allow 200px for text at bottom
         // // .gridContainer needs to be scaled from natural width/height to fit in
@@ -227,64 +218,92 @@
 
         // // vertical shrink = (window height - 200px) / naturalFullHeight
         // // horizontal shrink = window width / naturalFullWidth
-        // var scaleV = ($(window).height() - 200) / naturalFullHeight;
-        // var scaleH = $(window).width() / naturalFullWidth;
+        var scaleV = ($(window).height() - 200) / naturalFullHeight;
+        var scaleH = $(window).width() / naturalFullWidth;
 
         // // select lower of these scaling values
-        // var scale = scaleV <= scaleH ? scaleV : scaleH;
+        var scale = scaleV <= scaleH ? scaleV : scaleH;
 
         // // work out desired dimensions of whole quiz
-        // var targetWidth = naturalFullWidth * scale; // forget about width, it always fits, down to 300px
-        // var targetHeight = naturalFullHeight * scale;
+        var targetWidth = naturalFullWidth * scale; // forget about width, it always fits, down to 300px
+        var targetHeight = naturalFullHeight * scale;
 
         // // work out desired height of .gridContainer
-        // var targetMiddleHeight = targetHeight - heightExtra;
+        var targetMiddleHeight = targetHeight - heightExtra;
 
         // // need h/w ratio of .gridContainer. Typical dimensions: 162 x 144. 162 / 144 == 1.125
-        // var middleHWRatio = 1.125;
+        var middleHWRatio = 1.125; //??
 
         // // what innerWidth of .gridContainer would create targetMiddleHeight?
-        // var targetMiddleWidth = targetMiddleHeight * middleHWRatio;
+        var targetMiddleWidth = targetMiddleHeight * middleHWRatio;
 
         // // set these margins on .gridContainer to make the targetWidth and targetHeight
-        // var setMargins = ($(window).width() - widthExtra - targetMiddleWidth) / 2;
-        // $('.gridContainer').css('margin-left', setMargins);
-        // $('.gridContainer').css('margin-right', setMargins);
+        var setMargins = ($(window).width() - widthExtra - targetMiddleWidth) / 2;
+        // check if > 0?
+        $('.middleImg').css('margin-left', setMargins);
+        $('.middleImg').css('margin-right', setMargins);
 
         // console.log('setMargins: ' + setMargins +
         //     ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
         //     ', targetMiddleWidth: ' + targetMiddleWidth
         //      + 'setMargins: ' + setMargins);
 
-        var widthExtra =
-            ($('.container').outerWidth(true) - $('.container').width()) +
-            ($('#pages').outerWidth(true) - $('#pages').width()); // missing some widths?
-        var heightExtra = // required height of .gridContainer
-            ($('#answers').is(':visible') ? $('#answers').height() : 0) +
-            ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
-            ($('.botTxt').is(':visible') ? $('.botTxt').height() : 0) +
-            ($('.topTxt').is(':visible') ? $('.topTxt').height() : 0) +
-            ($('.navTxt').is(':visible') ? $('.navTxt').height() : 0) +
-            ($('.navCtl').is(':visible') ? $('.navCtl').height() : 0)
-            + 75 // fixme arbitrary amount, what should this really be?
-            ;
-            // missing some heights?
-        var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
-        //console.log('scaleImagesCBsimple(): setMargins ' + setMargins + ', heightExtra: ' + heightExtra + ', widthExtra: ' + widthExtra);
-             //'($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;' +
+// from hoops-doc.md
+// ### Element heights (top to bottom)
+//     html                -
+//     body                -
+//     #devBar             hidden
+//     div.container       padding-top: 15px
+//     div#pages           -
+//     div#game            -
+//     div.middleImg       -
+//     table.toptable
+//     td#imgdiv-a
+//     img#img-a
+//     td#imgdiv-b
+//     img#img-b
+//     div.middleImg       -
+//     div.botText         72px minimum (if not wrapped) (if visible)
+//     div#answers         -
+//     div.navCtl
+//     div#pages           -
+//     div#abandon-div     34px (if visible)
+//     div.container       padding-bottom: 20px
+//     body                -
+//     html                -
 
-        if (setMargins > 0) {
-            $('.middleImg').css('margin-left', setMargins);
-            $('.middleImg').css('margin-right', setMargins);
-        } else { // don't set negative margins. content should shrink width-wise if needed
-            $('.middleImg').css('margin-left', 0);
-            $('.middleImg').css('margin-right', 0);
-        }
+
+        // var widthExtra =
+        //     ($('.container').outerWidth(true) - $('.container').width()) +
+        //     ($('#pages').outerWidth(true) - $('#pages').width()); // missing some widths?
+        // var heightExtra = // required height of .gridContainer
+        //     ($('#answers').is(':visible') ? $('#answers').height() : 0) +
+        //     ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
+        //     ($('.botTxt').is(':visible') ? $('.botTxt').height() : 0) +
+        //     ($('.topTxt').is(':visible') ? $('.topTxt').height() : 0) +
+        //     ($('.navTxt').is(':visible') ? $('.navTxt').height() : 0) +
+        //     ($('.navCtl').is(':visible') ? $('.navCtl').height() : 0)
+        //     + 75 // fixme arbitrary amount, what should this really be?
+        //     ;
+        //     // missing some heights?
+        // var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
+        // //console.log('scaleImagesCBsimple(): setMargins ' + setMargins + ', heightExtra: ' + heightExtra + ', widthExtra: ' + widthExtra);
+        //      //'($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;' +
+
+        // // check > 0 even in this algorithm, shouldn't be
+        // if (setMargins > 0) {
+        //     $('.middleImg').css('margin-left', setMargins);
+        //     $('.middleImg').css('margin-right', setMargins);
+        // } else { // don't set negative margins. content should shrink width-wise if needed
+        //     $('.middleImg').css('margin-left', 0);
+        //     $('.middleImg').css('margin-right', 0);
+        // }
     }
 
     // shrink images to try to fit height into viewport, but don't worry about width
     function scaleImagesCBsimple() { //
         //showInfo('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin);
+        var VERT_PAD = 75;
         var widthExtra =
             ($('.container').outerWidth(true) - $('.container').width()) +
             ($('#pages').outerWidth(true) - $('#pages').width()); // missing some widths?
@@ -295,7 +314,8 @@
             ($('.topTxt').is(':visible') ? $('.topTxt').height() : 0) +
             ($('.navTxt').is(':visible') ? $('.navTxt').height() : 0) +
             ($('.navCtl').is(':visible') ? $('.navCtl').height() : 0)
-            + 75 // fixme arbitrary amount, what should this really be?
+            //+ 75 // fixme arbitrary amount, what should this really be?
+            + VERT_PAD
             ;
             // missing some heights?
         var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
@@ -314,6 +334,7 @@
     function scaleImages() {
         console.log('scaleImages()');
         scaleImagesCBsimple();
+        //scaleImagesAY();
     }
 
     function isoDate() { // return date string in format yyyy-mm-ddThh:mm:ss, suitable for parsing by xtime.cpp
@@ -453,7 +474,7 @@
 
         //scaleImages();
         $('#' + page.templateId).fadeIn(FADEIN, showPage2);
-        scaleImages();
+        //scaleImages();
         //showInfo('height: ' + $(window).height()); //attr('height'));
     }
 
@@ -626,6 +647,7 @@
 
         if (LOCAL) {
             config.seshID = 4321;
+            $('#feedbackForm').attr('action', 'http://xrat.ctsu.ox.ac.uk/~cp/bbquiz/');
         } else {
             if (!urlParams.hasOwnProperty('sesh_id')) {
                 msg = 'not LOCAL and sesh_id not found in urlParams';
@@ -634,14 +656,15 @@
             }
             config.seshID = urlParams.sesh_id; //urlParams['sesh_id'];
                 // error  ["sesh_id"] is better written in dot notation                    dot-notation
+            $('#feedbackForm').attr('action', config.formAction); // set the results form target
         }
         msg = 'config.sesh_id: ' + config.seshID;
+        //console.log('formAction: ' + config.formAction);
         console.log(msg);
         $('#home .debug').html('<code>' + msg + '</code>');
 
         randLevels(); console.log('levels: ' + levels);
-        $('#feedbackForm').attr('action', config.formAction); // set the results form target
-        //console.log('formAction: ' + config.formAction);
+
         showPage(currentPage());
         config.tinstruct = isoDate();
         console.log('config.tinstruct: ' + config.tinstruct);

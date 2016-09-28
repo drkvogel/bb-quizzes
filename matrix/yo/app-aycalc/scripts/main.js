@@ -224,7 +224,7 @@
         if (page.name.slice(0, 2) === 'ex') {
             timer.now(); // start timer for all real exercises
             if (page.name === 'ex1') {
-                config.timeStarted = new Date($.now());
+                config.timeStarted = isoDate();
                 console.log('config.timeStarted: ' + config.timeStarted);
                 timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
             }
@@ -629,6 +629,7 @@
 
         if (LOCAL) {
             config.seshID = 4321;
+            $('#feedbackForm').attr('action', 'http://xrat.ctsu.ox.ac.uk/~cp/bbquiz/');
         } else {
             if (!urlParams.hasOwnProperty('sesh_id')) {
                 msg = 'not LOCAL and sesh_id not found in urlParams';
@@ -636,6 +637,7 @@
                 throw new Error(msg);
             }
             config.seshID = urlParams.sesh_id; //urlParams['sesh_id']; // error  ["sesh_id"] is better written in dot notation                    dot-notation
+            $('#feedbackForm').attr('action', config.formAction);
         }
         msg = 'config.sesh_id: ' + config.seshID; console.log(msg);
         $('#home .debug').html('<code>' + msg + '</code>');
@@ -648,7 +650,7 @@
         //     console.log('loc === localhost');
         //     formAction = 'http://localhost:8000/' + formAction; // gulp-connect-php - local PHP server
         // } // else, is on same server, relative link OK
-        $('#feedbackForm').attr('action', config.formAction);
+
 
         showPage(currentPage());
         imageMapResize();

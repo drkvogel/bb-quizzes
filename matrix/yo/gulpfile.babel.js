@@ -145,7 +145,7 @@ gulp.task('extras', () => {
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
-gulp.task('serve', ['styles', 'scripts', 'fonts', 'php'], () => { // with php, for non-Cygwin
+gulp.task('serve', ['styles', 'scripts', 'fonts'], () => { //, 'php'], () => { // with php, for non-Cygwin
   browserSync({
     notify: false,
     port: 9000,
