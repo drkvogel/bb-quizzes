@@ -9,12 +9,11 @@ namespace Matrix {
     const short MAX_LEVELS = 18;
     typedef struct {
         int duration;
-        int puzzle;
         int elapsed;
         int answer;
         int correct;
-    } Answer;
-    typedef std::vector< Answer > vecAnswer;
+    } MatrixAnswer;
+    typedef std::vector< MatrixAnswer > vecMatrixAnswer;
     
     typedef struct {
         int sesh_id;
@@ -23,19 +22,19 @@ namespace Matrix {
         XTIME tfinish;
         int ntests;
         std::string responses; //char responses[1600];
-        vecAnswer answers;
-    } Record; //BBQuizRecord;
-    typedef std::vector< Record > vecRecord;
+        vecMatrixAnswer answers;
+    } MatrixRecord; //BBQuizRecord;
+    typedef std::vector< MatrixRecord > vecRecord;
 //     Matrix::vecRecord records;
-    void parseResponses(Record *rec);    // rec is not const as answers is created from payload
+    void parseResponses(MatrixRecord *rec);    // rec is not const as answers is created from payload
     void printJSONAnswer(const nx_json* node);
-    void printAnswer(Answer & ans);
-    Record getPayload(XCGI * x);
+    void printAnswer(MatrixAnswer & ans);
+    MatrixRecord getPayload(XCGI * x);
     void testInsert();
-    bool insertRecord(const Record *e);
+    bool insertRecord(const MatrixRecord *e);
     void getRecords();
     void printRecords();
-    void printRecord(Record rec);
+    void printRecord(MatrixRecord rec);
 } // namespace Matrix
 
 #endif
