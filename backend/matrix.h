@@ -6,7 +6,7 @@
 extern XDB *db;
 
 namespace Matrix {
-    const short MAX_LEVELS = 18;
+    const short MAX_LEVELS = 15;
     typedef struct {
         int duration;
         int elapsed;

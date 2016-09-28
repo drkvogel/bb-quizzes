@@ -298,22 +298,7 @@ CREATE TABLE matrix (
     duration15    INTEGER2,
     elapsed15     INTEGER2,
     answer15      INTEGER1,
-    correct15     INTEGER1,
-
-    duration16    INTEGER2,
-    elapsed16     INTEGER2,
-    answer16      INTEGER1,
-    correct16     INTEGER1,
-
-    duration17    INTEGER2,
-    elapsed17     INTEGER2,
-    answer17      INTEGER1,
-    correct17     INTEGER1,
-
-    duration18    INTEGER2,
-    elapsed18     INTEGER2,
-    answer18      INTEGER1,
-    correct18     INTEGER1
+    correct15     INTEGER1
 );
 \p\g
 COMMENT ON COLUMN matrix.sesh_id IS 'Session ID';
@@ -383,16 +368,4 @@ COMMENT ON COLUMN matrix.duration15 IS 'Time taken to answer puzzle';
 COMMENT ON COLUMN matrix.elapsed15 IS 'Cumulative time elapsed';
 COMMENT ON COLUMN matrix.answer15 IS 'Answer given by user';
 COMMENT ON COLUMN matrix.correct15 IS 'Correct answer';
-COMMENT ON COLUMN matrix.duration16 IS 'Time taken to answer puzzle';
-COMMENT ON COLUMN matrix.elapsed16 IS 'Cumulative time elapsed';
-COMMENT ON COLUMN matrix.answer16 IS 'Answer given by user';
-COMMENT ON COLUMN matrix.correct16 IS 'Correct answer';
-COMMENT ON COLUMN matrix.duration17 IS 'Time taken to answer puzzle';
-COMMENT ON COLUMN matrix.elapsed17 IS 'Cumulative time elapsed';
-COMMENT ON COLUMN matrix.answer17 IS 'Answer given by user';
-COMMENT ON COLUMN matrix.correct17 IS 'Correct answer';
-COMMENT ON COLUMN matrix.duration18 IS 'Time taken to answer puzzle';
-COMMENT ON COLUMN matrix.elapsed18 IS 'Cumulative time elapsed';
-COMMENT ON COLUMN matrix.answer18 IS 'Answer given by user';
-COMMENT ON COLUMN matrix.correct18 IS 'Correct answer';
 \p\g

@@ -54,7 +54,7 @@ print_hoops_comments()
 print_commit()
 
 # matrix
-matrix_last = 18
+matrix_last = 15
 
 def print_matrix_puzzle_fields():
     print """

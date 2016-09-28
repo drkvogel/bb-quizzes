@@ -80,10 +80,7 @@ bool Matrix::insertRecord(const MatrixRecord *rec) {
         " duration12, elapsed12, answer12, correct12, "
         " duration13, elapsed13, answer13, correct13, "
         " duration14, elapsed14, answer14, correct14, "
-        " duration15, elapsed15, answer15, correct15, "
-        " duration16, elapsed16, answer16, correct16, "
-        " duration17, elapsed17, answer17, correct17, "
-        " duration18, elapsed18, answer18, correct18 "
+        " duration15, elapsed15, answer15, correct15 "
         " )"
         " VALUES (:sesh_id, :tinstruct, :tstart, :tfinish, DATE('now'), "
         " :ntests, :responses, "
@@ -101,10 +98,7 @@ bool Matrix::insertRecord(const MatrixRecord *rec) {
         " :duration12, :elapsed12, :answer12, :correct12, "
         " :duration13, :elapsed13, :answer13, :correct13, "
         " :duration14, :elapsed14, :answer14, :correct14, "
-        " :duration15, :elapsed15, :answer15, :correct15, "
-        " :duration16, :elapsed16, :answer16, :correct16, "
-        " :duration17, :elapsed17, :answer17, :correct17, "
-        " :duration18, :elapsed18, :answer18, :correct18 "
+        " :duration15, :elapsed15, :answer15, :correct15 "
         " )";
 
     XEXEC xe(db, sql);

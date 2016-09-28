@@ -108,6 +108,7 @@ void showOptions() {
 int main(int argc, char **argv) {
     x = new XCGI(argc, argv); // global! naughty!
     x->writeHeader(XCGI::typeHtml);
+//     Hoops::MAX_LEVELS = 18;
     boilerplate_head();
     if (OFFLINE) {
         printf("<p>Currently offline</p>");

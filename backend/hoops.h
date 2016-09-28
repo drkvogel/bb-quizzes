@@ -8,6 +8,7 @@
 extern XDB *db;
 
 namespace Hoops {
+    const short MAX_LEVELS = 18;
     typedef struct {
         int duration;
         int puzzle;

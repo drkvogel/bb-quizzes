@@ -6,7 +6,7 @@
 #include <cstring>
 using namespace std;
 
-const short MAX_LEVELS = 18;
+// Hoops::MAX_LEVELS = 18;
 
 Hoops::vecHoopsRecord records;
 
