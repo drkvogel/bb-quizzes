@@ -112,7 +112,8 @@
         {
             "name": "ex",
             "type" : "game",
-            "templateId": "game"
+            "templateId": "game",
+            "botTxt": "<p>How many moves would it take to make picture B look like picture A?</p>"
         },
         {
             "name": "thanks",

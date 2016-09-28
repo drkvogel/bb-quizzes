@@ -256,6 +256,31 @@
         //     ', targetMiddleWidth: ' + targetMiddleWidth
         //      + 'setMargins: ' + setMargins);
 
+// from hoops-doc.md
+// ### Element heights (top to bottom)
+//     html                -
+//     body                -
+//     #devBar             hidden
+//     div.container       padding-top: 15px
+//     div#pages           -
+//     div#game            -
+//     div.middleImg       -
+//     table.toptable
+//     td#imgdiv-a
+//     img#img-a
+//     td#imgdiv-b
+//     img#img-b
+//     div.middleImg       -
+//     div.botText         72px minimum (if not wrapped) (if visible)
+//     div#answers         -
+//     div.navCtl
+//     div#pages           -
+//     div#abandon-div     34px (if visible)
+//     div.container       padding-bottom: 20px
+//     body                -
+//     html                -
+
+
         var widthExtra =
             ($('.container').outerWidth(true) - $('.container').width()) +
             ($('#pages').outerWidth(true) - $('#pages').width()); // missing some widths?
@@ -285,6 +310,7 @@
     // shrink images to try to fit height into viewport, but don't worry about width
     function scaleImagesCBsimple() { //
         //showInfo('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin);
+        var VERT_PAD = 75;
         var widthExtra =
             ($('.container').outerWidth(true) - $('.container').width()) +
             ($('#pages').outerWidth(true) - $('#pages').width()); // missing some widths?
@@ -295,7 +321,8 @@
             ($('.topTxt').is(':visible') ? $('.topTxt').height() : 0) +
             ($('.navTxt').is(':visible') ? $('.navTxt').height() : 0) +
             ($('.navCtl').is(':visible') ? $('.navCtl').height() : 0)
-            + 75 // fixme arbitrary amount, what should this really be?
+            //+ 75 // fixme arbitrary amount, what should this really be?
+            + VERT_PAD
             ;
             // missing some heights?
         var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
@@ -453,7 +480,7 @@
 
         //scaleImages();
         $('#' + page.templateId).fadeIn(FADEIN, showPage2);
-        scaleImages();
+        //scaleImages();
         //showInfo('height: ' + $(window).height()); //attr('height'));
     }
 
