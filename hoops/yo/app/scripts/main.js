@@ -333,8 +333,8 @@
 
     function scaleImages() {
         console.log('scaleImages()');
-        //scaleImagesCBsimple();
-        scaleImagesAY();
+        scaleImagesCBsimple();
+        //scaleImagesAY();
     }
 
     function isoDate() { // return date string in format yyyy-mm-ddThh:mm:ss, suitable for parsing by xtime.cpp
@@ -647,6 +647,7 @@
 
         if (LOCAL) {
             config.seshID = 4321;
+            $('#feedbackForm').attr('action', 'http://xrat.ctsu.ox.ac.uk/~cp/bbquiz/');
         } else {
             if (!urlParams.hasOwnProperty('sesh_id')) {
                 msg = 'not LOCAL and sesh_id not found in urlParams';
@@ -655,14 +656,15 @@
             }
             config.seshID = urlParams.sesh_id; //urlParams['sesh_id'];
                 // error  ["sesh_id"] is better written in dot notation                    dot-notation
+            $('#feedbackForm').attr('action', config.formAction); // set the results form target
         }
         msg = 'config.sesh_id: ' + config.seshID;
+        //console.log('formAction: ' + config.formAction);
         console.log(msg);
         $('#home .debug').html('<code>' + msg + '</code>');
 
         randLevels(); console.log('levels: ' + levels);
-        $('#feedbackForm').attr('action', config.formAction); // set the results form target
-        //console.log('formAction: ' + config.formAction);
+
         showPage(currentPage());
         config.tinstruct = isoDate();
         console.log('config.tinstruct: ' + config.tinstruct);
