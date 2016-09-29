@@ -3,6 +3,7 @@
  *  Copyright: (c) 2014-15 David J. Bradshaw - dave@bradshaw.net
  *  License: MIT
  */
+ /* eslint-disable */
 
 (function(){
     'use strict';

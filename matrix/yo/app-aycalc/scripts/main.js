@@ -11,7 +11,7 @@
 
     var LIVE = false, // const? JSHint doesn't like it
         LOCAL = false,
-        MAX_LEVELS = 18,
+        // MAX_LEVELS = 15,
         FADEIN = 100,
         FADEOUT = 100,
         config,
@@ -22,16 +22,16 @@
         isTimeUp = false,
         nextPageTimeout,
         timeUpTimeout,
-        enabled = false, // enable UI
-        levels = [],
+        // enabled = false, // enable UI
+        // levels = [],
         answers = [],
-        seshID = null,
-        tinstruct = null,
-        tstart = null,
-        tfinish = null,
-        tinsert = null,
-        ntests = null,
-        responses = null,
+        // seshID = null,
+        // tinstruct = null,
+        // tstart  null,
+        // tfinish = null,
+        // tinsert = null,
+        // ntests = null,
+        // responses = null,
         urlParams = {};
 
     //var Timer = require('./timer'); // require is a node thing, unless you use requirejs
@@ -224,6 +224,7 @@
             if (page.name === 'ex1') {
                 config.timeStarted = isoDate();
                 console.log('config.timeStarted: ' + config.timeStarted);
+                timerWholeTest.now(); // start timer for the whole test (for "elapsed" field)
                 timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
             }
         }
@@ -280,14 +281,14 @@
         console.log('scaleImagesAY()');
 
         // we know the natural sizes of the images already
-        var topWidth, topHeight, botWidth, botHeight;
+        var topHeight, botWidth, botHeight; // topWidth not needed as bottom image widest
         if (currentPage().templateId === 'quiz2x2') {
-            topWidth = 420;
+            // topWidth = 420;
             topHeight = 340;
             botWidth = 680;
             botHeight = 365;
         } else if (currentPage().templateId === 'quiz3x3') {
-            topWidth = 510;
+            // topWidth = 510;
             topHeight = 405;
             botWidth = 755;
             botHeight = 295;
@@ -318,7 +319,7 @@
         var scale = scaleV <= scaleH ? scaleV : scaleH;
 
         // work out desired dimensions of whole quiz
-        var targetWidth = naturalFullWidth * scale; // forget about width, it always fits, down to 300px
+        //var targetWidth = naturalFullWidth * scale; // forget about width, it always fits, down to 300px
         var targetHeight = naturalFullHeight * scale;
 
         // work out desired height of .gridContainer
@@ -335,33 +336,33 @@
         $('.gridContainer').css('margin-left', setMargins);
         $('.gridContainer').css('margin-right', setMargins);
 
-        var msg = 'setMargins: ' + setMargins +
-            ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
-            ', targetMiddleWidth: ' + targetMiddleWidth;
+        // var msg = 'setMargins: ' + setMargins +
+        //     ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
+        //     ', targetMiddleWidth: ' + targetMiddleWidth;
         //console.log(msg);
     }
     //var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
 
-    function scaleImagesCBsimple() { // my calculation, mostly works
-        console.log('scaleImagesCBsimple()');
-        var widthExtra =
-            ($('.container').outerWidth(true) - $('.container').width()) +
-            ($('#pages').outerWidth(true) - $('#pages').width());
-            // missing some widths?
-        var heightExtra = // required height of .gridContainer
-            ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
-            ($('.botText').is(':visible') ? $('.botText').height() : 0) + 75;
-            // missing some heights?
-        var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
+    // function scaleImagesCBsimple() { // my calculation, mostly works
+    //     console.log('scaleImagesCBsimple()');
+    //     var widthExtra =
+    //         ($('.container').outerWidth(true) - $('.container').width()) +
+    //         ($('#pages').outerWidth(true) - $('#pages').width());
+    //         // missing some widths?
+    //     var heightExtra = // required height of .gridContainer
+    //         ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
+    //         ($('.botText').is(':visible') ? $('.botText').height() : 0) + 75;
+    //         // missing some heights?
+    //     var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
 
-        if (setMargins > 0) {
-            $('.gridContainer').css('margin-left', setMargins);
-            $('.gridContainer').css('margin-right', setMargins);
-        } else { // don't set negative margins. content should shrink width-wise if needed
-            $('.gridContainer').css('margin-left', 0);
-            $('.gridContainer').css('margin-right', 0);
-        }
-    }
+    //     if (setMargins > 0) {
+    //         $('.gridContainer').css('margin-left', setMargins);
+    //         $('.gridContainer').css('margin-right', setMargins);
+    //     } else { // don't set negative margins. content should shrink width-wise if needed
+    //         $('.gridContainer').css('margin-left', 0);
+    //         $('.gridContainer').css('margin-right', 0);
+    //     }
+    // }
 
     function scaleImages() {
         //scaleImagesCBsimple()
@@ -393,6 +394,25 @@
         //heightExtra = 0;
         //console.log('$(\'body\').height(): ' + $('body').height()); // == $(window).height()
         //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
+    function showPage2() {
+        console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)scaleImages();bind clicks
+        scaleImages();
+        // re-enable event handler
+        $('#pages').on('click', 'a, area, button', containerClick); // eslint-disable-line no-use-before-define
+        //var heightScrolled = $(document).height() - $(window).height(); console.log('heightScrolled: ' + heightScrolled);
+        switch (currentPage().templateId) { // only after page is set visible?
+        case 'quiz2x2':
+            $('#3x2-map').imageMapResize(); // https://github.com/davidjbradshaw/image-map-resizer
+            break;
+        case 'quiz3x3':
+            $('#4x2-map').imageMapResize();
+            break;
+        }
+        if (currentPage().name === 'thanks') { // redundant?
+            console.log('currentPage().name === \'thanks\'');
+            setTimeout(finished, 3000);
+        }
+    }
 
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
         console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page)); //console.log('showPage(): isTimeUp:' + isTimeUp);
@@ -445,36 +465,18 @@
         // }
     }
 
-    function showPage2() {
-        console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)scaleImages();bind clicks
-        scaleImages();
-        //$('#pages').on('click', 'a, button, div.row div', containerClick); // re-enable
-        $('#pages').on('click', 'a, area, button', containerClick); // re-enable
-        //var heightScrolled = $(document).height() - $(window).height(); console.log('heightScrolled: ' + heightScrolled);
-        switch (currentPage().templateId) { // only after page is set visible?
-        case 'quiz2x2':
-            $('#3x2-map').imageMapResize(); // https://github.com/davidjbradshaw/image-map-resizer
-            break;
-        case 'quiz3x3':
-            $('#4x2-map').imageMapResize();
-            break;
-        }
-        if (currentPage().name === 'thanks') { // redundant?
-            console.log('currentPage().name === \'thanks\'');
-            setTimeout(finished, 3000);
-        }
-    }
 
-    function prevPage() {
-        //hidePage(currentPage()); //console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
-        $('#' + currentPage().templateId).fadeOut(FADEOUT, prevPage2);
-    }
 
     function prevPage2() {
         if (current > 0) {
             current -= 1;
         }
         showPage(currentPage());
+    }
+
+    function prevPage() {
+        //hidePage(currentPage()); //console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
+        $('#' + currentPage().templateId).fadeOut(FADEOUT, prevPage2);
     }
 
     function nextPage2() {
@@ -514,13 +516,22 @@
         var timeTaken;
         if (page.name.slice(0, 2) === 'ex') { // real exercise
             timer.lap();
+            timerWholeTest.lap();
             timeTaken = timer.getElapsed();
             showTime(timeTaken, correct);
             var answer = {
-                page: page.name,
+                // count: ++puzzleCount,                   // should be number of puzzles taken
+                // puzzle: puzzle.n,                       // number of puzzle, not image name - config.json should be only mapping
+                // elapsed: timerWholeTest.getElapsed(),    // Cumulative time elapsed
+                // answer: ans,                            // Answer given by user, ans should be Number() type
+                // correct: puzzle.c                       // correct answer, not bool
+
+                // page: page.name,
+                duration: timeTaken,                    // Time taken to answer puzzle
+                elapsed: timerWholeTest.getElapsed(),    // Cumulative time elapsed
                 answer: num,
-                correct: correct,
-                time: timeTaken
+                correct: correct
+                // time: timeTaken
             };
             answers.push(answer);
         } else if (page.name.slice(0, 5) === 'intro') {
@@ -644,7 +655,8 @@
         case 'abandon-yes':
             hideModal('abandon-modal');
             //hidePage(currentPage());
-	    $('#' + currentPage().templateId).hide();
+            $('#' + currentPage().templateId).hide();
+            // TODO clear timeouts / called finished()
             showPage(pageNamed('thanks'));
             break;
         case 'abandon-no':
@@ -697,8 +709,8 @@
 
 
         showPage(currentPage());
-        imageMapResize();
-	    config.tinstruct = isoDate();
+        imageMapResize(); // eslint-disable-line no-undef
+        config.tinstruct = isoDate();
         console.log('config.tinstruct: ' + config.tinstruct);
     }
 
@@ -735,8 +747,8 @@
     $('#abandon-btn').on('click', abandonClick); // need this?
     $('#modals').on('click', 'button', modalClick);
 
-    window.onresize = function(event) { // error  event is defined but never used no-unused-vars ?
-        console.log("onresize");
+    window.onresize = function(event) { // eslint-disable-line no-unused-vars
+        console.log('onresize');
         showPage(currentPage()); // ?
     };
 
