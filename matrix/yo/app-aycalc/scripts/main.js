@@ -11,29 +11,27 @@
 
     var LIVE = false, // const? JSHint doesn't like it
         LOCAL = false,
-        MAX_LEVELS = 18,
+        // MAX_LEVELS = 15,
         FADEIN = 100,
         FADEOUT = 100,
         config,
         pages,
         current,
-        //puzzleCount = 0,
         timer,
         timerWholeTest,
         isTimeUp = false,
         nextPageTimeout,
         timeUpTimeout,
-        enabled = false, // enable UI
-        levels = [],
+        // enabled = false, // enable UI
+        // levels = [],
         answers = [],
-        //puzzle = null,
-        seshID = null,
-        tinstruct = null,
-        tstart = null,
-        tfinish = null,
-        tinsert = null,
-        ntests = null,
-        responses = null,
+        // seshID = null,
+        // tinstruct = null,
+        // tstart  null,
+        // tfinish = null,
+        // tinsert = null,
+        // ntests = null,
+        // responses = null,
         urlParams = {};
 
     //var Timer = require('./timer'); // require is a node thing, unless you use requirejs
@@ -155,17 +153,17 @@
         throw new Error('unknown page: ' + name);
     }
 
-    function hideDiv(id) {
-        $('#' + id).fadeOut('fast'); //document.getElementById(id).style.display = 'none'; //console.log('hideDiv(): id: ' + id);
-    }
+    // function hideDiv(id) {
+    //     $('#' + id).fadeOut('fast'); //document.getElementById(id).style.display = 'none'; //console.log('hideDiv(): id: ' + id);
+    // }
 
-    function showDiv(id) {
-        $('#' + id).slideDown(); //document.getElementById(id).style.display = 'inline'; //console.log('showDiv(): id: ' + id);
-    }
+    // function showDiv(id) {
+    //     $('#' + id).slideDown(); //document.getElementById(id).style.display = 'inline'; //console.log('showDiv(): id: ' + id);
+    // }
 
-    function hidePage(page) {
-        hideDiv(page.templateId); //console.log('hidePage(): templateId: ' + page.templateId); //+ obj(page) + '\'');
-    }
+    // function hidePage(page) {
+    //     hideDiv(page.templateId); //console.log('hidePage(): templateId: ' + page.templateId); //+ obj(page) + '\'');
+    // }
 
     // http://stackoverflow.com/questions/130396/are-there-constants-in-javascript
     // var WIDTH2X2 = 210; // Width of squares in 2x2 grid is 210px // const?
@@ -226,6 +224,7 @@
             if (page.name === 'ex1') {
                 config.timeStarted = isoDate();
                 console.log('config.timeStarted: ' + config.timeStarted);
+                timerWholeTest.now(); // start timer for the whole test (for "elapsed" field)
                 timeUpTimeout = setTimeout(timeUp, config.timeLimit); // 120000ms == 2 minutes
             }
         }
@@ -282,14 +281,14 @@
         console.log('scaleImagesAY()');
 
         // we know the natural sizes of the images already
-        var topWidth, topHeight, botWidth, botHeight;
+        var topHeight, botWidth, botHeight; // topWidth not needed as bottom image widest
         if (currentPage().templateId === 'quiz2x2') {
-            topWidth = 420;
+            // topWidth = 420;
             topHeight = 340;
             botWidth = 680;
             botHeight = 365;
         } else if (currentPage().templateId === 'quiz3x3') {
-            topWidth = 510;
+            // topWidth = 510;
             topHeight = 405;
             botWidth = 755;
             botHeight = 295;
@@ -320,7 +319,7 @@
         var scale = scaleV <= scaleH ? scaleV : scaleH;
 
         // work out desired dimensions of whole quiz
-        var targetWidth = naturalFullWidth * scale; // forget about width, it always fits, down to 300px
+        //var targetWidth = naturalFullWidth * scale; // forget about width, it always fits, down to 300px
         var targetHeight = naturalFullHeight * scale;
 
         // work out desired height of .gridContainer
@@ -337,32 +336,37 @@
         $('.gridContainer').css('margin-left', setMargins);
         $('.gridContainer').css('margin-right', setMargins);
 
-        console.log('setMargins: ' + setMargins +
-            ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
-            ', targetMiddleWidth: ' + targetMiddleWidth +
-            ', setMargins: ' + setMargins);
+        // var msg = 'setMargins: ' + setMargins +
+        //     ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
+        //     ', targetMiddleWidth: ' + targetMiddleWidth;
+        //console.log(msg);
     }
     //var setMargin = ($(window).width() - ($(window).height() - heightExtra) - margins) / 2;
 
-    function scaleImagesCBsimple() { // my calculation, mostly works
-        console.log('scaleImagesCBsimple()');
-        var widthExtra =
-            ($('.container').outerWidth(true) - $('.container').width()) +
-            ($('#pages').outerWidth(true) - $('#pages').width());
-            // missing some widths?
-        var heightExtra = // required height of .gridContainer
-            ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
-            ($('.botText').is(':visible') ? $('.botText').height() : 0) + 75;
-            // missing some heights?
-        var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
+    // function scaleImagesCBsimple() { // my calculation, mostly works
+    //     console.log('scaleImagesCBsimple()');
+    //     var widthExtra =
+    //         ($('.container').outerWidth(true) - $('.container').width()) +
+    //         ($('#pages').outerWidth(true) - $('#pages').width());
+    //         // missing some widths?
+    //     var heightExtra = // required height of .gridContainer
+    //         ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
+    //         ($('.botText').is(':visible') ? $('.botText').height() : 0) + 75;
+    //         // missing some heights?
+    //     var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
 
-        if (setMargins > 0) {
-            $('.gridContainer').css('margin-left', setMargins);
-            $('.gridContainer').css('margin-right', setMargins);
-        } else { // don't set negative margins. content should shrink width-wise if needed
-            $('.gridContainer').css('margin-left', 0);
-            $('.gridContainer').css('margin-right', 0);
-        }
+    //     if (setMargins > 0) {
+    //         $('.gridContainer').css('margin-left', setMargins);
+    //         $('.gridContainer').css('margin-right', setMargins);
+    //     } else { // don't set negative margins. content should shrink width-wise if needed
+    //         $('.gridContainer').css('margin-left', 0);
+    //         $('.gridContainer').css('margin-right', 0);
+    //     }
+    // }
+
+    function scaleImages() {
+        //scaleImagesCBsimple()
+        scaleImagesAY();
     }
 
     // .css('width') is text e.g. '1200px'; .width() is numeric e.g. 1200. .attr('width') is undefined
@@ -390,10 +394,28 @@
         //heightExtra = 0;
         //console.log('$(\'body\').height(): ' + $('body').height()); // == $(window).height()
         //$('.container').attr('width', $(window).height()); // doesn't work but setting margin-left and margin-right makes it shrink
+    function showPage2() {
+        console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)scaleImages();bind clicks
+        scaleImages();
+        // re-enable event handler
+        $('#pages').on('click', 'a, area, button', containerClick); // eslint-disable-line no-use-before-define
+        //var heightScrolled = $(document).height() - $(window).height(); console.log('heightScrolled: ' + heightScrolled);
+        switch (currentPage().templateId) { // only after page is set visible?
+        case 'quiz2x2':
+            $('#3x2-map').imageMapResize(); // https://github.com/davidjbradshaw/image-map-resizer
+            break;
+        case 'quiz3x3':
+            $('#4x2-map').imageMapResize();
+            break;
+        }
+        if (currentPage().name === 'thanks') { // redundant?
+            console.log('currentPage().name === \'thanks\'');
+            setTimeout(finished, 3000);
+        }
+    }
 
     function showPage(page) { // prevPage() and nextPage() should handle hiding current
         console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); //');// page: ' + obj(page)); //console.log('showPage(): isTimeUp:' + isTimeUp);
-
         if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
             $('#abandon-div').hide(); //fadeOut(FADEOUT);
         } else {
@@ -424,34 +446,41 @@
             throw new Error('unrecogised id');
         }
 
-        showDiv(page.templateId);
+        //showDiv(page.templateId);
+        $('#' + page.templateId).fadeIn(FADEIN, showPage2);
         //scaleImagesCBsimple();
-        scaleImagesAY();
+        //scaleImagesAY();
         //scaleImagesCBnew();
 
-        var heightScrolled = $(document).height() - $(window).height();
-        console.log('heightScrolled: ' + heightScrolled);
+        // var heightScrolled = $(document).height() - $(window).height();
+        // console.log('heightScrolled: ' + heightScrolled);
 
-        switch (page.templateId) { // only after page is set visible?
-        case 'quiz2x2':
-            $('#3x2-map').imageMapResize(); // https://github.com/davidjbradshaw/image-map-resizer
-            break;
-        case 'quiz3x3':
-            $('#4x2-map').imageMapResize();
-            break;
-        }
+        // switch (page.templateId) { // only after page is set visible?
+        // case 'quiz2x2':
+        //     $('#3x2-map').imageMapResize(); // https://github.com/davidjbradshaw/image-map-resizer
+        //     break;
+        // case 'quiz3x3':
+        //     $('#4x2-map').imageMapResize();
+        //     break;
+        // }
     }
 
-    function prevPage() {
-        hidePage(currentPage()); //console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
+
+
+    function prevPage2() {
         if (current > 0) {
             current -= 1;
         }
         showPage(currentPage());
     }
 
-    function nextPage() { // console.log('nextPage(): current: ' + current);// + obj(currentPage());
-        hidePage(currentPage()); //console.log('nextPage(): isTimeUp:' + isTimeUp);
+    function prevPage() {
+        //hidePage(currentPage()); //console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
+        $('#' + currentPage().templateId).fadeOut(FADEOUT, prevPage2);
+    }
+
+    function nextPage2() {
+        console.log('nextPage2()');
         if (isTimeUp) {
             clearTimeout(nextPageTimeout);
             showPage(pageNamed('thanks'));
@@ -463,38 +492,58 @@
         }
     }
 
-    function answered(num) {
-        var page = currentPage();
-        setImage('#' + page.templateId + ' .top', page, '-sol' + num + '.png'); //console.log('got num: ' + num);
+    function nextPage() { console.log('nextPage(): current: ' + current);// + obj(currentPage());
+        //hidePage(currentPage()); //console.log('nextPage(): isTimeUp:' + isTimeUp);
+        //clearTimeout(nextPageTimeout);
+        $('#' + currentPage().templateId).fadeOut(FADEOUT, nextPage2);
+        // if (isTimeUp) {
+        //     clearTimeout(nextPageTimeout);
+        //     showPage(pageNamed('thanks'));
+        // } else if (current + 1 < pages.length) {
+        //     current += 1;
+        //     showPage(currentPage());
+        // } else {
+        //     console.log('nextPage(): hit the end at current: ' + current);
+        // }
+    }
 
-        var correct = Number(num) === page.correct;
+    function answered(ans) {
+        console.log('answered()');
+        var page = currentPage();
+        setImage('#' + page.templateId + ' .top', page, '-sol' + ans + '.png'); //console.log('got num: ' + num);
+
+        //var correct = Number(num) === page.correct;
+        var isCorrect = ans === page.correct;
         var timeTaken;
         if (page.name.slice(0, 2) === 'ex') { // real exercise
             timer.lap();
+            timerWholeTest.lap();
             timeTaken = timer.getElapsed();
-            showTime(timeTaken, correct);
-
+            showTime(timeTaken, isCorrect);
             var answer = {
-                page: page.name,
-                answer: num,
-                correct: correct,
-                time: timeTaken
+                // count: ++puzzleCount,                   // should be number of puzzles taken
+                // puzzle: puzzle.n,                       // number of puzzle, not image name - config.json should be only mapping
+                // correct: puzzle.c                       // correct answer, not bool
+
+                // page: page.name,
+                duration: timeTaken,                    // Time taken to answer puzzle
+                elapsed: timerWholeTest.getElapsed(),   // Cumulative time elapsed
+                answer: ans,                            // Answer given by user, ans should be Number() type
+                correct: page.correct
             };
             answers.push(answer);
         } else if (page.name.slice(0, 5) === 'intro') {
-            if (!correct) {
+            if (!isCorrect) {
                 showInfo('try again'); // TODO
                 showModal('tryagain-modal');
                 return;
             }
         }
-
-        if (correct) { // http://stackoverflow.com/a/33457014/535071
-            //console.log('Correct!');
-        } else {
-            //console.log('Wrong! correct is: ' + page.correct);
-        }
-
+        // if (correct) { // http://stackoverflow.com/a/33457014/535071
+        //     //console.log('Correct!');
+        // } else {
+        //     //console.log('Wrong! correct is: ' + page.correct);
+        // }
         nextPageTimeout = setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
     }
 
@@ -502,7 +551,11 @@
         e.preventDefault();
         var clickedEl = $(this),
             elId = clickedEl.attr('id');
-        //console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId, 'type: ' + clickedEl.prop('tagName')); // now gets id from loaded page
+        console.log('containerClick(): current: ' + current + ', clickedEl: ' + elId, 'type: ' + clickedEl.prop('tagName')); // now gets id from loaded page
+        //$('#pages').on('click', 'a, button, div.row div', containerClick); // re-enable
+        //$('#pages').off('click', 'a, button, div.row div', containerClick); // prevent double-click
+        $('#pages').off('click', 'a, area, button'); // delegate events
+        console.log('$(\'#pages\').off(\'click\'');
         switch (clickedEl.attr('id')) {
         case 'prev':
             prevPage();
@@ -520,7 +573,7 @@
             var slice = elId.slice(0, 3);
             if (slice === 'bot') { // bottom grid only
                 var num = elId[3]; // number in id following 'bot' == number of bottom tile selected
-                answered(num);
+                answered(Number(num));
             }
         }
     }
@@ -572,8 +625,8 @@
         e.preventDefault();
         console.log('navClick()');
         var clickedEl = $(this); //console.log('pageId: '+pageId); // now gets id from loaded page
-        var pageId = $('.page').attr('id');
-        console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
+        //var pageId = $('.page').attr('id');
+        //console.log('page: ' + currentPage() + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
         switch (clickedEl.attr('id')) {
         case 'prev':
             prevPage();
@@ -600,7 +653,8 @@
         case 'abandon-yes':
             hideModal('abandon-modal');
             //hidePage(currentPage());
-	    $('#' + currentPage().templateId).hide();
+            $('#' + currentPage().templateId).hide();
+            // TODO clear timeouts / called finished()
             showPage(pageNamed('thanks'));
             break;
         case 'abandon-no':
@@ -653,8 +707,8 @@
 
 
         showPage(currentPage());
-        imageMapResize();
-	    config.tinstruct = isoDate();
+        imageMapResize(); // eslint-disable-line no-undef
+        config.tinstruct = isoDate();
         console.log('config.tinstruct: ' + config.tinstruct);
     }
 
@@ -684,12 +738,15 @@
 
     // bind event handlers to elements
     $('body').on('keydown', keydown); // $("body").keyup(keyup()); // throws error as doesn't exist at this moment?
-    $('#pages').on('click', 'a, area, button', containerClick); // delegate events
+    //$('#pages').on('click', 'a, area, button', containerClick); // delegate events
+        // Thu Sep 29 03:19:33 2016 don't bind here as it's set in showPage2(), otherwise you'll get multiple calls to containerClick()!
+        // took me a good hour or so to find that in the middle of the night...
     $('#devBar').on('click', 'a, button', navClick); // need this?
     $('#abandon-btn').on('click', abandonClick); // need this?
     $('#modals').on('click', 'button', modalClick);
 
-    window.onresize = function(event) { // error  event is defined but never used no-unused-vars ?
+    window.onresize = function(event) { // eslint-disable-line no-unused-vars
+        console.log('onresize');
         showPage(currentPage()); // ?
     };
 

@@ -193,10 +193,69 @@
 
     function scaleImagesAY() {
         console.log('scaleImagesAY()');
-        // copied from matrix
 
-        // // we know the natural sizes of the images already
-        // 748 x 291
+        // we know the natural sizes of the images already (748 x 291)
+        var topWidth = 748, topHeight = 291, botWidth = 748, botHeight = 291;
+
+        var widthExtra = // total width of elements, excluding centre images
+            ($('.container').outerWidth(true) - $('.container').width()) +
+            ($('#pages').outerWidth(true) - $('#pages').width());
+
+        var heightExtra = // total height of elements, excluding centre images
+            ($('.container').outerHeight(true) - $('.container').height()) +
+            ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
+            ($('.botText').is(':visible') ? $('.botText').height() : 0);
+        // more to add here
+
+        // natural image dimensions; .width(), .height() are current dimensions
+        var naturalFullWidth = widthExtra + topWidth;
+        var naturalFullHeight = heightExtra + topHeight + botHeight;
+
+        // allow 200px for text at bottom
+        // .middleImg needs to be scaled from natural width/height to fit in
+        // (window height - 200px) x window width
+
+        // vertical shrink = (window height - 200px) / naturalFullHeight
+        // horizontal shrink = window width / naturalFullWidth
+        var scaleV = ($(window).height() - 200) / naturalFullHeight;
+        var scaleH = $(window).width() / naturalFullWidth;
+
+        // select lower of these scaling values
+        var scale = scaleV <= scaleH ? scaleV : scaleH;
+
+        // work out desired dimensions of whole quiz
+        var targetWidth = naturalFullWidth * scale; // forget about width, it always fits, down to 300px
+        var targetHeight = naturalFullHeight * scale;
+
+        // work out desired height of .middleImg
+        var targetMiddleHeight = targetHeight - heightExtra;
+
+        // // need h/w ratio of .middleImg. Typical dimensions: ? TODO
+        var middleHWRatio = 1.125; //??
+
+        // what innerWidth of .middleImg would create targetMiddleHeight?
+        var targetMiddleWidth = targetMiddleHeight * middleHWRatio;
+
+        // set these margins on .middleImg to make the targetWidth and targetHeight
+        var setMargins = ($(window).width() - widthExtra - targetMiddleWidth) / 2;
+        if (setMargins > 0) {
+            $('.middleImg').css('margin-left', setMargins);
+            $('.middleImg').css('margin-right', setMargins);
+        } else {
+            $('.middleImg').css('margin-left', 0);
+            $('.middleImg').css('margin-right', 0);
+        }
+
+        var msg = 'setMargins: ' + setMargins +
+            ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
+            ', targetMiddleWidth: ' + targetMiddleWidth;
+        console.log(msg);
+    }
+
+    function scaleImagesAYreport() {
+        console.log('scaleImagesAYreport()');
+
+        // we know the natural sizes of the images already (748 x 291)
         var topWidth = 748, topHeight = 291, botWidth = 748, botHeight = 291;
 
         var widthExtra = // total width of elements, excluding centre images
@@ -208,45 +267,50 @@
             ($('.botText').is(':visible') ? $('.botText').height() : 0);
         // more to add here
 
-        // // natural image dimensions; .width(), .height() are current dimensions
-        var naturalFullWidth = widthExtra + $('.middleImg'); // although this is variable? use natural image dimensions?
+        // natural image dimensions; .width(), .height() are current dimensions
+        var naturalFullWidth = widthExtra + topWidth;
         var naturalFullHeight = heightExtra + topHeight + botHeight;
 
-        // // allow 200px for text at bottom
-        // // .gridContainer needs to be scaled from natural width/height to fit in
-        // // (window height - 200px) x window width
+        // allow 200px for text at bottom
+        // .middleImg needs to be scaled from natural width/height to fit in
+        // (window height - 200px) x window width
 
-        // // vertical shrink = (window height - 200px) / naturalFullHeight
-        // // horizontal shrink = window width / naturalFullWidth
+        // vertical shrink = (window height - 200px) / naturalFullHeight
+        // horizontal shrink = window width / naturalFullWidth
         var scaleV = ($(window).height() - 200) / naturalFullHeight;
         var scaleH = $(window).width() / naturalFullWidth;
 
-        // // select lower of these scaling values
+        // select lower of these scaling values
         var scale = scaleV <= scaleH ? scaleV : scaleH;
 
-        // // work out desired dimensions of whole quiz
+        // work out desired dimensions of whole quiz
         var targetWidth = naturalFullWidth * scale; // forget about width, it always fits, down to 300px
         var targetHeight = naturalFullHeight * scale;
 
-        // // work out desired height of .gridContainer
+        // work out desired height of .middleImg
         var targetMiddleHeight = targetHeight - heightExtra;
 
-        // // need h/w ratio of .gridContainer. Typical dimensions: 162 x 144. 162 / 144 == 1.125
+        // // need h/w ratio of .middleImg. Typical dimensions: ? TODO
         var middleHWRatio = 1.125; //??
 
-        // // what innerWidth of .gridContainer would create targetMiddleHeight?
+        // what innerWidth of .middleImg would create targetMiddleHeight?
         var targetMiddleWidth = targetMiddleHeight * middleHWRatio;
 
-        // // set these margins on .gridContainer to make the targetWidth and targetHeight
+        // set these margins on .middleImg to make the targetWidth and targetHeight
         var setMargins = ($(window).width() - widthExtra - targetMiddleWidth) / 2;
-        // check if > 0?
-        $('.middleImg').css('margin-left', setMargins);
-        $('.middleImg').css('margin-right', setMargins);
+        if (setMargins > 0) {
+            $('.middleImg').css('margin-left', setMargins);
+            $('.middleImg').css('margin-right', setMargins);
+        } else {
+            $('.middleImg').css('margin-left', 0);
+            $('.middleImg').css('margin-right', 0);
+        }
 
-        // console.log('setMargins: ' + setMargins +
-        //     ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
-        //     ', targetMiddleWidth: ' + targetMiddleWidth
-        //      + 'setMargins: ' + setMargins);
+        var msg = 'setMargins: ' + setMargins +
+            ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
+            ', targetMiddleWidth: ' + targetMiddleWidth;
+        console.log(msg);
+    }
 
 // from hoops-doc.md
 // ### Element heights (top to bottom)
@@ -271,7 +335,6 @@
 //     div.container       padding-bottom: 20px
 //     body                -
 //     html                -
-
 
         // var widthExtra =
         //     ($('.container').outerWidth(true) - $('.container').width()) +
@@ -298,7 +361,6 @@
         //     $('.middleImg').css('margin-left', 0);
         //     $('.middleImg').css('margin-right', 0);
         // }
-    }
 
     // shrink images to try to fit height into viewport, but don't worry about width
     function scaleImagesCBsimple() { //
@@ -332,9 +394,10 @@
     }
 
     function scaleImages() {
-        console.log('scaleImages()');
-        scaleImagesCBsimple();
-        //scaleImagesAY();
+        //console.log('scaleImages()');
+        //scaleImagesCBsimple();
+        scaleImagesAY();
+        //scaleImagesAYreport();
     }
 
     function isoDate() { // return date string in format yyyy-mm-ddThh:mm:ss, suitable for parsing by xtime.cpp
@@ -573,7 +636,7 @@
                 count: ++puzzleCount,                   // should be number of puzzles taken
                 duration: timeTaken,                    // Time taken to answer puzzle
                 puzzle: puzzle.n,                       // number of puzzle, not image name - config.json should be only mapping
-                elapsed: timerWholeTest.getElapsed(),    // Cumulative time elapsed
+                elapsed: timerWholeTest.getElapsed(),   // Cumulative time elapsed
                 answer: ans,                            // Answer given by user, ans should be Number() type
                 correct: puzzle.c                       // correct answer, not bool
             };

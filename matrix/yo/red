@@ -7,7 +7,7 @@
 
 REMOTEHOST="red.ctsu.ox.ac.uk"
 REMOTEUSER="cp"
-REMOTEROOT="/user/cp/public_html/cjb/"  # http://red.ctsu.ox.ac.uk/~cp/cjb/
+REMOTEROOT="/user/cp/public_html/cjb/bbquiz/"  # http://red.ctsu.ox.ac.uk/~cp/cjb/
 
 if [ -z "$1" ]
 then
