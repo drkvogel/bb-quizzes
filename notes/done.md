@@ -474,3 +474,10 @@ Implement AY re-sizing algorithm
 http://red.ctsu.ox.ac.uk/~cp/cjb/bbquiz/?a=1&b=2&c=3 got params
 
 /home/cbird/.config/sublime-text-2/Packages/SideBarEnhancements -> q108-vlubuntu
+
+get c++ to serve config.json, put sesh_id in it - use JSON parser?-
+record cumulative time, number answered-
+backend insert - save data to database from CGIs-
+
+* You mentioed you might need to take odd days leave while I'm away. 
+Please consider this pre-approved but, once you know them, drop me an email regardless for each date prior to taking it and ensure it goes into your calendar.
