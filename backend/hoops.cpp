@@ -243,8 +243,8 @@ void Hoops::printRecord(Hoops::HoopsRecord rec) {
             rec.answers[i].duration, rec.answers[i].puzzle, rec.answers[i].elapsed,
             rec.answers[i].answer, rec.answers[i].correct);
     }
-    for (int i=0; i<MAX_LEVELS - rec.answers.size(); i++) { // fill remainder
-        printf("<td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>");
+    for (int i = rec.answers.size()+1; i <= MAX_LEVELS; i++) { // fill remainder
+        printf("<td>[%d]</td><td>-</td><td>-</td><td>-</td><td>-</td>", i);
     }
     printf("</tr>\n");
 }
