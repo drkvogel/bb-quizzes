@@ -24,21 +24,54 @@ void Matrix::printAnswer(MatrixAnswer & ans) {
             ans.duration, ans.elapsed, ans.answer, ans.correct);
 }
 
-void Matrix::parseResponses(MatrixRecord *e) {
-    char buf[1600];
-    strcpy(buf, e->responses.c_str());
-    const nx_json* json = nx_json_parse(buf, 0);
-
-    if (json) {
-        const nx_json* arr = nx_json_get(json, "array");
-        for (int i = 0; i < arr->length; i++) {
-            const nx_json* item = nx_json_item(arr, i);
-            printf("arr[%d]=(%d) %ld %lf %s\n", i, (int)item->type, item->int_value, item->dbl_value, item->text_value);
+void Matrix::parseResponses(MatrixRecord *rec) {
+//     char buf[1600];
+//     strcpy(buf, e->responses.c_str());
+//     const nx_json* json = nx_json_parse(buf, 0);
+// 
+//     if (json) {
+//         const nx_json* arr = nx_json_get(json, "array");
+//         for (int i = 0; i < arr->length; i++) {
+//             const nx_json* item = nx_json_item(arr, i);
+//             printf("arr[%d]=(%d) %ld %lf %s\n", i, (int)item->type, item->int_value, item->dbl_value, item->text_value);
+//         }
+//         nx_json_free(json);
+//     } else {
+//         throw "Error parsing JSON";
+//     }
+    printf("<code>parseResponses():");
+    try {
+        char buf[1600]; int idx = 0;
+        strcpy(buf, rec->responses.c_str()); // nxson modifies string in place, don't destroy original responses
+        const nx_json* arr = nx_json_parse(buf, 0);
+        if (!arr) {
+            printf("didn't get json<br />"); throw "Error parsing JSON";
         }
-        nx_json_free(json);
-    } else {
-        throw "Error parsing JSON";
+        //printf("got json node type: %s, arr->length: %d<br />", nx_json_type_names[arr->type], arr->length);
+        printf("ntests reported by payload: %d; number of tests in responses JSON blob: %d<br />", rec->ntests, arr->length);
+        if (rec->ntests != arr->length) {
+            char * errmsg = "<p>ERROR: rec->ntests != arr->length</p>"; 
+            printf("%s", errmsg); throw errmsg;
+        }
+        for (int i=0; i < arr->length; i++) {
+            const nx_json* item = nx_json_item(arr, i);
+            MatrixAnswer ans;
+            ans.duration    = nx_json_get(item, "duration"  )->int_value; // Time taken to answer puzzle
+            //ans.puzzle      = nx_json_get(item, "puzzle"    )->int_value; // Puzzle chosen by algorithm, as number
+            ans.elapsed     = nx_json_get(item, "elapsed"   )->int_value; // Cumulative time elapsed since start of test
+            ans.answer      = nx_json_get(item, "answer"    )->int_value; // Answer given by user
+            ans.correct     = nx_json_get(item, "correct"   )->int_value; // Correct answer
+            //printf("%d ", nx_json_get(item, "count")->int_value);
+            //printf("elapsed: %d<br />", nx_json_get(item, "elapsed")->int_value);
+            //printJSONAnswer(item);
+            //printHoopsAnswer(ans);
+            rec->answers.push_back(ans);
+        }
+        nx_json_free(arr);
+    } catch(...) {
+        printf("Error parsing JSON");
     }
+    printf("</code>\n");
 }
 
 Matrix::MatrixRecord Matrix::getPayload(XCGI * x) { // get responses from frontend
@@ -139,7 +172,6 @@ bool Matrix::insertRecord(const MatrixRecord *rec) {
 }
 
 void Matrix::getRecords() {
-    //vecRecord records;
     std::string sql = "SELECT * FROM matrix";
     XQUERY q(db, sql);
     printf("<p>this is %s</p>\n", __FILE__);
@@ -180,7 +212,7 @@ void Matrix::printRecords() {
     printf("<thead><td>sesh_id</td><td>tinstruct</td><td>tstart</td><td>tfinish</td>\n"); 
     printf("<td>responses</td><td>ntests</td>");
     for (int i = 1; i <= MAX_LEVELS; i++) {
-        printf("<td>duration%d</td><td>puzzle%d</td<td>elapsed%d</td><td>answer%d</td><td>correct%d</td>", i, i, i, i, i);
+        printf("<td>duration%d</td><td>elapsed%d</td><td>answer%d</td><td>correct%d</td>", i, i, i, i, i);
     }
     printf("</thead>\n");
 
@@ -199,13 +231,13 @@ void Matrix::printRecord(Matrix::MatrixRecord rec) {
     printf("<td>%s</td>", rec.responses.c_str());
     //printf("<td>...</td>");
     printf("<td>%d</td>", rec.ntests);
-    for (int i=0; i<rec.answers.size(); i++) { // safer, should agree with rec->ntests
+    for (int i = 0; i < rec.answers.size(); i++) { // safer, should agree with rec->ntests
         printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td>",
             rec.answers[i].duration, rec.answers[i].elapsed,
             rec.answers[i].answer, rec.answers[i].correct);
     }
-    for (int i=0; i<MAX_LEVELS - rec.answers.size(); i++) { // fill remainder
-        printf("<td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>");
+    for (int i = rec.answers.size() + 1; i <= MAX_LEVELS; i++) { // fill remainder
+        printf("<td>[%d]</td><td>-</td><td>-</td><td>-</td>", i);
     }
     printf("</tr>\n");
 }
