@@ -209,7 +209,8 @@
         // more to add here
 
         // // natural image dimensions; .width(), .height() are current dimensions
-        var naturalFullWidth = widthExtra + $('.middleImg'); // although this is variable? use natural image dimensions?
+        //var naturalFullWidth = widthExtra + $('.middleImg'); // although this is variable? use natural image dimensions?
+        var naturalFullWidth = widthExtra + topWidth; // although this is variable? use natural image dimensions?
         var naturalFullHeight = heightExtra + topHeight + botHeight;
 
         // // allow 200px for text at bottom
@@ -243,10 +244,11 @@
         $('.middleImg').css('margin-left', setMargins);
         $('.middleImg').css('margin-right', setMargins);
 
-        // console.log('setMargins: ' + setMargins +
-        //     ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
-        //     ', targetMiddleWidth: ' + targetMiddleWidth
-        //      + 'setMargins: ' + setMargins);
+        var msg ='setMargins: ' + setMargins +
+            ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
+            ', targetMiddleWidth: ' + targetMiddleWidth;
+        console.log(msg);
+    }
 
 // from hoops-doc.md
 // ### Element heights (top to bottom)
@@ -271,7 +273,6 @@
 //     div.container       padding-bottom: 20px
 //     body                -
 //     html                -
-
 
         // var widthExtra =
         //     ($('.container').outerWidth(true) - $('.container').width()) +
@@ -298,7 +299,6 @@
         //     $('.middleImg').css('margin-left', 0);
         //     $('.middleImg').css('margin-right', 0);
         // }
-    }
 
     // shrink images to try to fit height into viewport, but don't worry about width
     function scaleImagesCBsimple() { //
@@ -332,9 +332,9 @@
     }
 
     function scaleImages() {
-        console.log('scaleImages()');
-        scaleImagesCBsimple();
-        //scaleImagesAY();
+        //console.log('scaleImages()');
+        //scaleImagesCBsimple();
+        scaleImagesAY();
     }
 
     function isoDate() { // return date string in format yyyy-mm-ddThh:mm:ss, suitable for parsing by xtime.cpp
