@@ -507,35 +507,33 @@
         // }
     }
 
-    function answered(num) {
+    function answered(ans) {
         console.log('answered()');
         var page = currentPage();
-        setImage('#' + page.templateId + ' .top', page, '-sol' + num + '.png'); //console.log('got num: ' + num);
+        setImage('#' + page.templateId + ' .top', page, '-sol' + ans + '.png'); //console.log('got num: ' + num);
 
-        var correct = Number(num) === page.correct;
+        //var correct = Number(num) === page.correct;
+        var isCorrect = ans === page.correct;
         var timeTaken;
         if (page.name.slice(0, 2) === 'ex') { // real exercise
             timer.lap();
             timerWholeTest.lap();
             timeTaken = timer.getElapsed();
-            showTime(timeTaken, correct);
+            showTime(timeTaken, isCorrect);
             var answer = {
                 // count: ++puzzleCount,                   // should be number of puzzles taken
                 // puzzle: puzzle.n,                       // number of puzzle, not image name - config.json should be only mapping
-                // elapsed: timerWholeTest.getElapsed(),    // Cumulative time elapsed
-                // answer: ans,                            // Answer given by user, ans should be Number() type
                 // correct: puzzle.c                       // correct answer, not bool
 
                 // page: page.name,
                 duration: timeTaken,                    // Time taken to answer puzzle
-                elapsed: timerWholeTest.getElapsed(),    // Cumulative time elapsed
-                answer: num,
-                correct: correct
-                // time: timeTaken
+                elapsed: timerWholeTest.getElapsed(),   // Cumulative time elapsed
+                answer: ans,                            // Answer given by user, ans should be Number() type
+                correct: page.correct
             };
             answers.push(answer);
         } else if (page.name.slice(0, 5) === 'intro') {
-            if (!correct) {
+            if (!isCorrect) {
                 showInfo('try again'); // TODO
                 showModal('tryagain-modal');
                 return;
@@ -575,7 +573,7 @@
             var slice = elId.slice(0, 3);
             if (slice === 'bot') { // bottom grid only
                 var num = elId[3]; // number in id following 'bot' == number of bottom tile selected
-                answered(num);
+                answered(Number(num));
             }
         }
     }

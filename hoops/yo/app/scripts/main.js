@@ -636,7 +636,7 @@
                 count: ++puzzleCount,                   // should be number of puzzles taken
                 duration: timeTaken,                    // Time taken to answer puzzle
                 puzzle: puzzle.n,                       // number of puzzle, not image name - config.json should be only mapping
-                elapsed: timerWholeTest.getElapsed(),    // Cumulative time elapsed
+                elapsed: timerWholeTest.getElapsed(),   // Cumulative time elapsed
                 answer: ans,                            // Answer given by user, ans should be Number() type
                 correct: puzzle.c                       // correct answer, not bool
             };
