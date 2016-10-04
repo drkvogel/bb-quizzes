@@ -11,7 +11,6 @@
 #include "xdb.h"
 #include "xquery.h"
 #include "xexec.h"
-#include "xhttp.h"
 #include "xcgi.h"
 #include "hoops.h"
 #include "matrix.h"
@@ -108,7 +107,6 @@ void showOptions() {
 int main(int argc, char **argv) {
     x = new XCGI(argc, argv); // global! naughty!
     x->writeHeader(XCGI::typeHtml);
-//     Hoops::MAX_LEVELS = 18;
     boilerplate_head();
     if (OFFLINE) {
         printf("<p>Currently offline</p>");
@@ -162,33 +160,4 @@ int main(int argc, char **argv) {
     boilerplate_foot();
     return(EXIT_SUCCESS);
 }
-
-/*        } else if (paramIs("action", "start") && paramIs("quiz", "matrix")) {
-            startMatrix();
-        } else if (paramIs("action", "start") && paramIs("quiz", "hoops")) {
-            startHoops();*/
-
-// void startMatrix() {
-//     printf("<p>startMatrix()</p>");
-// }
-// 
-// void startHoops() {
-//     printf("<p>startHoops()</p>");
-// }
-
-
-// string nowString() { // UNIX time in seconds
-//     time_t  tnow;
-//     char timestring[32];
-//     strcpy(timestring, ctime(&tnow));
-//     timestring[24] = '\0'; // remove annoying non-configurable newline added by ctime
-//     //time(&tnow); // ctime(&tnow)
-//     return string(timestring);
-// }
-
-/*    char timestring[32];
-    strcpy(timestring, ctime(&tnow));
-    timestring[24] = '\0'; // remove annoying non-configurable newline added by ctime
-    //printf("{\n  \"session\": {\n    \"comment\" : \"some JSON\",\n    \"seshID\": \"%s\"\n  }\n}", timestring);*/
-    //printf("{\n  \"session\": {\n    \"comment\" : \"some JSON\",\n    \"seshID\": \"%d\"\n  }\n}", (int)tnow);
 

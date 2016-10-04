@@ -61,6 +61,36 @@ int initDB() {
     printf("<li><a href=\"?quiz=matrix&action=start\">Start Matrix Quiz</a></li>\n");
     printf("<li><a href=\"?quiz=hoops&action=start\">Start Hoops Quiz</a></li>\n");
 
+/*        } else if (paramIs("action", "start") && paramIs("quiz", "matrix")) {
+            startMatrix();
+        } else if (paramIs("action", "start") && paramIs("quiz", "hoops")) {
+            startHoops();*/
+
+// void startMatrix() {
+//     printf("<p>startMatrix()</p>");
+// }
+// 
+// void startHoops() {
+//     printf("<p>startHoops()</p>");
+// }
+
+
+// string nowString() { // UNIX time in seconds
+//     time_t  tnow;
+//     char timestring[32];
+//     strcpy(timestring, ctime(&tnow));
+//     timestring[24] = '\0'; // remove annoying non-configurable newline added by ctime
+//     //time(&tnow); // ctime(&tnow)
+//     return string(timestring);
+// }
+
+/*    char timestring[32];
+    strcpy(timestring, ctime(&tnow));
+    timestring[24] = '\0'; // remove annoying non-configurable newline added by ctime
+    //printf("{\n  \"session\": {\n    \"comment\" : \"some JSON\",\n    \"seshID\": \"%s\"\n  }\n}", timestring);*/
+    //printf("{\n  \"session\": {\n    \"comment\" : \"some JSON\",\n    \"seshID\": \"%d\"\n  }\n}", (int)tnow);
+
+
 /*    printf("<tr><td>-</td>");
     printf("<td colspan=3><a href=\"idserve.cgi\">idserve.cgi</a></td>");
     printf("</tr>\n");*/
