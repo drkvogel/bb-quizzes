@@ -1,0 +1,293 @@
+
+An AES (Rijndael) Implementation in C/C++ (as specified in FIPS-197)
+--------------------------------------------------------------------
+
+The basic AES source code files are as follows:
+
+1.  aes.h            the header file needed to use AES in C
+2.  aescpp.h         the header file required with to use AES in C++
+3.  aesopt.h         the header file for setting options (and some common code)
+4.  aestab.h         the header file for the AES table declaration
+5.  aescrypt.c       the main C source code file for encryption and decryption
+6.  aeskey.c         the main C source code file for the key schedule
+7.  aestab.c         the main file for the AES tables
+8.  tdefs.h          a header defining some standard types and DLL defines
+9.  edefs.h          a header containing code to detect or define endianness
+10. aescrypt1.asm    x86 assembler (YASM) alternative to 5 using and large tables
+11. aescrypt2.asm    x86 assembler (YASM) alternative to 5 and 6 using compressed tables
+12. aesnew.h         a header for the new ECB, CBC and CTR multiple block encryption code
+
+13. aesm.h           the header file for the new multiple block routines (described later)
+14. aesecbe.asm      x86 assembler (YASM) for multiple block ECB encryption
+15. aescbce.asm      x86 assembler (YASM) for multiple block CBC encryption
+16. aesctre.asm      x86 assembler (YASM) for multiple block CTR encryption
+17. aestabe.asm      x86 assembler for the tables used by the above routines
+18. aeskn.asm        x86 assembler (YASM) for Daniel Bernstein's aeskn subroutine
+
+In addition AES modes are implemented in the files
+
+19. aes_modes.c      the modes without the VIA Advanced Cryptography Engine
+20. via_ace.h        the header file for VIA ACE support
+21. ace_modes.c      the modes with support for VIA ACE detection and use
+22. ace_modes.asm    the modes in NASM assembler if VIA ACE _is_ present
+
+Other associated files for testing and support are:
+
+23.  aesaux.h        header for auxilliary routines for testsing
+24.  aesaux.c        auxilliary routines for testsingt
+25.  aestst.h        header file for setting the testing environment
+26.  aestst.c        a simple test program for quick tests of the AES code
+27.  aesgav.c        a program to generate and verify the test vector files
+28.  aesrav.c        a program to verify output against the test vector files
+29.  aestmr.c        a program to time the code on x86 systems
+30.  modetest.c      a program to test the AES modes support
+31.  testnew.c       a program to test the new ECB, CBC and CTR code
+32.  vbxam.doc       a demonstration of AES DLL use from Visual Basic in Microsoft Word
+33.  vb.txt          Visual Basic code from the above example
+34.  aesxam.c        an example of AES use
+35.  tablegen.c      a program to generate a simplified 'aestab.c' file for
+                     use with compilers that find aestab.c too complex
+36.  aes.txt         this file
+
+The VC++ AES Development Project
+--------------------------------
+
+The VC++ Solution contains the following sub-projects
+
+1.  aes_asm      this project tests the version 1 assembler code implementation
+2.  aes_asm_new  this project tests the version 2 assembler code implementation
+3.  aes_dll      this project builds the DLL version of the AES code
+4.  aes_gav      this project re-creates the test vector files and
+                 optionally checks them against a reference set
+5.  aes_rav      this project checks the values produced by the code
+                 against the values in the test vector files
+6.  aes_tables   generates a simplified 'aestab.c' file (called asestab2.c)
+7.  aes_tmr      this project measures the speed of the code on x86 systems
+8.  aes_tst      this project is set up to run simple tests on the normal, the
+                 DLL or the C++ versions of the AES code
+9.  aes_xam      this project builds the example of AES use in a
+                 simple file encryption program
+10. aes_modes    this project tests the AES modes files
+11. aeskn_asm    tests the new multiple block code (described later)
+
+Notes:
+
+1. ASM_V1       is defined if using the version 1 assembler code (aescrypt1.asm) 
+                The defines in the assember file must match those in aes.h and 
+                aesopt.h).  Also remember to include/exclude the right assembler 
+                and C files in the build to avoid undefined or multiply defined 
+                symbols - include aescrypt1.asm and exclude aescrypt.c and 
+                aescrypt2.asm.
+
+2. ASM_V2       is defined when using the version 2 assembler code (aescrypt2.asm). 
+                This version provides a full, self contained assembler version and 
+                does not use any C source code files.  The define ASM_V2 must be 
+                set on the YASM or NASM command line (or in aescrypt2.asm) to use 
+                this version and all C files must be excluded from the build. The
+                only file needed is aescrypt2.asm.
+
+3. ASM_V2C      is defined when using the version 2 assembler code (aescrypt2.asm)
+                with faster key scheduling in C (the options in the assember file 
+                must match those in aes.h and aesopt.h).  In this case aeskey.c 
+                and aestab.c are needed with aescrypt2.asm and the define ASM_V2C 
+                must be set for both the C files and for asecrypt2.asm command 
+                lines (or in aesopt.h and aescrypt2.asm). Include aescrypt2.asm 
+                aeskey.c and aestab.c, exclude aescrypt.c for this option.
+
+4. BUILD_DLL    must be defined to generate the DLL version of the code and
+                to run tests on it
+5. USE_DLL      must be defined to use the DLL version of the code in an 
+                application program
+6. AES_CPP      must be defined in order to run tests on the C++ version
+                of the code. In order t run these tests the releavant test
+                program must be compiled as a C++ file (either change the 
+                file's extension to cpp or set 'Comiple as C++' in the 
+                advanced page of the project properties
+7. Directories  the paths for the various directories for test vector input
+                and output have to be set in aestst.h
+8. VIA ACE      see the via_ace.txt for this item
+
+The code makes use of types defined as uint_<nn>t where <nn> is the length of the 
+type, for example, the unsigned 32-bit type is 'uint_32t'.  These are NOT the same as 
+the fixed width integer types in C99, inttypes.h and stdint.h since several attempts
+to use these types have shown that support for them is still highly variable.  But a 
+regular expression search and replace in VC++ with search on 'uint_{:z}t' and a 
+replace with 'uint\1_t' will convert these types to C99 types (there should be similar
+search/replace facilities on other systems).    
+
+The assembler code uses the YASM assembler with the command line for the
+custom build step:
+
+yasm -Xvc -f win32 -o "$(TargetDir)\$(InputName).obj" "$(InputPath)"
+
+NASM can also be used with the command line:
+
+nasm -O9 -Xvc -f win32 -o "$(TargetDir)\$(InputName).obj" "$(InputPath)"
+
+The VC++ project files have to be configured to include either the C or the
+assembler code for encryption and decryption with the unused files excluded
+from the projects.  When building the AES DLL using the assembler, it is important
+that BUILD_DLL is defined in the assembler files or on the YASM/NASM command 
+line. It is also important to ensure that the options defined in the assembler
+file matches those set in aes.h and aesopt.h.
+
+For AES modes the build has to be set up with only one of the three files
+aes_modes.c, ace_modes.c and aes_modes.asm included depending on what is
+required.
+
+Basic Builds
+------------
+
+To build the AES code in basic form uses (don't define USE_VIA_ACE_IF_PRESENT):
+
+    aes.h aesopt.h tdefs.h edefs.h aestab.h aescrypt.c aeskey.c aestab.c
+
+The header aescpp.h can be used instead of aes.h for obtaining the C++ version
+in which case the define AES_CPP must be set for the project.  To build the DLL 
+version the define BUILD_DLL is set, USE_DLL being set for using this DLL (the
+DLL build is only available in C so AES_CPP must not be defined in this case).
+
+To add AES mode support without VIA ACE needs in addition:
+
+    aes_modes.c
+
+If VIA ACE support is needed, this file is replaced with:
+
+    via_ace.h ace_modes.c
+
+and USE_VIA_ACE_IF_PRESENT is defined on the command line or in aesopt.h
+
+If VIA ACE is known to be present and conventional code for AES is not needed
+then the following files are needed:
+
+    aes.h aesopt.h aestab.h aeskey.c aestab.c
+    via_ace.h ace_modes.c
+
+but ace_modes.asm can be used instead of ace_modes.c. In this case 
+ASSUME_VIA_ACE_PRESENT must be defined.
+
+NEW MULTIPLE BLOCK ENCRYPTION CODE USING COMPRESSED TABLES IN X86 ASSEMBLER
+---------------------------------------------------------------------------
+
+Daniel Bernstein has shown that there is a timing attack on large table AES code 
+so there are applications where the techniques he has suggested are worthwhile.
+On current Intel x86 systems there is no overhead for unaligned loads and the 
+cost is also small on AMD systems.  Although compressed tables have a small 
+detrimental impact on maximum speed, the much reduced load on the cache is likely 
+to mean that compressed table code will be fatser than large table code in practice.
+But the code cannot easily be written in C so assembler implementations have to be 
+used.  Moreover the need to control key schedule positioning on the stack requires a 
+new API for multiple block encryption.  All the following encryption routines operate 
+on a number of 16 byte blocks with *** NO *** partical block handling.  The length 
+input (blocks) is hence the number of blocks to be processed, *** NOT *** the number 
+of bytes.
+
+The assembler files to implement these new functions are self contained and do not 
+rely on any of the other AES code:
+
+aesm.h          subroutine declarations for the new API
+aesecbe.asm     assembler code for multiple block ECB mode encryption 
+aescbce.asm     assembler code for multiple block CBC mode encryption 
+aesctre.asm     assembler code for multiple block CTR mode encryption 
+aestabe.asm     the table needed for the above modes (included once only)
+
+ECB Encryption
+--------------
+
+void aes_ecb_encrypt_128(
+       const unsigned char *ibuf, unsigned char *obuf, unsigned int blocks, 
+       const unsigned char *key);
+
+void aes_ecb_encrypt_192(
+       const unsigned char *ibuf, unsigned char *obuf, unsigned int blocks, 
+       const unsigned char *key);
+
+void aes_ecb_encrypt_256(
+       const unsigned char *ibuf, unsigned char *obuf, unsigned int blocks, 
+       const unsigned char *key);
+
+CBC Encryption
+--------------
+
+void aes_cbc_encrypt_128(
+       const unsigned char *ibuf, unsigned char *obuf, unsigned int blocks, 
+       const unsigned char *key, unsigned char *iv);
+
+void aes_cbc_encrypt_192(
+       const unsigned char *ibuf, unsigned char *obuf, unsigned int blocks, 
+       const unsigned char *key, unsigned char *iv);
+
+void aes_cbc_encrypt_256(
+       const unsigned char *ibuf, unsigned char *obuf, unsigned int blocks, 
+       const unsigned char *key, unsigned char *iv);
+
+On exit the IV is updated so that the encryption operation can be continued if 
+desired.
+
+CTR Encryption
+--------------
+
+void aes_ctr_encrypt_128(
+       const unsigned char *ibuf, unsigned char *obuf, unsigned int blocks, 
+       const unsigned char *key, unsigned char *ctr);
+
+void aes_ctr_encrypt_192(
+       const unsigned char *ibuf, unsigned char *obuf, unsigned int blocks, 
+       const unsigned char *key, unsigned char *ctr);
+
+void aes_ctr_encrypt_256(
+       const unsigned char *ibuf, unsigned char *obuf, unsigned int blocks, 
+       const unsigned char *key, unsigned char *ctr);
+
+A define in the assembler file sets big endian mode if necessary (the default). In
+little endian mode the bottom 4 bytes [0..3] of the counter buffer (ctr) are assumed
+to be a 32-bit little endian counter.  In big endian mode the top 4 bytes [12..15] 
+are assumed to be a 32-bit big endian counter.  THese counters are incremented 
+between blocks to give the value used for the CTR encryption and on exit the counter 
+is left ready to continue the encryption if necessary.
+
+The data (table) size for this code is 2048 bytes.  The code size and speed on an Intel
+P4 is as follows:
+
+Cycle/Byte and Code Size for AES ECB, CBC and CTR Encryption
+Mode Key_Len  Blocks:    1      10     100    1000     Bytes
+ ECB     128         36.29   20.68   17.44   18.71      3358
+ ECB     192         39.99   23.14   20.50   21.82      3762
+ ECB     256         49.59   26.68   23.76   25.05      4656
+ CBC     128         34.30   20.17   17.51   18.29      3386
+ CBC     192         37.00   23.16   20.61   21.40      3790
+ CBC     256         51.81   27.19   23.83   24.62      4684
+ CTR     128         36.62   23.71   21.44   21.57      3382
+ CTR     192         41.31   26.81   24.52   24.85      3786
+ CTR     256         52.50   31.37   27.84   27.94      4680
+ 
+ Please bear in mind that this is new code and is not as amture as my normal AES code. I 
+ have tested it extensively but cannot be certain that it is correct. Things to look out
+ for in using it include:
+ 
+ 1.  Only full 16 byte blocks are processed - there is no partical block handling
+ 2.  The 32-bit block counters in CTR mode WRAP around and do not overflow into 
+     the remaining 12 bytes in the counter buffer.
+
+The AES Test Vector Files
+-------------------------
+
+These files fall in the following groups (where <nn> is a two digit
+number):
+
+1. ecbvk<nn>.txt  ECB vectors with variable key
+2. ecbvt<nn>.txt  ECB vectors with variable text
+3. ecbnk<nn>.txt  new ECB vectors with variable key
+4. ecbnt<nn>.txt  new ECB vectors with variable text
+5. ecbme<nn>.txt  ECB monte carlo encryption test vectors
+6. ecbmd<nn>.txt  ECB monte carlo decryption test vectors
+7. cbcme<nn>.txt  CBC monte carlo encryption test vectors
+8. cbcmd<nn>.txt  CBC monte carlo decryption test vectors
+
+The first digit of the numeric suffix on the filename gives the
+block size in 32bit units and the second numeric digit gives the
+key size.  For example, the file ecbvk44.txt provides the test
+vectors for ECB encryption with a 128 bit block size and a 128
+bit key size.
+
+   Brian Gladman  01/08/2005

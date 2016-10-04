@@ -2,118 +2,300 @@
 #include "xencode.h"
 #include <stdlib.h>
 #include <stdio.h>
-//#include <mem.h>
-#include <string>
-#include <cstring>
-using namespace std;
-
+#include <string.h>
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#ifdef __BORLANDC__
+#include <mem.h>
+#endif
 //===========================================================================
-bool XBINOB::use_exceptions = true;
-//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-void XBINOB::useExceptions( const bool ue )
-{	use_exceptions = ue;
-}
-//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-bool XBINOB::usingExceptions( void )
-{	return( use_exceptions );
-}
-//---------------------------------------------------------------------------
-XBINOB::XBINOB( void )
+XBV::XBV( void )
 	:
+	ref_count( 1 ),
 	nbytes( 0 ),
 	value( NULL )
 {
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-XBINOB::XBINOB( const int input_size, const unsigned char *data )
+XBV::XBV( int nb, unsigned char *dat )
 	:
-	nbytes( 0 ),
-	value( NULL )
+	ref_count( 1 ),
+	nbytes( nb ),
+	value( dat )            // TAKE OWNER SHIP OF INPUT MEMORY
 {
-	insert( input_size, data );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-XBINOB::XBINOB( const std::string b64 )
+XBV::XBV( XBV *p )
 	:
-	nbytes( 0 ),
+	ref_count( 1 ),
+	nbytes( p->nbytes ),
 	value( NULL )
 {
-	insertBase64( b64 );
+	value = (unsigned char *) malloc( nbytes );
+	memcpy( value, p->value, nbytes );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-XBINOB::XBINOB( const XBINOB &b )
-	:
-	nbytes( 0 ),
-	value( NULL )
+XBV::~XBV( void )
 {
-	insert( b );
-}
-//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-XBINOB::~XBINOB( void )
-{
-	clear();
-}
-//---------------------------------------------------------------------------
-void XBINOB::clear( void )
-{
+	nbytes = 0;
 	if ( NULL != value )
 		{free( value );
 		value = NULL;
 		}
-	nbytes = 0;
 }
-//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-void XBINOB::error( const std::string emsg ) const
+//---------------------------------------------------------------------------
+XBV *XBV::acquire( XBV *p )
 {
-	if ( usingExceptions() )
-		{std::string	e = std::string( "XBINOB exception: ") + emsg;
-		throw( e );
+	if ( NULL == p )
+		{return( NULL );		// SHOULD NEVER HAPPEN
 		}
+	p->ref_count++;
+	return( p );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-				/* SET CONTENTS WHEN DATA IS INVALID */
-void XBINOB::setInvalid( void )
+void XBV::relinquish( XBV **p )
 {
-	clear();
-	nbytes = -1;
+	if ( NULL == *p )
+		{return;
+		}
+	if ( 0 == --((*p)->ref_count) )
+		{delete *p;
+		}
+	*p = NULL;	// OBJECT SUPPLYING POINTER IS FINISHED WITH IT
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-int XBINOB::size( void ) const
+int XBV::size( void ) const
 {
 	return( nbytes );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-bool XBINOB::isValid( void ) const
+const unsigned char *XBV::data( void ) const
 {
-	return( nbytes >= 0 );
+	return( value );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XBV::append( const int input_size, const unsigned char *data )
+{		// NOTE: SHOULD BE MADE UNIQUE PRIOR TO DOING THIS
+	if ( input_size < 0 || NULL == data )
+		{return( false );
+		}
+	if ( 0 == input_size )		// NOTHING TO DO
+		{return( true );
+		}
+	int	new_size = nbytes + input_size;
+	void	*ptr = realloc( value, new_size + 1 );
+	if ( NULL == ptr )
+		{return( false );
+		}
+	value = (unsigned char *) ptr;
+	memcpy( value+nbytes, data, input_size );
+	nbytes = new_size;
+	return( true );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+int XBV::getRefCount( void ) const
+{
+	return( ref_count );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XBV::equivalent( const XBV *pa, const XBV *pb )
+{
+	if ( pa == pb )			// POINTERS TO SAME OBJECT OR BOTH NULL
+		{return( true );
+		}
+	if ( NULL == pa || NULL == pb)	// ONLY ONE IS NULL (FROM ABOVE TEST)
+		{return( false );
+		}
+	if ( pa->nbytes != pb->nbytes )
+		{return( false );
+		}
+	int	i;
+	for ( i = 0; i < pa->nbytes; i++ )
+		{if ( pa->value[i] != pb->value[i] )
+			{return( false );
+			}
+		}
+	return( true );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XBV::overwriteSegment( const unsigned char *segment, const int start,
+	const int seg_size )
+{
+	if ( NULL == value || NULL == segment || start < 0 || seg_size < 1
+			|| seg_size > nbytes - start )
+		{return( false );
+		}
+	memcpy( value + start, segment, seg_size );
+	return( true );
+}
+//===========================================================================
+XBINOB::XBINOB( void )
+	:
+	XERROR( "XBINOB" )
+{
+	payload = new XBV();
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+XBINOB::XBINOB( const int input_size, const unsigned char *data )
+	:
+	XERROR( "XBINOB" ),
+	payload( NULL )
+{
+	insert( input_size, data );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+XBINOB::XBINOB( const XBINOB &b )
+	:
+	XERROR( "XBINOB" ),
+	payload( NULL )
+{
+	if ( ! b.isValid() )
+		{setInvalid( "copy of invalid object" );
+		return;
+		}
+	payload = XBV::acquire( b.payload );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+XBINOB::~XBINOB( void )
+{
+	XBV::relinquish( &payload );
+}
+//---------------------------------------------------------------------------
+void XBINOB::clear( void )
+{
+	XBV::relinquish( &payload );
+	resetXError();
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+				/* SET CONTENTS WHEN DATA IS INVALID */
+void XBINOB::setInvalid( const std::string emsg ) const
+{
+	XERROR::setInvalid( emsg );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+int XBINOB::size( void ) const
+{
+	return( ( NULL != payload ) ? payload->size() : 0 );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XBINOB::empty( void ) const
+{
+	return( ( NULL != payload ) ? ( 0 == payload->size() ) : true );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XBINOB::acquire( const int input_size, unsigned char *data )
+{			// DANGEROUS - TAKE OWNERSHIP OF EXTERNAL BUFFER
+	XBV	*ptmp = payload;
+	payload = new XBV( input_size, data );
+	XBV::relinquish( &ptmp );
+	return( true );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool XBINOB::insert( const int input_size, const unsigned char *data )
 {
-	setInvalid();                   // MARK INITIALLY AS INVALID
-	if ( input_size < 0 || NULL == data )
-		{return( false );
-		}
-	value = (unsigned char *) malloc( input_size + 1 );
-	if ( NULL == value )
-		{error( "malloc-failure" );
+	if ( input_size < 0 )
+		{setInvalid( "bad insert, negative input_size" );
 		return( false );
 		}
-	void *destination = memcpy( value, data, input_size );
-	if ( destination != (void *) value )
-		{free( value );		// REMOVE CORRUPT DATA
-		value = NULL;
-		error( "memcpy-failure" );
+	if ( input_size > 0 && NULL == data )
+		{setInvalid( "bad insert, positive size for NULL data" );
+		return( false );
 		}
-	else
-		{nbytes = input_size;	// GOOD COPY
+	if ( 0 == input_size )
+		{return( acquire( 0, NULL ) );
 		}
-	return( isValid() );
+	unsigned char *dbuf = (unsigned char *) malloc( input_size + 1 );
+	if ( NULL == dbuf )
+		{setInvalid( "malloc failure during insert" );
+		return( false );
+		}
+	memcpy( dbuf, data, input_size );
+	return( acquire( input_size, dbuf ) );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool XBINOB::insert( const XBINOB &b )
 {
-	return( insert( b.nbytes, b.value ) );
+	XBV	*ptmp = XBV::acquire( b.payload );
+	bool	ok = insert( ptmp->size(), ptmp->data() );
+	XBV::relinquish( &ptmp );
+	return( ok );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XBINOB::insertHex( const std::string hex )
+{
+	clear();
+	int	sz = hex.size();
+	if ( sz % 2 != 0 )
+		{setInvalid( "invalid length for Hex input" );
+		}
+	int	nb = 0;
+	unsigned char *v = NULL;
+	if ( XENCODE::hexToBin( hex, &v, &nb ) )
+		{acquire( nb, v );
+		}
+	else
+		{setInvalid(
+			"insertHex, internal failure in XENCODE::hexToBin" );
+		return( false );
+		}
+	return( true );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XBINOB::insertBase64( const std::string b64 )
+{
+	clear();
+	int	nb = 0;
+	unsigned char *v = NULL;
+	if ( XENCODE::b64ToBin( b64, &v, &nb ) )
+		{acquire( nb, v );
+		}
+	else
+		{setInvalid(
+		"insertBase64, internal failure in XENCODE::b64ToBin" );
+		return( false );
+		}
+	return( true );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XBINOB::insertFile( FILE *f )
+{	// FILE POINTER MUST ALREADY BE OPENED, ROUTINE DOES NOT CLOSE FILE
+	if ( NULL == f )
+		{setInvalid( "insertFile, NULL file pointer" );
+		return( false );
+		}
+	int	c;
+	int	nbytes = 0;
+	const	int	block_size = 100000;			// 100K
+	int	size = block_size;
+	unsigned char *value = (unsigned char *) malloc( size + 5 );
+	if ( NULL == value )
+		{setInvalid( "malloc failure" );
+		return( false );
+		}
+	try
+		{while ( ( c = fgetc( f ) ) != EOF )
+			{value[nbytes++] = (char) c;
+			if ( nbytes > size )
+				{size += block_size;
+				value = (unsigned char *) realloc( value,
+					size + 5 );
+				if ( NULL == value )
+					{setInvalid( "realloc failure" );
+					return( false );
+					}
+				}
+			}				// TRIM EXCESS USAGE
+		value = (unsigned char *) realloc( value, nbytes + 1 );
+		if ( NULL == value )
+			{setInvalid( "realloc failure" );
+			return( false );
+			}
+		}
+	catch ( ... )
+		{setInvalid( "insertFile, unhandled exception" );
+		return( false );
+		}
+	acquire( nbytes, value );
+	return( isValid() );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool XBINOB::append( const int input_size, const unsigned char *data )
@@ -122,34 +304,33 @@ bool XBINOB::append( const int input_size, const unsigned char *data )
 		{return( false );
 		}
 	if ( input_size < 0 || NULL == data )
-		{setInvalid();
+		{setInvalid( "Invalid input data" );
 		return( false );
 		}
-	if ( 0 == nbytes )
-		{return( insert( input_size, data ) );
+	if ( 0 == input_size )
+		{return( true );
 		}
-	int	new_size = nbytes + input_size;
-	void	*ptr = realloc( value, new_size + 1 );
-	if ( NULL == ptr )
-		{setInvalid();
-		error( "realloc-failure" );
-		return( false );
+	if ( payload->getRefCount() > 1 )
+		{
+		XBV	*ptmp = payload;
+		payload = new XBV( payload );	// MAKE UNIQUE COPY
+		XBV::relinquish( &ptmp );
 		}
-	value = (unsigned char *) ptr;
-	void *destination = memcpy( value+nbytes, data, input_size );
-	if ( destination != (void *) (value+nbytes) )
-		{setInvalid();
-		error( "memcpy-failure" );
-		}
-	else
-		{nbytes = new_size;	// GOOD COPY
+	if ( ! payload->append( input_size, data ) )
+		{setInvalid( "append failure" );
 		}
 	return( isValid() );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool XBINOB::append( const XBINOB &b )
 {
-	return( append( b.nbytes, b.value ) );
+	bool	same = ( b == *this );
+	XBV	*ptmp = same
+		? new XBV( b.payload )
+		: XBV::acquire( b.payload );
+	bool	ok = append( ptmp->size(), ptmp->data() );
+	XBV::relinquish( &ptmp );
+	return( ok );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool XBINOB::extract( int *output_size, unsigned char **data ) const
@@ -159,40 +340,42 @@ bool XBINOB::extract( int *output_size, unsigned char **data ) const
 	if ( ! isValid() )		     	// INVALID CONTENTS
 		{return( false );
 		}
-	if ( 0 == nbytes )			// EMPTY CASE
+	XBV	*ptmp = XBV::acquire( payload );
+	if ( 0 == ptmp->size() )			// EMPTY CASE
 		{*output_size = 0;
 		return( true );
 		}
-	*data = (unsigned char *) malloc( nbytes );
+	*data = (unsigned char *) malloc( ptmp->size() );
 	if ( NULL == *data )
 		{return( false );
 		}
-	void *destination = memcpy( *data, value, nbytes );
-	if ( destination != *data )
-		{free( *data );
-		*data = NULL;
-		error( "memcpy-failure" );
-		return( false );
-		}
-	*output_size = nbytes;
+	memcpy( *data, ptmp->data(), ptmp->size() );
+	*output_size = ptmp->size();
+	XBV::relinquish( &ptmp );
 	return( true );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 const unsigned char *XBINOB::data( void ) const
 {
-	return( (const unsigned char *) value );
+	return( ( NULL != payload ) ? payload->data() : NULL );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 std::string XBINOB::extractHex( void ) const
 {
 	if ( ! isValid() )
-		{error( "extractHex, not possible with invalid data" );
+		{setCaveat( "extractHex, not possible with invalid data" );
 		return( "!" );	// NOT HEX, SO CALLER SHOULD CHECK VALIDITY FIRST
 		}
+	if ( 0 == payload->size() )
+		{return( "" );
+		}
 	int	len;
-	char	*hx;
-	if ( ! XENCODE::binToHex( value, nbytes, &hx, &len ) )
-		{error( "extractHex, internal failure in binToHex" );
+	char	*hx; 			// ENSURE VALUE CONSTANT DURING OUTPUT
+	XBV	*ptmp = XBV::acquire( payload );
+	bool	ok = XENCODE::binToHex( ptmp->data(), ptmp->size(), &hx, &len );
+	XBV::relinquish( &ptmp );
+	if ( ! ok )
+		{setInvalid( "extractHex, internal failure in binToHex" );
 		return( "!" );
 		}
 	std::string	s( hx );
@@ -203,16 +386,21 @@ std::string XBINOB::extractHex( void ) const
 std::string XBINOB::extractBase64( void ) const
 {
 	if ( ! isValid() )
-		{error( "extractBase64, not possible with invalid data" );
+		{setCaveat( "extractBase64, not possible with invalid data" );
 		return( "!" );	// NOT HEX, SO CALLER SHOULD CHECK VALIDITY FIRST
 		}
-	if ( 0 == nbytes )
+	if ( 0 == payload->size() )
 		{return( "" );
 		}
 	int	len_out;
-	char	*out = NULL;
-	if ( ! XENCODE::binToB64( value, nbytes, &out, &len_out ) )
-		{error( "extractBase64, internal failure in XENCODE::binToB64");
+	char	*out = NULL;		// ENSURE VALUE CONSTANT DURING OUTPUT
+	XBV	*ptmp = XBV::acquire( payload );
+	bool	ok = XENCODE::binToB64( ptmp->data(), ptmp->size(), &out,
+		&len_out );
+	XBV::relinquish( &ptmp );
+	if ( ! ok )
+		{setInvalid(
+		"extractBase64, internal failure in XENCODE::binToB64");
 		return( "" );
 		}
 	std::string	b( out );
@@ -220,51 +408,69 @@ std::string XBINOB::extractBase64( void ) const
 	return( b );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-bool XBINOB::insertHex( const std::string hex )
-{
-	clear();
-	int	sz = hex.size();
-	if ( sz % 2 != 0 )
-		{setInvalid();
-		error( "invalid length for Hex input" );
+bool XBINOB::extractFile( FILE *f ) const
+{	// FILE POINTER MUST ALREADY BE OPENED, ROUTINE DOES NOT CLOSE FILE
+	if ( NULL == f )
+		{return( false );
 		}
-	if ( ! XENCODE::hexToBin( hex, &value, &nbytes ) )
-		{setInvalid();
-		error( "insertHex, internal failure in XENCODE::hexToBin" );
-		return( false );
+	bool	ok = true;		// ENSURE VALUE CONSTANT DURING OUTPUT
+	XBV	*ptmp = XBV::acquire( payload );
+	int	nbytes = ptmp->size();
+	const	unsigned	char *dat = ptmp->data();
+	int	nb = 0;
+	try
+		{while ( nb < nbytes )
+			{if ( EOF == fputc( dat[nb++], f ) )
+				{ok = false;
+				break;
+				}
+			}
 		}
-	return( true );
+	catch ( ... )
+		{ok = false;
+		}
+	XBV::relinquish( &ptmp );
+	return( ok );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-bool XBINOB::insertBase64( const std::string b64 )
+bool XBINOB::overwriteSegment( const unsigned char *segment, const int start,
+	const int seg_size )
 {
-	clear();
-	if ( ! XENCODE::b64ToBin( b64, &value, &nbytes ) )
-		{setInvalid();
-		error( "insertBase64, internal failure in XENCODE::b64ToBin" );
-		return( false );
+	if ( NULL == segment || start < 0 || seg_size < 1
+			|| seg_size > size() - start )
+		{return( false );
 		}
-	return( true );
+	if ( payload->getRefCount() > 1 )
+		{
+		XBV	*ptmp = payload;
+		payload = new XBV( payload );	// MAKE UNIQUE COPY
+		XBV::relinquish( &ptmp );
+		}
+	if ( ! payload->overwriteSegment( segment, start, seg_size ) )
+		{setInvalid( "overwriteSegment faiilure" );
+		}
+	return( isValid() );
 }
 //---------------------------------------------------------------------------
 XBINOB &XBINOB::operator=( const XBINOB &b )
 {
-	insert( b );
+	if ( b.payload == payload )
+		{return( *this );       // ALREADY IDENTICAL
+		}
+	if ( ! b.isValid())
+		{setInvalid( "copy of invalid object" );
+		XBV::relinquish( &payload );
+		return( *this );
+		}
+	XBV	*ptmp = payload;
+	payload = XBV::acquire( b.payload );
+	XBV::relinquish( &ptmp );
 	return( *this );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool XBINOB::isEqual( const XBINOB &b ) const
-{
-	if ( nbytes != b.nbytes )
-		{return( false );
-		}
-	int	i;
-	for ( i = 0; i < nbytes; i++ )
-		{if ( value[i] != b.value[i] )
-			{return( false );
-			}
-		}
-	return( true );
+{                              // TWO INVALID OBJECTS WILL (PROBABLY) BE EQUAL
+	return( XBV::equivalent( payload, b.payload ) );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool XBINOB::operator==( const XBINOB &b ) const

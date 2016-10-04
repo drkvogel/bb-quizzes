@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "xencode.h"
 /*---------------------------------------------------------------------------*/
 typedef	struct
@@ -114,6 +115,36 @@ bool XENCODE::binToB64( const unsigned char *dat, const int len_dat,
 #undef	xBase64_MASK
 #undef	xBase64_ADD
 #undef	xBase64_ENC
+/*---------------------------------------------------------------------------*/
+bool XENCODE::binToB64( const unsigned char *dat, const int len_dat,
+	std::string *b64 )
+{
+	int 	len_b64;
+	char 	*ch_b64 = NULL;
+	if ( ! binToB64( dat, len_dat, &ch_b64, &len_b64 ) || NULL == ch_b64 )
+		{return( false );
+		}
+	*b64 = std::string( ch_b64, len_b64 );
+	free( ch_b64 );
+	return( true );
+}
+/*---------------------------------------------------------------------------*/
+
+bool XENCODE::szToB64( const std::string sz, std::string *b64 )
+{
+	if ( NULL == b64 )
+		{return( false );
+		}
+	int	len_b64 = 0;
+	char	*dat_b64 = NULL;
+	if ( ! binToB64( (const unsigned char *) sz.c_str(), (int) sz.size(),
+			&dat_b64, &len_b64 ) || NULL == dat_b64 )
+		{return( false );
+		}
+	*b64 = std::string( dat_b64, len_b64 );
+	free( dat_b64 );
+	return( true );
+}
 /*---------------------------------------------------------------------------*/
 #define	xBase64_OUT(x)	(*dat)[(*len_dat)++] = (unsigned char) (x)
 					/* DECODE BASE64 INTO BINARY ARRAY */
@@ -227,10 +258,32 @@ bool XENCODE::b64ToBin( const char *b64,
 		? b64ToBin( b64, strlen(b64), dat, len_dat ) : false );
 }
 /*---------------------------------------------------------------------------*/
-bool XENCODE::b64ToBin( const std::string &b64, unsigned char **dat,
+bool XENCODE::b64ToBin( const std::string b64, unsigned char **dat,
 	int *len_dat )
 {
 	return( b64ToBin( (char *)b64.c_str(), (int) b64.size(), dat, len_dat ) );
+}
+/*---------------------------------------------------------------------------*/
+bool XENCODE::b64ToSz( const std::string b64, std::string *sz )
+{
+	if ( NULL == sz )
+		{return( false );
+		}
+	int	len_sz = -1;
+	unsigned char	*dat_sz = NULL;
+	bool	ok = b64ToBin( b64, &dat_sz, &len_sz );
+	if ( ! ok || NULL == dat_sz )
+		{return( false );
+		}
+	int	i;
+	for ( i = 0; i < len_sz; i++ )	// ENSURE OUTPUT IS A VALID STRING
+		{if ( '\0' == dat_sz[i] )
+			{return( false );
+			}
+		}
+	*sz = std::string( (char *) dat_sz, len_sz );
+	free( dat_sz );
+	return( true );
 }
 /*---------------------------------------------------------------------------*/
 bool XENCODE::b2h( const unsigned char b, char *h2 )
@@ -267,6 +320,35 @@ bool XENCODE::binToHex( const unsigned char *dat, const int len_dat,
 		(*hex)[j++] = hmap[ dat[i] % 16 ].c;
 		}
 	(*hex)[j] = 0;
+	return( true );
+}
+/*---------------------------------------------------------------------------*/
+bool XENCODE::binToHex( const unsigned char *dat, const int len_dat,
+	std::string *hex )
+{
+	int 	len_hex;
+	char 	*ch_hex = NULL;
+	if ( ! binToHex( dat, len_dat, &ch_hex, &len_hex ) || NULL == ch_hex )
+		{return( false );
+		}
+	*hex = std::string( ch_hex, len_hex );
+	free( ch_hex );
+	return( true );
+}
+/*---------------------------------------------------------------------------*/
+bool XENCODE::szToHex( const std::string sz, std::string *hex )
+{
+	if ( NULL == hex )
+		{return( false );
+		}
+	int	len_hex = 0;
+	char	*dat_hex = NULL;
+	if ( ! binToHex( (const unsigned char *) sz.c_str(), (int) sz.size(),
+			&dat_hex, &len_hex ) || NULL == dat_hex )
+		{return( false );
+		}
+	*hex = std::string( dat_hex, len_hex );
+	free( dat_hex );
 	return( true );
 }
 /*---------------------------------------------------------------------------*/
@@ -327,6 +409,85 @@ bool XENCODE::hexToBin( const std::string &hex, unsigned char **dat,
 	int *len_dat )
 {
 	return( hexToBin( hex.c_str(), hex.size(), dat, len_dat ) );
+}
+/*---------------------------------------------------------------------------*/
+bool XENCODE::hexToSz( const std::string hex, std::string *sz )
+{
+	if ( NULL == sz )
+		{return( false );
+		}
+	int	len_sz = -1;
+	unsigned char	*dat_sz = NULL;
+	bool	ok = hexToBin( hex, &dat_sz, &len_sz );
+	if ( ! ok || NULL == dat_sz )
+		{return( false );
+		}
+	int	i;
+	for ( i = 0; i < len_sz; i++ )	// ENSURE OUTPUT IS A VALID STRING
+		{if ( '\0' == dat_sz[i] )
+			{return( false );
+			}
+		}
+	*sz = std::string( (char *) dat_sz, len_sz );
+	free( dat_sz );
+	return( true );
+}
+/*---------------------------------------------------------------------------*/
+bool XENCODE::binToUrl( const char *dat, const int len_dat,
+	std::string *url )
+{
+	*url = "";
+	if ( len_dat < 0 )
+		{last_error = "binToUrl, invalid len_dat < 0";
+		return( false );
+		}
+	if ( NULL == dat )
+		{last_error = "binToUrl, NULL input *dat";
+		return( false );
+		}
+	char	*u = (char *) malloc( ( len_dat * 3 ) + 1 );
+	if ( NULL == u )
+		{last_error = "binToUrl, failed to malloc";
+		return( false );
+		}
+	int	i;
+	int	j = 0;
+	unsigned char	ch;
+	for ( i = 0; i < len_dat; i++ )
+		{ch = (unsigned char) dat[i];
+		if ( ' ' == ch )
+			{u[j++] = '+';
+			}
+		else if ( isalnum( ch ) )
+			{u[j++] = (char) ch;	// COPY ALPHANUMERIC CHARACTERS
+			}
+		else
+			{			// HEX-ENCODING
+			u[j++] = '%';
+			u[j++] = hmap[ ch / 16 ].c;
+			u[j++] = hmap[ ch % 16 ].c;
+			}
+		}
+	u[j] = 0;
+	*url = u;
+	free( u );
+	return( true );
+}
+/*---------------------------------------------------------------------------*/
+bool XENCODE::isHex( const std::string ihx )
+{						// IS A STRING VALID HEX
+	int	len = ihx.size();
+	if ( 0 != len % 2 )
+		{return( false );
+		}
+	const	char	*h = ihx.c_str();
+	unsigned char	bin;
+	while ( ( len -= 2 ) >= 0 )
+		{if ( ! h2b( h + len, &bin ) )
+			{return( false );
+			}
+		}
+	return( true );
 }
 /*===========================================================================*/
 #endif

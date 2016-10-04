@@ -2,10 +2,8 @@
 #include "rosebase.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <algorithm>
-#include <cstring>
-using namespace std;
-
 //===========================================================================
 #define	AND		'&'
 #define	BAR		'|'
@@ -22,18 +20,11 @@ using namespace std;
 #define	SPACE		' '
 #define	UNDERSCORE	'_'
 #define	ZERO		'0'
-//===========================================================================
-				/* CONVERT S IN-SITU TO LOWERCASE */
-static char make_lower( char c )
-{	return( (char) tolower( c ) );
-}
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-static void makeLowerCase( std::string *s )
-{
-	std::transform( s->begin(), s->end(), s->begin(), make_lower );
-}
+#define	XDELETE( a )	{if ( NULL != (a) ) { delete a; a = NULL; } }
 //===========================================================================
 const	int 	ROSETTA::errorInt    = (-9991999);
+const	LINT 	ROSETTA::errorLint = (-9991999);
 const	bool	ROSETTA::errorBool   = false;
 const	double	ROSETTA::errorReal   = (-9.991999);
 const	std::string	ROSETTA::errorString = "";
@@ -42,8 +33,8 @@ const	XTIME	ROSETTA::errorTime( 1800, 1, 1, 0, 0, 0 );
 const	XBINOB	ROSETTA::errorBinob( -1, NULL );
 const	ROSETTA *ROSETTA::errorRosetta = NULL;
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-bool	(*ROSETTA::warningHandler)( std::string ) = NULL;
-bool	(*ROSETTA::errorHandler)( std::string ) = NULL;
+ROSETTA_ALERT	*ROSETTA::warningHandler = NULL;
+ROSETTA_ALERT	*ROSETTA::errorHandler   = NULL;
 //---------------------------------------------------------------------------
 bool ROSETTA::use_exceptions = true;
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -86,6 +77,7 @@ void ROSETTA::init( void )
 	case_sensitive = true;	// DEFAULT TO A<>a
 	allow_insert = true;
 	allow_update = true;
+	allow_mutable = false;
 	nchanges = 0;
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -94,36 +86,50 @@ ROSETTA::~ROSETTA( void )
 	clear();
 }
 //---------------------------------------------------------------------------
-void ROSETTA::setWarningHandler( bool (*handler)( std::string ) )
+void ROSETTA::setWarningHandler( ROSETTA_ALERT *handler )
 {
 	warningHandler = handler;
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-void ROSETTA::setErrorHandler( bool (*handler)( std::string ) )
+void ROSETTA::setErrorHandler( ROSETTA_ALERT *handler )
 {
 	errorHandler = handler;
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-void ROSETTA::warning( const std::string emsg ) const
+bool ROSETTA::hasWarningHandler( void )
 {
-	std::string	txt = std::string( "ROSETTA Warning: ") + emsg;
-	if ( NULL != warningHandler )
-		{warningHandler( txt );
-		}
-	else if ( usingExceptions() )
-		{throw( txt );
-		}
+	return( NULL != errorHandler );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-void ROSETTA::error( const std::string emsg ) const
+bool ROSETTA::hasErrorHandler( void )
 {
-	std::string	txt = std::string( "ROSETTA Error: ") + emsg;
-	if ( NULL != errorHandler )
-		{errorHandler( txt );
+	return( NULL != errorHandler );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool ROSETTA::warning( const int code, const std::string emsg ) const
+{
+	bool	carry_on = false;
+	std::string	txt = std::string( "ROSETTA Warning: ") + emsg;
+	if ( hasWarningHandler() )
+		{carry_on = warningHandler( this, code, txt );
 		}
 	else if ( usingExceptions() )
 		{throw( txt );
 		}
+	return( carry_on );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool ROSETTA::error( const int code, const std::string emsg ) const
+{
+	valid = false;		// ENSURE THIS IS SET BEFORE ANY EXCEPTION
+	std::string	txt = std::string( "ROSETTA Error: ") + emsg;
+	if ( hasErrorHandler() )
+		{errorHandler( this, code, txt );	// IGNORE RETURN VALUE
+		}
+	else if ( usingExceptions() )
+		{throw( txt );
+		}
+	return( false );
 }
 //---------------------------------------------------------------------------
 void ROSETTA::forceValid( void )
@@ -171,15 +177,26 @@ void ROSETTA::allowChanges( const bool allow )
 	allowUpdate( allow );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-void ROSETTA::caseSensitive( const bool cs )
+bool ROSETTA::canMutate( void ) const
+{
+	return( allow_mutable );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+void ROSETTA::allowMutate( const bool allow )
+{
+	allow_mutable = allow;
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool ROSETTA::caseSensitive( const bool cs )
 {
 	if ( pairs.empty() )
 		{case_sensitive = cs;
 		nchanges++;
+		return( true );
 		}
-	else
-		{error( "caseSensitive can only be modified on empty Rosetta");
-		}
+	error( ProblemForbiddenByRule,
+		"caseSensitive can only be modified on empty Rosetta");
+	return( false );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool ROSETTA::isCaseSensitive( void ) const
@@ -272,7 +289,7 @@ ROSE_BASE *ROSETTA::find( const std::string name, const bool warnOnFailure ) con
 			}
 		}
 	if ( warnOnFailure )
-		{error( std::string("member \"") + name
+		{error( ProblemNotFound, std::string("member \"") + name
 			+ std::string("\" not found") );
 		}
 	return( NULL );
@@ -305,14 +322,16 @@ ROSE_BASE *ROSETTA::findCompound( const std::string name, const bool warnOnFailu
 	free( first );
 	if ( NULL == b )
 		{if ( warnOnFailure )
-			{error( std::string("member \"") + name
+			{error( ProblemNotFound,
+				std::string("member \"") + name
 				+ std::string("\" not found") );
 			}
 		return( NULL );
 		}
 	if ( b->type() != typeRosetta )	     // NAME X.Y => X MUST BE A ROSETTA
 		{if ( warnOnFailure )
-			{error( "Rosetta member not a Rosetta" );
+			{error( ProblemUndesiredType,
+				"Rosetta member not a Rosetta" );
 			}
 		return( NULL );
 		}
@@ -324,10 +343,32 @@ bool ROSETTA::exists( const std::string name ) const
 {	return( NULL != findCompound( name, false ) );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+					/* CHANGE NAME OF AN ELEMENT */
+bool ROSETTA::rename( const std::string from, const std::string to )
+{
+	if ( to == from )
+		{return( true );
+		}
+	if ( ( ! canUpdate() ) || to.empty() || exists( to ) )
+		{return( false );
+		}
+	ROSE_BASE	*b = findCompound( from, false );
+	if ( NULL == b )
+		{return( false );
+		}
+	sorted = false;
+	return( b->rename( to ) );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 						/* RETURN NAME OF A PAIR */
 std::string ROSETTA::getName( const int index ) const
-{	return( ( index >= 0 && index < (int) pairs.size() )
-		? pairs[index]->id : std::string("") );
+{
+	if( index >= 0 && index < (int) pairs.size() )
+		{return( pairs[index]->id );
+		}
+	else
+		{return( "" );   	// beware BCB ?: move bug
+		}
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 						/* RETURN TYPE OF A PAIR */
@@ -423,8 +464,33 @@ bool ROSETTA::insert( const ROSETTA *extra )
 	int	n = extra->count();
 	bool	ok = true;
 	for ( i = 0; i < n; i++ )
-		{ok &= appendMember( extra->pairs[i]->copy( this ) );
+		{ok &= insertMember( extra, i );
 		}
+	return( ok );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool ROSETTA::insertMember( const ROSETTA *src, const int indx )
+{
+	if ( indx < 0 || indx >= src->count() )
+		{return( false );
+		}
+	ROSE_BASE	*b = src->pairs[indx];
+	if ( NULL == b )
+		{return( false );
+		}
+	bool	ok = remove( b->id );
+	ok &= appendMember( b->copy( this ) );
+	return( ok );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool ROSETTA::insertMember( const ROSETTA *src, const std::string name )
+{
+	ROSE_BASE	*b = src->findCompound( name, true );
+	if ( NULL == b )
+		{return( false );
+		}
+	bool	ok = remove( b->id );
+	ok &= appendMember( b->copy( this ) );
 	return( ok );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -475,22 +541,24 @@ bool ROSETTA::insertFiltered( const ROSETTA *extra, const ROSETTA_FILTER filter,
 	ROSE_BASE	*b;
 	for ( i = 0; i < n; i++ )
 		{b = extra->pairs[i];
-		if ( filter( b ) )
-			{if ( b->type() != typeRosetta || ! recurse )
-				{ok &= appendMember( b->copy( this ) );
+		if ( ! filter( b ) )
+			{continue;
+			}
+		remove( b->id );
+		if ( b->type() != typeRosetta || ! recurse )
+			{ok &= appendMember( b->copy( this ) );
+			}
+		else		// APPLY FILTER TO SUB-ROSETTA
+			{ROSETTA	*sub = new ROSETTA();
+			sub->insertFiltered( ((ROSE_ROSETTA *) b)->val,
+				filter, true );
+			if ( sub->isValid() )
+				{ok &= attachSubRosetta( b->getName(),
+					sub );
 				}
-			else		// APPLY FILTER TO SUB-ROSETTA
-				{ROSETTA	*sub = new ROSETTA();
-				sub->insertFiltered( ((ROSE_ROSETTA *) b)->val,
-					filter, true );
-				if ( sub->isValid() )
-					{ok &= attachSubRosetta( b->getName(),
-						sub );
-					}
-				else
-					{delete sub;
-					ok = false;
-					}
+			else
+				{delete sub;
+				ok = false;
 				}
 			}
 		}
@@ -501,11 +569,12 @@ bool ROSETTA::insertFiltered( const ROSETTA *extra, const ROSETTA_FILTER filter,
 bool ROSETTA::appendMember( ROSE_BASE *b )
 {
 	if ( NULL == b )
-		{error( "ROSETTA::appendMember, NULL" );
+		{error( ProblemLethalBug, "ROSETTA::appendMember, NULL" );
 		return( false );
 		}
 	if ( ! b->isValid() )
-		{error( "ROSETTA:appendMember, new member not valid" );
+		{error( ProblemLethalBug,
+			"ROSETTA:appendMember, new member not valid" );
 		return( false );
 		}
 	nchanges++;
@@ -520,7 +589,7 @@ bool ROSETTA::appendMember( ROSE_BASE *b )
 std::string ROSETTA::serializeOut( void ) const
 {
 	char	buf[30];
-	sprintf( buf, "[%d", pairs.size() ); // WRITE NPAIRS AS FIRST FIELD
+	sprintf( buf, "[%d", (int) pairs.size() ); // WRITE NPAIRS AS FIRST FIELD
 	std::string	ser = buf;
 	std::vector<ROSE_BASE *>::const_iterator it = pairs.begin();
 	while ( it != pairs.end() )
@@ -536,14 +605,14 @@ std::string ROSETTA::serializeOut( void ) const
 std::string ROSETTA::exportXML( const std::string name ) const
 {
 	char	buf[100];
-	sprintf( buf, "\" t=\"R\" members=\"%d\">", pairs.size() );
-	std::string	ser = std::string("\n<r n=\"") + name + buf;
+	sprintf( buf, "\" t=\"R\" members=\"%d\">", (int) pairs.size() );
+	std::string	ser = std::string("\n<v n=\"") + name + buf;
 	std::vector<ROSE_BASE *>::const_iterator it = pairs.begin();
 	while ( it != pairs.end() )
 		{ser += (*it)->exportXML();
 		it++;
 		}
-	ser += "\n</r>";
+	ser += "\n</v>";
 	return( ser );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -565,7 +634,7 @@ bool ROSETTA::checkInsert( void )
 		{nchanges++;
 		return( true );
 		}
-	error( "insert not allowed" );
+	error( ProblemForbiddenByOwner, "insert not allowed" );
 	return( false );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -575,20 +644,48 @@ bool ROSETTA::checkUpdate( void )
 		{nchanges++;
 		return( true );
 		}
-	error( "update not allowed" );
+	error( ProblemForbiddenByOwner, "update not allowed" );
 	return( false );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #define	CHECK_INSERT if ( !checkInsert() ){ return(NULL); }
 #define	CHECK_UPDATE if ( !checkUpdate() ){ return(NULL); }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool ROSETTA::setPRet( ROSE_BASE **pb, const std::string name, const int typ )
+{
+	*pb = NULL;
+	ROSE_BASE	*x = find( name, false );
+	if ( NULL == x )
+		{return( true );
+		}
+	if ( x->type() != typ )
+		{if ( allow_mutable )
+			{remove( name );
+			}
+		else
+			{error( ProblemUndesiredType,
+				"cannot change member type" );
+			return( false );
+			}
+		}
+	else
+		{*pb = x;
+		}
+	return( true );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ROSE_BASE *ROSETTA::setFlagPRet( const std::string name )
 {
-	ROSE_FLAG	*b = (ROSE_FLAG *) find( name, false );
-	if ( NULL == b )
+	ROSE_FLAG	*b = NULL;
+	if ( ! setPRet( (ROSE_BASE **) &b, name, typeFlag ) )
+		{return( NULL );
+		}
+	if ( NULL == b )	// IF b<>NULL, MUST ALREADY BE SET TO FLAG
 		{CHECK_INSERT;
 		b = new ROSE_FLAG( this, name );
-		appendMember( b );
+		if ( ! appendMember( b ) )
+			{XDELETE( b );
+			}
 		}	// FLAGS ARE NOT UPDATED SINCE THEY HAVE NO VALUE
 	return( b );
 }
@@ -599,11 +696,16 @@ bool ROSETTA::setFlag( const std::string name )
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ROSE_BASE *ROSETTA::setIntPRet( const std::string name, const int value )
 {
-	ROSE_INT	*b = (ROSE_INT *) find( name, false );
+	ROSE_INT	*b = NULL;
+	if ( ! setPRet( (ROSE_BASE **) &b, name, typeInt ) )
+		{return( NULL );
+		}
 	if ( NULL == b )
 		{CHECK_INSERT;
 		b = new ROSE_INT( this, name, value );
-		appendMember( b );
+		if ( ! appendMember( b ) )
+			{XDELETE( b );
+			}
 		}
 	else
 		{CHECK_UPDATE;
@@ -616,13 +718,42 @@ bool ROSETTA::setInt( const std::string name, const int value )
 {	return( NULL != setIntPRet( name, value ) );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ROSE_BASE *ROSETTA::setLintPRet( const std::string name, const LINT value )
+{
+	ROSE_LINT	*b = NULL;
+	if ( ! setPRet( (ROSE_BASE **) &b, name, typeLint ) )
+		{return( NULL );
+		}
+	if ( NULL == b )
+		{CHECK_INSERT;
+		b = new ROSE_LINT( this, name, value );
+		if ( ! appendMember( b ) )
+			{XDELETE( b );
+			}
+		}
+	else
+		{CHECK_UPDATE;
+		b->setLint( value );
+		}
+	return( b );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool ROSETTA::setLint( const std::string name, const LINT value )
+{	return( NULL != setLintPRet( name, value ) );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ROSE_BASE *ROSETTA::setBoolPRet( const std::string name, const bool value )
 {
-	ROSE_BOOL	*b = (ROSE_BOOL *) find( name, false );
+	ROSE_BOOL	*b = NULL;
+	if ( ! setPRet( (ROSE_BASE **) &b, name, typeBool ) )
+		{return( NULL );
+		}
 	if ( NULL == b )
 		{CHECK_INSERT;
 		b = new ROSE_BOOL( this, name, value );
-		appendMember( b );
+		if ( ! appendMember( b ) )
+			{XDELETE( b );
+			}
 		}
 	else
 		{CHECK_UPDATE;
@@ -637,11 +768,16 @@ bool ROSETTA::setBool( const std::string name, const bool value )
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ROSE_BASE *ROSETTA::setRealPRet( const std::string name, const double value )
 {
-	ROSE_REAL	*b = (ROSE_REAL *) find( name, false );
+	ROSE_REAL	*b = NULL;
+	if ( ! setPRet( (ROSE_BASE **) &b, name, typeReal ) )
+		{return( NULL );
+		}
 	if ( NULL == b )
 		{CHECK_INSERT;
 		b = new ROSE_REAL( this, name, value );
-		appendMember( b );
+		if ( ! appendMember( b ) )
+			{XDELETE( b );
+			}
 		}
 	else
 		{CHECK_UPDATE;
@@ -656,11 +792,16 @@ bool ROSETTA::setReal( const std::string name, const double value )
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ROSE_BASE *ROSETTA::setStringPRet( const std::string name, const std::string value )
 {
-	ROSE_STRING	*b = (ROSE_STRING *) find( name, false );
+	ROSE_STRING	*b = NULL;
+	if ( ! setPRet( (ROSE_BASE **) &b, name, typeString ) )
+		{return( NULL );
+		}
 	if ( NULL == b )
 		{CHECK_INSERT;
 		b = new ROSE_STRING( this, name, value );
-		appendMember( b );
+		if ( ! appendMember( b ) )
+			{XDELETE( b );
+			}
 		}
 	else
 		{CHECK_UPDATE;
@@ -675,11 +816,16 @@ bool ROSETTA::setString( const std::string name, const std::string value )
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ROSE_BASE *ROSETTA::setDatePRet( const std::string name, const XDATE value )
 {
-	ROSE_XDATE	*b = (ROSE_XDATE *) find( name, false );
+	ROSE_XDATE	*b = NULL;
+	if ( ! setPRet( (ROSE_BASE **) &b, name, typeDate ) )
+		{return( NULL );
+		}
 	if ( NULL == b )
 		{CHECK_INSERT;
 		b = new ROSE_XDATE( this, name, value );
-		appendMember( b );
+		if ( ! appendMember( b ) )
+			{XDELETE( b );
+			}
 		}
 	else
 		{CHECK_UPDATE;
@@ -694,11 +840,16 @@ bool ROSETTA::setDate( const std::string name, const XDATE value )
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ROSE_BASE *ROSETTA::setTimePRet( const std::string name, const XTIME value )
 {
-	ROSE_XTIME	*b = (ROSE_XTIME *) find( name, false );
+	ROSE_XTIME	*b = NULL;
+	if ( ! setPRet( (ROSE_BASE **) &b, name, typeTime ) )
+		{return( NULL );
+		}
 	if ( NULL == b )
 		{CHECK_INSERT;
 		b = new ROSE_XTIME( this, name, value );
-		appendMember( b );
+		if ( ! appendMember( b ) )
+			{XDELETE( b );
+			}
 		}
 	else
 		{CHECK_UPDATE;
@@ -713,11 +864,16 @@ bool ROSETTA::setTime( const std::string name, const XTIME value )
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ROSE_BASE *ROSETTA::setBinobPRet( const std::string name, const XBINOB value )
 {
-	ROSE_XBINOB	*b = (ROSE_XBINOB *) find( name, false );
+	ROSE_XBINOB	*b = NULL;
+	if ( ! setPRet( (ROSE_BASE **) &b, name, typeBinob ) )
+		{return( NULL );
+		}
 	if ( NULL == b )
 		{CHECK_INSERT;
 		b = new ROSE_XBINOB( this, name, value );
-		appendMember( b );
+		if ( ! appendMember( b ) )
+			{XDELETE( b );
+			}
 		}
 	else
 		{CHECK_UPDATE;
@@ -732,11 +888,16 @@ bool ROSETTA::setBinob( const std::string name, const XBINOB value )
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ROSE_BASE *ROSETTA::setRosettaPRet( const std::string name, const ROSETTA * value )
 {
-	ROSE_ROSETTA	*b = (ROSE_ROSETTA *) find( name, false );
+	ROSE_ROSETTA	*b = NULL;
+	if ( ! setPRet( (ROSE_BASE **) &b, name, typeRosetta ) )
+		{return( NULL );
+		}
 	if ( NULL == b )
 		{CHECK_INSERT;
 		b = new ROSE_ROSETTA( this, name, value );
-		appendMember( b );
+		if ( ! appendMember( b ) )
+			{XDELETE( b );
+			}
 		}
 	else
 		{CHECK_UPDATE;
@@ -769,8 +930,7 @@ bool ROSETTA::attachSubRosetta( const std::string name, ROSETTA *sub )
 	else
 		{b = new ROSE_ROSETTA( this, name );
 		if ( NULL == b || ! b->isValid() ) 	// ILLEGAL NAME
-			{delete b;
-			b = NULL;
+			{XDELETE( b );
 			return( false );
 			}
 		if ( ! checkInsert() )
@@ -802,8 +962,11 @@ t ROSETTA::get##x ( const std::string name ) const			\
 	return( ( NULL != b ) ? b->get##x () : (t) error##x );		\
 }									\
 t ROSETTA::get##x ( const int index ) const				\
-{return( ( index>=0 && index<(int)pairs.size() )			\
-	? pairs[index]->get##x () : (t) error##x ); 			\
+{	if ( index >= 0 && index < (int)pairs.size() )			\
+		{return( pairs[index]->get##x () );			\
+		}							\
+	error( ProblemNotFound, "get" #x ", index out-of-range");				\
+	return( (t) error##x );                                         \
 }									\
 t ROSETTA::get##x##Default ( const std::string name, t def ) const 	\
 {	ROSE_BASE *b = findCompound( name, false );			\
@@ -812,6 +975,12 @@ t ROSETTA::get##x##Default ( const std::string name, t def ) const 	\
 t ROSETTA::get##x##Default ( const int index, t def ) const		\
 {return( ( index>=0 && index<(int)pairs.size() )			\
 	? pairs[index]->get##x () : def );	 			\
+}									\
+bool ROSETTA::is##x ( const std::string name ) const			\
+{	return( ROSETTA::type##x == getType( name ) );		\
+}									\
+bool ROSETTA::is##x ( const int index ) const				\
+{	return( ROSETTA::type##x == getType( index ) );		\
 }									\
 bool ROSETTA::insert##x ( const ROSETTA &src, const std::string name )  \
 {	ROSE_BASE	*b = src.findCompound( name, true );		\
@@ -822,6 +991,7 @@ bool ROSETTA::insert##x ( const ROSETTA &src, const std::string name )  \
 	return( true );							\
 }
 INOUT(int,Int)
+INOUT(LINT,Lint)
 INOUT(bool,Bool)
 INOUT(double,Real)
 INOUT(std::string,String)
@@ -840,7 +1010,8 @@ const t *ROSETTA::pointer##x ( const std::string name ) const           \
 const t *ROSETTA::pointer##x ( const int index ) const                  \
 {                                                                       \
 	if ( index < 0 || index >= (int)pairs.size() )                  \
-		{return( NULL );                                        \
+		{error( ProblemNotFound, "pointer" #x ", index out-of-range"); \
+		return( NULL );                                         \
 		}                                                       \
 	ROSE_BASE *b = pairs[index];                                    \
 	return( ( b->type() == type##x )                                \
@@ -851,6 +1022,19 @@ PGET(XDATE,Date,ROSE_XDATE)
 PGET(XTIME,Time,ROSE_XTIME)
 PGET(XBINOB,Binob,ROSE_XBINOB)
 #undef PGET
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+const ROSE_BASE *ROSETTA::pointerRoseBase( const std::string name ) const
+{
+	return( (const ROSE_BASE *) findCompound( name, false ) );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+const ROSE_BASE *ROSETTA::pointerRoseBase( const int index ) const
+{
+	if ( index < 0 || index >= (int)pairs.size() )
+		{return( NULL );
+		}
+	return( (const ROSE_BASE *) pairs[index] );
+}
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ROSETTA *ROSETTA::pointerRosetta( const std::string name ) const
 {	ROSE_BASE *b = findCompound( name, true );
@@ -867,18 +1051,6 @@ ROSETTA *ROSETTA::pointerRosetta( const int index ) const
 	return( ( b->type() == typeRosetta )? ((ROSE_ROSETTA *)b)->val : NULL );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-static int offset( char *s, char seek )
-{
-	int	count = 0;
-	while ( s[count] != '\0' )
-		{if ( s[count] == seek )
-			{return( count );
-			}
-		count++;
-		}
-	return( -1 );
-}
-//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool ROSETTA::serializeInMember( const int typ, const char *nam, char *sval )
 {
 	ROSE_BASE	*b = NULL;
@@ -888,7 +1060,9 @@ bool ROSETTA::serializeInMember( const int typ, const char *nam, char *sval )
 	else if ( typeString == typ )
 		{b = setStringPRet( nam, errorString.c_str() );
 		if ( ! b->decodeURL( sval ) )
-			{return( false );
+			{error( ProblemDeserialize,
+				"serializeInMember, decodeURL failure" );
+			return( false );
 			}
 		}
 	else if ( typeDate == typ )
@@ -896,6 +1070,9 @@ bool ROSETTA::serializeInMember( const int typ, const char *nam, char *sval )
 		}
 	else if ( typeTime == typ )
 		{b = setTimePRet( nam, (XTIME) errorTime );
+		}
+	else if ( typeLint == typ )
+		{b = setLintPRet( nam, (LINT) errorLint );
 		}
 	else if ( typeBinob == typ )
 		{b = setBinobPRet( nam, (XBINOB) errorBinob );
@@ -913,9 +1090,20 @@ bool ROSETTA::serializeInMember( const int typ, const char *nam, char *sval )
 		{b = setFlagPRet( nam );
 		}
 	if ( NULL == b )
-		{return( false );
+		{char	ebuf[100];
+		sprintf( ebuf, "serializeInMember, unrecognised type %d ('%c')",
+			typ, (char) typ );
+		error( ProblemDeserialize, ebuf );
+		return( false );
 		}
-	return( b->serializeInValue( sval ) );
+	bool	ok = b->serializeInValue( sval );
+	if ( ! ok )
+		{std::string	e = std::string(
+			"serializeInValue, failed on member \"" )
+			+ nam + std::string( "\"" );
+		error( ProblemDeserialize, e );
+		}
+	return( ok );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool ROSETTA::serializeInSplit( char *c, const bool stop_on_error )
@@ -925,12 +1113,15 @@ bool ROSETTA::serializeInSplit( char *c, const bool stop_on_error )
 		{c++;
 		}
 	if ( *c != AND )
-		{return( false );
+		{error( ProblemDeserialize, "Serialization is missing '&'" );
+		return( false );
 		}
 	*c++ = EOS;
 	int	npairs_expected = atoi( init );
 	if ( npairs_expected < 1 )
-		{return( false );
+		{error( ProblemDeserialize,
+			"Serialization has npairs_expected < 1" );
+		return( false );
 		}
 	char	*name, *value;
 	int	typ, nesting;
@@ -940,21 +1131,27 @@ bool ROSETTA::serializeInSplit( char *c, const bool stop_on_error )
 	do					// EXTRACT TYPE#NAME=VALUE&
 		{typ = (int) *c++;		// TYPE IS ALWAYS SINGLE BYTE
 		if ( *c++ != HASH )
-			{return( false );
+			{error( ProblemDeserialize,
+				"Serialization is missing '#'" );
+			return( false );
 			}
 		name = c; 	   			// ISOLATE NAME
 		while ( isalnum( *c ) || UNDERSCORE == *c )
 			{c++;
 			}
 		if ( EQUALS != *c || name == c )
-			{return( false );
+			{error( ProblemDeserialize,
+			"Serialization contains invalid/unterminated name" );
+			return( false );
 			}
 		*c++ = EOS;
 		value = c;				// ISOLATE VALUE
 		nesting = 0;
 		while( ( *c != AND && *c != RSB ) || nesting > 0 )
 			{if ( EOS == *c )		// PREMATURE END
-				{return( false );
+				{error( ProblemDeserialize,
+					"Serialization ends prematurely" );
+				return( false );
 				}
 			if ( LSB == *c )
 				{nesting++;
@@ -979,10 +1176,22 @@ bool ROSETTA::serializeInSplit( char *c, const bool stop_on_error )
 		count++;
 		}
 		while( more );
-	if ( ( ! ok ) || *c != EOS )
-		{return( false );	// EXTRA CHARACTERS AFTER ']'
+	if ( ! ok )
+		{return( false );	// ERROR MESSAGE PROVIDED ELSEWHERE	
 		}
-	return( count == npairs_expected );
+	if ( *c != EOS )
+		{error( ProblemDeserialize,
+			"Serialization has spurious extra characters at end" );
+		return( false );	// EXTRA CHARACTERS AFTER ']'
+		}
+	if ( count != npairs_expected )
+		{char	ebuf[200];
+		sprintf( ebuf, "Serialization has count(%d) <> npairs_expected(%d)",
+			count, npairs_expected );
+		error( ProblemDeserialize, ebuf );
+		return( false );
+		}
+	return( true );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	/* RE-CONSTRUCT OBJECT FROM SERIALIZATION, APPENDING CONTENTS */
@@ -995,17 +1204,22 @@ bool ROSETTA::serializeIn( const std::string serial_in,
 		}
 	const char	*serial = serial_in.c_str();
 	if ( *serial != '[' )
-		{valid = false;
+		{error( ProblemDeserialize, "Serialization does not begin '['");
+		valid = false;
 		return( false );
 		}
 	int	len = strlen( serial );
 	char	*c = (char *) malloc( len + 1 );
 	if ( NULL == c )
-		{valid = false;
+		{error( ProblemLethalBug, "Malloc failure during serializeIn" );
+		valid = false;
 		return( false );
 		}
 	strcpy( c, serial+1 );			// CREATE MODIFY-ABLE BUFFER
 	bool	ok = serializeInSplit( c, stop_on_error );
+	if ( ! ok )
+		{error( ProblemDeserialize, "Deserialization failure" );
+		}
 	free( c );
 	valid &= ok;
 	return( ok );
@@ -1053,7 +1267,7 @@ static char rosettaMakeLower( char c )
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 static char rosettaMakeUpper( char c )
-{	return( (char) tolower( c ) );
+{	return( (char) toupper( c ) );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void ROSETTA::makeLowerCase( std::string *s )
@@ -1062,6 +1276,13 @@ void ROSETTA::makeLowerCase( std::string *s )
 		{return;
 		}
 	std::transform( s->begin(), s->end(), s->begin(), rosettaMakeLower );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+std::string ROSETTA::toLowerCase( const std::string s )
+{
+	std::string	tmp = s;
+	ROSETTA::makeLowerCase( &tmp );
+	return( tmp );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void ROSETTA::makeUpperCase( std::string *s )

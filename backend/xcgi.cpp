@@ -4,34 +4,59 @@
 /*		UTILITIES FOR CONSTRUCTING CGI SCRIPTS			*/
 /*===========================================================================*/
 #include <stdio.h>
-#include <stdlib.h>
-#include <cstring>
 #include <stdarg.h>
-#include "xbasic.h"
+#include <stdlib.h>
+#include <string.h>
 #include "xtime.h"
 #include "xcgi.h"
-
 /*===========================================================================*/
 #ifndef __BORLANDC__
 #define	stricmp	strcasecmp
 #endif
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-int    	XCGI::debug = 1;
-char	*XCGI::logname = "xcgi.log";
+int    	XCGI::debug = 0;
+char const *XCGI::logname = "xcgi.log";
 int	XCGI::max_param_num = 1000;		// CRASH PREVENTION LIMITS
 int	XCGI::max_param_len = 3000;
 int	XCGI::max_param_totlen = 50000;
+/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+static bool XCGI_ROSETTA_warning_handler( const ROSETTA *r, const int code,
+	const std::string msg )
+{
+	printf( "\n<!-- ROSETTA WARNING %s code=%d msg=\"%s\" -->",
+		( NULL == r ) ? "(NULL!)" : "",	code, msg.c_str() );
+	fflush( stdout );
+	return( true );
+}
+/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+static bool XCGI_ROSETTA_error_handler( const ROSETTA *r, const int code,
+	const std::string msg )
+{
+	printf( "\n<!-- ROSETTA ERROR %s code=%d msg=\"%s\" -->",
+		( NULL == r ) ? "(NULL!)" : "",	code, msg.c_str() );
+	printf( "\n<p>Sorry, an internal server error has occurred :-(<p>"
+		"</html>" );
+	fflush( stdout );
+	exit( EXIT_SUCCESS );
+	return( false );
+}
 /*===========================================================================*/
 				/* INITIALIZE SYSTEM AND GET PARAMETERS */
 XCGI::XCGI( int ac, char **av )
 	:
-	is_valid( true ),
+	XERROR( "XCGI" ),
 	method( methodError ),
 	flog( NULL )
 {	int	i, content_length;
 	char	*pbuf;
-	FILE	*fi;
+	FILE	*fi = NULL;
 	setvbuf( stdout, NULL, _IONBF, 0 );		// DISABLE BUFFERING
+	if ( ! ROSETTA::hasWarningHandler() )		// REDUCE SILENT CRASHES
+		{ROSETTA::setWarningHandler( XCGI_ROSETTA_warning_handler );
+		}
+	if ( ! ROSETTA::hasErrorHandler() )
+		{ROSETTA::setErrorHandler( XCGI_ROSETTA_error_handler );
+		}
 	char	*mev = getenv( "REQUEST_METHOD" );
 	if ( NULL == mev )
 		{
@@ -40,9 +65,16 @@ XCGI::XCGI( int ac, char **av )
 				av[2], "r" ) ) )
 			{
 			method = methodFile;
-			pbuf = (char *) malloc( 5002 );
-			fgets( pbuf, 5000, fi );
+			pbuf = (char *) malloc( 10002 );
+			fgets( pbuf, 10000, fi );
 			fclose( fi );
+			pbuf[10000] = 0;
+			fi = NULL;
+			int	len = strlen( pbuf );
+			while ( --len > 0 && ( '\n' == pbuf[len]
+					|| '\r' == pbuf[len] ) )
+				{pbuf[len] = 0;	// REMOVE TRAILING \n AND \r
+				}
 			}
 		else if ( ac > 2 && 0 == strcmp( "-qs", av[1] ) )
 			{
@@ -57,7 +89,6 @@ XCGI::XCGI( int ac, char **av )
 		"\n\"-qs param\"  uses `param' as QUERY_STRING" );
 			endFail(
 	"Client not using a supported CGI method to request data." );
-			is_valid = false;
 			exit( EXIT_SUCCESS );	// IMMEDIATE EXIT
 			}
 		splitParams( pbuf );
@@ -79,7 +110,7 @@ XCGI::XCGI( int ac, char **av )
 			endFail("too much input transmitted by script" );
 			}
 		for ( i = 0; i < content_length; i++ )
-			{pbuf[i] = fgetc( stdin );
+			{pbuf[i] = (char) fgetc( stdin );
 			}
 		pbuf[ content_length ] = 0;
 		splitParams( pbuf );
@@ -94,6 +125,10 @@ XCGI::XCGI( int ac, char **av )
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 XCGI::~XCGI( void )
 {
+	if ( NULL != flog )
+		{fclose( flog );
+		flog = NULL;
+		}
 }
 /*===========================================================================*/
 void XCGI::flush( void ) const
@@ -102,22 +137,32 @@ void XCGI::flush( void ) const
 }
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 					/* WRITE LOG OF INTERNAL MESSAGES */
-void XCGI::log( const char *txt, ... )
-{	time_t	tnow;
-	va_list	args;				// VARIABLE ARGUMENT LIST
-	time( &tnow );
-	if ( NULL == ( flog = fopen( logname, "w" ) ) )
-		{return;			// NO LOGGING POSSIBLE
-		}
-	fprintf( flog, "\n\nLogtime %s\n", ctime( &tnow ) );
-	va_start( args, txt );
-	vfprintf( flog, txt, args );
-	va_end( args );				// TIDY ARGUMENT LIST
-}
-/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-bool XCGI::isValid( void ) const
+bool XCGI::log( const char *txt, ... )
 {
-	return( is_valid );
+	bool	ok = true;
+	static	int	log_count = 0;
+	time_t	tnow;
+	time( &tnow );
+	try
+		{va_list	args;			// VARIABLE ARGUMENT LIST
+		if ( NULL == flog )
+			{flog = fopen( logname, "w" );
+			}
+		if ( NULL == flog )
+			{return( false ); 	// NO LOGGING POSSIBLE
+			}
+		fprintf( flog, "\n\nLog-item %d %s\n",
+			++log_count, ctime( &tnow ) );
+		fflush( flog );
+		va_start( args, txt );
+		vfprintf( flog, txt, args );
+		va_end( args );		  	// TIDY ARGUMENT LIST
+		fflush( flog );
+		}
+	catch ( ... )
+		{ok = false;
+		}
+	return( ok );
 }
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 						/* SET INTERNAL DEBUG VALUE */
@@ -158,41 +203,55 @@ std::string XCGI::getMethodName( void ) const
 		}
 	return( "BUG" );
 }
+/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+std::string XCGI::getEnvVar( const std::string name )
+{
+	const	char	*tmp = getenv( name.c_str() );
+	if ( NULL == tmp || 0 == *tmp )
+		{return( "" );
+		}
+	return( std::string( tmp ) );
+}
 /*---------------------------------------------------------------------------*/
 			/* READ FILE AND COPY VERBATIM TO OUTPUT STREAM */
-void XCGI::verbatim( const char *vfname )
+bool XCGI::verbatim( const std::string vfname, const bool notify_fail )
 {       int	c;
-	FILE	*fi;
 	flush();
-	if ( NULL == ( fi = fopen( vfname, "r" ) ) )
-		{log( "xcgi_verbatim, unable to find file \"%s\"",
-			vfname );
-		printf( "\n<p><hr><b>SERVER ERROR</b><br>" );
-		printf( "<i>Unable to include document</i> " );
-		printf( "\n<tt>%s</tt><hr><p>\n", vfname );
-		return;
+	FILE	*fi = fopen( vfname.c_str(), "r" );
+	if ( NULL == fi )
+		{if ( notify_fail )
+			{
+			log( "xcgi_verbatim, unable to find file \"%s\"",
+				vfname.c_str() );
+			printf( "\n<p><hr><b>SERVER ERROR</b><br>" );
+			printf( "<i>Unable to include document</i> " );
+			printf( "\n<tt>%s</tt><hr><p>\n", vfname.c_str() );
+			}
+		return( false );
 		}
 	while ( EOF != ( c = fgetc( fi ) ) )
 		{fputc( c, stdout );	/* READ THEN WRITE EACH CHARACTER */
 		}
 	flush();
 	fclose( fi );
+	return( true );
 }
 /*---------------------------------------------------------------------------*/
 							/* EXIT NICELY */
 void XCGI::end( void )
-{       long	i;
+{       
 	flush();
 	if ( NULL != flog )
 		{fclose( flog );
+		flog = NULL;
 		}
 }
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 				/* TERMINATE DODGY REQUEST AND EXIT */
-void XCGI::endFail( const char *err_txt )
+void XCGI::endFail( const std::string err_txt )
 {
-	is_valid = false;
-	log( err_txt );
+	setInvalid( err_txt );
+	log( err_txt.c_str() );
 	end();
 }
 /*---------------------------------------------------------------------------*/
@@ -310,13 +369,16 @@ void XCGI::splitParams( const char *prm )
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 bool XCGI::paramExists( const std::string pname ) const
 {
-	return( ROSETTA::typeString == param.getType( pname ) );
+	return( param.isString( pname ) );
 }
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-int XCGI::paramAsInt( const std::string pname ) const
+int XCGI::getParamAsIntDefault( const std::string pname, const int def ) const
 {
-	if ( ROSETTA::typeString != param.getType( pname ) )
-		{return( invalidInt );
+	if ( param.isInt( pname ) )	// SHOULDN'T HAPPEN, BUT CODED ANYWAY
+		{return( param.getInt( pname ) );
+		}
+	if ( ! param.isString( pname ) )
+		{return( def );
 		}
 	std::string	v = param.getString( pname );
 	const	char	*s = v.c_str();
@@ -325,11 +387,27 @@ int XCGI::paramAsInt( const std::string pname ) const
 		}
 	while ( 0 != *s )
 		{if ( ! isdigit( *s ) )
-			{return( invalidInt );
+			{return( def );
 			}
 		s++;
 		}
 	return( atoi( v.c_str() ) );
+}
+/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+int XCGI::getParamAsInt( const std::string pname ) const
+{
+	return( getParamAsIntDefault( pname, invalidInt ) );
+}
+/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+std::string XCGI::getParamDefault( const std::string pname,
+	const std::string def ) const
+{
+	return( param.isString( pname )	? param.getString( pname ) : def );
+}
+/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+std::string XCGI::getParam( const std::string pname ) const
+{
+	return( getParamDefault( pname, "" ) );
 }
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 						/* FIND DATA RECEIPT METHOD */
@@ -338,33 +416,43 @@ int XCGI::findMethod( void )
 	return( methodUnknown );
 }
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+void XCGI::writeHeaderCustom( const std::string mf )
+{
+	printf( "content-type: %s\n\n", mf.c_str() );
+	log( "Mime format = \"%s\"", mf.c_str() );
+	flush();
+}
+/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 				/* WRITE INITIAL MIME HEADER TO OUTPUT */
 void XCGI::writeHeader( const int typ )
-{      
-	char	*mime_fmt;
+{
+	char const *mime_fmt = "?";
 	if ( typeHtml == typ  )
 		{mime_fmt = "text/html";
-		printf( "content-type: text/html\n\n" );
+		}		
+	else if ( typeJpeg == typ )
+		{mime_fmt = "text/jpeg";
 		}
 	else if ( typePlain == typ )
 		{mime_fmt = "text/plain";
-		printf( "content-type: text/plain\n\n" );
+		}
+	else if ( typePNG == typ )
+		{mime_fmt = "text/png";
+		}
+	else if ( typeGif == typ )
+		{mime_fmt = "image/gif";
 		}
 	else if ( typeTiff == typ )
 		{mime_fmt = "image/tiff";
-		printf( "content-type: image/tiff\n\n" );
 		}
-    else if ( typeJSON == typ )
-        {mime_fmt = "application/json";
-        printf( "content-type: application/json\n\n" );
-        }
+	else if ( typeXmlText == typ )	// N.B. OTHER XML MIME-TYPES EXIST
+		{mime_fmt = "text/xml";
+		}
 	else
 		{mime_fmt = "text/plain";
-		printf( "content-type: text/plain\n\n" );
 		log( "unrecognized format type=%d", typ );
 		}
-	log( "Mime format = \"%s\"", mime_fmt );
-	flush();
+	writeHeaderCustom( mime_fmt );
 }
 /*---------------------------------------------------------------------------*/
 				/* SHOW ALL PARAMETERS AS COMMENTS IN OUTPUT */
@@ -379,5 +467,56 @@ void XCGI::paramShowall( void )
 		}
 	printf( "\n" );
 }
+/*---------------------------------------------------------------------------*/
+int XCGI::escapeLength( const char *s, const int maxlen )
+{			// RETURN LENGTH OF APPARENTLY VALID ESCAPE SEQUENCE
+	int	nalpha = 0;
+	while ( nalpha < maxlen && isalpha( s[nalpha] ) )
+		{nalpha++;
+		}
+	return( ( nalpha > 0 && nalpha < maxlen && ';' == s[nalpha] )
+		? ( nalpha + 1 ) : 0 );
+}
+/*---------------------------------------------------------------------------*/
+	/* CONVERT `UNSAFE' HTML2.0 CHARACTERS TO HTML-FRIENDLY FORMS */
+std::string XCGI::makeWebSafe( const std::string raw )
+{
+	int	i = 0;
+	int	j, na;
+	int	len = raw.size();
+	const	char	*c = raw.c_str();
+	std::string	clean;
+	while ( i < len )
+		{switch( c[i] )
+			{
+			case '<':
+				clean += "&lt;";
+				break;
+			case '>':
+				clean += "&gt;";
+				break;
+			case '&':
+				na = escapeLength( c+i+1, len-i );
+				if ( na > 0 )
+					{for ( j = 0; j <= na; j++ )
+						{clean += c[i+j];
+						}
+					i += na;
+					}
+				else
+					{clean += "&amp;";
+					}
+				break;
+			case '\"':
+				clean += "&quot;";
+				break;
+			default:
+				clean += (char) c[i];
+				break;
+			}
+		i++;
+		}
+	return( clean );
+}
 /*===========================================================================*/
-#endif                                                  	/* XCGI.C */
+#endif                                                  	/* XCGI.CPP */

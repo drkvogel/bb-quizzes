@@ -3,11 +3,24 @@
 #include "xdb.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <cstring>
+#include <string.h>
+#if X_BDE
+#include "xuc.h"
+#endif
 //===========================================================================
 XQUERY::XQUERY( XDB *db, const std::string query )
 	:
-	XSQL( db, query )
+	XSQL( db, query ),
+	accept_null( false ),
+	read_only( true ),
+	fetching_blobs( false ),
+	batch_nrows( 100 ),
+#if X_ING
+	ing_val( NULL ),
+	ing_buf( NULL ),
+#endif
+	buffered_rows( 0 ),
+	buffer_curow( 0 )
 {
 	result.caseSensitive( false );
 	res_ptr = &result;
@@ -21,7 +34,9 @@ XQUERY::XQUERY( XDB *db, const std::string query )
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 XQUERY::~XQUERY( void )
 {
-	close();
+	if ( isOpen() )
+		{close();
+		}
 #if X_BDE
 	if ( NULL != qry )
 		{qry->Tag = 0;		// MARK FOR RE-ALLOCATION BY DATABASE OBJECT
@@ -42,10 +57,42 @@ bool XQUERY::isOpen( void )
 #endif
 	return( is_open );
 }
-//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-int XQUERY::getNRows( void )
+//---------------------------------------------------------------------------
+void XQUERY::setAcceptNull( const bool acc_nul )
 {
-	return( nrows_fetched );
+	accept_null = acc_nul;
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XQUERY::getAcceptNull( void ) const
+{
+	return( accept_null );
+}
+//---------------------------------------------------------------------------
+void XQUERY::setReadOnly( const bool ro )
+{
+	read_only = ro;
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XQUERY::getReadOnly( void ) const
+{
+	return( read_only );
+}
+//---------------------------------------------------------------------------
+bool XQUERY::setBatch( const int bat )
+{
+	if ( isOpen() )
+		{return( false );
+		}
+	if ( bat < 0 || bat > 10000 )
+		{return( false );
+		}
+	batch_nrows = bat;
+	return( true );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+int XQUERY::getBatch( void ) const
+{
+	return( batch_nrows );
 }
 //---------------------------------------------------------------------------
 #if X_BDE
@@ -83,21 +130,29 @@ const char *XQUERY::ingPlaceholder( void )
 	return( " ~V " );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-bool XQUERY::ingOpen( void )
+bool XQUERY::ingOpenCursor( void )
 {
 	bool	ok = true;
 	IIAPI_SETDESCRPARM 	setDescrParm;
 	IIAPI_PUTPARMPARM 	putParmParm;
+	IIAPI_WAITPARM	waitParm = { -1 };
 	queryParm.qy_genParm.gp_callback = NULL;
 	queryParm.qy_genParm.gp_closure = NULL;
 	queryParm.qy_connHandle = database->getConnHandle();
 	queryParm.qy_queryType  = IIAPI_QT_OPEN;
-	queryParm.qy_queryText  = ( char * ) malloc( query_text.size() + 1 );
+	queryParm.qy_queryText  = (char *) malloc( query_text.size() + 20 );
 	strcpy( queryParm.qy_queryText, query_text.c_str() );
+	if ( read_only )
+		{strcat( queryParm.qy_queryText, " FOR READONLY" );
+		}
 	queryParm.qy_parameters = TRUE;
 	queryParm.qy_tranHandle = database->getTranHandle();
 	queryParm.qy_stmtHandle = NULL;
+	queryParm.qy_flags = 0; 		// FORWARD-PASS-CURSOR
 	IIapi_query( &queryParm );		// INVOKE OPENAPI
+	while( FALSE == queryParm.qy_genParm.gp_completed )
+		{IIapi_wait( &waitParm );
+		}
 	database->setTranHandle( queryParm.qy_tranHandle );
 	if ( ! ingGetResult( &queryParm.qy_genParm ) )
 		{return( false );
@@ -155,28 +210,150 @@ bool XQUERY::ingOpen( void )
 		{ingClose();
 		return( false );
 		}
+	int	i;
+	fetching_blobs = false;
+	for ( i = 0; i < getDescrParm.gd_descriptorCount; i++ )
+		{switch( getDescrParm.gd_descriptor[i].ds_dataType )
+			{
+			case IIAPI_LVCH_TYPE:
+			case IIAPI_LBYTE_TYPE:
+				fetching_blobs = true;
+				break;
+			default:
+				break;
+			}
+		}
 	if ( ! ingBufInit() )
 		{ingClose();
 		return( false );
 		}
+	buffered_rows = 0;
+	buffer_curow = 0;
 	is_open = true;
 	return( true );
 }
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XQUERY::ingOpenSelect( void )
+{
+	bool	ok = true;
+	IIAPI_SETDESCRPARM 	setDescrParm;
+	IIAPI_PUTPARMPARM 	putParmParm;
+	IIAPI_WAITPARM	waitParm = { -1 };
+	queryParm.qy_genParm.gp_callback = NULL;
+	queryParm.qy_genParm.gp_closure = NULL;
+	queryParm.qy_connHandle = database->getConnHandle();
+	queryParm.qy_queryType  = IIAPI_QT_QUERY;
+	queryParm.qy_queryText  = (char *) malloc( query_text.size() + 20 );
+	strcpy( queryParm.qy_queryText, query_text.c_str() );
+	queryParm.qy_parameters = ( nparam > 0 ) ? TRUE : FALSE;
+	queryParm.qy_tranHandle = database->getTranHandle();
+	queryParm.qy_stmtHandle = NULL;
+	queryParm.qy_flags = 0;
+	IIapi_query( &queryParm );		// INVOKE OPENAPI
+	while( FALSE == queryParm.qy_genParm.gp_completed )
+		{IIapi_wait( &waitParm );
+		}
+	if ( nparam > 0 )
+		{
+		database->setTranHandle( queryParm.qy_tranHandle );
+		if ( ! ingGetResult( &queryParm.qy_genParm ) )
+			{return( false );
+			}
+		free( queryParm.qy_queryText );
+		setDescrParm.sd_genParm.gp_callback = NULL;
+		setDescrParm.sd_genParm.gp_closure = NULL;
+		setDescrParm.sd_stmtHandle = queryParm.qy_stmtHandle;
+		setDescrParm.sd_descriptorCount = (II_INT2) nparam;
+		setDescrParm.sd_descriptor = (IIAPI_DESCRIPTOR *) malloc(
+			( setDescrParm.sd_descriptorCount
+			* sizeof(IIAPI_DESCRIPTOR) ));
+		if ( NULL == setDescrParm.sd_descriptor )
+			{return( false );
+			}
+		ok = ingDescribeUserParameters( setDescrParm.sd_descriptor );
+		if ( ! ok )
+			{ingClose();
+			return( false );
+			}
+		IIapi_setDescriptor( &setDescrParm );		// INVOKE API
+		if ( ! ingGetResult( &setDescrParm.sd_genParm ) )
+			{ingClose();
+			return( false );
+			}
+		free( setDescrParm.sd_descriptor );
+		setDescrParm.sd_descriptor = NULL;    	// TRAP FOR MEMORY PROBLEMS
+		putParmParm.pp_genParm.gp_closure = NULL;
+		putParmParm.pp_genParm.gp_callback = NULL;
+		putParmParm.pp_stmtHandle = queryParm.qy_stmtHandle;
+		IIAPI_DATAVALUE		data;
+		putParmParm.pp_parmData = ( IIAPI_DATAVALUE * ) &data;
+		putParmParm.pp_parmCount = 0;  	// TO BE OVER-WRITTEN
+		if ( ok )
+			{ok = ingPutUserParameters( &putParmParm );
+			}
+		if ( ! ok )
+			{return( false );
+			}
+		}
+	if ( ! ingGetDescr( &getDescrParm, queryParm.qy_stmtHandle ) )
+		{ingClose();
+		return( false );
+		}
+	int	i;
+	fetching_blobs = false;
+	for ( i = 0; i < getDescrParm.gd_descriptorCount; i++ )
+		{switch( getDescrParm.gd_descriptor[i].ds_dataType )
+			{
+			case IIAPI_LVCH_TYPE:
+			case IIAPI_LBYTE_TYPE:
+				fetching_blobs = true;
+				break;
+			default:
+				break;
+			}
+		}
+	if ( ! ingBufInit() )
+		{ingClose();
+		return( false );
+		}
+	buffered_rows = 0;
+	buffer_curow = 0;
+	is_open = true;
+	return( true );
+}
+
 #endif
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-bool XQUERY::open( void )
+bool XQUERY::fetchingBlobs( void ) const
 {
-	close();
-	result.clear();
-	nrows_fetched = 0;
-	if ( ! construct() )
+	return( fetching_blobs );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XQUERY::open( const int mode )
+{
+	if ( isOpen() )
 		{return( false );
 		}
+	result.clear();
+	if ( ! singletonInit() )
+		{return( false );
+		}
+	if ( ! construct() )
+		{singletonEnd();
+		return( false );
+		}
+	mode_select = mode;
+	nrows_fetched = 0;
 #if X_BDE
-	return( bdeOpen() );
+	bool	ok = bdeOpen();
 #elif X_ING
-	return( ingOpen() );
+	bool	ok = ( XQUERY::ModeLoop != mode_select )
+		? ingOpenCursor() : ingOpenSelect();
 #endif
+	if ( ! ok )
+		{singletonEnd();
+		}
+	return( ok );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #if X_BDE
@@ -202,7 +379,7 @@ bool XQUERY::bdeFetchAction( void )
 	for ( i = 0; i < nf; i++ )
 		{
 		fld = qry->Fields->Fields[i];
-		nam = String( fld->FieldName ).c_str();	
+		nam = XUC::cbs2stds( String( fld->FieldName ) );
 		switch( fld->DataType )
 			{
 			case ftInteger:
@@ -212,7 +389,8 @@ bool XQUERY::bdeFetchAction( void )
 				break;
 			case ftString:
 			case ftMemo:
-				res_ptr->setString( nam, fld->AsString.c_str() );
+				res_ptr->setString( nam, XUC::cbs2stds(
+					fld->AsString ) );
 				break;
 			case ftDateTime:
 				res_ptr->setTime( nam, XTIME( fld->AsDateTime ) );
@@ -304,12 +482,29 @@ bool XQUERY::ingFetchRepackInt( const char *name, const IIAPI_DATAVALUE *v )
 			integer4 = (II_INT4 *) v->dv_value;
 			res_ptr->setInt( name, (int) *integer4 );
 			break;
+		case 8:
+			II_INT8	*integer8;
+			integer8 = (II_INT8 *) v->dv_value;
+			res_ptr->setLint( name, (LINT) *integer8 );
+			break;
 		default:
 			error( 0, "fetch(), invalid length of integer field" );
 			ok = false;
 		break;
 		}
 	return( ok );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XQUERY::ingFetchRepackBool( const char *name, const IIAPI_DATAVALUE *v )
+{
+//	II_BOOL	*b = (II_BOOL *) v->dv_value;
+	if ( v->dv_length != 1 )	// sizeof(II_BOOL) = 4, duh!
+		{error( 0, "ingFetchRepackBool, unexpected v->dv_length" );
+		return( false );
+		}
+	unsigned char *b = (unsigned char *) v->dv_value;
+	res_ptr->setBool( name, ( 0 != *b ) );
+	return( true );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool XQUERY::ingFetchRepackReal( const char *name, const IIAPI_DATAVALUE *v  )
@@ -563,6 +758,9 @@ bool XQUERY::ingFetchSetNull( const char *nam, const int typ )
 		case IIAPI_INT_TYPE:
 			res_ptr->setInt( nam, ROSETTA::errorInt );
 			break;
+		case IIAPI_BOOL_TYPE:
+			res_ptr->setBool( nam, ROSETTA::errorBool );
+			break;
 		case IIAPI_LVCH_TYPE:
 			res_ptr->setString( nam, ROSETTA::errorString );
 			break;
@@ -600,6 +798,7 @@ bool XQUERY::ingFetchSetNull( const char *nam, const int typ )
 			ok = false;
 			break;
 		}
+	res_ptr->attachTag( nam, XSQL::nullable );
 	res_ptr->attachTag( nam, XSQL::null );
 	return( ok );
 }
@@ -607,11 +806,11 @@ bool XQUERY::ingFetchSetNull( const char *nam, const int typ )
 bool XQUERY::ingFetchRepack( IIAPI_DESCRIPTOR *d, const IIAPI_DATAVALUE *v )
 {
 	bool	ok = true;
-	if ( v->dv_null )
-		{error( 0, "ingFetchRepack(), NULL buffer" );
+	if ( v->dv_null && ! accept_null )
+		{error( 0, "ingFetchRepack(), NULL value returned" );
 		return( false);
 		}
-	char	*nam;				// NAME OF DATABASE FIELD
+	const	char	*nam;				// NAME OF DATABASE FIELD
 	if ( NULL != d->ds_columnName )
 		{nam = d->ds_columnName;
 		}
@@ -620,100 +819,114 @@ bool XQUERY::ingFetchRepack( IIAPI_DESCRIPTOR *d, const IIAPI_DATAVALUE *v )
 		}
 	if ( d->ds_nullable && v->dv_null )
 		{ok = ingFetchSetNull( nam, d->ds_dataType );
+		return( ok );
 		}
-	else
-		{switch( abs( d->ds_dataType ) )
-			{
-			case IIAPI_INT_TYPE:
-				ok = ingFetchRepackInt( nam, v );
-				break;
-			case IIAPI_VCH_TYPE:
-				ok = ingFetchRepackVarchar( nam, v );
-				break;
-			case IIAPI_LVCH_TYPE:
-				ok = ingFetchRepackLVarchar( nam, v );
-				break;
-			case IIAPI_FLT_TYPE:
-				ok = ingFetchRepackReal( nam, v );
-				break;
-			case IIAPI_DTE_TYPE:
-				ok = ingFetchRepackDate( nam, v );
-				break;
-			case IIAPI_VBYTE_TYPE:
-				ok = ingFetchRepackByte( nam, v );
-				break;
-			case IIAPI_LBYTE_TYPE:
-				ok = ingFetchRepackLByte( nam, v );
-				break;
-			case IIAPI_CHA_TYPE:
-				ok = ingFetchRepackChar( nam, v );
-				break;
-			case IIAPI_CHR_TYPE:
-			case IIAPI_DEC_TYPE:
-			case IIAPI_MNY_TYPE:
-			case IIAPI_LTXT_TYPE:
-			case IIAPI_TXT_TYPE:
-			case IIAPI_BYTE_TYPE:
-				ok = ingFetchRepackOther( nam, d, v );
-				break;
-			case IIAPI_LOGKEY_TYPE:
-			case IIAPI_TABKEY_TYPE:
-				ok = ingFetchRepackKey( nam, v );
-				break;
-			default:
-				error( 0, "fetch(), invalid field type" );
-				ok = false;
-				break;
-			}
+	switch( abs( d->ds_dataType ) )
+		{
+		case IIAPI_INT_TYPE:
+			ok = ingFetchRepackInt( nam, v );
+			break;
+		case IIAPI_VCH_TYPE:
+			ok = ingFetchRepackVarchar( nam, v );
+			break;
+		case IIAPI_LVCH_TYPE:
+			ok = ingFetchRepackLVarchar( nam, v );
+			break;
+		case IIAPI_FLT_TYPE:
+			ok = ingFetchRepackReal( nam, v );
+			break;
+		case IIAPI_DTE_TYPE:
+			ok = ingFetchRepackDate( nam, v );
+			break;
+		case IIAPI_VBYTE_TYPE:
+			ok = ingFetchRepackByte( nam, v );
+			break;
+		case IIAPI_LBYTE_TYPE:
+			ok = ingFetchRepackLByte( nam, v );
+			break;
+		case IIAPI_CHA_TYPE:
+			ok = ingFetchRepackChar( nam, v );
+			break;
+		case IIAPI_BOOL_TYPE:
+			ok = ingFetchRepackBool( nam, v );
+			break;
+		case IIAPI_CHR_TYPE:
+		case IIAPI_DEC_TYPE:
+		case IIAPI_MNY_TYPE:
+		case IIAPI_LTXT_TYPE:
+		case IIAPI_TXT_TYPE:
+		case IIAPI_BYTE_TYPE:
+			ok = ingFetchRepackOther( nam, d, v );
+			break;
+		case IIAPI_LOGKEY_TYPE:
+		case IIAPI_TABKEY_TYPE:
+			ok = ingFetchRepackKey( nam, v );
+			break;
+		default:
+			error( 0, "fetch(), invalid field type" );
+			ok = false;
+			break;
 		}
 	if ( d->ds_nullable )
-		{if ( nrows_fetched < 1 )
-			{res_ptr->attachTag( nam, XSQL::nullable );
-			}
-		else if ( ! v->dv_null )	// ONLY NEEDED IF ROW > 0
-			{res_ptr->removeTag( nam, XSQL::null );
-			}
+		{res_ptr->attachTag( nam, XSQL::nullable );
+		res_ptr->removeTag( nam, XSQL::null );
 		}
 	return( ok );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool XQUERY::ingBufInit( void )
 {
-	int	i;
-	char	*bf;
+	int	i, j;
 	bool	ok = true;
 	ingBufRemove();
-	for ( i = 0; i < getDescrParm.gd_descriptorCount; i++ )
-		{
-		bf = (char *) malloc( getDescrParm.gd_descriptor[i].ds_length );
-		if ( NULL != bf )
-			{ing_val_buf.push_back( bf );
-			}
-		else
-			{ok = false;
+	ing_buf_rowsize = 0;
+	const	int	ncols = getDescrParm.gd_descriptorCount;
+	for ( i = 0; i < ncols; i++ )
+		{ing_buf_offset.push_back( ing_buf_rowsize );
+		ing_buf_rowsize += getDescrParm.gd_descriptor[i].ds_length;
+		}
+	if ( fetching_blobs )
+		{batch_nrows = 1;		// MUST DO SINGLY
+		}
+	const	int	nrw = ( batch_nrows > 1 ) ? batch_nrows : 1;
+	const	int	buf_dimn = nrw * ncols;
+	const	int	buf_size = nrw * ing_buf_rowsize;
+	ing_val	= (IIAPI_DATAVALUE *) malloc( buf_dimn * sizeof(IIAPI_DATAVALUE) );
+	if ( NULL == ing_val )
+		{char	emsg[200];
+		sprintf( emsg, "ingBufInit, ing_val malloc failure, %d bytes",
+			buf_size );
+		error( 0, emsg );
+		}
+	ing_buf = (char *) malloc( buf_size );
+	if ( NULL == ing_buf )
+		{char	emsg[200];
+		sprintf( emsg, "ingBufInit, ing_buf malloc failure, %d bytes",
+			buf_size );
+		error( 0, emsg );
+		}
+	for ( i = 0; i < nrw; i++ )	// ATTACH STORAGE TO DESCRIPTORS
+		{for ( j = 0; j < ncols; j++ )
+			{ing_val[ ( i * ncols ) + j ].dv_value
+				= ing_buf + ( i * ing_buf_rowsize )
+				+ ing_buf_offset[j];
 			}
 		}
-	if ( ! ok )
-		{error( 0, "ingBufInit, malloc failure" );
-		ingBufRemove();
-		}
+	getColParm.gc_columnData = ing_val;
 	return( ok );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void XQUERY::ingBufRemove( void )
 {
-	if ( ing_val_buf.size() < 1 )
-		{return;
+	if ( NULL != ing_val )
+		{free( ing_val );
+		ing_val = NULL;
 		}
-	std::vector<char *>::iterator vi = ing_val_buf.begin();
-	while ( vi != ing_val_buf.end() )
-		{
-		if ( NULL != *vi )
-			{free( *vi );
-			}
-		vi++;
+	if ( NULL != ing_buf )
+		{free( ing_buf );
+		ing_buf = NULL;
 		}
-	ing_val_buf.clear();
+	ing_buf_offset.clear();
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool XQUERY::ingFetch( void )
@@ -724,29 +937,57 @@ bool XQUERY::ingFetch( void )
 		}
 	int	i;
 	bool	ok = true;
-	getColParm.gc_columnData = &ing_val;
-	for ( i = 0; i < getDescrParm.gd_descriptorCount; i++ )
-		{
-		getColParm.gc_genParm.gp_callback = NULL;
-		getColParm.gc_genParm.gp_closure = NULL;
-		getColParm.gc_rowCount = 1;
-		getColParm.gc_columnCount = 1;//getDescrParm.gd_descriptorCount;
-//		getColParm.gc_columnData->dv_value
-		ing_val.dv_value = ing_val_buf[i];
-//			= malloc( getDescrParm.gd_descriptor[i].ds_length );
-		getColParm.gc_stmtHandle = getDescrParm.gd_stmtHandle;
-		getColParm.gc_moreSegments = 0;
-		IIapi_getColumns( &getColParm );
-		if ( ! ingGetResult( &getColParm.gc_genParm ) )
-			{return( false );
+	if ( fetching_blobs || 0 == batch_nrows ) // RETRIEVE 1 VALUE AT A TIME
+		{for ( i = 0; i < getDescrParm.gd_descriptorCount; i++ )
+			{
+			getColParm.gc_genParm.gp_callback = NULL;
+			getColParm.gc_genParm.gp_closure = NULL;
+			getColParm.gc_rowCount = 1;
+			getColParm.gc_columnCount = 1;
+			getColParm.gc_stmtHandle = getDescrParm.gd_stmtHandle;
+			getColParm.gc_moreSegments = 0;
+			IIapi_getColumns( &getColParm );
+			if ( ! ingGetResult( &getColParm.gc_genParm ) )
+				{return( false );
+				}
+			if ( getColParm.gc_genParm.gp_status == IIAPI_ST_NO_DATA )
+				{return( false );		// NO DATA
+				}
+			ok &= ingFetchRepack( &getDescrParm.gd_descriptor[i],
+				getColParm.gc_columnData );
 			}
-		if ( getColParm.gc_genParm.gp_status == IIAPI_ST_NO_DATA )
-			{return( false );		// NO DATA
+		}
+	else     			// BATCH FETCH
+		{if ( buffer_curow >= buffered_rows )
+			{ 		// BUFFER PROCESSED, ATTEMPT RELOAD
+			getColParm.gc_genParm.gp_callback = NULL;
+			getColParm.gc_genParm.gp_closure = NULL;
+			getColParm.gc_rowCount = batch_nrows;
+			getColParm.gc_columnCount = getDescrParm.gd_descriptorCount;
+			getColParm.gc_stmtHandle = getDescrParm.gd_stmtHandle;
+			getColParm.gc_moreSegments = 0;
+			IIapi_getColumns( &getColParm );
+			if ( ! ingGetResult( &getColParm.gc_genParm ) )
+				{buffered_rows = 0;
+				return( false );
+				}
+			if ( getColParm.gc_genParm.gp_status == IIAPI_ST_NO_DATA )
+				{buffered_rows = 0;
+				return( false );		// NO DATA
+				}
+			buffered_rows = getColParm.gc_rowsReturned;
+			buffer_curow = 0;
 			}
-		ok &= ingFetchRepack( &getDescrParm.gd_descriptor[i],
-			getColParm.gc_columnData );
-//		free( getColParm.gc_columnData->dv_value );
-//		free( ing_val.dv_value );
+		const 	int 	row_offset = buffer_curow
+			* getDescrParm.gd_descriptorCount;
+		for ( i = 0; i < getDescrParm.gd_descriptorCount; i++ )
+			{ok &= ingFetchRepack( &getDescrParm.gd_descriptor[i],
+				&(getColParm.gc_columnData[row_offset+i]) );
+			}
+		buffer_curow++;
+		}
+	if ( ok )
+		{nrows_fetched++;
 		}
 	return( ok );
 }
@@ -763,6 +1004,13 @@ bool XQUERY::fetch( ROSETTA *output )	// EXTRACT RESULTS INTO OUTPUT
 		{error( 0, "fetch(output) called with NULL output" );
 		return( false );
 		}
+	if ( output->isCaseSensitive() ) // RETURN FIELD NAMES IN LOWER-CASE
+		{if ( ! output->caseSensitive( false ) )
+			{error( 0,
+			"fetch(output), ROSETTA cannot be case-sensitive" );
+			return( false );
+			}
+		}
 	res_ptr = output;
 #if X_BDE
 	bool	ok = bdeFetch();
@@ -778,8 +1026,34 @@ int XQUERY::fetchInt( const int default_value )
 		{return( default_value );
 		}
 	int	v = default_value;
-	if ( fetch() && ROSETTA::typeInt == result.getType( 0 ) )
+	if ( fetch() && result.isInt( 0 ) )
 		{v = result.getInt( 0 );
+		}
+	close();
+	return( v );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+LINT XQUERY::fetchLint( const LINT default_value )
+{                                                // BRING BACK A SINGLE LINT
+	if ( ! open() )
+		{return( default_value );
+		}
+	LINT	v = default_value;
+	if ( fetch() && ( result.isLint( 0 ) || result.isInt( 0 ) ) )
+		{v = result.getLint( 0 );
+		}
+	close();
+	return( v );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XQUERY::fetchBool( const bool default_value )
+{                                                // BRING BACK A SINGLE BOOL
+	if ( ! open() )
+		{return( default_value );
+		}
+	bool	v = default_value;
+	if ( fetch() && result.isBool( 0 ) )
+		{v = result.getBool( 0 );
 		}
 	close();
 	return( v );
@@ -790,7 +1064,7 @@ std::string XQUERY::fetchString( const std::string default_value )
 	if ( ! open() )
 		{return( default_value );
 		}
-	std::string	v = default_value;
+	std::string	v( default_value );
 	if ( fetch() )
 		{try			   	// CONVERT TYPE IF REQUIRED
 			{v = result.getString( 0 );
@@ -801,6 +1075,41 @@ std::string XQUERY::fetchString( const std::string default_value )
 		}
 	close();
 	return( v );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+XTIME XQUERY::fetchTime( const XTIME default_value )
+{						// BRING BACK SINGLE TIME
+	if ( ! open() )
+		{return( default_value );
+		}
+	XTIME	v( default_value );
+	if ( fetch() && result.isTime( 0 ) )
+		{try
+			{v = result.getTime( 0 );
+			}
+		catch( ... )
+			{v = default_value;
+			}
+		}
+	close();
+	return( v );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XQUERY::fetchSingle( ROSETTA *single )
+{                                                // BRING BACK A SINGLE ROW
+	if ( NULL == single )
+		{return( false );
+		}
+	single->clear();
+	if ( ! open() )
+		{return( false );
+		}
+	bool	found = false;
+	if ( fetch( single ) )
+		{found = true;
+		}
+	close();
+	return( found );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #if X_BDE
@@ -828,10 +1137,12 @@ bool XQUERY::ingQueryClose( void )
 bool XQUERY::close( void )
 {
 #if X_BDE
-	return( bdeClose() );
+	bool ok = bdeClose();
 #elif X_ING
-	return( ingQueryClose() );
+	bool ok = ingQueryClose();
 #endif
+	singletonEnd();
+	return( ok );
 }
 //===========================================================================
 

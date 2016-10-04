@@ -1,24 +1,48 @@
 #ifndef xbinobH
 #define xbinobH
+#include <stdio.h>
 #include <string>
+#include "xerror.h"
 /* OBJECT TO SIMPLIFY HANDLING BINARY DATA */
 //---------------------------------------------------------------------------
-class XBINOB
+class XBV;
+//---------------------------------------------------------------------------
+class XBV
 {
 private:
+	int	ref_count;
 	int	nbytes;			// -1 IF DATA IS NOT VALID
 	unsigned char *value;
-	void	setInvalid( void );
-	static	bool 	use_exceptions;
+	~XBV( void );
+public:
+	XBV( void );
+	XBV( int nb, unsigned char *dat );
+	XBV( XBV *p );
+	int	getRefCount( void ) const;
+	int	size( void ) const;
+	const 	unsigned char *data( void ) const;
+	bool 	append( const int input_size, const unsigned char *data );
+	bool 	overwriteSegment( const unsigned char *segment, const int start,
+			const int seg_size );
+	static	XBV  *acquire( XBV *p );
+	static	void relinquish( XBV **p );
+	static	bool 	equivalent( const XBV *pa, const XBV *pb );
+};
+//---------------------------------------------------------------------------
+class XBINOB : public XERROR
+{
+private:
+	mutable	XBV	*payload;
 protected:
-	virtual	void	error( const std::string etxt ) const;
 public:
 	XBINOB( void );
 	XBINOB( const int input_size, const unsigned char *data );
-	XBINOB( const std::string b64 );
 	XBINOB( const XBINOB &b );			// COPY CONSTRUCTOR
 	virtual	~XBINOB( void );
+	virtual	void 	setInvalid( const std::string emsg ) const;
 	void	clear( void );
+	void	makeUnique( void );
+	bool 	acquire( const int input_size, unsigned char *data );
 	bool	insert( const int input_size, const unsigned char *data );
 	bool	insert( const XBINOB &b );
 	bool	append( const int input_size, const unsigned char *data );
@@ -27,16 +51,18 @@ public:
 	const unsigned char *data( void ) const;
 	std::string	extractHex( void ) const;
 	std::string	extractBase64( void ) const;
+	bool 	extractFile( FILE *f ) const; 		// FOPEN AS "wb"
 	bool 	insertHex( const std::string hex );
 	bool 	insertBase64( const std::string b64 );
-	bool	isValid( void ) const;
+	bool	insertFile( FILE *f );			// FOPEN AS "rb"
+	bool 	overwriteSegment( const unsigned char *segment, const int start,
+			const int seg_size );
 	int	size( void ) const;
+	bool 	empty( void ) const;
 	XBINOB	&operator=( const XBINOB &b );
 	bool	isEqual( const XBINOB &b ) const;
 	bool	operator==(const XBINOB &b ) const;
 	bool	operator!=(const XBINOB &b ) const;
-	static	void	useExceptions( const bool ue );
-	static	bool 	usingExceptions( void );
 };
 //---------------------------------------------------------------------------
 #endif

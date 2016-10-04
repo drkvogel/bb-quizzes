@@ -1,7 +1,7 @@
 #ifndef xdbH
 #define xdbH
 //===========================================================================
-#if defined(__BORLANDC__) && ! defined(XSQL_INGRES)
+#if defined(__BORLANDC__) && defined(XSQL_BDE)
 #define	X_BDE	1
 #define	X_ING	0
 #else
@@ -57,14 +57,17 @@ public:
 #endif
 };
 //---------------------------------------------------------------------------
-class XDB :public XDB_ERROR
+class XDB : public XDB_ERROR
 {
 friend	class XSQL;
 private:
 	bool	is_open;
 	bool	auto_commit;
 	bool	local_time;
+	int	connection_timeout;
 	std::string	database_name;
+	std::string	username, password;
+	std::string	group;
 #if X_BDE
 	std::vector<TQuery *> query;
 	TDatabase	*db;
@@ -75,9 +78,10 @@ private:
 	bool	bdeClose( void );
 	int	bdeCountOpen( void );
 #elif X_ING
-	static	bool	ingInitialised;
-	static	bool	blob_chunk_defined;
-	static	int	blob_chunk_size;
+	bool	ingInitialised;
+	bool	blob_chunk_defined;
+	int	blob_chunk_size;
+	int	iiapi_version;
 	II_PTR 	connHandle;
 	II_PTR 	tranHandle;
 	II_PTR	envHandle;
@@ -99,6 +103,7 @@ public:
 		const int ecount, const int ecode, const std::string etxt );
 					// INTEROGATORS
 	std::string	getDatabaseName( void ) const;
+	std::string 	getDatabaseStem( void ) const;
 	bool	isOpen( void );
 	int 	countOpen( void );
 	bool	isAutoCommit( void ) const;
@@ -107,16 +112,26 @@ public:
 	bool	open( void );
 	bool 	close( void );
 	bool 	commit( void );
+	bool	rollback( void );	// (NOT RELIABLE)
 	bool	setAutoCommit( const bool ac );
 	bool	useLocalTime( const bool lt );
+	bool	setGroup( const std::string grp );
+	void	setUserName( const std::string un );
 	void	setPassWord( const std::string pw );
+	void	setConnectionTimeOut( int nsecs );
 	XQUERY	*newQuery( const std::string query = "");
 	XEXEC	*newExec( const std::string query = "" );
 #if X_ING
 	bool 	ingCommit( void );
+	bool 	ingRollback( void );
 	II_PTR	getConnHandle( void );
 	II_PTR	getTranHandle( void );
 	void	setTranHandle( II_PTR );
+	bool 	ingSetConnEnvAPI( II_PTR  *connHandle, II_LONG param,
+		II_PTR value );
+	bool  	setIIApiVersion( const int iav );
+	bool	setBlobChunkSize( const int bcs );
+	void 	ingWait( IIAPI_GENPARM *genParm );
 #endif
 };
 //===========================================================================

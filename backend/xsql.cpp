@@ -3,12 +3,16 @@
 #include "xdb.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <cstring>
+#include <string.h>
 //===========================================================================
 const	std::string	XSQL::blob = "XSQL_BLOB";	// ROSETTA TAG FOR BLOB
 const	std::string	XSQL::null = "XSQL_NULL";	// ROSETTA TAG FOR NULL
 const	std::string	XSQL::nullable = "XSQL_NABL";	// ROSETTA TAG FOR NULL-ABLE
 bool	XSQL::debug_mode = false;
+bool	XSQL::enforce_singleton = false;
+#ifdef __BORLANDC__
+TCOMCriticalSection	XSQL::thread_lock;
+#endif
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 XSQL::XSQL( XDB *db, const std::string query  )
 	:
@@ -37,9 +41,13 @@ void XSQL::init( XDB *db )
 {
 	last_error_code = -1;
 	last_error_text = "";
-	nrows_fetched = 0;
-	nrows_altered = 0;
+	nrows_fetched = -1;
+	nrows_altered = -1;
+	return_value = no_return_value;
 	param_source = NULL;
+#ifdef __BORLANDC__
+	lock = NULL;
+#endif
 #if X_BDE
 	bdeInit( db );
 #elif X_ING
@@ -74,6 +82,35 @@ XSQL::~XSQL( void )
 #if X_BDE
 	bdeDelete();
 #endif
+	singletonEnd();
+}
+//---------------------------------------------------------------------------
+bool XSQL::singletonInit( void )
+{
+	singletonEnd();
+#ifdef __BORLANDC__
+	if ( enforce_singleton )	// FUTURE: RETURN FALSE IF TIMEOUT?
+		{lock = new TCOMCriticalSection::Lock( thread_lock );
+		}
+#endif
+	return( true );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+void XSQL::singletonEnd( void )
+{
+#ifdef __BORLANDC__
+	if ( NULL != lock )
+		{delete lock;
+		lock = NULL;
+		}
+#endif
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+bool XSQL::enforceSingleton( const bool es )
+{
+	enforce_singleton = es;
+	return( true );
 }
 //---------------------------------------------------------------------------
 std::string XSQL::getSQL( void )
@@ -107,6 +144,9 @@ bool XSQL::bdeApplyParams( void )
 		}
 	int	i, typ;
 	std::string	nam;
+	const	XTIME	*t = NULL;
+	const	XDATE 	*d = NULL;
+	TByteDynArray	a;
 	for ( i = 0; i < n; i++ )
 		{
 		nam = pars->getName( i );
@@ -121,6 +161,10 @@ bool XSQL::bdeApplyParams( void )
 				case ROSETTA::typeInt:
 					qry->ParamByName( nam.c_str() )->AsInteger
 						= pars->getInt( i );
+					break;
+				case ROSETTA::typeBool:
+					qry->ParamByName( nam.c_str() )->AsBoolean
+						= pars->getBool( i );
 					break;
 				case ROSETTA::typeReal:
 					qry->ParamByName( nam.c_str() )->AsFloat
@@ -137,22 +181,39 @@ bool XSQL::bdeApplyParams( void )
 						}
 					break;
 				case ROSETTA::typeTime:
+					t = pars->pointerTime( i );
+					if ( NULL == t || ! t->isValid() )
+						{error( 0, "parameter XTIME is invalid" );
+						}
 					qry->ParamByName( nam.c_str() )->AsDateTime
-						= pars->getTime( i ).outputTDateTime();
+						= t->outputTDateTime();
 					break;
 				case ROSETTA::typeDate:
+					d = pars->pointerDate( i );
+					if ( NULL == d || ! d->isValid() )
+						{error( 0, "parameter XDATE is invalid" );
+						}
 					qry->ParamByName( nam.c_str() )->AsDate
-						= pars->getDate( i ).outputTDateTime();
+						= d->outputTDateTime();
 					break;
 				case ROSETTA::typeBinob:
+					a.Length = pars->pointerBinob(i)->size();
+					memcpy( &a[0], pars->pointerBinob(i)->data(),
+						pars->pointerBinob(i)->size() );
+					qry->ParamByName( nam.c_str() )->AsBlob
+						= a;
+/* OLD PRE-XE CODE
 					qry->ParamByName( nam.c_str() )->AsBlob
 						= AnsiString( (const char *)
 						pars->pointerBinob(i)->data(),
 						pars->pointerBinob(i)->size() );
+						TByteDynArray
+*/
 					break;
+				case ROSETTA::typeLint:
 				default:		// UNHANDLED TYPE
 					error( 0,
-						std::string("param type not valid for SQL, name" )
+						std::string("param type not valid for SQL, name " )
 						+ nam );
 					break;
 				}
@@ -244,8 +305,8 @@ void XSQL::ingConstructDisplay( void )
 		{
 		printf( "\n%-4d %s", count++, vit->c_str() );
 		if ( pars->exists( *vit ) )
-			{printf( "%c %s", pars->getType( *vit ),
-				pars->getString( *vit ).c_str() );
+			{std::string	v = pars->getString( *vit );
+			printf( "%c %s", pars->getType( *vit ), v.c_str() );
 			}
 		else
 			{printf( "MISSING" );
@@ -284,11 +345,19 @@ bool XSQL::ingDescribeUserParameters( IIAPI_DESCRIPTOR *desc )
 				pdes->ds_dataType = IIAPI_INT_TYPE;
 				pdes->ds_length = sizeof( II_INT4 );
 				break;
+			case ROSETTA::typeBool:
+				pdes->ds_dataType = IIAPI_BOOL_TYPE;
+				pdes->ds_length = 1; // sizeof(II_BOOL) is a bug
+				break;
+			case ROSETTA::typeLint:
+				pdes->ds_dataType = IIAPI_INT_TYPE;
+				pdes->ds_length = sizeof( II_INT8 );
+				break;
 			case ROSETTA::typeString:
 				if ( pars->hasTag( param_name[i], XSQL::blob ) )
 					{pdes->ds_dataType = IIAPI_LVCH_TYPE;
 					pdes->ds_length = (II_UINT2)
-						( 2 + XDB::blob_chunk_size );
+						( 2 + database->blob_chunk_size );
 					}
 				else	// N.B. INGRES FAILS IF DS_LENGTH==0
 					{pdes->ds_dataType = IIAPI_CHA_TYPE;
@@ -299,7 +368,7 @@ bool XSQL::ingDescribeUserParameters( IIAPI_DESCRIPTOR *desc )
 				break;
 			case ROSETTA::typeReal:
 				pdes->ds_dataType = IIAPI_FLT_TYPE;
-				pdes->ds_length = sizeof( II_FLOAT4 );
+				pdes->ds_length = sizeof( II_FLOAT8 );
 				break;
 			case ROSETTA::typeDate:
 			case ROSETTA::typeTime:
@@ -310,7 +379,7 @@ bool XSQL::ingDescribeUserParameters( IIAPI_DESCRIPTOR *desc )
 				if ( pars->hasTag( param_name[i], XSQL::blob ) )
 					{pdes->ds_dataType = IIAPI_LBYTE_TYPE;
 					pdes->ds_length = (II_UINT2)
-						( 2 + XDB::blob_chunk_size );
+						( 2 + database->blob_chunk_size );
 					}
 				else
 					{pdes->ds_dataType = IIAPI_BYTE_TYPE;
@@ -319,7 +388,8 @@ bool XSQL::ingDescribeUserParameters( IIAPI_DESCRIPTOR *desc )
 					}
 				break;
 			default:
-				error( 0, "unsupported parameter type" );
+				error( 0,
+		"parameter :value not found or unsupported parameter type" );
 				ok = false;
 				break;
 			}
@@ -333,7 +403,7 @@ bool XSQL::ingPutUserLong( IIAPI_PUTPARMPARM *putp, const int total,
 	const unsigned char *buf )
 {
 	int	start = 0;
-	short	bcs = (short) XDB::blob_chunk_size; // MUST BE SHORT-TYPE FOR MEMORY-MAPPING
+	short	bcs = (short) database->blob_chunk_size; // MUST BE SHORT-TYPE FOR MEMORY-MAPPING
 	IIAPI_DATAVALUE *d = putp->pp_parmData;
 	d->dv_length = (II_UINT2) ( bcs + 2 );
 	d->dv_value = (char *) malloc( bcs + 2 );
@@ -377,6 +447,19 @@ bool XSQL::ingPutUserParam( IIAPI_PUTPARMPARM *putp, const int indx )
 		d->dv_value = (II_INT4 *) malloc( sizeof(II_INT4) );
 		*((II_INT4*)d->dv_value) = (II_INT4) pars->getInt( param_name[indx] );
 		}
+	else if ( ROSETTA::typeBool == typ )
+		{	// II_BOOL size (=4) doesn't work for selects
+		d->dv_length = sizeof(unsigned char);
+		d->dv_value = (unsigned char *) malloc( sizeof(unsigned char) );
+		*((unsigned char *)d->dv_value) = (unsigned char)
+			( pars->getBool( param_name[indx] ) ? 1 : 0 );
+		}
+	else if ( ROSETTA::typeLint == typ )
+		{
+		d->dv_length = sizeof(II_INT8);
+		d->dv_value = (II_INT8 *) malloc( sizeof(II_INT8) );
+		*((II_INT8*)d->dv_value) = (II_INT8) pars->getLint( param_name[indx] );
+		}
 	else if ( ROSETTA::typeString == typ )
 		{
 		const	std::string *s = pars->pointerString( param_name[indx] );
@@ -393,6 +476,9 @@ bool XSQL::ingPutUserParam( IIAPI_PUTPARMPARM *putp, const int indx )
 	else if ( ROSETTA::typeDate == typ )
 		{  // FLAG IN BYTE 0 - DMY IN 1,2,3
 		const	XDATE	*a = pars->pointerDate( param_name[indx] );
+		if ( NULL == a || ! a->isValid() )
+			{error( 0, "parameter XDATE is invalid" );
+			}
 		char	abuf[50];
 		sprintf( abuf, "%d/%d/%4.4d",
 			a->getDay(), a->getMonth(), a->getYear() );
@@ -404,6 +490,9 @@ bool XSQL::ingPutUserParam( IIAPI_PUTPARMPARM *putp, const int indx )
 	else if ( ROSETTA::typeTime == typ )
 		{  // FLAG IN BYTE 0 - DMY IN 1,2,3 - MSEC IN BYTES 4+5
 		const	XTIME	*t = pars->pointerTime( param_name[indx] );
+		if ( NULL == t || ! t->isValid() )
+			{error( 0, "parameter XTIME is invalid" );
+			}
 		char	tbuf[50];
 		sprintf( tbuf, "%d/%d/%4.4d %2.2d:%2.2d:%2.2d",
 			t->getDay(), t->getMonth(), t->getYear(),
@@ -415,9 +504,9 @@ bool XSQL::ingPutUserParam( IIAPI_PUTPARMPARM *putp, const int indx )
 		}
 	else if ( ROSETTA::typeReal == typ )
 		{
-		d->dv_length = sizeof( II_FLOAT4 );
-		d->dv_value = (II_FLOAT4 *) malloc(sizeof(II_FLOAT4));
-		*((II_FLOAT4*)d->dv_value) = (II_FLOAT4) pars->getReal(
+		d->dv_length = sizeof( II_FLOAT8 );
+		d->dv_value = (II_FLOAT8 *) malloc(sizeof(II_FLOAT8));
+		*((II_FLOAT8*)d->dv_value) = (II_FLOAT8) pars->getReal(
 			param_name[indx] );
 		}
 	else if ( ROSETTA::typeBinob == typ )
@@ -459,6 +548,16 @@ bool XSQL::ingPutUserParameters( IIAPI_PUTPARMPARM *putp )
 		{ok &= ingPutUserParam( putp, i );
 		}
 	return( ok );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XSQL::ingGetQueryInfo( IIAPI_GETQINFOPARM *qip, II_PTR stmtHandle )
+{
+	qip->gq_genParm.gp_callback = NULL;
+	qip->gq_genParm.gp_closure = NULL;
+	qip->gq_stmtHandle = stmtHandle;
+	IIapi_getQueryInfo( qip );
+	database->ingWait( &(qip->gq_genParm) );
+	return( true );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool XSQL::ingClose( void )
@@ -519,6 +618,21 @@ bool XSQL::construct( void )
 			}
 		}
 	return( true );
+}
+//---------------------------------------------------------------------------
+int XSQL::getNRowsFetched( void ) const
+{
+	return( nrows_fetched );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+int XSQL::getNRowsAltered( void ) const
+{
+	return( nrows_altered );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+int XSQL::getReturnValue( void ) const
+{
+	return( return_value );
 }
 //---------------------------------------------------------------------------
 	/* MAKE A STRING SAFE TO BE SPRINTF-ED AS AN ARGUMENT IN SQL */

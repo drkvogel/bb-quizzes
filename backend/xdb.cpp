@@ -3,7 +3,7 @@
 #include "xexec.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <cstring>
+#include <string.h>
 #if X_BDE
 #include <vcl.h>
 #endif
@@ -14,10 +14,10 @@ XDB_ERROR::XDB_ERROR( const std::string owner, XDB *db )
 	:
 	owner_object( owner ),
 	database( db ),
+	is_valid( true ),
 	error_count( 0 ),
 	last_error_code( -1 ),
-	last_error_text( "" ),
-	is_valid( true )
+	last_error_text( "" )
 {
 	object_instance = getNextInstance();
 }
@@ -58,7 +58,7 @@ std::string XDB_ERROR::ingExpandError( II_PTR handle )
 				break;
 			default:
 				sprintf( buf, "Unknown error type=%d",
-					+  gete.ge_type );
+					(int) gete.ge_type );
 				txt += buf;
 				break;
 			}
@@ -118,7 +118,7 @@ std::string XDB_ERROR::ingExpandError( II_PTR handle )
 					if ( len < 300 )
 						{
 						sprintf( buf, "'%*.*s'", len, len,
-							gete.ge_serverInfo->svr_parmValue[i].dv_value );
+							(char*)(gete.ge_serverInfo->svr_parmValue[i].dv_value) );
 						txt += buf;
 						}
 					else
@@ -141,11 +141,7 @@ bool XDB_ERROR::ingGetResult( IIAPI_GENPARM *genParm )
 {
 	bool	ok = false;
 	std::string	err;
-	IIAPI_WAITPARM waitParm = { -1 };
-	while( genParm->gp_completed == FALSE )
-		{			// WAIT TILL API FUNCTION COMPLETES
-		IIapi_wait( &waitParm );
-		}
+	database->ingWait( genParm );
 	switch( genParm->gp_status )
 		{
 		case IIAPI_ST_SUCCESS:
@@ -188,8 +184,15 @@ bool XDB_ERROR::error( const int ecode, const std::string etxt )
 {
 	last_error_code = ecode;
 	last_error_text = etxt;
-	return( database->errorHandler( "XDB", object_instance, ++error_count,
-		ecode, etxt ) );
+	bool	result = false;
+	if ( NULL == database ) 		// NO WAY TO SIGNAL NICELY
+		{throw ( std::string("XDB_ERROR, NULL database") );
+		}
+	else
+		{result = database->errorHandler( "XDB", object_instance,
+			++error_count, ecode, etxt );
+		}
+	return( result );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 int XDB_ERROR::getErrorCount( void )
@@ -212,15 +215,15 @@ const	char	*XDB::os =
 	"BDE";   	// COMPILED FOR BORLAND DATABASE ENGINE
 #elif X_ING
 	"INGRES";	// COMPILED FOR INGRES OPENAPI
-bool	XDB::ingInitialised = false;
-bool	XDB::blob_chunk_defined = false;
-int	XDB::blob_chunk_size = 2000;
 #endif
 //---------------------------------------------------------------------------
 XDB::XDB( const std::string target )
 	:
-	errorCallBack( NULL ),
-	XDB_ERROR( "XDB", this )
+	XDB_ERROR( "XDB", this ),
+	username(""),
+	connection_timeout( -1 ),	// UNLIMITED
+	password(""),
+	errorCallBack( NULL )
 {
 	object_instance = getNextInstance();
 	error_count = 0;
@@ -275,22 +278,92 @@ void XDB::bdeDelete( void )
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #if X_ING
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XDB::setIIApiVersion( const int iav )
+{
+	if ( ingInitialised )		// CAN ONLY SET ONCE AT BEGINNING
+		{error( 0, "Cannot setIIApiVersion after first open()" );
+		return( false );
+		}
+	iiapi_version = iav;
+	return( true );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XDB::setBlobChunkSize( const int bcs )
+{
+	if ( ingInitialised )		// CAN ONLY SET ONCE AT BEGINNING
+		{error( 0, "Cannot setBlobChunkSize after first open()" );
+		return( false );
+		}
+	if ( bcs < 100 || bcs > 32000 )
+		{error( 0, "setBlobChunkSize outside allowed range" );
+		return( false );
+		}
+	blob_chunk_size = bcs;
+	return( true );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XDB::ingSetConnEnvAPI( II_PTR *connHandle, II_LONG param, II_PTR value )
+{
+	IIAPI_SETCONPRMPARM setConnParm;
+	if ( NULL == connHandle )
+		{return( false );
+		}
+	setConnParm.sc_genParm.gp_callback     = NULL;
+	setConnParm.sc_genParm.gp_closure      = NULL;
+	setConnParm.sc_connHandle = *connHandle;
+	setConnParm.sc_paramID    = param;
+	setConnParm.sc_paramValue = value;
+	IIapi_setConnectParam( &setConnParm );
+	ingWait( &(setConnParm.sc_genParm) );
+	if ( setConnParm.sc_genParm.gp_status != IIAPI_ST_SUCCESS )
+		{error( setConnParm.sc_genParm.gp_status,
+			"Error in setConnEnvAPI" );
+		return( false );
+		}
+	*connHandle = setConnParm.sc_connHandle;
+	return( true );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool XDB::ingInitAPI( void )
 {
 	IIAPI_INITPARM  initParm;
 	initParm.in_timeout = -1;
-	initParm.in_version = IIAPI_VERSION_2;
+	initParm.in_version = iiapi_version;
 	IIapi_initialize( &initParm );
 	envHandle = initParm.in_envHandle;
 	if ( initParm.in_status != IIAPI_ST_SUCCESS )
-		{
-		error( initParm.in_status, "Error in IIapi_initialize" );
+		{char	ebuf[100];
+		sprintf( ebuf, "Error in IIapi_initialize, in_status=%d",
+			initParm.in_status );
+		error( initParm.in_status, ebuf );
 		return( false );
+		}
+	if ( ! blob_chunk_defined )
+		{
+		IIAPI_SETENVPRMPARM	setEnvPrmParm;
+		II_LONG	pv = blob_chunk_size;
+		setEnvPrmParm.se_envHandle = envHandle;
+		setEnvPrmParm.se_paramID = IIAPI_EP_MAX_SEGMENT_LEN;
+		setEnvPrmParm.se_paramValue = (II_LONG *) &pv;
+		IIapi_setEnvParam( &setEnvPrmParm );
+		if ( IIAPI_ST_SUCCESS == setEnvPrmParm.se_status )
+			{blob_chunk_defined = true;
+			}
+		else
+			{error( 0, "open(), failed to set blob_chunk_size" );
+			}
 		}
 	return( true );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+void XDB::ingWait( IIAPI_GENPARM *genParm )
+{					// WAIT TILL API FUNCTION COMPLETES
+	IIAPI_WAITPARM waitParm = { -1, 0 };
+	while( FALSE == genParm->gp_completed )
+		{IIapi_wait( &waitParm );
+		}
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void XDB::ingInit( std::string target )
 {
 	is_open = false;
@@ -298,18 +371,14 @@ void XDB::ingInit( std::string target )
 	tranHandle = NULL;
 	envHandle  = NULL;
 	database_name = target;
-	if ( ! ingInitialised )
-		{is_valid = ingInitAPI();
-		ingInitialised = is_valid;
-		}
-	else
-		{is_valid = true;	// BUG IF FIRST ONE FAILED
-		}
+	ingInitialised = false;
+	blob_chunk_defined = false;
+	blob_chunk_size = 2000;
+	iiapi_version = IIAPI_VERSION_7;
+	group = "";
 	auto_commit = false;
 	local_time = false;			// ?
-	if ( ! is_valid )
-		{return;
-		}
+	is_valid = true;
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void XDB::ingDelete( void )
@@ -320,7 +389,9 @@ void XDB::ingDelete( void )
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 XDB::~XDB( void )
 {
-	close();
+	if ( isOpen() )
+		{close();
+		}
 #if X_BDE
 	bdeDelete();
 #elif X_ING
@@ -345,6 +416,26 @@ bool XDB::ingCommit( void )
 	tranHandle = NULL;	// DUNNO WHAT HAPPENS IF THIS ISN'T REACHED
 	return( true );
 }
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XDB::ingRollback( void )
+{
+	if ( NULL == tranHandle )
+		{return( true );	// (GUESSING!) NOTHING TO COMMIT
+		}
+	IIAPI_ROLLBACKPARM rbParm;
+	rbParm.rb_genParm.gp_callback = NULL;
+	rbParm.rb_genParm.gp_closure = NULL;
+
+	rbParm.rb_tranHandle=tranHandle;
+	rbParm.rb_savePointHandle=NULL;
+
+	IIapi_rollback( &rbParm );
+	if ( ! ingGetResult( &rbParm.rb_genParm ) )
+		{return( false );
+		}
+	tranHandle = NULL;	// DUNNO WHAT HAPPENS IF THIS ISN'T REACHED
+	return( true );
+}
 #endif
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool XDB::commit( void )
@@ -353,6 +444,15 @@ bool XDB::commit( void )
 	return( true );
 #elif X_ING
 	return( ingCommit() );
+#endif
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XDB::rollback( void )
+{
+#if X_BDE
+	return( true );
+#elif X_ING
+	return( ingRollback() );
 #endif
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -382,6 +482,16 @@ bool XDB::isOpen( void )
 std::string XDB::getDatabaseName( void ) const
 {
 	return( database_name );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+std::string XDB::getDatabaseStem( void ) const
+{			// REMOVE ANY CONNECTION INFORMATION FROM DATABASE NAME
+	const	int	colon_pos = database_name.rfind( ':' );
+	const	int	dsiz = database_name.size();
+	if ( colon_pos < 0 || colon_pos >= dsiz )
+		{return( database_name );
+		}
+	return( std::string( database_name, colon_pos+1, dsiz - colon_pos -1 ));
 }
 //---------------------------------------------------------------------------
 bool XDB::isAutoCommit( void ) const
@@ -433,13 +543,40 @@ bool XDB::useLocalTime( bool lt )
 	return( returningLocalTime() );
 }
 //---------------------------------------------------------------------------
+void XDB::setUserName( const std::string un )
+{
+	username = un;
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void XDB::setPassWord( const std::string pw )
 {
+	password = pw;
 #if X_BDE
 	Session->AddPassword( pw.c_str() );
 #endif
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XDB::setGroup( const std::string grp )
+{
+	if ( isOpen() )
+		{return( false );
+		}
+	group = grp;
+	return( true );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+void XDB::setConnectionTimeOut( int nsecs )
+{
+	if ( nsecs < 1 )
+		{connection_timeout = -1;
+		return;
+		}
+	if ( nsecs > 60 )
+		{nsecs = 60;
+		}
+	connection_timeout = nsecs * 1000;	// CONVERT TO MILI-SECS
+}
+//---------------------------------------------------------------------------
 #if X_BDE
 bool XDB::bdeOpen( void )
 {
@@ -456,19 +593,33 @@ bool XDB::bdeOpen( void )
 #if X_ING
 bool XDB::ingOpen( void )
 {
+	if ( ! ingInitialised )
+		{is_valid = ingInitAPI();
+		ingInitialised = is_valid;
+		}
+	connHandle = envHandle;
+	if ( ! group.empty() )
+		{if ( ! ingSetConnEnvAPI( &connHandle, IIAPI_CP_GROUP_ID,
+				(void *) group.c_str() ) )
+			{error( 0,
+				"Error in setConnEnvAPI, failed to set group" );
+			return( false );
+			}
+		}
 	IIAPI_CONNPARM    	connParm;
-	connHandle = NULL;
 	tranHandle = NULL;
 	connParm.co_genParm.gp_callback = NULL;
 	connParm.co_genParm.gp_closure = NULL;
 	connParm.co_target     = (char *) malloc( database_name.size() + 1 );
-	std::strcpy( connParm.co_target, database_name.c_str() );
-	connParm.co_connHandle = 0;
+	strcpy( connParm.co_target, database_name.c_str() );
+	connParm.co_connHandle = connHandle;
 	connParm.co_type       = IIAPI_CT_SQL;
 	connParm.co_tranHandle = NULL;
-	connParm.co_username   = NULL;
-	connParm.co_password   = NULL;
-	connParm.co_timeout    = -1;
+	connParm.co_username   = username.empty()
+		? NULL : (char *) username.c_str();
+	connParm.co_password   = password.empty()
+		? NULL : (char *) password.c_str();
+	connParm.co_timeout    = connection_timeout;
 	IIapi_connect( &connParm );
 	if ( ! ingGetResult( &connParm.co_genParm ) )
 		{return( false );
@@ -477,21 +628,6 @@ bool XDB::ingOpen( void )
 	tranHandle = connParm.co_tranHandle;
 	free( ( II_PTR )connParm.co_target );
 	setAutoCommit( true );			// DEFAULT BEHAVIOUR
-	if ( ! blob_chunk_defined )
-		{
-		IIAPI_SETENVPRMPARM	setEnvPrmParm;
-		II_LONG	pv = blob_chunk_size;
-		setEnvPrmParm.se_envHandle = envHandle;
-		setEnvPrmParm.se_paramID = IIAPI_EP_MAX_SEGMENT_LEN;
-		setEnvPrmParm.se_paramValue = (II_LONG *) &pv;
-		IIapi_setEnvParam( &setEnvPrmParm );
-		if ( IIAPI_ST_SUCCESS == setEnvPrmParm.se_status )
-			{blob_chunk_defined = true;
-			}
-		else
-			{error( 0, "open(), failed to set blob_chunk_size" );
-			}
-		}
 	is_open = true;
 	return( is_open );
 }
@@ -500,7 +636,11 @@ bool XDB::ingOpen( void )
 bool XDB::open( void )
 {
 	if ( ! is_valid )
-		{return( false );
+		{error( 0, "Cannot open inValid XDB object" );
+		return( false );
+		}
+	if ( isOpen() )			
+		{return( true );
 		}
 #if X_BDE
 	bdeOpen();
@@ -555,7 +695,6 @@ bool XDB::ingClose( void )
 	if ( ! ingGetResult( &disconnParm.dc_genParm ) )
 		{return( false );
 		}
-	connHandle = NULL;
 	return( true );
 }
 #endif

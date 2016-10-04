@@ -1,23 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <algorithm>
 #include <math.h>
-#include <cstring>
-using namespace std;
 #include "rosebase.h"
 #include "rosetta.h"
 //===========================================================================
 #define	AND		'&'
 #define	BAR		'|'
+#define	BSLASH		'\\'
 #define	COLON		':'
+#define	COMMA		','
 #define	DOT		'.'
 #define	EOS		'\0'
 #define	EQUALS		'='
+#define	FSLASH		'/'
 #define	HASH		'#'
+#define	LRB		'('
 #define	LSB		'['
 #define	MINUS		'-'
 #define	PERCENT		'%'
 #define	PLUS		'+'
+#define	RRB		')'
 #define	RSB		']'
 #define	SPACE		' '
 #define	UNDERSCORE	'_'
@@ -25,23 +29,20 @@ using namespace std;
 //===========================================================================
 ROSE_BASE::ROSE_BASE( const ROSETTA *owner, const std::string name )
 	:
-	owner_rosetta( owner ),
-	id( name ),
 	tags( NULL ),
-	valid( true )
+	id( name ),
+	valid( true ),
+	owner_rosetta( owner )
 {
-	if ( id == "" )
-		{error( "name cannot be empty/blank" );
+	if ( id.empty() )
+		{error( ROSETTA::ProblemForbiddenByRule,
+			"name cannot be empty/blank" );
 		valid = false;
 		}
-	const	char	*c = id.c_str();
-	while ( 0 != *c )
-		{if ( ! isalnum( *c ) && *c != UNDERSCORE )
-			{valid = false;
-			error( "names must be alphanumeric+underscores only" );
-			break;
-			}
-		c++;
+	if ( ! isAllowableName( id ) )
+		{valid = false;
+		error( ROSETTA::ProblemForbiddenByRule,
+			"names must be alphanumeric+underscores only" );
 		}
 	if ( ! owner_rosetta->isCaseSensitive() )
 		{ROSETTA::makeLowerCase( &id );
@@ -54,18 +55,33 @@ ROSE_BASE::~ROSE_BASE( void )
 	tags = NULL;
 }
 //---------------------------------------------------------------------------
-void ROSE_BASE::warning( const std::string emsg ) const
+bool ROSE_BASE::warning( const int ecode, const std::string emsg ) const
 {
 	std::string	etxt = std::string("ROSE_BASE exception for object \"")
 		+ id + std::string( "\" " ) + emsg;
-	owner_rosetta->warning( etxt );
+	return( owner_rosetta->warning( ecode, etxt ) );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-void ROSE_BASE::error( const std::string emsg ) const
+bool ROSE_BASE::error( const int ecode, const std::string emsg ) const
 {
 	std::string	etxt = std::string("ROSE_BASE exception for object \"")
 		+ id + std::string( "\" " ) + emsg;
-	owner_rosetta->error( etxt );
+	return( owner_rosetta->error( ecode, etxt ) );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool ROSE_BASE::isAllowableName( const std::string nm )
+{
+	const	char	*c = nm.c_str();
+	if ( 0 == *c )
+		{return( false );	// CANNOT BE EMPTY
+		}
+	while ( 0 != *c )
+		{if ( ! isalnum( *c ) && *c != UNDERSCORE )
+			{return( false );
+			}
+		c++;
+		}
+	return( true );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool ROSE_BASE::isValid( void ) const
@@ -93,12 +109,38 @@ std::string ROSE_BASE::getName( void ) const
 {	return( id );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool ROSE_BASE::rename( const std::string new_name )
+{
+	if ( new_name.empty()  )
+		{error( ROSETTA::ProblemForbiddenByRule,
+			"new_name cannot be empty/blank" );
+		valid = false;
+		return( false );
+		}
+	if ( ! isAllowableName( new_name ) )
+		{valid = false;
+		error( ROSETTA::ProblemForbiddenByRule,
+			"names must be alphanumeric+underscores only" );
+		return( false );
+		}
+	id = new_name;
+	if ( ! owner_rosetta->isCaseSensitive() )
+		{ROSETTA::makeLowerCase( &id );
+		}
+	return( true );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 std::string ROSE_BASE::serializeOut( void ) const
 {
 	char	buf[5];
 	sprintf( buf, "%c#", (const char) type() );
 	std::string	descript = buf + id + "=";
 	return( descript + serializeOutValue() );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+const std::set<std::string> *ROSE_BASE::tagPtr( void ) const
+{
+	return( tags );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool ROSE_BASE::attachTag( const std::string tag_name )
@@ -110,6 +152,19 @@ bool ROSE_BASE::attachTag( const std::string tag_name )
 			}
 		}
 	tags->insert( tag_name );
+	return( true );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool ROSE_BASE::attachTagSet( const std::set<std::string> *tagset )
+{
+	if ( NULL == tagset )
+		{return( false );
+		}
+	std::set<std::string>::const_iterator	ti = tagset->begin();
+	while ( ti != tagset->end() )
+		{attachTag( *ti );
+		ti++;
+		}
 	return( true );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -140,21 +195,36 @@ std::string ROSE_BASE::exportFlatXML( const std::string prefix ) const
 {
 	char	tbuf[10];
 	sprintf( tbuf, "%c", (char) type() );
-	std::string	descript = std::string("\n<r n=\"")
+	std::string	descript = std::string("\n<v n=\"")
 		+ prefix + getName() + "\" t=\"" + tbuf + "\">"
-		+ exportXMLValue() + "</r>";
+		+ exportXMLValue() + "</v>";
 	return( descript );
 }
 //---------------------------------------------------------------------------
+void ROSE_BASE::errorSerializeIn( const char *in ) const
+{
+	std::string	et = std::string( "serializeIn, field \"")
+		+ id + std::string("\" contains invalid value \"")
+		+ std::string(in) + std::string( "\"" );
+	owner_rosetta->error( ROSETTA::ProblemInvalidValue, et );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool ROSE_BASE::setFlag( void )
-{	error( "is not a Flag" );
+{	error( ROSETTA::ProblemUndesiredType, "is not a Flag" );
 	return( false );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool ROSE_BASE::setInt( const int value )
 {       char	ebuf[80];
 	sprintf( ebuf, "cannot accept integer (%d) value", value );
-	error( ebuf );
+	error( ROSETTA::ProblemUndesiredType, ebuf );
+	return( false );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool ROSE_BASE::setLint( const LINT value )
+{       char	ebuf[80];
+	sprintf( ebuf, "cannot accept LINT (%lld) value", value );
+	error( ROSETTA::ProblemUndesiredType, ebuf );
 	return( false );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -166,7 +236,7 @@ bool ROSE_BASE::setBool( const bool value )
 {	char	ebuf[80];
 	sprintf( ebuf, "cannot accept bool (%s) value",
 		( value ? "True" : "False" ) );
-	error( ebuf );
+	error( ROSETTA::ProblemUndesiredType, ebuf );
 	return( false );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -177,7 +247,7 @@ bool ROSE_BASE::operator=( const bool value )
 bool ROSE_BASE::setReal( const double value )
 {	char	ebuf[80];
 	sprintf( ebuf, "cannot accept real (%lg) value", value );
-	error( ebuf );
+	error( ROSETTA::ProblemUndesiredType, ebuf );
 	return( false );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -186,7 +256,8 @@ bool ROSE_BASE::operator=( const double value )
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool ROSE_BASE::setString( const std::string value )
-{	error( "cannot accept string value" );
+{	error( ROSETTA::ProblemUndesiredType,
+		std::string("cannot accept string value \"") + value + "\"" );
 	return( false );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -195,7 +266,9 @@ bool ROSE_BASE::operator=( const std::string value )
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool ROSE_BASE::setTime( const XTIME value )
-{	error( "cannot accept Time value" );
+{   const	std::string	iso = value.iso();
+	error( ROSETTA::ProblemUndesiredType,
+		std::string("cannot accept Time value \"") + iso + "\"" );
 	return( false );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -207,7 +280,7 @@ bool ROSE_BASE::setRosetta( const ROSETTA * value )
 {	char	ebuf[80];
 	sprintf( ebuf, "cannot accept ROSETTA (%s) value",
 		( NULL == value ? "NULL" : "non-NULL" ) );
-	error( ebuf );
+	error( ROSETTA::ProblemUndesiredType, ebuf );
 	return( false );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -220,37 +293,42 @@ bool ROSE_BASE::operator=( const ROSETTA &value )
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 int ROSE_BASE::getInt( void ) const
-{	error( "cannot return integer value" );
+{	error( ROSETTA::ProblemUndesiredType, "cannot return integer value" );
 	return( ROSETTA::errorInt );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+LINT ROSE_BASE::getLint( void ) const
+{	error( ROSETTA::ProblemUndesiredType, "cannot return LINT value" );
+	return( ROSETTA::errorLint );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool ROSE_BASE::getBool( void ) const
-{	error( "cannot return bool value" );
+{	error( ROSETTA::ProblemUndesiredType, "cannot return bool value" );
 	return( ROSETTA::errorBool );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 double ROSE_BASE::getReal( void ) const
-{	error( "cannot return real value" );
+{	error( ROSETTA::ProblemUndesiredType, "cannot return real value" );
 	return( ROSETTA::errorReal );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 XDATE ROSE_BASE::getDate( void ) const
-{	error( "cannot return Date value" );
+{	error( ROSETTA::ProblemUndesiredType, "cannot return Date value" );
 	return( ROSETTA::errorDate );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 XTIME ROSE_BASE::getTime( void ) const
-{	error( "cannot return Time value" );
+{	error( ROSETTA::ProblemUndesiredType, "cannot return Time value" );
 	return( ROSETTA::errorTime );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 XBINOB ROSE_BASE::getBinob( void ) const
-{	error( "cannot return Binob value" );
+{	error( ROSETTA::ProblemUndesiredType, "cannot return Binob value" );
 	return( ROSETTA::errorBinob );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ROSETTA * ROSE_BASE::getRosetta( void ) const
-{	error( "cannot return ROSETTA value" );
+{	error( ROSETTA::ProblemUndesiredType, "cannot return ROSETTA value" );
 	return( (ROSETTA *) ROSETTA::errorRosetta );
 }
 //---------------------------------------------------------------------------
@@ -270,7 +348,8 @@ int ROSE_BASE::unhex( const char *hx ) const
 			{c -= ( 'A' - 10 );
 			}
 		else
-			{error( "unhex, bad charcode" );
+			{error( ROSETTA::ProblemLethalBug,
+				"ROSE_BASE::unhex, invalid non-hex char-code" );
 			return( (int) -1 );
 			}
 		val += ( i < 1 ) ? ( 16 * c ) : c;
@@ -294,20 +373,31 @@ bool ROSE_BASE::decodeURL( char *txt ) const
 				{txt[newpos] = (char) code;
 				}
 			else
-				{warning( "decode_URL: suspicious escape code ignored" );
+				{ok = warning( ROSETTA::ProblemSuspiciousString,
+				"decode_URL: suspicious escape code ignored" );
 				txt[newpos] = '?';
-				ok = false;
 				}
 			pos += 2;
 			}
 		else				// COPY NORMAL CHARACTER
 			{txt[newpos] = txt[pos];
+			if ( ! isPlainCharacter( txt[pos] ) )
+				{ok = warning( ROSETTA::ProblemUncodedChar,
+				"decode_URL: unexpected unencoded character" );
+				}
 			}
 		pos++;
 		newpos++;
 		}
 	txt[newpos] = EOS;
 	return( ok );
+}
+//---------------------------------------------------------------------------
+bool ROSE_BASE::isPlainCharacter( const char c )
+{ 		// CAN CHARACTER BE USED IN URL-ENCODED STRING WITHOUT ENCODING
+	return( isalnum( c ) || DOT == c || COMMA == c || UNDERSCORE == c
+		|| MINUS == c || COLON == c || FSLASH == c
+		|| LRB == c || RRB == c ); // MADE SINGLE CHARS PLAIN 6 OCT 2008
 }
 //---------------------------------------------------------------------------
 		/* CONVERT CHARACTER VALUE TO 2-DIGIT HEXADECIMAL STRING */
@@ -327,7 +417,7 @@ void ROSE_BASE::encodeURL( const char *in, char *out ) const
 		{if ( SPACE == c )			// CONVERT PLUS TO SPACE
 			{out[newpos] = PLUS;
 			}
-		else if ( isdigit( c ) || isalpha( c ) ) 	// COPY
+		else if ( isPlainCharacter( c ) )	// SIMPLE COPY
 			{out[newpos] = c;
 			}
 		else			       		// ESCAPED HEX CODE
@@ -357,7 +447,10 @@ int ROSE_FLAG::type( void ) const
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ROSE_BASE *ROSE_FLAG::copy( const ROSETTA *owner ) const
-{	return( new ROSE_FLAG( owner, id ) );
+{
+	ROSE_FLAG *c = new ROSE_FLAG( owner, id );
+	c->attachTagSet( tagPtr() );
+	return( c );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool ROSE_FLAG::equalValue( const ROSE_BASE *b ) const
@@ -381,6 +474,7 @@ bool ROSE_FLAG::serializeInValue( const char *in )
 {
 	if ( 0 != *in )
 		{valid = false;
+		errorSerializeIn( in );
 		}
 	return( valid );
 }
@@ -441,6 +535,10 @@ int ROSE_INT::getInt( void ) const
 {	return( val );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+LINT ROSE_INT::getLint( void ) const
+{	return( (LINT) val );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 double ROSE_INT::getReal( void ) const
 {	return( (double) val );
 }
@@ -453,7 +551,10 @@ std::string ROSE_INT::getString( void ) const
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ROSE_BASE *ROSE_INT::copy( const ROSETTA *owner ) const
-{	return( new ROSE_INT( owner, id, val ) );
+{
+	ROSE_INT *c = new ROSE_INT( owner, id, val );
+	c->attachTagSet( tagPtr() );
+	return( c );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 std::string ROSE_INT::serializeOutValue( void ) const
@@ -469,10 +570,81 @@ bool ROSE_INT::serializeInValue( const char *in )
 	while ( *pin != EOS )
 		{if ( ! isdigit( *pin ) )
 			{valid = false;
+			errorSerializeIn( in );
+			break;
 			}
 		pin++;
 		}
 	val = atoi( in );
+	return( valid );
+}
+//===========================================================================
+ROSE_LINT::ROSE_LINT( const ROSETTA *owner, const std::string name,
+	const LINT value )
+	:
+	ROSE_COMMON<LINT>( owner, name, value )
+{
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ROSE_LINT::~ROSE_LINT( void )
+{
+}
+//---------------------------------------------------------------------------
+int ROSE_LINT::type( void ) const
+{
+	return( ROSETTA::typeLint );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool ROSE_LINT::setLint( const LINT value )
+{	val = value;
+	return( true );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+LINT ROSE_LINT::getLint( void ) const
+{	return( val );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+double ROSE_LINT::getReal( void ) const
+{	return( (double) val );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+std::string ROSE_LINT::getString( void ) const
+{
+	char	ibuf[40];
+	sprintf( ibuf, "%lld", val );
+	return( std::string( ibuf ) );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ROSE_BASE *ROSE_LINT::copy( const ROSETTA *owner ) const
+{
+	ROSE_LINT *c = new ROSE_LINT( owner, id, val );
+	c->attachTagSet( tagPtr() );
+	return( c );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+std::string ROSE_LINT::serializeOutValue( void ) const
+{
+	char	ibuf[30];
+	sprintf( ibuf, "%lld", val );
+	return( std::string( ibuf ) );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool ROSE_LINT::serializeInValue( const char *in )
+{
+	const	char	*pin = ( MINUS != *in ) ? in : (in+1);
+	while ( *pin != EOS )
+		{if ( ! isdigit( *pin ) )
+			{valid = false;
+			errorSerializeIn( in );
+			break;
+			}
+		pin++;
+		}
+#ifdef __BORLANDC__
+	val = _atoi64( in );
+#else
+	val = atoll( in );
+#endif
 	return( valid );
 }
 //===========================================================================
@@ -511,7 +683,10 @@ std::string ROSE_BOOL::getString( void ) const
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ROSE_BASE *ROSE_BOOL::copy( const ROSETTA *owner ) const
-{	return( new ROSE_BOOL( owner, id, val ) );
+{
+	ROSE_BOOL *c = new ROSE_BOOL( owner, id, val );
+	c->attachTagSet( tagPtr() );
+	return( c );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 std::string ROSE_BOOL::serializeOutValue( void ) const
@@ -524,9 +699,13 @@ bool ROSE_BOOL::serializeInValue( const char *in )
 	if ( 0 == strcmp( "T", in ) )
 		{val = true;
 		}
-	else
+	else if ( 0 == strcmp( "F", in ) )
 		{val = false;
-		valid &= ( 0 == strcmp( "F", in ) );
+		}
+	else
+		{val = false;		// ASSIGN ARBITRARILY FOR DEFINITE-NESS
+		valid = false;
+		errorSerializeIn( in );
 		}
 	return( valid );
 }
@@ -559,18 +738,21 @@ double ROSE_REAL::getReal( void ) const
 std::string ROSE_REAL::getString( void ) const
 {
 	char	rbuf[50];
-	sprintf( rbuf, "%lg", val );
+	sprintf( rbuf, "%.16lg", val );
 	return( std::string( rbuf ) );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ROSE_BASE *ROSE_REAL::copy( const ROSETTA *owner ) const
-{	return( new ROSE_REAL( owner, id, val ) );
+{
+	ROSE_REAL *c = new ROSE_REAL( owner, id, val );
+	c->attachTagSet( tagPtr() );
+	return( c );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 std::string ROSE_REAL::serializeOutValue( void ) const
 {
 	char	rbuf[50];
-	sprintf( rbuf, "%lg", val );
+	sprintf( rbuf, "%.16lg", val );
 	return( std::string( rbuf ) );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -578,6 +760,9 @@ bool ROSE_REAL::serializeInValue( const char *in )
 {
 	val = atof( in );
 	valid = ( fabs(val) != HUGE_VAL );	// CHECK FOR OVERFLOW
+	if ( ! valid )
+		{errorSerializeIn( in );
+		}
 	return( valid );
 }
 //===========================================================================
@@ -613,7 +798,10 @@ const std::string *ROSE_STRING::pointerString( void ) const
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ROSE_BASE *ROSE_STRING::copy( const ROSETTA *owner ) const
-{	return( new ROSE_STRING( owner, id, val ) );
+{
+	ROSE_STRING *c = new ROSE_STRING( owner, id, val );
+	c->attachTagSet( tagPtr() );
+	return( c );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 std::string ROSE_STRING::serializeOutValue( void ) const
@@ -673,7 +861,6 @@ bool ROSE_STRING::serializeInValue( const char *in )
 	val = in;
 	return( valid );
 }
-
 //===========================================================================
 ROSE_XDATE::ROSE_XDATE( const ROSETTA *owner, const std::string name,
 	const XDATE value )
@@ -710,7 +897,10 @@ std::string ROSE_XDATE::getString( void ) const
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ROSE_BASE *ROSE_XDATE::copy( const ROSETTA *owner ) const
-{	return( new ROSE_XDATE( owner, id, val ) );
+{
+	ROSE_XDATE *c = new ROSE_XDATE( owner, id, val );
+	c->attachTagSet( tagPtr() );
+	return( c );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 std::string ROSE_XDATE::serializeOutValue( void ) const
@@ -722,6 +912,9 @@ bool ROSE_XDATE::serializeInValue( const char *in )
 {
 	val.set( in );
 	valid = val.isValid();
+	if ( ! valid )
+		{errorSerializeIn( in );
+		}
 	return( valid );
 }
 //===========================================================================
@@ -736,16 +929,16 @@ ROSE_XTIME::~ROSE_XTIME( void )
 {
 }
 //---------------------------------------------------------------------------
-bool ROSE_XTIME::allow_deserialize_error = false;
+bool ROSE_XTIME::allow_deserialize_invalid = false;
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-void ROSE_XTIME::setAllowDeserializeError( const bool ade )
+void ROSE_XTIME::setAllowDeserializeInvalid( const bool adi )
 {
-	allow_deserialize_error = ade;
+	allow_deserialize_invalid = adi;
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-bool ROSE_XTIME::getAllowDeserializeError( void )
+bool ROSE_XTIME::getAllowDeserializeInvalid( void )
 {
-	return( allow_deserialize_error );
+	return( allow_deserialize_invalid );
 }
 //---------------------------------------------------------------------------
 int ROSE_XTIME::type( void ) const
@@ -772,7 +965,10 @@ std::string ROSE_XTIME::getString( void ) const
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ROSE_BASE *ROSE_XTIME::copy( const ROSETTA *owner ) const
-{	return( new ROSE_XTIME( owner, id, val ) );
+{
+	ROSE_XTIME *c = new ROSE_XTIME( owner, id, val );
+	c->attachTagSet( tagPtr() );
+	return( c );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 std::string ROSE_XTIME::serializeOutValue( void ) const
@@ -785,9 +981,10 @@ bool ROSE_XTIME::serializeInValue( const char *in )
 	val.set( in );
 	valid = val.isValid();
 	if ( ! valid )
-		{if ( allow_deserialize_error && NULL != in
+		{if ( allow_deserialize_invalid && NULL != in
 			&& 0 == strcmp( XTIME::invalid_serialization, in ) )
 			{valid = true;
+			val.set( -1, -1, -1, -1, -1, -1 );
 			}
 		}
 	return( valid );
@@ -824,7 +1021,10 @@ std::string ROSE_XBINOB::getString( void ) const
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ROSE_BASE *ROSE_XBINOB::copy( const ROSETTA *owner ) const
-{	return( new ROSE_XBINOB( owner, id, val ) );
+{
+	ROSE_XBINOB *c = new ROSE_XBINOB( owner, id, val );
+	c->attachTagSet( tagPtr() );
+	return( c );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 std::string ROSE_XBINOB::serializeOutValue( void ) const
@@ -836,6 +1036,9 @@ bool ROSE_XBINOB::serializeInValue( const char *in )
 {
 	val.insertBase64( std::string(in) );
 	valid = val.isValid();
+	if ( ! valid )
+		{error( ROSETTA::ProblemInvalidValue, "serializeIn, bad XBINOB" );
+		}
 	return( valid );
 }
 //===========================================================================
@@ -888,7 +1091,10 @@ void ROSE_ROSETTA::sort( void )
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ROSE_BASE *ROSE_ROSETTA::copy( const ROSETTA *owner ) const
-{	return( new ROSE_ROSETTA( owner, id, val ) );
+{
+	ROSE_ROSETTA *c = new ROSE_ROSETTA( owner, id, val );
+	c->attachTagSet( tagPtr() );
+	return( c );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 std::string ROSE_ROSETTA::serializeOutValue( void ) const

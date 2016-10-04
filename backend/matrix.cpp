@@ -77,14 +77,14 @@ void Matrix::parseResponses(MatrixRecord *rec) {
 Matrix::MatrixRecord Matrix::getPayload(XCGI * x) { // get responses from frontend
     printf("<code>this is getPayload() in %s.<br />\n", __FILE__); //int np = x->param.count();
     MatrixRecord rec;
-    rec.sesh_id = x->paramAsInt("sesh_id"); // up to date xcgi.cpp/h has getParam, paramExists, but not this copy
+    rec.sesh_id = x->getParamAsInt("sesh_id"); // up to date xcgi.cpp/h has getParam, paramExists, but not this copy
     rec.tinstruct.set(x->param.getString("tinstruct").c_str()); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
     rec.tstart.set(x->param.getString("tstart").c_str()); //nowString().c_str());
     rec.tfinish.set(x->param.getString("tfinish").c_str());
     //printf("<p>tinstruct.iso(): '%s', tstart.iso(): '%s', tfinish.iso(): '%s'</p>", rec.tinstruct.iso().c_str(), rec.tstart.iso().c_str(), rec.tfinish.iso().c_str());
     rec.responses = x->param.getString("responses");
     printf("<p>responses:</p><pre>%s</pre>\n", rec.responses.c_str());
-    rec.ntests = x->paramAsInt("ntests");
+    rec.ntests = x->getParamAsInt("ntests");
     parseResponses(&rec); // rec.ntests can be determined from responses? or should be passed from frontend and checked
     printf("sesh_id: %d", rec.sesh_id);
     printf("<p>done</p>\n");

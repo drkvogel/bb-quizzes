@@ -3,12 +3,18 @@
 #include "rosetta.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <cstring>
+#include <string.h>
 #include <set>
 //===========================================================================
 XEXEC::XEXEC( XDB *db, const std::string query )
 	:
 	XSQL( db, query )
+{
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+XEXEC::XEXEC( XDB *db )
+	:
+	XSQL( db, "" )
 {
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -57,6 +63,20 @@ bool XEXEC::bdeExec( void )
 const char *XEXEC::ingPlaceholder( void )
 {
 	return( " ? " );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XEXEC::ingGetOutcome( void )
+{
+	IIAPI_GETQINFOPARM	qip;
+	ingGetQueryInfo( &qip, queryParm.qy_stmtHandle );
+	if ( qip.gq_mask & IIAPI_GQ_ROW_COUNT )
+		{nrows_altered = qip.gq_rowCount;
+		}
+	if ( qip.gq_mask & IIAPI_GQ_PROCEDURE_RET )
+		{return_value = qip.gq_procedureReturn;
+		}
+	const	bool	ok = ingGetResult( &qip.gq_genParm );
+	return( ok );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool XEXEC::ingExecParams( void )
@@ -163,11 +183,8 @@ bool XEXEC::ingExecParams( void )
 	if ( ! ok )
 		{return( false );
 		}
-	/*
-	** Call IIapi_getQueryInfo()
-	*/
-//	IIapi_getQueryInfo( (IIAPI_GETQINFOPARM *) queryParm.qy_stmtHandle );
-	return( ingClose() );
+	ok = ingGetOutcome();
+	return( ok && ingClose() );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool XEXEC::ingExecSimple( void )
@@ -197,28 +214,129 @@ bool XEXEC::ingExecSimple( void )
 		ingClose();
 		return( false );
 		}
-    			/* Call IIapi_getQueryInfo() and process result */
-//    IIapi_getQueryInfo( (IIAPI_GETQINFOPARM *) queryParm.qy_stmtHandle );
-	if ( ! ingClose() )
-		{return( false );
-		}
-	return( true );
+	bool	ok = ingGetOutcome();
+	return( ok && ingClose() );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #endif
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool XEXEC::exec( void )
 {
-	nrows_fetched = 0;
-	if ( ! construct() )
+	nrows_altered = -1;
+	return_value = no_return_value;
+	if ( ! singletonInit() )
 		{return( false );
 		}
+	if ( ! construct() )
+		{singletonEnd();
+		return( false );
+		}
 #if X_BDE
-	return( bdeExec() );
+	bool	ok = bdeExec();
 #elif X_ING
-	return( ( nparam > 0 ) ? ingExecParams() : ingExecSimple() );
+	bool 	ok = ( ( nparam > 0 ) ? ingExecParams() : ingExecSimple() );
 #endif
+	singletonEnd();
+	return( ok );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XEXEC::insert( const std::string table, const ROSETTA *values )
+{
+	if ( table.empty() || NULL == values || ! values->isValid() )
+		{error( 0, "Null/invalid input arguments" );
+		return( false );
+		}
+	sql = std::string("INSERT INTO ") + table + " (";
+	int	i;
+	int	nv = values->count();
+	std::string	field;
+	std::string	par = "";
+	for ( i = 0; i < nv; i++ )
+		{if ( i > 0 )
+			{sql += ",";
+			par += ",";
+			}
+		field = values->getName(i);
+		sql += field;
+		par += std::string( ":") + field;
+		}
+	sql += std::string( ") VALUES (" ) + par + ")";
+	setParamSource( values );
+	return( exec() );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XEXEC::update( const std::string table, const ROSETTA *update,
+	const ROSETTA *where )
+{
+	if ( table.empty() || NULL == update || NULL == where
+			|| ! update->isValid() || ! where->isValid() )
+		{error( 0, "Null/invalid input arguments" );
+		return( false );
+		}
+	std::string	field;
+	int	i, j;
+	int	nu = update->count();
+	int	nw = where->count();
+	if ( nu < 1 )
+		{error( 0, "No fields in Update rosetta" );
+		return( false );
+		}
+	std::string	stmp = std::string( "UPDATE " ) + table + " SET ";
+	for ( i = 0; i < nu; i++ )
+		{field = update->getName(i);
+		if ( i > 0 )
+			{stmp += ",";
+			}
+		stmp += field + "= :" + field;
+		}
+	if ( nw > 0 )
+		{stmp += " WHERE ";
+		for ( i = 0; i < nw; i++ )
+			{field = where->getName(i);
+			if ( i > 0 )
+				{stmp += std::string( " AND " );
+				}
+			stmp += field + "=:" + field;
+			for ( j = 0; j < nu; j++ ) // ROUTINE NOT SUITABLE FOR THIS
+				{if ( update->getName(j) == field )
+					{error( 0, // TODO: CASE-INSENSITIVE
+		"Update/Where rosettas cannot contain the same field" );
+					return( false );
+					}
+				}
+			}
+		}
+	sql = stmp;	// COPY ONLY ONCE ALL ERROR CHECKS HAVE BEEN PASSED
+	param.clear();
+	param = *update;
+	param.insert( where );
+	return( exec() );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XEXEC::del( const std::string table, const ROSETTA *where )
+{
+	if ( table.empty() || NULL == where || ! where->isValid() )
+		{error( 0, "Null/invalid input arguments" );
+		return( false );
+		}
+	int	nw = where->count();
+	if ( nw < 1 )
+		{error( 0, "XEXEC delete insists on at least one WHERE member");
+		return( false );
+		}
+	std::string	field;
+	int	i;
+	std::string	stmp = std::string( "DELETE FROM " ) + table + " WHERE ";
+	for ( i = 0; i < nw; i++ )
+		{field = where->getName(i);
+		if ( i > 0 )
+			{stmp += std::string( " AND " );
+			}
+		stmp += field + "=:" + field;
+		}
+	sql = stmp;	// COPY ONLY ONCE ALL ERROR CHECKS HAVE BEEN PASSED
+	setParamSource( where );
+	return( exec() );
 }
 //===========================================================================
-#pragma package(smart_init)
 

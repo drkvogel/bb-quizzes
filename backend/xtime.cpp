@@ -1,8 +1,7 @@
 #include "xtime.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <cstring>
+#include <string.h>
 #include <math.h>
 /*===========================================================================*/
 const 	int 	XTIME::invalid = -1;	// VALUE RETURN IF CONTENTS INVALID
@@ -52,6 +51,14 @@ const char *XDATE::month_name[13] =
 	""
 	};
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+const char *XDATE::month_abbrev[13] =
+	{
+	"Jan",	        "Feb",	        "Mar",	        "Apr",          //mlz
+	"May",		"Jun",		"Jul",		"Aug",          //mlz
+	"Sep",	        "Oct",	        "Nov",	        "Dec",          //mlz
+	""
+	};
+/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 const int XDATE::days_norm[13]
 	= { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0 };
 const int XDATE::dcum_norm[13]
@@ -80,19 +87,19 @@ XDATE::XDATE( const int year, const int month, const int day )
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 XDATE::XDATE( const XDATE &d )
 	:
+	dateValid( d.dateValid ),
 	yr( d.yr ),
 	mon( d.mon ),
-	dy( d.dy ),
-	dateValid( d.dateValid )
+	dy( d.dy )
 {
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 XDATE::XDATE( const XTIME &t )
 	:
+	dateValid( t.dateValid ),
 	yr( t.yr ),
 	mon( t.mon ),
-	dy( t.dy ),
-	dateValid( t.dateValid )
+	dy( t.dy )
 {
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -126,6 +133,11 @@ int XDATE::daysInMonth( const int year, const int month )
 		return( 30 );
 		}
 	return( isLeapYear( year ) ? days_leap[month-1] : days_norm[month-1] );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+int XDATE::daysInYear( const int year )
+{
+	return( isLeapYear( year ) ? 366 : 365 );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool XDATE::determineValidity( void )
@@ -191,24 +203,31 @@ bool XDATE::setNow( void )
 	return(	set( tnow ) );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-const int XDATE::getYear( void ) const
+int XDATE::getYear( void ) const
 {
 	return( dateValid ? yr : XTIME::invalid );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-const int XDATE::getMonth( void ) const
+int XDATE::getMonth( void ) const
 {
 	return( dateValid ? mon : XTIME::invalid );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-const std::string XDATE::getMonthName( void ) const
+std::string XDATE::getMonthName( void ) const
 {
 	return( ( dateValid && mon >= 1 && mon <= 12 )
 		? std::string(month_name[mon-1])
 		: std::string("INVALID_MONTH") );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-const int XDATE::getDay( void ) const
+std::string XDATE::getMonthAbbrev( void ) const
+{
+	return( ( dateValid && mon >= 1 && mon <= 12 )
+		? std::string(month_abbrev[mon-1])
+		: std::string("INVALID_MONTH") );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+int XDATE::getDay( void ) const
 {
 	return( dateValid ? dy : XTIME::invalid );
 }
@@ -265,6 +284,21 @@ int XDATE::daysSince( const XDATE &d ) const
 	return( (int) floor( ( secs + 43200 ) / 86400 ) );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+int XDATE::getAge( void ) const
+{					// RETURN WHOLE-YEARS, ROUNDED DOWN
+	XDATE   dnow;
+	dnow.setNow();
+	if ( ! dateValid || ! dnow.isValid() || *this > dnow )
+		{return( -1 );
+		}
+	int	age = dnow.getYear() - yr;
+	if ( dnow.getMonth() < mon || (dnow.getMonth() == mon
+			&& dnow.getDay() < dy) )
+		{age--;
+		}
+	return( age );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool XDATE::operator==( const XDATE &d ) const
 {
 	return( 0 == compare( this, &d ) );
@@ -293,6 +327,40 @@ bool XDATE::operator<=( const XDATE &d ) const
 bool XDATE::operator>=( const XDATE &d ) const
 {
 	return( compare( this, &d ) >= 0 );
+}
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool XDATE::subtract( const int nYears, const int nDays )
+{
+	if ( nYears < 0 || nDays < 0 || ! isValid() )
+		{return( false );
+		}
+	bool	again = true;
+	int	days_in_month;
+	yr -= nYears;
+	dy -= nDays;
+	do
+		{
+		if ( dy < 1 )
+			{
+			mon--;
+			if ( mon < 1 )
+				{
+				yr--;
+				mon += 12;
+				}
+			days_in_month = daysInMonth( yr, mon );
+			dy += days_in_month;
+			}
+		else
+			{again = false;
+			}
+		}
+		while ( again );
+						/* Adjust for leap year */
+	if ( dy == 29 && mon == 2 && daysInMonth( yr, mon ) == 28 )
+		{dy = 28;
+		}
+	return( determineValidity() );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool XDATE::add( const int nYears, const int nDays )
@@ -348,16 +416,33 @@ std::string XDATE::dmy( const int format ) const
 		{return( XTIME::invalid_serialization );
 		}
 	char	buf[50];
-	char	*fmt = "%d/%d/%d";
 	switch( format )
 		{
 		case 1:
-			fmt = "%2.2d/%2.2d/%4.4d";
+			sprintf( buf, "%2.2d/%2.2d/%4.4d",
+				getDay(), getMonth(), getYear() );
+			break;
+		case 20:
+			sprintf( buf, "%d %s %d",
+				getDay(), getMonthAbbrev().c_str(), getYear() );
+			break;
+		case 21:
+			sprintf( buf, "%2.2d %s %4.4d",
+				getDay(), getMonthAbbrev().c_str(), getYear() );
+			break;
+		case 30:
+			sprintf( buf, "%d %s %d",
+				getDay(), getMonthName().c_str(), getYear() );
+			break;
+		case 31:
+			sprintf( buf, "%2.2d %s %4.4d",
+				getDay(), getMonthName().c_str(), getYear() );
 			break;
 		default:
+			sprintf( buf, "%d/%d/%d",
+				getDay(), getMonth(), getYear() );
 			break;
 		}
-	sprintf( buf, fmt, getDay(), getMonth(), getYear() );
 	return( std::string( buf ) );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -365,6 +450,28 @@ XTIME XDATE::asXTIME( void ) const
 {
 	return( XTIME( *this ) );
 }
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#ifdef __BORLANDC__                         
+#define	SINCMP	strnicmp
+#else
+#define	SINCMP	strncasecmp
+#endif
+int XDATE::monthNameToNumber( const std::string name )
+{
+	int	nlen = name.size();
+	if ( nlen < 3 )	// REQUIRE AT LEAST 3 CHARACTERS FOR A MATCH
+		{return( -1 );
+		}
+	const	char	*c = name.c_str();
+	int	i;
+	for ( i = 0; i < 12; i++ )
+		{if ( 0 == SINCMP( c, month_name[i], nlen ) )
+			{return( i+1 );
+			}
+		}
+	return( -1 );	// NO MATCH
+}
+#undef	SINCMP
 //---------------------------------------------------------------------------
 #ifdef __BORLANDC__
 				/* EXTENSIONS FOR C++BUILDER ONLY */
@@ -407,11 +514,11 @@ XCLOCK::XCLOCK( const int hour, const int minute, const int second )
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 XCLOCK::XCLOCK( const XCLOCK &c )
 	:
+	clockValid( c.clockValid ),
 	hr( c.hr ),
 	min( c.min ),
 	sec( c.sec ),
-	ms( c.ms ),
-	clockValid( c.clockValid )
+	ms( c.ms )
 {
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -482,22 +589,22 @@ bool XCLOCK::setNow( void )
 	return(	set( tnow ) );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-const int XCLOCK::getHour( void ) const
+int XCLOCK::getHour( void ) const
 {
 	return( clockValid ? hr : XTIME::invalid );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-const int XCLOCK::getMinute( void ) const
+int XCLOCK::getMinute( void ) const
 {
 	return( clockValid ? min : XTIME::invalid );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-const int XCLOCK::getSecond( void ) const
+int XCLOCK::getSecond( void ) const
 {
 	return( clockValid ? sec : XTIME::invalid );
 }
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-const int XCLOCK::getMiliSecond( void ) const
+int XCLOCK::getMilliSecond( void ) const
 {
 	return( clockValid ? ms : XTIME::invalid );
 }
@@ -604,7 +711,7 @@ std::string XCLOCK::hms( const int format ) const
 		{return( XTIME::invalid_serialization );
 		}
 	char	buf[50];
-	sprintf( buf, "%2.2d:%2.2d", getHour(), getMinute(), getSecond() );
+	sprintf( buf, "%2.2d:%2.2d", getHour(), getMinute() );
 	if ( format > 0 )
 		{
 		char	sec[20];
@@ -823,7 +930,8 @@ bool XTIME::GMT2Local( void )
 	parts.tm_min  = getMinute();
 	parts.tm_sec  = getSecond();
 	parts.tm_isdst = 0;             	// DAYLIGHT SAVING=NO FOR GMT
-	putenv( "TZ=GMT" );
+	static	char	tz[10] = "TZ=GMT";
+	putenv( tz );
 #ifdef __BORLANDC__
 	mktime( &parts );
 	if ( 0 == parts.tm_isdst )
@@ -876,6 +984,24 @@ int XTIME::selfTest( void )
 	return( 0 );
 }
 //---------------------------------------------------------------------------
+void XTIME::timerPrint( const std::string prefix )
+{
+	static	int	ncalls = 0;
+	static	time_t	first_time = 0;
+	static	time_t	prev_time = 0;
+	const	time_t	this_time = time(NULL);
+	if ( 0 == ncalls++ )
+		{first_time = this_time;
+		printf( "\nTIME INIT" );
+		}
+	else
+		{printf( "\nTIME[%d] %s %d %d", ncalls, prefix.c_str(),
+			( (int) this_time - (int) prev_time ),
+			( (int) this_time - (int) first_time ) );
+		}
+	prev_time = this_time;
+}
+//---------------------------------------------------------------------------
 #ifdef __BORLANDC__
 				/* EXTENSIONS FOR C++BUILDER ONLY */
 XTIME::XTIME( TDateTime dt )
@@ -901,7 +1027,7 @@ TDateTime XTIME::outputTDateTime( void ) const
 		+ TDateTime( (unsigned short) getHour(),
 			(unsigned short) getMinute(),
 			(unsigned short) getSecond(),
-			(unsigned short) getMiliSecond() ) );
+			(unsigned short) getMilliSecond() ) );
 }
 #endif
 /*===========================================================================*/

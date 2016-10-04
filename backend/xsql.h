@@ -3,6 +3,9 @@
 //===========================================================================
 #include "rosetta.h"
 #include "xdb.h"
+#ifdef __BORLANDC__
+#include <utilcls.h>
+#endif
 #if X_BDE
 #include <Db.hpp>
 #include <DBTables.hpp>
@@ -29,9 +32,10 @@ private:
 #endif
 protected:
 	XSQL( XDB *db, std::string query );
-	~XSQL( void );
+	virtual ~XSQL( void );
 	int	nrows_fetched;
 	int	nrows_altered;
+	int	return_value;
 	const	ROSETTA	*pars;
 	std::string	sql;
 	bool 	construct( void );
@@ -39,6 +43,11 @@ protected:
 	void 	assignParameterSource( void );
 	virtual	std::string	getClass( void ) = 0;
 	static	bool	debug_mode;
+	static	bool	enforce_singleton;
+#ifdef __BORLANDC__
+	TCOMCriticalSection::Lock *lock;
+	static	TCOMCriticalSection	thread_lock;
+#endif
 #if X_BDE
 	TQuery	*qry;
 	bool 	bdeConstruct( void );
@@ -57,6 +66,7 @@ protected:
 	bool 	ingPutUserParamsDo( IIAPI_PUTPARMPARM *putp );
 	bool 	ingPutUserParam( IIAPI_PUTPARMPARM *putp, const int indx );
 	bool 	ingPutUserParameters( IIAPI_PUTPARMPARM *putp );
+	bool 	ingGetQueryInfo( IIAPI_GETQINFOPARM *qip, II_PTR stmtHandle );
 	bool	ingClose( void );
 	bool 	ingCancel( void );
 	virtual	const char *ingPlaceholder( void ) = 0;
@@ -69,10 +79,17 @@ public:
 					// ACCESS FUNCTIONS
 	bool	setSQL( const std::string query );
 	bool	extendSQL( const std::string query );
+	int	getNRowsFetched( void ) const;
+	int	getNRowsAltered( void ) const;
+	int	getReturnValue( void ) const;
 	static	const	std::string	blob;
 	static	const	std::string	null;
 	static	const	std::string	nullable;
-	static	std::string 	makeSafeString( const std::string input );		
+	static	const	int		no_return_value = 666111666;
+	static	std::string 	makeSafeString( const std::string input );
+	bool	singletonInit( void );
+	void	singletonEnd( void );
+	static	bool	enforceSingleton( const bool es );
 };
 //===========================================================================
 #endif

@@ -16,6 +16,11 @@ friend
 	class XDB;
 private:
 	bool	is_open;
+	bool	accept_null;
+	bool	read_only;
+	bool	fetching_blobs;
+	int	mode_select;
+	int	batch_nrows, buffered_rows, buffer_curow;
 	virtual	std::string	getClass( void );
 #if X_BDE
 	bool	bdeOpenAction( void );
@@ -24,15 +29,19 @@ private:
 	bool	bdeFetch( void );
 	bool	bdeClose( void );
 #elif X_ING
+	char	*ing_buf;
+	int	ing_buf_rowsize;
+	std::vector<int>	ing_buf_offset;
+	IIAPI_DATAVALUE		*ing_val;
 	IIAPI_GETCOLPARM  	getColParm;
 	IIAPI_GETDESCRPARM 	getDescrParm;
-	IIAPI_DATAVALUE		ing_val;
-	std::vector<char *> ing_val_buf;
-	bool	ingOpen( void );
+	bool	ingOpenCursor( void );
+	bool	ingOpenSelect( void );
 	bool	ingBufInit( void );
 	void	ingBufRemove( void );
 	bool 	ingFetchRepackKey( const char *name, const IIAPI_DATAVALUE *v );
 	bool 	ingFetchRepackInt( const char *name, const IIAPI_DATAVALUE *v );
+	bool 	ingFetchRepackBool( const char *name, const IIAPI_DATAVALUE *v );
 	bool 	ingFetchRepackReal( const char *name, const IIAPI_DATAVALUE *v  );
 	bool 	ingFetchRepackBlob( const IIAPI_DATAVALUE *v, int *total, char **buf );
 	bool 	ingFetchRepackLVarchar( const char *name, const IIAPI_DATAVALUE *v );
@@ -60,14 +69,27 @@ public:
 	ROSETTA	result;
 					// INTERROGATORS
 	bool	isOpen( void );
-	int	getNRows( void );
+	bool	getAcceptNull( void ) const;
+	bool	getReadOnly( void ) const;
+	int	getBatch( void ) const;
+					// MODIFIERS
+	void	setAcceptNull( const bool acc_nul );
+	void	setReadOnly( const bool ro );
+	bool	setBatch( const int bat );
 					// ACCESS FUNCTIONS
-	bool	open( void );
+	bool	open( const int mode = XQUERY::ModeCursor );
+	bool	fetchingBlobs( void ) const;
 	bool 	fetch( void );
 	bool 	fetch( ROSETTA *output );
 	int	fetchInt( const int default_value );
-	std::string 	fetchString( const std::string default_value );	
+	LINT	fetchLint( const LINT default_value );
+	bool	fetchBool( const bool default_value );
+	std::string 	fetchString( const std::string default_value );
+	XTIME 	fetchTime( const XTIME default_value );
+	bool 	fetchSingle( ROSETTA *single );
 	bool 	close( void );
+	static	const	int	ModeCursor = 1;
+	static	const	int	ModeLoop = 2;
 };
 //===========================================================================
 #endif

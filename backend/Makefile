@@ -4,7 +4,7 @@ CCXXFLAGS=-Dint_lnx -g
 INC=$(II_SYSTEM)/ingres/files
 LDLIB=-linterp.1 -liiapi /lib64/libdl.so.2 /lib64/libcrypt.so.1 
 CXXFLAGS=$(CCXXFLAGS) -I$(INC)
-OBJCOMMON=rosebase.o rosetta.o xbinob.o xdb.o xencode.o xexec.o xquery.o xsql.o xtime.o xcgi.o
+OBJCOMMON=rosebase.o rosetta.o xbinob.o xdb.o xencode.o xexec.o xquery.o xsql.o xtime.o xcgi.o xerror.o
 OBJBBQUIZ=$(OBJCOMMON) hoops.o matrix.o nxjson.o
 TARGETDIR=~/public_html/bbquiz/
 

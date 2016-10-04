@@ -79,7 +79,7 @@ Hoops::HoopsRecord Hoops::getPayload(XCGI * x) { // get responses from frontend
     printf("<code>this is getPayload() in %s.<br />\n", __FILE__); //int np = x->param.count();
 
     HoopsRecord rec;
-    rec.sesh_id = x->paramAsInt("sesh_id"); // up to date xcgi.cpp/h has getParam, paramExists, but not this copy
+    rec.sesh_id = x->getParamAsInt("sesh_id"); // up to date xcgi.cpp/h has getParam, paramExists, but not this copy
     rec.tinstruct.set(x->param.getString("tinstruct").c_str()); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
     rec.tstart.set(x->param.getString("tstart").c_str()); //nowString().c_str());
     rec.tfinish.set(x->param.getString("tfinish").c_str());
@@ -87,7 +87,7 @@ Hoops::HoopsRecord Hoops::getPayload(XCGI * x) { // get responses from frontend
         rec.tinstruct.iso().c_str(), rec.tstart.iso().c_str(), rec.tfinish.iso().c_str());
     rec.responses = x->param.getString("responses");
     printf("<p>responses:</p><pre>%s</pre>\n", rec.responses.c_str());
-    rec.ntests = x->paramAsInt("ntests");
+    rec.ntests = x->getParamAsInt("ntests");
     parseResponses(&rec); // rec.ntests can be determined from responses? or should be passed from frontend and checked
 
     printf("sesh_id: %d", rec.sesh_id);
@@ -253,9 +253,9 @@ void Hoops::testInsert() { // insert some dummy data
     HoopsRecord rec;
     rec.sesh_id = -1;//x->param.getIntDefault("sesh_id", -1);
     rec.ntests = -1; //x->param.getIntDefault("ntests", -1);
-    rec.tinstruct = "2000-01-01T00:00:00"; //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
-    rec.tstart = "2000-01-01T00:00:00";
-    rec.tfinish = "2000-01-01T00:00:00";
+    rec.tinstruct.set("2000-01-01T00:00:00"); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
+    rec.tstart.set("2000-01-01T00:00:00");
+    rec.tfinish.set("2000-01-01T00:00:00");
     rec.responses = "[{\"puzzle\":\"t3w2by1.png\",\"answer\":\"4\",\"correct\":false,\"time\":761},{\"puzzle\":\"t3yw2b1.png\",\"answer\":\"4\",\"correct\":false,\"time\":628},{\"puzzle\":\"t32by1w.png\",\"answer\":\"4\",\"correct\":false,\"time\":3380},{\"puzzle\":\"t3bw21y.png\",\"answer\":\"4\",\"correct\":false,\"time\":509},{\"puzzle\":\"t3y2wb1.png\",\"answer\":\"4\",\"correct\":true,\"time\":320},{\"puzzle\":\"t3w2b1y.png\",\"answer\":\"4\",\"correct\":false,\"time\":401},{\"puzzle\":\"t3y2b1w.png\",\"answer\":\"4\",\"correct\":false,\"time\":384},{\"puzzle\":\"t3yw21b.png\",\"answer\":\"4\",\"correct\":false,\"time\":369},{\"puzzle\":\"t32wy1b.png\",\"answer\":\"4\",\"correct\":false,\"time\":354},{\"puzzle\":\"t3w2yb1.png\",\"answer\":\"4\",\"correct\":false,\"time\":369},{\"puzzle\":\"t3w2y1b.png\",\"answer\":\"4\",\"correct\":false,\"time\":333},{\"puzzle\":\"t3wy2b1.png\",\"answer\":\"4\",\"correct\":false,\"time\":394},{\"puzzle\":\"t3wb2y1.png\",\"answer\":\"4\",\"correct\":true,\"time\":364},{\"puzzle\":\"t32yb1w.png\",\"answer\":\"4\",\"correct\":true,\"time\":385},{\"puzzle\":\"t3ywb21.png\",\"answer\":\"4\",\"correct\":false,\"time\":358},{\"puzzle\":\"t3yb21w.png\",\"answer\":\"4\",\"correct\":true,\"time\":452},{\"puzzle\":\"t3ybw21.png\",\"answer\":\"4\",\"correct\":false,\"time\":376},{\"puzzle\":\"t3wyb21.png\",\"answer\":\"4\",\"correct\":false,\"time\":384}]";
     for (int i=0; i<MAX_LEVELS; i++) { // fill remainder
         HoopsAnswer ans;
