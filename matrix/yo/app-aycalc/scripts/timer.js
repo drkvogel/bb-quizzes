@@ -1,6 +1,6 @@
 
 
-(function(){
+var Timer = (function(){
     'use strict';
 
     //var Timer = require('./timer'); // require is a node thing, unless you use requirejs
@@ -100,4 +100,4 @@
     };
     // module.exports = Timer; // module.exports is Node.js, for the server!
 
-})();
+});
