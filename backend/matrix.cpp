@@ -58,7 +58,7 @@ void Matrix::parseResponses(MatrixRecord *rec) {
             MatrixAnswer ans;
             ans.duration    = nx_json_get(item, "duration"  )->int_value; // Time taken to answer puzzle
             //ans.puzzle      = nx_json_get(item, "puzzle"    )->int_value; // Puzzle chosen by algorithm, as number
-            ans.elapsed     = nx_json_get(item, "elapsed"   )->int_value; // Cumulative time elapsed since start of test
+            ans.elapsed     = nx_json_get(item, "elapsed"   )->int_value / 10; // Cumulative time elapsed since start of test, in deciseconds
             ans.answer      = nx_json_get(item, "answer"    )->int_value; // Answer given by user
             ans.correct     = nx_json_get(item, "correct"   )->int_value; // Correct answer
             //printf("%d ", nx_json_get(item, "count")->int_value);
