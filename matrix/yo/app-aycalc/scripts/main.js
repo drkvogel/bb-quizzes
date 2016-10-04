@@ -25,13 +25,6 @@
         // enabled = false, // enable UI
         // levels = [],
         answers = [],
-        // seshID = null,
-        // tinstruct = null,
-        // tstart  null,
-        // tfinish = null,
-        // tinsert = null,
-        // ntests = null,
-        // responses = null,
         urlParams = {};
 
     // //var Timer = require('./timer'); // require is a node thing, unless you use requirejs
@@ -153,18 +146,6 @@
         throw new Error('unknown page: ' + name);
     }
 
-    // function hideDiv(id) {
-    //     $('#' + id).fadeOut('fast'); //document.getElementById(id).style.display = 'none'; //console.log('hideDiv(): id: ' + id);
-    // }
-
-    // function showDiv(id) {
-    //     $('#' + id).slideDown(); //document.getElementById(id).style.display = 'inline'; //console.log('showDiv(): id: ' + id);
-    // }
-
-    // function hidePage(page) {
-    //     hideDiv(page.templateId); //console.log('hidePage(): templateId: ' + page.templateId); //+ obj(page) + '\'');
-    // }
-
     // http://stackoverflow.com/questions/130396/are-there-constants-in-javascript
     // var WIDTH2X2 = 210; // Width of squares in 2x2 grid is 210px // const?
     // var HEIGHT2X2 = 170; // Height of squares in 2x2 grid is 170px // const?
@@ -241,13 +222,13 @@
 
     // scale images to try to fit all content in the viewport
 
-// devBar          usually hidden
-// padding         fixed?
-// topTxt          fixed, unless width small enough to cause text to wrap
-// gridContainer   the element we want to scale so that it's height combined with the other elements' heights will fit in the viewport
-// botTxt          fixed, unless width small enough to cause text to wrap
-// navCtl          fixed
-// padding         fixed?
+    // devBar          usually hidden
+    // padding         fixed?
+    // topTxt          fixed, unless width small enough to cause text to wrap
+    // gridContainer   the element we want to scale so that it's height combined with the other elements' heights will fit in the viewport
+    // botTxt          fixed, unless width small enough to cause text to wrap
+    // navCtl          fixed
+    // padding         fixed?
 
     // get natural width/height (naturalFullWidth/Height)
     // get window width/height ($(window).width()/height)
@@ -366,6 +347,7 @@
 
     function scaleImages() {
         //scaleImagesCBsimple()
+        //scaleImagesCBnew();
         scaleImagesAY();
     }
 
@@ -446,14 +428,10 @@
             throw new Error('unrecogised id');
         }
 
-        //showDiv(page.templateId);
         $('#' + page.templateId).fadeIn(FADEIN, showPage2);
-        //scaleImagesCBsimple();
-        //scaleImagesAY();
-        //scaleImagesCBnew();
-
         // var heightScrolled = $(document).height() - $(window).height();
         // console.log('heightScrolled: ' + heightScrolled);
+    }
 
         // switch (page.templateId) { // only after page is set visible?
         // case 'quiz2x2':
@@ -463,9 +441,6 @@
         //     $('#4x2-map').imageMapResize();
         //     break;
         // }
-    }
-
-
 
     function prevPage2() {
         if (current > 0) {
@@ -475,7 +450,6 @@
     }
 
     function prevPage() {
-        //hidePage(currentPage()); //console.log('prevPage(): current: ' + current); // + ', currentPage(): ' + obj(currentPage());
         $('#' + currentPage().templateId).fadeOut(FADEOUT, prevPage2);
     }
 
@@ -539,11 +513,6 @@
                 return;
             }
         }
-        // if (correct) { // http://stackoverflow.com/a/33457014/535071
-        //     //console.log('Correct!');
-        // } else {
-        //     //console.log('Wrong! correct is: ' + page.correct);
-        // }
         nextPageTimeout = setTimeout(nextPage, config.nextDelay); // //nextPage(); function object without () otherwise called immediately
     }
 
@@ -869,3 +838,9 @@ console.log('main.js ready');
  //            setBackground(sel, page.sheet, pos); //console.log('sel: ' + sel + ', img: ' + img + ', pos: ' + pos);
  //        }
  //    }
+
+        // if (correct) { // http://stackoverflow.com/a/33457014/535071
+        //     //console.log('Correct!');
+        // } else {
+        //     //console.log('Wrong! correct is: ' + page.correct);
+        // }
