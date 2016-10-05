@@ -91,3 +91,10 @@ pesticide.io - hold ctrl to see current div
 /home/cbird/Projects/general/dev/web/responsive/responsive.md
 IIFE to prevent hoisting - but maybe we want global vars to maintain state?
 http://stackoverflow.com/questions/9741328/why-do-we-need-a-fieldset-tag
+
+better matrix-layout.xcf
+man top: h help f edit fields s set sort
+http://pentestmonkey.net/cheat-sheet/sql-injection/ingres-sql-injection-cheat-sheet in bookmarks
+http://inweb/~cp/wiki/doku.php?id=ingres_cgi&#making_ingres_available_to_suexec_d_users
+where are instructions for building Ingres into code?
+xfce
