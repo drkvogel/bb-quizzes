@@ -467,19 +467,10 @@
     }
 
     function nextPage() { console.log('nextPage(): current: ' + current);// + obj(currentPage());
+        $('#' + currentPage().templateId).fadeOut(FADEOUT, nextPage2);
+    }
         //hidePage(currentPage()); //console.log('nextPage(): isTimeUp:' + isTimeUp);
         //clearTimeout(nextPageTimeout);
-        $('#' + currentPage().templateId).fadeOut(FADEOUT, nextPage2);
-        // if (isTimeUp) {
-        //     clearTimeout(nextPageTimeout);
-        //     showPage(pageNamed('thanks'));
-        // } else if (current + 1 < pages.length) {
-        //     current += 1;
-        //     showPage(currentPage());
-        // } else {
-        //     console.log('nextPage(): hit the end at current: ' + current);
-        // }
-    }
 
     function answered(ans) {
         console.log('answered()');
@@ -495,16 +486,14 @@
             timeTaken = timer.getElapsed();
             showTime(timeTaken, isCorrect);
             var answer = {
-                // count: ++puzzleCount,                   // should be number of puzzles taken
-                // puzzle: puzzle.n,                       // number of puzzle, not image name - config.json should be only mapping
-                // correct: puzzle.c                       // correct answer, not bool
-
-                // page: page.name,
                 duration: timeTaken,                    // Time taken to answer puzzle
                 elapsed: timerWholeTest.getElapsed(),   // Cumulative time elapsed
                 answer: ans,                            // Answer given by user, ans should be Number() type
-                correct: page.correct
+                correct: page.correct                   // correct answer, not bool
             };
+                // count: ++puzzleCount,                   // should be number of puzzles taken
+                // puzzle: puzzle.n,                       // number of puzzle, not image name - config.json should be only mapping
+                // page: page.name,
             answers.push(answer);
         } else if (page.name.slice(0, 5) === 'intro') {
             if (!isCorrect) {
@@ -587,6 +576,7 @@
         // showPage(pageNamed('thanks'));
 
     function abandonClick() {
+        console.log("abandonClick()");
         showModal('abandon-modal'); //console.log('abandon');
     }
 
@@ -633,6 +623,7 @@
             //clearTile();
             setImage('#' + currentPage().templateId + ' .top', currentPage(), '-problem.png');
             hideModal('tryagain-modal');
+            $('#pages').on('click', 'a, area, button', containerClick); // re-enable events
             break;
         case 'timeup-ok':
             hideModal('timeup-modal');
