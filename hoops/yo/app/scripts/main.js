@@ -304,36 +304,50 @@
         // vertical shrink = (window height - 200px) / naturalFullHeight
         // horizontal shrink = window width / naturalFullWidth
         // var scaleV = ($(window).height() - textExtra) / naturalFullHeight;
-        msg = 'scaleV [' + scaleV + '] = window.height [' + $(window).height() + '] / naturalFullHeight [' + naturalFullHeight + ']';
+        msg = 'scaleV [' + scaleV.toFixed(2) + '] = window.height [' + $(window).height() + '] / naturalFullHeight [' + naturalFullHeight + ']';
         console.log(msg);
-        msg = 'scaleH [' + scaleH + '] = window.width [' + $(window).width() + '] / naturalFullWidth [' + naturalFullWidth + ']';
+        msg = 'scaleH [' + scaleH.toFixed(2) + '] = window.width [' + $(window).width() + '] / naturalFullWidth [' + naturalFullWidth + ']';
+        console.log(msg);
         // var scaleH = $(window).width() / naturalFullWidth;
 
         // select lower of these scaling values
-        var scale = scaleV <= scaleH ? scaleV : scaleH;
+        msg = 'scale = scaleV [' + scaleV.toFixed(2) + '] <= scaleH  [' + scaleH.toFixed(2) + '] ? ' + scale.toFixed(2);
+        console.log(msg);
+        //var scale = scaleV <= scaleH ? scaleV : scaleH;
 
-        // work out desired dimensions of whole quiz
-        var targetWidth = naturalFullWidth * scale; // forget about width, it always fits, down to 300px
-        var targetHeight = naturalFullHeight * scale;
+        msg = 'targetWidth = naturalFullWidth [' + naturalFullWidth + '] * scale [' + scale.toFixed(2) + '] == ' + targetWidth.toFixed(2);
+        console.log(msg);
+        // var targetWidth = naturalFullWidth * scale;
+        msg = 'targetHeight = naturalFullHeight [' + naturalFullHeight + '] * scale [' + scale.toFixed(2) + '] == ' + targetHeight.toFixed(2);
+        console.log(msg);
+        // var targetHeight = naturalFullHeight * scale;
 
         // work out desired height of .middleImg
-        var targetMiddleHeight = targetHeight - heightExtra;
+        msg = 'targetMiddleHeight = targetHeight [' + targetHeight + '] - heightExtra [' + heightExtra + '] == ' + targetMiddleHeight;
+        console.log(msg);
 
         // // need h/w ratio of .middleImg. Typical dimensions: ? TODO
         var hwRatio = 1.15; //1.95; //??
         var middleHWRatio = hwRatio;
 
         // what innerWidth of .middleImg would create targetMiddleHeight?
-        var targetMiddleWidth = targetMiddleHeight * middleHWRatio;
+        msg = 'targetMiddleWidth = targetMiddleHeight [' + targetMiddleHeight + '] * middleHWRatio [' + middleHWRatio + '] == ' + targetMiddleWidth.toFixed(2);
+        // var targetMiddleWidth = targetMiddleHeight * middleHWRatio;
+        console.log(msg);
 
         // set these margins on .middleImg to make the targetWidth and targetHeight
-        var setMargins = ($(window).width() - widthExtra - targetMiddleWidth) / 2;
+        msg = 'setMargins = window.width [' + $(window).width() + '] - widthExtra [' + widthExtra +
+            '] - targetMiddleWidth [' + targetMiddleWidth.toFixed(2) + ']) / 2 == ' + setMargins.toFixed(2);
+        //var setMargins = ($(window).width() - widthExtra - targetMiddleWidth) / 2;
+        console.log(msg);
+
+        console.log('setMargins > 0: ' + (setMargins.toFixed(2) > 0));
         if (setMargins > 0) { // check > 0 - even in this algorithm, shouldn't be?
-            $('.middleImg').css('margin-left', setMargins);
-            $('.middleImg').css('margin-right', setMargins);
+            console.log('middleImg.margin-left = ' + setMargins.toFixed(2));
+            console.log('middleImg.margin-right = ' + setMargins.toFixed(2));
         } else {
-            $('.middleImg').css('margin-left', 0);
-            $('.middleImg').css('margin-right', 0);
+            console.log('middleImg.margin-left = 0');
+            console.log('middleImg.margin-right = 0');
         }
 
 
