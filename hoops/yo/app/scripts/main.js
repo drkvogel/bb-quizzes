@@ -203,21 +203,28 @@
 
         var heightExtra = // total height of elements, excluding centre images
             ($('.container').outerHeight(true) - $('.container').height()) +
-            ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
-            ($('.botText').is(':visible') ? $('.botText').height() : 0);
-        // more to add here
+            ($('.topTxt').is(':visible') ? $('.topTxt').height() : 0) +
+            ($('#imgdiv-a').is(':visible') ? $('#imgdiv-a').outerHeight(true) - $('#imgdiv-a').height() : 0) +
+            ($('#imgdiv-b').is(':visible') ? $('#imgdiv-b').outerHeight(true) - $('#imgdiv-b').height() : 0) +
+            ($('.botTxt').is(':visible') ? $('.botTxt').height() : 0) +
+            ($('#answers').is(':visible') ? $('#answers').height() : 0) +
+            ($('.navTxt').is(':visible') ? $('.navTxt').height() : 0) +
+            ($('.navCtl').is(':visible') ? $('.navCtl').height() : 0);
+            // ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
 
         // natural image dimensions; .width(), .height() are current dimensions
         var naturalFullWidth = widthExtra + topWidth;
         var naturalFullHeight = heightExtra + topHeight + botHeight;
 
         // allow 200px for text at bottom
-        // .middleImg needs to be scaled from natural width/height to fit in
-        // (window height - 200px) x window width
+        // var textExtra = 200;
+
+        // .middleImg needs to be scaled from natural width/height to fit in (window height - textExtra) x window width
 
         // vertical shrink = (window height - 200px) / naturalFullHeight
         // horizontal shrink = window width / naturalFullWidth
-        var scaleV = ($(window).height() - 200) / naturalFullHeight;
+        // var scaleV = ($(window).height() - textExtra) / naturalFullHeight;
+        var scaleV = ($(window).height()) / naturalFullHeight;
         var scaleH = $(window).width() / naturalFullWidth;
 
         // select lower of these scaling values
@@ -231,14 +238,15 @@
         var targetMiddleHeight = targetHeight - heightExtra;
 
         // // need h/w ratio of .middleImg. Typical dimensions: ? TODO
-        var middleHWRatio = 1.125; //??
+        var hwRatio = 1.15; //1.95; //??
+        var middleHWRatio = hwRatio;
 
         // what innerWidth of .middleImg would create targetMiddleHeight?
         var targetMiddleWidth = targetMiddleHeight * middleHWRatio;
 
         // set these margins on .middleImg to make the targetWidth and targetHeight
         var setMargins = ($(window).width() - widthExtra - targetMiddleWidth) / 2;
-        if (setMargins > 0) {
+        if (setMargins > 0) { // check > 0 - even in this algorithm, shouldn't be?
             $('.middleImg').css('margin-left', setMargins);
             $('.middleImg').css('margin-right', setMargins);
         } else {
@@ -246,39 +254,60 @@
             $('.middleImg').css('margin-right', 0);
         }
 
-        var msg = 'setMargins: ' + setMargins +
-            ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
-            ', targetMiddleWidth: ' + targetMiddleWidth;
+        // show working
+        var msg = 'topWidth: ' + topWidth + ', topHeight: ' + topHeight + ', botWidth: ' + botWidth + ', botHeight: ' + botHeight;
         console.log(msg);
-    }
 
-    function scaleImagesAYreport() {
-        console.log('scaleImagesAYreport()');
-
-        // we know the natural sizes of the images already (748 x 291)
-        var topWidth = 748, topHeight = 291, botWidth = 748, botHeight = 291;
-
-        var widthExtra = // total width of elements, excluding centre images
+        msg = 'widthExtra: ' + widthExtra + ' container.outerWidth: ' + $('.container').outerWidth(true) +
+            ' - container.width: ' + $('.container').width() + ' == ' +
             ($('.container').outerWidth(true) - $('.container').width()) +
+            ' pages.outerWidth: ' + $('#pages').outerWidth(true) + ' - pages.width: ' + $('#pages').width() + ' == ' +
             ($('#pages').outerWidth(true) - $('#pages').width());
+        console.log(msg);
 
-        var heightExtra = // total height of elements, excluding centre images
-            ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
-            ($('.botText').is(':visible') ? $('.botText').height() : 0);
-        // more to add here
+        msg = 'heightExtra: [' + heightExtra + '] = ' +
+            'container.outerHeight [' + $('.container').outerHeight(true) + '] - ' +
+            ' container.height [' +  $('.container').height() + '] == ' +
+                ($('.container').outerHeight(true) - $('.container').height()) + ' + ';
+        console.log(msg);
+        msg = 'topTxt.height [' + $('.topTxt').height() + '] + ' +
+            //($('.topTxt').is(':visible') ? $('.topTxt').height() : 0) +
+            '#imgdiv-a.outerHeight [' + $('#imgdiv-a').outerHeight(true) + '] - #imgdiv-a.height [' + $('#imgdiv-a').height() + '] == ' +
+            ($('#imgdiv-a').is(':visible') ? $('#imgdiv-a').outerHeight(true) - $('#imgdiv-a').height() : 0) + ' + ';
+            //($('#imgdiv-a').is(':visible') ? $('#imgdiv-a').outerHeight(true) - $('#imgdiv-a').height() : 0) +
+        console.log(msg);
+        msg = '#imgdiv-b.outerHeight [' + $('#imgdiv-b').outerHeight(true) + '] - #imgdiv-b.height [' + $('#imgdiv-b').height() + '] == ' +
+            ($('#imgdiv-b').is(':visible') ? $('#imgdiv-b').outerHeight(true) - $('#imgdiv-b').height() : 0)  + ' + ';
+            //($('#imgdiv-b').is(':visible') ? $('#imgdiv-b').outerHeight(true) - $('#imgdiv-b').height() : 0) +
+        console.log(msg);
+        msg = 'botTxt.height [' + $('.botTxt').height() + ']  + ';
+        console.log(msg);
+        msg = '#answers.height [' + $('#answers').height() + '] +';
+        console.log(msg);
+        msg = 'navTxt.height [' + $('.navTxt').height() + '] +';
+        console.log(msg);
+        msg = 'navCtl.height [' + $('.navCtl').height() + '] +';
+        console.log(msg);
+            // ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
 
         // natural image dimensions; .width(), .height() are current dimensions
-        var naturalFullWidth = widthExtra + topWidth;
-        var naturalFullHeight = heightExtra + topHeight + botHeight;
+        msg = 'naturalFullWidth [' + naturalFullWidth + '] = widthExtra [' + widthExtra + '] + topWidth [' + topWidth + ']';
+        console.log(msg);
+        msg = 'naturalFullHeight [' + naturalFullHeight + '] = heightExtra [' + heightExtra +
+            '] + topHeight [' + topHeight + '] + botHeight [' + botHeight + ']';
 
         // allow 200px for text at bottom
-        // .middleImg needs to be scaled from natural width/height to fit in
-        // (window height - 200px) x window width
+        // var textExtra = 200;
+
+        // .middleImg needs to be scaled from natural width/height to fit in (window height - textExtra) x window width
 
         // vertical shrink = (window height - 200px) / naturalFullHeight
         // horizontal shrink = window width / naturalFullWidth
-        var scaleV = ($(window).height() - 200) / naturalFullHeight;
-        var scaleH = $(window).width() / naturalFullWidth;
+        // var scaleV = ($(window).height() - textExtra) / naturalFullHeight;
+        msg = 'scaleV [' + scaleV + '] = window.height [' + $(window).height() + '] / naturalFullHeight [' + naturalFullHeight + ']';
+        console.log(msg);
+        msg = 'scaleH [' + scaleH + '] = window.width [' + $(window).width() + '] / naturalFullWidth [' + naturalFullWidth + ']';
+        // var scaleH = $(window).width() / naturalFullWidth;
 
         // select lower of these scaling values
         var scale = scaleV <= scaleH ? scaleV : scaleH;
@@ -291,14 +320,15 @@
         var targetMiddleHeight = targetHeight - heightExtra;
 
         // // need h/w ratio of .middleImg. Typical dimensions: ? TODO
-        var middleHWRatio = 1.125; //??
+        var hwRatio = 1.15; //1.95; //??
+        var middleHWRatio = hwRatio;
 
         // what innerWidth of .middleImg would create targetMiddleHeight?
         var targetMiddleWidth = targetMiddleHeight * middleHWRatio;
 
         // set these margins on .middleImg to make the targetWidth and targetHeight
         var setMargins = ($(window).width() - widthExtra - targetMiddleWidth) / 2;
-        if (setMargins > 0) {
+        if (setMargins > 0) { // check > 0 - even in this algorithm, shouldn't be?
             $('.middleImg').css('margin-left', setMargins);
             $('.middleImg').css('margin-right', setMargins);
         } else {
@@ -306,10 +336,11 @@
             $('.middleImg').css('margin-right', 0);
         }
 
-        var msg = 'setMargins: ' + setMargins +
-            ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
-            ', targetMiddleWidth: ' + targetMiddleWidth;
-        console.log(msg);
+
+        // var msg = 'setMargins: ' + setMargins +
+        //     ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
+        //     ', targetMiddleWidth: ' + targetMiddleWidth;
+        // console.log(msg);
     }
 
 // from hoops-doc.md
@@ -353,14 +384,6 @@
         // //console.log('scaleImagesCBsimple(): setMargins ' + setMargins + ', heightExtra: ' + heightExtra + ', widthExtra: ' + widthExtra);
         //      //'($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;' +
 
-        // // check > 0 even in this algorithm, shouldn't be
-        // if (setMargins > 0) {
-        //     $('.middleImg').css('margin-left', setMargins);
-        //     $('.middleImg').css('margin-right', setMargins);
-        // } else { // don't set negative margins. content should shrink width-wise if needed
-        //     $('.middleImg').css('margin-left', 0);
-        //     $('.middleImg').css('margin-right', 0);
-        // }
 
     // shrink images to try to fit height into viewport, but don't worry about width
     function scaleImagesCBsimple() { //
@@ -394,10 +417,8 @@
     }
 
     function scaleImages() {
-        //console.log('scaleImages()');
         //scaleImagesCBsimple();
         scaleImagesAY();
-        //scaleImagesAYreport();
     }
 
     function isoDate() { // return date string in format yyyy-mm-ddThh:mm:ss, suitable for parsing by xtime.cpp
