@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+     <meta charset="utf-8">
+    <title>test</title>
+</head>
+<body>
+<!-- <form method="post"> -->
+    width <input id="width" value="800">
+    height <input id="height" value="600">
+    location <input id="loc" value="http://localhost:8000">
+    <button onclick="go()">Go</button>
+<!-- </form> -->
+<hr />
+
+<div class="container">
+    <iframe id="iframe"></iframe>
+</div>
+
+<script type="text/javascript">
+function go() {
+    var x = document.getElementById('width').value;
+    var y = document.getElementById('height').value;
+    var loc = document.getElementById('loc').value;
+    console.log("x: " + x + ", y: " + y + ", loc: " + loc);
+    var iframe = document.getElementById('iframe');
+    iframe.width = x;
+    iframe.height = y;
+    //iframe.style = 'width: ' + x + 'px; height: ' + y + 'px';
+    iframe.src = loc;
+}
+</script>
+</body>
+</html>
