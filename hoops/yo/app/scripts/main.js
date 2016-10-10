@@ -255,99 +255,73 @@
         }
 
         // show working
-        var msg = 'topWidth: ' + topWidth + ', topHeight: ' + topHeight + ', botWidth: ' + botWidth + ', botHeight: ' + botHeight;
-        console.log(msg);
+        console.log();
+        console.log();
+        console.log('working:');
+        console.log('topWidth: ' + topWidth + ', topHeight: ' + topHeight + ', botWidth: ' + botWidth + ', botHeight: ' + botHeight);
 
-        msg = 'widthExtra: ' + widthExtra + ' container.outerWidth: ' + $('.container').outerWidth(true) +
-            ' - container.width: ' + $('.container').width() + ' == ' +
-            ($('.container').outerWidth(true) - $('.container').width()) +
-            ' pages.outerWidth: ' + $('#pages').outerWidth(true) + ' - pages.width: ' + $('#pages').width() + ' == ' +
-            ($('#pages').outerWidth(true) - $('#pages').width());
-        console.log(msg);
 
-        msg = 'heightExtra: [' + heightExtra + '] = ' +
-            'container.outerHeight [' + $('.container').outerHeight(true) + '] - ' +
-            ' container.height [' +  $('.container').height() + '] == ' +
-                ($('.container').outerHeight(true) - $('.container').height()) + ' + ';
-        console.log(msg);
-        msg = 'topTxt.height [' + $('.topTxt').height() + '] + ' +
-            //($('.topTxt').is(':visible') ? $('.topTxt').height() : 0) +
-            '#imgdiv-a.outerHeight [' + $('#imgdiv-a').outerHeight(true) + '] - #imgdiv-a.height [' + $('#imgdiv-a').height() + '] == ' +
-            ($('#imgdiv-a').is(':visible') ? $('#imgdiv-a').outerHeight(true) - $('#imgdiv-a').height() : 0) + ' + ';
-            //($('#imgdiv-a').is(':visible') ? $('#imgdiv-a').outerHeight(true) - $('#imgdiv-a').height() : 0) +
-        console.log(msg);
-        msg = '#imgdiv-b.outerHeight [' + $('#imgdiv-b').outerHeight(true) + '] - #imgdiv-b.height [' + $('#imgdiv-b').height() + '] == ' +
-            ($('#imgdiv-b').is(':visible') ? $('#imgdiv-b').outerHeight(true) - $('#imgdiv-b').height() : 0)  + ' + ';
-            //($('#imgdiv-b').is(':visible') ? $('#imgdiv-b').outerHeight(true) - $('#imgdiv-b').height() : 0) +
-        console.log(msg);
-        msg = 'botTxt.height [' + $('.botTxt').height() + ']  + ';
-        console.log(msg);
-        msg = '#answers.height [' + $('#answers').height() + '] +';
-        console.log(msg);
-        msg = 'navTxt.height [' + $('.navTxt').height() + '] +';
-        console.log(msg);
-        msg = 'navCtl.height [' + $('.navCtl').height() + '] +';
-        console.log(msg);
+            // ($('.container').outerWidth(true) - $('.container').width()) +
+            // ($('#pages').outerWidth(true) - $('#pages').width());
+        console.log('widthExtra = ');
+        console.log('    (container.outerWidth [' + $('.container').outerWidth(true) +
+            '] - container.width [' + $('.container').width() + ']) [' +
+            ($('.container').outerWidth(true) - $('.container').width()) + '] + ');
+        console.log('    pages.outerWidth [' + $('#pages').outerWidth(true) +
+            '] - pages.width [' + $('#pages').width() + ']) [' + ($('#pages').outerWidth(true) - $('#pages').width()) + '] + ');
+        console.log('   == ' + widthExtra);
+
+        console.log('heightExtra =');
+        console.log('    (container.outerHeight [' + $('.container').outerHeight(true) + '] - ' +
+            ' container.height [' +  $('.container').height() + ']) [' + ($('.container').outerHeight(true) - $('.container').height()) + '] + ');
+        console.log('    topTxt.height [' + $('.topTxt').height() + '] + ');
+        console.log('    (#imgdiv-a.outerHeight [' + $('#imgdiv-a').outerHeight(true) + '] - #imgdiv-a.height [' + $('#imgdiv-a').height() + ']) [' +
+            ($('#imgdiv-a').is(':visible') ? $('#imgdiv-a').outerHeight(true) - $('#imgdiv-a').height() : 0) + '] + ');
+        console.log('     (#imgdiv-b.outerHeight [' + $('#imgdiv-b').outerHeight(true) + '] - #imgdiv-b.height [' + $('#imgdiv-b').height() + ']) [' +
+            ($('#imgdiv-b').is(':visible') ? $('#imgdiv-b').outerHeight(true) - $('#imgdiv-b').height() : 0)  + '] + ');
+        console.log('    botTxt.height [' + $('.botTxt').height() + ']  + ');
+        console.log('    #answers.height [' + $('#answers').height() + '] +');
+        console.log('    navTxt.height [' + $('.navTxt').height() + '] +');
+        console.log('    navCtl.height [' + $('.navCtl').height() + '] +');
+        console.log('   == ' + heightExtra);
             // ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
 
-        // natural image dimensions; .width(), .height() are current dimensions
-        msg = 'naturalFullWidth [' + naturalFullWidth + '] = widthExtra [' + widthExtra + '] + topWidth [' + topWidth + ']';
-        console.log(msg);
-        msg = 'naturalFullHeight [' + naturalFullHeight + '] = heightExtra [' + heightExtra +
-            '] + topHeight [' + topHeight + '] + botHeight [' + botHeight + ']';
+        console.log('naturalFullWidth =');
+        console.log('    widthExtra [' + widthExtra + '] + topWidth [' + topWidth + '] == ' + naturalFullWidth);
+        console.log('naturalFullHeight =');
+        console.log('    heightExtra [' + heightExtra + '] + topHeight [' + topHeight + '] + botHeight [' + botHeight + ']');
+        console.log('    == ' + naturalFullHeight);
 
-        // allow 200px for text at bottom
-        // var textExtra = 200;
-
+        // allow 200px for text at bottom // var textExtra = 200;
         // .middleImg needs to be scaled from natural width/height to fit in (window height - textExtra) x window width
-
         // vertical shrink = (window height - 200px) / naturalFullHeight
         // horizontal shrink = window width / naturalFullWidth
         // var scaleV = ($(window).height() - textExtra) / naturalFullHeight;
-        msg = 'scaleV [' + scaleV.toFixed(2) + '] = window.height [' + $(window).height() + '] / naturalFullHeight [' + naturalFullHeight + ']';
-        console.log(msg);
-        msg = 'scaleH [' + scaleH.toFixed(2) + '] = window.width [' + $(window).width() + '] / naturalFullWidth [' + naturalFullWidth + ']';
-        console.log(msg);
-        // var scaleH = $(window).width() / naturalFullWidth;
+        console.log('scaleV = window.height [' + $(window).height() + '] / naturalFullHeight [' + naturalFullHeight + '] == ' + scaleV.toFixed(2));
+        console.log('scaleH = window.width [' + $(window).width() + '] / naturalFullWidth [' + naturalFullWidth + '] == ' + scaleH.toFixed(2));
+        console.log('scale = scaleV [' + scaleV.toFixed(2) + '] <= scaleH  [' + scaleH.toFixed(2) + '] ? ' + scale.toFixed(2));
 
-        // select lower of these scaling values
-        msg = 'scale = scaleV [' + scaleV.toFixed(2) + '] <= scaleH  [' + scaleH.toFixed(2) + '] ? ' + scale.toFixed(2);
-        console.log(msg);
-        //var scale = scaleV <= scaleH ? scaleV : scaleH;
+        console.log('targetWidth = naturalFullWidth [' + naturalFullWidth + '] * scale [' + scale.toFixed(2) + '] == ' + targetWidth.toFixed(2));
+        console.log('targetHeight = naturalFullHeight [' + naturalFullHeight + '] * scale [' + scale.toFixed(2) + '] == ' + targetHeight.toFixed(2));
+        console.log('targetMiddleHeight = targetHeight [' + targetHeight + '] - heightExtra [' + heightExtra + '] == ' + targetMiddleHeight);
 
-        msg = 'targetWidth = naturalFullWidth [' + naturalFullWidth + '] * scale [' + scale.toFixed(2) + '] == ' + targetWidth.toFixed(2);
-        console.log(msg);
-        // var targetWidth = naturalFullWidth * scale;
-        msg = 'targetHeight = naturalFullHeight [' + naturalFullHeight + '] * scale [' + scale.toFixed(2) + '] == ' + targetHeight.toFixed(2);
-        console.log(msg);
-        // var targetHeight = naturalFullHeight * scale;
-
-        // work out desired height of .middleImg
-        msg = 'targetMiddleHeight = targetHeight [' + targetHeight + '] - heightExtra [' + heightExtra + '] == ' + targetMiddleHeight;
-        console.log(msg);
-
-        // // need h/w ratio of .middleImg. Typical dimensions: ? TODO
-        var hwRatio = 1.15; //1.95; //??
-        var middleHWRatio = hwRatio;
-
+        // var hwRatio = 1.15; //1.95; //??// var middleHWRatio = hwRatio;
         // what innerWidth of .middleImg would create targetMiddleHeight?
-        msg = 'targetMiddleWidth = targetMiddleHeight [' + targetMiddleHeight + '] * middleHWRatio [' + middleHWRatio + '] == ' + targetMiddleWidth.toFixed(2);
+        console.log('targetMiddleWidth = targetMiddleHeight [' + targetMiddleHeight + '] * middleHWRatio [' + middleHWRatio + '] == ' + targetMiddleWidth.toFixed(2));
         // var targetMiddleWidth = targetMiddleHeight * middleHWRatio;
-        console.log(msg);
 
         // set these margins on .middleImg to make the targetWidth and targetHeight
-        msg = 'setMargins = window.width [' + $(window).width() + '] - widthExtra [' + widthExtra +
-            '] - targetMiddleWidth [' + targetMiddleWidth.toFixed(2) + ']) / 2 == ' + setMargins.toFixed(2);
         //var setMargins = ($(window).width() - widthExtra - targetMiddleWidth) / 2;
-        console.log(msg);
+        console.log('setMargins = window.width [' + $(window).width() + '] - widthExtra [' + widthExtra +
+            '] - targetMiddleWidth [' + targetMiddleWidth.toFixed(2) + ']) / 2 == ' + setMargins.toFixed(2));
 
         console.log('setMargins > 0: ' + (setMargins.toFixed(2) > 0));
         if (setMargins > 0) { // check > 0 - even in this algorithm, shouldn't be?
-            console.log('middleImg.margin-left = ' + setMargins.toFixed(2));
-            console.log('middleImg.margin-right = ' + setMargins.toFixed(2));
+            console.log('    middleImg.margin-left = ' + setMargins.toFixed(2));
+            console.log('    middleImg.margin-right = ' + setMargins.toFixed(2));
         } else {
-            console.log('middleImg.margin-left = 0');
-            console.log('middleImg.margin-right = 0');
+            console.log('    middleImg.margin-left = 0');
+            console.log('    middleImg.margin-right = 0');
         }
 
 
