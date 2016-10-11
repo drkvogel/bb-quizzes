@@ -1,34 +1,58 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-     <meta charset="utf-8">
+    <meta charset="utf-8">
     <title>test</title>
+    <script type="text/javascript">
+    var width, height, location, iframe, go;
+    window.onload = function() {
+        x = document.getElementById('width');
+        y = document.getElementById('height');
+        loc = document.getElementById('loc');
+        iframe = document.getElementById('iframe');
+        x.addEventListener('keydown', keydown);
+        y.addEventListener('keydown', keydown);
+        loc.addEventListener('keydown', keydown);
+    };
+    function keydown(event) {
+        console.log('keyboard event: ' + event.which);
+        switch (event.which) {
+        case 68: // d
+            event.preventDefault(); // don't trap other keypresses e.g. ctrl-shift-i for dev tools
+            break;
+        case 13: // enter
+            event.preventDefault();
+            go();
+        default:
+        }
+    }
+    function go() {
+        //console.log("x: " + x + ", y: " + y + ", loc: " + loc);
+        iframe.width = x.value; //iframe.style = 'width: ' + x + 'px; height: ' + y + 'px';
+        iframe.height = y.value;
+        iframe.src = loc.value;
+    }
+    </script>
 </head>
 <body>
-<!-- <form method="post"> -->
-    width <input id="width" value="800">
-    height <input id="height" value="600">
-    location <input id="loc" value="http://localhost:8000">
-    <button onclick="go()">Go</button>
-<!-- </form> -->
+    location <input id="loc" type="url" value="http://localhost:8000">
+    width <input id="width" type="text" maxlength="4" size="4" value="800"> 
+    height <input id="height" type="text" maxlength="4" size="4" value="600">
+    <button id="go" onclick="go()">Go</button>
 <hr />
-
 <div class="container">
     <iframe id="iframe"></iframe>
 </div>
-
-<script type="text/javascript">
-function go() {
-    var x = document.getElementById('width').value;
-    var y = document.getElementById('height').value;
-    var loc = document.getElementById('loc').value;
-    console.log("x: " + x + ", y: " + y + ", loc: " + loc);
-    var iframe = document.getElementById('iframe');
-    iframe.width = x;
-    iframe.height = y;
-    //iframe.style = 'width: ' + x + 'px; height: ' + y + 'px';
-    iframe.src = loc;
-}
-</script>
 </body>
 </html>
+
+<!--         // var x = document.getElementById('width').value;
+        // var y = document.getElementById('height').value;
+        // var loc = document.getElementById('loc').value;
+        // var x = width.value;
+        // var y = height.value;
+        // var loc = location.value;
+ -->
+<!--  onkeydown="javascript:keydown()"> -->
+<!-- <form method="post"> -->
+<!-- </form> -->
