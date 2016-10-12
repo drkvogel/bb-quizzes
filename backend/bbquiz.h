@@ -11,6 +11,7 @@
 #endif
 #define XHTTP_HOST_NAME "red.ctsu.ox.ac.uk/~cp/cjb/matrix"
 #define XHTTP_HOST_PORT 80
+#define SMALLINT_MAX 32767
 
 // #define DBG_SET(x) session_data.debugflags & x
 // #define LOG_TIME logtime.setNow();                          \

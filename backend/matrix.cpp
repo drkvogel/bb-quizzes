@@ -3,6 +3,7 @@
 #include "xquery.h"
 #include "xexec.h"
 #include "matrix.h"
+#include "bbquiz.h"
 #include "nxjson.h"
 
 Matrix::vecRecord MatrixRecords;
@@ -57,10 +58,12 @@ void Matrix::parseResponses(MatrixRecord *rec) {
             const nx_json* item = nx_json_item(arr, i);
             MatrixAnswer ans;
             ans.duration    = nx_json_get(item, "duration"  )->int_value / 10; // Time taken to answer puzzle
-            //ans.puzzle      = nx_json_get(item, "puzzle"    )->int_value; // Puzzle chosen by algorithm, as number
+            if (ans.duration > SMALLINT_MAX) ans.duration = -2; // cap SMALLINT/INTEGER2 (-32768 to 32767) and save "overflow" value
             ans.elapsed     = nx_json_get(item, "elapsed"   )->int_value / 10; // Cumulative time elapsed since start of test, in deciseconds
+            if (ans.elapsed > SMALLINT_MAX) ans.elapsed = -2;
             ans.answer      = nx_json_get(item, "answer"    )->int_value; // Answer given by user
             ans.correct     = nx_json_get(item, "correct"   )->int_value; // Correct answer
+            //ans.puzzle      = nx_json_get(item, "puzzle"    )->int_value; // Puzzle chosen by algorithm, as number
             //printf("%d ", nx_json_get(item, "count")->int_value);
             //printf("elapsed: %d<br />", nx_json_get(item, "elapsed")->int_value);
             //printJSONAnswer(item);

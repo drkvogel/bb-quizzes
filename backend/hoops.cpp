@@ -49,9 +49,11 @@ void Hoops::parseResponses(HoopsRecord *rec) {
         for (int i=0; i < arr->length; i++) {
             const nx_json* item = nx_json_item(arr, i);
             HoopsAnswer ans;
-            ans.duration    = nx_json_get(item, "duration"  )->int_value / 10; // Time taken to answer puzzle
             ans.puzzle      = nx_json_get(item, "puzzle"    )->int_value; // Puzzle chosen by algorithm, as number
+            ans.duration    = nx_json_get(item, "duration"  )->int_value / 10; // Time taken to answer puzzle
+            if (ans.duration > SMALLINT_MAX) ans.duration = -2;
             ans.elapsed     = nx_json_get(item, "elapsed"   )->int_value / 10; // Cumulative time elapsed since start of test, in deciseconds
+            if (ans.elapsed > SMALLINT_MAX) ans.elapsed = -2;
             ans.answer      = nx_json_get(item, "answer"    )->int_value; // Answer given by user
             ans.correct     = nx_json_get(item, "correct"   )->int_value; // Correct answer
             //printf("%d ", nx_json_get(item, "count")->int_value);
