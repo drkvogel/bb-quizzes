@@ -170,96 +170,17 @@ The build system was created by yeoman running on node.js via npm. It uses the g
     tfinish     INGRESDATE  No      None    Time the quiz was finished
     tinsert     INGRESDATE  No      'now'   Time the row was inserted into the database (default 'now')
     responses   LONG VARCHAR No     None    JSON returned at end of quiz, to be parsed by backend
-    duration1   INTEGER4    Yes     None    Time taken to answer puzzle
-    puzzle1     INTEGER4    Yes     None    Puzzle chosen by algorithm
-    elapsed1    INTEGER4    Yes     None    Cumulative time elapsed
-    answer1     INTEGER4    Yes     None    Answer given by user
-    correct1    INTEGER4    Yes     None    Correct answer
-    duration2   INTEGER4    Yes     None    Time taken to answer puzzle
-    puzzle2     INTEGER4    Yes     None    Puzzle chosen by algorithm
-    elapsed2    INTEGER4    Yes     None    Cumulative time elapsed
-    answer2     INTEGER4    Yes     None    Answer given by user
-    correct2    INTEGER4    Yes     None    Correct answer
-    duration3   INTEGER4    Yes     None    Time taken to answer puzzle
-    puzzle3     INTEGER4    Yes     None    Puzzle chosen by algorithm
-    elapsed3    INTEGER4    Yes     None    Cumulative time elapsed
-    answer3     INTEGER4    Yes     None    Answer given by user
-    correct3    INTEGER4    Yes     None    Correct answer
-    duration4   INTEGER4    Yes     None    Time taken to answer puzzle
-    puzzle4     INTEGER4    Yes     None    Puzzle chosen by algorithm
-    elapsed4    INTEGER4    Yes     None    Cumulative time elapsed
-    answer4     INTEGER4    Yes     None    Answer given by user
-    correct4    INTEGER4    Yes     None    Correct answer
-    duration5   INTEGER4    Yes     None    Time taken to answer puzzle
-    puzzle5     INTEGER4    Yes     None    Puzzle chosen by algorithm
-    elapsed5    INTEGER4    Yes     None    Cumulative time elapsed
-    answer5     INTEGER4    Yes     None    Answer given by user
-    correct5    INTEGER4    Yes     None    Correct answer
-    duration6   INTEGER4    Yes     None    Time taken to answer puzzle
-    puzzle6     INTEGER4    Yes     None    Puzzle chosen by algorithm
-    elapsed6    INTEGER4    Yes     None    Cumulative time elapsed
-    answer6     INTEGER4    Yes     None    Answer given by user
-    correct6    INTEGER4    Yes     None    Correct answer
-    duration7   INTEGER4    Yes     None    Time taken to answer puzzle
-    puzzle7     INTEGER4    Yes     None    Puzzle chosen by algorithm
-    elapsed7    INTEGER4    Yes     None    Cumulative time elapsed
-    answer7     INTEGER4    Yes     None    Answer given by user
-    correct7    INTEGER4    Yes     None    Correct answer
-    duration8   INTEGER4    Yes     None    Time taken to answer puzzle
-    puzzle8     INTEGER4    Yes     None    Puzzle chosen by algorithm
-    elapsed8    INTEGER4    Yes     None    Cumulative time elapsed
-    answer8     INTEGER4    Yes     None    Answer given by user
-    correct8    INTEGER4    Yes     None    Correct answer
-    duration9   INTEGER4    Yes     None    Time taken to answer puzzle
-    puzzle9     INTEGER4    Yes     None    Puzzle chosen by algorithm
-    elapsed9    INTEGER4    Yes     None    Cumulative time elapsed
-    answer9     INTEGER4    Yes     None    Answer given by user
-    correct9    INTEGER4    Yes     None    Correct answer
-    duration10  INTEGER4    Yes     None    Time taken to answer puzzle
-    puzzle10    INTEGER4    Yes     None    Puzzle chosen by algorithm
-    elapsed10   INTEGER4    Yes     None    Cumulative time elapsed
-    answer10    INTEGER4    Yes     None    Answer given by user
-    correct10   INTEGER4    Yes     None    Correct answer
-    duration11  INTEGER4    Yes     None    Time taken to answer puzzle
-    puzzle11    INTEGER4    Yes     None    Puzzle chosen by algorithm
-    elapsed11   INTEGER4    Yes     None    Cumulative time elapsed
-    answer11    INTEGER4    Yes     None    Answer given by user
-    correct11   INTEGER4    Yes     None    Correct answer
-    duration12  INTEGER4    Yes     None    Time taken to answer puzzle
-    puzzle12    INTEGER4    Yes     None    Puzzle chosen by algorithm
-    elapsed12   INTEGER4    Yes     None    Cumulative time elapsed
-    answer12    INTEGER4    Yes     None    Answer given by user
-    correct12   INTEGER4    Yes     None    Correct answer
-    duration13  INTEGER4    Yes     None    Time taken to answer puzzle
-    puzzle13    INTEGER4    Yes     None    Puzzle chosen by algorithm
-    elapsed13   INTEGER4    Yes     None    Cumulative time elapsed
-    answer13    INTEGER4    Yes     None    Answer given by user
-    correct13   INTEGER4    Yes     None    Correct answer
-    duration14  INTEGER4    Yes     None    Time taken to answer puzzle
-    puzzle14    INTEGER4    Yes     None    Puzzle chosen by algorithm
-    elapsed14   INTEGER4    Yes     None    Cumulative time elapsed
-    answer14    INTEGER4    Yes     None    Answer given by user
-    correct14   INTEGER4    Yes     None    Correct answer
-    duration15  INTEGER4    Yes     None    Time taken to answer puzzle
-    puzzle15    INTEGER4    Yes     None    Puzzle chosen by algorithm
-    elapsed15   INTEGER4    Yes     None    Cumulative time elapsed
-    answer15    INTEGER4    Yes     None    Answer given by user
-    correct15   INTEGER4    Yes     None    Correct answer
-    duration16  INTEGER4    Yes     None    Time taken to answer puzzle
-    puzzle16    INTEGER4    Yes     None    Puzzle chosen by algorithm
-    elapsed16   INTEGER4    Yes     None    Cumulative time elapsed
-    answer16    INTEGER4    Yes     None    Answer given by user
-    correct16   INTEGER4    Yes     None    Correct answer
-    duration17  INTEGER4    Yes     None    Time taken to answer puzzle
-    puzzle17    INTEGER4    Yes     None    Puzzle chosen by algorithm
-    elapsed17   INTEGER4    Yes     None    Cumulative time elapsed
-    answer17    INTEGER4    Yes     None    Answer given by user
-    correct17   INTEGER4    Yes     None    Correct answer
-    duration18  INTEGER4    Yes     None    Time taken to answer puzzle
-    puzzle18    INTEGER4    Yes     None    Puzzle chosen by algorithm
-    elapsed18   INTEGER4    Yes     None    Cumulative time elapsed
-    answer18    INTEGER4    Yes     None    Answer given by user
-    correct18   INTEGER4    Yes     None    Correct answer
+    duration1   INTEGER2    Yes     None    Time taken to answer puzzle
+    puzzle1     INTEGER1    Yes     None    Puzzle chosen by algorithm
+    elapsed1    INTEGER2    Yes     None    Cumulative time elapsed
+    answer1     INTEGER1    Yes     None    Answer given by user
+    correct1    INTEGER1    Yes     None    Correct answer
+    ...
+    duration18  INTEGER2    Yes     None    Time taken to answer puzzle
+    puzzle18    INTEGER1    Yes     None    Puzzle chosen by algorithm
+    elapsed18   INTEGER2    Yes     None    Cumulative time elapsed
+    answer18    INTEGER1    Yes     None    Answer given by user
+    correct18   INTEGER1    Yes     None    Correct answer
     
     Secondary Indices:None
     Constraints:None
