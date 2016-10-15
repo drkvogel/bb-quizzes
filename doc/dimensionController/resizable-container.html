@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>test</title>
+    <style type="text/css">
+        div.container {
+            /*padding: 20px;*/
+            width: 300px;
+            margin: 1px;
+            /*border: 2px solid;*/
+        }
+        .resizeable {
+            resize: both;
+            overflow: auto; 
+        }
+    </style>    
+    <script type="text/javascript">
+    var width, height, location, iframe, iframeContainer, go;
+    window.onload = function() {
+        x = document.getElementById('width');
+        y = document.getElementById('height');
+        loc = document.getElementById('loc');
+        iframe = document.getElementById('iframe');
+        x.addEventListener('keydown', keydown);
+        y.addEventListener('keydown', keydown);
+        loc.addEventListener('keydown', keydown);
+        iframeContainer = document.getElementById('iframeContainer');
+        iframeContainer.addEventListener('onresize', resize());
+    };
+    function resize() {
+        x.value = iframe.clientWidth; // Gecko and IE ignore value onreload if changed https://bugzilla.mozilla.org/show_bug.cgi?id=46845#c186
+        y.value = iframe.clientHeight;
+        //loc.value = iframe.src;
+        console.log('resize(): ' + iframe.clientWidth + ', ' + iframe.clientHeight);
+    }
+    function keydown(event) {
+        //console.log('keyboard event: ' + event.which);
+        switch (event.which) {
+        case 68: // d
+            event.preventDefault(); // don't trap other keypresses e.g. ctrl-shift-i for dev tools
+            break;
+        case 13: // enter
+            event.preventDefault();
+            go();
+        default:
+        }
+    }
+    function go() {
+        console.log("x: " + x.value + ", y: " + y.value + ", loc: " + loc.value);
+        // iframe.width = x.value; //iframe.style = 'width: ' + x + 'px; height: ' + y + 'px';
+        // iframe.height = y.value;
+        console.log(x.value);
+        console.log(Number.isInteger(x.value));
+        console.log(Number.parseInt(x.value, 10)); // parseInt('123xyx') returns 123 - why? useful sometimes, I guess..
+        //console.log(x.value + "px");
+        //iframeContainer.style.width = isNaN(Number.parseInt(x.value, 10)) ? x.value : x.value + "px"; 
+        // iframeContainer.style.height = Number.isInteger(y.value) ? y.value + "px" : y.value; 
+        iframeContainer.style.width = Number.parseInt(x.value) + "px"; // parseInt strips "px", "%", etc...
+        iframeContainer.style.height = Number.parseInt(y.value) + "px"; // parseInt strips "px", "%", etc...
+        iframe.src = loc.value;
+        console.log('iframeContainer: ' + iframeContainer.style.width + ', ' + iframeContainer.style.height);
+        console.log('iframe: ' + iframe.clientWidth + ', ' + iframe.clientHeight);
+        // iframeContainer.style.width = Number.isInteger(x.value) ? String(x.value) + "px" : x.value; 
+        // iframeContainer.style.height = Number.isInteger(y.value) ? y.value + "px" : y.value; 
+        //iframeContainer.src = loc.value;
+    }
+    //iframe.style = 'width: ' + x + 'px; height: ' + y + 'px';
+    </script>
+</head>
+<body>
+    <table><tr>
+        <td>location <input id="loc" type="url" value="http://localhost:8000"></td>
+        <td>width <input id="width" type="text" maxlength="6" size="4" value="800"> </td>
+        <td>height <input id="height" type="text" maxlength="6" size="4" value="600"></td>
+        <td><button id="go" onclick="go()">Go</button></td>
+    <tr></table>
+<hr />
+<div id="iframeContainer" class="container resizeable" scroll="no">
+    <iframe id="iframe" width="100%" height="100%" frameBorder="0" scroll="no">  <!-- style="width: 100%" -->
+        <p>This is an iframe and this is inline content</p>
+    </iframe>
+</div>
+</body>
+</html>
+
+<!--         // var x = document.getElementById('width').value;
+        // var y = document.getElementById('height').value;
+        // var loc = document.getElementById('loc').value;
+        // var x = width.value;
+        // var y = height.value;
+        // var loc = location.value;
+ -->
+<!--  onkeydown="javascript:keydown()"> -->
+<!-- <form method="post"> -->
+<!-- </form> -->

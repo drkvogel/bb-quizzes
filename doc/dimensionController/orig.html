@@ -3,6 +3,17 @@
 <head>
     <meta charset="utf-8">
     <title>test</title>
+    <style type="text/css">
+        div.container {
+            //padding: 20px;
+            width: 300px;
+            border: 2px solid;
+        }
+        .resizeable {
+            resize: both;
+            overflow: auto; 
+        }
+    </style>    
     <script type="text/javascript">
     var width, height, location, iframe, go;
     window.onload = function() {
@@ -40,11 +51,11 @@
     height <input id="height" type="text" maxlength="4" size="4" value="600">
     <button id="go" onclick="go()">Go</button>
 <hr />
-<div class="container">
-    <iframe id="iframe">  <!-- style="width: 100%" -->
+<!-- <div class="container resizeable"> -->
+    <iframe id="iframe" width="100%" height="100%" frameBorder="0">  <!-- style="width: 100%" -->
         <p>This is an iframe and this is inline content</p>
     </iframe>
-</div>
+<!-- </div> -->
 </body>
 </html>
 
