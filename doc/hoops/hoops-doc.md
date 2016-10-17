@@ -102,15 +102,11 @@ Uses same scaling algorithm as the Matrix puzzle.
 
 ### 1280x1024
 
-working for
-document: 1280 x 844
-window: 1280 x 1024
-
 topWidth: 748, topHeight: 291, botWidth: 748, botHeight: 291
 widthExtra = 
     (container.outerWidth [1280] - container.width [1260]) [20] + 
     pages.outerWidth [1260] - pages.width [1260]) [0] + 
-   == 20
+    == 20
 heightExtra =
     (container.outerHeight [839] -  container.height [804]) [35] + 
     topTxt.height [0] + 
@@ -120,7 +116,7 @@ heightExtra =
     #answers.height [96] +
     navTxt.height [0] +
     navCtl.height [-15] +
-   == 120
+    == 120
 naturalFullWidth =
     widthExtra [20] + topWidth [748] == 768
 naturalFullHeight =
@@ -132,23 +128,19 @@ scale = scaleV [1.46] <= scaleH  [1.67] ? 1.46
 targetWidth = naturalFullWidth [768] * scale [1.46] == 1120.27
 targetHeight = naturalFullHeight [702] * scale [1.46] == 1024.00
 targetMiddleHeight = targetHeight [1024] - heightExtra [120] == 904
-targetMiddleWidth = targetMiddleHeight [904] * middleHWRatio [1.15] == 1039.60
-setMargins = window.width [1280] - widthExtra [20] - targetMiddleWidth [1039.60]) / 2 == 110.20
+targetMiddleWidth = targetMiddleHeight [904] * middleHWRatio [1.15] == 1039
+setMargins = window.width [1280] - widthExtra [20] - targetMiddleWidth [1039]) / 2 == 110
 setMargins > 0: true
-    middleImg.margin-left = 110.20
-    middleImg.margin-right = 110.20
+    middleImg.margin-left = 110
+    middleImg.margin-right = 110
 
 ### 640x480
-
-working for
-document: 640 x 459
-window: 640 x 480
 
 topWidth: 748, topHeight: 291, botWidth: 748, botHeight: 291
 widthExtra = 
     (container.outerWidth [640] - container.width [620]) [20] + 
     pages.outerWidth [620] - pages.width [620]) [0] + 
-   == 20
+    == 20
 heightExtra =
     (container.outerHeight [454] -  container.height [419]) [35] + 
     topTxt.height [0] + 
@@ -158,7 +150,7 @@ heightExtra =
     #answers.height [60] +
     navTxt.height [0] +
     navCtl.height [-15] +
-   == 92
+    == 92
 naturalFullWidth =
     widthExtra [20] + topWidth [748] == 768
 naturalFullHeight =
@@ -167,36 +159,32 @@ naturalFullHeight =
 scaleV = window.height [480] / naturalFullHeight [674] == 0.71
 scaleH = window.width [640] / naturalFullWidth [768] == 0.83
 scale = scaleV [0.71] <= scaleH  [0.83] ? 0.71
-targetWidth = naturalFullWidth [768] * scale [0.71] == 546.94
-targetHeight = naturalFullHeight [674] * scale [0.71] == 480.00
-targetMiddleHeight = targetHeight [480.00000000000006] - heightExtra [92] == 388.00000000000006
-targetMiddleWidth = targetMiddleHeight [388.00000000000006] * middleHWRatio [1.15] == 446.20
-setMargins = window.width [640] - widthExtra [20] - targetMiddleWidth [446.20]) / 2 == 86.90
+targetWidth = naturalFullWidth [768] * scale [0.71] == 546
+targetHeight = naturalFullHeight [674] * scale [0.71] == 480
+targetMiddleHeight = targetHeight [480] - heightExtra [92] == 388
+targetMiddleWidth = targetMiddleHeight [388] * middleHWRatio [1.15] == 446
+setMargins = window.width [640] - widthExtra [20] - targetMiddleWidth [446]) / 2 == 86
 setMargins > 0: true
-    middleImg.margin-left = 86.90
-    middleImg.margin-right = 86.90
+    middleImg.margin-left = 86
+    middleImg.margin-right = 86
 
 ### 320x480
-
-working for
-document: 320 x 344
-window: 320 x 480
 
 topWidth: 748, topHeight: 291, botWidth: 748, botHeight: 291
 widthExtra = 
     (container.outerWidth [320] - container.width [300]) [20] + 
     pages.outerWidth [300] - pages.width [300]) [0] + 
-   == 20
+    == 20
 heightExtra =
     (container.outerHeight [339] -  container.height [304]) [35] + 
     topTxt.height [0] + 
     (#imgdiv-a.outerHeight [76] - #imgdiv-a.height [56]) [20] + 
-     (#imgdiv-b.outerHeight [76] - #imgdiv-b.height [56]) [20] + 
+    (#imgdiv-b.outerHeight [76] - #imgdiv-b.height [56]) [20] + 
     botTxt.height [-28]  + 
     #answers.height [38] +
     navTxt.height [0] +
     navCtl.height [-15] +
-   == 70
+    == 70
 naturalFullWidth =
     widthExtra [20] + topWidth [748] 
     == 768
@@ -208,35 +196,31 @@ scaleH = window.width [320] / naturalFullWidth [768] == 0.42
 scale = scaleV [0.74] <= scaleH  [0.42] ? 0.42
 targetWidth = naturalFullWidth [768] * scale [0.42] == 320.00
 targetHeight = naturalFullHeight [652] * scale [0.42] == 271.67
-targetMiddleHeight = targetHeight [271.66] - heightExtra [70] == 201.66
-targetMiddleWidth = targetMiddleHeight [201.66] * middleHWRatio [1.15] == 231.92
-setMargins = window.width [320] - widthExtra [20] - targetMiddleWidth [231.92]) / 2 == 34.04
+targetMiddleHeight = targetHeight [271] - heightExtra [70] == 201
+targetMiddleWidth = targetMiddleHeight [201] * middleHWRatio [1.15] == 231
+setMargins = window.width [320] - widthExtra [20] - targetMiddleWidth [231.92]) / 2 == 34
 setMargins > 0: true
-    middleImg.margin-left = 34.04
-    middleImg.margin-right = 34.04
+    middleImg.margin-left = 34
+    middleImg.margin-right = 34
 
 
 ### 750x1334
-
-working for
-document: 750 x 606
-window: 750 x 1334
 
 topWidth: 748, topHeight: 291, botWidth: 748, botHeight: 291
 widthExtra = 
     (container.outerWidth [750] - container.width [730]) [20] + 
     pages.outerWidth [730] - pages.width [730]) [0] + 
-   == 20
+    == 20
 heightExtra =
     (container.outerHeight [601] -  container.height [566]) [35] + 
     topTxt.height [0] + 
     (#imgdiv-a.outerHeight [187] - #imgdiv-a.height [167]) [20] + 
-     (#imgdiv-b.outerHeight [187] - #imgdiv-b.height [167]) [20] + 
+    (#imgdiv-b.outerHeight [187] - #imgdiv-b.height [167]) [20] + 
     botTxt.height [-28]  + 
     #answers.height [96] +
     navTxt.height [0] +
     navCtl.height [-15] +
-   == 128
+    == 128
 naturalFullWidth =
     widthExtra [20] + topWidth [748] == 768
 naturalFullHeight =
@@ -247,34 +231,30 @@ scaleH = window.width [750] / naturalFullWidth [768] == 0.98
 scale = scaleV [1.88] <= scaleH  [0.98] ? 0.98
 targetWidth = naturalFullWidth [768] * scale [0.98] == 750.00
 targetHeight = naturalFullHeight [710] * scale [0.98] == 693.36
-targetMiddleHeight = targetHeight [693.359375] - heightExtra [128] == 565.359375
-targetMiddleWidth = targetMiddleHeight [565.359375] * middleHWRatio [1.15] == 650.16
-setMargins = window.width [750] - widthExtra [20] - targetMiddleWidth [650.16]) / 2 == 39.92
+targetMiddleHeight = targetHeight [693] - heightExtra [128] == 565
+targetMiddleWidth = targetMiddleHeight [565] * middleHWRatio [1.15] == 650
+setMargins = window.width [750] - widthExtra [20] - targetMiddleWidth [650]) / 2 == 39
 setMargins > 0: true
-    middleImg.margin-left = 39.92
-    middleImg.margin-right = 39.92
+    middleImg.margin-left = 39
+    middleImg.margin-right = 39
 
 ### 1242x2208
-
-working for
-document: 1242 x 914
-window: 1242 x 2208
 
 topWidth: 748, topHeight: 291, botWidth: 748, botHeight: 291
 widthExtra = 
     (container.outerWidth [1242] - container.width [1222]) [20] + 
     pages.outerWidth [1222] - pages.width [1222]) [0] + 
-   == 20
+    == 20
 heightExtra =
     (container.outerHeight [909] -  container.height [874]) [35] + 
     topTxt.height [0] + 
     (#imgdiv-a.outerHeight [328] - #imgdiv-a.height [308]) [20] + 
-     (#imgdiv-b.outerHeight [328] - #imgdiv-b.height [308]) [20] + 
+    (#imgdiv-b.outerHeight [328] - #imgdiv-b.height [308]) [20] + 
     botTxt.height [-36]  + 
     #answers.height [96] +
     navTxt.height [0] +
     navCtl.height [-15] +
-   == 120
+    == 120
 naturalFullWidth =
     widthExtra [20] + topWidth [748] == 768
 naturalFullHeight =
@@ -285,12 +265,12 @@ scaleH = window.width [1242] / naturalFullWidth [768] == 1.62
 scale = scaleV [3.15] <= scaleH  [1.62] ? 1.62
 targetWidth = naturalFullWidth [768] * scale [1.62] == 1242.00
 targetHeight = naturalFullHeight [702] * scale [1.62] == 1135.27
-targetMiddleHeight = targetHeight [1135.265625] - heightExtra [120] == 1015.265625
-targetMiddleWidth = targetMiddleHeight [1015.265625] * middleHWRatio [1.15] == 1167.56
-setMargins = window.width [1242] - widthExtra [20] - targetMiddleWidth [1167.56]) / 2 == 27.22
+targetMiddleHeight = targetHeight [1135] - heightExtra [120] == 1015
+targetMiddleWidth = targetMiddleHeight [1015] * middleHWRatio [1.15] == 1167
+setMargins = window.width [1242] - widthExtra [20] - targetMiddleWidth [1167]) / 2 == 27
 setMargins > 0: true
-    middleImg.margin-left = 27.22
-    middleImg.margin-right = 27.22
+    middleImg.margin-left = 27
+    middleImg.margin-right = 27
 
 
 \newpage
@@ -320,6 +300,8 @@ The build system was created by yeoman running on node.js via npm. It uses the g
 \newpage
 
 ## Appendix
+
+### Image details
 
     intro1.png:       PNG image data, 748 x 470
     intro2.png:       PNG image data, 748 x 470
