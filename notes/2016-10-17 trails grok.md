@@ -5,12 +5,19 @@ from C:\Users\cbird\Projects\tmp\webserver\webserver\htdocs\HMDB3\Trailmaking
 /home/kvogel/Projects/bb-quizzes/trails/notes/orig/trailtest.php
 /home/kvogel/Projects/bb-quizzes/trails/notes/orig/trailtest.js
 
-    > a = "A"
-    'A'
-    > a.charCodeAt()
-    65
-    > String.fromCharCode(65)
-    'A'
+.ods files e.g. part_a_map.ods have been used to create HTML map areas in trailtest.php.
+could convert these to svg somehow...
+xslt or st2-fu
+e.g. given:
+
+    <area id="aa0" nohref shape="circle" coords="277,390,20" alt="circle1" onmousedown="clicked('0')">
+
+make:
+
+    <circle id="el2" cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
+
+
+
 
 
 ```js
@@ -42,3 +49,12 @@ function loaded() {
 
 
 ```
+
+
+## done
+
+### String.fromCharCode(a.charCodeAt()) ?
+
+    > a = "A"                   # 'A'
+    > a.charCodeAt()            # 65
+    > String.fromCharCode(65)   # 'A'
