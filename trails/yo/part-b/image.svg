@@ -1,31 +1,57 @@
-<svg <svg version="1.1"xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 200 200" onclick="hello">
-    <line id="el1" x1="50" y1="50" x2="150" y2="150" stroke-width="8" stroke="black" onclick="hello('I am a line')"/>
-    <circle id="el2" cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" onclick="hello('I am yellow')"/>
-    <circle id="el3" cx="150" cy="150" r="40" stroke="red" stroke-width="4" fill="blue" onclick="hello('I am blue')" />
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 800 600">
+    <circle id="bb0"  cx="228" cy="232" r="20" stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="228" y="232">1</text>
+    <circle id="bb1"  cx="323" cy="387" r="20" stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="323" y="387">A</text>
+    <circle id="bb2"  cx="175" cy="420" r="20" stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="175" y="420">2</text>
+    <circle id="bb3"  cx="203" cy="111" r="20" stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="203" y="111">B</text>
+    <circle id="bb4"  cx="234" cy="169" r="20" stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="234" y="169">3</text>
+    <circle id="bb5"  cx="327" cy="286" r="20" stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="327" y="286">C</text>
+    <circle id="bb6"  cx="277" cy="80" r="20" stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="277" y="80">4</text>
+    <circle id="bb7"  cx="386" cy="78" r="20" stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="386" y="78">D</text>
+    <circle id="bb8"  cx="380" cy="246" r="20" stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="380" y="246">5</text>
+    <circle id="bb9"  cx="381" cy="472" r="20" stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="381" y="472">E</text>
+    <circle id="bb10" cx="233" cy="457" r="20"  stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="233" y="457">6</text>
+    <circle id="bb11" cx="130" cy="498" r="20"  stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="130" y="498">F</text>
+    <circle id="bb12" cx="155" cy="225" r="20"  stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="155" y="225">7</text>
+    <circle id="bb13" cx="90" cy="381" r="20"  stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="90" y="381">G</text>
+    <circle id="bb14" cx="65" cy="90" r="20"  stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="65" y="90">8</text>
+    <circle id="bb15" cx="108" cy="268" r="20"  stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="108" y="268">H</text>
+    <circle id="bb16" cx="149" cy="79" r="20"  stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="149" y="79">9</text>
+    <circle id="bb17" cx="342" cy="29" r="20"  stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="342" y="29">I</text>
+    <circle id="bb18" cx="416" cy="29" r="20"  stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="416" y="29">10</text>
+    <circle id="bb19" cx="408" cy="409" r="20"  stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="408" y="409">J</text>
+    <circle id="bb20" cx="422" cy="520" r="20"  stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="422" y="520">11</text>
+    <circle id="bb21" cx="38" cy="521" r="20"  stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="38" y="521">K</text>
+    <circle id="bb22" cx="23" cy="337" r="20"  stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="23" y="337">12</text>
+    <circle id="bb23" cx="56" cy="452" r="20"  stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="56" y="452">L</text>
+    <circle id="bb24" cx="32" cy="40" r="20"  stroke-width="2" stroke="black" fill="white" />
+    <text style="fill:red" x="32" y="40">13</text>
 </svg>
 
-    <area id="bb0" nohref shape="circle" coords="228,232,20" alt="circle 1" onmousedown="clicked('0')">
-    <area id="bb1" nohref shape="circle" coords="323,387,20" alt="circle A" onmousedown="clicked('1')">
-    <area id="bb2" nohref shape="circle" coords="175,420,20" alt="circle 2" onmousedown="clicked('2')">
-    <area id="bb3" nohref shape="circle" coords="203,111,20" alt="circle B" onmousedown="clicked('3')">
-    <area id="bb4" nohref shape="circle" coords="234,169,20" alt="circle 3" onmousedown="clicked('4')">
-    <area id="bb5" nohref shape="circle" coords="327,286,20" alt="circle C" onmousedown="clicked('5')">
-    <area id="bb6" nohref shape="circle" coords="277,80,20" alt="circle 4" onmousedown="clicked('6')">
-    <area id="bb7" nohref shape="circle" coords="386,78,20" alt="circle D" onmousedown="clicked('7')">
-    <area id="bb8" nohref shape="circle" coords="380,246,20" alt="circle 5" onmousedown="clicked('8')">
-    <area id="bb9" nohref shape="circle" coords="381,472,20" alt="circle E" onmousedown="clicked('9')">
-    <area id="bb10" nohref shape="circle" coords="233,457,20" alt="circle 6" onmousedown="clicked('10')">
-    <area id="bb11" nohref shape="circle" coords="130,498,20" alt="circle F" onmousedown="clicked('11')">
-    <area id="bb12" nohref shape="circle" coords="155,225,20" alt="circle 7" onmousedown="clicked('12')">
-    <area id="bb13" nohref shape="circle" coords="90,381,20" alt="circle G" onmousedown="clicked('13')">
-    <area id="bb14" nohref shape="circle" coords="65,90,20" alt="circle 8" onmousedown="clicked('14')">
-    <area id="bb15" nohref shape="circle" coords="108,268,20" alt="circle H" onmousedown="clicked('15')">
-    <area id="bb16" nohref shape="circle" coords="149,79,20" alt="circle 9" onmousedown="clicked('16')">
-    <area id="bb17" nohref shape="circle" coords="342,29,20" alt="circle I" onmousedown="clicked('17')">
-    <area id="bb18" nohref shape="circle" coords="416,29,20" alt="circle 10" onmousedown="clicked('18')">
-    <area id="bb19" nohref shape="circle" coords="408,409,20" alt="circle J" onmousedown="clicked('19')">
-    <area id="bb20" nohref shape="circle" coords="422,520,20" alt="circle 11" onmousedown="clicked('20')">
-    <area id="bb21" nohref shape="circle" coords="38,521,20" alt="circle K" onmousedown="clicked('21')">
-    <area id="bb22" nohref shape="circle" coords="23,337,20" alt="circle 12" onmousedown="clicked('22')">
-    <area id="bb23" nohref shape="circle" coords="56,452,20" alt="circle L" onmousedown="clicked('23')">
-    <area id="bb24" nohref shape="circle" coords="32,40,20" alt="circle 13" onmousedown="clicked('24')">
+<!--     <line id="el1" x1="50" y1="50" x2="150" y2="150" stroke-width="8" stroke="black" onclick="hello('I am a line')"/>
+    <circle id="el2" cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" onclick="hello('I am yellow')"/>
+    <circle id="el3" cx="150" cy="150" r="40" stroke="red" stroke-width="4" fill="blue" onclick="hello('I am blue')" />
+ -->
