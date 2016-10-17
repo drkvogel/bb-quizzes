@@ -1,0 +1,31 @@
+<svg <svg version="1.1"xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 200 200" onclick="hello">
+    <line id="el1" x1="50" y1="50" x2="150" y2="150" stroke-width="8" stroke="black" onclick="hello('I am a line')"/>
+    <circle id="el2" cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" onclick="hello('I am yellow')"/>
+    <circle id="el3" cx="150" cy="150" r="40" stroke="red" stroke-width="4" fill="blue" onclick="hello('I am blue')" />
+</svg>
+
+    <area id="bb0" nohref shape="circle" coords="228,232,20" alt="circle 1" onmousedown="clicked('0')">
+    <area id="bb1" nohref shape="circle" coords="323,387,20" alt="circle A" onmousedown="clicked('1')">
+    <area id="bb2" nohref shape="circle" coords="175,420,20" alt="circle 2" onmousedown="clicked('2')">
+    <area id="bb3" nohref shape="circle" coords="203,111,20" alt="circle B" onmousedown="clicked('3')">
+    <area id="bb4" nohref shape="circle" coords="234,169,20" alt="circle 3" onmousedown="clicked('4')">
+    <area id="bb5" nohref shape="circle" coords="327,286,20" alt="circle C" onmousedown="clicked('5')">
+    <area id="bb6" nohref shape="circle" coords="277,80,20" alt="circle 4" onmousedown="clicked('6')">
+    <area id="bb7" nohref shape="circle" coords="386,78,20" alt="circle D" onmousedown="clicked('7')">
+    <area id="bb8" nohref shape="circle" coords="380,246,20" alt="circle 5" onmousedown="clicked('8')">
+    <area id="bb9" nohref shape="circle" coords="381,472,20" alt="circle E" onmousedown="clicked('9')">
+    <area id="bb10" nohref shape="circle" coords="233,457,20" alt="circle 6" onmousedown="clicked('10')">
+    <area id="bb11" nohref shape="circle" coords="130,498,20" alt="circle F" onmousedown="clicked('11')">
+    <area id="bb12" nohref shape="circle" coords="155,225,20" alt="circle 7" onmousedown="clicked('12')">
+    <area id="bb13" nohref shape="circle" coords="90,381,20" alt="circle G" onmousedown="clicked('13')">
+    <area id="bb14" nohref shape="circle" coords="65,90,20" alt="circle 8" onmousedown="clicked('14')">
+    <area id="bb15" nohref shape="circle" coords="108,268,20" alt="circle H" onmousedown="clicked('15')">
+    <area id="bb16" nohref shape="circle" coords="149,79,20" alt="circle 9" onmousedown="clicked('16')">
+    <area id="bb17" nohref shape="circle" coords="342,29,20" alt="circle I" onmousedown="clicked('17')">
+    <area id="bb18" nohref shape="circle" coords="416,29,20" alt="circle 10" onmousedown="clicked('18')">
+    <area id="bb19" nohref shape="circle" coords="408,409,20" alt="circle J" onmousedown="clicked('19')">
+    <area id="bb20" nohref shape="circle" coords="422,520,20" alt="circle 11" onmousedown="clicked('20')">
+    <area id="bb21" nohref shape="circle" coords="38,521,20" alt="circle K" onmousedown="clicked('21')">
+    <area id="bb22" nohref shape="circle" coords="23,337,20" alt="circle 12" onmousedown="clicked('22')">
+    <area id="bb23" nohref shape="circle" coords="56,452,20" alt="circle L" onmousedown="clicked('23')">
+    <area id="bb24" nohref shape="circle" coords="32,40,20" alt="circle 13" onmousedown="clicked('24')">

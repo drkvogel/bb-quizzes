@@ -1,0 +1,14 @@
+<svg <svg version="1.1"xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 200 200" onclick="hello">
+    <line id="el1" x1="50" y1="50" x2="150" y2="150" stroke-width="8" stroke="black" onclick="hello('I am a line')"/>
+    <circle id="el2" cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" onclick="hello('I am yellow')"/>
+    <circle id="el3" cx="150" cy="150" r="40" stroke="red" stroke-width="4" fill="blue" onclick="hello('I am blue')" />
+</svg>
+
+    <area id="apr0" nohref shape="circle" coords="245,167,20" alt="circle 1" onmousedown="clicked('0')">
+    <area id="apr1" nohref shape="circle" coords="285,66,20" alt="circle 2" onmousedown="clicked('1')">
+    <area id="apr2" nohref shape="circle" coords="384,127,20" alt="circle 3" onmousedown="clicked('2')">
+    <area id="apr3" nohref shape="circle" coords="325,156,20" alt="circle 4" onmousedown="clicked('3')">
+    <area id="apr4" nohref shape="circle" coords="353,236,20" alt="circle 5" onmousedown="clicked('4')">
+    <area id="apr5" nohref shape="circle" coords="97,217,20" alt="circle 6" onmousedown="clicked('5')">
+    <area id="apr6" nohref shape="circle" coords="48,117,20" alt="circle 7" onmousedown="clicked('6')">
+    <area id="apr7" nohref shape="circle" coords="176,111,20" alt="circle 8" onmousedown="clicked('7')">

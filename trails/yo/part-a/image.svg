@@ -1,0 +1,31 @@
+<svg <svg version="1.1"xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 200 200" onclick="hello">
+    <line id="el1" x1="50" y1="50" x2="150" y2="150" stroke-width="8" stroke="black" onclick="hello('I am a line')"/>
+    <circle id="el2" cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" onclick="hello('I am yellow')"/>
+    <circle id="el3" cx="150" cy="150" r="40" stroke="red" stroke-width="4" fill="blue" onclick="hello('I am blue')" />
+</svg>
+
+    <area id="aa0" nohref shape="circle" coords="277,390,20" alt="circle1" onmousedown="clicked('0')">
+    <area id="aa1" nohref shape="circle" coords="213,452,20" alt="circle2" onmousedown="clicked('1')" >
+    <area id="aa2" nohref shape="circle" coords="319,452,20" alt="circle3" onmousedown="clicked('2')" >
+    <area id="aa3" nohref shape="circle" coords="327,208,20" alt="circle4" onmousedown="clicked('3')" >
+    <area id="aa4" nohref shape="circle" coords="206,267,20" alt="circle5" onmousedown="clicked('4')" >
+    <area id="aa5" nohref shape="circle" coords="263,321,20" alt="circle6" onmousedown="clicked('5')" >
+    <area id="aa6" nohref shape="circle" coords="185,356,20" alt="circle7" onmousedown="clicked('6')" >
+    <area id="aa7" nohref shape="circle" coords="86,440,20" alt="circle8" onmousedown="clicked('7')" >
+    <area id="aa8" nohref shape="circle" coords="107,490,20" alt="circle9" onmousedown="clicked('8')" >
+    <area id="aa9" nohref shape="circle" coords="156,445,20" alt="circle10" onmousedown="clicked('9')" >
+    <area id="aa10" nohref shape="circle" coords="206,511,20" alt="circle11" onmousedown="clicked('10')" >
+    <area id="aa11" nohref shape="circle" coords="35,516,20" alt="circle12" onmousedown="clicked('11')" >
+    <area id="aa12" nohref shape="circle" coords="65,287,20" alt="circle13" onmousedown="clicked('12')" >
+    <area id="aa13" nohref shape="circle" coords="29,336,20" alt="circle14" onmousedown="clicked('13')" >
+    <area id="aa14" nohref shape="circle" coords="29,69,20" alt="circle15" onmousedown="clicked('14')" >
+    <area id="aa15" nohref shape="circle" coords="72,159,20" alt="circle16" onmousedown="clicked('15')" >
+    <area id="aa16" nohref shape="circle" coords="149,36,20" alt="circle17" onmousedown="clicked('16')" >
+    <area id="aa17" nohref shape="circle" coords="178,158,20" alt="circle18" onmousedown="clicked('17')" >
+    <area id="aa18" nohref shape="circle" coords="284,117,20" alt="circle19" onmousedown="clicked('18')" >
+    <area id="aa19" nohref shape="circle" coords="206,110,20" alt="circle20" onmousedown="clicked('19')" >
+    <area id="aa20" nohref shape="circle" coords="236,29,20" alt="circle21" onmousedown="clicked('20')" >
+    <area id="aa21" nohref shape="circle" coords="406,84,20" alt="circle22" onmousedown="clicked('21')" >
+    <area id="aa22" nohref shape="circle" coords="419,493,20" alt="circle23" onmousedown="clicked('22')" >
+    <area id="aa23" nohref shape="circle" coords="370,282,20" alt="circle24" onmousedown="clicked('23')" >
+    <area id="aa24" nohref shape="circle" coords="355,508,20" alt="circle25" onmousedown="clicked('24')" >
