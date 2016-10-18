@@ -1,0 +1,55 @@
+{
+    "comment": "can't put comments in JSON!",
+    "comment": "timeLimit should be 120000 == 2 minutes",
+    "nextDelay" : 500,
+    "timeLimit" : 120000,
+    "comment": "formAction was complete.php",
+    "formAction" : "http://oqsweb.ndph.ox.ac.uk/~cp/bbquiz/",
+    "navNext" : "<span><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>",
+    "navStart" : "<span><button class=\"btn\" id=\"next\" href=\"#\">Start &gt;&gt;</button></span>",
+    "navPrev" : "<span><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>",
+    "navPrevNext" : "<span style=\"margin-right: 40px;\"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span><span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>",
+    "pages":[
+        {
+            "name": "home",
+            "type" : "intro",
+            "templateId": "home",
+            "images": {},
+            "correct": -1,
+            "suppressAbandon" : true
+        },
+        {
+            "name": "intro1",
+            "type" : "intro",
+            "templateId": "intro",
+            "images": {
+                "top": ""
+            },
+            "topTxt" : "<h3>Trails</h3><p>Trails instructions</p>",
+            "botTxt" : "<p>...</p>",
+            "navTxt" : "<p>Touch \"Next\" to continue.</p>",
+            "correct": -1,
+            "suppressAbandon" : true
+        },
+        {
+            "name": "getReady",
+            "type" : "intro",
+            "templateId": "getReady",
+            "navTxt" : "<p>Touch \"Start\" when you are ready to begin.</p><p>You will have 2 minutes to get as far as you can.</p>",
+            "correct": -1,
+            "suppressAbandon" : true
+        },
+        {
+            "name": "ex",
+            "type" : "game",
+            "templateId": "game",
+            "botTxt": "<p>Complete the trail</p>"
+        },
+        {
+            "name": "thanks",
+            "templateId": "thanks",
+            "suppressAbandon": true,
+            "text": "<p>Thanks for doing the test.</p><p>Please leave comments.</p>"
+        }
+    ]
+}
