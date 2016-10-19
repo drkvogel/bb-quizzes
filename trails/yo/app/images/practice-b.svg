@@ -1,20 +1,20 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 600 600">
-    <circle id="bpr0" cx="245" cy="167" r="20" alt="circle 1" />
-    <text style="fill:red" x="245" y="167" text-anchor="middle" alignment-baseline="central">1</text>
-    <circle id="bpr1" cx="285" cy="66" r="20" alt="circle A" />
-    <text style="fill:red" x="285" y="66" text-anchor="middle" alignment-baseline="central">A</text>
-    <circle id="bp2r" cx="384" cy="127" r="20" alt="circle 2" />
-    <text style="fill:red" x="384" y="127" text-anchor="middle" alignment-baseline="central">2</text>
-    <circle id="bpr3" cx="325" cy="156" r="20" alt="circle B" />
-    <text style="fill:red" x="325" y="156" text-anchor="middle" alignment-baseline="central">B</text>
-    <circle id="bpr4" cx="353" cy="236" r="20" alt="circle 3" />
-    <text style="fill:red" x="353" y="236" text-anchor="middle" alignment-baseline="central">3</text>
-    <circle id="bpr5" cx="97" cy="217" r="20" alt="circle C" />
-    <text style="fill:red" x="97" y="217" text-anchor="middle" alignment-baseline="central">C</text>
-    <circle id="bpr6" cx="48" cy="117" r="20" alt="circle 4" />
-    <text style="fill:red" x="48" y="117" text-anchor="middle" alignment-baseline="central">4</text>
-    <circle id="bpr7" cx="177" cy="101" r="20" alt="circle D" />
-    <text style="fill:red" x="177" y="101" text-anchor="middle" alignment-baseline="central">D</text>
+    <circle id="bpr0" cx="245" cy="167" r="20" alt="circle 1" stroke-width="2" stroke="black" fill="white" />
+    <text x="245" y="167" text-anchor="middle" dominant-baseline="central">1</text>
+    <circle id="bpr1" cx="285" cy="66" r="20" alt="circle A" stroke-width="2" stroke="black" fill="white" />
+    <text x="285" y="66" text-anchor="middle" dominant-baseline="central">A</text>
+    <circle id="bp2r" cx="384" cy="127" r="20" alt="circle 2" stroke-width="2" stroke="black" fill="white" />
+    <text x="384" y="127" text-anchor="middle" dominant-baseline="central">2</text>
+    <circle id="bpr3" cx="325" cy="156" r="20" alt="circle B" stroke-width="2" stroke="black" fill="white" />
+    <text x="325" y="156" text-anchor="middle" dominant-baseline="central">B</text>
+    <circle id="bpr4" cx="353" cy="236" r="20" alt="circle 3" stroke-width="2" stroke="black" fill="white" />
+    <text x="353" y="236" text-anchor="middle" dominant-baseline="central">3</text>
+    <circle id="bpr5" cx="97" cy="217" r="20" alt="circle C" stroke-width="2" stroke="black" fill="white" />
+    <text x="97" y="217" text-anchor="middle" dominant-baseline="central">C</text>
+    <circle id="bpr6" cx="48" cy="117" r="20" alt="circle 4" stroke-width="2" stroke="black" fill="white" />
+    <text x="48" y="117" text-anchor="middle" dominant-baseline="central">4</text>
+    <circle id="bpr7" cx="177" cy="101" r="20" alt="circle D" stroke-width="2" stroke="black" fill="white" />
+    <text x="177" y="101" text-anchor="middle" dominant-baseline="central">D</text>
 </svg>
 
 <!--     <line id="el1" x1="50" y1="50" x2="150" y2="150" stroke-width="8" stroke="black" onclick="hello('I am a line')"/>
