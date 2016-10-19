@@ -715,6 +715,25 @@
         }
     }
 
+    function addListeners() {
+        var svg1 = document.getElementById("svg1");
+        svg1.addEventListener("load", function () { // add load event listener to object, as will load svg asynchronously
+            var svgDoc = obj.contentDocument; // get inner DOM of svg
+            var blue = svgDoc.getElementById("blue"); // get inner element by id
+            blue.addEventListener("mousedown", function ()  {// add behaviour
+                alert('I am blue');
+            }, false);
+            var yell = svgDoc.getElementById("yell"); // get inner element by id
+            yell.addEventListener("mousedown", function ()  {// add behaviour
+                alert('I am yellow');
+            }, false);
+            var line = svgDoc.getElementById("line"); // get inner element by id
+            line.addEventListener("mousedown", function ()  {// add behaviour
+                alert('I am a line');
+            }, false);
+        }, false);
+    }
+
     function init() {
         timer = new Timer(); // globals
         timerWholeTest = new Timer(); // globals

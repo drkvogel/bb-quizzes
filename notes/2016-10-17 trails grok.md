@@ -24,6 +24,16 @@ do this one with proper css layout?
 why isn't abandon-div a child of #pages rather than a sibling?
 
 
+need to check svg has loaded before adding event listeners
+    first + each time puzzle/practice is loaded
+what if it has already loaded by the time we added 
+http://stackoverflow.com/questions/13364613/how-to-know-if-window-load-event-was-fired-already
+
+rationalize element id names
+
+lappy 4 wk?
+
+
 ```js
 var level = 1; // 1:practicea, 2:parta, 3:practiceb, 4:partb
 var redT = []; //global background timeout
