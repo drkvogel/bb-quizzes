@@ -165,174 +165,174 @@
         $(sel).html(text + 'ms');
     }
 
-    function RandIntArray(data) { // remove a randomly-chosen element from the list and return it
-        this.pop = function() {
-            if (data.length <= 0) {
-                return null; //throw new Exception('tried to pop empty stack');
-            }
-            var randIndex = Math.floor((Math.random() * data.length));
-            return data.splice(randIndex, 1);
-        };
-    }
+    // function RandIntArray(data) { // remove a randomly-chosen element from the list and return it
+    //     this.pop = function() {
+    //         if (data.length <= 0) {
+    //             return null; //throw new Exception('tried to pop empty stack');
+    //         }
+    //         var randIndex = Math.floor((Math.random() * data.length));
+    //         return data.splice(randIndex, 1);
+    //     };
+    // }
 
-    function randLevels() { // copy jon's levelData::rndFixedLevels()
-        var pseudoRandLevelList = [5, 1, 4, 5, 4, 4, 5, 1, 3, 2, 2, 5, 2, 4, 1, 2, 3, 1]; // reversed from Jon's; hardest first
-        var nonRandlevels = [];
+    // function randLevels() { // copy jon's levelData::rndFixedLevels()
+    //     var pseudoRandLevelList = [5, 1, 4, 5, 4, 4, 5, 1, 3, 2, 2, 5, 2, 4, 1, 2, 3, 1]; // reversed from Jon's; hardest first
+    //     var nonRandlevels = [];
 
-        nonRandlevels.push(new RandIntArray([0, 1, 2, 3]));
-        nonRandlevels.push(new RandIntArray([4, 5, 6, 7]));
-        nonRandlevels.push(new RandIntArray([8, 9]));
-        nonRandlevels.push(new RandIntArray([10, 11, 12, 13]));
-        nonRandlevels.push(new RandIntArray([14, 15, 16, 17]));
+    //     nonRandlevels.push(new RandIntArray([0, 1, 2, 3]));
+    //     nonRandlevels.push(new RandIntArray([4, 5, 6, 7]));
+    //     nonRandlevels.push(new RandIntArray([8, 9]));
+    //     nonRandlevels.push(new RandIntArray([10, 11, 12, 13]));
+    //     nonRandlevels.push(new RandIntArray([14, 15, 16, 17]));
 
-        for (var i = 0; i < MAX_LEVELS; i++) {
-             var wantedLevel = pseudoRandLevelList[i];
-             levels[i] = nonRandlevels[wantedLevel - 1].pop(); // easiest end popped off first
-        }
-    }
+    //     for (var i = 0; i < MAX_LEVELS; i++) {
+    //          var wantedLevel = pseudoRandLevelList[i];
+    //          levels[i] = nonRandlevels[wantedLevel - 1].pop(); // easiest end popped off first
+    //     }
+    // }
 
-    function scaleImagesAY() {
-        console.log('scaleImagesAY()');
+    // function scaleImagesAY() {
+    //     console.log('scaleImagesAY()');
 
-        // we know the natural sizes of the images already (748 x 291)
-        var topWidth = 748, topHeight = 291, botWidth = 748, botHeight = 291;
+    //     // we know the natural sizes of the images already (748 x 291)
+    //     var topWidth = 748, topHeight = 291, botWidth = 748, botHeight = 291;
 
-        var widthExtra = // total width of elements, excluding centre images
-            ($('.container').outerWidth(true) - $('.container').width()) +
-            ($('#pages').outerWidth(true) - $('#pages').width());
+    //     var widthExtra = // total width of elements, excluding centre images
+    //         ($('.container').outerWidth(true) - $('.container').width()) +
+    //         ($('#pages').outerWidth(true) - $('#pages').width());
 
-        var heightExtra = // total height of elements, excluding centre images
-            ($('.container').outerHeight(true) - $('.container').height()) +
-            ($('.topTxt').is(':visible') ? $('.topTxt').height() : 0) +
-            ($('#imgdiv-a').is(':visible') ? $('#imgdiv-a').outerHeight(true) - $('#imgdiv-a').height() : 0) +
-            ($('#imgdiv-b').is(':visible') ? $('#imgdiv-b').outerHeight(true) - $('#imgdiv-b').height() : 0) +
-            ($('.botTxt').is(':visible') ? $('.botTxt').height() : 0) +
-            ($('#answers').is(':visible') ? $('#answers').height() : 0) +
-            ($('.navTxt').is(':visible') ? $('.navTxt').height() : 0) +
-            ($('.navCtl').is(':visible') ? $('.navCtl').height() : 0);
-            // ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
+    //     var heightExtra = // total height of elements, excluding centre images
+    //         ($('.container').outerHeight(true) - $('.container').height()) +
+    //         ($('.topTxt').is(':visible') ? $('.topTxt').height() : 0) +
+    //         ($('#imgdiv-a').is(':visible') ? $('#imgdiv-a').outerHeight(true) - $('#imgdiv-a').height() : 0) +
+    //         ($('#imgdiv-b').is(':visible') ? $('#imgdiv-b').outerHeight(true) - $('#imgdiv-b').height() : 0) +
+    //         ($('.botTxt').is(':visible') ? $('.botTxt').height() : 0) +
+    //         ($('#answers').is(':visible') ? $('#answers').height() : 0) +
+    //         ($('.navTxt').is(':visible') ? $('.navTxt').height() : 0) +
+    //         ($('.navCtl').is(':visible') ? $('.navCtl').height() : 0);
+    //         // ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
 
-        // natural image dimensions; .width(), .height() are current dimensions
-        var naturalFullWidth = widthExtra + topWidth;
-        var naturalFullHeight = heightExtra + topHeight + botHeight;
+    //     // natural image dimensions; .width(), .height() are current dimensions
+    //     var naturalFullWidth = widthExtra + topWidth;
+    //     var naturalFullHeight = heightExtra + topHeight + botHeight;
 
-        // allow 200px for text at bottom
-        // var textExtra = 200;
+    //     // allow 200px for text at bottom
+    //     // var textExtra = 200;
 
-        // .middleImg needs to be scaled from natural width/height to fit in (window height - textExtra) x window width
+    //     // .middleImg needs to be scaled from natural width/height to fit in (window height - textExtra) x window width
 
-        // vertical shrink = (window height - 200px) / naturalFullHeight
-        // horizontal shrink = window width / naturalFullWidth
-        // var scaleV = ($(window).height() - textExtra) / naturalFullHeight;
-        var scaleV = ($(window).height()) / naturalFullHeight;
-        var scaleH = $(window).width() / naturalFullWidth;
+    //     // vertical shrink = (window height - 200px) / naturalFullHeight
+    //     // horizontal shrink = window width / naturalFullWidth
+    //     // var scaleV = ($(window).height() - textExtra) / naturalFullHeight;
+    //     var scaleV = ($(window).height()) / naturalFullHeight;
+    //     var scaleH = $(window).width() / naturalFullWidth;
 
-        // select lower of these scaling values
-        var scale = scaleV <= scaleH ? scaleV : scaleH;
+    //     // select lower of these scaling values
+    //     var scale = scaleV <= scaleH ? scaleV : scaleH;
 
-        // work out desired dimensions of whole quiz
-        var targetWidth = naturalFullWidth * scale; // forget about width, it always fits, down to 300px
-        var targetHeight = naturalFullHeight * scale;
+    //     // work out desired dimensions of whole quiz
+    //     var targetWidth = naturalFullWidth * scale; // forget about width, it always fits, down to 300px
+    //     var targetHeight = naturalFullHeight * scale;
 
-        // work out desired height of .middleImg
-        var targetMiddleHeight = targetHeight - heightExtra;
+    //     // work out desired height of .middleImg
+    //     var targetMiddleHeight = targetHeight - heightExtra;
 
-        // // need h/w ratio of .middleImg. Typical dimensions: ? TODO
-        var hwRatio = 1.15; //1.95; //??
-        var middleHWRatio = hwRatio;
+    //     // // need h/w ratio of .middleImg. Typical dimensions: ? TODO
+    //     var hwRatio = 1.15; //1.95; //??
+    //     var middleHWRatio = hwRatio;
 
-        // what innerWidth of .middleImg would create targetMiddleHeight?
-        var targetMiddleWidth = targetMiddleHeight * middleHWRatio;
+    //     // what innerWidth of .middleImg would create targetMiddleHeight?
+    //     var targetMiddleWidth = targetMiddleHeight * middleHWRatio;
 
-        // set these margins on .middleImg to make the targetWidth and targetHeight
-        var setMargins = ($(window).width() - widthExtra - targetMiddleWidth) / 2;
-        if (setMargins > 0) { // check > 0 - even in this algorithm, shouldn't be?
-            $('.middleImg').css('margin-left', setMargins);
-            $('.middleImg').css('margin-right', setMargins);
-        } else {
-            $('.middleImg').css('margin-left', 0);
-            $('.middleImg').css('margin-right', 0);
-        }
+    //     // set these margins on .middleImg to make the targetWidth and targetHeight
+    //     var setMargins = ($(window).width() - widthExtra - targetMiddleWidth) / 2;
+    //     if (setMargins > 0) { // check > 0 - even in this algorithm, shouldn't be?
+    //         $('.middleImg').css('margin-left', setMargins);
+    //         $('.middleImg').css('margin-right', setMargins);
+    //     } else {
+    //         $('.middleImg').css('margin-left', 0);
+    //         $('.middleImg').css('margin-right', 0);
+    //     }
 
-        // show working
-        console.log();
-        console.log();
-        console.log('working for');
-        console.log('document: ' + document.body.clientWidth + ' x '  + document.body.clientHeight);
-        console.log('window: ' + window.innerWidth + ' x '  + window.innerHeight);
-        console.log();
-        console.log('topWidth: ' + topWidth + ', topHeight: ' + topHeight + ', botWidth: ' + botWidth + ', botHeight: ' + botHeight);
-
-
-            // ($('.container').outerWidth(true) - $('.container').width()) +
-            // ($('#pages').outerWidth(true) - $('#pages').width());
-        console.log('widthExtra = ');
-        console.log('    (container.outerWidth [' + $('.container').outerWidth(true) +
-            '] - container.width [' + $('.container').width() + ']) [' +
-            ($('.container').outerWidth(true) - $('.container').width()) + '] + ');
-        console.log('    pages.outerWidth [' + $('#pages').outerWidth(true) +
-            '] - pages.width [' + $('#pages').width() + ']) [' + ($('#pages').outerWidth(true) - $('#pages').width()) + '] + ');
-        console.log('   == ' + widthExtra);
-
-        console.log('heightExtra =');
-        console.log('    (container.outerHeight [' + $('.container').outerHeight(true) + '] - ' +
-            ' container.height [' +  $('.container').height() + ']) [' + ($('.container').outerHeight(true) - $('.container').height()) + '] + ');
-        console.log('    topTxt.height [' + $('.topTxt').height() + '] + ');
-        console.log('    (#imgdiv-a.outerHeight [' + $('#imgdiv-a').outerHeight(true) + '] - #imgdiv-a.height [' + $('#imgdiv-a').height() + ']) [' +
-            ($('#imgdiv-a').is(':visible') ? $('#imgdiv-a').outerHeight(true) - $('#imgdiv-a').height() : 0) + '] + ');
-        console.log('     (#imgdiv-b.outerHeight [' + $('#imgdiv-b').outerHeight(true) + '] - #imgdiv-b.height [' + $('#imgdiv-b').height() + ']) [' +
-            ($('#imgdiv-b').is(':visible') ? $('#imgdiv-b').outerHeight(true) - $('#imgdiv-b').height() : 0)  + '] + ');
-        console.log('    botTxt.height [' + $('.botTxt').height() + ']  + ');
-        console.log('    #answers.height [' + $('#answers').height() + '] +');
-        console.log('    navTxt.height [' + $('.navTxt').height() + '] +');
-        console.log('    navCtl.height [' + $('.navCtl').height() + '] +');
-        console.log('   == ' + heightExtra);
-            // ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
-
-        console.log('naturalFullWidth =');
-        console.log('    widthExtra [' + widthExtra + '] + topWidth [' + topWidth + '] == ' + naturalFullWidth);
-        console.log('naturalFullHeight =');
-        console.log('    heightExtra [' + heightExtra + '] + topHeight [' + topHeight + '] + botHeight [' + botHeight + ']');
-        console.log('    == ' + naturalFullHeight);
-
-        // allow 200px for text at bottom // var textExtra = 200;
-        // .middleImg needs to be scaled from natural width/height to fit in (window height - textExtra) x window width
-        // vertical shrink = (window height - 200px) / naturalFullHeight
-        // horizontal shrink = window width / naturalFullWidth
-        // var scaleV = ($(window).height() - textExtra) / naturalFullHeight;
-        console.log('scaleV = window.height [' + $(window).height() + '] / naturalFullHeight [' + naturalFullHeight + '] == ' + scaleV.toFixed(2));
-        console.log('scaleH = window.width [' + $(window).width() + '] / naturalFullWidth [' + naturalFullWidth + '] == ' + scaleH.toFixed(2));
-        console.log('scale = scaleV [' + scaleV.toFixed(2) + '] <= scaleH  [' + scaleH.toFixed(2) + '] ? ' + scale.toFixed(2));
-
-        console.log('targetWidth = naturalFullWidth [' + naturalFullWidth + '] * scale [' + scale.toFixed(2) + '] == ' + targetWidth.toFixed(2));
-        console.log('targetHeight = naturalFullHeight [' + naturalFullHeight + '] * scale [' + scale.toFixed(2) + '] == ' + targetHeight.toFixed(2));
-        console.log('targetMiddleHeight = targetHeight [' + targetHeight + '] - heightExtra [' + heightExtra + '] == ' + targetMiddleHeight);
-
-        // var hwRatio = 1.15; //1.95; //??// var middleHWRatio = hwRatio;
-        // what innerWidth of .middleImg would create targetMiddleHeight?
-        console.log('targetMiddleWidth = targetMiddleHeight [' + targetMiddleHeight + '] * middleHWRatio [' + middleHWRatio + '] == ' + targetMiddleWidth.toFixed(2));
-        // var targetMiddleWidth = targetMiddleHeight * middleHWRatio;
-
-        // set these margins on .middleImg to make the targetWidth and targetHeight
-        //var setMargins = ($(window).width() - widthExtra - targetMiddleWidth) / 2;
-        console.log('setMargins = window.width [' + $(window).width() + '] - widthExtra [' + widthExtra +
-            '] - targetMiddleWidth [' + targetMiddleWidth.toFixed(2) + ']) / 2 == ' + setMargins.toFixed(2));
-
-        console.log('setMargins > 0: ' + (setMargins.toFixed(2) > 0));
-        if (setMargins > 0) { // check > 0 - even in this algorithm, shouldn't be?
-            console.log('    middleImg.margin-left = ' + setMargins.toFixed(2));
-            console.log('    middleImg.margin-right = ' + setMargins.toFixed(2));
-        } else {
-            console.log('    middleImg.margin-left = 0');
-            console.log('    middleImg.margin-right = 0');
-        }
+    //     // show working
+    //     console.log();
+    //     console.log();
+    //     console.log('working for');
+    //     console.log('document: ' + document.body.clientWidth + ' x '  + document.body.clientHeight);
+    //     console.log('window: ' + window.innerWidth + ' x '  + window.innerHeight);
+    //     console.log();
+    //     console.log('topWidth: ' + topWidth + ', topHeight: ' + topHeight + ', botWidth: ' + botWidth + ', botHeight: ' + botHeight);
 
 
-        // var msg = 'setMargins: ' + setMargins +
-        //     ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
-        //     ', targetMiddleWidth: ' + targetMiddleWidth;
-        // console.log(msg);
-    }
+    //         // ($('.container').outerWidth(true) - $('.container').width()) +
+    //         // ($('#pages').outerWidth(true) - $('#pages').width());
+    //     console.log('widthExtra = ');
+    //     console.log('    (container.outerWidth [' + $('.container').outerWidth(true) +
+    //         '] - container.width [' + $('.container').width() + ']) [' +
+    //         ($('.container').outerWidth(true) - $('.container').width()) + '] + ');
+    //     console.log('    pages.outerWidth [' + $('#pages').outerWidth(true) +
+    //         '] - pages.width [' + $('#pages').width() + ']) [' + ($('#pages').outerWidth(true) - $('#pages').width()) + '] + ');
+    //     console.log('   == ' + widthExtra);
+
+    //     console.log('heightExtra =');
+    //     console.log('    (container.outerHeight [' + $('.container').outerHeight(true) + '] - ' +
+    //         ' container.height [' +  $('.container').height() + ']) [' + ($('.container').outerHeight(true) - $('.container').height()) + '] + ');
+    //     console.log('    topTxt.height [' + $('.topTxt').height() + '] + ');
+    //     console.log('    (#imgdiv-a.outerHeight [' + $('#imgdiv-a').outerHeight(true) + '] - #imgdiv-a.height [' + $('#imgdiv-a').height() + ']) [' +
+    //         ($('#imgdiv-a').is(':visible') ? $('#imgdiv-a').outerHeight(true) - $('#imgdiv-a').height() : 0) + '] + ');
+    //     console.log('     (#imgdiv-b.outerHeight [' + $('#imgdiv-b').outerHeight(true) + '] - #imgdiv-b.height [' + $('#imgdiv-b').height() + ']) [' +
+    //         ($('#imgdiv-b').is(':visible') ? $('#imgdiv-b').outerHeight(true) - $('#imgdiv-b').height() : 0)  + '] + ');
+    //     console.log('    botTxt.height [' + $('.botTxt').height() + ']  + ');
+    //     console.log('    #answers.height [' + $('#answers').height() + '] +');
+    //     console.log('    navTxt.height [' + $('.navTxt').height() + '] +');
+    //     console.log('    navCtl.height [' + $('.navCtl').height() + '] +');
+    //     console.log('   == ' + heightExtra);
+    //         // ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
+
+    //     console.log('naturalFullWidth =');
+    //     console.log('    widthExtra [' + widthExtra + '] + topWidth [' + topWidth + '] == ' + naturalFullWidth);
+    //     console.log('naturalFullHeight =');
+    //     console.log('    heightExtra [' + heightExtra + '] + topHeight [' + topHeight + '] + botHeight [' + botHeight + ']');
+    //     console.log('    == ' + naturalFullHeight);
+
+    //     // allow 200px for text at bottom // var textExtra = 200;
+    //     // .middleImg needs to be scaled from natural width/height to fit in (window height - textExtra) x window width
+    //     // vertical shrink = (window height - 200px) / naturalFullHeight
+    //     // horizontal shrink = window width / naturalFullWidth
+    //     // var scaleV = ($(window).height() - textExtra) / naturalFullHeight;
+    //     console.log('scaleV = window.height [' + $(window).height() + '] / naturalFullHeight [' + naturalFullHeight + '] == ' + scaleV.toFixed(2));
+    //     console.log('scaleH = window.width [' + $(window).width() + '] / naturalFullWidth [' + naturalFullWidth + '] == ' + scaleH.toFixed(2));
+    //     console.log('scale = scaleV [' + scaleV.toFixed(2) + '] <= scaleH  [' + scaleH.toFixed(2) + '] ? ' + scale.toFixed(2));
+
+    //     console.log('targetWidth = naturalFullWidth [' + naturalFullWidth + '] * scale [' + scale.toFixed(2) + '] == ' + targetWidth.toFixed(2));
+    //     console.log('targetHeight = naturalFullHeight [' + naturalFullHeight + '] * scale [' + scale.toFixed(2) + '] == ' + targetHeight.toFixed(2));
+    //     console.log('targetMiddleHeight = targetHeight [' + targetHeight + '] - heightExtra [' + heightExtra + '] == ' + targetMiddleHeight);
+
+    //     // var hwRatio = 1.15; //1.95; //??// var middleHWRatio = hwRatio;
+    //     // what innerWidth of .middleImg would create targetMiddleHeight?
+    //     console.log('targetMiddleWidth = targetMiddleHeight [' + targetMiddleHeight + '] * middleHWRatio [' + middleHWRatio + '] == ' + targetMiddleWidth.toFixed(2));
+    //     // var targetMiddleWidth = targetMiddleHeight * middleHWRatio;
+
+    //     // set these margins on .middleImg to make the targetWidth and targetHeight
+    //     //var setMargins = ($(window).width() - widthExtra - targetMiddleWidth) / 2;
+    //     console.log('setMargins = window.width [' + $(window).width() + '] - widthExtra [' + widthExtra +
+    //         '] - targetMiddleWidth [' + targetMiddleWidth.toFixed(2) + ']) / 2 == ' + setMargins.toFixed(2));
+
+    //     console.log('setMargins > 0: ' + (setMargins.toFixed(2) > 0));
+    //     if (setMargins > 0) { // check > 0 - even in this algorithm, shouldn't be?
+    //         console.log('    middleImg.margin-left = ' + setMargins.toFixed(2));
+    //         console.log('    middleImg.margin-right = ' + setMargins.toFixed(2));
+    //     } else {
+    //         console.log('    middleImg.margin-left = 0');
+    //         console.log('    middleImg.margin-right = 0');
+    //     }
+
+
+    //     // var msg = 'setMargins: ' + setMargins +
+    //     //     ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
+    //     //     ', targetMiddleWidth: ' + targetMiddleWidth;
+    //     // console.log(msg);
+    // }
 
 // from hoops-doc.md
 // ### Element heights (top to bottom)
@@ -377,40 +377,40 @@
 
 
     // shrink images to try to fit height into viewport, but don't worry about width
-    function scaleImagesCBsimple() { //
-        //showInfo('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin);
-        var VERT_PAD = 75;
-        var widthExtra =
-            ($('.container').outerWidth(true) - $('.container').width()) +
-            ($('#pages').outerWidth(true) - $('#pages').width()); // missing some widths?
-        var heightExtra = // required height of .gridContainer
-            ($('#answers').is(':visible') ? $('#answers').height() : 0) +
-            ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
-            ($('.botTxt').is(':visible') ? $('.botTxt').height() : 0) +
-            ($('.topTxt').is(':visible') ? $('.topTxt').height() : 0) +
-            ($('.navTxt').is(':visible') ? $('.navTxt').height() : 0) +
-            ($('.navCtl').is(':visible') ? $('.navCtl').height() : 0)
-            //+ 75 // fixme arbitrary amount, what should this really be?
-            + VERT_PAD
-            ;
-            // missing some heights?
-        var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
-        //console.log('scaleImagesCBsimple(): setMargins ' + setMargins + ', heightExtra: ' + heightExtra + ', widthExtra: ' + widthExtra);
-             //'($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;' +
+    // function scaleImagesCBsimple() { //
+    //     //showInfo('$(window).width(): ' + $(window).width() + ', $(window).height()' + $(window).height() + ', margins: ' + margin);
+    //     var VERT_PAD = 75;
+    //     var widthExtra =
+    //         ($('.container').outerWidth(true) - $('.container').width()) +
+    //         ($('#pages').outerWidth(true) - $('#pages').width()); // missing some widths?
+    //     var heightExtra = // required height of .gridContainer
+    //         ($('#answers').is(':visible') ? $('#answers').height() : 0) +
+    //         ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
+    //         ($('.botTxt').is(':visible') ? $('.botTxt').height() : 0) +
+    //         ($('.topTxt').is(':visible') ? $('.topTxt').height() : 0) +
+    //         ($('.navTxt').is(':visible') ? $('.navTxt').height() : 0) +
+    //         ($('.navCtl').is(':visible') ? $('.navCtl').height() : 0)
+    //         //+ 75 // fixme arbitrary amount, what should this really be?
+    //         + VERT_PAD
+    //         ;
+    //         // missing some heights?
+    //     var setMargins = ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
+    //     //console.log('scaleImagesCBsimple(): setMargins ' + setMargins + ', heightExtra: ' + heightExtra + ', widthExtra: ' + widthExtra);
+    //          //'($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;' +
 
-        if (setMargins > 0) {
-            $('.middleImg').css('margin-left', setMargins);
-            $('.middleImg').css('margin-right', setMargins);
-        } else { // don't set negative margins. content should shrink width-wise if needed
-            $('.middleImg').css('margin-left', 0);
-            $('.middleImg').css('margin-right', 0);
-        }
-    }
+    //     if (setMargins > 0) {
+    //         $('.middleImg').css('margin-left', setMargins);
+    //         $('.middleImg').css('margin-right', setMargins);
+    //     } else { // don't set negative margins. content should shrink width-wise if needed
+    //         $('.middleImg').css('margin-left', 0);
+    //         $('.middleImg').css('margin-right', 0);
+    //     }
+    // }
 
-    function scaleImages() {
-        //scaleImagesCBsimple();
-        scaleImagesAY();
-    }
+    // function scaleImages() {
+    //     //scaleImagesCBsimple();
+    //     scaleImagesAY();
+    // }
 
     function isoDate() { // return date string in format yyyy-mm-ddThh:mm:ss, suitable for parsing by xtime.cpp
         var date = new Date(); // date.toISOString() is UTC/GMT with milliseconds, e.g. '2016-09-21T10:47:54.671Z'
@@ -470,7 +470,7 @@
 
     function showPage2() {
         console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)scaleImages();bind clicks
-        scaleImages();
+        //scaleImages();
         $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
         if (currentPage().name === 'thanks') { // redundant?
             console.log('currentPage().name === \'thanks\'');
@@ -489,27 +489,29 @@
         showInfo(info);
         switch (page.templateId) {
         case 'game':
-             $('.botTxt').html('How many moves would it take to make picture B look like picture A?');
+             $('.botTxt').html('<text>');
             for (var i = 1; i <= 6; i++) {
                 var id = '#ans' + i;
                 $(id).removeClass('disabled');
             }
             if (page.name === 'intro4') { // practice example
                 puzzle = config.practice;
-                $('#img-a').attr('src', 'images/' + puzzle.a);
-                $('#img-b').attr('src', 'images/' + puzzle.b); // or $('#imgdiv-b img')
+                // $('#img-a').attr('src', 'images/' + puzzle.a);
+                // $('#img-b').attr('src', 'images/' + puzzle.b); // or $('#imgdiv-b img')
+                $('#svg1').attr('data', 'images/' + "practice-a.svg"); // or $('#imgdiv-b img')
                 $('.navCtl').html(config.navPrev);
             } else {
-                puzzle = getNextPuzzle();
-                if (puzzle === undefined) { // nothing left on stack, finished all puzzles
-                    showPage(pageNamed('thanks'));
-                    return;
-                }
-                //var image = puzzle.i; var txt = 'getNextPuzzle(): ' + image; showInfo(txt); console.log(txt);
-                $('#img-a').attr('src', 'images/top-constant.png');  // top-constant is t3bw2y1
-                $('#img-b').attr('src', 'images/' + puzzle.b); // pseudo-random
+                // puzzle = getNextPuzzle();
+                // if (puzzle === undefined) { // nothing left on stack, finished all puzzles
+                //     showPage(pageNamed('thanks'));
+                //     return;
+                // }
+                // //var image = puzzle.i; var txt = 'getNextPuzzle(): ' + image; showInfo(txt); console.log(txt);
+                // $('#img-a').attr('src', 'images/top-constant.png');  // top-constant is t3bw2y1
+                // $('#img-b').attr('src', 'images/' + puzzle.b); // pseudo-random
+                $('#svg1').attr('data', 'images/' + "part-a.svg"); // or $('#imgdiv-b img')
                 $('.navCtl').html('');
-                console.log('puzzle.b: ' + puzzle.b + ', correct: ' + puzzle.c);
+                //console.log('puzzle.b: ' + puzzle.b + ', correct: ' + puzzle.c);
             }
             startTimer(page); // timer to show chosen answer before next, and start game timer
             break;
@@ -518,7 +520,7 @@
             break; // don't do nuttin
         case 'intro': // these are templateIds remember, not page names
             $('.topTxt').html(page.topTxt);
-            $('.middleImg img#introImg').attr('src', 'images/' + page.images.top); // e.g. intro1.png - not split and don't have A, B labels
+            //$('.middleImg img#introImg').attr('src', 'images/' + page.images.top); // e.g. intro1.png - not split and don't have A, B labels
             $('.botTxt').html(page.botTxt);
             $('.navTxt').html(page.navTxt);
             if (page.name === 'intro1') {
@@ -738,7 +740,7 @@
         console.log(msg);
         $('#home .debug').html('<code>' + msg + '</code>');
 
-        randLevels(); console.log('levels: ' + levels);
+        //randLevels(); console.log('levels: ' + levels);
 
         showPage(currentPage());
         config.tinstruct = isoDate();

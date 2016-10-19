@@ -18,6 +18,11 @@ make:
 
 sublime text jiggery-pokery...
 
+do this one with proper css layout?
+
+.container @media queries limiting dimensions again
+why isn't abandon-div a child of #pages rather than a sibling?
+
 
 ```js
 var level = 1; // 1:practicea, 2:parta, 3:practiceb, 4:partb
