@@ -88,49 +88,13 @@ Thus, we have the images:
 
 ## Description of Scaling Algorithm
 
-### scaleImagesCBsimple()
-
-#### Pseudo-code for simple algorithm
-
-    setMargins = (window.width - (window.height() - heightExtra) - widthExtra) / 2;
-
-* Tries to keep the `div.gridContainer` element square by setting the margins of `.gridContainer`
-* The abandon button scrolls off the bottom at extreme width and short height.
-
-#### JavaScript code for simple algorithm
-
-```js
-var widthExtra =
-    ($('.container').outerWidth(true) - $('.container').width()) +
-    ($('#pages').outerWidth(true) - $('#pages').width());
-
-var heightExtra = // required height of .gridContainer
-    ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
-    ($('.botText').is(':visible') ? $('.botText').height() : 0);
-
-var setMargins = 
-    ($(window).width() - ($(window).height() - heightExtra) - widthExtra) / 2;
-
-if (setMargins > 0) {
-    $('.gridContainer').css('margin-left', setMargins);
-    $('.gridContainer').css('margin-right', setMargins);
-} else { // content should shrink width-wise if needed
-    $('.gridContainer').css('margin-left', 0);
-    $('.gridContainer').css('margin-right', 0);
-}
-```
-
-### New Scaling Algorithm
-
-TODO: following copied from Matrix, update to be correct for Hoops
-
-#### Pseudo-code for new algorithm
+#### Pseudo-code for scaling algorithm
 
 ```
 get natural width/height (naturalFullWidth/Height)
 get window width/height ($(window).width()/height)
 
-vertical shrink = (window height - 200px) / naturalFullHeight
+vertical shrink = window height / naturalFullHeight
 horizontal shrink = window width / naturalFullWidth
 
 scale = vShrink < hShrink ? vShrink : hShrink
@@ -140,10 +104,8 @@ targetWidth = naturalFullWidth * scale
 
 targetMiddleHeight = targetHeight - heightExtras
 
-# need h/w ratio of .gridContainer
-# Typical dimensions: 162 x 144
-# 162 / 144 == 1.125
-middleHWRatio = 1.125
+# height/width ratio of .middleImg
+middleHWRatio = 1.15
 
 # what innerWidth of .gridContainer would create targetMiddleHeight?
 targetMiddleWidth = targetMiddleHeight * middleHWRatio
@@ -152,48 +114,46 @@ targetMiddleWidth = targetMiddleHeight * middleHWRatio
 margins = (window.width - widthExtra) / 2
 ```
 
-#### JavaScript code for new algorithm
+#### JavaScript code for scaling algorithm
 
 ```js
-var topWidth, topHeight, botWidth, botHeight;
-if (currentPage().templateId == 'quiz2x2') {
-    topWidth = 420;
-    topHeight = 340;
-    botWidth = 680;
-    botHeight = 365;
-} else if (page.templateId == 'quiz3x3') {
-    topWidth = 510;
-    topHeight = 405;
-    botWidth = 755;
-    botHeight = 295;
-}
+var topWidth = 748, topHeight = 291, botWidth = 748, botHeight = 291;
 
 var widthExtra =
     ($('.container').outerWidth(true) - $('.container').width()) +
     ($('#pages').outerWidth(true) - $('#pages').width());
 
 var heightExtra =
-    ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
-    ($('.botText').is(':visible') ? $('.botText').height() : 0);
+    ($('.container').outerHeight(true) - $('.container').height()) +
+    ($('.topTxt').is(':visible') ? $('.topTxt').height() : 0) +
+    ($('#imgdiv-a').is(':visible') ? $('#imgdiv-a').outerHeight(true) - $('#imgdiv-a').height() : 0) +
+    ($('#imgdiv-b').is(':visible') ? $('#imgdiv-b').outerHeight(true) - $('#imgdiv-b').height() : 0) +
+    ($('.botTxt').is(':visible') ? $('.botTxt').height() : 0) +
+    ($('#answers').is(':visible') ? $('#answers').height() : 0) +
+    ($('.navTxt').is(':visible') ? $('.navTxt').height() : 0) +
+    ($('.navCtl').is(':visible') ? $('.navCtl').height() : 0);
 
-var naturalFullWidth = widthExtra + botWidth; // bottom image widest
+var naturalFullWidth = widthExtra + topWidth;
 var naturalFullHeight = heightExtra + topHeight + botHeight;
 
-var scaleV = ($(window).height() - 200) / naturalFullHeight;
+var scaleV = ($(window).height()) / naturalFullHeight;
 var scaleH = $(window).width() / naturalFullWidth;
 var scale = scaleV <= scaleH ? scaleV : scaleH;
 
 var targetWidth = naturalFullWidth * scale;
 var targetHeight = naturalFullHeight * scale;
-var targetMiddleHeight = targetHeight - heightExtras;
-
-var middleHWRatio = 1.125
+var targetMiddleHeight = targetHeight - heightExtra;
+var middleHWRatio = 1.15;
 var targetMiddleWidth = targetMiddleHeight * middleHWRatio;
 
-setMargin = ($(window).width() - widthExtra) / 2
-
-$('.gridContainer').css('margin-left', setMargin);
-$('.gridContainer').css('margin-right', setMargin);
+var setMargins = ($(window).width() - widthExtra - targetMiddleWidth) / 2;
+if (setMargins > 0) {
+    $('.middleImg').css('margin-left', setMargins);
+    $('.middleImg').css('margin-right', setMargins);
+} else {
+    $('.middleImg').css('margin-left', 0);
+    $('.middleImg').css('margin-right', 0);
+}
 ```
 
 \newpage
@@ -296,11 +256,11 @@ $('.gridContainer').css('margin-right', setMargin);
     scaleV = window.height [480] / naturalFullHeight [652] == 0.74
     scaleH = window.width [320] / naturalFullWidth [768] == 0.42
     scale = scaleV [0.74] <= scaleH  [0.42] ? 0.42
-    targetWidth = naturalFullWidth [768] * scale [0.42] == 320.00
-    targetHeight = naturalFullHeight [652] * scale [0.42] == 271.67
+    targetWidth = naturalFullWidth [768] * scale [0.42] == 320
+    targetHeight = naturalFullHeight [652] * scale [0.42] == 271
     targetMiddleHeight = targetHeight [271] - heightExtra [70] == 201
     targetMiddleWidth = targetMiddleHeight [201] * middleHWRatio [1.15] == 231
-    setMargins = window.width [320] - widthExtra [20] - targetMiddleWidth [231.92]) / 2 == 34
+    setMargins = window.width [320] - widthExtra [20] - targetMiddleWidth [231]) / 2 == 34
     setMargins > 0: true
         middleImg.margin-left = 34
         middleImg.margin-right = 34
@@ -330,8 +290,8 @@ $('.gridContainer').css('margin-right', setMargin);
     scaleV = window.height [1334] / naturalFullHeight [710] == 1.88
     scaleH = window.width [750] / naturalFullWidth [768] == 0.98
     scale = scaleV [1.88] <= scaleH  [0.98] ? 0.98
-    targetWidth = naturalFullWidth [768] * scale [0.98] == 750.00
-    targetHeight = naturalFullHeight [710] * scale [0.98] == 693.36
+    targetWidth = naturalFullWidth [768] * scale [0.98] == 750
+    targetHeight = naturalFullHeight [710] * scale [0.98] == 693
     targetMiddleHeight = targetHeight [693] - heightExtra [128] == 565
     targetMiddleWidth = targetMiddleHeight [565] * middleHWRatio [1.15] == 650
     setMargins = window.width [750] - widthExtra [20] - targetMiddleWidth [650]) / 2 == 39
@@ -364,8 +324,8 @@ $('.gridContainer').css('margin-right', setMargin);
     scaleV = window.height [2208] / naturalFullHeight [702] == 3.15
     scaleH = window.width [1242] / naturalFullWidth [768] == 1.62
     scale = scaleV [3.15] <= scaleH  [1.62] ? 1.62
-    targetWidth = naturalFullWidth [768] * scale [1.62] == 1242.00
-    targetHeight = naturalFullHeight [702] * scale [1.62] == 1135.27
+    targetWidth = naturalFullWidth [768] * scale [1.62] == 1242
+    targetHeight = naturalFullHeight [702] * scale [1.62] == 1135
     targetMiddleHeight = targetHeight [1135] - heightExtra [120] == 1015
     targetMiddleWidth = targetMiddleHeight [1015] * middleHWRatio [1.15] == 1167
     setMargins = window.width [1242] - widthExtra [20] - targetMiddleWidth [1167]) / 2 == 27
@@ -396,33 +356,6 @@ The build system was created by yeoman running on node.js via npm. It uses the g
     https://bower.io/
     http://getbootstrap.com/
     https://jquery.com/
-
-\newpage
-
-## Appendix
-
-### Image details
-
-    intro1.png:       PNG image data, 748 x 470
-    intro2.png:       PNG image data, 748 x 470
-    intro3.png:       PNG image data, 748 x 470
-    intro4.png:       PNG image data, 748 x 644
-    intro5-orig.png:  PNG image data, 748 x 723
-    intro5.png:       PNG image data, 748 x 487
-    t32by1w.png:      PNG image data, 748 x 291
-    t32wy1b.png:      PNG image data, 748 x 291
-    t3bw21y.png:      PNG image data, 748 x 291
-    t3w2b1y.png:      PNG image data, 748 x 291
-    t3w2yb1.png:      PNG image data, 748 x 291
-    t3wb2y1.png:      PNG image data, 748 x 291
-    t3wy2b1.png:      PNG image data, 748 x 291
-    t3y2b1w.png:      PNG image data, 748 x 291
-    t3yb21w.png:      PNG image data, 748 x 291
-    t3ybw21.png:      PNG image data, 748 x 291
-    t3yw21b.png:      PNG image data, 748 x 291
-    t3yw2b1.png:      PNG image data, 748 x 291
-    t3ywb21.png:      PNG image data, 748 x 291
-    top-constant.png: PNG image data, 748 x 291
 
 \newpage
 
@@ -459,3 +392,32 @@ The build system was created by yeoman running on node.js via npm. It uses the g
     Constraints:None
     Rules:None
     Grants:None
+
+\newpage
+
+## Appendix
+
+### Image details
+
+    intro1.png:       PNG image data, 748 x 470
+    intro2.png:       PNG image data, 748 x 470
+    intro3.png:       PNG image data, 748 x 470
+    intro4.png:       PNG image data, 748 x 644
+    intro5-orig.png:  PNG image data, 748 x 723
+    intro5.png:       PNG image data, 748 x 487
+    t32by1w.png:      PNG image data, 748 x 291
+    t32wy1b.png:      PNG image data, 748 x 291
+    t3bw21y.png:      PNG image data, 748 x 291
+    t3w2b1y.png:      PNG image data, 748 x 291
+    t3w2yb1.png:      PNG image data, 748 x 291
+    t3wb2y1.png:      PNG image data, 748 x 291
+    t3wy2b1.png:      PNG image data, 748 x 291
+    t3y2b1w.png:      PNG image data, 748 x 291
+    t3yb21w.png:      PNG image data, 748 x 291
+    t3ybw21.png:      PNG image data, 748 x 291
+    t3yw21b.png:      PNG image data, 748 x 291
+    t3yw2b1.png:      PNG image data, 748 x 291
+    t3ywb21.png:      PNG image data, 748 x 291
+    top-constant.png: PNG image data, 748 x 291
+
+
