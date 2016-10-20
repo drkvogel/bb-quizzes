@@ -1,13 +1,14 @@
-/*global $ */
-/*jslint browser:true */ // define 'document'
+/*global $ */ // assume jquery
+/*jslint browser:true */ // assume 'document'
 /* jshint unused:false */
 /*eslint-disable no-unused-vars*/
+/*eslint-disable strict */
 // /*jslint plusplus: true */ // doesn't work with sublime jslint plugin:
 
 
-(function () { // IIFE / Anonymous closure: hide vars from global namespace
-    // set "use strict" for whole scope
-    'use strict';
+// (function () { // IIFE / Anonymous closure: hide vars from global namespace
+//     // set "use strict" for whole scope
+//     'use strict';
 
     var LIVE = false, // const? JSHint doesn't like it
         LOCAL = false,
@@ -36,102 +37,102 @@
         responses = null,
         urlParams = {};
 
-    //var Timer = require('./timer'); // require is a node thing, unless you use requirejs
-    // copied/adapted from Jonathan's bb-quizzes/snap/Snap_files/Timer.js
+    // //var Timer = require('./timer'); // require is a node thing, unless you use requirejs
+    // // copied/adapted from Jonathan's bb-quizzes/snap/Snap_files/Timer.js
 
-    var Timer = function() {
-        this.isValid = false;
-        this.startts = 0;
-        this.lapts = 0;
-        this.hasPossibleError = false;
-        this.hasPerformance = false;
-        if (typeof window.performance !== 'undefined' && typeof window.performance.now !== 'undefined') {
-            this.hasPerformance = true;
-        }
-    };
+    // var Timer = function() {
+    //     this.isValid = false;
+    //     this.startts = 0;
+    //     this.lapts = 0;
+    //     this.hasPossibleError = false;
+    //     this.hasPerformance = false;
+    //     if (typeof window.performance !== 'undefined' && typeof window.performance.now !== 'undefined') {
+    //         this.hasPerformance = true;
+    //     }
+    // };
 
-    // adding to prototype saves memory when lots of instances - referenced not copied
-    Timer.prototype.getTime = function() {
-        var nowish;
-        if (this.hasPerformance) {
-            nowish = window.performance.now(); // https://developers.google.com/web/updates/2012/08/When-milliseconds-are-not-enough-performance-now
-        } else {
-            nowish = new Date().getTime();
-        }
-        return nowish;
-    };
+    // // adding to prototype saves memory when lots of instances - referenced not copied
+    // Timer.prototype.getTime = function() {
+    //     var nowish;
+    //     if (this.hasPerformance) {
+    //         nowish = window.performance.now(); // https://developers.google.com/web/updates/2012/08/When-milliseconds-are-not-enough-performance-now
+    //     } else {
+    //         nowish = new Date().getTime();
+    //     }
+    //     return nowish;
+    // };
 
-    Timer.prototype.findnow = function() {
-        var nowish = 0,
-            count = 0,
-            diff = 0,
-            testVal = 0;
-        do {
-            nowish = this.getTime();
-            testVal = this.getTime();
-            diff = testVal - nowish;
-            count++; // jslint complains about ++
-        } while (((diff < 0) || (diff > 2)) && (count < 10));
-        if (count >= 6) {
-            this.hasPossibleError = true; //keep the start val :(
-        }
-        return nowish;
-    };
+    // Timer.prototype.findnow = function() {
+    //     var nowish = 0,
+    //         count = 0,
+    //         diff = 0,
+    //         testVal = 0;
+    //     do {
+    //         nowish = this.getTime();
+    //         testVal = this.getTime();
+    //         diff = testVal - nowish;
+    //         count++; // jslint complains about ++
+    //     } while (((diff < 0) || (diff > 2)) && (count < 10));
+    //     if (count >= 6) {
+    //         this.hasPossibleError = true; //keep the start val :(
+    //     }
+    //     return nowish;
+    // };
 
-    Timer.prototype.now = function() {
-        this.startts = this.findnow();
-        this.lapts = 0;
-        this.isValid = false;
-    };
+    // Timer.prototype.now = function() {
+    //     this.startts = this.findnow();
+    //     this.lapts = 0;
+    //     this.isValid = false;
+    // };
 
-    Timer.prototype.lap = function() {
-        if (this.startts === 0) {
-            return;
-        }
-        this.lapts = this.findnow();
-        this.isValid = true;
-    };
+    // Timer.prototype.lap = function() {
+    //     if (this.startts === 0) {
+    //         return;
+    //     }
+    //     this.lapts = this.findnow();
+    //     this.isValid = true;
+    // };
 
-    Timer.prototype.getElapsed = function() {
-        if (!this.isValid || this.startts === 0 || this.lapts === 0) {
-            return -1;
-        }
-        var diff = this.lapts - this.startts;
-        if (diff < 0) {
-            this.hasPossibleError = true;
-        }
-        return Math.round(Number(diff)); //round the number in case it is preformce. (???)
-    };
+    // Timer.prototype.getElapsed = function() {
+    //     if (!this.isValid || this.startts === 0 || this.lapts === 0) {
+    //         return -1;
+    //     }
+    //     var diff = this.lapts - this.startts;
+    //     if (diff < 0) {
+    //         this.hasPossibleError = true;
+    //     }
+    //     return Math.round(Number(diff)); //round the number in case it is preformce. (???)
+    // };
 
-    Timer.prototype.gethasPerformance = function() {
-        return this.hasPerformance ? 1 : 0;
-    };
+    // Timer.prototype.gethasPerformance = function() {
+    //     return this.hasPerformance ? 1 : 0;
+    // };
 
-    Timer.prototype.gethasPossibleError = function() {
-        return this.hasPossibleError ? 1 : 0;
-    };
+    // Timer.prototype.gethasPossibleError = function() {
+    //     return this.hasPossibleError ? 1 : 0;
+    // };
 
-    Timer.prototype.copy = function() {
-        var copy = new Timer();
-        copy.startts = this.startts;
-        copy.lapts = this.lapts;
-        copy.hasPerformance = this.hasPerformance;
-        copy.hasPosibleError = this.hasPosibleError;
-        return copy;
-    };
+    // Timer.prototype.copy = function() {
+    //     var copy = new Timer();
+    //     copy.startts = this.startts;
+    //     copy.lapts = this.lapts;
+    //     copy.hasPerformance = this.hasPerformance;
+    //     copy.hasPosibleError = this.hasPosibleError;
+    //     return copy;
+    // };
 
-    Timer.prototype.getStart = function() {
-        return this.startts;
-    };
+    // Timer.prototype.getStart = function() {
+    //     return this.startts;
+    // };
 
-    Timer.prototype.getLap = function() {
-        return this.lapts;
-    };
+    // Timer.prototype.getLap = function() {
+    //     return this.lapts;
+    // };
 
-    Timer.prototype.isValid = function() {
-        return this.isValid;
-    };
-    // module.exports = Timer; // module.exports is Node.js, for the server!
+    // Timer.prototype.isValid = function() {
+    //     return this.isValid;
+    // };
+    // // module.exports = Timer; // module.exports is Node.js, for the server!
 
     // function preload() {
     //     //images[25] = new Image();
@@ -498,7 +499,7 @@
                 puzzle = config.practice;
                 // $('#img-a').attr('src', 'images/' + puzzle.a);
                 // $('#img-b').attr('src', 'images/' + puzzle.b); // or $('#imgdiv-b img')
-                $('#svg1').attr('data', 'images/' + "practice-a.svg"); // or $('#imgdiv-b img')
+                $('#svg1').attr('data', 'images/' + 'practice-a.svg'); // or $('#imgdiv-b img')
                 $('.navCtl').html(config.navPrev);
             } else {
                 // puzzle = getNextPuzzle();
@@ -509,7 +510,7 @@
                 // //var image = puzzle.i; var txt = 'getNextPuzzle(): ' + image; showInfo(txt); console.log(txt);
                 // $('#img-a').attr('src', 'images/top-constant.png');  // top-constant is t3bw2y1
                 // $('#img-b').attr('src', 'images/' + puzzle.b); // pseudo-random
-                $('#svg1').attr('data', 'images/' + "part-a.svg"); // or $('#imgdiv-b img')
+                $('#svg1').attr('data', 'images/' + 'part-a.svg'); // or $('#imgdiv-b img')
                 $('.navCtl').html('');
                 //console.log('puzzle.b: ' + puzzle.b + ', correct: ' + puzzle.c);
             }
@@ -716,20 +717,20 @@
     }
 
     function addListeners() {
-        var svg1 = document.getElementById("svg1");
-        svg1.addEventListener("load", function () { // add load event listener to object, as will load svg asynchronously
-            var svgDoc = obj.contentDocument; // get inner DOM of svg
-            var blue = svgDoc.getElementById("blue"); // get inner element by id
-            blue.addEventListener("mousedown", function ()  {// add behaviour
-                alert('I am blue');
+        var svg1 = document.getElementById('svg1');
+        svg1.addEventListener('load', function () { // add load event listener to object, as will load svg asynchronously
+            var svgDoc = svg1.contentDocument; // get inner DOM of svg
+            var blue = svgDoc.getElementById('blue'); // get inner element by id
+            blue.addEventListener('mousedown', function () {// add behaviour
+                // alert('I am blue');
             }, false);
-            var yell = svgDoc.getElementById("yell"); // get inner element by id
-            yell.addEventListener("mousedown", function ()  {// add behaviour
-                alert('I am yellow');
+            var yell = svgDoc.getElementById('yell'); // get inner element by id
+            yell.addEventListener('mousedown', function () {// add behaviour
+                // alert('I am yellow');
             }, false);
-            var line = svgDoc.getElementById("line"); // get inner element by id
-            line.addEventListener("mousedown", function ()  {// add behaviour
-                alert('I am a line');
+            var line = svgDoc.getElementById('line'); // get inner element by id
+            line.addEventListener('mousedown', function () {// add behaviour
+                // alert('I am a line');
             }, false);
         }, false);
     }
@@ -796,10 +797,10 @@
     $('#modals').on('click', 'button', modalClick);
 
     window.onresize = function(event) {
-        scaleImages();
+        //scaleImages();
     };
 
-    (window.onpopstate = function() {
+    (window.onpopstate = function() { // why in IIFE?
         var match,
             pl = /\+/g,  // Regex for replacing addition symbol with a space
             search = /([^&=]+)=?([^&]*)/g,
@@ -815,7 +816,9 @@
     })();
 
     $().ready(function () { //$(document).ready(
+
         console.log('Document ready');
+        // console.log('test: ' + test);
         $('#devBar').hide();
         if (LIVE) {
             window.onbeforeunload = null;
@@ -831,6 +834,6 @@
         console.log('LOCAL: ' + LOCAL);
         getConfig();
     });
-}());
+//}()); // IIFE
 
 console.log('main.js ready');
