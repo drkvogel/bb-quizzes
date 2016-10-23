@@ -1,74 +1,74 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 600 600">
-    <line id="line-parta-0" x1="277" y1="390" x2="213" y2="452" stroke-width="2" stroke="black" display="none" />
+    <line id="laa0" x1="277" y1="390" x2="213" y2="452" stroke-width="2" stroke="black" display="none" />
     <circle id="aa0" cx="277" cy="390" r="20" alt="circle1" stroke-width="2" stroke="black" fill="white" />
     <text  x="277" y="390" text-anchor="middle" dominant-baseline="central">1</text>
-    <line id="line-parta-1" x1="213" y1="452" x2="319" y2="452" stroke-width="2" stroke="black" display="none" />
+    <line id="laa1" x1="213" y1="452" x2="319" y2="452" stroke-width="2" stroke="black" display="none" />
     <circle id="aa1" cx="213" cy="452" r="20" alt="circle2" stroke-width="2" stroke="black" fill="white" />
     <text  x="213" y="452" text-anchor="middle" dominant-baseline="central">2</text>
-    <line id="line-parta-2" x1="319" y1="452" x2="327" y2="208" stroke-width="2" stroke="black" display="none" />
+    <line id="laa2" x1="319" y1="452" x2="327" y2="208" stroke-width="2" stroke="black" display="none" />
     <circle id="aa2" cx="319" cy="452" r="20" alt="circle3" stroke-width="2" stroke="black" fill="white" />
     <text  x="319" y="452" text-anchor="middle" dominant-baseline="central">3</text>
-    <line id="line-parta-3" x1="327" y1="208" x2="206" y2="267" stroke-width="2" stroke="black" display="none" />
+    <line id="laa3" x1="327" y1="208" x2="206" y2="267" stroke-width="2" stroke="black" display="none" />
     <circle id="aa3" cx="327" cy="208" r="20" alt="circle4" stroke-width="2" stroke="black" fill="white" />
     <text  x="327" y="208" text-anchor="middle" dominant-baseline="central">4</text>
-    <line id="line-parta-4" x1="206" y1="267" x2="263" y2="321" stroke-width="2" stroke="black" display="none" />
+    <line id="laa4" x1="206" y1="267" x2="263" y2="321" stroke-width="2" stroke="black" display="none" />
     <circle id="aa4" cx="206" cy="267" r="20" alt="circle5" stroke-width="2" stroke="black" fill="white" />
     <text  x="206" y="267" text-anchor="middle" dominant-baseline="central">5</text>
-    <line id="line-parta-5" x1="263" y1="321" x2="185" y2="356" stroke-width="2" stroke="black" display="none" />
+    <line id="laa5" x1="263" y1="321" x2="185" y2="356" stroke-width="2" stroke="black" display="none" />
     <circle id="aa5" cx="263" cy="321" r="20" alt="circle6" stroke-width="2" stroke="black" fill="white" />
     <text  x="263" y="321" text-anchor="middle" dominant-baseline="central">6</text>
-    <line id="line-parta-6" x1="185" y1="356" x2="86" y2="440" stroke-width="2" stroke="black" display="none" />
+    <line id="laa6" x1="185" y1="356" x2="86" y2="440" stroke-width="2" stroke="black" display="none" />
     <circle id="aa6" cx="185" cy="356" r="20" alt="circle7" stroke-width="2" stroke="black" fill="white" />
     <text  x="185" y="356" text-anchor="middle" dominant-baseline="central">7</text>
-    <line id="line-parta-7" x1="86" y1="440" x2="107" y2="490" stroke-width="2" stroke="black" display="none" />
+    <line id="laa7" x1="86" y1="440" x2="107" y2="490" stroke-width="2" stroke="black" display="none" />
     <circle id="aa7" cx="86" cy="440" r="20" alt="circle8" stroke-width="2" stroke="black" fill="white" />
     <text  x="86" y="440" text-anchor="middle" dominant-baseline="central">8</text>
-    <line id="line-parta-8" x1="107" y1="490" x2="156" y2="445" stroke-width="2" stroke="black" display="none" />
+    <line id="laa8" x1="107" y1="490" x2="156" y2="445" stroke-width="2" stroke="black" display="none" />
     <circle id="aa8" cx="107" cy="490" r="20" alt="circle9" stroke-width="2" stroke="black" fill="white" />
     <text  x="107" y="490" text-anchor="middle" dominant-baseline="central">9</text>
-    <line id="line-parta-9" x1="156" y1="445" x2="206" y2="511" stroke-width="2" stroke="black" display="none" />
+    <line id="laa9" x1="156" y1="445" x2="206" y2="511" stroke-width="2" stroke="black" display="none" />
     <circle id="aa9" cx="156" cy="445" r="20" alt="circle10" stroke-width="2" stroke="black" fill="white" />
     <text  x="156" y="445" text-anchor="middle" dominant-baseline="central">10</text>
-    <line id="line-parta-10" x1="206" y1="511" x2="35" y2="516" stroke-width="2" stroke="black" display="none" />
+    <line id="laa10" x1="206" y1="511" x2="35" y2="516" stroke-width="2" stroke="black" display="none" />
     <circle id="aa10" cx="206" cy="511" r="20" alt="circle11" stroke-width="2" stroke="black" fill="white" />
     <text  x="206" y="511" text-anchor="middle" dominant-baseline="central">11</text>
-    <line id="line-parta-11" x1="35" y1="516" x2="65" y2="287" stroke-width="2" stroke="black" display="none" />
+    <line id="laa11" x1="35" y1="516" x2="65" y2="287" stroke-width="2" stroke="black" display="none" />
     <circle id="aa11" cx="35" cy="516" r="20" alt="circle12" stroke-width="2" stroke="black" fill="white" />
     <text  x="35" y="516" text-anchor="middle" dominant-baseline="central">12</text>
-    <line id="line-parta-12" x1="65" y1="287" x2="29" y2="336" stroke-width="2" stroke="black" display="none" />
+    <line id="laa12" x1="65" y1="287" x2="29" y2="336" stroke-width="2" stroke="black" display="none" />
     <circle id="aa12" cx="65" cy="287" r="20" alt="circle13" stroke-width="2" stroke="black" fill="white" />
     <text  x="65" y="287" text-anchor="middle" dominant-baseline="central">13</text>
-    <line id="line-parta-13" x1="29" y1="336" x2="29" y2="69" stroke-width="2" stroke="black" display="none" />
+    <line id="laa13" x1="29" y1="336" x2="29" y2="69" stroke-width="2" stroke="black" display="none" />
     <circle id="aa13" cx="29" cy="336" r="20" alt="circle14" stroke-width="2" stroke="black" fill="white" />
     <text  x="29" y="336" text-anchor="middle" dominant-baseline="central">14</text>
-    <line id="line-parta-14" x1="29" y1="69" x2="72" y2="159" stroke-width="2" stroke="black" display="none" />
+    <line id="laa14" x1="29" y1="69" x2="72" y2="159" stroke-width="2" stroke="black" display="none" />
     <circle id="aa14" cx="29" cy="69" r="20" alt="circle15" stroke-width="2" stroke="black" fill="white" />
     <text  x="29" y="69" text-anchor="middle" dominant-baseline="central">15</text>
-    <line id="line-parta-15" x1="72" y1="159" x2="149" y2="36" stroke-width="2" stroke="black" display="none" />
+    <line id="laa15" x1="72" y1="159" x2="149" y2="36" stroke-width="2" stroke="black" display="none" />
     <circle id="aa15" cx="72" cy="159" r="20" alt="circle16" stroke-width="2" stroke="black" fill="white" />
     <text  x="72" y="159" text-anchor="middle" dominant-baseline="central">16</text>
-    <line id="line-parta-16" x1="149" y1="36" x2="178" y2="158" stroke-width="2" stroke="black" display="none" />
+    <line id="laa16" x1="149" y1="36" x2="178" y2="158" stroke-width="2" stroke="black" display="none" />
     <circle id="aa16" cx="149" cy="36" r="20" alt="circle17" stroke-width="2" stroke="black" fill="white" />
     <text  x="149" y="36" text-anchor="middle" dominant-baseline="central">17</text>
-    <line id="line-parta-17" x1="178" y1="158" x2="284" y2="117" stroke-width="2" stroke="black" display="none" />
+    <line id="laa17" x1="178" y1="158" x2="284" y2="117" stroke-width="2" stroke="black" display="none" />
     <circle id="aa17" cx="178" cy="158" r="20" alt="circle18" stroke-width="2" stroke="black" fill="white" />
     <text  x="178" y="158" text-anchor="middle" dominant-baseline="central">18</text>
-    <line id="line-parta-18" x1="284" y1="117" x2="206" y2="110" stroke-width="2" stroke="black" display="none" />
+    <line id="laa18" x1="284" y1="117" x2="206" y2="110" stroke-width="2" stroke="black" display="none" />
     <circle id="aa18" cx="284" cy="117" r="20" alt="circle19" stroke-width="2" stroke="black" fill="white" />
     <text  x="284" y="117" text-anchor="middle" dominant-baseline="central">19</text>
-    <line id="line-parta-19" x1="206" y1="110" x2="236" y2="29" stroke-width="2" stroke="black" display="none" />
+    <line id="laa19" x1="206" y1="110" x2="236" y2="29" stroke-width="2" stroke="black" display="none" />
     <circle id="aa19" cx="206" cy="110" r="20" alt="circle20" stroke-width="2" stroke="black" fill="white" />
     <text  x="206" y="110" text-anchor="middle" dominant-baseline="central">20</text>
-    <line id="line-parta-20" x1="236" y1="29" x2="406" y2="84" stroke-width="2" stroke="black" display="none" />
+    <line id="laa20" x1="236" y1="29" x2="406" y2="84" stroke-width="2" stroke="black" display="none" />
     <circle id="aa20" cx="236" cy="29" r="20" alt="circle21" stroke-width="2" stroke="black" fill="white" />
     <text  x="236" y="29" text-anchor="middle" dominant-baseline="central">21</text>
-    <line id="line-parta-21" x1="406" y1="84" x2="419" y2="493" stroke-width="2" stroke="black" display="none" />
+    <line id="laa21" x1="406" y1="84" x2="419" y2="493" stroke-width="2" stroke="black" display="none" />
     <circle id="aa21" cx="406" cy="84" r="20" alt="circle22" stroke-width="2" stroke="black" fill="white" />
     <text  x="406" y="84" text-anchor="middle" dominant-baseline="central">22</text>
-    <line id="line-parta-22" x1="419" y1="493" x2="370" y2="282" stroke-width="2" stroke="black" display="none" />
+    <line id="laa22" x1="419" y1="493" x2="370" y2="282" stroke-width="2" stroke="black" display="none" />
     <circle id="aa22" cx="419" cy="493" r="20" alt="circle23" stroke-width="2" stroke="black" fill="white" />
     <text  x="419" y="493" text-anchor="middle" dominant-baseline="central">23</text>
-    <line id="line-parta-23" x1="370" y1="282" x2="355" y2="508" stroke-width="2" stroke="black" display="none" />
+    <line id="laa23" x1="370" y1="282" x2="355" y2="508" stroke-width="2" stroke="black" display="none" />
     <circle id="aa23" cx="370" cy="282" r="20" alt="circle24" stroke-width="2" stroke="black" fill="white" />
     <text  x="370" y="282" text-anchor="middle" dominant-baseline="central">24</text>
     <circle id="aa24" cx="355" cy="508" r="20" alt="circle25" stroke-width="2" stroke="black" fill="white" />

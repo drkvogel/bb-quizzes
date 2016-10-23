@@ -716,23 +716,97 @@
         }
     }
 
+    function attachEventHandlers(game) {
+        /*                  lines   circles
+        -----------------------------------
+        practice-a.svg      laprX   aprX
+        part-a.svg          laaX    aaX
+        practice-b.svg      lbprX   bprX
+        part-b.svg          lbbX    bbX     */
+
+        // switch (game):
+        // case "part-a":
+
+        var id = "";
+
+        // practice-a.svg      laprX   aprX
+        // for (var i = 0; i <= 6) {
+        //     id = "lapr" + String(i);
+        // }
+        // for (var i = 0; i <= 7) {
+        //     id = "apr" + String(i);
+        // }
+
+        // part-a.svg          laaX    aaX
+        for (var i = 1; i <= 25; i++) {
+            id = "apr" + String(i);
+            var circle = svgDoc.getElementById(id); // get inner element by id
+            circle.addEventListener('mousedown', function () {// add behaviour
+                alert('I am ' + id);
+            }, false);
+        }
+
+        // practice-b.svg      lbprX   bprX
+        // part-b.svg          lbbX    bbX
+
+
+    }
+
     function addListeners() {
+        console.log("addListeners()");
         var svg1 = document.getElementById('svg1');
         svg1.addEventListener('load', function () { // add load event listener to object, as will load svg asynchronously
+            console.log("svg loaded");
             var svgDoc = svg1.contentDocument; // get inner DOM of svg
-            var blue = svgDoc.getElementById('blue'); // get inner element by id
-            blue.addEventListener('mousedown', function () {// add behaviour
-                // alert('I am blue');
-            }, false);
-            var yell = svgDoc.getElementById('yell'); // get inner element by id
-            yell.addEventListener('mousedown', function () {// add behaviour
-                // alert('I am yellow');
-            }, false);
-            var line = svgDoc.getElementById('line'); // get inner element by id
-            line.addEventListener('mousedown', function () {// add behaviour
-                // alert('I am a line');
-            }, false);
+
+            for (var i = 1; i <= 25; i++) {
+                var id = "aa" + String(i);
+                console.log('add event listener to ' + id);
+                var circle = svgDoc.getElementById(id); // get inner element by id
+                circle.addEventListener('mousedown', function () {// add behaviour
+                    alert('I am ' + id);
+                    wrong(id);
+                }, false);
+            }
+
+            //attachEventHandlers(game)
+
         }, false);
+    }
+
+    function fillRed(id) {
+        $(id).attr('fill', 'red');
+    }
+
+    function fillWhite(id) {
+        $(id).attr('fill', 'white');
+    }
+
+    function fillYellow(id) {
+        $(id).attr('fill', 'yellow');
+    }
+
+    function wrong(id) {
+        document.getElementById('svg1').contentDocument.getElementById(id);
+        fillRed(id);
+        setTimeout(fillWhite(id), 100);
+        setTimeout(fillRed(id), 200);
+        setTimeout(fillWhite(id), 300);
+        setTimeout(fillRed(id), 400);
+        setTimeout(fillWhite(id), 500);
+        setTimeout(fillRed(id), 600);
+        setTimeout(fillWhite(id), 700);
+        // for (var i = 0; i < 5; i++) {
+        //     $(id).attr('fill', 'red');
+        // };
+    }
+
+    function circleClick(id) {
+
+    }
+
+    function correct(id) {
+        fillYellow(id);
     }
 
     function init() {
@@ -741,6 +815,8 @@
         isTimeUp = false;
         current = 0;
         var msg;
+        addListeners();
+        //attachEventHandlers("part-a");
 
         if (LOCAL) {
             config.seshID = 4321;
@@ -759,8 +835,6 @@
         //console.log('formAction: ' + config.formAction);
         console.log(msg);
         $('#home .debug').html('<code>' + msg + '</code>');
-
-        //randLevels(); console.log('levels: ' + levels);
 
         showPage(currentPage());
         config.tinstruct = isoDate();
