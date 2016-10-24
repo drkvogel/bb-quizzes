@@ -759,13 +759,20 @@
             console.log("svg loaded");
             var svgDoc = svg1.contentDocument; // get inner DOM of svg
 
-            for (var i = 1; i <= 25; i++) {
+            // yellow fill for 1st (for demo)
+            svgDoc.getElementById('aa1').addEventListener('mousedown', function () {
+                //alert('I am ' + this.id);
+                correct('aa0');
+            }, false);
+
+            // red flash for rest for demo
+            for (var i = 2; i < 25; i++) {
                 var id = "aa" + String(i);
                 console.log('add event listener to ' + id);
                 var circle = svgDoc.getElementById(id); // get inner element by id
                 circle.addEventListener('mousedown', function () {// add behaviour
-                    alert('I am ' + id);
-                    wrong(id);
+                    //alert('I am ' + this.id);
+                    wrong(this.id);
                 }, false);
             }
 
@@ -775,6 +782,7 @@
     }
 
     function fillRed(id) {
+        // console.log('fillRed(): ' + id)
         $(id).attr('fill', 'red');
     }
 
@@ -787,15 +795,16 @@
     }
 
     function wrong(id) {
-        document.getElementById('svg1').contentDocument.getElementById(id);
-        fillRed(id);
-        setTimeout(fillWhite(id), 100);
-        setTimeout(fillRed(id), 200);
-        setTimeout(fillWhite(id), 300);
-        setTimeout(fillRed(id), 400);
-        setTimeout(fillWhite(id), 500);
-        setTimeout(fillRed(id), 600);
-        setTimeout(fillWhite(id), 700);
+        // console.log('wrong(): ' + id);
+        var el = document.getElementById('svg1').contentDocument.getElementById(id);
+        fillRed(el);
+        setTimeout(function() { fillWhite(el) }, 100);
+        setTimeout(function() { fillRed(el); }, 200);
+        setTimeout(function() { fillWhite(el); }, 300);
+        setTimeout(function() { fillRed(el); }, 400);
+        setTimeout(function() { fillWhite(el); }, 500);
+        setTimeout(function() { fillRed(id); }, 600);
+        // setTimeout(fillWhite(id), 700);
         // for (var i = 0; i < 5; i++) {
         //     $(id).attr('fill', 'red');
         // };
@@ -806,7 +815,14 @@
     }
 
     function correct(id) {
-        fillYellow(id);
+        var svg = document.getElementById('svg1');
+        var el = svg.contentDocument.getElementById(id);
+        fillYellow(el);
+        var line = svg.contentDocument.getElementById('l' + id);
+        //line.display = "inline";
+        // $('#l' + id).show();
+        // $(line).show();
+        $(line).attr('display', 'inline');
     }
 
     function init() {
