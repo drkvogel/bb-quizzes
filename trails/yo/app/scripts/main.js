@@ -726,9 +726,7 @@
 
         // switch (game):
         // case "part-a":
-
         var id = "";
-
         // practice-a.svg      laprX   aprX
         // for (var i = 0; i <= 6) {
         //     id = "lapr" + String(i);
@@ -745,11 +743,8 @@
                 alert('I am ' + id);
             }, false);
         }
-
         // practice-b.svg      lbprX   bprX
         // part-b.svg          lbbX    bbX
-
-
     }
 
     function addListeners() {
@@ -759,21 +754,33 @@
             console.log("svg loaded");
             var svgDoc = svg1.contentDocument; // get inner DOM of svg
 
+
+            var next = 1;
             // yellow fill for 1st (for demo)
-            svgDoc.getElementById('aa1').addEventListener('mousedown', function () {
-                //alert('I am ' + this.id);
-                correct('aa0');
-            }, false);
+            // svgDoc.getElementById('aa1').addEventListener('mousedown', function () {
+            //     //alert('I am ' + this.id);
+            //     correct('aa0');
+            // }, false);
 
             // red flash for rest for demo
-            for (var i = 2; i < 25; i++) {
+            for (var i = 1; i < 25; i++) {
                 var id = "aa" + String(i);
-                console.log('add event listener to ' + id);
+                var ix = i;
+                //console.log('add event listener to ' + id);
                 var circle = svgDoc.getElementById(id); // get inner element by id
-                circle.addEventListener('mousedown', function () {// add behaviour
-                    //alert('I am ' + this.id);
-                    wrong(this.id);
-                }, false);
+                if (i === next) {
+                    console.log('i === next: ' + i);
+                    circle.addEventListener('mousedown', function () { // yellow fill for correct answer
+                        console.log('this.ix: ' + ix);
+                        // correct(this.ix); // + i);
+                        correct('aa1');
+                    }, false);
+                } else {
+                    circle.addEventListener('mousedown', function () {// add behaviour
+                        //alert('I am ' + this.id);
+                        wrong(this.id);
+                    }, false);
+                }
             }
 
             //attachEventHandlers(game)
@@ -814,11 +821,15 @@
 
     }
 
-    function correct(id) {
+    function correct(num) {
         var svg = document.getElementById('svg1');
-        var el = svg.contentDocument.getElementById(id);
-        fillYellow(el);
-        var line = svg.contentDocument.getElementById('l' + id);
+        var id = 'aa' + String(num);
+        console.log('correct(): id: ' + id);
+        //var circle = svg.contentDocument.getElementById('aa' + String(num));
+        var circle = svg.contentDocument.getElementById('aa1');
+        fillYellow(circle);
+        //var line = svg.contentDocument.getElementById('laa' + String(num + 1));
+        var line = svg.contentDocument.getElementById('laa0');
         //line.display = "inline";
         // $('#l' + id).show();
         // $(line).show();
