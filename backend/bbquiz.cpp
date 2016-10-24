@@ -100,6 +100,11 @@ void showOptions() {
     printf("<td><a href=\"?quiz=hoops&action=view\">View responses</a></td>");
     printf("<td><a href=\"?quiz=hoops&action=insertDummy\">Insert dummy data</a></td>");
     printf("</tr>\n");
+    printf("<tr><td>Trails</td>");
+    printf("<td><a href=\"trails/?sesh_id=%d\">Start</a></td>", nowUNIX()); //printf("<td><a href=\"?quiz=hoops&action=start\">Start</a></td>");
+    printf("<td><a href=\"?quiz=hoops&action=view\">View responses</a></td>");
+    printf("<td><a href=\"?quiz=hoops&action=insertDummy\">Insert dummy data</a></td>");
+    printf("</tr>\n");
     printf("</table>\n");
     printf("<hr>\n");
 }
