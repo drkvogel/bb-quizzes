@@ -102,8 +102,8 @@ void showOptions() {
     printf("</tr>\n");
     printf("<tr><td>Trails</td>");
     printf("<td><a href=\"trails/?sesh_id=%d\">Start</a></td>", nowUNIX()); //printf("<td><a href=\"?quiz=hoops&action=start\">Start</a></td>");
-    printf("<td><a href=\"?quiz=hoops&action=view\">View responses</a></td>");
-    printf("<td><a href=\"?quiz=hoops&action=insertDummy\">Insert dummy data</a></td>");
+    printf("<td><a href=\"?quiz=trails&action=view\">View responses</a></td>");
+    printf("<td><a href=\"?quiz=trails&action=insertDummy\">Insert dummy data</a></td>");
     printf("</tr>\n");
     printf("</table>\n");
     printf("<hr>\n");
@@ -139,16 +139,31 @@ int main(int argc, char **argv) {
             } else {
                 printf("<p>insert did not succeed...</p>\n");
             }
+        } else if (paramIs("action", "insert") && paramIs("quiz_id", "1111")) {
+            printf("<p>Not yet implemented...</p>\n");
+            // Matrix::MatrixRecord rec = Matrix::getPayload(x);
+            // if (Matrix::insertRecord(&rec)) {
+            //     printf("<p>insert succeeded</p>\n");
+            // } else {
+            //     printf("<p>insert did not succeed...</p>\n");
+            // }
         } else if (paramIs("action", "insertDummy") && paramIs("quiz", "hoops")) {
             Hoops::testInsert();
         } else if (paramIs("action", "insertDummy") && paramIs("quiz", "matrix")) {
             Matrix::testInsert();
+        } else if (paramIs("action", "insertDummy") && paramIs("quiz", "trails")) {
+            //Matrix::testInsert();
+            printf("<p>Not yet implemented...</p>\n");
         } else if (paramIs("action", "view") && paramIs("quiz", "hoops")) {
             Hoops::getRecords();
             Hoops::printRecords();
         } else if (paramIs("action", "view") && paramIs("quiz", "matrix")) {
             Matrix::getRecords();
             Matrix::printRecords();
+        } else if (paramIs("action", "view") && paramIs("quiz", "trails")) {
+            printf("<p>Not yet implemented...</p>\n");
+            // Matrix::getRecords();
+            // Matrix::printRecords();
         } else {
             printf("<p>Parameters not understood.</p>");
             showParams(x); // from cgi_test.cpp //if (DEBUG)
