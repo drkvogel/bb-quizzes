@@ -1,0 +1,50 @@
+<html>
+<head>
+    <title>SVG Test</title>
+    <style type="text/css">
+div.container {
+    padding: 20px;
+    width: 300px;
+}
+
+.resizeable {
+    border: 2px solid;
+    resize: both;
+    overflow: auto; 
+}
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="resizeable">
+        <object id="svg1" type="image/svg+xml" data="image.svg">
+            Your browser doesn't support objects.
+            <img src="fallback.png" />
+        </object>
+    </div>
+</div>
+</body>
+</html>
+    
+    <!-- <svg width="100%" viewBox="0 0 20 10">
+        <polygon fill=red stroke-width=0 points="0,10 20,10 10,0" />
+    </svg>  -->
+    <!-- <polygon points="100,10 40,198 190,78 10,78 160,198" style="fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;" /> -->
+       <!-- <script type="text/ecmascript">
+            var MIN=1, i=MIN, MAX=3;
+            function change() {
+                elId = "el" + String(i);
+                document.getElementById(elId).display = "default";
+                if (i === MAX) {
+                    i = MIN;
+                } else {
+                    i++;
+                }
+                elId = "el" + String(i);
+                document.getElementById(elId).display = "none";
+                console.log(elId);
+                alert(elId);
+            }
+        </script> -->
+        <!-- <button onclick="change()">Click Me</button> -->
+        <!-- class="resizeable" width="300" height="200" data="/static/image.svg"  -->

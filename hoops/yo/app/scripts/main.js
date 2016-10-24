@@ -257,7 +257,10 @@
         // show working
         console.log();
         console.log();
-        console.log('working:');
+        console.log('working for');
+        console.log('document: ' + document.body.clientWidth + ' x '  + document.body.clientHeight);
+        console.log('window: ' + window.innerWidth + ' x '  + window.innerHeight);
+        console.log();
         console.log('topWidth: ' + topWidth + ', topHeight: ' + topHeight + ', botWidth: ' + botWidth + ', botHeight: ' + botHeight);
 
 
