@@ -1,4 +1,11 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 600 600">
+
+    <g id="g3">
+    <circle id="taa2" cx="369" cy="452" r="20" alt="circle3" stroke-width="2" stroke="black" fill="white" />
+    <text  x="369" y="452" text-anchor="middle" dominant-baseline="central">3</text>
+    </g>
+
+
     <line id="laa0" x1="277" y1="390" x2="213" y2="452" stroke-width="2" stroke="black" display="none" />
     <circle id="aa0" cx="277" cy="390" r="20" alt="circle1" stroke-width="2" stroke="black" fill="yellow" />
     <text  x="277" y="390" text-anchor="middle" dominant-baseline="central">1</text>
@@ -6,8 +13,10 @@
     <circle id="aa1" cx="213" cy="452" r="20" alt="circle2" stroke-width="2" stroke="black" fill="white" />
     <text  x="213" y="452" text-anchor="middle" dominant-baseline="central">2</text>
     <line id="laa2" x1="319" y1="452" x2="327" y2="208" stroke-width="2" stroke="black" display="none" />
+    <g id="g3">
     <circle id="aa2" cx="319" cy="452" r="20" alt="circle3" stroke-width="2" stroke="black" fill="white" />
     <text  x="319" y="452" text-anchor="middle" dominant-baseline="central">3</text>
+    </g>
     <line id="laa3" x1="327" y1="208" x2="206" y2="267" stroke-width="2" stroke="black" display="none" />
     <circle id="aa3" cx="327" cy="208" r="20" alt="circle4" stroke-width="2" stroke="black" fill="white" />
     <text  x="327" y="208" text-anchor="middle" dominant-baseline="central">4</text>

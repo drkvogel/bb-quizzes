@@ -762,6 +762,15 @@
             //     correct('aa0');
             // }, false);
 
+            var group = svgDoc.getElementById('g3'); // get inner element by id
+            //console.log('i === next: ' + i);
+            group.addEventListener('mousedown', function () { // yellow fill for correct answer
+                console.log('group clicked');
+                // correct(this.ix); // + i);
+                wrong('taa2');
+            }, false);
+
+
             // red flash for rest for demo
             for (var i = 1; i < 25; i++) {
                 var id = "aa" + String(i);
