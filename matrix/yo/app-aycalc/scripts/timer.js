@@ -1,7 +1,7 @@
 
 
-var Timer = (function(){
-    'use strict';
+// var Timer = (function(){
+//     'use strict';
 
     //var Timer = require('./timer'); // require is a node thing, unless you use requirejs
     // copied/adapted from Jonathan's bb-quizzes/snap/Snap_files/Timer.js
@@ -100,4 +100,4 @@ var Timer = (function(){
     };
     // module.exports = Timer; // module.exports is Node.js, for the server!
 
-});
+//});

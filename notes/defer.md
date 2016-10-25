@@ -1,12 +1,9 @@
 ## defer
 
-Matrix : structure, technology and algorithms
-Hoops : structure, technology and algorithms
 hoops scrolls off bottom: intro1 intro2
 clear click border
 pandoc markdown \newpage and \pagebreak - neither seems to work
 errors reported by ff
-hoops - abandon seems to trigger of its own accord
 cache image for next page
 `bb-quizzes/matrix/main-jon.js`
 uncomputable?

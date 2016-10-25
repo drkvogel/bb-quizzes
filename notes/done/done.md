@@ -481,3 +481,25 @@ backend insert - save data to database from CGIs-
 
 * You mentioed you might need to take odd days leave while I'm away. 
 Please consider this pre-approved but, once you know them, drop me an email regardless for each date prior to taking it and ensure it goes into your calendar.
+
+hoops doc
+* Include worked examples of re-sizing in documentation.
+* I'm glad you've been able to get a dummy CGI saving to database and have sent me the hoops documentation and database field types, however all the other jobs from our last meeting are still in the ToDo list.
+* Please discuss the hoops data format/algorithm with Jonathan rather than spending time trying to deduce it from the code.  All I care about is getting a working system - if 10 minutes of his time can save hours of yours then that's a win as far as I'm concerned.
+* I'm away for a week now so our next meeting is on 29th Aug.  As this is a fortnight I'd expect you can completely finish all the tasks from our previous meeting (as listed below) by then.
+* Assuming the tasks below are finished (and only then), please look at the cognitive tests Jonathan deployed last year with a view to redoing their presentation to make the interfaces fully responsive to size changes if they are not already.  All I'm looking for here is an initial verbal assessment - I don't want specs or code at this stage.
+* I'll contact Jonathan to advise him of his role in what I've requested you to do as outlined above.
+* We'll discuss priororising the Lind library work at a future meeting.
+* Please send me electronically the Matrices and Hoops documentation and attach them to the appropriate bugs.
+
+supposed to do worked examples...
+get code to print worked examples
+* Implement re-sizing in Hoops and finish the interface for that program.
+* Complete documentation for Matrix
+* Complete documentation for Hoops
+* Worked numeric examples for screen resolutions of (HxV) 1280x1024, 640x480, 320x480, 750x1334 and 1242x2208
+
+Matrix : structure, technology and algorithms
+Hoops : structure, technology and algorithms
+
+hoops - abandon seems to trigger of its own accord
