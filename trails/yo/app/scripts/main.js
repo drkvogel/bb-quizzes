@@ -20,7 +20,8 @@ var LIVE = false, // const? JSHint doesn't like it
     nextPageTimeout,
     timeUpTimeout,
     enabled = false, // enable UI
-    levels = [],
+    levels = [], // ?
+    nextCircle = 1,
     answers = [],
     puzzle = null,
     seshID = null,
@@ -390,20 +391,25 @@ function attachEventHandlers(game) {
     // part-b.svg          lbbX    bbX
 }
 
-function addListeners() {
+    // "games" : {
+    //     "practice-a" : {
+    //         "numCircles" : 8,
+    //         "prefix" : "apr"
+    //     },
+function addListeners(game) {
     console.log("addListeners()");
     var svg1 = document.getElementById('svg1');
     svg1.addEventListener('load', function () { // add load event listener to object, as will load svg asynchronously
         console.log("svg loaded");
         var svgDoc = svg1.contentDocument; // get inner DOM of svg
 
-        var next = 1;
+
         for (var i = 1; i < 25; i++) {
             var id = "gaa" + String(i);
             // var ix = i;
             //console.log('add event listener to ' + id);
             var group = svgDoc.getElementById(id); // get inner element by id
-            if (i === next) {
+            if (i === nextCircle) { // global
                 console.log('i === next: ' + i);
                 group.addEventListener('mousedown', function () { // yellow fill for correct answer
                     correct(this.id); // works, this.id is id of circle
@@ -416,6 +422,7 @@ function addListeners() {
         }
     }, false);
 }
+
 
         // // dev - add listener to group
         // var group = svgDoc.getElementById('g3'); // get inner element by id

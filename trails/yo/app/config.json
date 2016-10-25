@@ -8,6 +8,24 @@
     "navStart" : "<span><button class=\"btn\" id=\"next\" href=\"#\">Start &gt;&gt;</button></span>",
     "navPrev" : "<span><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>",
     "navPrevNext" : "<span style=\"margin-right: 40px;\"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span><span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>",
+    "games" : {
+        "practice-a" : {
+            "numCircles" : 8,
+            "prefix" : "apr"
+        },
+        "part-a" : {
+            "numCircles" : 25,
+            "prefix" : "aa"
+        },
+        "practice-b" : {
+            "numCircles" : 8,
+            "prefix" : "bpr"
+        },
+        "part-b" : {
+            "numCircles" : 25,
+            "prefix" : "bb"
+        }
+    },
     "pages":[
         {
             "name": "home",
