@@ -59,9 +59,9 @@ function showInfo(text) {
     $('#info').html(text);
 }
 
-function showTime(text, correct) {
+function showTime(text, isCorrect) {
     var sel = '#prevTime';
-    $(sel).css('color', correct ? 'green' : 'red');
+    $(sel).css('color', isCorrect ? 'green' : 'red');
     $(sel).html(text + 'ms');
 }
 
@@ -367,7 +367,7 @@ part-a.svg          laaX    aaX
 practice-b.svg      lbprX   bprX
 part-b.svg          lbbX    bbX     */
 function attachEventHandlers(game) {
-    var id = "";
+    var id = '';
 
     // switch (game):
     // case "part-a":
@@ -380,16 +380,66 @@ function attachEventHandlers(game) {
     // }
 
     // part-a.svg          laaX    aaX
-    for (var i = 1; i <= 25; i++) {
-        id = "apr" + String(i);
-        var circle = svgDoc.getElementById(id); // get inner element by id
-        circle.addEventListener('mousedown', function () {// add behaviour
-            alert('I am ' + id);
-        }, false);
-    }
+    // for (var i = 1; i <= 25; i++) {
+    //     id = 'apr' + String(i);
+    //     var circle = svgDoc.getElementById(id); // get inner element by id
+    //     circle.addEventListener('mousedown', function () {// add behaviour
+    //         alert('I am ' + id);
+    //     }, false);
+    // }
     // practice-b.svg      lbprX   bprX
     // part-b.svg          lbbX    bbX
 }
+
+
+function fillRed(id) {
+    // console.log('fillRed(): ' + id)
+    $(id).attr('fill', 'red');
+}
+
+function fillWhite(id) {
+    $(id).attr('fill', 'white');
+}
+
+function fillYellow(id) {
+    $(id).attr('fill', 'yellow');
+}
+
+function wrong(id) { // console.log('wrong(): ' + id);
+    var group = document.getElementById('svg1').contentDocument.getElementById(id);
+    var circles = group.getElementsByTagName('circle');
+    var circle = circles[0];
+    fillRed(circle);
+    setTimeout(function() { fillWhite(circle); }, 100);
+    setTimeout(function() { fillRed(circle); }, 200);
+    setTimeout(function() { fillWhite(circle); }, 300);
+    setTimeout(function() { fillRed(circle); }, 400);
+    setTimeout(function() { fillWhite(circle); }, 500);
+    // for (var i = 0; i < 5; i++) {
+    //     setTimeout(function() { fillWhite(circle); }, 500);
+    //     $(id).attr('fill', 'red');
+    // };
+}
+
+// function circleClick(id) {
+//     //?
+// }
+
+function correct(num) {
+    var svg = document.getElementById('svg1');
+    var id = 'aa' + String(num);
+    console.log('correct(): id: ' + id);
+    //var circle = svg.contentDocument.getElementById('aa' + String(num));
+    var circle = svg.contentDocument.getElementById('aa1');
+    fillYellow(circle);
+    //var line = svg.contentDocument.getElementById('laa' + String(num + 1));
+    var line = svg.contentDocument.getElementById('laa0');
+    //line.style.display = 'inline'; //?
+    // $('#l' + id).show();
+    // $(line).show();
+    $(line).attr('display', 'inline');
+}
+
 
     // "games" : {
     //     "practice-a" : {
@@ -397,15 +447,14 @@ function attachEventHandlers(game) {
     //         "prefix" : "apr"
     //     },
 function addListeners(game) {
-    console.log("addListeners()");
+    console.log('addListeners()');
     var svg1 = document.getElementById('svg1');
     svg1.addEventListener('load', function () { // add load event listener to object, as will load svg asynchronously
-        console.log("svg loaded");
+        console.log('svg loaded');
         var svgDoc = svg1.contentDocument; // get inner DOM of svg
 
-
         for (var i = 1; i < 25; i++) {
-            var id = "gaa" + String(i);
+            var id = 'gaa' + String(i);
             // var ix = i;
             //console.log('add event listener to ' + id);
             var group = svgDoc.getElementById(id); // get inner element by id
@@ -434,75 +483,28 @@ function addListeners(game) {
                         // or id of circle? which is why this.ix didn't work....
                         // http://javascriptissexy.com/understand-javascripts-this-with-clarity-and-master-it/
 
-function fillRed(id) {
-    // console.log('fillRed(): ' + id)
-    $(id).attr('fill', 'red');
-}
-
-function fillWhite(id) {
-    $(id).attr('fill', 'white');
-}
-
-function fillYellow(id) {
-    $(id).attr('fill', 'yellow');
-}
-
-function wrong(id) { // console.log('wrong(): ' + id);
-    var group = document.getElementById('svg1').contentDocument.getElementById(id);
-    var circles = group.getElementsByTagName("circle");
-    var circle = circles[0];
-    fillRed(circle);
-    setTimeout(function() { fillWhite(circle) }, 100);
-    setTimeout(function() { fillRed(circle); }, 200);
-    setTimeout(function() { fillWhite(circle); }, 300);
-    setTimeout(function() { fillRed(circle); }, 400);
-    setTimeout(function() { fillWhite(circle); }, 500);
-    // for (var i = 0; i < 5; i++) {
-    //     setTimeout(function() { fillWhite(circle); }, 500);
-    //     $(id).attr('fill', 'red');
-    // };
-}
-
-// function circleClick(id) {
-//     //?
-// }
-
-function correct(num) {
-    var svg = document.getElementById('svg1');
-    var id = 'aa' + String(num);
-    console.log('correct(): id: ' + id);
-    //var circle = svg.contentDocument.getElementById('aa' + String(num));
-    var circle = svg.contentDocument.getElementById('aa1');
-    fillYellow(circle);
-    //var line = svg.contentDocument.getElementById('laa' + String(num + 1));
-    var line = svg.contentDocument.getElementById('laa0');
-    //line.style.display = "inline"; //?
-    // $('#l' + id).show();
-    // $(line).show();
-    $(line).attr('display', 'inline');
-}
-
 function init() {
     timer = new Timer(); // globals
     timerWholeTest = new Timer(); // globals
     isTimeUp = false;
     current = 0;
     var msg;
-    addListeners(); //attachEventHandlers("part-a");
+    addListeners(); //attachEventHandlers('part-a');
 
     if (LOCAL) {
         config.seshID = 4321;
         msg = 'this is a local web application for local people';
         $('#feedbackForm').attr('action', 'http://localhost/backend-doesnt-exist'); //'http://xrat.ctsu.ox.ac.uk/~cp/bbquiz/');
     } else {
-        if (!urlParams.hasOwnProperty('sesh_id')) {
+        if (!urlParams.hasOwnProperty('sesh_id')) { // probably on testing server
             config.seshID = -4321; //throw new Error(msg);
             msg = 'not LOCAL and sesh_id not found in urlParams, set config.seshID to ' + config.seshID;
+            $('#feedbackForm').attr('action', 'complete.php');
         } else {
             msg = 'config.sesh_id: ' + config.seshID;
             config.seshID = urlParams.sesh_id;
+            $('#feedbackForm').attr('action', config.formAction); // set the results form target
         }
-        $('#feedbackForm').attr('action', config.formAction); // set the results form target
     }
     console.log(msg); //console.log('formAction: ' + config.formAction);
     $('#home .debug').html('<code>' + msg + '</code>');
@@ -525,7 +527,7 @@ function getConfig() {
 
 function keydown(e) {
     console.log('keyboard event: ' + e.which);
-    if (e.which === 68) { //console.log('"d" pressed');
+    if (e.which === 68) { //console.log(''d' pressed');
         e.preventDefault(); // don't trap other keypresses e.g. ctrl-shift-i for dev tools
         if ($('#devBar').css('display') === 'none') {
             $('#devBar').show();
@@ -582,4 +584,4 @@ $().ready(function () { //$(document).ready(
 console.log('main.js ready');
 
             //urlParams['sesh_id'];
-            // error  ["sesh_id"] is better written in dot notation                    dot-notation
+            // error  ['sesh_id'] is better written in dot notation                    dot-notation

@@ -258,8 +258,8 @@
         console.log();
         console.log();
         console.log('working for');
-        console.log('document: ' + document.body.clientWidth + ' x '  + document.body.clientHeight);
-        console.log('window: ' + window.innerWidth + ' x '  + window.innerHeight);
+        console.log('document: ' + document.body.clientWidth + ' x ' + document.body.clientHeight);
+        console.log('window: ' + window.innerWidth + ' x ' + window.innerHeight);
         console.log();
         console.log('topWidth: ' + topWidth + ', topHeight: ' + topHeight + ', botWidth: ' + botWidth + ', botHeight: ' + botHeight);
 
@@ -276,12 +276,12 @@
 
         console.log('heightExtra =');
         console.log('    (container.outerHeight [' + $('.container').outerHeight(true) + '] - ' +
-            ' container.height [' +  $('.container').height() + ']) [' + ($('.container').outerHeight(true) - $('.container').height()) + '] + ');
+            ' container.height [' + $('.container').height() + ']) [' + ($('.container').outerHeight(true) - $('.container').height()) + '] + ');
         console.log('    topTxt.height [' + $('.topTxt').height() + '] + ');
         console.log('    (#imgdiv-a.outerHeight [' + $('#imgdiv-a').outerHeight(true) + '] - #imgdiv-a.height [' + $('#imgdiv-a').height() + ']) [' +
             ($('#imgdiv-a').is(':visible') ? $('#imgdiv-a').outerHeight(true) - $('#imgdiv-a').height() : 0) + '] + ');
         console.log('     (#imgdiv-b.outerHeight [' + $('#imgdiv-b').outerHeight(true) + '] - #imgdiv-b.height [' + $('#imgdiv-b').height() + ']) [' +
-            ($('#imgdiv-b').is(':visible') ? $('#imgdiv-b').outerHeight(true) - $('#imgdiv-b').height() : 0)  + '] + ');
+            ($('#imgdiv-b').is(':visible') ? $('#imgdiv-b').outerHeight(true) - $('#imgdiv-b').height() : 0) + '] + ');
         console.log('    botTxt.height [' + $('.botTxt').height() + ']  + ');
         console.log('    #answers.height [' + $('#answers').height() + '] +');
         console.log('    navTxt.height [' + $('.navTxt').height() + '] +');
@@ -722,21 +722,39 @@
 
         if (LOCAL) {
             config.seshID = 4321;
-            $('#feedbackForm').attr('action', 'http://xrat.ctsu.ox.ac.uk/~cp/bbquiz/');
+            msg = 'this is a local web application for local people';
+            $('#feedbackForm').attr('action', 'http://localhost/backend-doesnt-exist'); //'http://xrat.ctsu.ox.ac.uk/~cp/bbquiz/');
         } else {
-            if (!urlParams.hasOwnProperty('sesh_id')) {
-                msg = 'not LOCAL and sesh_id not found in urlParams';
-                $('#home .debug').html('<code>' + msg + '</code>');
-                throw new Error(msg);
+            if (!urlParams.hasOwnProperty('sesh_id')) { // probably on testing server
+                config.seshID = -4321; //throw new Error(msg);
+                msg = 'not LOCAL and sesh_id not found in urlParams, set config.seshID to ' + config.seshID;
+                $('#feedbackForm').attr('action', 'complete.php'); // tat old dinosaur
+            } else {
+                msg = 'config.sesh_id: ' + config.seshID;
+                config.seshID = urlParams.sesh_id;
             }
-            config.seshID = urlParams.sesh_id; //urlParams['sesh_id'];
-                // error  ["sesh_id"] is better written in dot notation                    dot-notation
             $('#feedbackForm').attr('action', config.formAction); // set the results form target
         }
-        msg = 'config.sesh_id: ' + config.seshID;
-        //console.log('formAction: ' + config.formAction);
-        console.log(msg);
+        console.log(msg); //console.log('formAction: ' + config.formAction);
         $('#home .debug').html('<code>' + msg + '</code>');
+
+        // if (LOCAL) {
+        //     config.seshID = 4321;
+        //     $('#feedbackForm').attr('action', 'http://xrat.ctsu.ox.ac.uk/~cp/bbquiz/');
+        // } else {
+        //     if (!urlParams.hasOwnProperty('sesh_id')) {
+        //         msg = 'not LOCAL and sesh_id not found in urlParams';
+        //         $('#home .debug').html('<code>' + msg + '</code>');
+        //         throw new Error(msg);
+        //     }
+        //     config.seshID = urlParams.sesh_id; //urlParams['sesh_id'];
+        //         // error  ["sesh_id"] is better written in dot notation                    dot-notation
+        //     $('#feedbackForm').attr('action', config.formAction); // set the results form target
+        // }
+        // msg = 'config.sesh_id: ' + config.seshID;
+        // //console.log('formAction: ' + config.formAction);
+        // console.log(msg);
+        // $('#home .debug').html('<code>' + msg + '</code>');
 
         randLevels(); console.log('levels: ' + levels);
 
