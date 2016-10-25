@@ -407,23 +407,26 @@ function addListeners() {
         var next = 1;
         for (var i = 1; i < 25; i++) {
             var id = "aa" + String(i);
-            var ix = i;
+            // var ix = i;
             //console.log('add event listener to ' + id);
             var circle = svgDoc.getElementById(id); // get inner element by id
             if (i === next) {
                 console.log('i === next: ' + i);
                 circle.addEventListener('mousedown', function () { // yellow fill for correct answer
-                    console.log('this.ix: ' + ix);
+                    // console.log('this.ix: ' + ix);
                     // correct(this.ix); // + i);
-                    correct('aa1');
+                    //correct('aa1');
+                    correct(this.id); // works, this.id is id of circle
                 }, false);
             } else {
                 circle.addEventListener('mousedown', function () {// add behaviour
                     wrong(this.id); // red flash
+                        // this.id == window.id? no, closed over id set on definition ... ?
+                        // or id of circle? which is why this.ix didn't work....
+                        // http://javascriptissexy.com/understand-javascripts-this-with-clarity-and-master-it/
                 }, false);
             }
         }
-
         //attachEventHandlers(game)
     }, false);
 }
@@ -457,9 +460,9 @@ function wrong(id) {
     // };
 }
 
-function circleClick(id) {
-
-}
+// function circleClick(id) {
+//     //?
+// }
 
 function correct(num) {
     var svg = document.getElementById('svg1');
@@ -470,7 +473,7 @@ function correct(num) {
     fillYellow(circle);
     //var line = svg.contentDocument.getElementById('laa' + String(num + 1));
     var line = svg.contentDocument.getElementById('laa0');
-    //line.display = "inline";
+    //line.style.display = "inline"; //?
     // $('#l' + id).show();
     // $(line).show();
     $(line).attr('display', 'inline');
@@ -482,30 +485,27 @@ function init() {
     isTimeUp = false;
     current = 0;
     var msg;
-    addListeners();
-    //attachEventHandlers("part-a");
+    addListeners(); //attachEventHandlers("part-a");
 
     if (LOCAL) {
         config.seshID = 4321;
-        $('#feedbackForm').attr('action', 'http://xrat.ctsu.ox.ac.uk/~cp/bbquiz/');
+        msg = 'this is a local web application for local people';
+        $('#feedbackForm').attr('action', 'http://localhost/backend-doesnt-exist'); //'http://xrat.ctsu.ox.ac.uk/~cp/bbquiz/');
     } else {
         if (!urlParams.hasOwnProperty('sesh_id')) {
-            msg = 'not LOCAL and sesh_id not found in urlParams';
-            $('#home .debug').html('<code>' + msg + '</code>');
-            throw new Error(msg);
+            config.seshID = -4321; //throw new Error(msg);
+            msg = 'not LOCAL and sesh_id not found in urlParams, set config.seshID to ' + config.seshID;
+        } else {
+            msg = 'config.sesh_id: ' + config.seshID;
+            config.seshID = urlParams.sesh_id;
         }
-        config.seshID = urlParams.sesh_id; //urlParams['sesh_id'];
-            // error  ["sesh_id"] is better written in dot notation                    dot-notation
         $('#feedbackForm').attr('action', config.formAction); // set the results form target
     }
-    msg = 'config.sesh_id: ' + config.seshID;
-    //console.log('formAction: ' + config.formAction);
-    console.log(msg);
+    console.log(msg); //console.log('formAction: ' + config.formAction);
     $('#home .debug').html('<code>' + msg + '</code>');
 
     showPage(currentPage());
-    config.tinstruct = isoDate();
-    console.log('config.tinstruct: ' + config.tinstruct);
+    config.tinstruct = isoDate(); console.log('config.tinstruct: ' + config.tinstruct);
 }
 
 function getConfig() {
@@ -577,3 +577,6 @@ $().ready(function () { //$(document).ready(
 });
 
 console.log('main.js ready');
+
+            //urlParams['sesh_id'];
+            // error  ["sesh_id"] is better written in dot notation                    dot-notation

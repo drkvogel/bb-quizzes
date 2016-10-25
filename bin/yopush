@@ -26,10 +26,12 @@ case $answer in
     oqsweb)
         REMOTEHOST="oqsweb.ndph.ox.ac.uk";;
     red)
-        REMOTEHOST="red.ctsu.ox.ac.uk";;
+        REMOTEHOST="red.ctsu.ox.ac.uk"
+        REMOTEROOT="/user/cp/public_html/cjb/bbquiz/";;
     wf)
         REMOTEHOST="web456.webfaction.com"
         REMOTEUSER="drkvogel"
+        REMOTEROOT="/home/drkvogel/webapps/main/"
         ;;
     '')
         ;;  # default
@@ -40,16 +42,14 @@ esac
 
 #echo "option: $answer"
 REMOTEPATH=$REMOTEROOT$REMOTEDIR
-echo "REMOTEHOST: $REMOTEHOST"
-echo "REMOTEUSER: $REMOTEUSER"
-echo "REMOTEDIR: $REMOTEDIR"
-echo "REMOTEPATH: $REMOTEPATH"
-read -p 'Continue (y/n)? ' -n1 answer; echo; [[ $answer = [yY] ]] || exit
+##read -p 'Continue (y/n)? ' -n1 answer; echo; [[ $answer = [yY] ]] || exit
 
+echo "Remember to run gulp first to build into ./dist"
 echo "Copying to $REMOTEUSER@$REMOTEHOST:$REMOTEPATH"
-echo "Remember to run gulp first to build into ./dist, and fonts, scripts and styles dirs must exist on server already"
+#echo "($REMOTEPATH must exist on server already?)"
 read -rsp $'Press any key to continue...\n' -n1 key
-scp -r ./dist/* $REMOTEUSER@$REMOTEHOST:$REMOTEPATH
+rsync -r --info=progress2 -e ssh ./dist/* $REMOTEUSER@$REMOTEHOST:$REMOTEPATH
+#scp -r ./dist/* $REMOTEUSER@$REMOTEHOST:$REMOTEPATH
 exit 0
 
 #do [[ $answer = oqsweb ]] && { echo Correct; break; } || echo Try again; done
