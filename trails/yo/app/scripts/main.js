@@ -359,17 +359,17 @@ function modalClick(e) { // TODO merge into navClick or something
     }
 }
 
+/*                  lines   circles
+-----------------------------------
+practice-a.svg      laprX   aprX
+part-a.svg          laaX    aaX
+practice-b.svg      lbprX   bprX
+part-b.svg          lbbX    bbX     */
 function attachEventHandlers(game) {
-    /*                  lines   circles
-    -----------------------------------
-    practice-a.svg      laprX   aprX
-    part-a.svg          laaX    aaX
-    practice-b.svg      lbprX   bprX
-    part-b.svg          lbbX    bbX     */
+    var id = "";
 
     // switch (game):
     // case "part-a":
-    var id = "";
     // practice-a.svg      laprX   aprX
     // for (var i = 0; i <= 6) {
     //     id = "lapr" + String(i);
@@ -397,39 +397,35 @@ function addListeners() {
         console.log("svg loaded");
         var svgDoc = svg1.contentDocument; // get inner DOM of svg
 
-        // dev - add listener to group
-        var group = svgDoc.getElementById('g3'); // get inner element by id
-        group.addEventListener('mousedown', function () {
-            console.log('group clicked');
-            wrong('taa2'); // flash circle, not group
-        }, false);
-
         var next = 1;
         for (var i = 1; i < 25; i++) {
-            var id = "aa" + String(i);
+            var id = "gaa" + String(i);
             // var ix = i;
             //console.log('add event listener to ' + id);
-            var circle = svgDoc.getElementById(id); // get inner element by id
+            var group = svgDoc.getElementById(id); // get inner element by id
             if (i === next) {
                 console.log('i === next: ' + i);
-                circle.addEventListener('mousedown', function () { // yellow fill for correct answer
-                    // console.log('this.ix: ' + ix);
-                    // correct(this.ix); // + i);
-                    //correct('aa1');
+                group.addEventListener('mousedown', function () { // yellow fill for correct answer
                     correct(this.id); // works, this.id is id of circle
                 }, false);
             } else {
-                circle.addEventListener('mousedown', function () {// add behaviour
+                group.addEventListener('mousedown', function () {// add behaviour
                     wrong(this.id); // red flash
-                        // this.id == window.id? no, closed over id set on definition ... ?
-                        // or id of circle? which is why this.ix didn't work....
-                        // http://javascriptissexy.com/understand-javascripts-this-with-clarity-and-master-it/
                 }, false);
             }
         }
-        //attachEventHandlers(game)
     }, false);
 }
+
+        // // dev - add listener to group
+        // var group = svgDoc.getElementById('g3'); // get inner element by id
+        // group.addEventListener('mousedown', function () {
+        //     console.log('group clicked');
+        //     wrong(this.id); // flash circle, not group
+        // }, false);
+                        // this.id == window.id? no, closed over id set on definition ... ?
+                        // or id of circle? which is why this.ix didn't work....
+                        // http://javascriptissexy.com/understand-javascripts-this-with-clarity-and-master-it/
 
 function fillRed(id) {
     // console.log('fillRed(): ' + id)
@@ -444,18 +440,18 @@ function fillYellow(id) {
     $(id).attr('fill', 'yellow');
 }
 
-function wrong(id) {
-    // console.log('wrong(): ' + id);
-    var el = document.getElementById('svg1').contentDocument.getElementById(id);
-    fillRed(el);
-    setTimeout(function() { fillWhite(el) }, 100);
-    setTimeout(function() { fillRed(el); }, 200);
-    setTimeout(function() { fillWhite(el); }, 300);
-    setTimeout(function() { fillRed(el); }, 400);
-    setTimeout(function() { fillWhite(el); }, 500);
-    setTimeout(function() { fillRed(id); }, 600);
-    // setTimeout(fillWhite(id), 700);
+function wrong(id) { // console.log('wrong(): ' + id);
+    var group = document.getElementById('svg1').contentDocument.getElementById(id);
+    var circles = group.getElementsByTagName("circle");
+    var circle = circles[0];
+    fillRed(circle);
+    setTimeout(function() { fillWhite(circle) }, 100);
+    setTimeout(function() { fillRed(circle); }, 200);
+    setTimeout(function() { fillWhite(circle); }, 300);
+    setTimeout(function() { fillRed(circle); }, 400);
+    setTimeout(function() { fillWhite(circle); }, 500);
     // for (var i = 0; i < 5; i++) {
+    //     setTimeout(function() { fillWhite(circle); }, 500);
     //     $(id).attr('fill', 'red');
     // };
 }
