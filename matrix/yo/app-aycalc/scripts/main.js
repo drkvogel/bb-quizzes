@@ -641,21 +641,41 @@
         current = 0;
         var msg;
 
+        // if (LOCAL) {
+        //     config.seshID = 4321;
+        //     $('#feedbackForm').attr('action', 'http://red.ctsu.ox.ac.uk/~cp/bbquiz/');
+        //     //$('#feedbackForm').attr('action', '/~cp/bbquiz/');
+        // } else {
+        //     if (!urlParams.hasOwnProperty('sesh_id')) {
+        //         msg = 'not LOCAL and sesh_id not found in urlParams';
+        //         $('#home .debug').html('<code>' + msg + '</code>');
+        //         throw new Error(msg);
+        //     }
+        //     config.seshID = urlParams.sesh_id; //urlParams['sesh_id']; // error  ["sesh_id"] is better written in dot notation                    dot-notation
+        //     $('#feedbackForm').attr('action', config.formAction);
+        // }
+        // msg = 'config.sesh_id: ' + config.seshID; console.log(msg);
+        // $('#home .debug').html('<code>' + msg + '</code>');
+
         if (LOCAL) {
             config.seshID = 4321;
-            $('#feedbackForm').attr('action', 'http://red.ctsu.ox.ac.uk/~cp/bbquiz/');
-            //$('#feedbackForm').attr('action', '/~cp/bbquiz/');
+            msg = 'this is a local web application for local people';
+            $('#feedbackForm').attr('action', 'http://localhost/backend-doesnt-exist'); //'http://xrat.ctsu.ox.ac.uk/~cp/bbquiz/');
         } else {
-            if (!urlParams.hasOwnProperty('sesh_id')) {
-                msg = 'not LOCAL and sesh_id not found in urlParams';
-                $('#home .debug').html('<code>' + msg + '</code>');
-                throw new Error(msg);
+            if (!urlParams.hasOwnProperty('sesh_id')) { // probably on testing server
+                config.seshID = -4321; //throw new Error(msg);
+                msg = 'not LOCAL and sesh_id not found in urlParams, set config.seshID to ' + config.seshID;
+                $('#feedbackForm').attr('action', 'complete.php');
+            } else {
+                msg = 'config.sesh_id: ' + config.seshID;
+                config.seshID = urlParams.sesh_id;
             }
-            config.seshID = urlParams.sesh_id; //urlParams['sesh_id']; // error  ["sesh_id"] is better written in dot notation                    dot-notation
-            $('#feedbackForm').attr('action', config.formAction);
+            $('#feedbackForm').attr('action', config.formAction); // set the results form target
         }
-        msg = 'config.sesh_id: ' + config.seshID; console.log(msg);
+        console.log(msg); //console.log('formAction: ' + config.formAction);
         $('#home .debug').html('<code>' + msg + '</code>');
+
+
         $('#button').css('display', LIVE ? 'none' : 'inline');
 
         // var formAction = config.formAction;
