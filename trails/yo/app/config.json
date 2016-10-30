@@ -59,7 +59,7 @@
             "templateId" : "game",
             "numCircles" : 8,
             "prefix" : "bpr",
-            "botTxt" : "<p>Well done.</p><p>This is another practice. Beginning with number 1, join all the circles alternating between numbers and letters in ascending order, e.g. 1 A 2 B. Please work as quickly and accurately as you can.</p>",
+            "topTxt" : "<p>Well done.</p><p>This is another practice. Beginning with number 1, join all the circles alternating between numbers and letters in ascending order, e.g. 1 A 2 B. Please work as quickly and accurately as you can.</p>",
             "commented" : "<!-- Beginning with number 1 then letter A, join all the circles in alternating numeric and alphabetic order by clicking the next numbered then the next lettered circle.-->"
         },
         {

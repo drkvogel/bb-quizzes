@@ -38,9 +38,9 @@ var LIVE = false, // const? JSHint doesn't like it
 //     //ges[25].src = 'Snap/snap_images/Rear.GIF';
 // }
 
-// function logObj(o) { // log formatted object to console
-//     return JSON.stringify(o, null, 4);
-// }
+function logObj(o) { // log formatted object to console
+    return JSON.stringify(o, null, 4);
+}
 
 function currentPage() {
     return pages[current]; //console.log('currentPage[' + current + ']:' + obj(pages[current]));
@@ -77,7 +77,7 @@ function isoDate() { // return date string in format yyyy-mm-ddThh:mm:ss, suitab
 }
 
 function startTimer(page) {
-    if (page.name.slice(0, 2) === 'ex') {
+    if (page.type = 'game') {
         timer.now(); // start timer for all real exercises
         if (levels.length === MAX_LEVELS - 1) { // first puzzle just been popped off
             timerWholeTest.now(); // start timer for the whole test (for "elapsed" field)
@@ -95,7 +95,8 @@ function startTimer(page) {
 
 function containerClick(e) {
     e.preventDefault();
-    $('#pages').off('click', 'a, button, div.row div', containerClick); // prevent double-click
+    console.log('containerClick(e): ' + logObj(this));// + logObj(e));
+    $('#pages').off('click', 'a, button', containerClick); // prevent double-click
     var clickedEl = $(this),
         elId = clickedEl.attr('id'); //console.log('containerClick(): clickedEl: ' + elId); // now gets id from loaded page
     switch (clickedEl.attr('id')) {
@@ -111,12 +112,6 @@ function containerClick(e) {
         console.log('elid: ' + clickedEl.attr('id') + ', html: ' + clickedEl.html());
         break;
     default:
-        var slice = elId.slice(0, 3);
-        if (slice === 'ans') { // bottom grid only
-            $('#' + elId).addClass('disabled'); // remember to add '#' back onto ID to make selector
-            var num = elId[3]; // number in id following 'bot' == number of bottom tile selected
-            answered(Number(num)); // otherwise gets quoted in JSON and has to be translated from string on backend
-        }
     }
 }
 
@@ -126,14 +121,16 @@ function getNextPuzzle() {
 
 function showPage2() {
     console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)scaleImages();bind clicks
-    $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
+    $('#pages').on('click', 'a, button', containerClick); // prevent double-click
     if (currentPage().name === 'thanks') { // redundant?
         console.log('currentPage().name === \'thanks\'');
         setTimeout(finished, 3000);
     }
+    console.log(' '); // (re-)scaleImages();bind clicks
 }
 
-function showPage(page) { // prevPage() and nextPage() should handle hiding current //console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); // page: ' + obj(page)); isTimeUp:' + isTimeUp);
+function showPage(page) { // prevPage() and nextPage() should handle hiding current
+    console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); // page: ' + obj(page)); isTimeUp:' + isTimeUp);
     if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
         $('#abandon-div').hide(); //fadeOut(FADEOUT);
     } else {
@@ -143,13 +140,16 @@ function showPage(page) { // prevPage() and nextPage() should handle hiding curr
     showInfo(info);
     switch (page.templateId) {
     case 'game':
-        $('.botTxt').html('<text>');
+        var img = 'images/' + page.name + '.svg'; console.log('showPage(): loading img == ' + img);
+        $('#svg1').attr('data', img);
         if (page.type === 'practice') { // practice example
+            $('.botTxt').html(page.botTxt); //console.log('puzzle.b: ' + puzzle.b + ', correct: ' + puzzle.c); //puzzle = config.practice; ??
+        } else {
             startTimer(page); // timer to show chosen answer before next, and start game timer
+            $('.navCtl').html('');
+            $('.topTxt').html('');
+            $('.botTxt').html(''); //console.log('puzzle.b: ' + puzzle.b + ', correct: ' + puzzle.c); //puzzle = config.practice; ??
         }
-        $('#svg1').attr('data', 'images/' + page.name + '.svg');
-        $('.navCtl').html('');
-        $('.botTxt').html(page.botTxt); //console.log('puzzle.b: ' + puzzle.b + ', correct: ' + puzzle.c); //puzzle = config.practice; ??
         break;
     case 'home':
     case 'abandon':
@@ -179,7 +179,7 @@ function showPage(page) { // prevPage() and nextPage() should handle hiding curr
         $('*').css('cursor', 'progress');
         break;
     default:
-        throw new Error('unrecogised id');
+        throw new Error('unrecogised page.templateId');
     }
     $('#' + page.templateId).fadeIn(FADEIN, showPage2);
 }
@@ -202,15 +202,16 @@ function nextPage2() { //console.log('nextPage2(): current + 1 < pages.length: '
     if (isTimeUp) {                             // time up
         clearTimeout(nextPageTimeout);
         page = pageNamed('thanks');
-    } else if (currentPage().name === 'ex') {   // live game
-        page = currentPage();
-    } else if (current + 1 < pages.length) {    // intro screens
+    // } else if (currentPage().type === 'game') {   // live game
+    //     page = currentPage();
+    } else if (current + 1 < pages.length) { //
         current += 1;
         page = currentPage();
     } else {
-        console.log('nextPage(): hit the end at current: ' + current);
+        console.log('nextPage2(): hit the end at current: ' + current);
         page = currentPage();
     }
+    console.log('nextPage2(): ' + current);
     showPage(page);
 }
 
@@ -230,6 +231,7 @@ function hideModal(modal) {
 
 function finished() {
     console.log('finished(): answers: ' + JSON.stringify(answers));
+    console.log('finished(): auto-submit disabled for testing ' + JSON.stringify(answers));
     clearTimeout(timeUpTimeout);
 
     // fill in form and submit automatically
@@ -243,7 +245,7 @@ function finished() {
     $(window).on('beforeunload', function(){
         $('*').css('cursor', 'default');
     });
-    document.getElementById('feedbackForm').submit(); // action set in init() from config.json
+    //document.getElementById('feedbackForm').submit(); // action set in init() from config.json
 }
 
 function timeUp() {
@@ -253,7 +255,7 @@ function timeUp() {
 }
 
 function answered2() {
-    //console.log('answered2()');
+    console.log('answered2()');
     if (isTimeUp) {
         clearTimeout(nextPageTimeout);
         showPage(pageNamed('thanks'));
@@ -268,7 +270,6 @@ function answered2() {
 function answered(ans) {
     var page = currentPage();
     var isCorrect = ans === puzzle.c;
-    console.log('answered: ' + ans + ', correct: ' + puzzle.c + ', isCorrect: ' + isCorrect + ', elapsed? ' + timer.getElapsed());
     var timeTaken;
     if (page.name.slice(0, 2) === 'ex') { // real exercise
         timer.lap();
@@ -287,6 +288,7 @@ function answered(ans) {
     } else if (page.name.slice(0, 5) === 'intro') {
         answers.push(ans);
     }
+    console.log('answered: ' + ans + ', correct: ' + puzzle.c + ', isCorrect: ' + isCorrect + ', elapsed? ' + timer.getElapsed());
     $('#' + currentPage().templateId).fadeOut(FADEOUT, answered2);
 }
 
@@ -295,11 +297,11 @@ function abandonClick() {
     showModal('abandon-modal');
 }
 
-function navClick(e) {
-    console.log('navClick()');
+function devClick(e) {
+    console.log('devClick()');
     e.preventDefault();
-    var pageId = $('.page').attr('id'),
-        clickedEl = $(this); //console.log('pageId: '+pageId); // now gets id from loaded page
+    $('#pages').off('click', 'a, button, div.row div', containerClick); // otherwise will be duplicated in showPage2()
+    var pageId = $('.page').attr('id'), clickedEl = $(this); // now gets id from loaded page
     console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
     switch (clickedEl.attr('id')) {
     case 'prev':
@@ -405,25 +407,23 @@ function wrong(id) { // console.log('wrong(): ' + id);
     // };
 }
 
-// function circleClick(id) {
-//     //?
-// }
-
 function correct(num) {
     var svg = document.getElementById('svg1');
     var id = currentPage().prefix + String(num);
     console.log('correct(): id: ' + id);
-    //var circle = svg.contentDocument.getElementById('aa' + String(num));
     var group = svg.contentDocument.getElementById(num);
     var circles = group.getElementsByTagName('circle');
     var circle = circles[0];
     fillYellow(circle);
-    //var line = svg.contentDocument.getElementById('laa' + String(num + 1));
-    var line = svg.contentDocument.getElementById('laa0');
-    //line.style.display = 'inline'; //? // $('#l' + id).show(); // $(line).show();
+    var line = svg.contentDocument.getElementById('l' + currentPage().prefix + String(num)); //
     $(line).attr('display', 'inline');
 }
 
+// function circleClick(id) {
+//     //?
+// }
+    //var circle = svg.contentDocument.getElementById('aa' + String(num));
+    //line.style.display = 'inline'; //? // $('#l' + id).show(); // $(line).show();
 // "name" : "part-a",
 // "type" : "game",
 // "templateId" : "game",
@@ -439,7 +439,6 @@ function addListeners(game) {
         console.log('prefix: ' + prefix);
         for (var i = 1; i < currentPage().numCircles; i++) {
             var id = prefix + String(i);
-            // var ix = i;
             //console.log('add event listener to ' + id);
             try {
                 var group = svgDoc.getElementById(id); // get inner element by id
@@ -494,8 +493,8 @@ function init() {
     }
     console.log(msg); //console.log('formAction: ' + config.formAction);
     $('#home .debug').html('<code>' + msg + '</code>');
-    showPage(currentPage());
     config.tinstruct = isoDate(); console.log('config.tinstruct: ' + config.tinstruct);
+    showPage(currentPage());
 }
 
 function getConfig() {
@@ -511,7 +510,7 @@ function getConfig() {
 }
 
 function keydown(e) {
-    console.log('keyboard event: ' + e.which);
+    //console.log('keyboard event: ' + e.which);
     if (e.which === 68) { //console.log(''d' pressed');
         e.preventDefault(); // don't trap other keypresses e.g. ctrl-shift-i for dev tools
         if ($('#devBar').css('display') === 'none') {
@@ -523,7 +522,7 @@ function keydown(e) {
 }
 
 $('body').on('keydown', keydown); //$('#pages').on('click', 'a, button, div.row div', containerClick); // delegate events
-$('#devBar').on('click', 'a, button', navClick);
+$('#devBar').on('click', 'a, button', devClick);
 $('#abandon-btn').on('click', abandonClick);
 $('#modals').on('click', 'button', modalClick);
 
@@ -548,7 +547,6 @@ window.onresize = function(event) {
 
 $().ready(function () { //$(document).ready(
     console.log('Document ready');
-    // console.log('test: ' + test);
     $('#devBar').hide();
     if (LIVE) {
         window.onbeforeunload = null;
