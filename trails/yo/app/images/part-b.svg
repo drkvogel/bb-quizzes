@@ -124,15 +124,3 @@
         <text  text-anchor="middle" dominant-baseline="central" x="32" y="40">13</text>
     </g>
 </svg>
-
-<!--     <line id="el1" x1="50" y1="50" x2="150" y2="150" stroke-width="8" stroke="black" onclick="hello('I am a line')"/>
-    <circle id="el2" cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" onclick="hello('I am yellow')"/>
-    <circle id="el3" cx="150" cy="150" r="40" stroke="red" stroke-width="4" fill="blue" onclick="hello('I am blue')" />
- -->
- <!--     <defs>
-        <filter id="f1" x="0" y="0" width="200%" height="200%">
-            <feOffset result="offOut" in="SourceGraphic" dx="20" dy="20" />
-            <feBlend in="SourceGraphic" in2="offOut" mode="normal" />
-        </filter>
-    </defs> -->
-         <!-- filter="url(#f1)" -->

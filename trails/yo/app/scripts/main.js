@@ -472,7 +472,6 @@ function addListeners(game) {
     }, false);
 }
 
-
         // // dev - add listener to group
         // var group = svgDoc.getElementById('g3'); // get inner element by id
         // group.addEventListener('mousedown', function () {

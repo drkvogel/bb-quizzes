@@ -39,8 +39,3 @@
         <text  text-anchor="middle" dominant-baseline="central" x="176" y="111"></text>
     </g>
 </svg>
-
-<!--     <line id="el1" x1="50" y1="50" x2="150" y2="150" stroke-width="8" stroke="black" onclick="hello('I am a line')"/>
-    <circle id="el2" cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" onclick="hello('I am yellow')"/>
-    <circle id="el3" cx="150" cy="150" r="40" stroke="red" stroke-width="4" fill="blue" onclick="hello('I am blue')" />
- -->

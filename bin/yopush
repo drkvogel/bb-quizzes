@@ -9,6 +9,12 @@ REMOTEUSER="cp"
 REMOTEROOT="/user/cp/public_html/bbquiz/"  # http://red.ctsu.ox.ac.uk/~cp/cjb/
 REMOTEDIR="$(basename "$(dirname "$(pwd)")")"
 
+if [ ! -e $1/index.html ]
+then
+    echo ""$(dirname "$(pwd)")" does not look like an app directory, exiting"
+    exit 0
+fi
+
 if [ -z "$1" ] # if $1 is zero length!
 then
     read -p "Remote host [$REMOTEHOST]? " answer;    # -n1 restrict to 1 char -r raw -s silent (password)
