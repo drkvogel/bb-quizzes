@@ -8,24 +8,6 @@
     "navStart" : "<span><button class=\"btn\" id=\"next\" href=\"#\">Start &gt;&gt;</button></span>",
     "navPrev" : "<span><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>",
     "navPrevNext" : "<span style=\"margin-right: 40px;\"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span><span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>",
-    "games" : {
-        "practice-a" : {
-            "numCircles" : 8,
-            "prefix" : "apr"
-        },
-        "part-a" : {
-            "numCircles" : 25,
-            "prefix" : "aa"
-        },
-        "practice-b" : {
-            "numCircles" : 8,
-            "prefix" : "bpr"
-        },
-        "part-b" : {
-            "numCircles" : 25,
-            "prefix" : "bb"
-        }
-    },
     "pages":[
         {
             "name": "home",
@@ -43,10 +25,18 @@
                 "top": ""
             },
             "topTxt" : "<h3>Trails</h3><p>Trails instructions</p>",
-            "botTxt" : "<p>...</p>",
+            "botTxt" : "<p>We now want to measure your co-ordination</p>",
             "navTxt" : "<p>Touch \"Next\" to continue.</p>",
             "correct": -1,
             "suppressAbandon" : true
+        },
+        {
+            "name" : "practice-a",
+            "type" : "practice",
+            "templateId" : "game",
+            "numCircles" : 8,
+            "prefix" : "apr",
+            "botTxt" : "<p><br><br>This is a practice. Beginning with number 1, join all the circles in numeric order by clicking the next numbered circle. Please work as quickly and accurately as you can.</p>"
         },
         {
             "name": "getReady",
@@ -57,11 +47,37 @@
             "suppressAbandon" : true
         },
         {
-            "name": "ex",
+            "name" : "part-a",
             "type" : "game",
-            "templateId": "game",
-            "botTxt": "<p>Complete the trail</p>"
+            "templateId" : "game",
+            "numCircles" : 25,
+            "prefix" : "aa"
         },
+        {
+            "name" : "practice-b",
+            "type" : "practice",
+            "templateId" : "game",
+            "numCircles" : 8,
+            "prefix" : "bpr",
+            "botTxt" : "<p>Well done.</p><p>This is another practice. Beginning with number 1, join all the circles alternating between numbers and letters in ascending order, e.g. 1 A 2 B. Please work as quickly and accurately as you can.</p>",
+            "commented" : "<!-- Beginning with number 1 then letter A, join all the circles in alternating numeric and alphabetic order by clicking the next numbered then the next lettered circle.-->"
+        },
+        {
+            "name": "getReady",
+            "type" : "intro",
+            "templateId": "getReady",
+            "navTxt" : "<p>Touch \"Start\" when you are ready to begin.</p><p>You will have 2 minutes to get as far as you can.</p>",
+            "correct": -1,
+            "suppressAbandon" : true
+        },
+        {
+            "name" : "part-b",
+            "type" : "game",
+            "templateId" : "game",
+            "numCircles" : 25,
+            "prefix" : "bb"
+        }
+        ,
         {
             "name": "thanks",
             "templateId": "thanks",

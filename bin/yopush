@@ -9,9 +9,10 @@ REMOTEUSER="cp"
 REMOTEROOT="/user/cp/public_html/bbquiz/"  # http://red.ctsu.ox.ac.uk/~cp/cjb/
 REMOTEDIR="$(basename "$(dirname "$(pwd)")")"
 
-if [ ! -e $1/index.html ]
+if [ ! -e app/index.html ]
 then
-    echo ""$(dirname "$(pwd)")" does not look like an app directory, exiting"
+    #echo $(basename $(dirname $(pwd))) " does not look like a yeoman directory, exiting"
+    echo $(pwd)" does not look like a yeoman directory, exiting"
     exit 0
 fi
 

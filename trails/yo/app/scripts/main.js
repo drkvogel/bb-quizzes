@@ -92,14 +92,12 @@ function startTimer(page) {
 //     console.log('input disabled');
 //     //return;
 // }
-//console.log('unbind clicks');
+
 function containerClick(e) {
     e.preventDefault();
     $('#pages').off('click', 'a, button, div.row div', containerClick); // prevent double-click
-
     var clickedEl = $(this),
         elId = clickedEl.attr('id'); //console.log('containerClick(): clickedEl: ' + elId); // now gets id from loaded page
-
     switch (clickedEl.attr('id')) {
     case 'prev':
         prevPage();
@@ -128,7 +126,6 @@ function getNextPuzzle() {
 
 function showPage2() {
     console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)scaleImages();bind clicks
-    //scaleImages();
     $('#pages').on('click', 'a, button, div.row div', containerClick); // prevent double-click
     if (currentPage().name === 'thanks') { // redundant?
         console.log('currentPage().name === \'thanks\'');
@@ -136,39 +133,29 @@ function showPage2() {
     }
 }
 
-function showPage(page) { // prevPage() and nextPage() should handle hiding current
-    //console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); // page: ' + obj(page)); isTimeUp:' + isTimeUp);
+function showPage(page) { // prevPage() and nextPage() should handle hiding current //console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); // page: ' + obj(page)); isTimeUp:' + isTimeUp);
     if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
         $('#abandon-div').hide(); //fadeOut(FADEOUT);
     } else {
-        $('#abandon-div').fadeIn(FADEOUT);
+        $('#abandon-div').fadeIn(FADEIN);
     }
     var info = current + '/' + pages.length + ': ' + page.name + ', timeUp: ' + String(isTimeUp);
     showInfo(info);
     switch (page.templateId) {
     case 'game':
-         $('.botTxt').html('<text>');
-        for (var i = 1; i <= 6; i++) {
-            var id = '#ans' + i;
-            $(id).removeClass('disabled');
+        $('.botTxt').html('<text>');
+        if (page.type === 'practice') { // practice example
+            startTimer(page); // timer to show chosen answer before next, and start game timer
         }
-        if (page.name === 'intro4') { // practice example
-            puzzle = config.practice;
-            $('#svg1').attr('data', 'images/' + 'practice-a.svg'); // or $('#imgdiv-b img')
-            $('.navCtl').html(config.navPrev);
-        } else {
-            $('#svg1').attr('data', 'images/' + 'part-a.svg'); // or $('#imgdiv-b img')
-            $('.navCtl').html('');
-            //console.log('puzzle.b: ' + puzzle.b + ', correct: ' + puzzle.c);
-        }
-        startTimer(page); // timer to show chosen answer before next, and start game timer
+        $('#svg1').attr('data', 'images/' + page.name + '.svg');
+        $('.navCtl').html('');
+        $('.botTxt').html(page.botTxt); //console.log('puzzle.b: ' + puzzle.b + ', correct: ' + puzzle.c); //puzzle = config.practice; ??
         break;
     case 'home':
     case 'abandon':
         break; // don't do nuttin
     case 'intro': // these are templateIds remember, not page names
         $('.topTxt').html(page.topTxt);
-        //$('.middleImg img#introImg').attr('src', 'images/' + page.images.top); // e.g. intro1.png - not split and don't have A, B labels
         $('.botTxt').html(page.botTxt);
         $('.navTxt').html(page.navTxt);
         if (page.name === 'intro1') {
@@ -177,8 +164,7 @@ function showPage(page) { // prevPage() and nextPage() should handle hiding curr
             $('.navCtl').html(config.navPrevNext);
         }
         if (page.name === 'intro5') {
-            var ans = answers.pop();
-            console.log('intro5 ans: ' + ans);
+            var ans = answers.pop(); console.log('intro5 ans: ' + ans);
             $('#intro-answer').html(ans + (parseInt(ans) === 2 ? ' - Correct!' : ''));
         }
         break;
@@ -189,17 +175,16 @@ function showPage(page) { // prevPage() and nextPage() should handle hiding curr
     case 'thanks':
         clearTimeout(timeUpTimeout);
         clearTimeout(nextPageTimeout);
-        $('*').css('cursor', 'progress');
-        console.log('setTimeout(finished, 3000)');
         setTimeout(finished, 3000);
+        $('*').css('cursor', 'progress');
         break;
     default:
         throw new Error('unrecogised id');
     }
     $('#' + page.templateId).fadeIn(FADEIN, showPage2);
+}
     //scaleImages();
     //showInfo('height: ' + $(window).height()); //attr('height'));
-}
 
 function prevPage2() { // eslint throws no-use-before-define, but this is OK in ES5 due to hoisting
     if (current > 0) {
@@ -212,8 +197,7 @@ function prevPage() { //console.log('prevPage(): current: ' + current); // + ', 
     $('#' + currentPage().templateId).fadeOut(FADEOUT, prevPage2);
 }
 
-function nextPage2() {
-    //console.log('nextPage2(): current + 1 < pages.length: ' + String(current + 1 < pages.length));
+function nextPage2() { //console.log('nextPage2(): current + 1 < pages.length: ' + String(current + 1 < pages.length));
     var page;
     if (isTimeUp) {                             // time up
         clearTimeout(nextPageTimeout);
@@ -427,46 +411,50 @@ function wrong(id) { // console.log('wrong(): ' + id);
 
 function correct(num) {
     var svg = document.getElementById('svg1');
-    var id = 'aa' + String(num);
+    var id = currentPage().prefix + String(num);
     console.log('correct(): id: ' + id);
     //var circle = svg.contentDocument.getElementById('aa' + String(num));
-    var circle = svg.contentDocument.getElementById('aa1');
+    var group = svg.contentDocument.getElementById(num);
+    var circles = group.getElementsByTagName('circle');
+    var circle = circles[0];
     fillYellow(circle);
     //var line = svg.contentDocument.getElementById('laa' + String(num + 1));
     var line = svg.contentDocument.getElementById('laa0');
-    //line.style.display = 'inline'; //?
-    // $('#l' + id).show();
-    // $(line).show();
+    //line.style.display = 'inline'; //? // $('#l' + id).show(); // $(line).show();
     $(line).attr('display', 'inline');
 }
 
-
-    // "games" : {
-    //     "practice-a" : {
-    //         "numCircles" : 8,
-    //         "prefix" : "apr"
-    //     },
+// "name" : "part-a",
+// "type" : "game",
+// "templateId" : "game",
+// "numCircles" : 25,
+// "prefix" : "aa"
 function addListeners(game) {
     console.log('addListeners()');
     var svg1 = document.getElementById('svg1');
     svg1.addEventListener('load', function () { // add load event listener to object, as will load svg asynchronously
         console.log('svg loaded');
         var svgDoc = svg1.contentDocument; // get inner DOM of svg
-
-        for (var i = 1; i < 25; i++) {
-            var id = 'gaa' + String(i);
+        var prefix = 'g' + currentPage().prefix;
+        console.log('prefix: ' + prefix);
+        for (var i = 1; i < currentPage().numCircles; i++) {
+            var id = prefix + String(i);
             // var ix = i;
             //console.log('add event listener to ' + id);
-            var group = svgDoc.getElementById(id); // get inner element by id
-            if (i === nextCircle) { // global
-                console.log('i === next: ' + i);
-                group.addEventListener('mousedown', function () { // yellow fill for correct answer
-                    correct(this.id); // works, this.id is id of circle
-                }, false);
-            } else {
-                group.addEventListener('mousedown', function () {// add behaviour
-                    wrong(this.id); // red flash
-                }, false);
+            try {
+                var group = svgDoc.getElementById(id); // get inner element by id
+                if (i === nextCircle) { // global
+                    console.log('i === next: ' + i);
+                    group.addEventListener('mousedown', function () { // yellow fill for correct answer
+                        correct(this.id); // works, this.id is id of circle
+                    }, false);
+                } else {
+                    group.addEventListener('mousedown', function () {// add behaviour
+                        wrong(this.id); // red flash
+                    }, false);
+                }
+            } catch (err) {
+                console.log('error adding listener to ' + id + ': ' + err);
             }
         }
     }, false);
@@ -487,9 +475,8 @@ function init() {
     timerWholeTest = new Timer(); // globals
     isTimeUp = false;
     current = 0;
-    var msg;
     addListeners(); //attachEventHandlers('part-a');
-
+    var msg;
     if (LOCAL) {
         config.seshID = 4321;
         msg = 'this is a local web application for local people';
@@ -507,7 +494,6 @@ function init() {
     }
     console.log(msg); //console.log('formAction: ' + config.formAction);
     $('#home .debug').html('<code>' + msg + '</code>');
-
     showPage(currentPage());
     config.tinstruct = isoDate(); console.log('config.tinstruct: ' + config.tinstruct);
 }
@@ -561,7 +547,6 @@ window.onresize = function(event) {
 })();
 
 $().ready(function () { //$(document).ready(
-
     console.log('Document ready');
     // console.log('test: ' + test);
     $('#devBar').hide();

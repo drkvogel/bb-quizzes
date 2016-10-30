@@ -36,6 +36,6 @@
     </g>
     <g id="gapr7">
         <circle id="apr7" cx="176" cy="111" r="20" stroke-width="2" stroke="black" fill="white" />
-        <text  text-anchor="middle" dominant-baseline="central" x="176" y="111"></text>
+        <text  text-anchor="middle" dominant-baseline="central" x="176" y="111">7</text>
     </g>
 </svg>

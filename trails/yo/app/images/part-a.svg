@@ -1,11 +1,11 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 600 600">
 
     <!-- test -->
-    <g id="g3">
+<!--     <g id="g3">
         <circle id="taa2" cx="369" cy="452" r="20" alt="circle3" stroke-width="2" stroke="black" fill="white" />
         <text  x="369" y="452" text-anchor="middle" dominant-baseline="central">3</text>
     </g>
-
+ -->
 
     <line id="laa0" x1="277" y1="390" x2="213" y2="452" stroke-width="2" stroke="black" display="none" />
     <g id="gaa0">
