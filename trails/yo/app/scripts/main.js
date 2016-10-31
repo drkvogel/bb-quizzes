@@ -13,7 +13,7 @@ var LIVE = false, // const? JSHint doesn't like it
     config,
     pages,
     current,
-    puzzleCount = 0,
+    //puzzleCount = 0,
     timer,
     timerWholeTest,
     isTimeUp = false,
@@ -270,7 +270,7 @@ function answered2() {
     }
 }
 
-function answered(ans) {
+function answered(ans) { // TODO
     var page = currentPage();
     var isCorrect = ans === puzzle.c;
     var timeTaken;
@@ -280,12 +280,12 @@ function answered(ans) {
         timeTaken = timer.getElapsed();
         showTime(timeTaken, isCorrect);
         var answer = {
-            count: ++puzzleCount,                   // should be number of puzzles taken
+            //count: ++puzzleCount,                   // should be number of puzzles taken
             duration: timeTaken,                    // Time taken to answer puzzle
-            puzzle: puzzle.n,                       // number of puzzle, not image name - config.json should be only mapping
+            //puzzle: puzzle.n,                       // number of puzzle, not image name - config.json should be only mapping
             elapsed: timerWholeTest.getElapsed(),   // Cumulative time elapsed
             answer: ans,                            // Answer given by user, ans should be Number() type
-            correct: puzzle.c                       // correct answer, not bool
+            //correct: puzzle.c                       // correct answer, not bool
         };
         answers.push(answer);
     } else if (page.name.slice(0, 5) === 'intro') {
