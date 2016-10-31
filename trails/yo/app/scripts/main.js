@@ -95,8 +95,9 @@ function startTimer(page) {
 
 function containerClick(e) {
     e.preventDefault();
-    console.log('containerClick(e): ' + logObj(this));// + logObj(e));
-    $('#pages').off('click', 'a, button', containerClick); // prevent double-click
+    console.log('containerClick(e): ' + e.handleObj.selector); //logObj(e));
+    console.log('containerClick(e): unbind');// + logObj(this));// + logObj(e));
+    $('#pages').off('click', 'button', containerClick); // prevent double-click
     var clickedEl = $(this),
         elId = clickedEl.attr('id'); //console.log('containerClick(): clickedEl: ' + elId); // now gets id from loaded page
     switch (clickedEl.attr('id')) {
@@ -121,7 +122,8 @@ function getNextPuzzle() {
 
 function showPage2() {
     console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)scaleImages();bind clicks
-    $('#pages').on('click', 'a, button', containerClick); // prevent double-click
+    console.log('showPage2: bind'); // (re-)scaleImages();bind clicks
+    $('#pages').on('click', 'button', containerClick); // prevent double-click
     if (currentPage().name === 'thanks') { // redundant?
         console.log('currentPage().name === \'thanks\'');
         setTimeout(finished, 3000);
@@ -144,6 +146,7 @@ function showPage(page) { // prevPage() and nextPage() should handle hiding curr
         $('#svg1').attr('data', img);
         if (page.type === 'practice') { // practice example
             $('.botTxt').html(page.botTxt); //console.log('puzzle.b: ' + puzzle.b + ', correct: ' + puzzle.c); //puzzle = config.practice; ??
+            $('.topTxt').html(page.topTxt);
         } else {
             startTimer(page); // timer to show chosen answer before next, and start game timer
             $('.navCtl').html('');
@@ -231,7 +234,7 @@ function hideModal(modal) {
 
 function finished() {
     console.log('finished(): answers: ' + JSON.stringify(answers));
-    console.log('finished(): auto-submit disabled for testing ' + JSON.stringify(answers));
+    console.log('finished(): auto-submit disabled for testing ' + JSON.stringify(answers)); return;
     clearTimeout(timeUpTimeout);
 
     // fill in form and submit automatically
@@ -298,9 +301,9 @@ function abandonClick() {
 }
 
 function devClick(e) {
-    console.log('devClick()');
+    console.log('devClick(): unbind');
     e.preventDefault();
-    $('#pages').off('click', 'a, button, div.row div', containerClick); // otherwise will be duplicated in showPage2()
+    $('#pages').off('click', 'button', containerClick); // otherwise will be duplicated in showPage2()
     var pageId = $('.page').attr('id'), clickedEl = $(this); // now gets id from loaded page
     console.log('pageId: ' + pageId + ': elid: ' + clickedEl.attr('id')); //console.log('elid: '+clickedEl.attr('id')+', html: ''+clickedEl.html()+''');
     switch (clickedEl.attr('id')) {
@@ -433,7 +436,7 @@ function addListeners(game) {
     console.log('addListeners()');
     var svg1 = document.getElementById('svg1');
     svg1.addEventListener('load', function () { // add load event listener to object, as will load svg asynchronously
-        console.log('svg loaded');
+        console.log('svg1 loaded');
         var svgDoc = svg1.contentDocument; // get inner DOM of svg
         var prefix = 'g' + currentPage().prefix;
         console.log('prefix: ' + prefix);
@@ -493,6 +496,12 @@ function init() {
     }
     console.log(msg); //console.log('formAction: ' + config.formAction);
     $('#home .debug').html('<code>' + msg + '</code>');
+
+    $('body').on('keydown', keydown);
+    $('#devBar').on('click', 'a, button', devClick); // delegate events
+    $('#abandon-btn').on('click', abandonClick);
+    $('#modals').on('click', 'button', modalClick);
+
     config.tinstruct = isoDate(); console.log('config.tinstruct: ' + config.tinstruct);
     showPage(currentPage());
 }
@@ -520,11 +529,6 @@ function keydown(e) {
         }
     }
 }
-
-$('body').on('keydown', keydown); //$('#pages').on('click', 'a, button, div.row div', containerClick); // delegate events
-$('#devBar').on('click', 'a, button', devClick);
-$('#abandon-btn').on('click', abandonClick);
-$('#modals').on('click', 'button', modalClick);
 
 window.onresize = function(event) {
     //scaleImages();

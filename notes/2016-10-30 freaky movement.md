@@ -7,6 +7,7 @@ main.js [sm]:427 addListeners()
 main.js [sm]:488 this is a local web application for local people
 main.js [sm]:122 showPage2: currentPage().name: home
 main.js [sm]:491 config.tinstruct: 2016-10-30T21:59:24
+
 main.js [sm]:209 nextPage2(): 1
 main.js [sm]:122 showPage2: currentPage().name: intro1
 main.js [sm]:209 nextPage2(): 2

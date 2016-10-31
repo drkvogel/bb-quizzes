@@ -4,10 +4,10 @@
     "nextDelay" : 500,
     "timeLimit" : 120000,
     "formAction" : "http://oqsweb.ndph.ox.ac.uk/~cp/bbquiz/",
-    "navNext" : "<span><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>",
-    "navStart" : "<span><button class=\"btn\" id=\"next\" href=\"#\">Start &gt;&gt;</button></span>",
-    "navPrev" : "<span><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>",
-    "navPrevNext" : "<span style=\"margin-right: 40px;\"><button class=\"btn\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span><span id=\"next\" class=\"\"><button class=\"btn\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>",
+    "navNext" : "<span><button class=\"btn btn-lg btn-default\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>",
+    "navStart" : "<span><button class=\"btn btn-lg btn-default\" id=\"next\" href=\"#\">Start &gt;&gt;</button></span>",
+    "navPrev" : "<span><button class=\"btn btn-lg btn-default\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>",
+    "navPrevNext" : "<span style=\"margin-right: 40px;\"><button class=\"btn btn-lg btn-default\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span><span id=\"next\" class=\"\"><button class=\"btn btn-lg btn-default\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>",
     "pages":[
         {
             "name": "home",
@@ -59,7 +59,7 @@
             "templateId" : "game",
             "numCircles" : 8,
             "prefix" : "bpr",
-            "topTxt" : "<p>Well done.</p><p>This is another practice. Beginning with number 1, join all the circles alternating between numbers and letters in ascending order, e.g. 1 A 2 B. Please work as quickly and accurately as you can.</p>",
+            "topTxt" : "<p>This is another practice. Beginning with number 1, join all the circles alternating between numbers and letters in ascending order, e.g. 1, A, 2, B. Please work as quickly and accurately as you can.</p>",
             "commented" : "<!-- Beginning with number 1 then letter A, join all the circles in alternating numeric and alphabetic order by clicking the next numbered then the next lettered circle.-->"
         },
         {
