@@ -24,7 +24,7 @@
             "images": {
                 "top": ""
             },
-            "topTxt" : "<h3>Trails</h3><p>Trails instructions</p>",
+            "topTxt" : "<h3>Trails</h3>",
             "botTxt" : "<p>We now want to measure your co-ordination</p>",
             "navTxt" : "<p>Touch \"Next\" to continue.</p>",
             "correct": -1,
