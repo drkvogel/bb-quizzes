@@ -1,4 +1,14 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 600 600">
+    <style type="text/css">
+    * {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    </style>
     <line id="l1" x1="245" y1="167" x2="285" y2="66" stroke-width="2" stroke="black" display="none" />
     <g id="g1">
         <circle id="c1" cx="245" cy="167" r="20" stroke-width="2" stroke="black" fill="white" />
