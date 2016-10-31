@@ -394,8 +394,9 @@ function fillYellow(id) {
     $(id).attr('fill', 'yellow');
 }
 
-function wrong(id) { // console.log('wrong(): ' + id);
-    var group = document.getElementById('svg1').contentDocument.getElementById(id);
+function wrong() { // console.log('wrong(): ' + id);
+    console.log('wrong(): ' + this.id);
+    var group = document.getElementById('svg1').contentDocument.getElementById(this.id);
     var circles = group.getElementsByTagName('circle');
     var circle = circles[0];
     fillRed(circle);
@@ -410,16 +411,26 @@ function wrong(id) { // console.log('wrong(): ' + id);
     // };
 }
 
-function correct(num) {
+function correct() {
+    console.log('correct(): ' + this.id);
     var svg = document.getElementById('svg1');
-    var id = currentPage().prefix + String(num);
-    console.log('correct(): id: ' + id);
-    var group = svg.contentDocument.getElementById(num);
+    var group = svg.contentDocument.getElementById(this.id); // as callback is a closure, has access to enclosing scope (this)
     var circles = group.getElementsByTagName('circle');
     var circle = circles[0];
     fillYellow(circle);
-    var line = svg.contentDocument.getElementById('l' + currentPage().prefix + String(num)); //
+
+    var num = Number(this.id.slice(1));
+    //var id = currentPage().prefix + String(num);
+    console.log('correct(): num: ' + num + ', clicked: ' + this.id);
+    var line = svg.contentDocument.getElementById('l' + String(num - 1)); // why did I make ids 0-indexed?
     $(line).attr('display', 'inline');
+    if (nextCircle < currentPage().numCircles) {
+        nextCircle++;
+        changeListeners();
+    } else {
+        console.log('TODO: collect timings, pause before next page');
+        setTimeout(1000, nextPage);
+    }
 }
 
 // function circleClick(id) {
@@ -432,29 +443,51 @@ function correct(num) {
 // "templateId" : "game",
 // "numCircles" : 25,
 // "prefix" : "aa"
-function addListeners(game) {
+
+// function wrongEvent(id) {
+//     correct(id); // works, this.id is id of circle
+// }
+
+// To remove event handlers, the function specified with the addEventListener() method must be an external, "named" function
+function changeListeners() {
+    console.log('changeListeners(): nextCircle: ' + nextCircle);
+    var svgDoc = document.getElementById('svg1').contentDocument; // get inner DOM of svg
+    var oldGroup = svgDoc.getElementById('g' + String(nextCircle - 1));
+    oldGroup,removeEventListener('mousedown', correct);
+    //oldGroup.addEventListener('mousedown', wrong);
+    var newGroup = svgDoc.getElementById('g' + String(nextCircle));
+    newGroup.addEventListener('mousedown', function () { // yellow fill for correct answer
+        correct(this.id); // works, this.id is id of circle
+    }, false);
+}
+
+function addListeners() {
     console.log('addListeners()');
     var svg1 = document.getElementById('svg1');
-    svg1.addEventListener('load', function () { // add load event listener to object, as will load svg asynchronously
+    svg1.addEventListener('load', function () { // will be invoked each time svg loaded
         console.log('svg1 loaded');
         var svgDoc = svg1.contentDocument; // get inner DOM of svg
-        var prefix = 'g' + currentPage().prefix;
-        console.log('prefix: ' + prefix);
+        var prefix = 'g';// + currentPage().prefix;
         for (var i = 1; i < currentPage().numCircles; i++) {
-            var id = prefix + String(i);
-            //console.log('add event listener to ' + id);
+            var id = prefix + String(i); //console.log('add event listener to ' + id);
             try {
                 var group = svgDoc.getElementById(id); // get inner element by id
-                if (i === nextCircle) { // global
-                    console.log('i === next: ' + i);
-                    group.addEventListener('mousedown', function () { // yellow fill for correct answer
-                        correct(this.id); // works, this.id is id of circle
-                    }, false);
+                if (i === nextCircle) { // global //console.log('i === next: ' + i);
+                    group.addEventListener('mousedown', correct, false);
                 } else {
-                    group.addEventListener('mousedown', function () {// add behaviour
-                        wrong(this.id); // red flash
-                    }, false);
+                    group.addEventListener('mousedown', wrong, false);
                 }
+
+                // if (i === nextCircle) { // global
+                //     //console.log('i === next: ' + i);
+                //     group.addEventListener('mousedown', function () { // yellow fill for correct answer
+                //         correct(this.id); // works, this.id is id of circle
+                //     }, false);
+                // } else {
+                //     group.addEventListener('mousedown', function () {// add behaviour
+                //         wrong(this.id); // red flash
+                //     }, false);
+                // }
             } catch (err) {
                 console.log('error adding listener to ' + id + ': ' + err);
             }
