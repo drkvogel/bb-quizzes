@@ -13,17 +13,15 @@ var LIVE = false, // const? JSHint doesn't like it
     FADEOUT = 100,
     config,
     pages,
+    answers = [],
     current,
-    //puzzleCount = 0,
     timer,
     timerWholeTest,
     isTimeUp = false,
     nextPageTimeout,
     timeUpTimeout,
-    enabled = false, // enable UI
-    levels = [], // ?
+    //enabled = false, // enable UI
     nextCircle = 1,
-    answers = [],
     puzzle = null,
     seshID = null,
     tinstruct = null,
@@ -66,33 +64,20 @@ function showTime(text, isCorrect) {
     $(sel).html(text + 'ms');
 }
 
-// function scaleImages() {
-//     //scaleImagesCBsimple();
-//     scaleImagesAY();
-// }
-
 function isoDate() { // return date string in format yyyy-mm-ddThh:mm:ss, suitable for parsing by xtime.cpp
     var date = new Date(); // date.toISOString() is UTC/GMT with milliseconds, e.g. '2016-09-21T10:47:54.671Z'
-    return date.toISOString().substring(0, 19); // strip milliseconds
-        // timezone not needed, is GMT
+    return date.toISOString().substring(0, 19); // strip milliseconds. timezone not needed, is GMT
 }
 
 function startTimer(page) {
     if (page.type === 'game') {
         timer.now(); // start timer for all real exercises
-        if (levels.length === MAX_LEVELS - 1) { // first puzzle just been popped off
-            timerWholeTest.now(); // start timer for the whole test (for "elapsed" field)
-            config.timeStarted = isoDate();
-            console.log('config.timeStarted: ' + config.timeStarted);
-            timeUpTimeout = setTimeout(timeUp, config.timeLimit);
-        }
+        timerWholeTest.now(); // start timer for the whole test (for "elapsed" field)
+        config.timeStarted = isoDate();
+        console.log('config.timeStarted: ' + config.timeStarted);
+        timeUpTimeout = setTimeout(timeUp, config.timeLimit);
     }
 }
-
-// if (!enabled) {
-//     console.log('input disabled');
-//     //return;
-// }
 
 function containerClick(e) {
     e.preventDefault();
@@ -115,10 +100,6 @@ function containerClick(e) {
         break;
     default:
     }
-}
-
-function getNextPuzzle() {
-    return config.puzzles[levels.pop()];
 }
 
 function showPage2() {
@@ -187,7 +168,6 @@ function showPage(page) { // prevPage() and nextPage() should handle hiding curr
     }
     $('#' + page.templateId).fadeIn(FADEIN, showPage2);
 }
-    //scaleImages();
     //showInfo('height: ' + $(window).height()); //attr('height'));
 
 function prevPage2() { // eslint throws no-use-before-define, but this is OK in ES5 due to hoisting
@@ -206,8 +186,6 @@ function nextPage2() { //console.log('nextPage2(): current + 1 < pages.length: '
     if (isTimeUp) {                             // time up
         clearTimeout(nextPageTimeout);
         page = pageNamed('thanks');
-    // } else if (currentPage().type === 'game') {   // live game
-    //     page = currentPage();
     } else if (current + 1 < pages.length) { //
         current += 1;
         page = currentPage();
@@ -233,9 +211,7 @@ function hideModal(modal) {
     $('#' + modal).hide(); //fadeOut(FADEOUT);
 }
 
-
 function finished() {
-
     console.log('finished(): answers: ' + JSON.stringify(answers));
     console.log('finished(): auto-submit disabled for testing ' + JSON.stringify(answers)); return;
     clearTimeout(timeUpTimeout);
@@ -251,7 +227,7 @@ function finished() {
     $(window).on('beforeunload', function(){
         $('*').css('cursor', 'default');
     });
-    //document.getElementById('feedbackForm').submit(); // action set in init() from config.json
+    document.getElementById('feedbackForm').submit(); // action set in init() from config.json
 }
 
 function timeUp() {
@@ -260,43 +236,43 @@ function timeUp() {
     console.log('timeUp(): isTimeUp:' + isTimeUp);
 }
 
-function answered2() {
-    console.log('answered2()');
-    if (isTimeUp) {
-        clearTimeout(nextPageTimeout);
-        showPage(pageNamed('thanks'));
-    } else if (currentPage().name.slice(0, 5) === 'intro') {
-        current += 1;
-        showPage(currentPage());
-    } else {
-        showPage(currentPage());
-    }
-}
+// function answered2() {
+//     console.log('answered2()');
+//     if (isTimeUp) {
+//         clearTimeout(nextPageTimeout);
+//         showPage(pageNamed('thanks'));
+//     } else if (currentPage().name.slice(0, 5) === 'intro') {
+//         current += 1;
+//         showPage(currentPage());
+//     } else {
+//         showPage(currentPage());
+//     }
+// }
 
-function answered(ans) { // TODO
-    var page = currentPage();
-    var isCorrect = ans === puzzle.c;
-    var timeTaken;
-    if (page.name.slice(0, 2) === 'ex') { // real exercise
-        timer.lap();
-        timerWholeTest.lap();
-        timeTaken = timer.getElapsed();
-        showTime(timeTaken, isCorrect);
-        var answer = {
-            //count: ++puzzleCount,                   // should be number of puzzles taken
-            duration: timeTaken,                    // Time taken to answer puzzle
-            //puzzle: puzzle.n,                       // number of puzzle, not image name - config.json should be only mapping
-            elapsed: timerWholeTest.getElapsed(),   // Cumulative time elapsed
-            answer: ans                            // Answer given by user, ans should be Number() type
-            //correct: puzzle.c                       // correct answer, not bool
-        };
-        answers.push(answer);
-    } else if (page.name.slice(0, 5) === 'intro') {
-        answers.push(ans);
-    }
-    console.log('answered: ' + ans + ', correct: ' + puzzle.c + ', isCorrect: ' + isCorrect + ', elapsed? ' + timer.getElapsed());
-    $('#' + currentPage().templateId).fadeOut(FADEOUT, answered2);
-}
+// function answered(ans) { // TODO
+//     var page = currentPage();
+//     var isCorrect = ans === puzzle.c;
+//     var timeTaken;
+//     if (page.name.slice(0, 2) === 'ex') { // real exercise
+//         timer.lap();
+//         timerWholeTest.lap();
+//         timeTaken = timer.getElapsed();
+//         showTime(timeTaken, isCorrect);
+//         var answer = {
+//             //count: ++puzzleCount,                   // should be number of puzzles taken
+//             duration: timeTaken,                    // Time taken to answer puzzle
+//             //puzzle: puzzle.n,                       // number of puzzle, not image name - config.json should be only mapping
+//             elapsed: timerWholeTest.getElapsed(),   // Cumulative time elapsed
+//             answer: ans                            // Answer given by user, ans should be Number() type
+//             //correct: puzzle.c                       // correct answer, not bool
+//         };
+//         answers.push(answer);
+//     } else if (page.name.slice(0, 5) === 'intro') {
+//         answers.push(ans);
+//     }
+//     console.log('answered: ' + ans + ', correct: ' + puzzle.c + ', isCorrect: ' + isCorrect + ', elapsed? ' + timer.getElapsed());
+//     $('#' + currentPage().templateId).fadeOut(FADEOUT, answered2);
+// }
 
 function abandonClick() {
     console.log('abandon');
@@ -352,37 +328,6 @@ function modalClick(e) { // TODO merge into navClick or something
     }
 }
 
-/*                  lines   circles
------------------------------------
-practice-a.svg      laprX   aprX
-part-a.svg          laaX    aaX
-practice-b.svg      lbprX   bprX
-part-b.svg          lbbX    bbX     */
-function attachEventHandlers(game) {
-    var id = '';
-
-    // switch (game):
-    // case "part-a":
-    // practice-a.svg      laprX   aprX
-    // for (var i = 0; i <= 6) {
-    //     id = "lapr" + String(i);
-    // }
-    // for (var i = 0; i <= 7) {
-    //     id = "apr" + String(i);
-    // }
-
-    // part-a.svg          laaX    aaX
-    // for (var i = 1; i <= 25; i++) {
-    //     id = 'apr' + String(i);
-    //     var circle = svgDoc.getElementById(id); // get inner element by id
-    //     circle.addEventListener('mousedown', function () {// add behaviour
-    //         alert('I am ' + id);
-    //     }, false);
-    // }
-    // practice-b.svg      lbprX   bprX
-    // part-b.svg          lbbX    bbX
-}
-
 function fillRed(id) {
     $(id).attr('fill', 'red');
 }
@@ -395,8 +340,28 @@ function fillYellow(id) {
     $(id).attr('fill', 'yellow');
 }
 
+function logEvent(element, isCorrect) {
+    console.log('logEvent(): correct: ' + isCorrect);
+    var page = currentPage();
+    var timeTaken;
+    timer.lap();
+    timerWholeTest.lap();
+    timeTaken = timer.getElapsed();
+    showTime(timeTaken, isCorrect);
+    var answer = {
+        duration: timeTaken,                   // Time taken to answer puzzle
+        puzzle: page.name,                     // number of puzzle, not image name - config.json should be only mapping
+        elapsed: timerWholeTest.getElapsed(),  // Cumulative time elapsed
+        element: element,                      // id of element clicked on by user
+        correct: isCorrect                     // bool
+    };
+    console.log('logEvent(): answer: ' + logObj(answer));
+    answers.push(answer);
+}
+
 function wrong() { // console.log('wrong(): ' + id);
     console.log('wrong(): ' + this.id);
+    logEvent(this.id, false);
     var group = document.getElementById('svg1').contentDocument.getElementById(this.id);
     var circles = group.getElementsByTagName('circle');
     var circle = circles[0];
@@ -414,6 +379,7 @@ function wrong() { // console.log('wrong(): ' + id);
 
 function correct() {
     console.log('correct(): id: ' + this.id);
+    logEvent(this.id, true);
     var svg = document.getElementById('svg1');
     var group = svg.contentDocument.getElementById(this.id); // as callback is a closure, has access to enclosing scope (this)
     var circles = group.getElementsByTagName('circle');
@@ -440,7 +406,6 @@ function correct() {
         setTimeout(nextPage, 1000);
     }
 }
-
     //line.style.display = 'inline'; //? // $('#l' + id).show(); // $(line).show();
 
 // To remove event handlers, the function specified with the addEventListener() method must be an external, "named" function
@@ -557,7 +522,6 @@ window.onresize = function(event) {
         search = /([^&=]+)=?([^&]*)/g,
         decode = function(s) { return decodeURIComponent(s.replace(pl, ' ')); },
         query = window.location.search.substring(1);
-    // eslint-disable-next-line no-cond-assign <--- doesn't work, but eslint-disable-line does:
     while (match = search.exec(query)) { // eslint-disable-line no-cond-assign
        urlParams[decode(match[1])] = decode(match[2]);
     }
@@ -588,3 +552,37 @@ console.log('main.js ready');
 
             //urlParams['sesh_id'];
             // error  ['sesh_id'] is better written in dot notation                    dot-notation
+
+
+/*                  lines   circles
+-----------------------------------
+practice-a.svg      laprX   aprX
+part-a.svg          laaX    aaX
+practice-b.svg      lbprX   bprX
+part-b.svg          lbbX    bbX     */
+// function attachEventHandlers(game) {
+//     var id = '';
+
+    // switch (game):
+    // case "part-a":
+    // practice-a.svg      laprX   aprX
+    // for (var i = 0; i <= 6) {
+    //     id = "lapr" + String(i);
+    // }
+    // for (var i = 0; i <= 7) {
+    //     id = "apr" + String(i);
+    // }
+
+    // part-a.svg          laaX    aaX
+    // for (var i = 1; i <= 25; i++) {
+    //     id = 'apr' + String(i);
+    //     var circle = svgDoc.getElementById(id); // get inner element by id
+    //     circle.addEventListener('mousedown', function () {// add behaviour
+    //         alert('I am ' + id);
+    //     }, false);
+    // }
+    // practice-b.svg      lbprX   bprX
+    // part-b.svg          lbbX    bbX
+//}
+
+// eslint-disable-next-line no-cond-assign <--- doesn't work, but eslint-disable-line does:
