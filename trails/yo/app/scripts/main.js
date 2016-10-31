@@ -419,7 +419,7 @@ function correct() {
 
     var num = Number(this.id.slice(1)); console.log('correct(): num: ' + num + ', clicked: ' + this.id);
     if (nextCircle !== 1) {
-        var line = svg.contentDocument.getElementById('l' + String(num)); // why did I make ids 0-indexed?
+        var line = svg.contentDocument.getElementById('l' + String(num - 1)); // why did I make ids 0-indexed?
         $(line).attr('display', 'inline');
         console.log('correct(): show line: ' + num);
     }
@@ -428,7 +428,11 @@ function correct() {
         changeListeners();
     } else {
         console.log('TODO: collect timings, pause before next page');
-        setTimeout(1000, nextPage);
+        // reset 1st circle?
+        var first = document.getElementById('svg1').contentDocument.getElementById('g1');
+        first.removeEventListener('mousedown', wrong);
+        first.addEventListener('mousedown', correct);
+        setTimeout(nextPage, 1000);
     }
 }
 
@@ -437,10 +441,13 @@ function correct() {
 // To remove event handlers, the function specified with the addEventListener() method must be an external, "named" function
 function changeListeners() {
     console.log('changeListeners(): nextCircle: ' + nextCircle);
+    var oldId = 'g' + String(nextCircle - 1), newId = 'g' + String(nextCircle);
+    console.log('changeListeners(): oldId: ' + oldId, ', newId: ' + newId);
     var svgDoc = document.getElementById('svg1').contentDocument; // get inner DOM of svg
-    var oldGroup = svgDoc.getElementById('g' + String(nextCircle - 1));
+    var oldGroup = svgDoc.getElementById(oldId);
     oldGroup.removeEventListener('mousedown', correct);
-    var newGroup = svgDoc.getElementById('g' + String(nextCircle));
+    var newGroup = svgDoc.getElementById(newId);
+    newGroup.removeEventListener('mousedown', wrong); // no longer wrong
     newGroup.addEventListener('mousedown', correct); // works, this.id is id of circle
 }
 

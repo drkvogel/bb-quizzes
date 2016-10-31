@@ -29,7 +29,7 @@
         <circle id="c6" cx="97" cy="217" r="20" stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="97" y="217">6</text>
     </g>
-    <line id="l" x1="48" y1="117" x2="176" y2="111" stroke-width="2" stroke="black" display="none" />
+    <line id="l7" x1="48" y1="117" x2="176" y2="111" stroke-width="2" stroke="black" display="none" />
     <g id="g7">
         <circle id="c7" cx="48" cy="117" r="20" stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="48" y="117">7</text>
