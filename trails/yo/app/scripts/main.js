@@ -380,9 +380,7 @@ function attachEventHandlers(game) {
     // part-b.svg          lbbX    bbX
 }
 
-
 function fillRed(id) {
-    // console.log('fillRed(): ' + id)
     $(id).attr('fill', 'red');
 }
 
@@ -405,25 +403,26 @@ function wrong() { // console.log('wrong(): ' + id);
     setTimeout(function() { fillWhite(circle); }, 300);
     setTimeout(function() { fillRed(circle); }, 400);
     setTimeout(function() { fillWhite(circle); }, 500);
+}
     // for (var i = 0; i < 5; i++) {
     //     setTimeout(function() { fillWhite(circle); }, 500);
     //     $(id).attr('fill', 'red');
     // };
-}
 
 function correct() {
-    console.log('correct(): ' + this.id);
+    console.log('correct(): id: ' + this.id);
     var svg = document.getElementById('svg1');
     var group = svg.contentDocument.getElementById(this.id); // as callback is a closure, has access to enclosing scope (this)
     var circles = group.getElementsByTagName('circle');
     var circle = circles[0];
     fillYellow(circle);
 
-    var num = Number(this.id.slice(1));
-    //var id = currentPage().prefix + String(num);
-    console.log('correct(): num: ' + num + ', clicked: ' + this.id);
-    var line = svg.contentDocument.getElementById('l' + String(num - 1)); // why did I make ids 0-indexed?
-    $(line).attr('display', 'inline');
+    var num = Number(this.id.slice(1)); console.log('correct(): num: ' + num + ', clicked: ' + this.id);
+    if (nextCircle !== 1) {
+        var line = svg.contentDocument.getElementById('l' + String(num)); // why did I make ids 0-indexed?
+        $(line).attr('display', 'inline');
+        console.log('correct(): show line: ' + num);
+    }
     if (nextCircle < currentPage().numCircles) {
         nextCircle++;
         changeListeners();
@@ -433,42 +432,26 @@ function correct() {
     }
 }
 
-// function circleClick(id) {
-//     //?
-// }
-    //var circle = svg.contentDocument.getElementById('aa' + String(num));
     //line.style.display = 'inline'; //? // $('#l' + id).show(); // $(line).show();
-// "name" : "part-a",
-// "type" : "game",
-// "templateId" : "game",
-// "numCircles" : 25,
-// "prefix" : "aa"
-
-// function wrongEvent(id) {
-//     correct(id); // works, this.id is id of circle
-// }
 
 // To remove event handlers, the function specified with the addEventListener() method must be an external, "named" function
 function changeListeners() {
     console.log('changeListeners(): nextCircle: ' + nextCircle);
     var svgDoc = document.getElementById('svg1').contentDocument; // get inner DOM of svg
     var oldGroup = svgDoc.getElementById('g' + String(nextCircle - 1));
-    oldGroup,removeEventListener('mousedown', correct);
-    //oldGroup.addEventListener('mousedown', wrong);
+    oldGroup.removeEventListener('mousedown', correct);
     var newGroup = svgDoc.getElementById('g' + String(nextCircle));
-    newGroup.addEventListener('mousedown', function () { // yellow fill for correct answer
-        correct(this.id); // works, this.id is id of circle
-    }, false);
+    newGroup.addEventListener('mousedown', correct); // works, this.id is id of circle
 }
 
 function addListeners() {
     console.log('addListeners()');
     var svg1 = document.getElementById('svg1');
     svg1.addEventListener('load', function () { // will be invoked each time svg loaded
-        console.log('svg1 loaded');
+        console.log('addListeners(): svg1 loaded');
         var svgDoc = svg1.contentDocument; // get inner DOM of svg
         var prefix = 'g';// + currentPage().prefix;
-        for (var i = 1; i < currentPage().numCircles; i++) {
+        for (var i = 1; i <= currentPage().numCircles; i++) {
             var id = prefix + String(i); //console.log('add event listener to ' + id);
             try {
                 var group = svgDoc.getElementById(id); // get inner element by id
@@ -477,17 +460,6 @@ function addListeners() {
                 } else {
                     group.addEventListener('mousedown', wrong, false);
                 }
-
-                // if (i === nextCircle) { // global
-                //     //console.log('i === next: ' + i);
-                //     group.addEventListener('mousedown', function () { // yellow fill for correct answer
-                //         correct(this.id); // works, this.id is id of circle
-                //     }, false);
-                // } else {
-                //     group.addEventListener('mousedown', function () {// add behaviour
-                //         wrong(this.id); // red flash
-                //     }, false);
-                // }
             } catch (err) {
                 console.log('error adding listener to ' + id + ': ' + err);
             }

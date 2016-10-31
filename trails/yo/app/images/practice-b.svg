@@ -1,41 +1,42 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 600 600">
-    <line id="l0" x1="245" y1="167" x2="285" y2="66" stroke-width="2" stroke="black" display="none" />
-    <g id="g0">
-        <circle id="c0" cx="245" cy="167" r="20" alt="circle 1" stroke-width="2" stroke="black" fill="white" />
+    <line id="l1" x1="245" y1="167" x2="285" y2="66" stroke-width="2" stroke="black" display="none" />
+    <g id="g1">
+        <circle id="c1" cx="245" cy="167" r="20" alt="circle 1" stroke-width="2" stroke="black" fill="white" />
         <text x="245" y="167" text-anchor="middle" dominant-baseline="central">1</text>
     </g>
-    <line id="l1" x1="285" y1="66" x2="384" y2="127" stroke-width="2" stroke="black" display="none" />
-    <g id="g1">
-        <circle id="c1" cx="285" cy="66" r="20" alt="circle A" stroke-width="2" stroke="black" fill="white" />
+    <line id="l2" x1="285" y1="66" x2="384" y2="127" stroke-width="2" stroke="black" display="none" />
+    <g id="g2">
+        <circle id="c2" cx="285" cy="66" r="20" alt="circle A" stroke-width="2" stroke="black" fill="white" />
         <text x="285" y="66" text-anchor="middle" dominant-baseline="central">A</text>
     </g>
-    <line id="lr" x1="384" y1="127" x2="325" y2="156" stroke-width="2" stroke="black" display="none" />
-    <g id="g2">
-        <circle id="c2" cx="384" cy="127" r="20" alt="circle 2" stroke-width="2" stroke="black" fill="white" />
+    <line id="l3" x1="384" y1="127" x2="325" y2="156" stroke-width="2" stroke="black" display="none" />
+    <g id="g3">
+        <circle id="c3" cx="384" cy="127" r="20" alt="circle 2" stroke-width="2" stroke="black" fill="white" />
         <text x="384" y="127" text-anchor="middle" dominant-baseline="central">2</text>
     </g>
-    <line id="l3" x1="325" y1="156" x2="353" y2="236" stroke-width="2" stroke="black" display="none" />
-    <g id="g3">
-        <circle id="c3" cx="325" cy="156" r="20" alt="circle B" stroke-width="2" stroke="black" fill="white" />
+    <line id="l4" x1="325" y1="156" x2="353" y2="236" stroke-width="2" stroke="black" display="none" />
+    <g id="g4">
+        <circle id="c4" cx="325" cy="156" r="20" alt="circle B" stroke-width="2" stroke="black" fill="white" />
         <text x="325" y="156" text-anchor="middle" dominant-baseline="central">B</text>
     </g>
-    <line id="l4" x1="353" y1="236" x2="97" y2="217" stroke-width="2" stroke="black" display="none" />
-    <g id="g4">
-        <circle id="c4" cx="353" cy="236" r="20" alt="circle 3" stroke-width="2" stroke="black" fill="white" />
+    <line id="l5" x1="353" y1="236" x2="97" y2="217" stroke-width="2" stroke="black" display="none" />
+    <g id="g5">
+        <circle id="c5" cx="353" cy="236" r="20" alt="circle 3" stroke-width="2" stroke="black" fill="white" />
         <text x="353" y="236" text-anchor="middle" dominant-baseline="central">3</text>
     </g>
-    <line id="l5" x1="97" y1="217" x2="48" y2="117" stroke-width="2" stroke="black" display="none" />
-    <g id="g5">
-        <circle id="c5" cx="97" cy="217" r="20" alt="circle C" stroke-width="2" stroke="black" fill="white" />
+    <line id="l6" x1="97" y1="217" x2="48" y2="117" stroke-width="2" stroke="black" display="none" />
+    <g id="g6">
+        <circle id="c6" cx="97" cy="217" r="20" alt="circle C" stroke-width="2" stroke="black" fill="white" />
         <text x="97" y="217" text-anchor="middle" dominant-baseline="central">C</text>
     </g>
-    <line id="l6" x1="48" y1="117" x2="177" y2="101" stroke-width="2" stroke="black" display="none" />
-    <g id="g6">
-        <circle id="c6" cx="48" cy="117" r="20" alt="circle 4" stroke-width="2" stroke="black" fill="white" />
+    <line id="l7" x1="48" y1="117" x2="177" y2="101" stroke-width="2" stroke="black" display="none" />
+    <g id="g7">
+        <circle id="c7" cx="48" cy="117" r="20" alt="circle 4" stroke-width="2" stroke="black" fill="white" />
         <text x="48" y="117" text-anchor="middle" dominant-baseline="central">4</text>
     </g>
-    <g id="g7">
-        <circle id="c7" cx="177" cy="101" r="20" alt="circle D" stroke-width="2" stroke="black" fill="white" />
+
+    <g id="g8">
+        <circle id="c8" cx="177" cy="101" r="20" alt="circle D" stroke-width="2" stroke="black" fill="white" />
         <text x="177" y="101" text-anchor="middle" dominant-baseline="central">D</text>
     </g>
 </svg>
