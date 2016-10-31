@@ -81,8 +81,6 @@ function startTimer(page) {
 
 function containerClick(e) {
     e.preventDefault();
-    console.log('containerClick(e): ' + e.handleObj.selector); //logObj(e));
-    console.log('containerClick(e): unbind');// + logObj(this));// + logObj(e));
     $('#pages').off('click', 'button', containerClick); // prevent double-click
     var clickedEl = $(this),
         elId = clickedEl.attr('id'); //console.log('containerClick(): clickedEl: ' + elId); // now gets id from loaded page
@@ -100,21 +98,23 @@ function containerClick(e) {
         break;
     default:
     }
+    // console.log('containerClick(e): ' + e.handleObj.selector); //logObj(e));
+    // console.log('containerClick(e): unbind');// + logObj(this));// + logObj(e));
 }
 
 function showPage2() {
-    console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)scaleImages();bind clicks
-    console.log('showPage2: bind'); // (re-)scaleImages();bind clicks
     $('#pages').on('click', 'button', containerClick); // prevent double-click
     if (currentPage().name === 'thanks') { // redundant?
         console.log('currentPage().name === \'thanks\'');
         setTimeout(finished, 3000);
     }
+    // console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)scaleImages();bind clicks
+    // console.log('showPage2: bind'); // (re-)scaleImages();bind clicks
     console.log(' '); // (re-)scaleImages();bind clicks
 }
 
 function showPage(page) { // prevPage() and nextPage() should handle hiding current
-    console.log('showPage(\'' + page.name + '\'): current: ' + current + ', templateId: ' + page.templateId); // page: ' + obj(page)); isTimeUp:' + isTimeUp);
+    console.log('showPage(): name: ' + page.name + ', current: ' + current + ', templateId: ' + page.templateId); // page: ' + obj(page)); isTimeUp:' + isTimeUp);
     if (page.hasOwnProperty('suppressAbandon')) {//console.log('page.hasOwnProperty(\'suppressAbandon\')');
         $('#abandon-div').hide(); //fadeOut(FADEOUT);
     } else {
@@ -341,26 +341,29 @@ function fillYellow(id) {
 }
 
 function logEvent(element, isCorrect) {
-    console.log('logEvent(): correct: ' + isCorrect);
+    console.log('logEvent(): element: ' + element + ', correct: ' + isCorrect);
     var page = currentPage();
+    if (page.type !== 'game') {
+        return;
+    }
     var timeTaken;
     timer.lap();
     timerWholeTest.lap();
     timeTaken = timer.getElapsed();
     showTime(timeTaken, isCorrect);
     var answer = {
-        duration: timeTaken,                   // Time taken to answer puzzle
-        puzzle: page.name,                     // number of puzzle, not image name - config.json should be only mapping
-        elapsed: timerWholeTest.getElapsed(),  // Cumulative time elapsed
+        duration: timer.getElapsed(),              // Time taken to click on next element
+        puzzle: page.name,                     // number of puzzle
+        elapsed: timerWholeTest.getElapsed(),  // cumulative time elapsed
         element: element,                      // id of element clicked on by user
-        correct: isCorrect                     // bool
+        correct: isCorrect                     // bool - was it the correct element?
     };
+    timer.now();
     console.log('logEvent(): answer: ' + logObj(answer));
     answers.push(answer);
 }
 
 function wrong() { // console.log('wrong(): ' + id);
-    console.log('wrong(): ' + this.id);
     logEvent(this.id, false);
     var group = document.getElementById('svg1').contentDocument.getElementById(this.id);
     var circles = group.getElementsByTagName('circle');
@@ -371,6 +374,7 @@ function wrong() { // console.log('wrong(): ' + id);
     setTimeout(function() { fillWhite(circle); }, 300);
     setTimeout(function() { fillRed(circle); }, 400);
     setTimeout(function() { fillWhite(circle); }, 500);
+    //console.log('wrong(): ' + this.id);
 }
     // for (var i = 0; i < 5; i++) {
     //     setTimeout(function() { fillWhite(circle); }, 500);
@@ -378,7 +382,6 @@ function wrong() { // console.log('wrong(): ' + id);
     // };
 
 function correct() {
-    console.log('correct(): id: ' + this.id);
     logEvent(this.id, true);
     var svg = document.getElementById('svg1');
     var group = svg.contentDocument.getElementById(this.id); // as callback is a closure, has access to enclosing scope (this)
@@ -386,17 +389,16 @@ function correct() {
     var circle = circles[0];
     fillYellow(circle);
 
-    var num = Number(this.id.slice(1)); console.log('correct(): num: ' + num + ', clicked: ' + this.id);
+    var num = Number(this.id.slice(1)); //console.log('correct(): num: ' + num + ', clicked: ' + this.id);
     if (nextCircle !== 1) {
         var line = svg.contentDocument.getElementById('l' + String(num - 1)); // why did I make ids 0-indexed?
         $(line).attr('display', 'inline');
-        console.log('correct(): show line: ' + num);
+        // console.log('correct(): show line: ' + num);
     }
     if (nextCircle < currentPage().numCircles) {
         nextCircle++;
         changeListeners();
     } else {
-        console.log('TODO: collect timings, pause before next page');
         // reset 1st circle?
         nextCircle = 1;
         var first = document.getElementById('svg1').contentDocument.getElementById('g1');
@@ -404,21 +406,23 @@ function correct() {
         first.addEventListener('mousedown', correct);
         $('#pages').off('click', 'button', containerClick); // otherwise will be duplicated in showPage2()
         setTimeout(nextPage, 1000);
+        // console.log('TODO: collect timings, pause before next page');
     }
+    // console.log('correct(): id: ' + this.id);
 }
     //line.style.display = 'inline'; //? // $('#l' + id).show(); // $(line).show();
 
 // To remove event handlers, the function specified with the addEventListener() method must be an external, "named" function
 function changeListeners() {
-    console.log('changeListeners(): nextCircle: ' + nextCircle);
     var oldId = 'g' + String(nextCircle - 1), newId = 'g' + String(nextCircle);
-    console.log('changeListeners(): oldId: ' + oldId, ', newId: ' + newId);
     var svgDoc = document.getElementById('svg1').contentDocument; // get inner DOM of svg
     var oldGroup = svgDoc.getElementById(oldId);
     oldGroup.removeEventListener('mousedown', correct);
     var newGroup = svgDoc.getElementById(newId);
     newGroup.removeEventListener('mousedown', wrong); // no longer wrong
     newGroup.addEventListener('mousedown', correct); // works, this.id is id of circle
+    //console.log('changeListeners(): nextCircle: ' + nextCircle);
+    //console.log('changeListeners(): oldId: ' + oldId, ', newId: ' + newId);
 }
 
 function addListeners() {

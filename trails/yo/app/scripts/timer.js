@@ -3,8 +3,6 @@
 //var Timer = require('./timer'); // require is a node thing, unless you use requirejs
 // copied/adapted from Jonathan's bb-quizzes/snap/Snap_files/Timer.js
 
-//var test = 'this is a test from timer.js';
-
 var Timer = function() {
     this.isValid = false;
     this.startts = 0;
@@ -28,10 +26,7 @@ Timer.prototype.getTime = function() {
 };
 
 Timer.prototype.findnow = function() {
-    var nowish = 0,
-        count = 0,
-        diff = 0,
-        testVal = 0;
+    var nowish = 0, count = 0, diff = 0, testVal = 0;
     do {
         nowish = this.getTime();
         testVal = this.getTime();
