@@ -429,9 +429,11 @@ function correct() {
     } else {
         console.log('TODO: collect timings, pause before next page');
         // reset 1st circle?
+        nextCircle = 1;
         var first = document.getElementById('svg1').contentDocument.getElementById('g1');
         first.removeEventListener('mousedown', wrong);
         first.addEventListener('mousedown', correct);
+        $('#pages').off('click', 'button', containerClick); // otherwise will be duplicated in showPage2()
         setTimeout(nextPage, 1000);
     }
 }
