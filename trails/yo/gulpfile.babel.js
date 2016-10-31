@@ -61,15 +61,18 @@ gulp.task('html', ['styles', 'scripts'], () => {
 });
 
 gulp.task('images', () => {
-  return gulp.src('app/images/**/*')
-    .pipe($.cache($.imagemin({
-      progressive: true,
-      interlaced: true,
-      // don't remove IDs from SVGs, they are often used
-      // as hooks for embedding and styling
-      svgoPlugins: [{cleanupIDs: false}]
-    })))
-    .pipe(gulp.dest('dist/images'));
+  return gulp.src('app/images/**/*').pipe(gulp.dest('dist/images')); // skip caching, minification
+  // return gulp.src('app/images/**/*')
+  //   //.pipe($.cache($.imagemin({
+  //   .pipe($.imagemin({ // don't cache
+  //     progressive: true,
+  //     interlaced: true
+  //     , plugins: '[imagemin.gifsicle(), imagemin.jpegtran(), imagemin.optipng()]' // no imagemin.svgo()
+  //     // don't remove IDs from SVGs, they are often used
+  //     // as hooks for embedding and styling
+  //     , svgoPlugins: [{cleanupIDs: false, removeUselessDefs: false, mergePaths: false, removeUnknownsAndDefaults: false}]
+  //   }))
+  //   .pipe(gulp.dest('dist/images'));
 });
 
 gulp.task('fonts', () => {

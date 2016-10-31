@@ -2,6 +2,7 @@
 /*jslint browser:true */ // assume 'document'
 /* jshint unused:false */
 /*eslint-disable no-unused-vars*/
+/*eslint-disable no-unreachable*/
 /*eslint-disable strict */
 // /*jslint plusplus: true */ // doesn't work with sublime jslint plugin:
 
@@ -77,7 +78,7 @@ function isoDate() { // return date string in format yyyy-mm-ddThh:mm:ss, suitab
 }
 
 function startTimer(page) {
-    if (page.type = 'game') {
+    if (page.type === 'game') {
         timer.now(); // start timer for all real exercises
         if (levels.length === MAX_LEVELS - 1) { // first puzzle just been popped off
             timerWholeTest.now(); // start timer for the whole test (for "elapsed" field)
@@ -232,7 +233,9 @@ function hideModal(modal) {
     $('#' + modal).hide(); //fadeOut(FADEOUT);
 }
 
+
 function finished() {
+
     console.log('finished(): answers: ' + JSON.stringify(answers));
     console.log('finished(): auto-submit disabled for testing ' + JSON.stringify(answers)); return;
     clearTimeout(timeUpTimeout);
@@ -284,7 +287,7 @@ function answered(ans) { // TODO
             duration: timeTaken,                    // Time taken to answer puzzle
             //puzzle: puzzle.n,                       // number of puzzle, not image name - config.json should be only mapping
             elapsed: timerWholeTest.getElapsed(),   // Cumulative time elapsed
-            answer: ans,                            // Answer given by user, ans should be Number() type
+            answer: ans                            // Answer given by user, ans should be Number() type
             //correct: puzzle.c                       // correct answer, not bool
         };
         answers.push(answer);
@@ -486,6 +489,18 @@ function addListeners() {
                         // or id of circle? which is why this.ix didn't work....
                         // http://javascriptissexy.com/understand-javascripts-this-with-clarity-and-master-it/
 
+function keydown(e) {
+    //console.log('keyboard event: ' + e.which);
+    if (e.which === 68) { //console.log(''d' pressed');
+        e.preventDefault(); // don't trap other keypresses e.g. ctrl-shift-i for dev tools
+        if ($('#devBar').css('display') === 'none') {
+            $('#devBar').show();
+        } else {
+            $('#devBar').hide();
+        }
+    }
+}
+
 function init() {
     timer = new Timer(); // globals
     timerWholeTest = new Timer(); // globals
@@ -530,18 +545,6 @@ function getConfig() {
         var err = 'error getting config.json: ' + textStatus + ', errorThrown: ' + errorThrown;
         console.log(err);
     });
-}
-
-function keydown(e) {
-    //console.log('keyboard event: ' + e.which);
-    if (e.which === 68) { //console.log(''d' pressed');
-        e.preventDefault(); // don't trap other keypresses e.g. ctrl-shift-i for dev tools
-        if ($('#devBar').css('display') === 'none') {
-            $('#devBar').show();
-        } else {
-            $('#devBar').hide();
-        }
-    }
 }
 
 window.onresize = function(event) {
