@@ -118,6 +118,33 @@
 
     </div>
     
+    <!-- modals -->
+    <div id="modals" class="mymodal" style="display:none"> <!--  .modal is bootstrap -->
+
+      <!-- try again -->
+      <div id="tryagain-modal" class="my-modal-content" style="display:none">
+        <h3>Incorrect!</h3>
+        <p>Please try again.</p>
+        <div class="buttons row">
+          <div class="center"><button class="btn" id="tryagain-ok" href="#">OK</button></div>
+        </div>
+      </div>
+
+      <!-- abandon -->
+      <div id="abandon-modal" class="my-modal-content" style="display:none">
+        <h3>Please check!</h3>
+        <p>You have not yet completed the task.</p>
+        <p>Are you sure you wish to abandon?</p>
+        <p>You will not be able to attempt it again.</p>
+        <div class="buttons row">
+          <!-- <div id="yes" class="col-md-2"><button class="btn pull-left" id="abandon-yes" href="#">Yes</button></div> -->
+          <div id="yes"><button class="btn pull-left" id="abandon-yes" href="#">Yes</button></div>
+          <div id="no"  class=""><button class="btn pull-right" id="abandon-no" href="#">No</button></div>
+        </div>  <!-- class="col-md-2" -->
+      </div>
+
+    </div> <!-- modals -->
+
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>

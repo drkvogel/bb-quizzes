@@ -60,19 +60,22 @@ gulp.task('html', ['styles', 'scripts'], () => {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('images', () => {
-  return gulp.src('app/images/**/*').pipe(gulp.dest('dist/images')); // skip caching, minification
-  // return gulp.src('app/images/**/*')
-  //   //.pipe($.cache($.imagemin({
-  //   .pipe($.imagemin({ // don't cache
-  //     progressive: true,
-  //     interlaced: true
-  //     , plugins: '[imagemin.gifsicle(), imagemin.jpegtran(), imagemin.optipng()]' // no imagemin.svgo()
-  //     // don't remove IDs from SVGs, they are often used
-  //     // as hooks for embedding and styling
-  //     , svgoPlugins: [{cleanupIDs: false, removeUselessDefs: false, mergePaths: false, removeUnknownsAndDefaults: false}]
-  //   }))
-  //   .pipe(gulp.dest('dist/images'));
+gulp.task('images', () => { // skip caching, minification
+  return gulp.src('app/images/**/*').pipe(gulp.dest('dist/images'));
+});
+
+gulp.task('images-min', () => { // minify images - breaks svgs!
+  return gulp.src('app/images/**/*')
+    //.pipe($.cache($.imagemin({
+    .pipe($.imagemin({ // don't cache
+      progressive: true,
+      interlaced: true
+      , plugins: '[imagemin.gifsicle(), imagemin.jpegtran(), imagemin.optipng()]' // no imagemin.svgo()
+      // don't remove IDs from SVGs, they are often used
+      // as hooks for embedding and styling
+      , svgoPlugins: [{cleanupIDs: false, removeUselessDefs: false, mergePaths: false, removeUnknownsAndDefaults: false}]
+    }))
+    .pipe(gulp.dest('dist/images'));
 });
 
 gulp.task('fonts', () => {
@@ -132,6 +135,7 @@ gulp.task('serve:test', ['scripts'], () => {
     notify: false,
     port: 9000,
     ui: false,
+    browser: ["google-chrome"], // "firefox"],
     server: {
       baseDir: 'test',
       routes: {
