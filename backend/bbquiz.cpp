@@ -89,21 +89,21 @@ int nowUNIX() { // UNIX time in seconds
 }
 
 void showOptions() {
-    printf("<table border=1 cellspacing=0><thead><tr><th>Quiz</th><th colspan=3>Actions</th></tr></thead>\n");
+    printf("<table border=1 cellspacing=0><thead><tr><th>Quiz</th><th colspan=2>Actions</th></tr></thead>\n");
     printf("<tr><td>Matrix</td>");
     printf("<td><a href=\"matrix/?sesh_id=%d\">Start</a></td>", nowUNIX()); //printf("<td><a href=\"?quiz=matrix&action=start\">Start</a></td>");
     printf("<td><a href=\"?quiz=matrix&action=view\">View responses</a></td>");
-    printf("<td><a href=\"?quiz=matrix&action=insertDummy\">Insert dummy data</a></td>");
+    // printf("<td><a href=\"?quiz=matrix&action=insertDummy\">Insert dummy data</a></td>");
     printf("</tr>\n");
     printf("<tr><td>Hoops</td>");
     printf("<td><a href=\"hoops/?sesh_id=%d\">Start</a></td>", nowUNIX()); //printf("<td><a href=\"?quiz=hoops&action=start\">Start</a></td>");
     printf("<td><a href=\"?quiz=hoops&action=view\">View responses</a></td>");
-    printf("<td><a href=\"?quiz=hoops&action=insertDummy\">Insert dummy data</a></td>");
+    // printf("<td><a href=\"?quiz=hoops&action=insertDummy\">Insert dummy data</a></td>");
     printf("</tr>\n");
     printf("<tr><td>Trails</td>");
     printf("<td><a href=\"trails/?sesh_id=%d\">Start</a></td>", nowUNIX()); //printf("<td><a href=\"?quiz=hoops&action=start\">Start</a></td>");
     printf("<td><a href=\"?quiz=trails&action=view\">View responses</a></td>");
-    printf("<td><a href=\"?quiz=trails&action=insertDummy\">Insert dummy data</a></td>");
+    // printf("<td><a href=\"?quiz=trails&action=insertDummy\">Insert dummy data</a></td>");
     printf("</tr>\n");
     printf("</table>\n");
     printf("<hr>\n");
@@ -148,9 +148,11 @@ int main(int argc, char **argv) {
             //     printf("<p>insert did not succeed...</p>\n");
             // }
         } else if (paramIs("action", "insertDummy") && paramIs("quiz", "hoops")) {
-            Hoops::testInsert();
+            //Hoops::testInsert();
+            printf("<p>Not yet implemented...</p>\n");
         } else if (paramIs("action", "insertDummy") && paramIs("quiz", "matrix")) {
-            Matrix::testInsert();
+            //Matrix::testInsert();
+            printf("<p>Not yet implemented...</p>\n");
         } else if (paramIs("action", "insertDummy") && paramIs("quiz", "trails")) {
             //Matrix::testInsert();
             printf("<p>Not yet implemented...</p>\n");

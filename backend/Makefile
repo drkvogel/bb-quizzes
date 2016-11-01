@@ -12,8 +12,10 @@ bbquiz : bbquiz.o $(OBJBBQUIZ)
 	echo "make bbquiz"
 	$(CXX) $(CXXFLAGS) -o bbquiz.cgi bbquiz.cpp $(OBJBBQUIZ) -L$(II_SYSTEM)/ingres/lib -lingres $(LDLIB)
 	chmod go-w bbquiz.cgi
-	cp bbquiz.cgi $(TARGETDIR)index.cgi
-	cp main.css $(TARGETDIR)
+	#cp bbquiz.cgi $(TARGETDIR)index.cgi
+	#cp main.css $(TARGETDIR)
+	scp bbquiz.cgi cp@oqsweb:~/public_html/bbquiz/index.cgi
+	scp main.css cp@oqsweb:~/public_html/bbquiz/
 
 nodb : bbquiz.o $(OBJBBQUIZ)
 	echo "make nodb"
