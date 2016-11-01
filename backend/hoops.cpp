@@ -4,6 +4,7 @@
 #include "bbquiz.h"
 //#include <iostream>
 #include <cstring>
+
 using namespace std;
 
 // Hoops::MAX_LEVELS = 18;
@@ -85,7 +86,7 @@ Hoops::HoopsRecord Hoops::getPayload(XCGI * x) { // get responses from frontend
     rec.tinstruct.set(x->param.getString("tinstruct").c_str()); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
     rec.tstart.set(x->param.getString("tstart").c_str()); //nowString().c_str());
     rec.tfinish.set(x->param.getString("tfinish").c_str());
-    printf("<p>tinstruct.iso(): '%s', tstart.iso(): '%s', tfinish.iso(): '%s'</p>",
+    printf("<p>tinstruct.iso(): '%s'<br />tstart.iso(): '%s'<br />tfinish.iso(): '%s'<br />",
         rec.tinstruct.iso().c_str(), rec.tstart.iso().c_str(), rec.tfinish.iso().c_str());
     rec.responses = x->param.getString("responses");
     printf("<p>responses:</p><pre>%s</pre>\n", rec.responses.c_str());
@@ -177,9 +178,9 @@ bool Hoops::insertRecord(const HoopsRecord *rec) {
         sprintf(fieldname, "answer%d", i);      xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
         sprintf(fieldname, "correct%d", i);     xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
     }
-    printf("added %d null records...\n", MAX_LEVELS - rec->answers.size());
+    printf("added %d null records...<br />\n", MAX_LEVELS - rec->answers.size());
     //printf("<p>sql:</p><code>%s</code> ", sql.c_str());
-    printf("</p></code>\n");
+    printf("</code>\n");
     return (xe.exec());
 }
 
@@ -187,7 +188,7 @@ void Hoops::getRecords() {
     records.clear();
     std::string sql = "SELECT * FROM hoops";
     XQUERY q(db, sql);
-    printf("<p>this is %s</p>\n", __FILE__);
+    printf("this is %s<br />\n", __FILE__);
     if (!q.open()) {
         printf("Database error"); throw "Database error";
     } else {
