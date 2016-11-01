@@ -15,7 +15,7 @@ bbquiz : bbquiz.o $(OBJBBQUIZ)
 	#cp bbquiz.cgi $(TARGETDIR)index.cgi
 	#cp main.css $(TARGETDIR)
 	scp bbquiz.cgi cp@oqsweb:~/public_html/bbquiz/index.cgi
-	scp main.css cp@oqsweb:~/public_html/bbquiz/
+	#scp main.css cp@oqsweb:~/public_html/bbquiz/
 
 nodb : bbquiz.o $(OBJBBQUIZ)
 	echo "make nodb"
