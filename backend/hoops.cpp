@@ -11,7 +11,7 @@ using namespace std;
 
 Hoops::vecHoopsRecord records;
 
-char * nx_json_type_names[] = {
+const char * nx_json_type_names[] = {
     "NX_JSON_NULL", "NX_JSON_OBJECT", "NX_JSON_ARRAY", "NX_JSON_STRING", "NX_JSON_INTEGER", "NX_JSON_DOUBLE", "NX_JSON_BOOL"
 };
 
@@ -44,7 +44,7 @@ void Hoops::parseResponses(HoopsRecord *rec) {
         printf("got json node type: %s, arr->length: %d<br />", nx_json_type_names[arr->type], arr->length);
         printf("ntests reported by payload: %d; number of tests in responses JSON blob: %d<br />", rec->ntests, arr->length);
         if (rec->ntests != arr->length) {
-            char * errmsg = "<p>ERROR: rec->ntests != arr->length</p>"; 
+            const char * errmsg = "<p>ERROR: rec->ntests != arr->length</p>";
             printf("%s", errmsg); throw errmsg;
         }
         for (int i=0; i < arr->length; i++) {
