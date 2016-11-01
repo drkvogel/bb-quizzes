@@ -1,139 +1,138 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 600 600">
-
-    <!-- test -->
-    <g id="g3">
-        <circle id="taa2" cx="369" cy="452" r="20" alt="circle3" stroke-width="2" stroke="black" fill="white" />
-        <text  x="369" y="452" text-anchor="middle" dominant-baseline="central">3</text>
-    </g>
-
-
-    <line id="laa0" x1="277" y1="390" x2="213" y2="452" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa0">
-        <circle id="aa0" cx="277" cy="390" r="20" alt="circle1" stroke-width="2" stroke="black" fill="yellow" />
+    <style type="text/css">
+    * {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+    }
+    </style>
+    <line id="l1" x1="277" y1="390" x2="213" y2="452" stroke-width="2" stroke="black" display="none" />
+    <g id="g1">
+        <circle id="c1" cx="277" cy="390" r="20" alt="circle1" stroke-width="2" stroke="black" fill="white" />
         <text  x="277" y="390" text-anchor="middle" dominant-baseline="central">1</text>
     </g>
-    <line id="laa1" x1="213" y1="452" x2="319" y2="452" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa1">
-        <circle id="aa1" cx="213" cy="452" r="20" alt="circle2" stroke-width="2" stroke="black" fill="white" />
+    <line id="l2" x1="213" y1="452" x2="319" y2="452" stroke-width="2" stroke="black" display="none" />
+    <g id="g2">
+        <circle id="c2" cx="213" cy="452" r="20" alt="circle2" stroke-width="2" stroke="black" fill="white" />
         <text  x="213" y="452" text-anchor="middle" dominant-baseline="central">2</text>
     </g>
-    <line id="laa2" x1="319" y1="452" x2="327" y2="208" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa2">
-        <circle id="aa2" cx="319" cy="452" r="20" alt="circle3" stroke-width="2" stroke="black" fill="white" />
+    <line id="l3" x1="319" y1="452" x2="327" y2="208" stroke-width="2" stroke="black" display="none" />
+    <g id="g3">
+        <circle id="c3" cx="319" cy="452" r="20" alt="circle3" stroke-width="2" stroke="black" fill="white" />
         <text  x="319" y="452" text-anchor="middle" dominant-baseline="central">3</text>
     </g>
-    <line id="laa3" x1="327" y1="208" x2="206" y2="267" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa3">
-        <circle id="aa3" cx="327" cy="208" r="20" alt="circle4" stroke-width="2" stroke="black" fill="white" />
+    <line id="l4" x1="327" y1="208" x2="206" y2="267" stroke-width="2" stroke="black" display="none" />
+    <g id="g4">
+        <circle id="c4" cx="327" cy="208" r="20" alt="circle4" stroke-width="2" stroke="black" fill="white" />
         <text  x="327" y="208" text-anchor="middle" dominant-baseline="central">4</text>
     </g>
-    <line id="laa4" x1="206" y1="267" x2="263" y2="321" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa4">
-        <circle id="aa4" cx="206" cy="267" r="20" alt="circle5" stroke-width="2" stroke="black" fill="white" />
+    <line id="l5" x1="206" y1="267" x2="263" y2="321" stroke-width="2" stroke="black" display="none" />
+    <g id="g5">
+        <circle id="c5" cx="206" cy="267" r="20" alt="circle5" stroke-width="2" stroke="black" fill="white" />
         <text  x="206" y="267" text-anchor="middle" dominant-baseline="central">5</text>
     </g>
-    <line id="laa5" x1="263" y1="321" x2="185" y2="356" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa5">
-        <circle id="aa5" cx="263" cy="321" r="20" alt="circle6" stroke-width="2" stroke="black" fill="white" />
+    <line id="l6" x1="263" y1="321" x2="185" y2="356" stroke-width="2" stroke="black" display="none" />
+    <g id="g6">
+        <circle id="c6" cx="263" cy="321" r="20" alt="circle6" stroke-width="2" stroke="black" fill="white" />
         <text  x="263" y="321" text-anchor="middle" dominant-baseline="central">6</text>
     </g>
-    <line id="laa6" x1="185" y1="356" x2="86" y2="440" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa6">
-        <circle id="aa6" cx="185" cy="356" r="20" alt="circle7" stroke-width="2" stroke="black" fill="white" />
+    <line id="l7" x1="185" y1="356" x2="86" y2="440" stroke-width="2" stroke="black" display="none" />
+    <g id="g7">
+        <circle id="c7" cx="185" cy="356" r="20" alt="circle7" stroke-width="2" stroke="black" fill="white" />
         <text  x="185" y="356" text-anchor="middle" dominant-baseline="central">7</text>
     </g>
-    <line id="laa7" x1="86" y1="440" x2="107" y2="490" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa7">
-        <circle id="aa7" cx="86" cy="440" r="20" alt="circle8" stroke-width="2" stroke="black" fill="white" />
+    <line id="l8" x1="86" y1="440" x2="107" y2="490" stroke-width="2" stroke="black" display="none" />
+    <g id="g8">
+        <circle id="c8" cx="86" cy="440" r="20" alt="circle8" stroke-width="2" stroke="black" fill="white" />
         <text  x="86" y="440" text-anchor="middle" dominant-baseline="central">8</text>
     </g>
-    <line id="laa8" x1="107" y1="490" x2="156" y2="445" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa8">
-        <circle id="aa8" cx="107" cy="490" r="20" alt="circle9" stroke-width="2" stroke="black" fill="white" />
+    <line id="l9" x1="107" y1="490" x2="156" y2="445" stroke-width="2" stroke="black" display="none" />
+    <g id="g9">
+        <circle id="c9" cx="107" cy="490" r="20" alt="circle9" stroke-width="2" stroke="black" fill="white" />
         <text  x="107" y="490" text-anchor="middle" dominant-baseline="central">9</text>
     </g>
-    <line id="laa9" x1="156" y1="445" x2="206" y2="511" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa9">
-        <circle id="aa9" cx="156" cy="445" r="20" alt="circle10" stroke-width="2" stroke="black" fill="white" />
+    <line id="l10" x1="156" y1="445" x2="206" y2="511" stroke-width="2" stroke="black" display="none" />
+    <g id="g10">
+        <circle id="c10" cx="156" cy="445" r="20" alt="circle10" stroke-width="2" stroke="black" fill="white" />
         <text  x="156" y="445" text-anchor="middle" dominant-baseline="central">10</text>
     </g>
-    <line id="laa10" x1="206" y1="511" x2="35" y2="516" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa10">
-        <circle id="aa10" cx="206" cy="511" r="20" alt="circle11" stroke-width="2" stroke="black" fill="white" />
+    <line id="l11" x1="206" y1="511" x2="35" y2="516" stroke-width="2" stroke="black" display="none" />
+    <g id="g11">
+        <circle id="c11" cx="206" cy="511" r="20" alt="circle11" stroke-width="2" stroke="black" fill="white" />
         <text  x="206" y="511" text-anchor="middle" dominant-baseline="central">11</text>
     </g>
-    <line id="laa11" x1="35" y1="516" x2="65" y2="287" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa11">
-        <circle id="aa11" cx="35" cy="516" r="20" alt="circle12" stroke-width="2" stroke="black" fill="white" />
+    <line id="l12" x1="35" y1="516" x2="65" y2="287" stroke-width="2" stroke="black" display="none" />
+    <g id="g12">
+        <circle id="c12" cx="35" cy="516" r="20" alt="circle12" stroke-width="2" stroke="black" fill="white" />
         <text  x="35" y="516" text-anchor="middle" dominant-baseline="central">12</text>
     </g>
-    <line id="laa12" x1="65" y1="287" x2="29" y2="336" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa12">
-        <circle id="aa12" cx="65" cy="287" r="20" alt="circle13" stroke-width="2" stroke="black" fill="white" />
+    <line id="l13" x1="65" y1="287" x2="29" y2="336" stroke-width="2" stroke="black" display="none" />
+    <g id="g13">
+        <circle id="c13" cx="65" cy="287" r="20" alt="circle13" stroke-width="2" stroke="black" fill="white" />
         <text  x="65" y="287" text-anchor="middle" dominant-baseline="central">13</text>
     </g>
-    <line id="laa13" x1="29" y1="336" x2="29" y2="69" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa13">
-        <circle id="aa13" cx="29" cy="336" r="20" alt="circle14" stroke-width="2" stroke="black" fill="white" />
+    <line id="l14" x1="29" y1="336" x2="29" y2="69" stroke-width="2" stroke="black" display="none" />
+    <g id="g14">
+        <circle id="c14" cx="29" cy="336" r="20" alt="circle14" stroke-width="2" stroke="black" fill="white" />
         <text  x="29" y="336" text-anchor="middle" dominant-baseline="central">14</text>
     </g>
-    <line id="laa14" x1="29" y1="69" x2="72" y2="159" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa14">
-        <circle id="aa14" cx="29" cy="69" r="20" alt="circle15" stroke-width="2" stroke="black" fill="white" />
+    <line id="l15" x1="29" y1="69" x2="72" y2="159" stroke-width="2" stroke="black" display="none" />
+    <g id="g15">
+        <circle id="c15" cx="29" cy="69" r="20" alt="circle15" stroke-width="2" stroke="black" fill="white" />
         <text  x="29" y="69" text-anchor="middle" dominant-baseline="central">15</text>
     </g>
-    <line id="laa15" x1="72" y1="159" x2="149" y2="36" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa15">
-        <circle id="aa15" cx="72" cy="159" r="20" alt="circle16" stroke-width="2" stroke="black" fill="white" />
+    <line id="l16" x1="72" y1="159" x2="149" y2="36" stroke-width="2" stroke="black" display="none" />
+    <g id="g16">
+        <circle id="c16" cx="72" cy="159" r="20" alt="circle16" stroke-width="2" stroke="black" fill="white" />
         <text  x="72" y="159" text-anchor="middle" dominant-baseline="central">16</text>
     </g>
-    <line id="laa16" x1="149" y1="36" x2="178" y2="158" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa16">
-        <circle id="aa16" cx="149" cy="36" r="20" alt="circle17" stroke-width="2" stroke="black" fill="white" />
+    <line id="l17" x1="149" y1="36" x2="178" y2="158" stroke-width="2" stroke="black" display="none" />
+    <g id="g17">
+        <circle id="c17" cx="149" cy="36" r="20" alt="circle17" stroke-width="2" stroke="black" fill="white" />
         <text  x="149" y="36" text-anchor="middle" dominant-baseline="central">17</text>
     </g>
-    <line id="laa17" x1="178" y1="158" x2="284" y2="117" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa17">
-        <circle id="aa17" cx="178" cy="158" r="20" alt="circle18" stroke-width="2" stroke="black" fill="white" />
+    <line id="l18" x1="178" y1="158" x2="284" y2="117" stroke-width="2" stroke="black" display="none" />
+    <g id="g18">
+        <circle id="c18" cx="178" cy="158" r="20" alt="circle18" stroke-width="2" stroke="black" fill="white" />
         <text  x="178" y="158" text-anchor="middle" dominant-baseline="central">18</text>
     </g>
-    <line id="laa18" x1="284" y1="117" x2="206" y2="110" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa18">
-        <circle id="aa18" cx="284" cy="117" r="20" alt="circle19" stroke-width="2" stroke="black" fill="white" />
+    <line id="l19" x1="284" y1="117" x2="206" y2="110" stroke-width="2" stroke="black" display="none" />
+    <g id="g19">
+        <circle id="c19" cx="284" cy="117" r="20" alt="circle19" stroke-width="2" stroke="black" fill="white" />
         <text  x="284" y="117" text-anchor="middle" dominant-baseline="central">19</text>
     </g>
-    <line id="laa19" x1="206" y1="110" x2="236" y2="29" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa19">
-        <circle id="aa19" cx="206" cy="110" r="20" alt="circle20" stroke-width="2" stroke="black" fill="white" />
+    <line id="l20" x1="206" y1="110" x2="236" y2="29" stroke-width="2" stroke="black" display="none" />
+    <g id="g20">
+        <circle id="c20" cx="206" cy="110" r="20" alt="circle20" stroke-width="2" stroke="black" fill="white" />
         <text  x="206" y="110" text-anchor="middle" dominant-baseline="central">20</text>
     </g>
-    <line id="laa20" x1="236" y1="29" x2="406" y2="84" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa20">
-        <circle id="aa20" cx="236" cy="29" r="20" alt="circle21" stroke-width="2" stroke="black" fill="white" />
+    <line id="l21" x1="236" y1="29" x2="406" y2="84" stroke-width="2" stroke="black" display="none" />
+    <g id="g21">
+        <circle id="c21" cx="236" cy="29" r="20" alt="circle21" stroke-width="2" stroke="black" fill="white" />
         <text  x="236" y="29" text-anchor="middle" dominant-baseline="central">21</text>
     </g>
-    <line id="laa21" x1="406" y1="84" x2="419" y2="493" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa21">
-        <circle id="aa21" cx="406" cy="84" r="20" alt="circle22" stroke-width="2" stroke="black" fill="white" />
+    <line id="l22" x1="406" y1="84" x2="419" y2="493" stroke-width="2" stroke="black" display="none" />
+    <g id="g22">
+        <circle id="c22" cx="406" cy="84" r="20" alt="circle22" stroke-width="2" stroke="black" fill="white" />
         <text  x="406" y="84" text-anchor="middle" dominant-baseline="central">22</text>
     </g>
-    <line id="laa22" x1="419" y1="493" x2="370" y2="282" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa22">
-        <circle id="aa22" cx="419" cy="493" r="20" alt="circle23" stroke-width="2" stroke="black" fill="white" />
+    <line id="l23" x1="419" y1="493" x2="370" y2="282" stroke-width="2" stroke="black" display="none" />
+    <g id="g23">
+        <circle id="c23" cx="419" cy="493" r="20" alt="circle23" stroke-width="2" stroke="black" fill="white" />
         <text  x="419" y="493" text-anchor="middle" dominant-baseline="central">23</text>
     </g>
-    <line id="laa23" x1="370" y1="282" x2="355" y2="508" stroke-width="2" stroke="black" display="none" />
-    <g id="gaa23">
-        <circle id="aa23" cx="370" cy="282" r="20" alt="circle24" stroke-width="2" stroke="black" fill="white" />
+    <line id="l24" x1="370" y1="282" x2="355" y2="508" stroke-width="2" stroke="black" display="none" />
+    <g id="g24">
+        <circle id="c24" cx="370" cy="282" r="20" alt="circle24" stroke-width="2" stroke="black" fill="white" />
         <text  x="370" y="282" text-anchor="middle" dominant-baseline="central">24</text>
     </g>
-    <g id="gaa24">
-        <circle id="aa24" cx="355" cy="508" r="20" alt="circle25" stroke-width="2" stroke="black" fill="white" />
+
+    <g id="g25">
+        <circle id="c25" cx="355" cy="508" r="20" alt="circle25" stroke-width="2" stroke="black" fill="white" />
         <text  x="355" y="508" text-anchor="middle" dominant-baseline="central">25</text>
     </g>
 </svg>
-
-<!--     <line id="el1" x1="50" y1="50" x2="150" y2="150" stroke-width="8" stroke="black" onclick="hello('I am a line')"/>
-    <circle id="el2" cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" onclick="hello('I am yellow')"/>
-    <circle id="el3" cx="150" cy="150" r="40" stroke="red" stroke-width="4" fill="blue" onclick="hello('I am blue')" />
- -->

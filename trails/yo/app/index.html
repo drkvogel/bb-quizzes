@@ -45,7 +45,7 @@
           <div class="jumbotron">
             <h1>Trails Quiz</h1>
             <p class="lead">Welcome to the Trails quiz</p>
-            <p><a id="start" class="btn btn-lg btn-success" href="#">Start</a></p>
+            <p><button id="start" class="btn btn-lg btn-success" href="#">Start</button></p>
           </div>
           <div class="debug"></div>
           <div class="footer">
@@ -74,17 +74,19 @@
 
         <!-- game -->
         <div id="game" class="page" style="display:none">
+          <div class="topTxt"></div>
           <div id="puzzle">
               <object id="svg1" type="image/svg+xml" data="">
                   Your browser doesn't support objects.
               </object>
           </div>
+          <div class="botTxt"></div>
         </div>
 
         <!-- thanks -->
         <div id="thanks" class="page" style="display:none">
           <div class="jumbotron">
-            <h1>Hoops Quiz</h1>
+            <h1>Trails Quiz</h1>
             <p class="lead">Thanks for doing the test.</p>
           </div>
           <div class="footer">
@@ -92,12 +94,12 @@
           </div>
           <div id="feedback">
             <form id="feedbackForm" method="post">
-              <input type="hidden" id="quiz_id" name="quiz_id" value="2222">
+              <input type="hidden" id="quiz_id" name="quiz_id" value="3333">
               <input type="hidden" id="sesh_id" name="sesh_id" value="">
               <input type="hidden" id="tinstruct" name="tinstruct" value="">
               <input type="hidden" id="tstart" name="tstart" value="">
               <input type="hidden" id="tfinish" name="tfinish" value="">
-              <input type="hidden" id="ntests" name="ntests" value="">
+              <!-- <input type="hidden" id="ntests" name="ntests" value=""> -->
               <input type="hidden" id="responses" name="responses" value="">
               <!-- "quiz", "action" only needed for my backend -->
               <input type="hidden" id="action" name="action" value="insert">
@@ -111,11 +113,38 @@
       </div> <!-- pages -->
 
       <div id="abandon-div" class="row" style="display:none">
-        <button class="btn" id="abandon-btn" href="#">Abandon</button>
+        <button class="btn btn-lg btn-default" id="abandon-btn" href="#">Abandon</button>
       </div>
 
     </div>
     
+    <!-- modals -->
+    <div id="modals" class="mymodal" style="display:none"> <!--  .modal is bootstrap -->
+
+      <!-- try again -->
+      <div id="tryagain-modal" class="my-modal-content" style="display:none">
+        <h3>Incorrect!</h3>
+        <p>Please try again.</p>
+        <div class="buttons row">
+          <div class="center"><button class="btn" id="tryagain-ok" href="#">OK</button></div>
+        </div>
+      </div>
+
+      <!-- abandon -->
+      <div id="abandon-modal" class="my-modal-content" style="display:none">
+        <h3>Please check!</h3>
+        <p>You have not yet completed the task.</p>
+        <p>Are you sure you wish to abandon?</p>
+        <p>You will not be able to attempt it again.</p>
+        <div class="buttons row">
+          <!-- <div id="yes" class="col-md-2"><button class="btn pull-left" id="abandon-yes" href="#">Yes</button></div> -->
+          <div id="yes"><button class="btn pull-left" id="abandon-yes" href="#">Yes</button></div>
+          <div id="no"  class=""><button class="btn pull-right" id="abandon-no" href="#">No</button></div>
+        </div>  <!-- class="col-md-2" -->
+      </div>
+
+    </div> <!-- modals -->
+
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>

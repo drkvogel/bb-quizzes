@@ -25,4 +25,7 @@ read -rsp $'Press any key to continue...\n' -n1 key
 
 #scp -r * $REMOTEUSER@$REMOTEHOST:$REMOTEPATH
 rsync -r -e ssh . $REMOTEUSER@$REMOTEHOST:$REMOTEPATH
+
+# oqshub doesn't like `--info=progress2` option
+
 exit 0

@@ -26,7 +26,6 @@ var options = minimist(process.argv.slice(2), knownOptions);
 // then can test gulpif(options.env === 'option', task())
 // .pipe(gulpif(options.env === 'production', uglify())) // only minify in production
 
-
 // PHP dummy backend
 gulp.task('php', function() {
 var php = require('gulp-connect-php');

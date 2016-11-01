@@ -9,9 +9,16 @@ REMOTEUSER="cp"
 REMOTEROOT="/user/cp/public_html/bbquiz/"  # http://red.ctsu.ox.ac.uk/~cp/cjb/
 REMOTEDIR="$(basename "$(dirname "$(pwd)")")"
 
+if [ ! -e app/index.html ]
+then
+    #echo $(basename $(dirname $(pwd))) " does not look like a yeoman directory, exiting"
+    echo $(pwd)" does not look like a yeoman directory, exiting"
+    exit 0
+fi
+
 if [ -z "$1" ] # if $1 is zero length!
 then
-    read -p "Remote host [$REMOTEHOST]? " answer;    # -n1 restrict to 1 char -r raw -s silent (password)
+    read -p "Remote host (oqsweb, red, wf)? [$REMOTEHOST]  " answer;    # -n1 restrict to 1 char -r raw -s silent (password)
     # PS3='Remote host? [$REMOTEHOST]'; 
     # select answer in oqsweb red wf; 
     # do 
@@ -31,7 +38,7 @@ case $answer in
     wf)
         REMOTEHOST="web456.webfaction.com"
         REMOTEUSER="drkvogel"
-        REMOTEROOT="/home/drkvogel/webapps/main/bbquiz"
+        REMOTEROOT="/home/drkvogel/webapps/main/bbquiz/"
         ;;
     '')
         ;;  # default
