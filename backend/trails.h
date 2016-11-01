@@ -29,8 +29,11 @@ namespace Trails {
         vecTrailsAnswer answers;
     } TrailsRecord; //BBQuizRecord;
     typedef std::vector< TrailsRecord > vecTrailsRecord;
+    //static const char * const nx_json_type_names[]; // else "error: storage size of ‘Trails::nx_json_type_names’ isn’t known"
+    //static const char Trails::nx_json_type_names[7][20];
 //     vecTrailsRecord records;
 
+    std::string nowString(); // should be in BBQuiz:: namespace
     void parseResponses(TrailsRecord *rec);
     void printAnswer(const nx_json* node);
     void printJSONAnswer(const nx_json* node);

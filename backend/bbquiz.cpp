@@ -12,8 +12,9 @@
 #include "xquery.h"
 #include "xexec.h"
 #include "xcgi.h"
-#include "hoops.h"
 #include "matrix.h"
+#include "hoops.h"
+#include "trails.h"
 #include "bbquiz.h"
 
 // 0: off; 1: on
@@ -139,23 +140,23 @@ int main(int argc, char **argv) {
             } else {
                 printf("<p>insert did not succeed...</p>\n");
             }
-        } else if (paramIs("action", "insert") && paramIs("quiz_id", "1111")) {
+        } else if (paramIs("action", "insert") && paramIs("quiz_id", "3333")) {
             printf("<p>Not yet implemented...</p>\n");
-            // Matrix::MatrixRecord rec = Matrix::getPayload(x);
-            // if (Matrix::insertRecord(&rec)) {
-            //     printf("<p>insert succeeded</p>\n");
-            // } else {
-            //     printf("<p>insert did not succeed...</p>\n");
-            // }
+            Trails::TrailsRecord rec = Trails::getPayload(x);
+            if (Trails::insertRecord(&rec)) {
+                printf("<p>insert succeeded</p>\n");
+            } else {
+                printf("<p>insert did not succeed...</p>\n");
+            }
         } else if (paramIs("action", "insertDummy") && paramIs("quiz", "hoops")) {
             //Hoops::testInsert();
-            printf("<p>Not yet implemented...</p>\n");
+            printf("<p>Not implemented</p>\n");
         } else if (paramIs("action", "insertDummy") && paramIs("quiz", "matrix")) {
             //Matrix::testInsert();
-            printf("<p>Not yet implemented...</p>\n");
+            printf("<p>Not implemented</p>\n");
         } else if (paramIs("action", "insertDummy") && paramIs("quiz", "trails")) {
             //Matrix::testInsert();
-            printf("<p>Not yet implemented...</p>\n");
+            printf("<p>Not implemented</p>\n");
         } else if (paramIs("action", "view") && paramIs("quiz", "hoops")) {
             Hoops::getRecords();
             Hoops::printRecords();

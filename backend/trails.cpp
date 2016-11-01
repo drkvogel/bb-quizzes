@@ -10,17 +10,18 @@ const bool DEBUG = true;
 
 using namespace std;
 
-Trails::vecTrailsRecord records;
+Trails::vecTrailsRecord TrailsRecords;
 
-char * nx_json_type_names[] = {
-    "NX_JSON_NULL", "NX_JSON_OBJECT", "NX_JSON_ARRAY", "NX_JSON_STRING", "NX_JSON_INTEGER", "NX_JSON_DOUBLE", "NX_JSON_BOOL"
-};
+// const char Trails::nx_json_type_names[7][20] =
+//     "NX_JSON_NULL", "NX_JSON_OBJECT", "NX_JSON_ARRAY", "NX_JSON_STRING", "NX_JSON_INTEGER", "NX_JSON_DOUBLE", "NX_JSON_BOOL"
+// ;
 
 // Trails::vecTrailsRecord records;
 
 void Trails::printJSONAnswer(const nx_json* node) {
     printf("[node type: %s, length: %d]: count: %d, puzzle: %d, answer: %d, correct: %d, time: %d<br />",
-        nx_json_type_names[node->type], node->length,
+        //nx_json_type_names[node->type], node->length,
+        "[nx_json_type_names] not implemented",
         nx_json_get(node, "count")->int_value,
         nx_json_get(node, "puzzle")->int_value,
         nx_json_get(node, "answer")->int_value,
@@ -42,10 +43,10 @@ void Trails::parseResponses(TrailsRecord *rec) {
         if (!arr) {
             printf("didn't get json<br />"); throw "Error parsing JSON";
         }
-        IFDEBUG printf("got json node type: %s, arr->length: %d<br />", nx_json_type_names[arr->type], arr->length);
+        IFDEBUG printf("got json node type: %s, arr->length: %d<br />", "nx_json_type_names[arr->type]", arr->length);
         IFDEBUG printf("ntests reported by payload: %d; number of tests in responses JSON blob: %d<br />", rec->ntests, arr->length);
         if (rec->ntests != arr->length) {
-            char * errmsg = "<p>ERROR: rec->ntests != arr->length</p>";
+            const char * errmsg = "<p>ERROR: rec->ntests != arr->length</p>";
             printf("%s", errmsg); throw errmsg;
         }
         for (int i=0; i < arr->length; i++) {
@@ -71,7 +72,7 @@ void Trails::parseResponses(TrailsRecord *rec) {
     IFDEBUG printf("</code>\n");
 }
 
-string nowString() { // UNIX time in seconds
+string Trails::nowString() { // UNIX time in seconds
     time_t  tnow;
     char timestring[32];
     strcpy(timestring, ctime(&tnow)); //time(&tnow);
@@ -184,7 +185,7 @@ bool Trails::insertRecord(const TrailsRecord *rec) {
 }
 
 void Trails::getRecords() {
-    records.clear();
+    TrailsRecords.clear();
     std::string sql = "SELECT * FROM Trails";
     XQUERY q(db, sql);
     IFDEBUG printf("this is %s<br />\n", __FILE__);
@@ -211,14 +212,14 @@ void Trails::getRecords() {
             sprintf(fieldname, "correct%d", i+1);   ans.correct = q.result.getInt(fieldname);
             rec.answers.push_back(ans);
         }
-        records.push_back(rec);
+        TrailsRecords.push_back(rec);
     }
     q.close();
 }
 
 void Trails::printRecords() {
     printf("<code>\n");
-    printf("<h3>%d results:</h3>\n", records.size());
+    printf("<h3>%d results:</h3>\n", TrailsRecords.size());
     printf("<table border=\"1\" cellspacing=\"0\">\n");
     printf("<thead><td>sesh_id</td><td>tinstruct</td><td>tstart</td><td>tfinish</td>\n"); // column headers
     printf("<td>responses</td><td>ntests</td>");
@@ -226,7 +227,7 @@ void Trails::printRecords() {
         printf("<td>duration%d</td><td>puzzle%d</td><td>elapsed%d</td><td>answer%d</td><td>correct%d</td>", i, i, i, i, i);
     }
     printf("</thead>\n");
-    for (vecTrailsRecord::const_iterator rec = records.begin(); rec != records.end(); rec++) { // records
+    for (vecTrailsRecord::const_iterator rec = TrailsRecords.begin(); rec != TrailsRecords.end(); rec++) { // records
         printRecord(*rec);
     }
     printf("</table>\n");
