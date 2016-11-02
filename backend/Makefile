@@ -5,7 +5,7 @@ INC=$(II_SYSTEM)/ingres/files
 LDLIB=-linterp.1 -liiapi /lib64/libdl.so.2 /lib64/libcrypt.so.1 
 CXXFLAGS=$(CCXXFLAGS) -I$(INC)
 OBJCOMMON=rosebase.o rosetta.o xbinob.o xdb.o xencode.o xexec.o xquery.o xsql.o xtime.o xcgi.o xerror.o
-OBJBBQUIZ=$(OBJCOMMON) hoops.o matrix.o nxjson.o
+OBJBBQUIZ=$(OBJCOMMON) nxjson.o hoops.o matrix.o trails.o
 TARGETDIR=~/public_html/bbquiz/
 
 bbquiz : bbquiz.o $(OBJBBQUIZ)
@@ -15,7 +15,7 @@ bbquiz : bbquiz.o $(OBJBBQUIZ)
 	#cp bbquiz.cgi $(TARGETDIR)index.cgi
 	#cp main.css $(TARGETDIR)
 	scp bbquiz.cgi cp@oqsweb:~/public_html/bbquiz/index.cgi
-	scp main.css cp@oqsweb:~/public_html/bbquiz/
+	#scp main.css cp@oqsweb:~/public_html/bbquiz/
 
 nodb : bbquiz.o $(OBJBBQUIZ)
 	echo "make nodb"
