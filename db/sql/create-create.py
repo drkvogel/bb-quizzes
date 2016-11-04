@@ -100,3 +100,52 @@ print_matrix_puzzle_fields()
 print_commit()
 print_matrix_comments()
 print_commit()
+
+# trails
+
+# trails_last = 18
+
+def print_trails_puzzle_fields():
+    print """
+CREATE TABLE trails (
+    sesh_id      INTEGER    NOT NULL,
+    ntests       INTEGER2   NOT NULL,
+    tinstruct    DATE       NOT NULL,
+    tstart       DATE       NOT NULL,
+    tfinish      DATE       NOT NULL,
+    tinsert      DATE       NOT NULL WITH DEFAULT 'now',
+    responses    LONG VARCHAR
+"""  
+    #responses    LONG VARCHAR,   
+    # for i in range(1, trails_last + 1):
+    #     print "    duration" + str(i) + "    INTEGER2,"
+    #     print "    puzzle" + str(i) + "      INTEGER1,"
+    #     print "    elapsed" + str(i) + "     INTEGER2,"
+    #     print "    answer" + str(i) + "      INTEGER1,"
+    #     if i == trails_last:
+    #         print "    correct" + str(i) + "     INTEGER1", # take off final comma and no newline (comma after string)
+    #     else:
+    #         print "    correct" + str(i) + "     INTEGER1,"
+    #     print   # separate groups with newline
+    print ");"
+
+def print_trails_comments():
+    print "COMMENT ON COLUMN trails.sesh_id IS 'Session ID';"
+    print "COMMENT ON COLUMN trails.ntests IS 'Number of puzzles completed';"
+    print "COMMENT ON COLUMN trails.tinstruct IS 'Time the instructions were shown to the user';"
+    print "COMMENT ON COLUMN trails.tstart IS 'Time the quiz was started';"
+    print "COMMENT ON COLUMN trails.tfinish IS 'Time the quiz was finished';"
+    print "COMMENT ON COLUMN trails.tinsert IS 'Time the row was inserted into the database (default ''now'')';"
+    print "COMMENT ON COLUMN trails.responses IS 'Responses from quiz - blob of JSON data to be parsed by backend';"
+    
+    # for i in range(1, trails_last + 1):
+    #     print "COMMENT ON COLUMN trails.duration" + str(i) + " IS 'Time taken to answer puzzle';"
+    #     print "COMMENT ON COLUMN trails.puzzle" + str(i) + " IS 'Puzzle chosen by algorithm';"
+    #     print "COMMENT ON COLUMN trails.elapsed" + str(i) + " IS 'Cumulative time elapsed';"
+    #     print "COMMENT ON COLUMN trails.answer" + str(i) + " IS 'Answer given by user';"
+    #     print "COMMENT ON COLUMN trails.correct" + str(i) + " IS 'Correct answer';"
+
+print_trails_puzzle_fields()
+print_commit()
+print_trails_comments()
+print_commit()
