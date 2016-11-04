@@ -213,7 +213,7 @@ function hideModal(modal) {
 
 function finished() {
     console.log('finished(): answers: ' + JSON.stringify(answers));
-    console.log('finished(): auto-submit disabled for testing ' + JSON.stringify(answers)); return;
+    console.log('finished(): auto-submit disabled for testing ' + JSON.stringify(answers));
     clearTimeout(timeUpTimeout);
 
     // fill in form and submit automatically
@@ -221,7 +221,7 @@ function finished() {
     document.getElementById('tinstruct').value = config.tinstruct;
     document.getElementById('tstart').value = config.timeStarted;
     document.getElementById('tfinish').value = isoDate(); // now
-    document.getElementById('ntests').value = answers.length;
+    //document.getElementById('ntests').value = answers.length;
     document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
     window.onbeforeunload = null;
     $(window).on('beforeunload', function(){
