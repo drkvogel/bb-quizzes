@@ -164,9 +164,9 @@ int main(int argc, char **argv) {
             Matrix::getRecords();
             Matrix::printRecords();
         } else if (paramIs("action", "view") && paramIs("quiz", "trails")) {
-            printf("<p>Not yet implemented...</p>\n");
-            // Matrix::getRecords();
-            // Matrix::printRecords();
+            //printf("<p>Not yet implemented...</p>\n");
+            Trails::getRecords();
+            Trails::printRecords();
         } else {
             printf("<p>Parameters not understood.</p>");
             showParams(x); // from cgi_test.cpp //if (DEBUG)
