@@ -37,13 +37,13 @@ void Trails::printTrailsAnswer(TrailsAnswer & ans) {
 void Trails::parseResponses(TrailsRecord *rec) {
     IFDEBUG printf("<code>parseResponses():");
     try {
-        char buf[1600]; int idx = 0;
+        char * buf = new char[rec->responses.length() + 1];
         strcpy(buf, rec->responses.c_str()); // nxson modifies string in place, don't destroy original responses
-        const nx_json* arr = nx_json_parse(buf, 0);
+        const nx_json* arr = nx_json_parse(buf, 0); // needs char *, not const
         if (!arr) {
             printf("didn't get json<br />"); throw "Error parsing JSON";
         }
-        IFDEBUG printf("got json node type: %s, arr->length: %d<br />", "nx_json_type_names[arr->type]", arr->length);
+        IFDEBUG printf("got json node type: %d, arr->length: %d<br />", arr->type, arr->length); // "nx_json_type_names[arr->type]"
         IFDEBUG printf("ntests reported by payload: %d; number of tests in responses JSON blob: %d<br />", rec->ntests, arr->length);
         if (rec->ntests != arr->length) {
             const char * errmsg = "<p>ERROR: rec->ntests != arr->length</p>";
@@ -66,6 +66,7 @@ void Trails::parseResponses(TrailsRecord *rec) {
             rec->answers.push_back(ans);
         }
         nx_json_free(arr);
+        delete [] buf;
     } catch(...) {
         printf("Error parsing JSON");
     }

@@ -141,7 +141,6 @@ int main(int argc, char **argv) {
                 printf("<p>insert did not succeed...</p>\n");
             }
         } else if (paramIs("action", "insert") && paramIs("quiz_id", "3333")) {
-            printf("<p>Not yet implemented...</p>\n");
             Trails::TrailsRecord rec = Trails::getPayload(x);
             if (Trails::insertRecord(&rec)) {
                 printf("<p>insert succeeded</p>\n");

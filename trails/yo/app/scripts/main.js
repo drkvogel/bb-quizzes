@@ -69,14 +69,20 @@ function isoDate() { // return date string in format yyyy-mm-ddThh:mm:ss, suitab
     return date.toISOString().substring(0, 19); // strip milliseconds. timezone not needed, is GMT
 }
 
+function timeUp() {
+    clearTimeout(timeUpTimeout); // in case triggered manually for testing
+    isTimeUp = true;
+    console.log('timeUp(): isTimeUp:' + isTimeUp);
+}
+
 function startTimer(page) {
-    if (page.type === 'game') {
-        timer.now(); // start timer for all real exercises
-        timerWholeTest.now(); // start timer for the whole test (for "elapsed" field)
-        config.timeStarted = isoDate();
-        console.log('config.timeStarted: ' + config.timeStarted);
-        timeUpTimeout = setTimeout(timeUp, config.timeLimit);
-    }
+    // if (page.type === 'game') {
+    timer.now(); // start timer for all real exercises
+    timerWholeTest.now(); // start timer for the whole test (for "elapsed" field)
+    config.timeStarted = isoDate();
+    console.log('config.timeStarted: ' + config.timeStarted);
+    timeUpTimeout = setTimeout(timeUp, config.timeLimit);
+    // }
 }
 
 function containerClick(e) {
@@ -106,6 +112,12 @@ function showPage2() {
     $('#pages').on('click', 'button', containerClick); // prevent double-click
     if (currentPage().name === 'thanks') { // redundant?
         console.log('currentPage().name === \'thanks\'');
+        document.getElementById('sesh_id').value = config.seshID;
+        document.getElementById('tinstruct').value = config.tinstruct;
+        document.getElementById('tstart').value = config.timeStarted;
+        document.getElementById('tfinish').value = isoDate(); // now
+        document.getElementById('ntests').value = answers.length; // number of clicks, more like
+        document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
         setTimeout(finished, 3000);
     }
     // console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)scaleImages();bind clicks
@@ -130,11 +142,16 @@ function showPage(page) { // prevPage() and nextPage() should handle hiding curr
             $('.botTxt').html(page.botTxt); //console.log('puzzle.b: ' + puzzle.b + ', correct: ' + puzzle.c); //puzzle = config.practice; ??
             $('.topTxt').html(page.topTxt);
         } else {
-            startTimer(page); // timer to show chosen answer before next, and start game timer
             $('.navCtl').html('');
             $('.topTxt').html('');
             $('.botTxt').html(''); //console.log('puzzle.b: ' + puzzle.b + ', correct: ' + puzzle.c); //puzzle = config.practice; ??
         }
+        timer.now(); // start timer for all real exercises
+        timerWholeTest.now(); // start timer for the whole test (for "elapsed" field)
+        config.timeStarted = isoDate();
+        console.log('config.timeStarted: ' + config.timeStarted);
+        timeUpTimeout = setTimeout(timeUp, config.timeLimit);
+        // startTimer(page); // timer to show chosen answer before next, and start game timer
         break;
     case 'home':
     case 'abandon':
@@ -217,23 +234,17 @@ function finished() {
     clearTimeout(timeUpTimeout);
 
     // fill in form and submit automatically
-    document.getElementById('sesh_id').value = config.seshID;
-    document.getElementById('tinstruct').value = config.tinstruct;
-    document.getElementById('tstart').value = config.timeStarted;
-    document.getElementById('tfinish').value = isoDate(); // now
-    document.getElementById('ntests').value = answers.length; // number of clicks, more like
-    document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
+    // document.getElementById('sesh_id').value = config.seshID;
+    // document.getElementById('tinstruct').value = config.tinstruct;
+    // document.getElementById('tstart').value = config.timeStarted;
+    // document.getElementById('tfinish').value = isoDate(); // now
+    // document.getElementById('ntests').value = answers.length; // number of clicks, more like
+    // document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
     window.onbeforeunload = null;
     $(window).on('beforeunload', function(){
         $('*').css('cursor', 'default');
     });
     document.getElementById('feedbackForm').submit(); // action set in init() from config.json
-}
-
-function timeUp() {
-    clearTimeout(timeUpTimeout); // in case triggered manually for testing
-    isTimeUp = true;
-    console.log('timeUp(): isTimeUp:' + isTimeUp);
 }
 
 // function answered2() {
@@ -352,7 +363,7 @@ function logEvent(element, isCorrect) {
     timeTaken = timer.getElapsed();
     showTime(timeTaken, isCorrect);
     var answer = {
-        duration: timer.getElapsed(),              // Time taken to click on next element
+        duration: timer.getElapsed(),          // Time taken to click on next element
         puzzle: page.name,                     // number of puzzle
         elapsed: timerWholeTest.getElapsed(),  // cumulative time elapsed
         element: element,                      // id of element clicked on by user
@@ -493,8 +504,8 @@ function init() {
             msg = 'not LOCAL and sesh_id not found in urlParams, set config.seshID to ' + config.seshID;
             $('#feedbackForm').attr('action', 'complete.php');
         } else {
-            msg = 'config.sesh_id: ' + config.seshID;
             config.seshID = urlParams.sesh_id;
+            msg = 'config.sesh_id: ' + config.seshID;
             $('#feedbackForm').attr('action', config.formAction); // set the results form target
         }
     }
@@ -536,6 +547,9 @@ window.onresize = function(event) {
     //scaleImages();
 };
 
+// get url params
+// TODO - is onpopstate supported in all browswers?
+// http://stackoverflow.com/questions/15896434/window-onpopstate-on-page-load
 (window.onpopstate = function() { // why in IIFE?
     var match,
         pl = /\+/g,  // Regex for replacing addition symbol with a space
