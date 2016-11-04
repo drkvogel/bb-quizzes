@@ -212,8 +212,8 @@ function hideModal(modal) {
 }
 
 function finished() {
-    console.log('finished(): answers: ' + JSON.stringify(answers));
-    console.log('finished(): auto-submit disabled for testing ' + JSON.stringify(answers));
+    // console.log('finished(): answers: ' + JSON.stringify(answers));
+    // console.log('finished(): auto-submit disabled for testing ' + JSON.stringify(answers));
     clearTimeout(timeUpTimeout);
 
     // fill in form and submit automatically
@@ -221,7 +221,7 @@ function finished() {
     document.getElementById('tinstruct').value = config.tinstruct;
     document.getElementById('tstart').value = config.timeStarted;
     document.getElementById('tfinish').value = isoDate(); // now
-    //document.getElementById('ntests').value = answers.length;
+    document.getElementById('ntests').value = answers.length; // number of clicks, more like
     document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
     window.onbeforeunload = null;
     $(window).on('beforeunload', function(){
@@ -475,15 +475,21 @@ function init() {
     timerWholeTest = new Timer(); // globals
     isTimeUp = false;
     current = 0;
-    addListeners(); //attachEventHandlers('part-a');
+
+    var loc = location.toString().split('://')[1]; // strip off http://, https://
+    if (loc.substr(0, 9) === 'localhost') { // served from gulp
+        LOCAL = true;
+    }
+    console.log('LOCAL: ' + LOCAL);
     var msg;
     if (LOCAL) {
-        config.seshID = 4321;
+        config.seshID = -1111;
         msg = 'this is a local web application for local people';
-        $('#feedbackForm').attr('action', 'http://localhost/backend-doesnt-exist'); //'http://xrat.ctsu.ox.ac.uk/~cp/bbquiz/');
+        $('#feedbackForm').attr('action', config.formAction); // set the results form target
+        //$('#feedbackForm').attr('action', 'http://localhost/backend-doesnt-exist'); //'http://xrat.ctsu.ox.ac.uk/~cp/bbquiz/');
     } else {
         if (!urlParams.hasOwnProperty('sesh_id')) { // probably on testing server
-            config.seshID = -4321; //throw new Error(msg);
+            config.seshID = -2222; //throw new Error(msg);
             msg = 'not LOCAL and sesh_id not found in urlParams, set config.seshID to ' + config.seshID;
             $('#feedbackForm').attr('action', 'complete.php');
         } else {
@@ -495,14 +501,24 @@ function init() {
     console.log(msg); //console.log('formAction: ' + config.formAction);
     $('#home .debug').html('<code>' + msg + '</code>');
 
+    // event handlers
     $('body').on('keydown', keydown);
     $('#devBar').on('click', 'a, button', devClick); // delegate events
     $('#abandon-btn').on('click', abandonClick);
     $('#modals').on('click', 'button', modalClick);
 
+    if (LIVE) {
+        window.onbeforeunload = null;
+        window.history.forward();   //prevent repeat after back button - may not work.
+        window.onbeforeunload = function() {
+            return 'The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?';
+        };
+    }
     config.tinstruct = isoDate(); console.log('config.tinstruct: ' + config.tinstruct);
+    addListeners(); // attach EventHandlers('part-a');
     showPage(currentPage());
 }
+    //$('#devBar').hide();
 
 function getConfig() {
     $.getJSON('./config.json', function (configData) {
@@ -536,19 +552,6 @@ window.onresize = function(event) {
 
 $().ready(function () { //$(document).ready(
     console.log('Document ready');
-    $('#devBar').hide();
-    if (LIVE) {
-        window.onbeforeunload = null;
-        window.history.forward();   //prevent repeat after back button - may not work.
-        window.onbeforeunload = function() {
-            return 'The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?';
-        };
-    }
-    var loc = location.toString().split('://')[1]; // strip off http://, https://
-    if (loc.substr(0, 9) === 'localhost') { // served from gulp
-        LOCAL = true;
-    }
-    console.log('LOCAL: ' + LOCAL);
     getConfig();
 });
 

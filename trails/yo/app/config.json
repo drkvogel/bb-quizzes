@@ -3,7 +3,7 @@
     "_comment": "timeLimit should be 120000 == 2 minutes",
     "nextDelay" : 500,
     "timeLimit" : 120000,
-    "formAction" : "http://oqsweb.ndph.ox.ac.uk/~cp/bbquiz/",
+    "formAction" : "http://oqs.ndph.ox.ac.uk/~cp/bbquiz/",
     "navNext" : "<span><button class=\"btn btn-lg btn-default\" id=\"next\" href=\"#\">Next &gt;&gt;</button></span>",
     "navStart" : "<span><button class=\"btn btn-lg btn-default\" id=\"next\" href=\"#\">Start &gt;&gt;</button></span>",
     "navPrev" : "<span><button class=\"btn btn-lg btn-default\" id=\"prev\" href=\"#\">&lt;&lt; Prev</button></span>",
