@@ -69,14 +69,20 @@ function isoDate() { // return date string in format yyyy-mm-ddThh:mm:ss, suitab
     return date.toISOString().substring(0, 19); // strip milliseconds. timezone not needed, is GMT
 }
 
+function timeUp() {
+    clearTimeout(timeUpTimeout); // in case triggered manually for testing
+    isTimeUp = true;
+    console.log('timeUp(): isTimeUp:' + isTimeUp);
+}
+
 function startTimer(page) {
-    if (page.type === 'game') {
-        timer.now(); // start timer for all real exercises
-        timerWholeTest.now(); // start timer for the whole test (for "elapsed" field)
-        config.timeStarted = isoDate();
-        console.log('config.timeStarted: ' + config.timeStarted);
-        timeUpTimeout = setTimeout(timeUp, config.timeLimit);
-    }
+    // if (page.type === 'game') {
+    timer.now(); // start timer for all real exercises
+    timerWholeTest.now(); // start timer for the whole test (for "elapsed" field)
+    config.timeStarted = isoDate();
+    console.log('config.timeStarted: ' + config.timeStarted);
+    timeUpTimeout = setTimeout(timeUp, config.timeLimit);
+    // }
 }
 
 function containerClick(e) {
@@ -106,6 +112,12 @@ function showPage2() {
     $('#pages').on('click', 'button', containerClick); // prevent double-click
     if (currentPage().name === 'thanks') { // redundant?
         console.log('currentPage().name === \'thanks\'');
+        document.getElementById('sesh_id').value = config.seshID;
+        document.getElementById('tinstruct').value = config.tinstruct;
+        document.getElementById('tstart').value = config.timeStarted;
+        document.getElementById('tfinish').value = isoDate(); // now
+        document.getElementById('ntests').value = answers.length; // number of clicks, more like
+        document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
         setTimeout(finished, 3000);
     }
     // console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)scaleImages();bind clicks
@@ -130,11 +142,16 @@ function showPage(page) { // prevPage() and nextPage() should handle hiding curr
             $('.botTxt').html(page.botTxt); //console.log('puzzle.b: ' + puzzle.b + ', correct: ' + puzzle.c); //puzzle = config.practice; ??
             $('.topTxt').html(page.topTxt);
         } else {
-            startTimer(page); // timer to show chosen answer before next, and start game timer
             $('.navCtl').html('');
             $('.topTxt').html('');
             $('.botTxt').html(''); //console.log('puzzle.b: ' + puzzle.b + ', correct: ' + puzzle.c); //puzzle = config.practice; ??
         }
+        timer.now(); // start timer for all real exercises
+        timerWholeTest.now(); // start timer for the whole test (for "elapsed" field)
+        config.timeStarted = isoDate();
+        console.log('config.timeStarted: ' + config.timeStarted);
+        timeUpTimeout = setTimeout(timeUp, config.timeLimit);
+        // startTimer(page); // timer to show chosen answer before next, and start game timer
         break;
     case 'home':
     case 'abandon':
@@ -212,28 +229,22 @@ function hideModal(modal) {
 }
 
 function finished() {
-    console.log('finished(): answers: ' + JSON.stringify(answers));
-    console.log('finished(): auto-submit disabled for testing ' + JSON.stringify(answers));
+    // console.log('finished(): answers: ' + JSON.stringify(answers));
+    // console.log('finished(): auto-submit disabled for testing ' + JSON.stringify(answers));
     clearTimeout(timeUpTimeout);
 
     // fill in form and submit automatically
-    document.getElementById('sesh_id').value = config.seshID;
-    document.getElementById('tinstruct').value = config.tinstruct;
-    document.getElementById('tstart').value = config.timeStarted;
-    document.getElementById('tfinish').value = isoDate(); // now
-    //document.getElementById('ntests').value = answers.length;
-    document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
+    // document.getElementById('sesh_id').value = config.seshID;
+    // document.getElementById('tinstruct').value = config.tinstruct;
+    // document.getElementById('tstart').value = config.timeStarted;
+    // document.getElementById('tfinish').value = isoDate(); // now
+    // document.getElementById('ntests').value = answers.length; // number of clicks, more like
+    // document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
     window.onbeforeunload = null;
     $(window).on('beforeunload', function(){
         $('*').css('cursor', 'default');
     });
     document.getElementById('feedbackForm').submit(); // action set in init() from config.json
-}
-
-function timeUp() {
-    clearTimeout(timeUpTimeout); // in case triggered manually for testing
-    isTimeUp = true;
-    console.log('timeUp(): isTimeUp:' + isTimeUp);
 }
 
 // function answered2() {
@@ -352,7 +363,7 @@ function logEvent(element, isCorrect) {
     timeTaken = timer.getElapsed();
     showTime(timeTaken, isCorrect);
     var answer = {
-        duration: timer.getElapsed(),              // Time taken to click on next element
+        duration: timer.getElapsed(),          // Time taken to click on next element
         puzzle: page.name,                     // number of puzzle
         elapsed: timerWholeTest.getElapsed(),  // cumulative time elapsed
         element: element,                      // id of element clicked on by user
@@ -475,34 +486,50 @@ function init() {
     timerWholeTest = new Timer(); // globals
     isTimeUp = false;
     current = 0;
-    addListeners(); //attachEventHandlers('part-a');
+
+    var loc = location.toString().split('://')[1]; // strip off http://, https://
+    if (loc.substr(0, 9) === 'localhost') { // served from gulp
+        LOCAL = true;
+    }
+    console.log('LOCAL: ' + LOCAL);
     var msg;
     if (LOCAL) {
-        config.seshID = 4321;
+        config.seshID = -1111;
         msg = 'this is a local web application for local people';
-        $('#feedbackForm').attr('action', 'http://localhost/backend-doesnt-exist'); //'http://xrat.ctsu.ox.ac.uk/~cp/bbquiz/');
+        $('#feedbackForm').attr('action', config.formAction); // set the results form target
+        //$('#feedbackForm').attr('action', 'http://localhost/backend-doesnt-exist'); //'http://xrat.ctsu.ox.ac.uk/~cp/bbquiz/');
     } else {
         if (!urlParams.hasOwnProperty('sesh_id')) { // probably on testing server
-            config.seshID = -4321; //throw new Error(msg);
+            config.seshID = -2222; //throw new Error(msg);
             msg = 'not LOCAL and sesh_id not found in urlParams, set config.seshID to ' + config.seshID;
             $('#feedbackForm').attr('action', 'complete.php');
         } else {
-            msg = 'config.sesh_id: ' + config.seshID;
             config.seshID = urlParams.sesh_id;
+            msg = 'config.sesh_id: ' + config.seshID;
             $('#feedbackForm').attr('action', config.formAction); // set the results form target
         }
     }
     console.log(msg); //console.log('formAction: ' + config.formAction);
     $('#home .debug').html('<code>' + msg + '</code>');
 
+    // event handlers
     $('body').on('keydown', keydown);
     $('#devBar').on('click', 'a, button', devClick); // delegate events
     $('#abandon-btn').on('click', abandonClick);
     $('#modals').on('click', 'button', modalClick);
 
+    if (LIVE) {
+        window.onbeforeunload = null;
+        window.history.forward();   //prevent repeat after back button - may not work.
+        window.onbeforeunload = function() {
+            return 'The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?';
+        };
+    }
     config.tinstruct = isoDate(); console.log('config.tinstruct: ' + config.tinstruct);
+    addListeners(); // attach EventHandlers('part-a');
     showPage(currentPage());
 }
+    //$('#devBar').hide();
 
 function getConfig() {
     $.getJSON('./config.json', function (configData) {
@@ -520,6 +547,9 @@ window.onresize = function(event) {
     //scaleImages();
 };
 
+// get url params
+// TODO - is onpopstate supported in all browswers?
+// http://stackoverflow.com/questions/15896434/window-onpopstate-on-page-load
 (window.onpopstate = function() { // why in IIFE?
     var match,
         pl = /\+/g,  // Regex for replacing addition symbol with a space
@@ -536,19 +566,6 @@ window.onresize = function(event) {
 
 $().ready(function () { //$(document).ready(
     console.log('Document ready');
-    $('#devBar').hide();
-    if (LIVE) {
-        window.onbeforeunload = null;
-        window.history.forward();   //prevent repeat after back button - may not work.
-        window.onbeforeunload = function() {
-            return 'The answers to the questions or tests you are doing at the moment will be lost - is this what you want to do?';
-        };
-    }
-    var loc = location.toString().split('://')[1]; // strip off http://, https://
-    if (loc.substr(0, 9) === 'localhost') { // served from gulp
-        LOCAL = true;
-    }
-    console.log('LOCAL: ' + LOCAL);
     getConfig();
 });
 

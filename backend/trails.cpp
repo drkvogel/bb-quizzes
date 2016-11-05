@@ -37,13 +37,13 @@ void Trails::printTrailsAnswer(TrailsAnswer & ans) {
 void Trails::parseResponses(TrailsRecord *rec) {
     IFDEBUG printf("<code>parseResponses():");
     try {
-        char buf[1600]; int idx = 0;
+        char * buf = new char[rec->responses.length() + 1];
         strcpy(buf, rec->responses.c_str()); // nxson modifies string in place, don't destroy original responses
-        const nx_json* arr = nx_json_parse(buf, 0);
+        const nx_json* arr = nx_json_parse(buf, 0); // needs char *, not const
         if (!arr) {
             printf("didn't get json<br />"); throw "Error parsing JSON";
         }
-        IFDEBUG printf("got json node type: %s, arr->length: %d<br />", "nx_json_type_names[arr->type]", arr->length);
+        IFDEBUG printf("got json node type: %d, arr->length: %d<br />", arr->type, arr->length); // "nx_json_type_names[arr->type]"
         IFDEBUG printf("ntests reported by payload: %d; number of tests in responses JSON blob: %d<br />", rec->ntests, arr->length);
         if (rec->ntests != arr->length) {
             const char * errmsg = "<p>ERROR: rec->ntests != arr->length</p>";
@@ -66,6 +66,7 @@ void Trails::parseResponses(TrailsRecord *rec) {
             rec->answers.push_back(ans);
         }
         nx_json_free(arr);
+        delete [] buf;
     } catch(...) {
         printf("Error parsing JSON");
     }
@@ -102,85 +103,46 @@ bool Trails::insertRecord(const TrailsRecord *rec) {
     IFDEBUG printf("<p><code>Trails::insertRecord()</p>\n");
     std::string sql =
         "INSERT INTO Trails (sesh_id, ntests, tinstruct, tstart, tfinish, tinsert,"
-        " responses,"
-        " duration1, puzzle1, elapsed1, answer1, correct1, "
-        " duration2, puzzle2, elapsed2, answer2, correct2, "
-        " duration3, puzzle3, elapsed3, answer3, correct3, "
-        " duration4, puzzle4, elapsed4, answer4, correct4, "
-        " duration5, puzzle5, elapsed5, answer5, correct5, "
-        " duration6, puzzle6, elapsed6, answer6, correct6, "
-        " duration7, puzzle7, elapsed7, answer7, correct7, "
-        " duration8, puzzle8, elapsed8, answer8, correct8, "
-        " duration9, puzzle9, elapsed9, answer9, correct9, "
-        " duration10, puzzle10, elapsed10, answer10, correct10, "
-        " duration11, puzzle11, elapsed11, answer11, correct11, "
-        " duration12, puzzle12, elapsed12, answer12, correct12, "
-        " duration13, puzzle13, elapsed13, answer13, correct13, "
-        " duration14, puzzle14, elapsed14, answer14, correct14, "
-        " duration15, puzzle15, elapsed15, answer15, correct15, "
-        " duration16, puzzle16, elapsed16, answer16, correct16, "
-        " duration17, puzzle17, elapsed17, answer17, correct17, "
-        " duration18, puzzle18, elapsed18, answer18, correct18 "
+        " responses"
+        //" duration18, puzzle18, elapsed18, answer18, correct18 "
         " )\n"
         " VALUES (:sesh_id, :ntests, :tinstruct, :tstart, :tfinish, DATE('now'), "
-        " :responses,"
-        " :duration1, :puzzle1, :elapsed1, :answer1, :correct1, "
-        " :duration2, :puzzle2, :elapsed2, :answer2, :correct2, "
-        " :duration3, :puzzle3, :elapsed3, :answer3, :correct3, "
-        " :duration4, :puzzle4, :elapsed4, :answer4, :correct4, "
-        " :duration5, :puzzle5, :elapsed5, :answer5, :correct5, "
-        " :duration6, :puzzle6, :elapsed6, :answer6, :correct6, "
-        " :duration7, :puzzle7, :elapsed7, :answer7, :correct7, "
-        " :duration8, :puzzle8, :elapsed8, :answer8, :correct8, "
-        " :duration9, :puzzle9, :elapsed9, :answer9, :correct9, "
-        " :duration10, :puzzle10, :elapsed10, :answer10, :correct10, "
-        " :duration11, :puzzle11, :elapsed11, :answer11, :correct11, "
-        " :duration12, :puzzle12, :elapsed12, :answer12, :correct12, "
-        " :duration13, :puzzle13, :elapsed13, :answer13, :correct13, "
-        " :duration14, :puzzle14, :elapsed14, :answer14, :correct14, "
-        " :duration15, :puzzle15, :elapsed15, :answer15, :correct15, "
-        " :duration16, :puzzle16, :elapsed16, :answer16, :correct16, "
-        " :duration17, :puzzle17, :elapsed17, :answer17, :correct17, "
-        " :duration18, :puzzle18, :elapsed18, :answer18, :correct18 "
+        " :responses"
+        //" :duration1, :puzzle1, :elapsed1, :answer1, :correct1 "
         " )\n";
-    //printf("made sql...\n");
-    XEXEC xe(db, sql);
-    IFDEBUG printf("made XEXEC object...\n");
+    XEXEC xe(db, sql); IFDEBUG printf("made XEXEC object...\n");
 
     xe.param.setInt("sesh_id",       rec->sesh_id);
     xe.param.setTime("tinstruct",    rec->tinstruct);
     xe.param.setTime("tstart",       rec->tstart);
     xe.param.setTime("tfinish",      rec->tfinish);
-    xe.param.setString("responses",  rec->responses);
     xe.param.setInt("ntests",        rec->ntests);
-
-    IFDEBUG printf("added header fields...<br />\n");
-    //printf("tinstruct: '%s', tstart: '%s', tfinish: '%s'...", rec->tinstruct.iso().c_str(), rec->tstart.iso().c_str(), rec->tfinish.iso().c_str());
-    char fieldname[12];
+    xe.param.setString("responses",  rec->responses);
+    IFDEBUG printf("added header fields...<br />\n"); //printf("tinstruct: '%s', tstart: '%s', tfinish: '%s'...", rec->tinstruct.iso().c_str(), rec->tstart.iso().c_str(), rec->tfinish.iso().c_str());
 
     // insert answered puzzles
-    for (int i=0; i<rec->answers.size(); i++) { // safer, should agree with rec->ntests
-        //printf("answer %d/%d<br />", i+1, rec->answers.size());
-        IFDEBUG printf("%d ", i+1);
-        sprintf(fieldname, "duration%d", i+1);  xe.param.setInt(fieldname,  rec->answers[i].duration); //printf("field: '%s', value: %d<br />\n", fieldname,  rec->answers[i].duration);
-        sprintf(fieldname, "puzzle%d", i+1);    xe.param.setInt(fieldname,  rec->answers[i].puzzle);
-        sprintf(fieldname, "elapsed%d", i+1);   xe.param.setInt(fieldname,  rec->answers[i].elapsed);
-        sprintf(fieldname, "answer%d", i+1);    xe.param.setInt(fieldname,  rec->answers[i].answer);
-        sprintf(fieldname, "correct%d", i+1);   xe.param.setInt(fieldname,  rec->answers[i].correct);
-    }
-    IFDEBUG printf("<br />added %d answered puzzles...<br />\n", rec->answers.size());
+    // copied from hoops, trails will be different
+    // char fieldname[12];s
+    // for (int i=0; i<rec->answers.size(); i++) { // safer, should agree with rec->ntests
+    //     IFDEBUG printf("%d ", i+1); //printf("answer %d/%d<br />", i+1, rec->answers.size());
+    //     sprintf(fieldname, "duration%d", i+1);  xe.param.setInt(fieldname,  rec->answers[i].duration); //printf("field: '%s', value: %d<br />\n", fieldname,  rec->answers[i].duration);
+    //     sprintf(fieldname, "puzzle%d", i+1);    xe.param.setInt(fieldname,  rec->answers[i].puzzle);
+    //     sprintf(fieldname, "elapsed%d", i+1);   xe.param.setInt(fieldname,  rec->answers[i].elapsed);
+    //     sprintf(fieldname, "answer%d", i+1);    xe.param.setInt(fieldname,  rec->answers[i].answer);
+    //     sprintf(fieldname, "correct%d", i+1);   xe.param.setInt(fieldname,  rec->answers[i].correct);
+    // }
+    // IFDEBUG printf("<br />added %d answered puzzles...<br />\n", rec->answers.size());
 
-    // insert 'nulls' (-1) for the rest explicitly, otherwise fields have to have defaults
-    for (int i = rec->answers.size()+1; i <= MAX_LEVELS; i++) {
-        sprintf(fieldname, "duration%d", i);    xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
-        sprintf(fieldname, "puzzle%d", i);      xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
-        sprintf(fieldname, "elapsed%d", i);     xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
-        sprintf(fieldname, "answer%d", i);      xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
-        sprintf(fieldname, "correct%d", i);     xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
-    }
-    IFDEBUG printf("added %d null records...<br />\n", MAX_LEVELS - rec->answers.size());
-    //IFDEBUG printf("<p>sql:</p><code>%s</code> ", sql.c_str());
-    IFDEBUG printf("</code>\n");
+    // // insert 'nulls' (-1) for the rest explicitly, otherwise fields have to have defaults
+    // for (int i = rec->answers.size()+1; i <= MAX_LEVELS; i++) {
+    //     sprintf(fieldname, "duration%d", i);    xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
+    //     sprintf(fieldname, "puzzle%d", i);      xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
+    //     sprintf(fieldname, "elapsed%d", i);     xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
+    //     sprintf(fieldname, "answer%d", i);      xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
+    //     sprintf(fieldname, "correct%d", i);     xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
+    // }
+    // IFDEBUG printf("added %d null records...<br />\n", MAX_LEVELS - rec->answers.size());
+    // IFDEBUG printf("</code>\n"); //IFDEBUG printf("<p>sql:</p><code>%s</code> ", sql.c_str());
     return (xe.exec());
 }
 
@@ -202,16 +164,16 @@ void Trails::getRecords() {
         rec.tfinish   = q.result.getTime("tfinish");
         rec.responses = q.result.getString("responses");    // JSON blob
         rec.ntests    = q.result.getInt("ntests");          // is ntests sane?
-        for (int i = 0; i < rec.ntests && i < MAX_LEVELS; i++) {
-            TrailsAnswer ans;
-            char fieldname[16];
-            sprintf(fieldname, "duration%d", i+1);  ans.duration = q.result.getInt(fieldname);
-            sprintf(fieldname, "puzzle%d", i+1);    ans.puzzle = q.result.getInt(fieldname);
-            sprintf(fieldname, "elapsed%d", i+1);   ans.elapsed = q.result.getInt(fieldname);
-            sprintf(fieldname, "answer%d", i+1);    ans.answer = q.result.getInt(fieldname);
-            sprintf(fieldname, "correct%d", i+1);   ans.correct = q.result.getInt(fieldname);
-            rec.answers.push_back(ans);
-        }
+        // for (int i = 0; i < rec.ntests && i < MAX_LEVELS; i++) {
+        //     TrailsAnswer ans;
+        //     char fieldname[16];
+        //     sprintf(fieldname, "duration%d", i+1);  ans.duration = q.result.getInt(fieldname);
+        //     sprintf(fieldname, "puzzle%d", i+1);    ans.puzzle = q.result.getInt(fieldname);
+        //     sprintf(fieldname, "elapsed%d", i+1);   ans.elapsed = q.result.getInt(fieldname);
+        //     sprintf(fieldname, "answer%d", i+1);    ans.answer = q.result.getInt(fieldname);
+        //     sprintf(fieldname, "correct%d", i+1);   ans.correct = q.result.getInt(fieldname);
+        //     rec.answers.push_back(ans);
+        // }
         TrailsRecords.push_back(rec);
     }
     q.close();
@@ -223,9 +185,9 @@ void Trails::printRecords() {
     printf("<table border=\"1\" cellspacing=\"0\">\n");
     printf("<thead><td>sesh_id</td><td>tinstruct</td><td>tstart</td><td>tfinish</td>\n"); // column headers
     printf("<td>responses</td><td>ntests</td>");
-    for (int i = 1; i <= MAX_LEVELS; i++) {
-        printf("<td>duration%d</td><td>puzzle%d</td><td>elapsed%d</td><td>answer%d</td><td>correct%d</td>", i, i, i, i, i);
-    }
+    // for (int i = 1; i <= MAX_LEVELS; i++) {
+    //     printf("<td>duration%d</td><td>puzzle%d</td><td>elapsed%d</td><td>answer%d</td><td>correct%d</td>", i, i, i, i, i);
+    // }
     printf("</thead>\n");
     for (vecTrailsRecord::const_iterator rec = TrailsRecords.begin(); rec != TrailsRecords.end(); rec++) { // records
         printRecord(*rec);
@@ -241,14 +203,14 @@ void Trails::printRecord(Trails::TrailsRecord rec) {
     printf("<td>%s</td>", rec.responses.c_str());
     //printf("<td>...</td>");
     printf("<td>%d</td>", rec.ntests);
-    for (int i=0; i<rec.answers.size(); i++) { // safer, should agree with rec->ntests
-        printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>",
-            rec.answers[i].duration, rec.answers[i].puzzle, rec.answers[i].elapsed,
-            rec.answers[i].answer, rec.answers[i].correct);
-    }
-    for (int i = rec.answers.size()+1; i <= MAX_LEVELS; i++) { // fill remainder
-        printf("<td>[%d]</td><td>-</td><td>-</td><td>-</td><td>-</td>", i);
-    }
+    // for (int i=0; i<rec.answers.size(); i++) { // safer, should agree with rec->ntests
+    //     printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>",
+    //         rec.answers[i].duration, rec.answers[i].puzzle, rec.answers[i].elapsed,
+    //         rec.answers[i].answer, rec.answers[i].correct);
+    // }
+    // for (int i = rec.answers.size()+1; i <= MAX_LEVELS; i++) { // fill remainder
+    //     printf("<td>[%d]</td><td>-</td><td>-</td><td>-</td><td>-</td>", i);
+    // }
     printf("</tr>\n");
 }
 
