@@ -141,12 +141,18 @@ int main(int argc, char **argv) {
                 printf("<p>insert did not succeed...</p>\n");
             }
         } else if (paramIs("action", "insert") && paramIs("quiz_id", "3333")) {
-            Trails::TrailsRecord rec = Trails::getPayload(x);
-            if (Trails::insertRecord(&rec)) {
-                printf("<p>insert succeeded</p>\n");
-            } else {
+            try {
+                Trails::TrailsRecord rec = Trails::getPayload(x);
+                Trails::insertRecord(&rec);
+            } catch (...) {
                 printf("<p>insert did not succeed...</p>\n");
             }
+            // Trails::TrailsRecord rec = Trails::getPayload(x);
+            // if (Trails::insertRecord(&rec)) {
+            //     printf("<p>insert succeeded</p>\n");
+            // } else {
+            //     printf("<p>insert did not succeed...</p>\n");
+            // }
         } else if (paramIs("action", "insertDummy") && paramIs("quiz", "hoops")) {
             //Hoops::testInsert();
             printf("<p>Not implemented</p>\n");
