@@ -487,28 +487,34 @@ function init() {
     isTimeUp = false;
     current = 0;
 
-    var loc = location.toString().split('://')[1]; // strip off http://, https://
-    if (loc.substr(0, 9) === 'localhost') { // served from gulp
-        LOCAL = true;
-    }
-    console.log('LOCAL: ' + LOCAL);
+    // var loc = location.toString().split('://')[1]; // strip off http://, https://
+    // if (loc.substr(0, 9) === 'localhost') { // served from gulp
+    //     LOCAL = true;
+    // }
     var msg;
-    if (LOCAL) {
-        config.seshID = -1111;
-        msg = 'this is a local web application for local people';
-        $('#feedbackForm').attr('action', config.formAction); // set the results form target
-        //$('#feedbackForm').attr('action', 'http://localhost/backend-doesnt-exist'); //'http://xrat.ctsu.ox.ac.uk/~cp/bbquiz/');
-    } else {
-        if (!urlParams.hasOwnProperty('sesh_id')) { // probably on testing server
-            config.seshID = -2222; //throw new Error(msg);
-            msg = 'not LOCAL and sesh_id not found in urlParams, set config.seshID to ' + config.seshID;
-            $('#feedbackForm').attr('action', 'complete.php');
-        } else {
+    var loc = location.toString().split('://')[1].split('.')[0]; // strip off http://, https://
+    console.log('loc: ' + loc);
+    // switch (loc.substr(0, 3) { 
+    switch (loc) { 
+        case 'oqs':         // assume oqs[web].ndph.ox.ac.uk
+            if (!urlParams.hasOwnProperty('sesh_id')) { // probably on testing server
+                throw new Error('not local and sesh_id not found in urlParams');
+            } 
             config.seshID = urlParams.sesh_id;
             msg = 'config.sesh_id: ' + config.seshID;
             $('#feedbackForm').attr('action', config.formAction); // set the results form target
-        }
+            break;
+        case 'loc':         // assume localhost, served from gulp
+            msg = 'this is a local web application for local people';
+        default:
+            config.seshID = -1111;
+            $('#feedbackForm').attr('action', 'complete.php');
     }
+
+    // if (LOCAL) {
+    //     config.seshID = -1111;
+    //     $('#feedbackForm').attr('action', config.formAction); // set the results form target
+    // }
     console.log(msg); //console.log('formAction: ' + config.formAction);
     $('#home .debug').html('<code>' + msg + '</code>');
 
