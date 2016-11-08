@@ -92,19 +92,16 @@ int nowUNIX() { // UNIX time in seconds
 void showOptions() {
     printf("<table border=1 cellspacing=0><thead><tr><th>Quiz</th><th colspan=2>Actions</th></tr></thead>\n");
     printf("<tr><td>Matrix</td>");
-    printf("<td><a href=\"matrix/?sesh_id=%d\">Start</a></td>", nowUNIX()); //printf("<td><a href=\"?quiz=matrix&action=start\">Start</a></td>");
+    printf("<td><a href=\"matrix/?sesh_id=%d\">Start</a></td>", nowUNIX());
     printf("<td><a href=\"?quiz=matrix&action=view\">View responses</a></td>");
-    // printf("<td><a href=\"?quiz=matrix&action=insertDummy\">Insert dummy data</a></td>");
     printf("</tr>\n");
     printf("<tr><td>Hoops</td>");
-    printf("<td><a href=\"hoops/?sesh_id=%d\">Start</a></td>", nowUNIX()); //printf("<td><a href=\"?quiz=hoops&action=start\">Start</a></td>");
+    printf("<td><a href=\"hoops/?sesh_id=%d\">Start</a></td>", nowUNIX());
     printf("<td><a href=\"?quiz=hoops&action=view\">View responses</a></td>");
-    // printf("<td><a href=\"?quiz=hoops&action=insertDummy\">Insert dummy data</a></td>");
     printf("</tr>\n");
     printf("<tr><td>Trails</td>");
-    printf("<td><a href=\"trails/?sesh_id=%d\">Start</a></td>", nowUNIX()); //printf("<td><a href=\"?quiz=hoops&action=start\">Start</a></td>");
+    printf("<td><a href=\"trails/?sesh_id=%d\">Start</a></td>", nowUNIX());
     printf("<td><a href=\"?quiz=trails&action=view\">View responses</a></td>");
-    // printf("<td><a href=\"?quiz=trails&action=insertDummy\">Insert dummy data</a></td>");
     printf("</tr>\n");
     printf("</table>\n");
     printf("<hr>\n");
@@ -127,40 +124,34 @@ int main(int argc, char **argv) {
         if (x->param.isEmpty()) {
             printf("<p>No action selected.</p>\n");
         } else if (paramIs("action", "insert") && paramIs("quiz_id", "2222")) { // real insert by frontend
-            Hoops::HoopsRecord rec = Hoops::getPayload(x);
-            if (Hoops::insertRecord(&rec)) {
+            try {
+                Hoops::HoopsRecord rec = Hoops::getPayload(x);
+                Hoops::insertRecord(&rec);
                 printf("<p>insert succeeded</p>\n");
-            } else {
+            } catch (...) {
                 printf("<p>insert did not succeed...</p>\n");
             }
         } else if (paramIs("action", "insert") && paramIs("quiz_id", "1111")) {
-            Matrix::MatrixRecord rec = Matrix::getPayload(x);
-            if (Matrix::insertRecord(&rec)) {
+            try {
+                Matrix::MatrixRecord rec = Matrix::getPayload(x);
+                Matrix::insertRecord(&rec);
                 printf("<p>insert succeeded</p>\n");
-            } else {
+            } catch (...) {
                 printf("<p>insert did not succeed...</p>\n");
             }
         } else if (paramIs("action", "insert") && paramIs("quiz_id", "3333")) {
             try {
                 Trails::TrailsRecord rec = Trails::getPayload(x);
                 Trails::insertRecord(&rec);
+                printf("<p>insert succeeded</p>\n");
             } catch (...) {
                 printf("<p>insert did not succeed...</p>\n");
             }
-            // Trails::TrailsRecord rec = Trails::getPayload(x);
-            // if (Trails::insertRecord(&rec)) {
-            //     printf("<p>insert succeeded</p>\n");
-            // } else {
-            //     printf("<p>insert did not succeed...</p>\n");
-            // }
         } else if (paramIs("action", "insertDummy") && paramIs("quiz", "hoops")) {
-            //Hoops::testInsert();
             printf("<p>Not implemented</p>\n");
         } else if (paramIs("action", "insertDummy") && paramIs("quiz", "matrix")) {
-            //Matrix::testInsert();
             printf("<p>Not implemented</p>\n");
         } else if (paramIs("action", "insertDummy") && paramIs("quiz", "trails")) {
-            //Matrix::testInsert();
             printf("<p>Not implemented</p>\n");
         } else if (paramIs("action", "view") && paramIs("quiz", "hoops")) {
             Hoops::getRecords();
@@ -169,7 +160,6 @@ int main(int argc, char **argv) {
             Matrix::getRecords();
             Matrix::printRecords();
         } else if (paramIs("action", "view") && paramIs("quiz", "trails")) {
-            //printf("<p>Not yet implemented...</p>\n");
             Trails::getRecords();
             Trails::printRecords();
         } else {

@@ -85,6 +85,10 @@ Trails::TrailsRecord Trails::getPayload(XCGI * x) { // get responses from fronte
     IFDEBUG printf("<code>this is getPayload() in %s.<br />\n", __FILE__); //int np = x->param.count();
     TrailsRecord rec;
     rec.sesh_id = x->getParamAsInt("sesh_id"); // up to date xcgi.cpp/h has getParam, paramExists, but not this copy
+    if (0 == rec.sesh_id) { // something went wrong, e.g. didn't get form data
+        throw "Form data error";
+    }
+    IFDEBUG printf("sesh_id: %d", rec.sesh_id);
     rec.tinstruct.set(x->param.getString("tinstruct").c_str()); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
     rec.tstart.set(x->param.getString("tstart").c_str()); //nowString().c_str());
     rec.tfinish.set(x->param.getString("tfinish").c_str());

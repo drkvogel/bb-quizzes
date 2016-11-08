@@ -26,20 +26,6 @@ void Matrix::printAnswer(MatrixAnswer & ans) {
 }
 
 void Matrix::parseResponses(MatrixRecord *rec) {
-//     char buf[1600];
-//     strcpy(buf, e->responses.c_str());
-//     const nx_json* json = nx_json_parse(buf, 0);
-// 
-//     if (json) {
-//         const nx_json* arr = nx_json_get(json, "array");
-//         for (int i = 0; i < arr->length; i++) {
-//             const nx_json* item = nx_json_item(arr, i);
-//             printf("arr[%d]=(%d) %ld %lf %s\n", i, (int)item->type, item->int_value, item->dbl_value, item->text_value);
-//         }
-//         nx_json_free(json);
-//     } else {
-//         throw "Error parsing JSON";
-//     }
     printf("<code>parseResponses():");
     try {
         char buf[1600]; int idx = 0;
@@ -51,7 +37,7 @@ void Matrix::parseResponses(MatrixRecord *rec) {
         //printf("got json node type: %s, arr->length: %d<br />", nx_json_type_names[arr->type], arr->length);
         printf("ntests reported by payload: %d; number of tests in responses JSON blob: %d<br />", rec->ntests, arr->length);
         if (rec->ntests != arr->length) {
-            char * errmsg = "<p>ERROR: rec->ntests != arr->length</p>"; 
+            char * errmsg = "<p>ERROR: rec->ntests != arr->length</p>";
             printf("%s", errmsg); throw errmsg;
         }
         for (int i=0; i < arr->length; i++) {
@@ -81,6 +67,9 @@ Matrix::MatrixRecord Matrix::getPayload(XCGI * x) { // get responses from fronte
     printf("<code>this is getPayload() in %s.<br />\n", __FILE__); //int np = x->param.count();
     MatrixRecord rec;
     rec.sesh_id = x->getParamAsInt("sesh_id"); // up to date xcgi.cpp/h has getParam, paramExists, but not this copy
+    if (0 == rec.sesh_id) { // something went wrong, e.g. didn't get form data
+        throw "Form data error";
+    }
     rec.tinstruct.set(x->param.getString("tinstruct").c_str()); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
     rec.tstart.set(x->param.getString("tstart").c_str()); //nowString().c_str());
     rec.tfinish.set(x->param.getString("tfinish").c_str());
@@ -212,7 +201,7 @@ void Matrix::printRecords() {
     printf("<table border=\"1\" cellspacing=\"0\">\n");
 
     // column headers
-    printf("<thead><td>sesh_id</td><td>tinstruct</td><td>tstart</td><td>tfinish</td>\n"); 
+    printf("<thead><td>sesh_id</td><td>tinstruct</td><td>tstart</td><td>tfinish</td>\n");
     printf("<td>responses</td><td>ntests</td>");
     for (int i = 1; i <= MAX_LEVELS; i++) {
         printf("<td>duration%d</td><td>elapsed%d</td><td>answer%d</td><td>correct%d</td>", i, i, i, i, i);
