@@ -38,7 +38,7 @@ void Hoops::printHoopsAnswer(HoopsAnswer & ans) {
 void Hoops::parseResponses(HoopsRecord *rec) {
     printf("<code>parseResponses():");
     try {
-        char buf[1600]; int idx = 0;
+        char * buf = new char[rec->responses.length() + 1];
         strcpy(buf, rec->responses.c_str()); // nxson modifies string in place, don't destroy original responses
         const nx_json* arr = nx_json_parse(buf, 0);
         if (!arr) {
