@@ -151,7 +151,7 @@ bool Hoops::insertRecord(const HoopsRecord *rec) {
         " )\n";
     //printf("made sql...\n");
     XEXEC xe(db, sql);
-    IFDEBUG printf("made XEXEC object...\n");
+    // IFDEBUG printf("made XEXEC object...\n");
 
     xe.param.setInt("sesh_id",       rec->sesh_id);
     xe.param.setTime("tinstruct",    rec->tinstruct);
@@ -160,7 +160,7 @@ bool Hoops::insertRecord(const HoopsRecord *rec) {
     xe.param.setString("responses",  rec->responses);
     xe.param.setInt("ntests",        rec->ntests);
 
-    IFDEBUG printf("added header fields...<br />\n");
+    // IFDEBUG printf("added header fields...<br />\n");
     //printf("tinstruct: '%s', tstart: '%s', tfinish: '%s'...", rec->tinstruct.iso().c_str(), rec->tstart.iso().c_str(), rec->tfinish.iso().c_str());
     char fieldname[12];
 
@@ -258,29 +258,29 @@ void Hoops::printRecord(Hoops::HoopsRecord rec) {
     printf("</tr>\n");
 }
 
-void Hoops::testInsert() { // insert some dummy data
-    HoopsRecord rec;
-    rec.sesh_id = -1;//x->param.getIntDefault("sesh_id", -1);
-    rec.ntests = -1; //x->param.getIntDefault("ntests", -1);
-    rec.tinstruct.set("2000-01-01T00:00:00"); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
-    rec.tstart.set("2000-01-01T00:00:00");
-    rec.tfinish.set("2000-01-01T00:00:00");
-    rec.responses = "[{\"puzzle\":\"t3w2by1.png\",\"answer\":\"4\",\"correct\":false,\"time\":761},{\"puzzle\":\"t3yw2b1.png\",\"answer\":\"4\",\"correct\":false,\"time\":628},{\"puzzle\":\"t32by1w.png\",\"answer\":\"4\",\"correct\":false,\"time\":3380},{\"puzzle\":\"t3bw21y.png\",\"answer\":\"4\",\"correct\":false,\"time\":509},{\"puzzle\":\"t3y2wb1.png\",\"answer\":\"4\",\"correct\":true,\"time\":320},{\"puzzle\":\"t3w2b1y.png\",\"answer\":\"4\",\"correct\":false,\"time\":401},{\"puzzle\":\"t3y2b1w.png\",\"answer\":\"4\",\"correct\":false,\"time\":384},{\"puzzle\":\"t3yw21b.png\",\"answer\":\"4\",\"correct\":false,\"time\":369},{\"puzzle\":\"t32wy1b.png\",\"answer\":\"4\",\"correct\":false,\"time\":354},{\"puzzle\":\"t3w2yb1.png\",\"answer\":\"4\",\"correct\":false,\"time\":369},{\"puzzle\":\"t3w2y1b.png\",\"answer\":\"4\",\"correct\":false,\"time\":333},{\"puzzle\":\"t3wy2b1.png\",\"answer\":\"4\",\"correct\":false,\"time\":394},{\"puzzle\":\"t3wb2y1.png\",\"answer\":\"4\",\"correct\":true,\"time\":364},{\"puzzle\":\"t32yb1w.png\",\"answer\":\"4\",\"correct\":true,\"time\":385},{\"puzzle\":\"t3ywb21.png\",\"answer\":\"4\",\"correct\":false,\"time\":358},{\"puzzle\":\"t3yb21w.png\",\"answer\":\"4\",\"correct\":true,\"time\":452},{\"puzzle\":\"t3ybw21.png\",\"answer\":\"4\",\"correct\":false,\"time\":376},{\"puzzle\":\"t3wyb21.png\",\"answer\":\"4\",\"correct\":false,\"time\":384}]";
-    for (int i=0; i<MAX_LEVELS; i++) { // fill remainder
-        HoopsAnswer ans;
-        ans.duration = -1;
-        ans.puzzle = -1;
-        ans.elapsed = -1;
-        ans.answer = -1;
-        ans.correct = -1;
-        rec.answers.push_back(ans);
-    }
-    if (Hoops::insertRecord(&rec)) {
-        printf("<p>Dummy data inserted.</p>\n");
-    } else {
-        printf("<p>Not inserted!</p>\n");
-    }
-}
+// void Hoops::testInsert() { // insert some dummy data
+//     HoopsRecord rec;
+//     rec.sesh_id = -1;//x->param.getIntDefault("sesh_id", -1);
+//     rec.ntests = -1; //x->param.getIntDefault("ntests", -1);
+//     rec.tinstruct.set("2000-01-01T00:00:00"); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
+//     rec.tstart.set("2000-01-01T00:00:00");
+//     rec.tfinish.set("2000-01-01T00:00:00");
+//     rec.responses = "[{\"puzzle\":\"t3w2by1.png\",\"answer\":\"4\",\"correct\":false,\"time\":761},{\"puzzle\":\"t3yw2b1.png\",\"answer\":\"4\",\"correct\":false,\"time\":628},{\"puzzle\":\"t32by1w.png\",\"answer\":\"4\",\"correct\":false,\"time\":3380},{\"puzzle\":\"t3bw21y.png\",\"answer\":\"4\",\"correct\":false,\"time\":509},{\"puzzle\":\"t3y2wb1.png\",\"answer\":\"4\",\"correct\":true,\"time\":320},{\"puzzle\":\"t3w2b1y.png\",\"answer\":\"4\",\"correct\":false,\"time\":401},{\"puzzle\":\"t3y2b1w.png\",\"answer\":\"4\",\"correct\":false,\"time\":384},{\"puzzle\":\"t3yw21b.png\",\"answer\":\"4\",\"correct\":false,\"time\":369},{\"puzzle\":\"t32wy1b.png\",\"answer\":\"4\",\"correct\":false,\"time\":354},{\"puzzle\":\"t3w2yb1.png\",\"answer\":\"4\",\"correct\":false,\"time\":369},{\"puzzle\":\"t3w2y1b.png\",\"answer\":\"4\",\"correct\":false,\"time\":333},{\"puzzle\":\"t3wy2b1.png\",\"answer\":\"4\",\"correct\":false,\"time\":394},{\"puzzle\":\"t3wb2y1.png\",\"answer\":\"4\",\"correct\":true,\"time\":364},{\"puzzle\":\"t32yb1w.png\",\"answer\":\"4\",\"correct\":true,\"time\":385},{\"puzzle\":\"t3ywb21.png\",\"answer\":\"4\",\"correct\":false,\"time\":358},{\"puzzle\":\"t3yb21w.png\",\"answer\":\"4\",\"correct\":true,\"time\":452},{\"puzzle\":\"t3ybw21.png\",\"answer\":\"4\",\"correct\":false,\"time\":376},{\"puzzle\":\"t3wyb21.png\",\"answer\":\"4\",\"correct\":false,\"time\":384}]";
+//     for (int i=0; i<MAX_LEVELS; i++) { // fill remainder
+//         HoopsAnswer ans;
+//         ans.duration = -1;
+//         ans.puzzle = -1;
+//         ans.elapsed = -1;
+//         ans.answer = -1;
+//         ans.correct = -1;
+//         rec.answers.push_back(ans);
+//     }
+//     if (Hoops::insertRecord(&rec)) {
+//         printf("<p>Dummy data inserted.</p>\n");
+//     } else {
+//         printf("<p>Not inserted!</p>\n");
+//     }
+// }
 
     //printf("<code>there are %d params</code>", np);
     //printf("<p>sesh_id (string param): '%s'</p>", x->param.getStringDefault("sesh_id", "(default)").c_str()); // should be getInt? no, use getString and convert
