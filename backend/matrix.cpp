@@ -6,6 +6,9 @@
 #include "bbquiz.h"
 #include "nxjson.h"
 
+const bool DEBUG = true;
+#define IFDEBUG if (DEBUG)
+
 Matrix::vecRecord MatrixRecords;
 
 void Matrix::printJSONAnswer(const nx_json* node) {
@@ -26,7 +29,7 @@ void Matrix::printAnswer(MatrixAnswer & ans) {
 }
 
 void Matrix::parseResponses(MatrixRecord *rec) {
-    printf("<code>parseResponses():");
+    IFDEBUG printf("<code>parseResponses():");
     try {
         char buf[1600]; int idx = 0;
         strcpy(buf, rec->responses.c_str()); // nxson modifies string in place, don't destroy original responses
@@ -35,9 +38,9 @@ void Matrix::parseResponses(MatrixRecord *rec) {
             printf("didn't get json<br />"); throw "Error parsing JSON";
         }
         //printf("got json node type: %s, arr->length: %d<br />", nx_json_type_names[arr->type], arr->length);
-        printf("ntests reported by payload: %d; number of tests in responses JSON blob: %d<br />", rec->ntests, arr->length);
+        IFDEBUG printf("ntests reported by payload: %d; number of tests in responses JSON blob: %d<br />", rec->ntests, arr->length);
         if (rec->ntests != arr->length) {
-            char * errmsg = "<p>ERROR: rec->ntests != arr->length</p>";
+            const char * errmsg = "<p>ERROR: rec->ntests != arr->length</p>";
             printf("%s", errmsg); throw errmsg;
         }
         for (int i=0; i < arr->length; i++) {
@@ -49,11 +52,6 @@ void Matrix::parseResponses(MatrixRecord *rec) {
             if (ans.elapsed > SMALLINT_MAX) ans.elapsed = -2;
             ans.answer      = nx_json_get(item, "answer"    )->int_value; // Answer given by user
             ans.correct     = nx_json_get(item, "correct"   )->int_value; // Correct answer
-            //ans.puzzle      = nx_json_get(item, "puzzle"    )->int_value; // Puzzle chosen by algorithm, as number
-            //printf("%d ", nx_json_get(item, "count")->int_value);
-            //printf("elapsed: %d<br />", nx_json_get(item, "elapsed")->int_value);
-            //printJSONAnswer(item);
-            //printHoopsAnswer(ans);
             rec->answers.push_back(ans);
         }
         nx_json_free(arr);
@@ -62,9 +60,14 @@ void Matrix::parseResponses(MatrixRecord *rec) {
     }
     printf("</code>\n");
 }
+            //ans.puzzle      = nx_json_get(item, "puzzle"    )->int_value; // Puzzle chosen by algorithm, as number
+            //printf("%d ", nx_json_get(item, "count")->int_value);
+            //printf("elapsed: %d<br />", nx_json_get(item, "elapsed")->int_value);
+            //printJSONAnswer(item);
+            //printHoopsAnswer(ans);
 
 Matrix::MatrixRecord Matrix::getPayload(XCGI * x) { // get responses from frontend
-    printf("<code>this is getPayload() in %s.<br />\n", __FILE__); //int np = x->param.count();
+    IFDEBUG printf("<code>this is getPayload() in %s.<br />\n", __FILE__); //int np = x->param.count();
     MatrixRecord rec;
     rec.sesh_id = x->getParamAsInt("sesh_id"); // up to date xcgi.cpp/h has getParam, paramExists, but not this copy
     if (0 == rec.sesh_id) { // something went wrong, e.g. didn't get form data
@@ -75,11 +78,11 @@ Matrix::MatrixRecord Matrix::getPayload(XCGI * x) { // get responses from fronte
     rec.tfinish.set(x->param.getString("tfinish").c_str());
     //printf("<p>tinstruct.iso(): '%s', tstart.iso(): '%s', tfinish.iso(): '%s'</p>", rec.tinstruct.iso().c_str(), rec.tstart.iso().c_str(), rec.tfinish.iso().c_str());
     rec.responses = x->param.getString("responses");
-    printf("<p>responses:</p><pre>%s</pre>\n", rec.responses.c_str());
+    IFDEBUG printf("<p>responses:</p><pre>%s</pre>\n", rec.responses.c_str());
     rec.ntests = x->getParamAsInt("ntests");
     parseResponses(&rec); // rec.ntests can be determined from responses? or should be passed from frontend and checked
-    printf("sesh_id: %d", rec.sesh_id);
-    printf("<p>done</p>\n");
+    IFDEBUG printf("sesh_id: %d", rec.sesh_id);
+    IFDEBUG printf("<p>done</p>\n");
     return rec;
 }
 void Matrix::testInsert() {
@@ -87,7 +90,7 @@ void Matrix::testInsert() {
 }
 
 bool Matrix::insertRecord(const MatrixRecord *rec) {
-    printf("<p><code>Matrix::insertRecord()</p>\n");
+    IFDEBUG printf("<p><code>Matrix::insertRecord()</p>\n");
     std::string sql =
         "INSERT INTO matrix (sesh_id, tinstruct, tstart, tfinish, tinsert, "
         " ntests,responses, "
@@ -134,7 +137,7 @@ bool Matrix::insertRecord(const MatrixRecord *rec) {
     xe.param.setTime("tfinish",      rec->tfinish);
     xe.param.setInt("ntests",        rec->ntests);
     xe.param.setString("responses",  rec->responses);
-    printf("added header fields...<br />\n");
+    //IFDEBUG printf("added header fields...<br />\n");
     //printf("tinstruct: '%s', tstart: '%s', tfinish: '%s'...", rec->tinstruct.iso().c_str(), rec->tstart.iso().c_str(), rec->tfinish.iso().c_str());
     char fieldname[12];
 
@@ -147,7 +150,7 @@ bool Matrix::insertRecord(const MatrixRecord *rec) {
         sprintf(fieldname, "answer%d", i+1);    xe.param.setInt(fieldname,  rec->answers[i].answer);
         sprintf(fieldname, "correct%d", i+1);   xe.param.setInt(fieldname,  rec->answers[i].correct);
     }
-    printf("added %d answered puzzles...<br />\n", rec->answers.size());
+    IFDEBUG printf("added %d answered puzzles...<br />\n", rec->answers.size());
 
     // insert 'nulls' (-1) for the rest explicitly, otherwise fields have to have defaults
     for (int i = rec->answers.size()+1; i <= MAX_LEVELS; i++) {
@@ -157,21 +160,21 @@ bool Matrix::insertRecord(const MatrixRecord *rec) {
         sprintf(fieldname, "answer%d", i);      xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
         sprintf(fieldname, "correct%d", i);     xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
     }
-    printf("added %d null records...\n", MAX_LEVELS - rec->answers.size());
+    IFDEBUG printf("added %d null records...\n", MAX_LEVELS - rec->answers.size());
     //printf("<p>sql:</p><code>%s</code> ", sql.c_str());
-    printf("</p></code>\n");
+    IFDEBUG printf("</p></code>\n");
     return (xe.exec());
 }
 
 void Matrix::getRecords() {
     std::string sql = "SELECT * FROM matrix";
     XQUERY q(db, sql);
-    printf("<p>this is %s</p>\n", __FILE__);
+    IFDEBUG printf("<p>this is %s</p>\n", __FILE__);
     if (!q.open()) {
         printf("Database error");
         throw "Database error";
     } else {
-        printf("Database open");
+        IFDEBUG printf("Database open");
     }
     while (q.fetch()) {
         MatrixRecord rec;

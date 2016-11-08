@@ -9,6 +9,9 @@ using namespace std;
 
 // Hoops::MAX_LEVELS = 18;
 
+const bool DEBUG = true;
+#define IFDEBUG if (DEBUG)
+
 Hoops::vecHoopsRecord records;
 
 const char * nx_json_type_names[] = {
@@ -41,8 +44,8 @@ void Hoops::parseResponses(HoopsRecord *rec) {
         if (!arr) {
             printf("didn't get json<br />"); throw "Error parsing JSON";
         }
-        printf("got json node type: %s, arr->length: %d<br />", nx_json_type_names[arr->type], arr->length);
-        printf("ntests reported by payload: %d; number of tests in responses JSON blob: %d<br />", rec->ntests, arr->length);
+        IFDEBUG printf("got json node type: %s, arr->length: %d<br />", nx_json_type_names[arr->type], arr->length);
+        IFDEBUG printf("ntests reported by payload: %d; number of tests in responses JSON blob: %d<br />", rec->ntests, arr->length);
         if (rec->ntests != arr->length) {
             const char * errmsg = "<p>ERROR: rec->ntests != arr->length</p>";
             printf("%s", errmsg); throw errmsg;
@@ -57,8 +60,8 @@ void Hoops::parseResponses(HoopsRecord *rec) {
             if (ans.elapsed > SMALLINT_MAX) ans.elapsed = -2;
             ans.answer      = nx_json_get(item, "answer"    )->int_value; // Answer given by user
             ans.correct     = nx_json_get(item, "correct"   )->int_value; // Correct answer
-            //printf("%d ", nx_json_get(item, "count")->int_value);
-            //printf("elapsed: %d<br />", nx_json_get(item, "elapsed")->int_value);
+            //IFDEBUG printf("%d ", nx_json_get(item, "count")->int_value);
+            //IFDEBUG printf("elapsed: %d<br />", nx_json_get(item, "elapsed")->int_value);
             //printJSONAnswer(item);
             //printHoopsAnswer(ans);
             rec->answers.push_back(ans);
@@ -79,7 +82,7 @@ string nowString() { // UNIX time in seconds
 }
 
 Hoops::HoopsRecord Hoops::getPayload(XCGI * x) { // get responses from frontend
-    printf("<code>this is getPayload() in %s.<br />\n", __FILE__); //int np = x->param.count();
+    IFDEBUG printf("<code>this is getPayload() in %s.<br />\n", __FILE__); //int np = x->param.count();
 
     HoopsRecord rec;
     rec.sesh_id = x->getParamAsInt("sesh_id"); // up to date xcgi.cpp/h has getParam, paramExists, but not this copy
@@ -89,20 +92,20 @@ Hoops::HoopsRecord Hoops::getPayload(XCGI * x) { // get responses from frontend
     rec.tinstruct.set(x->param.getString("tinstruct").c_str()); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
     rec.tstart.set(x->param.getString("tstart").c_str()); //nowString().c_str());
     rec.tfinish.set(x->param.getString("tfinish").c_str());
-    printf("<p>tinstruct.iso(): '%s'<br />tstart.iso(): '%s'<br />tfinish.iso(): '%s'<br />",
+    IFDEBUG printf("<p>tinstruct.iso(): '%s'<br />tstart.iso(): '%s'<br />tfinish.iso(): '%s'<br />",
         rec.tinstruct.iso().c_str(), rec.tstart.iso().c_str(), rec.tfinish.iso().c_str());
     rec.responses = x->param.getString("responses");
-    printf("<p>responses:</p><pre>%s</pre>\n", rec.responses.c_str());
+    IFDEBUG printf("<p>responses:</p><pre>%s</pre>\n", rec.responses.c_str());
     rec.ntests = x->getParamAsInt("ntests");
     parseResponses(&rec); // rec.ntests can be determined from responses? or should be passed from frontend and checked
 
-    printf("sesh_id: %d", rec.sesh_id);
-    printf("<p>done</p>\n");
+    IFDEBUG printf("sesh_id: %d", rec.sesh_id);
+    IFDEBUG printf("<p>done</p>\n");
     return rec;
 }
 
 bool Hoops::insertRecord(const HoopsRecord *rec) {
-    printf("<p><code>Hoops::insertRecord()</p>\n");
+    IFDEBUG printf("<p><code>Hoops::insertRecord()</p>\n");
     std::string sql =
         "INSERT INTO hoops (sesh_id, ntests, tinstruct, tstart, tfinish, tinsert,"
         " responses,"
@@ -148,7 +151,7 @@ bool Hoops::insertRecord(const HoopsRecord *rec) {
         " )\n";
     //printf("made sql...\n");
     XEXEC xe(db, sql);
-    printf("made XEXEC object...\n");
+    IFDEBUG printf("made XEXEC object...\n");
 
     xe.param.setInt("sesh_id",       rec->sesh_id);
     xe.param.setTime("tinstruct",    rec->tinstruct);
@@ -157,7 +160,7 @@ bool Hoops::insertRecord(const HoopsRecord *rec) {
     xe.param.setString("responses",  rec->responses);
     xe.param.setInt("ntests",        rec->ntests);
 
-    printf("added header fields...<br />\n");
+    IFDEBUG printf("added header fields...<br />\n");
     //printf("tinstruct: '%s', tstart: '%s', tfinish: '%s'...", rec->tinstruct.iso().c_str(), rec->tstart.iso().c_str(), rec->tfinish.iso().c_str());
     char fieldname[12];
 
@@ -171,7 +174,7 @@ bool Hoops::insertRecord(const HoopsRecord *rec) {
         sprintf(fieldname, "answer%d", i+1);    xe.param.setInt(fieldname,  rec->answers[i].answer);
         sprintf(fieldname, "correct%d", i+1);   xe.param.setInt(fieldname,  rec->answers[i].correct);
     }
-    printf("added %d answered puzzles...<br />\n", rec->answers.size());
+    IFDEBUG printf("added %d answered puzzles...<br />\n", rec->answers.size());
 
     // insert 'nulls' (-1) for the rest explicitly, otherwise fields have to have defaults
     for (int i = rec->answers.size()+1; i <= MAX_LEVELS; i++) {
@@ -181,9 +184,9 @@ bool Hoops::insertRecord(const HoopsRecord *rec) {
         sprintf(fieldname, "answer%d", i);      xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
         sprintf(fieldname, "correct%d", i);     xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
     }
-    printf("added %d null records...<br />\n", MAX_LEVELS - rec->answers.size());
+    IFDEBUG printf("added %d null records...<br />\n", MAX_LEVELS - rec->answers.size());
     //printf("<p>sql:</p><code>%s</code> ", sql.c_str());
-    printf("</code>\n");
+    IFDEBUG printf("</code>\n");
     return (xe.exec());
 }
 
@@ -191,11 +194,11 @@ void Hoops::getRecords() {
     records.clear();
     std::string sql = "SELECT * FROM hoops";
     XQUERY q(db, sql);
-    printf("this is %s<br />\n", __FILE__);
+    IFDEBUG printf("this is %s<br />\n", __FILE__);
     if (!q.open()) {
         printf("Database error"); throw "Database error";
     } else {
-        printf("Database open");
+        IFDEBUG printf("Database open");
     }
     while (q.fetch()) {
         HoopsRecord rec;
