@@ -3,9 +3,13 @@
 Sat Nov 05 21:13:30 2016
 oqs.ndph.ox.ac.uk is online
 
+---
+
 submit from l151-vlubuntu didn't work - "didn't get json"
 should have bombed out at that point, instead of trying to insert into db
-POST blocked on oqsweb?
+POST blocked on oqsweb? nope. happens from q108 (Windows) as well - when test not complete
+
+
 
 ```
 BB Quizzes Backend
