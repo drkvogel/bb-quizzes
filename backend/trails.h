@@ -9,12 +9,18 @@ extern XDB *db;
 
 namespace Trails {
     const short MAX_LEVELS = 18;
+
+    // element: element,                      // id of element clicked on by user
+        // needed? can be determined by position in list
+    // duration: timer.getElapsed(),          // Time taken to click on next correct element
+    // wrongClicks: wrongClicks,              // number of wrong clicks before correct
+    // puzzle: page.name,                     // name of puzzle/practice
+    // elapsed: timerWholeTest.getElapsed()
     typedef struct {
+        std::string puzzle;
         int duration;
-        int puzzle;
         int elapsed;
-        int answer;
-        int correct;
+        int wrongClicks;
     } TrailsAnswer;
     typedef std::vector< TrailsAnswer > vecTrailsAnswer;
 

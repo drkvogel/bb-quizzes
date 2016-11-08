@@ -30,8 +30,8 @@ void Trails::printJSONAnswer(const nx_json* node) {
 }
 
 void Trails::printTrailsAnswer(TrailsAnswer & ans) {
-    printf("ans: duration: %d, puzzle: %d, elapsed: %d, answer: %d, correct: %d<br />\n",
-            ans.duration, ans.puzzle, ans.elapsed, ans.answer, ans.correct);
+    printf("ans: puzzle: %d, wrongClicks: %d, duration: %d, elapsed: %d<br />\n",
+            ans.puzzle.c_str(), ans.wrongClicks, ans.duration, ans.elapsed);
 }
 
 void Trails::parseResponses(TrailsRecord *rec) {
@@ -39,6 +39,7 @@ void Trails::parseResponses(TrailsRecord *rec) {
     try {
         char * buf = new char[rec->responses.length() + 1];
         strcpy(buf, rec->responses.c_str()); // nxson modifies string in place, don't destroy original responses
+            // db row may be fixed width, but user might not have finished
         const nx_json* arr = nx_json_parse(buf, 0); // needs char *, not const
         if (!arr) {
             printf("didn't get json<br />"); throw "Error parsing JSON";
@@ -49,16 +50,33 @@ void Trails::parseResponses(TrailsRecord *rec) {
             const char * errmsg = "<p>ERROR: rec->ntests != arr->length</p>";
             printf("%s", errmsg); throw errmsg;
         }
+
+        // element: element,                      // id of element clicked on by user
+        // duration: timer.getElapsed(),          // Time taken to click on next correct element
+        // wrongClicks: wrongClicks,              // number of wrong clicks before correct
+        // puzzle: page.name,                     // name of puzzle/practice
+        // elapsed: timerWholeTest.getElapsed()
+        // int puzzle;
+        // int wrongClicks;
+        // int duration;
+        // int elapsed;
+
+// (1) INT2 capped at 9999 (16 mins): time it was correctly clicked (deciseconds); Absolute time since the screen was first displayed.
+// (2) INT1 capped at 99: number of incorrect clicks made between previous circle and this one.
+// SMALLINT_MAX
+#define MAX_DURATION 9999
+#define MAX_WRONGCLICKS 99
         for (int i=0; i < arr->length; i++) {
             const nx_json* item = nx_json_item(arr, i);
             TrailsAnswer ans;
-            ans.puzzle      = nx_json_get(item, "puzzle"    )->int_value; // Puzzle chosen by algorithm, as number
-            ans.duration    = nx_json_get(item, "duration"  )->int_value / 10; // Time taken to answer puzzle
-            if (ans.duration > SMALLINT_MAX) ans.duration = -2;
-            ans.elapsed     = nx_json_get(item, "elapsed"   )->int_value / 10; // Cumulative time elapsed since start of test, in deciseconds
-            if (ans.elapsed > SMALLINT_MAX) ans.elapsed = -2;
-            ans.answer      = nx_json_get(item, "answer"    )->int_value; // Answer given by user
-            ans.correct     = nx_json_get(item, "correct"   )->int_value; // Correct answer
+            ans.puzzle      = nx_json_get(item, "puzzle"        )->text_value; // Puzzle chosen by algorithm, as number
+            ans.wrongClicks = nx_json_get(item, "wrongClicks"   )->int_value; // Correct answer
+            ans.duration    = nx_json_get(item, "duration"      )->int_value / 10; // / 10 ?? Time taken to answer puzzle
+            ans.elapsed     = nx_json_get(item, "elapsed"       )->int_value / 10; // Cumulative time elapsed since start of test, in deciseconds
+                // cap?
+            if (ans.wrongClicks > MAX_WRONGCLICKS) ans.wrongClicks = MAX_WRONGCLICKS; // cap
+            if (ans.duration > MAX_DURATION) ans.duration = MAX_DURATION; // cap
+            // ans.answer      = nx_json_get(item, "answer"    )->int_value; // Answer given by user
             //printf("%d ", nx_json_get(item, "count")->int_value);
             //printf("elapsed: %d<br />", nx_json_get(item, "elapsed")->int_value);
             //printJSONAnswer(item);
@@ -218,29 +236,28 @@ void Trails::printRecord(Trails::TrailsRecord rec) {
     printf("</tr>\n");
 }
 
-void Trails::testInsert() { // insert some dummy data
-    TrailsRecord rec;
-    rec.sesh_id = -1;//x->param.getIntDefault("sesh_id", -1);
-    rec.ntests = -1; //x->param.getIntDefault("ntests", -1);
-    rec.tinstruct.set("2000-01-01T00:00:00"); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
-    rec.tstart.set("2000-01-01T00:00:00");
-    rec.tfinish.set("2000-01-01T00:00:00");
-    rec.responses = "[{\"puzzle\":\"t3w2by1.png\",\"answer\":\"4\",\"correct\":false,\"time\":761},{\"puzzle\":\"t3yw2b1.png\",\"answer\":\"4\",\"correct\":false,\"time\":628},{\"puzzle\":\"t32by1w.png\",\"answer\":\"4\",\"correct\":false,\"time\":3380},{\"puzzle\":\"t3bw21y.png\",\"answer\":\"4\",\"correct\":false,\"time\":509},{\"puzzle\":\"t3y2wb1.png\",\"answer\":\"4\",\"correct\":true,\"time\":320},{\"puzzle\":\"t3w2b1y.png\",\"answer\":\"4\",\"correct\":false,\"time\":401},{\"puzzle\":\"t3y2b1w.png\",\"answer\":\"4\",\"correct\":false,\"time\":384},{\"puzzle\":\"t3yw21b.png\",\"answer\":\"4\",\"correct\":false,\"time\":369},{\"puzzle\":\"t32wy1b.png\",\"answer\":\"4\",\"correct\":false,\"time\":354},{\"puzzle\":\"t3w2yb1.png\",\"answer\":\"4\",\"correct\":false,\"time\":369},{\"puzzle\":\"t3w2y1b.png\",\"answer\":\"4\",\"correct\":false,\"time\":333},{\"puzzle\":\"t3wy2b1.png\",\"answer\":\"4\",\"correct\":false,\"time\":394},{\"puzzle\":\"t3wb2y1.png\",\"answer\":\"4\",\"correct\":true,\"time\":364},{\"puzzle\":\"t32yb1w.png\",\"answer\":\"4\",\"correct\":true,\"time\":385},{\"puzzle\":\"t3ywb21.png\",\"answer\":\"4\",\"correct\":false,\"time\":358},{\"puzzle\":\"t3yb21w.png\",\"answer\":\"4\",\"correct\":true,\"time\":452},{\"puzzle\":\"t3ybw21.png\",\"answer\":\"4\",\"correct\":false,\"time\":376},{\"puzzle\":\"t3wyb21.png\",\"answer\":\"4\",\"correct\":false,\"time\":384}]";
-    for (int i=0; i<MAX_LEVELS; i++) { // fill remainder
-        TrailsAnswer ans;
-        ans.duration = -1;
-        ans.puzzle = -1;
-        ans.elapsed = -1;
-        ans.answer = -1;
-        ans.correct = -1;
-        rec.answers.push_back(ans);
-    }
-    if (Trails::insertRecord(&rec)) {
-        printf("<p>Dummy data inserted.</p>\n");
-    } else {
-        printf("<p>Not inserted!</p>\n");
-    }
-}
+// void Trails::testInsert() { // insert some dummy data
+//     TrailsRecord rec;
+//     rec.sesh_id = -1;//x->param.getIntDefault("sesh_id", -1);
+//     rec.ntests = -1; //x->param.getIntDefault("ntests", -1);
+//     rec.tinstruct.set("2000-01-01T00:00:00"); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
+//     rec.tstart.set("2000-01-01T00:00:00");
+//     rec.tfinish.set("2000-01-01T00:00:00");
+//     rec.responses = "[{\"puzzle\":\"t3w2by1.png\",\"answer\":\"4\",\"correct\":false,\"time\":761},{\"puzzle\":\"t3yw2b1.png\",\"answer\":\"4\",\"correct\":false,\"time\":628},{\"puzzle\":\"t32by1w.png\",\"answer\":\"4\",\"correct\":false,\"time\":3380},{\"puzzle\":\"t3bw21y.png\",\"answer\":\"4\",\"correct\":false,\"time\":509},{\"puzzle\":\"t3y2wb1.png\",\"answer\":\"4\",\"correct\":true,\"time\":320},{\"puzzle\":\"t3w2b1y.png\",\"answer\":\"4\",\"correct\":false,\"time\":401},{\"puzzle\":\"t3y2b1w.png\",\"answer\":\"4\",\"correct\":false,\"time\":384},{\"puzzle\":\"t3yw21b.png\",\"answer\":\"4\",\"correct\":false,\"time\":369},{\"puzzle\":\"t32wy1b.png\",\"answer\":\"4\",\"correct\":false,\"time\":354},{\"puzzle\":\"t3w2yb1.png\",\"answer\":\"4\",\"correct\":false,\"time\":369},{\"puzzle\":\"t3w2y1b.png\",\"answer\":\"4\",\"correct\":false,\"time\":333},{\"puzzle\":\"t3wy2b1.png\",\"answer\":\"4\",\"correct\":false,\"time\":394},{\"puzzle\":\"t3wb2y1.png\",\"answer\":\"4\",\"correct\":true,\"time\":364},{\"puzzle\":\"t32yb1w.png\",\"answer\":\"4\",\"correct\":true,\"time\":385},{\"puzzle\":\"t3ywb21.png\",\"answer\":\"4\",\"correct\":false,\"time\":358},{\"puzzle\":\"t3yb21w.png\",\"answer\":\"4\",\"correct\":true,\"time\":452},{\"puzzle\":\"t3ybw21.png\",\"answer\":\"4\",\"correct\":false,\"time\":376},{\"puzzle\":\"t3wyb21.png\",\"answer\":\"4\",\"correct\":false,\"time\":384}]";
+//     for (int i=0; i<MAX_LEVELS; i++) { // fill remainder
+//         TrailsAnswer ans;
+//         ans.puzzle = "";
+//         ans.wrongClicks = -1;
+//         ans.duration = -1;
+//         ans.elapsed = -1;
+//         rec.answers.push_back(ans);
+//     }
+//     if (Trails::insertRecord(&rec)) {
+//         printf("<p>Dummy data inserted.</p>\n");
+//     } else {
+//         printf("<p>Not inserted!</p>\n");
+//     }
+// }
 
     //printf("<code>there are %d params</code>", np);
     //printf("<p>sesh_id (string param): '%s'</p>", x->param.getStringDefault("sesh_id", "(default)").c_str()); // should be getInt? no, use getString and convert

@@ -14,13 +14,13 @@ var LIVE = false, // const? JSHint doesn't like it
     config,
     pages,
     answers = [],
+    wrongClicks = 0,
     current,
     timer,
     timerWholeTest,
     isTimeUp = false,
     nextPageTimeout,
     timeUpTimeout,
-    //enabled = false, // enable UI
     nextCircle = 1,
     puzzle = null,
     seshID = null,
@@ -76,13 +76,11 @@ function timeUp() {
 }
 
 function startTimer(page) {
-    // if (page.type === 'game') {
-    timer.now(); // start timer for all real exercises
-    timerWholeTest.now(); // start timer for the whole test (for "elapsed" field)
+    timer.now(); // start timer for practices *and* real exercises
+    timerWholeTest.now(); // start timer for the whole game (for "elapsed" field)
     config.timeStarted = isoDate();
     console.log('config.timeStarted: ' + config.timeStarted);
     timeUpTimeout = setTimeout(timeUp, config.timeLimit);
-    // }
 }
 
 function containerClick(e) {
@@ -111,13 +109,6 @@ function containerClick(e) {
 function showPage2() {
     $('#pages').on('click', 'button', containerClick); // prevent double-click
     if (currentPage().name === 'thanks') { // redundant?
-        // console.log('currentPage().name === \'thanks\'');
-        // document.getElementById('sesh_id').value = config.seshID;
-        // document.getElementById('tinstruct').value = config.tinstruct;
-        // document.getElementById('tstart').value = config.timeStarted;
-        // document.getElementById('tfinish').value = isoDate(); // now
-        // document.getElementById('ntests').value = answers.length; // number of clicks, more like
-        // document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
         setTimeout(finished, 3000);
     }
     // console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)scaleImages();bind clicks
@@ -229,8 +220,6 @@ function hideModal(modal) {
 }
 
 function finished() {
-    // console.log('finished(): answers: ' + JSON.stringify(answers));
-    // console.log('finished(): auto-submit disabled for testing ' + JSON.stringify(answers));
     clearTimeout(timeUpTimeout);
 
     // fill in form and submit automatically
@@ -245,45 +234,9 @@ function finished() {
         $('*').css('cursor', 'default');
     });
     document.getElementById('feedbackForm').submit(); // action set in init() from config.json
+    console.log('finished(): answers: ' + JSON.stringify(answers));
+    // console.log('finished(): auto-submit disabled for testing ' + JSON.stringify(answers));
 }
-
-// function answered2() {
-//     console.log('answered2()');
-//     if (isTimeUp) {
-//         clearTimeout(nextPageTimeout);
-//         showPage(pageNamed('thanks'));
-//     } else if (currentPage().name.slice(0, 5) === 'intro') {
-//         current += 1;
-//         showPage(currentPage());
-//     } else {
-//         showPage(currentPage());
-//     }
-// }
-
-// function answered(ans) { // TODO
-//     var page = currentPage();
-//     var isCorrect = ans === puzzle.c;
-//     var timeTaken;
-//     if (page.name.slice(0, 2) === 'ex') { // real exercise
-//         timer.lap();
-//         timerWholeTest.lap();
-//         timeTaken = timer.getElapsed();
-//         showTime(timeTaken, isCorrect);
-//         var answer = {
-//             //count: ++puzzleCount,                   // should be number of puzzles taken
-//             duration: timeTaken,                    // Time taken to answer puzzle
-//             //puzzle: puzzle.n,                       // number of puzzle, not image name - config.json should be only mapping
-//             elapsed: timerWholeTest.getElapsed(),   // Cumulative time elapsed
-//             answer: ans                            // Answer given by user, ans should be Number() type
-//             //correct: puzzle.c                       // correct answer, not bool
-//         };
-//         answers.push(answer);
-//     } else if (page.name.slice(0, 5) === 'intro') {
-//         answers.push(ans);
-//     }
-//     console.log('answered: ' + ans + ', correct: ' + puzzle.c + ', isCorrect: ' + isCorrect + ', elapsed? ' + timer.getElapsed());
-//     $('#' + currentPage().templateId).fadeOut(FADEOUT, answered2);
-// }
 
 function abandonClick() {
     console.log('abandon');
@@ -351,31 +304,30 @@ function fillYellow(id) {
     $(id).attr('fill', 'yellow');
 }
 
-function logEvent(element, isCorrect) {
-    console.log('logEvent(): element: ' + element + ', correct: ' + isCorrect);
+function logEvent(element) { // for practices and real puzzles
+    console.log('logEvent(): element: ' + element);// + ', correct: ' + isCorrect);
     var page = currentPage();
-    if (page.type !== 'game') {
-        return;
-    }
     var timeTaken;
     timer.lap();
     timerWholeTest.lap();
     timeTaken = timer.getElapsed();
-    showTime(timeTaken, isCorrect);
+    //showTime(timeTaken, isCorrect);
     var answer = {
-        duration: timer.getElapsed(),          // Time taken to click on next element
-        puzzle: page.name,                     // number of puzzle
+        puzzle: page.name,                     // name of puzzle/practice
+        //element: element,                      // id of element clicked on by user
+            // can be determined by position in list
+        wrongClicks: wrongClicks,              // number of wrong clicks before correct
+        duration: timer.getElapsed(),          // Time taken to click on next correct element
         elapsed: timerWholeTest.getElapsed(),  // cumulative time elapsed
-        element: element,                      // id of element clicked on by user
-        correct: isCorrect                     // bool - was it the correct element?
     };
     timer.now();
     console.log('logEvent(): answer: ' + logObj(answer));
     answers.push(answer);
 }
 
-function wrong() { // console.log('wrong(): ' + id);
-    logEvent(this.id, false);
+function wrong() { // console.log('wrong(): ' + this.id);
+    wrongClicks++;
+    //logEvent(this.id, false); only log correct
     var group = document.getElementById('svg1').contentDocument.getElementById(this.id);
     var circles = group.getElementsByTagName('circle');
     var circle = circles[0];
@@ -385,15 +337,15 @@ function wrong() { // console.log('wrong(): ' + id);
     setTimeout(function() { fillWhite(circle); }, 300);
     setTimeout(function() { fillRed(circle); }, 400);
     setTimeout(function() { fillWhite(circle); }, 500);
-    //console.log('wrong(): ' + this.id);
 }
     // for (var i = 0; i < 5; i++) {
     //     setTimeout(function() { fillWhite(circle); }, 500);
     //     $(id).attr('fill', 'red');
     // };
 
-function correct() {
-    logEvent(this.id, true);
+function correct() { // console.log('correct(): id: ' + this.id);
+    logEvent(this.id); // only log correct, and number of wrong before it
+    wrongClicks = 0;
     var svg = document.getElementById('svg1');
     var group = svg.contentDocument.getElementById(this.id); // as callback is a closure, has access to enclosing scope (this)
     var circles = group.getElementsByTagName('circle');
@@ -403,8 +355,7 @@ function correct() {
     var num = Number(this.id.slice(1)); //console.log('correct(): num: ' + num + ', clicked: ' + this.id);
     if (nextCircle !== 1) {
         var line = svg.contentDocument.getElementById('l' + String(num - 1)); // why did I make ids 0-indexed?
-        $(line).attr('display', 'inline');
-        // console.log('correct(): show line: ' + num);
+        $(line).attr('display', 'inline'); // $(line).show() ?
     }
     if (nextCircle < currentPage().numCircles) {
         nextCircle++;
@@ -417,11 +368,8 @@ function correct() {
         first.addEventListener('mousedown', correct);
         $('#pages').off('click', 'button', containerClick); // otherwise will be duplicated in showPage2()
         setTimeout(nextPage, 1000);
-        // console.log('TODO: collect timings, pause before next page');
     }
-    // console.log('correct(): id: ' + this.id);
 }
-    //line.style.display = 'inline'; //? // $('#l' + id).show(); // $(line).show();
 
 // To remove event handlers, the function specified with the addEventListener() method must be an external, "named" function
 function changeListeners() {
@@ -458,16 +406,9 @@ function addListeners() {
         }
     }, false);
 }
-
-        // // dev - add listener to group
-        // var group = svgDoc.getElementById('g3'); // get inner element by id
-        // group.addEventListener('mousedown', function () {
-        //     console.log('group clicked');
-        //     wrong(this.id); // flash circle, not group
-        // }, false);
-                        // this.id == window.id? no, closed over id set on definition ... ?
-                        // or id of circle? which is why this.ix didn't work....
-                        // http://javascriptissexy.com/understand-javascripts-this-with-clarity-and-master-it/
+    // this.id == window.id? no, closed over id set on definition ... ?
+    // or id of circle? which is why this.ix didn't work....
+    // http://javascriptissexy.com/understand-javascripts-this-with-clarity-and-master-it/
 
 function keydown(e) {
     //console.log('keyboard event: ' + e.which);
