@@ -111,13 +111,13 @@ function containerClick(e) {
 function showPage2() {
     $('#pages').on('click', 'button', containerClick); // prevent double-click
     if (currentPage().name === 'thanks') { // redundant?
-        console.log('currentPage().name === \'thanks\'');
-        document.getElementById('sesh_id').value = config.seshID;
-        document.getElementById('tinstruct').value = config.tinstruct;
-        document.getElementById('tstart').value = config.timeStarted;
-        document.getElementById('tfinish').value = isoDate(); // now
-        document.getElementById('ntests').value = answers.length; // number of clicks, more like
-        document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
+        // console.log('currentPage().name === \'thanks\'');
+        // document.getElementById('sesh_id').value = config.seshID;
+        // document.getElementById('tinstruct').value = config.tinstruct;
+        // document.getElementById('tstart').value = config.timeStarted;
+        // document.getElementById('tfinish').value = isoDate(); // now
+        // document.getElementById('ntests').value = answers.length; // number of clicks, more like
+        // document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
         setTimeout(finished, 3000);
     }
     // console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)scaleImages();bind clicks
@@ -234,12 +234,12 @@ function finished() {
     clearTimeout(timeUpTimeout);
 
     // fill in form and submit automatically
-    // document.getElementById('sesh_id').value = config.seshID;
-    // document.getElementById('tinstruct').value = config.tinstruct;
-    // document.getElementById('tstart').value = config.timeStarted;
-    // document.getElementById('tfinish').value = isoDate(); // now
-    // document.getElementById('ntests').value = answers.length; // number of clicks, more like
-    // document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
+    document.getElementById('sesh_id').value = config.seshID;
+    document.getElementById('tinstruct').value = config.tinstruct;
+    document.getElementById('tstart').value = config.timeStarted;
+    document.getElementById('tfinish').value = isoDate(); // now
+    document.getElementById('ntests').value = answers.length; // number of clicks, more like
+    document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
     window.onbeforeunload = null;
     $(window).on('beforeunload', function(){
         $('*').css('cursor', 'default');
@@ -494,12 +494,12 @@ function init() {
     var msg;
     var loc = location.toString().split('://')[1].split('.')[0]; // strip off http://, https://
     console.log('loc: ' + loc);
-    // switch (loc.substr(0, 3) { 
-    switch (loc) { 
+    // switch (loc.substr(0, 3) {
+    switch (loc) {
         case 'oqs':         // assume oqs[web].ndph.ox.ac.uk
             if (!urlParams.hasOwnProperty('sesh_id')) { // probably on testing server
                 throw new Error('not local and sesh_id not found in urlParams');
-            } 
+            }
             config.seshID = urlParams.sesh_id;
             msg = 'config.sesh_id: ' + config.seshID;
             $('#feedbackForm').attr('action', config.formAction); // set the results form target
@@ -508,7 +508,8 @@ function init() {
             msg = 'this is a local web application for local people';
         default:
             config.seshID = -1111;
-            $('#feedbackForm').attr('action', 'complete.php');
+            $('#feedbackForm').attr('action', config.formAction); // set the results form target
+            //$('#feedbackForm').attr('action', 'complete.php');
     }
 
     // if (LOCAL) {
