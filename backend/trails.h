@@ -55,6 +55,7 @@ namespace Trails {
     void testInsert();
     bool insertRecord(const TrailsRecord *e);
     void getRecords();
+    void getResults(XQUERY & q, TrailsRecord & rec, const char * section, int numFields);
     void printRecords();
     void printRecord(TrailsRecord rec);
 } // namespace Trails

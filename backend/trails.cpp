@@ -209,11 +209,10 @@ void Trails::getResults(XQUERY & q, TrailsRecord & rec, const char * section, in
     char fieldname[16];
     for (int i = 0; i < rec.ntests && i < numFields; i++) {
         TrailsAnswer ans;
-        sprintf(fieldname, "duration%d", i+1);  ans.duration = q.result.getInt(fieldname);
-        sprintf(fieldname, "puzzle%d", i+1);    ans.puzzle = q.result.getInt(fieldname);
-        sprintf(fieldname, "elapsed%d", i+1);   ans.elapsed = q.result.getInt(fieldname);
-        sprintf(fieldname, "answer%d", i+1);    ans.answer = q.result.getInt(fieldname);
-        sprintf(fieldname, "correct%d", i+1);   ans.correct = q.result.getInt(fieldname);
+        //sprintf(fieldname, "puzzle%d", i+1);    ans.puzzle = q.result.getInt(fieldname);
+        sprintf(fieldname, "%s_%d_wrong", i+1);     ans.wrongClicks = q.result.getInt(fieldname);
+        sprintf(fieldname, "%s_%d_time", i+1);      ans.duration = q.result.getInt(fieldname);
+        sprintf(fieldname, "%s_%d_total", i+1);     ans.elapsed = q.result.getInt(fieldname);
         rec.answers.push_back(ans);
     }
 }

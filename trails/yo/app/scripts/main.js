@@ -318,7 +318,7 @@ function logEvent(element) { // for practices and real puzzles
             // can be determined by position in list
         wrongClicks: wrongClicks,              // number of wrong clicks before correct
         duration: timer.getElapsed(),          // Time taken to click on next correct element
-        elapsed: timerWholeTest.getElapsed(),  // cumulative time elapsed
+        elapsed: timerWholeTest.getElapsed() // cumulative time elapsed
     };
     timer.now();
     console.log('logEvent(): answer: ' + logObj(answer));

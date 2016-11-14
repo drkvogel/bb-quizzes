@@ -1,9 +1,12 @@
 #!/bin/sh
 
 #end = $argv[1]
+vnode='oqsweb_cp::'
 end='test'
 own='cp_web_'
-xdb=$own$end
+xdb=$vnode$own$end
+
+echo 'connecting to '$vnode
 
 ./create-create.py > ./create.sql
 sql $xdb < create.sql

@@ -2,9 +2,12 @@
 # no tcsh, csh on webman@oqsweb
 
 #end = $argv[1]
+vnode='oqsweb_cp::'
 end='test'
 own='cp_web_'
-xdb=$own$end
+xdb=$vnode$own$end
+
+echo 'connecting to '$vnode
 
 destroydb $xdb
 createdb -i $xdb
