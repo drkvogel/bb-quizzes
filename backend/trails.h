@@ -7,6 +7,12 @@
 
 extern XDB *db;
 
+#define NUM_POINTS_AP 8
+#define NUM_POINTS_AR 25
+#define NUM_POINTS_BP 8
+#define NUM_POINTS_BR 25
+#define NUM_POINTS_TOTAL NUM_POINTS_AP + NUM_POINTS_AR + NUM_POINTS_BP + NUM_POINTS_BR
+
 namespace Trails {
     const short MAX_LEVELS = 18;
 

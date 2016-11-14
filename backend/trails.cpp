@@ -186,7 +186,7 @@ void Trails::getRecords() {
         rec.tfinish   = q.result.getTime("tfinish");
         rec.responses = q.result.getString("responses");    // JSON blob
         rec.ntests    = q.result.getInt("ntests");          // is ntests sane?
-        // for (int i = 0; i < rec.ntests && i < MAX_LEVELS; i++) {
+        // for (int i = 0; i < rec.ntests && i < NUM_POINTS_TOTAL; i++) {
         //     TrailsAnswer ans;
         //     char fieldname[16];
         //     sprintf(fieldname, "duration%d", i+1);  ans.duration = q.result.getInt(fieldname);
@@ -196,9 +196,26 @@ void Trails::getRecords() {
         //     sprintf(fieldname, "correct%d", i+1);   ans.correct = q.result.getInt(fieldname);
         //     rec.answers.push_back(ans);
         // }
+        getResults(q, rec, "ap", NUM_POINTS_AP);
+        getResults(q, rec, "ar", NUM_POINTS_AR);
+        getResults(q, rec, "bp", NUM_POINTS_BP);
+        getResults(q, rec, "br", NUM_POINTS_BR);
         TrailsRecords.push_back(rec);
     }
     q.close();
+}
+
+void Trails::getResults(XQUERY & q, TrailsRecord & rec, const char * section, int numFields) {
+    char fieldname[16];
+    for (int i = 0; i < rec.ntests && i < numFields; i++) {
+        TrailsAnswer ans;
+        sprintf(fieldname, "duration%d", i+1);  ans.duration = q.result.getInt(fieldname);
+        sprintf(fieldname, "puzzle%d", i+1);    ans.puzzle = q.result.getInt(fieldname);
+        sprintf(fieldname, "elapsed%d", i+1);   ans.elapsed = q.result.getInt(fieldname);
+        sprintf(fieldname, "answer%d", i+1);    ans.answer = q.result.getInt(fieldname);
+        sprintf(fieldname, "correct%d", i+1);   ans.correct = q.result.getInt(fieldname);
+        rec.answers.push_back(ans);
+    }
 }
 
 void Trails::printRecords() {
@@ -207,9 +224,9 @@ void Trails::printRecords() {
     printf("<table border=\"1\" cellspacing=\"0\">\n");
     printf("<thead><td>sesh_id</td><td>tinstruct</td><td>tstart</td><td>tfinish</td>\n"); // column headers
     printf("<td>responses</td><td>ntests</td>");
-    // for (int i = 1; i <= MAX_LEVELS; i++) {
-    //     printf("<td>duration%d</td><td>puzzle%d</td><td>elapsed%d</td><td>answer%d</td><td>correct%d</td>", i, i, i, i, i);
-    // }
+    for (int i = 1; i <= NUM_POINTS_TOTAL; i++) {
+        printf("<td>wrong_%d</td><td>time_%d</td><td>total_%d</td>", i, i, i);
+    }
     printf("</thead>\n");
     for (vecTrailsRecord::const_iterator rec = TrailsRecords.begin(); rec != TrailsRecords.end(); rec++) { // records
         printRecord(*rec);
@@ -225,14 +242,13 @@ void Trails::printRecord(Trails::TrailsRecord rec) {
     printf("<td>%s</td>", rec.responses.c_str());
     //printf("<td>...</td>");
     printf("<td>%d</td>", rec.ntests);
-    // for (int i=0; i<rec.answers.size(); i++) { // safer, should agree with rec->ntests
-    //     printf("<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>",
-    //         rec.answers[i].duration, rec.answers[i].puzzle, rec.answers[i].elapsed,
-    //         rec.answers[i].answer, rec.answers[i].correct);
-    // }
-    // for (int i = rec.answers.size()+1; i <= MAX_LEVELS; i++) { // fill remainder
-    //     printf("<td>[%d]</td><td>-</td><td>-</td><td>-</td><td>-</td>", i);
-    // }
+    for (int i=0; i<rec.answers.size(); i++) { // safer, should agree with rec->ntests
+        printf("<td>%d</td><td>%d</td><td>%d</td>",
+            rec.answers[i].wrongClicks, rec.answers[i].duration, rec.answers[i].elapsed);
+    }
+    for (int i = rec.answers.size()+1; i <= NUM_POINTS_TOTAL; i++) { // fill remainder
+        printf("<td>[%d]</td><td>-</td><td>-</td><td>-</td><td>-</td>", i);
+    }
     printf("</tr>\n");
 }
 
