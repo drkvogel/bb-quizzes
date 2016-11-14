@@ -69,13 +69,14 @@ void Trails::parseResponses(TrailsRecord *rec) {
         for (int i=0; i < arr->length; i++) {
             const nx_json* item = nx_json_item(arr, i);
             TrailsAnswer ans;
-            ans.puzzle      = nx_json_get(item, "puzzle"        )->text_value; // Puzzle chosen by algorithm, as number
+            // ans.puzzle      = nx_json_get(item, "puzzle"        )->text_value; // Puzzle chosen by algorithm, as number
             ans.wrongClicks = nx_json_get(item, "wrongClicks"   )->int_value; // Correct answer
-            ans.duration    = nx_json_get(item, "duration"      )->int_value / 10; // / 10 ?? Time taken to answer puzzle
-            ans.elapsed     = nx_json_get(item, "elapsed"       )->int_value / 10; // Cumulative time elapsed since start of test, in deciseconds
+            ans.duration    = nx_json_get(item, "duration"      )->int_value / 100; // / 10 ?? Time taken to answer puzzle
+            ans.elapsed     = nx_json_get(item, "elapsed"       )->int_value / 100; // Cumulative time elapsed since start of test, in deciseconds
                 // cap?
             if (ans.wrongClicks > MAX_WRONGCLICKS) ans.wrongClicks = MAX_WRONGCLICKS; // cap
             if (ans.duration > MAX_DURATION) ans.duration = MAX_DURATION; // cap
+            if (ans.elapsed > MAX_DURATION) ans.elapsed = MAX_DURATION; // cap
             // ans.answer      = nx_json_get(item, "answer"    )->int_value; // Answer given by user
             //printf("%d ", nx_json_get(item, "count")->int_value);
             //printf("elapsed: %d<br />", nx_json_get(item, "elapsed")->int_value);
@@ -123,6 +124,8 @@ Trails::TrailsRecord Trails::getPayload(XCGI * x) { // get responses from fronte
 
 bool Trails::insertRecord(const TrailsRecord *rec) {
     IFDEBUG printf("<p><code>Trails::insertRecord()</p>\n");
+    std:string responses;
+    //#define NUM_POINTS_TOTAL NUM_POINTS_AP + NUM_POINTS_AR + NUM_POINTS_BP + NUM_POINTS_BR
     std::string sql =
         "INSERT INTO Trails (sesh_id, ntests, tinstruct, tstart, tfinish, tinsert,"
         " responses"
@@ -186,6 +189,14 @@ void Trails::getRecords() {
         rec.tfinish   = q.result.getTime("tfinish");
         rec.responses = q.result.getString("responses");    // JSON blob
         rec.ntests    = q.result.getInt("ntests");          // is ntests sane?
+        getResults(q, rec, "ap", NUM_POINTS_AP);
+        getResults(q, rec, "ar", NUM_POINTS_AR);
+        getResults(q, rec, "bp", NUM_POINTS_BP);
+        getResults(q, rec, "br", NUM_POINTS_BR);
+        TrailsRecords.push_back(rec);
+    }
+    q.close();
+}
         // for (int i = 0; i < rec.ntests && i < NUM_POINTS_TOTAL; i++) {
         //     TrailsAnswer ans;
         //     char fieldname[16];
@@ -196,14 +207,6 @@ void Trails::getRecords() {
         //     sprintf(fieldname, "correct%d", i+1);   ans.correct = q.result.getInt(fieldname);
         //     rec.answers.push_back(ans);
         // }
-        getResults(q, rec, "ap", NUM_POINTS_AP);
-        getResults(q, rec, "ar", NUM_POINTS_AR);
-        getResults(q, rec, "bp", NUM_POINTS_BP);
-        getResults(q, rec, "br", NUM_POINTS_BR);
-        TrailsRecords.push_back(rec);
-    }
-    q.close();
-}
 
 void Trails::getResults(XQUERY & q, TrailsRecord & rec, const char * section, int numFields) {
     char fieldname[16];

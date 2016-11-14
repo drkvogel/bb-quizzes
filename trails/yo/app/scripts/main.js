@@ -102,19 +102,19 @@ function containerClick(e) {
         break;
     default:
     }
+}
     // console.log('containerClick(e): ' + e.handleObj.selector); //logObj(e));
     // console.log('containerClick(e): unbind');// + logObj(this));// + logObj(e));
-}
 
 function showPage2() {
     $('#pages').on('click', 'button', containerClick); // prevent double-click
     if (currentPage().name === 'thanks') { // redundant?
         setTimeout(finished, 3000);
     }
-    // console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)scaleImages();bind clicks
-    // console.log('showPage2: bind'); // (re-)scaleImages();bind clicks
     console.log(' '); // (re-)scaleImages();bind clicks
 }
+    // console.log('showPage2: currentPage().name: ' + currentPage().name); // (re-)scaleImages();bind clicks
+    // console.log('showPage2: bind'); // (re-)scaleImages();bind clicks
 
 function showPage(page) { // prevPage() and nextPage() should handle hiding current
     console.log('showPage(): name: ' + page.name + ', current: ' + current + ', templateId: ' + page.templateId); // page: ' + obj(page)); isTimeUp:' + isTimeUp);
@@ -219,10 +219,8 @@ function hideModal(modal) {
     $('#' + modal).hide(); //fadeOut(FADEOUT);
 }
 
-function finished() {
+function finished() { // fill in form and submit automatically
     clearTimeout(timeUpTimeout);
-
-    // fill in form and submit automatically
     document.getElementById('sesh_id').value = config.seshID;
     document.getElementById('tinstruct').value = config.tinstruct;
     document.getElementById('tstart').value = config.timeStarted;
@@ -313,21 +311,20 @@ function logEvent(element) { // for practices and real puzzles
     timeTaken = timer.getElapsed();
     //showTime(timeTaken, isCorrect);
     var answer = {
-        puzzle: page.name,                     // name of puzzle/practice
-        //element: element,                      // id of element clicked on by user
-            // can be determined by position in list
         wrongClicks: wrongClicks,              // number of wrong clicks before correct
         duration: timer.getElapsed(),          // Time taken to click on next correct element
         elapsed: timerWholeTest.getElapsed() // cumulative time elapsed
     };
+        //puzzle: page.name,                     // name of puzzle/practice
+        //element: element,                      // id of element clicked on by user
+            // can be determined by position in list
     timer.now();
     console.log('logEvent(): answer: ' + logObj(answer));
     answers.push(answer);
 }
 
 function wrong() { // console.log('wrong(): ' + this.id);
-    wrongClicks++;
-    //logEvent(this.id, false); only log correct
+    wrongClicks++; // only log correct
     var group = document.getElementById('svg1').contentDocument.getElementById(this.id);
     var circles = group.getElementsByTagName('circle');
     var circle = circles[0];
@@ -360,8 +357,7 @@ function correct() { // console.log('correct(): id: ' + this.id);
     if (nextCircle < currentPage().numCircles) {
         nextCircle++;
         changeListeners();
-    } else {
-        // reset 1st circle?
+    } else { // reset 1st circle
         nextCircle = 1;
         var first = document.getElementById('svg1').contentDocument.getElementById('g1');
         first.removeEventListener('mousedown', wrong);
@@ -496,8 +492,7 @@ window.onresize = function(event) {
 };
 
 // get url params
-// TODO - is onpopstate supported in all browswers?
-// http://stackoverflow.com/questions/15896434/window-onpopstate-on-page-load
+// TODO - is onpopstate supported in all browswers? http://stackoverflow.com/questions/15896434/window-onpopstate-on-page-load
 (window.onpopstate = function() { // why in IIFE?
     var match,
         pl = /\+/g,  // Regex for replacing addition symbol with a space
