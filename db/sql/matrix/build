@@ -1,0 +1,13 @@
+#!/bin/sh
+
+#end = $argv[1]
+vnode='oqsweb_cp::'
+end='test'
+own='cp_web_'
+xdb=$vnode$own$end
+
+echo 'connecting to '$xdb
+
+sql $xdb < drop.sql
+./create
+
