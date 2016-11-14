@@ -6,17 +6,22 @@ end='test'
 own='cp_web_'
 xdb=$own$end
 
-#echo "xdb: $xdb"
-#exit 0
-
 destroydb $xdb
 createdb -i $xdb
-./create-create.py > ./create.sql
-sql $xdb < create.sql
-sql $xdb < grant.sql
 
 sql iidbdb << GRANTED
 grant access on database cp_web_test to apache;
 \p\g
 \q
 GRANTED
+
+hoops/create
+matrix/create
+trails/create
+
+
+#echo "xdb: $xdb"
+#exit 0
+# ./create-create.py > ./create.sql
+# sql $xdb < create.sql
+# sql $xdb < grant.sql

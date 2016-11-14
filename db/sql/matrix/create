@@ -1,0 +1,10 @@
+#!/bin/sh
+
+#end = $argv[1]
+end='test'
+own='cp_web_'
+xdb=$own$end
+
+./create-create.py > ./create.sql
+sql $xdb < create.sql
+sql $xdb < grant.sql
