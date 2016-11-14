@@ -54,6 +54,7 @@ namespace Trails {
     TrailsRecord getPayload(XCGI * x);
     void testInsert();
     bool insertRecord(const TrailsRecord *e);
+    void insertAnswer(int i, const TrailsAnswer * ans, XEXEC & x);
     void getRecords();
     void getResults(XQUERY & q, TrailsRecord & rec, const char * section, int numFields);
     void printRecords();
