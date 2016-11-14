@@ -56,24 +56,23 @@ void Trails::parseResponses(TrailsRecord *rec) {
         // wrongClicks: wrongClicks,              // number of wrong clicks before correct
         // puzzle: page.name,                     // name of puzzle/practice
         // elapsed: timerWholeTest.getElapsed()
-        // int puzzle;
-        // int wrongClicks;
-        // int duration;
-        // int elapsed;
 
 // (1) INT2 capped at 9999 (16 mins): time it was correctly clicked (deciseconds); Absolute time since the screen was first displayed.
 // (2) INT1 capped at 99: number of incorrect clicks made between previous circle and this one.
 // SMALLINT_MAX
 #define MAX_DURATION 9999
 #define MAX_WRONGCLICKS 99
+        IFDEBUG printf("about to parse answers");
         for (int i=0; i < arr->length; i++) {
             const nx_json* item = nx_json_item(arr, i);
             TrailsAnswer ans;
             // ans.puzzle      = nx_json_get(item, "puzzle"        )->text_value; // Puzzle chosen by algorithm, as number
             ans.wrongClicks = nx_json_get(item, "wrongClicks"   )->int_value; // Correct answer
-            ans.duration    = nx_json_get(item, "duration"      )->int_value / 100; // / 10 ?? Time taken to answer puzzle
-            ans.elapsed     = nx_json_get(item, "elapsed"       )->int_value / 100; // Cumulative time elapsed since start of test, in deciseconds
+            ans.duration    = nx_json_get(item, "duration"      )->int_value; // Time taken to click correct, already converted to deciseconds
+            ans.elapsed     = nx_json_get(item, "elapsed"       )->int_value; // Cumulative time elapsed since start of test, already converted to deciseconds
                 // cap?
+
+            //IFDEBUG printf("about to parse answers");
             if (ans.wrongClicks > MAX_WRONGCLICKS) ans.wrongClicks = MAX_WRONGCLICKS; // cap
             if (ans.duration > MAX_DURATION) ans.duration = MAX_DURATION; // cap
             if (ans.elapsed > MAX_DURATION) ans.elapsed = MAX_DURATION; // cap
