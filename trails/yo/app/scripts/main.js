@@ -314,7 +314,7 @@ function logEvent(element) { // for practices and real puzzles
         duration: timer.getElapsed(),          // Time taken to click on next correct element
         elapsed: timerWholeTest.getElapsed() // cumulative time elapsed
     }; // name of puzzle/practice, id of element clicked on by user can be determined by position in list
-    timer.now();
+    //timer.now();
     console.log('logEvent(): answer: ' + logObj(answer));
     answers.push(answer);
 }
