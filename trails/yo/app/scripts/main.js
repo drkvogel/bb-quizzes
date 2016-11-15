@@ -138,7 +138,7 @@ function showPage(page) { // prevPage() and nextPage() should handle hiding curr
             $('.botTxt').html(''); //console.log('puzzle.b: ' + puzzle.b + ', correct: ' + puzzle.c); //puzzle = config.practice; ??
         }
         timer.now(); // start timer for all real exercises
-        timerWholeTest.now(); // start timer for the whole test (for "elapsed" field)
+        //timerWholeTest.now(); // start timer for this puzzle? (for "elapsed" field)
         config.timeStarted = isoDate();
         console.log('config.timeStarted: ' + config.timeStarted);
         timeUpTimeout = setTimeout(timeUp, config.timeLimit);
@@ -308,20 +308,20 @@ function logEvent(element) { // for practices and real puzzles
     var timeTaken;
     timer.lap();
     timerWholeTest.lap();
-    timeTaken = timer.getElapsed();
-    //showTime(timeTaken, isCorrect);
+    console.log('timerWholeTest.getElapsed(): ' + timerWholeTest.getElapsed());
     var answer = {
         wrongClicks: wrongClicks,              // number of wrong clicks before correct
         duration: timer.getElapsed(),          // Time taken to click on next correct element
         elapsed: timerWholeTest.getElapsed() // cumulative time elapsed
-    };
-        //puzzle: page.name,                     // name of puzzle/practice
-        //element: element,                      // id of element clicked on by user
-            // can be determined by position in list
+    }; // name of puzzle/practice, id of element clicked on by user can be determined by position in list
     timer.now();
     console.log('logEvent(): answer: ' + logObj(answer));
     answers.push(answer);
 }
+    //console.log('timerWholeTest.lap(): ' + timerWholeTest.lap()); // undefined
+    // timeTaken = timer.getElapsed();
+    // console.log('timeTaken: ' + timeTaken);
+    //showTime(timeTaken, isCorrect);
 
 function wrong() { // console.log('wrong(): ' + this.id);
     wrongClicks++; // only log correct
@@ -421,6 +421,7 @@ function keydown(e) {
 function init() {
     timer = new Timer(); // globals
     timerWholeTest = new Timer(); // globals
+    timerWholeTest.now();
     isTimeUp = false;
     current = 0;
 
