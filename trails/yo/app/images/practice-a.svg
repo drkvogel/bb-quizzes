@@ -19,6 +19,7 @@
         -ms-user-select: none;
         user-select: none;
         font-family: Verdana, Arial, Helvetica, sans-serif;
+        font-size: x-large;
     }
     </style>
   <line id="l1" x1="245" y1="167" x2="285" y2="66" stroke-width="2" stroke="black" display="none" />
