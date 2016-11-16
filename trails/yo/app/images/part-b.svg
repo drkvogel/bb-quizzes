@@ -1,16 +1,22 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" zwidth="100%" viewBox="0 0 450 550">
-    <style type="text/css">
-    * {
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        font-family: Verdana, Arial, Helvetica, sans-serif;
-        font-size: x-large;
-    }
-    </style>
+    <defs id="defs4290">
+        <style type="text/css" id="style3559">
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+@media screen and (max-width: 600px) { /* Responsive: Portrait tablets and down */
+  text {
+      font-size: x-large;
+  }
+}    
+        </style>
+    </defs>
     <line id="l1" x1="228" y1="232" x2="323" y2="387" stroke-width="2" stroke="black" display="none" />
     <g id="g1">
         <circle id="c1"  cx="228" cy="232" r="20" stroke-width="2" stroke="black" fill="white" />
