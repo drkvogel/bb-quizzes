@@ -444,6 +444,8 @@ function init() {
             break;
         case 'loc':         // assume localhost, served from gulp
             msg = 'this is a local web application for local people';
+            $('#feedbackForm').attr('action', config.formAction); // set the results form target
+            break;
         default:
             config.seshID = -1111;
             $('#feedbackForm').attr('action', config.formAction); // set the results form target
