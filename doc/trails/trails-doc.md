@@ -64,6 +64,7 @@ In order to access the inner DOM, we need some code like this:
     svg1.addEventListener('load', function () {         // will be invoked each time svg loaded
         var svgDoc = svg1.contentDocument;              // get inner DOM of svg
         ...                                             // do stuff with svgDoc
+    });
 ```
 
 We need to wait until the SVG has loaded before acting upon it, so a function callback is added to the `onload` event of the SVG. Note that the anonymous function callback is therefore a closure, and has access to the enclosing scope, i.e. it can access `svg1` even though it will be invoked at some point after it is declared.
@@ -115,15 +116,15 @@ The `<svg>` tag demands a `viewbox` attribute to be set: given the coordinates o
 When attempting the puzzle with a mouse, or similar device that allows click-and-drag selection (i.e. not finger touches on a mobile), it was quite easy to accidentally select the `<text>` element grouped with a `<circle>` when clicking it. A bit of CSS fixes this:
 
 ```css
-    * {
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        font-family: Verdana, Arial, Helvetica, sans-serif;   
-    }
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;   
+}
 ```
 
 The `font-family` declaration prefers non-serif fonts which are easier to read.
@@ -200,15 +201,42 @@ The build system was created by yeoman running on node.js via npm. It uses the g
     Page Size:8K Pages:3 Overflow Pages:None
     Structure:HEAP
     Compression:None
-    Key Field   Type        Null    Default Comment
-    sesh_id     INTEGER4    No      None    Session ID
-    ntests      INTEGER4    No      None    Number of puzzles completed
-    tinstruct   INGRESDATE  No      None    Time the instructions were shown to the user
-    tstart      INGRESDATE  No      None    Time the quiz was started
-    tfinish     INGRESDATE  No      None    Time the quiz was finished
-    tinsert     INGRESDATE  No      'now'   Time the row was inserted into the database (default 'now')
-    responses   LONG VARCHAR No     None    JSON returned at end of quiz, to be parsed by backend
-    [TODO]    
+    Key Field   Type            Null    Default Comment
+    sesh_id     INTEGER4        No      None    Session ID
+    ntests      INTEGER4        No      None    Number of puzzles completed
+    tinstruct   INGRESDATE      No      None    Time the instructions were shown to the user
+    tstart      INGRESDATE      No      None    Time the quiz was started
+    tfinish     INGRESDATE      No      None    Time the quiz was finished
+    tinsert     INGRESDATE      No      'now'   Time the row was inserted into the database (default 'now')
+    responses   LONG VARCHAR    No      None    JSON returned at end of quiz, to be parsed by backend
+    ap_1_wrong  INTEGER2        No      None    Number of wrong clicks before correct one
+    ap_1_time   INTEGER2        No      None    Time taken to click correct next circle since start of puzzle
+    ap_1_total  INTEGER1        No      None    Total time elapsed since start of whole game
+    ...
+    ap_8_wrong  INTEGER2        No      None    
+    ap_8_time   INTEGER2        No      None    
+    ap_8_total  INTEGER1        No      None    
+    ar_1_wrong  INTEGER2        No      None    
+    ar_1_time   INTEGER2        No      None    
+    ar_1_total  INTEGER1        No      None    
+    ...
+    ar_25_wrong INTEGER2        No      None    
+    ar_25_time  INTEGER2        No      None    
+    ar_25_total INTEGER1        No      None    
+    bp_1_wrong  INTEGER2        No      None    
+    bp_1_time   INTEGER2        No      None    
+    bp_1_total  INTEGER1        No      None    
+    ...
+    bp_8_wrong  INTEGER2        No      None    
+    bp_8_time   INTEGER2        No      None    
+    bp_8_total  INTEGER1        No      None    
+    br_1_wrong  INTEGER2        No      None    
+    br_1_time   INTEGER2        No      None    
+    br_1_total  INTEGER1        No      None    
+    ...
+    br_25_wrong INTEGER2        No      None    
+    br_25_time  INTEGER2        No      None    
+    br_25_total INTEGER1        No      None
     Secondary Indices:None
     Constraints:None
     Rules:None
