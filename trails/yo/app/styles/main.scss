@@ -92,6 +92,55 @@ body {
   }
 }
 
+@media screen and (max-width: 700px) { /* Responsive: Portrait tablets and down */
+  #answers button {
+    padding: 10px;
+    margin: 10px;
+  }
+  .btn-lg, .btn-group-lg > .btn {
+      padding: 5px;
+      //font-size: 14px;
+      line-height: 1;
+      border-radius: 3px;
+  }
+}
+
+// this needs to come **after** the previous otherwise is disregarded
+// logical OR
+@media screen and (max-width: 440px), screen and (max-height: 440px) { /* Responsive: Mobiles */
+  .btn-lg, .btn-group-lg > .btn {
+      padding: 8px;
+      font-size: 16px;
+      line-height: 1;
+      border-radius: 3px;
+  }
+}
+
+// logical AND
+@media screen and (min-width: 768px) and (min-height: 440px) { /* Responsive: Portrait tablets and up */
+  .header,
+  .marketing,
+  .footer { /* Remove the padding we set earlier */
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .header { /* Space out the masthead */
+    //margin-bottom: 30px; // margin spills into main content even when hidden?
+    padding-bottom: 30px;
+  }
+
+  .jumbotron { /* Remove the bottom border on the jumbotron for visual effect */
+    border-bottom: 0;
+  }
+
+  .topTxt p, .botTxt, .navTxt, #getReady {
+    font-size: large;
+    line-height: 2em;
+  }
+}
+
+
 .mymodal { // overlay
     display: none; // Hidden by default
     position: fixed; // Stay in place
