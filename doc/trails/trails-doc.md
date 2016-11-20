@@ -129,10 +129,27 @@ When attempting the puzzle with a mouse, or similar device that allows click-and
 
 The `font-family` declaration prefers non-serif fonts which are easier to read.
 
-
-
-
 \newpage
+
+## Explanation of timings
+
+Even latest versions of Internet Explorer (currently 11) will "bunch" events if the CPU or memory load is high. That is, user events such as mouse clicks may not be handled at the time that they happened, and instead, a series of delayed events will occur at practically the same time. 
+
+In this case, the **most recent**, rather than the longest outstanding event, will then be triggered. This caused some negative time deltas in the Healthy Minds quiz - i.e. subsequent events appeared to have happened before each other. This happened in a small number of cases (e.g. 7 in 10,0000) in testing. No workaround was found.
+
+In the case of the trails quiz, there are two potential issues:
+
+1) Delta times could be wrong
+2) Events could trigger in the wrong order and put the application in an unintended state - e.g. it might cease to function in the correct manner.
+
+Regarding these two points:
+
+1) The potential timing errors were in the range >10 milliseconds, and the precision of the timings gathered is deciseconds, and not critical - the aggregate data is what is required
+2) i) The potential time error should be much less than a human is able to generate clicks on separate (circle) elements. Therefore it should not be possible for click events to be handled in the wrong order.
+   ii) Even if it were possible for the events to be handled in the wrong order, it should not put the application in an unstable state - a correct click might be interpreted as a wrong one or vice versa - but the application should be able to handle that anyway and the impact to the user and to the timings would be minor.
+
+hasperformance?
+
 
 ## Description of Scaling Algorithm
 
