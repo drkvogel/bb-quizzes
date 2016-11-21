@@ -77,7 +77,7 @@ function timeUp() {
 
 function startTimer(page) {
     timer.now(); // start timer for practices *and* real exercises
-    timerWholeTest.now(); // start timer for the whole game (for "elapsed" field)
+    timerWholeTest.now(); // start timer for the whole game (for 'elapsed' field)
     config.timeStarted = isoDate();
     console.log('config.timeStarted: ' + config.timeStarted);
     timeUpTimeout = setTimeout(timeUp, config.timeLimit);
@@ -106,7 +106,7 @@ function containerClick(e) {
     // console.log('containerClick(e): ' + e.handleObj.selector); //logObj(e));
     // console.log('containerClick(e): unbind');// + logObj(this));// + logObj(e));
 
-
+/*
 function scaleImagesAY() { // copied from hoops main.js for cribbing
     console.log('scaleImagesAY()');
 
@@ -236,11 +236,11 @@ function scaleImagesAY() { // copied from hoops main.js for cribbing
     //     ', targetWidth: ' + targetWidth + ', targetHeight: ' + targetHeight +
     //     ', targetMiddleWidth: ' + targetMiddleWidth;
     // console.log(msg);
-}
+}*/
 
 function scaleElement(elementSelector, naturalElementHeight, naturalElementWidth) { // attempt at generic scaling function
-    var heightExtra = $("body").height() - $(elementSelector).height();
-    var widthExtra = $("body").width() - $(elementSelector).width();
+    var heightExtra = $('body').height() - $(elementSelector).height();
+    var widthExtra = $('body').width() - $(elementSelector).width();
 
     var elementHWRatio = $(elementSelector).height() / $(elementSelector).width();
     // var widthExtra = // total width of elements, excluding centre images
@@ -294,7 +294,7 @@ function scaleElement(elementSelector, naturalElementHeight, naturalElementWidth
 function scaleImages() {
     //scaleImagesCBsimple();
     //scaleImagesAY();
-    scaleElement("#puzzle", 450, 550);
+    scaleElement('#puzzle', 450, 550);
 }
 
 
@@ -330,7 +330,7 @@ function showPage(page) { // prevPage() and nextPage() should handle hiding curr
             $('.botTxt').html(''); //console.log('puzzle.b: ' + puzzle.b + ', correct: ' + puzzle.c); //puzzle = config.practice; ??
         }
         timer.now(); // start timer for all real exercises
-        //timerWholeTest.now(); // start timer for this puzzle? (for "elapsed" field)
+        //timerWholeTest.now(); // start timer for this puzzle? (for 'elapsed' field)
         config.timeStarted = isoDate();
         console.log('config.timeStarted: ' + config.timeStarted);
         timeUpTimeout = setTimeout(timeUp, config.timeLimit);
@@ -366,7 +366,7 @@ function showPage(page) { // prevPage() and nextPage() should handle hiding curr
     default:
         throw new Error('unrecogised page.templateId');
     }
-    scaleElement("#puzzle");
+    scaleElement('#puzzle');
     $('#' + page.templateId).fadeIn(FADEIN, showPage2);
 }
     //showInfo('height: ' + $(window).height()); //attr('height'));
@@ -419,7 +419,7 @@ function finished() { // fill in form and submit automatically
     document.getElementById('tstart').value = config.timeStarted;
     document.getElementById('tfinish').value = isoDate(); // now
     document.getElementById('ntests').value = answers.length; // number of clicks, more like
-    document.getElementById('responses').value = JSON.stringify(answers); //$('input[name="results"]').val() = JSON.stringify(answers);
+    document.getElementById('responses').value = JSON.stringify(answers); //$('input[name='results']').val() = JSON.stringify(answers);
     window.onbeforeunload = null;
     $(window).on('beforeunload', function(){
         $('*').css('cursor', 'default');
@@ -533,19 +533,6 @@ function wrong() { // console.log('wrong(): ' + this.id);
     //     $(id).attr('fill', 'red');
     // };
 
-// To remove event handlers, the function specified with the addEventListener() method must be an external, "named" function
-function changeListeners() {
-    var oldId = 'g' + String(nextCircle - 1), newId = 'g' + String(nextCircle);
-    var svgDoc = document.getElementById('svg1').contentDocument; // get inner DOM of svg
-    var oldGroup = svgDoc.getElementById(oldId);
-    oldGroup.removeEventListener('mousedown', correct);
-    var newGroup = svgDoc.getElementById(newId);
-    newGroup.removeEventListener('mousedown', wrong); // no longer wrong
-    newGroup.addEventListener('mousedown', correct); // works, this.id is id of group
-}
-    //console.log('changeListeners(): nextCircle: ' + nextCircle);
-    //console.log('changeListeners(): oldId: ' + oldId, ', newId: ' + newId);
-
 function correct() { // console.log('correct(): id: ' + this.id); // 'this' refers to the object (group) that invoked it
     logEvent(this.id); // only log correct, and number of wrong before it
     wrongClicks = 0;
@@ -572,6 +559,19 @@ function correct() { // console.log('correct(): id: ' + this.id); // 'this' refe
         setTimeout(nextPage, 1000);
     }
 }
+
+// To remove event handlers, the function specified with the addEventListener() method must be an external, 'named' function
+function changeListeners() {
+    var oldId = 'g' + String(nextCircle - 1), newId = 'g' + String(nextCircle);
+    var svgDoc = document.getElementById('svg1').contentDocument; // get inner DOM of svg
+    var oldGroup = svgDoc.getElementById(oldId);
+    oldGroup.removeEventListener('mousedown', correct);
+    var newGroup = svgDoc.getElementById(newId);
+    newGroup.removeEventListener('mousedown', wrong); // no longer wrong
+    newGroup.addEventListener('mousedown', correct); // works, this.id is id of group
+}
+    //console.log('changeListeners(): nextCircle: ' + nextCircle);
+    //console.log('changeListeners(): oldId: ' + oldId, ', newId: ' + newId);
 
 function addListeners() {
     console.log('addListeners()');
@@ -724,13 +724,13 @@ part-b.svg          lbbX    bbX     */
 //     var id = '';
 
     // switch (game):
-    // case "part-a":
+    // case 'part-a':
     // practice-a.svg      laprX   aprX
     // for (var i = 0; i <= 6) {
-    //     id = "lapr" + String(i);
+    //     id = 'lapr' + String(i);
     // }
     // for (var i = 0; i <= 7) {
-    //     id = "apr" + String(i);
+    //     id = 'apr' + String(i);
     // }
 
     // part-a.svg          laaX    aaX
