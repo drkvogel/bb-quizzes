@@ -533,7 +533,20 @@ function wrong() { // console.log('wrong(): ' + this.id);
     //     $(id).attr('fill', 'red');
     // };
 
-function correct() { // console.log('correct(): id: ' + this.id);
+// To remove event handlers, the function specified with the addEventListener() method must be an external, "named" function
+function changeListeners() {
+    var oldId = 'g' + String(nextCircle - 1), newId = 'g' + String(nextCircle);
+    var svgDoc = document.getElementById('svg1').contentDocument; // get inner DOM of svg
+    var oldGroup = svgDoc.getElementById(oldId);
+    oldGroup.removeEventListener('mousedown', correct);
+    var newGroup = svgDoc.getElementById(newId);
+    newGroup.removeEventListener('mousedown', wrong); // no longer wrong
+    newGroup.addEventListener('mousedown', correct); // works, this.id is id of group
+}
+    //console.log('changeListeners(): nextCircle: ' + nextCircle);
+    //console.log('changeListeners(): oldId: ' + oldId, ', newId: ' + newId);
+
+function correct() { // console.log('correct(): id: ' + this.id); // 'this' refers to the object (group) that invoked it
     logEvent(this.id); // only log correct, and number of wrong before it
     wrongClicks = 0;
     var svg = document.getElementById('svg1');
@@ -558,19 +571,6 @@ function correct() { // console.log('correct(): id: ' + this.id);
         $('#pages').off('click', 'button', containerClick); // otherwise will be duplicated in showPage2()
         setTimeout(nextPage, 1000);
     }
-}
-
-// To remove event handlers, the function specified with the addEventListener() method must be an external, "named" function
-function changeListeners() {
-    var oldId = 'g' + String(nextCircle - 1), newId = 'g' + String(nextCircle);
-    var svgDoc = document.getElementById('svg1').contentDocument; // get inner DOM of svg
-    var oldGroup = svgDoc.getElementById(oldId);
-    oldGroup.removeEventListener('mousedown', correct);
-    var newGroup = svgDoc.getElementById(newId);
-    newGroup.removeEventListener('mousedown', wrong); // no longer wrong
-    newGroup.addEventListener('mousedown', correct); // works, this.id is id of circle
-    //console.log('changeListeners(): nextCircle: ' + nextCircle);
-    //console.log('changeListeners(): oldId: ' + oldId, ', newId: ' + newId);
 }
 
 function addListeners() {
