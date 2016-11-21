@@ -60,25 +60,22 @@ void Trails::parseResponses(TrailsRecord *rec) {
 // (1) INT2 capped at 9999 (16 mins): time it was correctly clicked (deciseconds); Absolute time since the screen was first displayed.
 // (2) INT1 capped at 99: number of incorrect clicks made between previous circle and this one.
 // SMALLINT_MAX
-#define MAX_DURATION 9999
+// 32000 deciseconds = 53 minutes
+#define MAX_DURATION 32000
 #define MAX_WRONGCLICKS 99
         IFDEBUG printf("about to parse answers");
         for (int i=0; i < arr->length; i++) {
             const nx_json* item = nx_json_item(arr, i);
             TrailsAnswer ans;
-            // ans.puzzle      = nx_json_get(item, "puzzle"        )->text_value; // Puzzle chosen by algorithm, as number
-            ans.wrongClicks = nx_json_get(item, "wrongClicks"   )->int_value; // Correct answer
-            ans.duration    = nx_json_get(item, "duration"      )->int_value; // Time taken to click correct, already converted to deciseconds
-            ans.elapsed     = nx_json_get(item, "elapsed"       )->int_value; // Cumulative time elapsed since start of test, already converted to deciseconds
-                // cap?
-
-            //IFDEBUG printf("about to parse answers");
+            ans.wrongClicks = nx_json_get(item, "wrongClicks"   )->int_value;       // Number of wrong clicks before correct
+            ans.duration    = nx_json_get(item, "duration"      )->int_value / 100; // Time taken to click correct, already converted to deciseconds
+            ans.elapsed     = nx_json_get(item, "elapsed"       )->int_value / 100; // Cumulative time elapsed since start of test, already converted to deciseconds
             if (ans.wrongClicks > MAX_WRONGCLICKS) ans.wrongClicks = MAX_WRONGCLICKS; // cap
-            if (ans.duration > MAX_DURATION) ans.duration = MAX_DURATION; // cap
-            if (ans.elapsed > MAX_DURATION) ans.elapsed = MAX_DURATION; // cap
-            // ans.answer      = nx_json_get(item, "answer"    )->int_value; // Answer given by user
+            if (ans.duration > MAX_DURATION) ans.duration = MAX_DURATION; // cap at ~1hr
+            if (ans.elapsed > MAX_DURATION) ans.elapsed = MAX_DURATION; // cap at ~1hr
+            printf("elapsed (JSON): %d<br />", nx_json_get(item, "elapsed")->int_value);
+            printf("elapsed (deciseconds, capped): %d<br />", ans.elapsed);
             //printf("%d ", nx_json_get(item, "count")->int_value);
-            //printf("elapsed: %d<br />", nx_json_get(item, "elapsed")->int_value);
             //printJSONAnswer(item);
             //printTrailsAnswer(ans);
             rec->answers.push_back(ans);
@@ -137,16 +134,12 @@ void Trails::insertAnswer(int i, const TrailsAnswer * ans, XEXEC & x) {
         i -= (NUM_POINTS_AP + NUM_POINTS_AR + NUM_POINTS_BP);
     }
     //IFDEBUG printf("section: %s<br />\n", section);
-    //IFDEBUG printf("wrong: %d, time: %d, total: %d<br />\n", NULL == ans ? -1 : ans->wrongClicks, NULL == ans ? -1 : ans->duration / 100, NULL == ans ? -1 : ans->elapsed / 100);
+    IFDEBUG printf("wrong: %d, time: %d, total: %d<br />\n", NULL == ans ? -1 : ans->wrongClicks, NULL == ans ? -1 : ans->duration, NULL == ans ? -1 : ans->elapsed);
 
     char fieldname[16];
-    sprintf(fieldname, "%s_%d_wrong", section, i+1);
-    //IFDEBUG printf("fieldname: %s<br />\n", fieldname);
-    x.param.setInt(fieldname, NULL == ans ? -1 : ans->wrongClicks);
-    sprintf(fieldname, "%s_%d_time", section, i+1);      x.param.setInt(fieldname, NULL == ans ? -1 : ans->duration / 100);
-    //IFDEBUG printf("fieldname: %s<br />\n", fieldname);
-    sprintf(fieldname, "%s_%d_total", section, i+1);     x.param.setInt(fieldname, NULL == ans ? -1 : ans->elapsed / 100);
-    //IFDEBUG printf("fieldname: %s<br />\n", fieldname);
+    sprintf(fieldname, "%s_%d_wrong", section, i+1);    x.param.setInt(fieldname, NULL == ans ? -1 : ans->wrongClicks); //IFDEBUG printf("fieldname: %s<br />\n", fieldname);
+    sprintf(fieldname, "%s_%d_time",  section, i+1);    x.param.setInt(fieldname, NULL == ans ? -1 : ans->duration); //IFDEBUG printf("fieldname: %s<br />\n", fieldname);
+    sprintf(fieldname, "%s_%d_total", section, i+1);    x.param.setInt(fieldname, NULL == ans ? -1 : ans->elapsed); //IFDEBUG printf("fieldname: %s<br />\n", fieldname);
 }
     // for (int i = 0; i < rec.ntests && i < numFields; i++) {
         //TrailsAnswer ans;
@@ -160,10 +153,8 @@ void Trails::insertAnswer(int i, const TrailsAnswer * ans, XEXEC & x) {
 
 bool Trails::insertRecord(const TrailsRecord *rec) {
     IFDEBUG printf("<p><code>Trails::insertRecord()</p>\n");
-
     const char responseFields[] = "ap_1_wrong, ap_1_time, ap_1_total, ap_2_wrong, ap_2_time, ap_2_total, ap_3_wrong, ap_3_time, ap_3_total, ap_4_wrong, ap_4_time, ap_4_total, ap_5_wrong, ap_5_time, ap_5_total, ap_6_wrong, ap_6_time, ap_6_total, ap_7_wrong, ap_7_time, ap_7_total, ap_8_wrong, ap_8_time, ap_8_total, ar_1_wrong, ar_1_time, ar_1_total, ar_2_wrong, ar_2_time, ar_2_total, ar_3_wrong, ar_3_time, ar_3_total, ar_4_wrong, ar_4_time, ar_4_total, ar_5_wrong, ar_5_time, ar_5_total, ar_6_wrong, ar_6_time, ar_6_total, ar_7_wrong, ar_7_time, ar_7_total, ar_8_wrong, ar_8_time, ar_8_total, ar_9_wrong, ar_9_time, ar_9_total, ar_10_wrong, ar_10_time, ar_10_total, ar_11_wrong, ar_11_time, ar_11_total, ar_12_wrong, ar_12_time, ar_12_total, ar_13_wrong, ar_13_time, ar_13_total, ar_14_wrong, ar_14_time, ar_14_total, ar_15_wrong, ar_15_time, ar_15_total, ar_16_wrong, ar_16_time, ar_16_total, ar_17_wrong, ar_17_time, ar_17_total, ar_18_wrong, ar_18_time, ar_18_total, ar_19_wrong, ar_19_time, ar_19_total, ar_20_wrong, ar_20_time, ar_20_total, ar_21_wrong, ar_21_time, ar_21_total, ar_22_wrong, ar_22_time, ar_22_total, ar_23_wrong, ar_23_time, ar_23_total, ar_24_wrong, ar_24_time, ar_24_total, ar_25_wrong, ar_25_time, ar_25_total, bp_1_wrong, bp_1_time, bp_1_total, bp_2_wrong, bp_2_time, bp_2_total, bp_3_wrong, bp_3_time, bp_3_total, bp_4_wrong, bp_4_time, bp_4_total, bp_5_wrong, bp_5_time, bp_5_total, bp_6_wrong, bp_6_time, bp_6_total, bp_7_wrong, bp_7_time, bp_7_total, bp_8_wrong, bp_8_time, bp_8_total, br_1_wrong, br_1_time, br_1_total, br_2_wrong, br_2_time, br_2_total, br_3_wrong, br_3_time, br_3_total, br_4_wrong, br_4_time, br_4_total, br_5_wrong, br_5_time, br_5_total, br_6_wrong, br_6_time, br_6_total, br_7_wrong, br_7_time, br_7_total, br_8_wrong, br_8_time, br_8_total, br_9_wrong, br_9_time, br_9_total, br_10_wrong, br_10_time, br_10_total, br_11_wrong, br_11_time, br_11_total, br_12_wrong, br_12_time, br_12_total, br_13_wrong, br_13_time, br_13_total, br_14_wrong, br_14_time, br_14_total, br_15_wrong, br_15_time, br_15_total, br_16_wrong, br_16_time, br_16_total, br_17_wrong, br_17_time, br_17_total, br_18_wrong, br_18_time, br_18_total, br_19_wrong, br_19_time, br_19_total, br_20_wrong, br_20_time, br_20_total, br_21_wrong, br_21_time, br_21_total, br_22_wrong, br_22_time, br_22_total, br_23_wrong, br_23_time, br_23_total, br_24_wrong, br_24_time, br_24_total, br_25_wrong, br_25_time, br_25_total";
     const char responseParams[] = ":ap_1_wrong, :ap_1_time, :ap_1_total, :ap_2_wrong, :ap_2_time, :ap_2_total, :ap_3_wrong, :ap_3_time, :ap_3_total, :ap_4_wrong, :ap_4_time, :ap_4_total, :ap_5_wrong, :ap_5_time, :ap_5_total, :ap_6_wrong, :ap_6_time, :ap_6_total, :ap_7_wrong, :ap_7_time, :ap_7_total, :ap_8_wrong, :ap_8_time, :ap_8_total, :ar_1_wrong, :ar_1_time, :ar_1_total, :ar_2_wrong, :ar_2_time, :ar_2_total, :ar_3_wrong, :ar_3_time, :ar_3_total, :ar_4_wrong, :ar_4_time, :ar_4_total, :ar_5_wrong, :ar_5_time, :ar_5_total, :ar_6_wrong, :ar_6_time, :ar_6_total, :ar_7_wrong, :ar_7_time, :ar_7_total, :ar_8_wrong, :ar_8_time, :ar_8_total, :ar_9_wrong, :ar_9_time, :ar_9_total, :ar_10_wrong, :ar_10_time, :ar_10_total, :ar_11_wrong, :ar_11_time, :ar_11_total, :ar_12_wrong, :ar_12_time, :ar_12_total, :ar_13_wrong, :ar_13_time, :ar_13_total, :ar_14_wrong, :ar_14_time, :ar_14_total, :ar_15_wrong, :ar_15_time, :ar_15_total, :ar_16_wrong, :ar_16_time, :ar_16_total, :ar_17_wrong, :ar_17_time, :ar_17_total, :ar_18_wrong, :ar_18_time, :ar_18_total, :ar_19_wrong, :ar_19_time, :ar_19_total, :ar_20_wrong, :ar_20_time, :ar_20_total, :ar_21_wrong, :ar_21_time, :ar_21_total, :ar_22_wrong, :ar_22_time, :ar_22_total, :ar_23_wrong, :ar_23_time, :ar_23_total, :ar_24_wrong, :ar_24_time, :ar_24_total, :ar_25_wrong, :ar_25_time, :ar_25_total, :bp_1_wrong, :bp_1_time, :bp_1_total, :bp_2_wrong, :bp_2_time, :bp_2_total, :bp_3_wrong, :bp_3_time, :bp_3_total, :bp_4_wrong, :bp_4_time, :bp_4_total, :bp_5_wrong, :bp_5_time, :bp_5_total, :bp_6_wrong, :bp_6_time, :bp_6_total, :bp_7_wrong, :bp_7_time, :bp_7_total, :bp_8_wrong, :bp_8_time, :bp_8_total, :br_1_wrong, :br_1_time, :br_1_total, :br_2_wrong, :br_2_time, :br_2_total, :br_3_wrong, :br_3_time, :br_3_total, :br_4_wrong, :br_4_time, :br_4_total, :br_5_wrong, :br_5_time, :br_5_total, :br_6_wrong, :br_6_time, :br_6_total, :br_7_wrong, :br_7_time, :br_7_total, :br_8_wrong, :br_8_time, :br_8_total, :br_9_wrong, :br_9_time, :br_9_total, :br_10_wrong, :br_10_time, :br_10_total, :br_11_wrong, :br_11_time, :br_11_total, :br_12_wrong, :br_12_time, :br_12_total, :br_13_wrong, :br_13_time, :br_13_total, :br_14_wrong, :br_14_time, :br_14_total, :br_15_wrong, :br_15_time, :br_15_total, :br_16_wrong, :br_16_time, :br_16_total, :br_17_wrong, :br_17_time, :br_17_total, :br_18_wrong, :br_18_time, :br_18_total, :br_19_wrong, :br_19_time, :br_19_total, :br_20_wrong, :br_20_time, :br_20_total, :br_21_wrong, :br_21_time, :br_21_total, :br_22_wrong, :br_22_time, :br_22_total, :br_23_wrong, :br_23_time, :br_23_total, :br_24_wrong, :br_24_time, :br_24_total, :br_25_wrong, :br_25_time, :br_25_total";
-
     string sql =
         "INSERT INTO Trails (sesh_id, ntests, tinstruct, tstart, tfinish, tinsert,"
         " responses, " + string(responseFields) + " )\n"
