@@ -66,9 +66,10 @@ int initDB() { // no logging
 
 void boilerplate_head() {
     printf("<html>\n<head>\n");
-    printf("<title>BB Quizzes Backend</title>");
-    printf("<link rel=\"stylesheet\" href=\"http://yui.yahooapis.com/pure/0.6.0/pure-min.css\">");
-    printf("<link rel=\"stylesheet\" href=\"./main.css\">");
+    printf("<title>BB Quizzes Backend</title>\n");
+    printf("<meta charset=\"utf-8\">\n<meta name=\"description\" content="">\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n");
+    printf("<link rel=\"stylesheet\" href=\"http://yui.yahooapis.com/pure/0.6.0/pure-min.css\">\n");
+    printf("<link rel=\"stylesheet\" href=\"./main.css\">\n");
     printf("</head>\n<body>\n");
     printf("<h2><a href=\".\">BB Quizzes Backend</a></h2>\n");
 }
