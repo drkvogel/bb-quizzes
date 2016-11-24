@@ -291,10 +291,48 @@ function scaleElement(elementSelector, naturalElementHeight, naturalElementWidth
 
 }
 
+function getImgSize(imgSrc) {
+    var newImg = new Image();
+    newImg.onload = function() {
+      var height = newImg.height;
+      var width = newImg.width;
+      alert ('The image size is '+width+'*'+height);
+    }
+    newImg.src = imgSrc; // this must be done AFTER setting onload
+        // expects a url
+}
+
+function getSVGSize(svgObj) {
+    console.log('getSVGSize(svgObj): src: ' + svgObj);
+        // pretty print?
+        // getSVGSize(svgObj): svgObj: [object HTMLObjectElement]
+    var newSVG = new Object();
+    newSVG.onload = function() {
+        var height = newSVG.height;
+        var width = newSVG.width;
+        console.log('The image size is '+width+'*'+height);
+        //alert ('The image size is '+width+'*'+height);
+    }
+    newSVG.src = svgObj.src; // this must be done AFTER setting onload
+        // expects a url
+}
+
 function scaleImages() {
+    console.log('scaleImages()');
     //scaleImagesCBsimple();
     //scaleImagesAY();
-    scaleElement('#puzzle', 450, 550);
+    //var image = new Image();
+    //var svgDoc = document.getElementById('svg1').contentDocument; // gets an XML document, of course
+    var svgDoc = document.getElementById('svg1'); // gets an XML document, of course
+        // how to get src url  of svg?
+        // dev tools fail
+    getSVGSize(svgDoc);
+
+
+
+    //getImgSize(svgDoc);
+
+    //scaleElement('#puzzle', 450, 550);
 }
 
 
