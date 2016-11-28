@@ -131,7 +131,29 @@ The `font-family` declaration prefers non-serif fonts which are easier to read.
 
 \newpage
 
-## Explanation of timings
+## Explanation of data collected
+
+For each game, these values are recorded:
+ 
+* `sesh_id` is the session ID
+* `ntests` is the number of puzzles completed (?)
+* `tinstruct` is the time the instructions were shown to the user
+* `tstart` is the time the quiz was started (one for each puzzle?)
+* `tfinish` is the time the quiz was finished (one for each?)
+* `tinsert` is the time the row was inserted into the database
+* `responses` is the responses from quiz - a blob of JSON data to be parsed by backend
+
+For each circle in each test (practice and real), three values are collected:
+
+* wrong` is the number of wrong clicks before correct one.
+* time` is the time taken to click correct next circle since start of puzzle, in deci-seconds, capped at 32000.
+* total` is the total time elapsed since start of whole game, in deci-seconds, capped at 32000.
+
+The user has 2 minutes for each practice and each real test. 
+If the time limit is reached, the "thanks" screen is displayed, results, are posted back to the server and the game ends. (??)
+
+
+### Bunched events in Internet Explorer
 
 Even latest versions of Internet Explorer (currently 11) will "bunch" events if the CPU or memory load is high. That is, user events such as mouse clicks may not be handled at the time that they happened, and instead, a series of delayed events will occur at practically the same time. 
 
