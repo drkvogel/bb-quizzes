@@ -362,7 +362,7 @@ function getImgSize(imgSrc) {
     newImg.onload = function() {
       var height = newImg.height;
       var width = newImg.width;
-      alert ('The image size is '+width+'*'+height);
+      console.log('The image size is ' + width + '*' + height);
     };
     newImg.src = imgSrc; // this must be done AFTER setting onload
         // expects a url
@@ -377,7 +377,7 @@ function getSVGSize(svgObj) {
     newSVG.onload = function() {
         var height = newSVG.height;
         var width = newSVG.width;
-        console.log('The image size is '+width+'*'+height);
+        console.log('The image size is ' + width + '*' + height);
         //alert ('The image size is '+width+'*'+height);
     };
     newSVG.src = svgObj.src; // this must be done AFTER setting onload
