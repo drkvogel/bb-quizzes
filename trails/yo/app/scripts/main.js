@@ -308,6 +308,16 @@ function scaleElementCB(el) { // attempt at generic scaling function
     var elementHWRatio = el.height() / el.width();
     var targetWidth = targetHeight * elementHWRatio;
 
+    // set these margins on .middleImg to make the targetWidth and targetHeight
+    var setMargins = ($(window).width() - widthExtra - targetWidth) / 2;
+    if (setMargins > 0) { // check > 0 - even in this algorithm, shouldn't be?
+        el.css('margin-left', setMargins);
+        el.css('margin-right', setMargins);
+    } else {
+        el.css('margin-left', 0);
+        el.css('margin-right', 0);
+    }
+}
 
     // var widthExtra = // total width of elements, excluding centre images
     // $('.container').outerWidth(true) - $('.container').width() + ($('#pages').outerWidth(true) - $('#pages').width());
@@ -344,69 +354,52 @@ function scaleElementCB(el) { // attempt at generic scaling function
     // // what innerWidth of .middleImg would create targetMiddleHeight?
     // var targetMiddleWidth = targetMiddleHeight * elementHWRatio;
 
-    // set these margins on .middleImg to make the targetWidth and targetHeight
-    var setMargins = ($(window).width() - widthExtra - targetWidth) / 2;
-    if (setMargins > 0) { // check > 0 - even in this algorithm, shouldn't be?
-        // $(elementSelector).css('margin-left', setMargins);
-        // $(elementSelector).css('margin-right', setMargins);
-        el.css('margin-left', setMargins);
-        el.css('margin-right', setMargins);
-    } else {
-        el.css('margin-left', 0);
-        el.css('margin-right', 0);
-    }
-}
 
-function getImgSize(imgSrc) {
-    var newImg = new Image();
-    newImg.onload = function() {
-      var height = newImg.height;
-      var width = newImg.width;
-      console.log('The image size is ' + width + '*' + height);
-    };
-    newImg.src = imgSrc; // this must be done AFTER setting onload
-        // expects a url
-}
+// function getImgSize(imgSrc) {
+//     var newImg = new Image();
+//     newImg.onload = function() {
+//       var height = newImg.height;
+//       var width = newImg.width;
+//       console.log('The image size is ' + width + '*' + height);
+//     };
+//     newImg.src = imgSrc; // this must be done AFTER setting onload
+//         // expects a url
+// }
 
-function getSVGSize(svgObj) {
-    console.log('getSVGSize(svgObj): src: ' + svgObj);
-        // pretty print?
-        // getSVGSize(svgObj): svgObj: [object HTMLObjectElement]
-    //var newSVG = new Object();
-    var newSVG = {};
-    newSVG.onload = function() {
-        var height = newSVG.height;
-        var width = newSVG.width;
-        console.log('The image size is ' + width + '*' + height);
-        //alert ('The image size is '+width+'*'+height);
-    };
-    newSVG.src = svgObj.src; // this must be done AFTER setting onload
-        // expects a url
-}
+// function getSVGSize(svgObj) {
+//     console.log('getSVGSize(svgObj): src: ' + svgObj);
+//         // pretty print?
+//         // getSVGSize(svgObj): svgObj: [object HTMLObjectElement]
+//     //var newSVG = new Object();
+//     var newSVG = {};
+//     newSVG.onload = function() {
+//         var height = newSVG.height;
+//         var width = newSVG.width;
+//         console.log('The image size is ' + width + '*' + height);
+//         //alert ('The image size is '+width+'*'+height);
+//     };
+//     newSVG.src = svgObj.src; // this must be done AFTER setting onload // expects a url
+// }
 
 function scaleElement(elementSelector) {
     console.log('scaleElement()');
+    scaleElementCB($(elementSelector));
     //scaleElementCBsimple();
     //scaleElementAY();
-    scaleElementCB($(elementSelector));
 }
 
 function scaleImages() {
     console.log('scaleImages()');
-    //scaleImagesCBsimple();
-    //scaleImagesAY();
-    //scaleImagesCB();
+    scaleElement('#puzzle');
+}
     //var image = new Image();
     //var svgDoc = document.getElementById('svg1').contentDocument; // gets an XML document, of course
     //var svgDoc = document.getElementById('svg1'); // gets an XML document, of course
         // how to get src url  of svg?
         // dev tools fail
     //getSVGSize(svgDoc);
-    scaleElement('#puzzle');
-
     //getImgSize(svgDoc);
     //scaleElement('#puzzle', 450, 550);
-}
 
 
 function showPage2() {
