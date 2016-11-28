@@ -238,7 +238,8 @@ function scaleImagesAY() { // copied from hoops main.js for cribbing
     // console.log(msg);
 }*/
 
-function scaleElement(elementSelector, naturalElementHeight, naturalElementWidth) { // attempt at generic scaling function
+
+function scaleElementAY(elementSelector, naturalElementHeight, naturalElementWidth) { // attempt at generic scaling function
     var heightExtra = $('body').height() - $(elementSelector).height();
     var widthExtra = $('body').width() - $(elementSelector).width();
 
@@ -287,8 +288,73 @@ function scaleElement(elementSelector, naturalElementHeight, naturalElementWidth
         $(elementSelector).css('margin-left', 0);
         $(elementSelector).css('margin-right', 0);
     }
+}
+
+// Mon Nov 28 00:31:35 2016
+// dont' need natural dims - just work out h/w ratio from current dims, how much extra height, what height required, therefore what width, therefore what margins
+// should work on all as long as middle content is in a containing div. no need to mess around with SVG DOM.
+
+// h/w ratio from current dims, how much extra height, what height required, therefore what width, therefore what margins
+
+function scaleElementCB(el) { // attempt at generic scaling function
+    var heightExtra = $('body').height() - el.height();
+    var widthExtra = $('body').width() - el.width();
+
+    //var targetWidth = $(window).width() -; // forget about width, it always fits, down to 300px
+    // work out desired height of element
+    var targetHeight = $(window).height() - heightExtra;
+
+    // what innerWidth of .middleImg would create targetMiddleHeight?
+    var elementHWRatio = el.height() / el.width();
+    var targetWidth = targetHeight * elementHWRatio;
 
 
+    // var widthExtra = // total width of elements, excluding centre images
+    // $('.container').outerWidth(true) - $('.container').width() + ($('#pages').outerWidth(true) - $('#pages').width());
+
+    // var heightExtra = // total height of elements, excluding centre images
+    // $('.container').outerHeight(true) - $('.container').height() + ($('.topTxt').is(':visible') ? $('.topTxt').height() : 0) + ($('#imgdiv-a').is(':visible') ? $('#imgdiv-a').outerHeight(true) - $('#imgdiv-a').height() : 0) + ($('#imgdiv-b').is(':visible') ? $('#imgdiv-b').outerHeight(true) - $('#imgdiv-b').height() : 0) + ($('.botTxt').is(':visible') ? $('.botTxt').height() : 0) + ($('#answers').is(':visible') ? $('#answers').height() : 0) + ($('.navTxt').is(':visible') ? $('.navTxt').height() : 0) + ($('.navCtl').is(':visible') ? $('.navCtl').height() : 0);
+    // ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
+
+    // natural image dimensions; .width(), .height() are current dimensions
+    // var naturalFullWidth = widthExtra + naturalElementWidth;
+    // var naturalFullHeight = heightExtra + naturalElementHeight;
+
+    // element needs to be scaled from natural width/height to fit in (window height - textExtra) x window width
+
+    // vertical shrink = (window height - 200px) / naturalFullHeight
+    // horizontal shrink = window width / naturalFullWidth
+    // var scaleV = $(window).height() / naturalFullHeight;
+    // var scaleH = $(window).width() / naturalFullWidth;
+
+    // select lower of these scaling values
+    // var scale = scaleV <= scaleH ? scaleV : scaleH;
+
+    // work out desired dimensions of whole quiz
+    // var targetWidth = naturalFullWidth * scale; // forget about width, it always fits, down to 300px
+    // var targetHeight = naturalFullHeight * scale;
+
+    // // work out desired height of .middleImg
+    // var targetMiddleHeight = targetHeight - heightExtra;
+
+    // // // need h/w ratio of .middleImg. Typical dimensions: ? TODO
+    // // var hwRatio = 1.15; //1.95; //??
+    // // var middleHWRatio = hwRatio;
+
+    // // what innerWidth of .middleImg would create targetMiddleHeight?
+    // var targetMiddleWidth = targetMiddleHeight * elementHWRatio;
+
+    // set these margins on .middleImg to make the targetWidth and targetHeight
+    var setMargins = ($(window).width() - widthExtra - targetWidth) / 2;
+    if (setMargins > 0) { // check > 0 - even in this algorithm, shouldn't be?
+        // $(elementSelector).css('margin-left', setMargins);
+        // $(elementSelector).css('margin-right', setMargins);
+        el.css('margin-left', setMargins);
+        el.css('margin-right', setMargins);
+    } else {
+        el.css('margin-left', 0);
+        el.css('margin-right', 0);
+    }
 }
 
 function getImgSize(imgSrc) {
@@ -297,7 +363,7 @@ function getImgSize(imgSrc) {
       var height = newImg.height;
       var width = newImg.width;
       alert ('The image size is '+width+'*'+height);
-    }
+    };
     newImg.src = imgSrc; // this must be done AFTER setting onload
         // expects a url
 }
@@ -306,32 +372,39 @@ function getSVGSize(svgObj) {
     console.log('getSVGSize(svgObj): src: ' + svgObj);
         // pretty print?
         // getSVGSize(svgObj): svgObj: [object HTMLObjectElement]
-    var newSVG = new Object();
+    //var newSVG = new Object();
+    var newSVG = {};
     newSVG.onload = function() {
         var height = newSVG.height;
         var width = newSVG.width;
         console.log('The image size is '+width+'*'+height);
         //alert ('The image size is '+width+'*'+height);
-    }
+    };
     newSVG.src = svgObj.src; // this must be done AFTER setting onload
         // expects a url
+}
+
+function scaleElement(elementSelector) {
+    console.log('scaleElement()');
+    //scaleElementCBsimple();
+    //scaleElementAY();
+    scaleElementCB($(elementSelector));
 }
 
 function scaleImages() {
     console.log('scaleImages()');
     //scaleImagesCBsimple();
     //scaleImagesAY();
+    //scaleImagesCB();
     //var image = new Image();
     //var svgDoc = document.getElementById('svg1').contentDocument; // gets an XML document, of course
-    var svgDoc = document.getElementById('svg1'); // gets an XML document, of course
+    //var svgDoc = document.getElementById('svg1'); // gets an XML document, of course
         // how to get src url  of svg?
         // dev tools fail
-    getSVGSize(svgDoc);
-
-
+    //getSVGSize(svgDoc);
+    scaleElement('#puzzle');
 
     //getImgSize(svgDoc);
-
     //scaleElement('#puzzle', 450, 550);
 }
 
@@ -373,6 +446,7 @@ function showPage(page) { // prevPage() and nextPage() should handle hiding curr
         console.log('config.timeStarted: ' + config.timeStarted);
         timeUpTimeout = setTimeout(timeUp, config.timeLimit);
         // startTimer(page); // timer to show chosen answer before next, and start game timer
+        scaleImages(); //???
         break;
     case 'home':
     case 'abandon':
@@ -404,7 +478,8 @@ function showPage(page) { // prevPage() and nextPage() should handle hiding curr
     default:
         throw new Error('unrecogised page.templateId');
     }
-    scaleElement('#puzzle');
+    //scaleElement('#puzzle');
+    scaleImages();
     $('#' + page.templateId).fadeIn(FADEIN, showPage2);
 }
     //showInfo('height: ' + $(window).height()); //attr('height'));
