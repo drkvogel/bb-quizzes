@@ -300,20 +300,20 @@ function scaleElementCB(el) { // attempt at generic scaling function
     var heightExtra = $('body').height() - el.height();
     var widthExtra = $('body').width() - el.width();
 
-    //var targetWidth = $(window).width() -; // forget about width, it always fits, down to 300px
-    // work out desired height of element
+    // work out the desired height of element
+    // given the available window height and the other things that need to fit
     var targetHeight = $(window).height() - heightExtra;
 
-    // what innerWidth of .middleImg would create targetMiddleHeight?
-    var elementHWRatio = el.height() / el.width();
+    // what width would the element need to be to have the target height?
+    var elementHWRatio = el.height() / el.width(); // the element's aspect ratio, regardless of current size
     var targetWidth = targetHeight * elementHWRatio;
 
-    // set these margins on .middleImg to make the targetWidth and targetHeight
+    // set both margins to decrease to the target width and therefore the target height
     var setMargins = ($(window).width() - widthExtra - targetWidth) / 2;
-    if (setMargins > 0) { // check > 0 - even in this algorithm, shouldn't be?
+    if (setMargins > 0) {
         el.css('margin-left', setMargins);
         el.css('margin-right', setMargins);
-    } else {
+    } else { // but not if the image is at max width already
         el.css('margin-left', 0);
         el.css('margin-right', 0);
     }
@@ -389,7 +389,7 @@ function scaleElement(elementSelector) {
 }
 
 function scaleImages() {
-    console.log('scaleImages()');
+    //console.log('scaleImages()');
     scaleElement('#puzzle');
 }
     //var image = new Image();
@@ -773,6 +773,12 @@ function init() {
     }
     config.tinstruct = isoDate(); console.log('config.tinstruct: ' + config.tinstruct);
     addListeners(); // attach EventHandlers('part-a');
+
+    window.onresize = function(event) {
+        console.log('onresize');
+        scaleImages();
+    };
+
     showPage(currentPage());
 }
     //$('#devBar').hide();
@@ -789,9 +795,6 @@ function getConfig() {
     });
 }
 
-window.onresize = function(event) {
-    scaleImages();
-};
 
 // get url params
 // TODO - is onpopstate supported in all browswers? http://stackoverflow.com/questions/15896434/window-onpopstate-on-page-load
