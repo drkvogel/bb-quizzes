@@ -101,8 +101,6 @@ The puzzles in the Trails game are comprised of groups of circles and text conne
 
 Each `<circle>` has a `<text>` object centred within it. These are siblings - rather than parent and child, where one would obscure the other. But in order for the circle/text combination to respond to clicks as one unit, they must be grouped together. This is where the `<g>` element comes in. The event listeners are attached to the `<g>` elements, and receive events (e.g. mouse clicks) on any of the child elements. This is known as *event bubbling*. If not caught by an event listener, the events would bubble up right to the top element of the DOM - which, in this case, is `<svg>`, not `<html>`, as our SVG embedded within the HTML and not inlined.
 
-
-
 ### The Viewbox
 
 The `<svg>` tag demands a `viewbox` attribute to be set: given the coordinates of the elements it comprises, what rectangular section of it should be visible? Usually, this will allow the whole image to visible:
@@ -170,7 +168,7 @@ Regarding these two points:
 2) i) The potential time error should be much less than a human is able to generate clicks on separate (circle) elements. Therefore it should not be possible for click events to be handled in the wrong order.
    ii) Even if it were possible for the events to be handled in the wrong order, it should not put the application in an unstable state - a correct click might be interpreted as a wrong one or vice versa - but the application should be able to handle that anyway and the impact to the user and to the timings would be minor.
 
-hasperformance?
+[hasperformance?]
 
 
 ## Description of Scaling Algorithm
@@ -233,6 +231,33 @@ The build system was created by yeoman running on node.js via npm. It uses the g
 \newpage
 
 ## Database table for trails Quiz
+
+All data for a user's session is stored in on row in the table `trails`.
+
+There is "header" information:
+
+    sesh_id     Session ID
+    ntests      Number of puzzles completed
+    tinstruct   Time the instructions were shown to the user
+    tstart      Time the quiz was started
+    tfinish     Time the quiz was finished
+    tinsert     Time the row was inserted into the database (default 'now')
+    responses   JSON blob returned at end of quiz, to be parsed by backend
+
+Then, for each click on each circle of each test, 3 values in the format:
+
+    zz_x_wrong  Number of wrong clicks before correct one
+    zz_x_time   Time taken to click correct next circle since start of puzzle
+    zz_x_total  Total time elapsed since start of whole game
+
+where zz is the puzzle: 
+
+    ap          part a, practice
+    ar          part a, real
+    bp          part b, practice
+    br          part b, real
+
+and x is the sequential number of the element (circle) clicked.
 
     (Table) cp.trails
     Comment:None
