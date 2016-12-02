@@ -774,10 +774,11 @@ function init() {
     config.tinstruct = isoDate(); console.log('config.tinstruct: ' + config.tinstruct);
     addListeners(); // attach EventHandlers('part-a');
 
-    window.onresize = function(event) {
-        console.log('onresize');
-        scaleImages();
-    };
+    // window.onresize = function(event) {
+    //     console.log('onresize');
+    //     scaleImages();
+    // };
+    window.addEventListener('resize', debounce(scaleImages, 400));
 
     showPage(currentPage());
 }
