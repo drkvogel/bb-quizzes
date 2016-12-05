@@ -297,16 +297,20 @@ function scaleElementAY(elementSelector, naturalElementHeight, naturalElementWid
 // h/w ratio from current dims, how much extra height, what height required, therefore what width, therefore what margins
 
 function scaleElementCB(el) { // attempt at generic scaling function
-    var heightExtra = $('body').height() - el.height();
-    var widthExtra = $('body').width() - el.width();
+        // + arg for min height?
+    var heightExtra = $('body').height() - el.outerHeight(true);
+    var widthExtra = $('body').width() - el.outerWidth(true);
 
     // work out the desired height of element
     // given the available window height and the other things that need to fit
-    var targetHeight = $(window).height() - heightExtra;
+    var targetHeight = $(window).height() - heightExtra - 50;
+    if (targetHeight < 200) {
+        targetHeight = 200;
+    }
 
     // what width would the element need to be to have the target height?
     var elementHWRatio = el.height() / el.width(); // the element's aspect ratio, regardless of current size
-    var targetWidth = targetHeight * elementHWRatio;
+    var targetWidth = targetHeight / elementHWRatio;
 
     // set both margins to decrease to the target width and therefore the target height
     var setMargins = ($(window).width() - widthExtra - targetWidth) / 2;
@@ -315,7 +319,10 @@ function scaleElementCB(el) { // attempt at generic scaling function
     }
     el.css('margin-left', setMargins);
     el.css('margin-right', setMargins);
-    console.log('elementHWRatio: ' + elementHWRatio + ', targetWidth: ' + targetWidth + ', setMargins: ' + setMargins);
+    console.log('heightExtra: ' + heightExtra + ' ((\'body\').height(): ' + $('body').height() + ' - el.height(): ' + el.height() + ')');
+    console.log('widthExtra: ' + widthExtra.toFixed(2) + ' ($(\'body\').width(): ' + $('body').width() + ' - el.width(): ' + el.width() + ')');
+    console.log('targetHeight : ' + targetHeight + '($(window).height(): ' + $(window).height() + ' - heightExtra: ' + heightExtra + ')');
+    console.log('elementHWRatio: ' + elementHWRatio.toFixed(2) + ', targetWidth: ' + targetWidth.toFixed(2) + ', setMargins: ' + setMargins.toFixed(2));
 }
 
     // var widthExtra = // total width of elements, excluding centre images
@@ -380,17 +387,6 @@ function scaleElementCB(el) { // attempt at generic scaling function
 //     newSVG.src = svgObj.src; // this must be done AFTER setting onload // expects a url
 // }
 
-function scaleElement(elementSelector) {
-    console.log('scaleElement()');
-    scaleElementCB($(elementSelector));
-    //scaleElementCBsimple();
-    //scaleElementAY();
-}
-
-function scaleImages() {
-    //console.log('scaleImages()');
-    scaleElement('#puzzle');
-}
     //var image = new Image();
     //var svgDoc = document.getElementById('svg1').contentDocument; // gets an XML document, of course
     //var svgDoc = document.getElementById('svg1'); // gets an XML document, of course
@@ -398,13 +394,33 @@ function scaleImages() {
         // dev tools fail
     //getSVGSize(svgDoc);
     //getImgSize(svgDoc);
-    //scaleElement('#puzzle', 450, 550);
 
+function scaleElement(elementSelector) {
+    console.log('scaleElement()');
+    scaleElementCB($(elementSelector));
+}
+
+function scaleImages() {
+    scaleElement('#puzzle');
+}
 
 function showPage2() {
     $('#pages').on('click', 'button', containerClick); // prevent double-click
     if (currentPage().name === 'thanks') { // redundant?
         setTimeout(finished, 3000);
+    }
+    switch (currentPage().templateId) {
+    case 'game':
+        scaleImages();
+        timer.now(); // start timer for all real exercises
+        if (!config.hasOwnProperty('timeStarted')) {
+            config. timeStarted = isoDate();
+            console.log('config.timeStarted: ' + config.timeStarted);
+        }
+        timeUpTimeout = setTimeout(timeUp, config.timeLimit);
+        break;
+    default:
+        break;
     }
     console.log(' '); // (re-)scaleImages();bind clicks
 }
@@ -432,13 +448,14 @@ function showPage(page) { // prevPage() and nextPage() should handle hiding curr
             $('.topTxt').html('');
             $('.botTxt').html(''); //console.log('puzzle.b: ' + puzzle.b + ', correct: ' + puzzle.c); //puzzle = config.practice; ??
         }
-        timer.now(); // start timer for all real exercises
-        //timerWholeTest.now(); // start timer for this puzzle? (for 'elapsed' field)
-        config.timeStarted = isoDate();
-        console.log('config.timeStarted: ' + config.timeStarted);
-        timeUpTimeout = setTimeout(timeUp, config.timeLimit);
+        // timer.now(); // start timer for all real exercises
+        // if (!config.hasOwnProperty('timeStarted')) {
+        //     config. timeStarted = isoDate();
+        //     console.log('config.timeStarted: ' + config.timeStarted);
+        // }
+        // timeUpTimeout = setTimeout(timeUp, config.timeLimit);
         // startTimer(page); // timer to show chosen answer before next, and start game timer
-        scaleImages(); //???
+        //scaleImages(); //???
         break;
     case 'home':
     case 'abandon':
@@ -471,7 +488,7 @@ function showPage(page) { // prevPage() and nextPage() should handle hiding curr
         throw new Error('unrecogised page.templateId');
     }
     //scaleElement('#puzzle');
-    scaleImages();
+    //scaleImages();
     $('#' + page.templateId).fadeIn(FADEIN, showPage2);
 }
     //showInfo('height: ' + $(window).height()); //attr('height'));
@@ -601,24 +618,19 @@ function fillYellow(id) {
 }
 
 function logEvent(element) { // for practices and real puzzles
-    console.log('logEvent(): element: ' + element);// + ', correct: ' + isCorrect);
+    // console.log('logEvent(): element: ' + element);// + ', correct: ' + isCorrect);
     var page = currentPage();
-    var timeTaken;
     timer.lap();
     timerWholeTest.lap();
-    console.log('timerWholeTest.getElapsed(): ' + timerWholeTest.getElapsed());
     var answer = {
         wrongClicks: wrongClicks,              // number of wrong clicks before correct
         duration: timer.getElapsed(),          // Time taken to click on next correct element
         elapsed: timerWholeTest.getElapsed() // cumulative time elapsed
     }; // name of puzzle/practice, id of element clicked on by user can be determined by position in list
-    //timer.now();
-    console.log('logEvent(): answer: ' + logObj(answer));
+    //timer.now(); // record duration delta, not absolute
+    //console.log('logEvent(): answer: ' + logObj(answer));
     answers.push(answer);
 }
-    //console.log('timerWholeTest.lap(): ' + timerWholeTest.lap()); // undefined
-    // timeTaken = timer.getElapsed();
-    // console.log('timeTaken: ' + timeTaken);
     //showTime(timeTaken, isCorrect);
 
 function wrong() { // console.log('wrong(): ' + this.id);
@@ -794,7 +806,6 @@ function getConfig() {
         console.log(err);
     });
 }
-
 
 // get url params
 // TODO - is onpopstate supported in all browswers? http://stackoverflow.com/questions/15896434/window-onpopstate-on-page-load
