@@ -1,4 +1,4 @@
-/*global $ */ // assume jquery
+/*global $, debounce */ // assume jquery
 /*jslint browser:true */ // assume 'document'
 /* jshint unused:false */
 /*eslint-disable no-unused-vars*/
@@ -310,13 +310,12 @@ function scaleElementCB(el) { // attempt at generic scaling function
 
     // set both margins to decrease to the target width and therefore the target height
     var setMargins = ($(window).width() - widthExtra - targetWidth) / 2;
-    if (setMargins > 0) {
-        el.css('margin-left', setMargins);
-        el.css('margin-right', setMargins);
-    } else { // but not if the image is at max width already
-        el.css('margin-left', 0);
-        el.css('margin-right', 0);
+    if (setMargins < 0) {
+        setMargins = 0;
     }
+    el.css('margin-left', setMargins);
+    el.css('margin-right', setMargins);
+    console.log('elementHWRatio: ' + elementHWRatio + ', targetWidth: ' + targetWidth + ', setMargins: ' + setMargins);
 }
 
     // var widthExtra = // total width of elements, excluding centre images
@@ -778,7 +777,7 @@ function init() {
     //     console.log('onresize');
     //     scaleImages();
     // };
-    window.addEventListener('resize', debounce(scaleImages, 400));
+    window.addEventListener('resize', debounce(scaleImages, 100));
 
     showPage(currentPage());
 }

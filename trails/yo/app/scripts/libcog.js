@@ -1,8 +1,16 @@
+/*global $ */ // assume jquery
+/*jslint browser:true */ // assume 'document'
+/* jshint unused:false */
+/*eslint-disable no-unused-vars*/
+/*eslint-disable no-unreachable*/
+/*eslint-disable strict */
+
 
 function debounce(func, wait, immediate) {
-    console.log('debounce');
+    console.log('register debounce');
     var timeout;
     return function() {
+        console.log('debounce');
         var context = this, args = arguments; // JavaScript functions have a built-in object called the arguments object.
         var later = function() {
             timeout = null;
@@ -16,7 +24,7 @@ function debounce(func, wait, immediate) {
         if (callNow) {
             func.apply(context, args);
         }
-    }
+    };
 }
 
 
