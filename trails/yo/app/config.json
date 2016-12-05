@@ -36,7 +36,7 @@
             "templateId" : "game",
             "numCircles" : 8,
             "prefix" : "apr",
-            "botTxt" : "<p><br><br>This is a practice. Beginning with number 1, join all the circles in numeric order by clicking the next numbered circle. Please work as quickly and accurately as you can.</p>"
+            "botTxt" : "<p>This is a practice. Beginning with number 1, join all the circles in numeric order by clicking the next numbered circle. Please work as quickly and accurately as you can.</p>"
         },
         {
             "name": "getReady",
