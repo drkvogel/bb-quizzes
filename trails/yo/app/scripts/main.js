@@ -296,16 +296,19 @@ function scaleElementAY(elementSelector, naturalElementHeight, naturalElementWid
 
 // h/w ratio from current dims, how much extra height, what height required, therefore what width, therefore what margins
 
+// if necessary, shrink an element by setting margins so that all body content fits in the viewport height
 function scaleElementCB(el) { // attempt at generic scaling function
         // + arg for min height?
-    var heightExtra = $('body').height() - el.outerHeight(true);
-    var widthExtra = $('body').width() - el.outerWidth(true);
+    var heightExtra = $('body').outerHeight(true) - el.outerHeight(true);
+    var widthExtra = $('body').outerWidth(true) - el.outerWidth(true);
+    var minHeight = 200; // minumum height the element will be scaled to
+    var padHeight = 50; // shouldn't need pad height if html has adequate margins!
 
     // work out the desired height of element
     // given the available window height and the other things that need to fit
-    var targetHeight = $(window).height() - heightExtra - 50;
-    if (targetHeight < 200) {
-        targetHeight = 200;
+    var targetHeight = $(window).height() - heightExtra - padHeight;
+    if (targetHeight < minHeight) {
+        targetHeight = minHeight;
     }
 
     // what width would the element need to be to have the target height?
