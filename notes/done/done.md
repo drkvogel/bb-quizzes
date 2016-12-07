@@ -15,7 +15,7 @@ in matrix, only 2 pages have class="gridContainer", the ones with puzzles, inclu
 several of the pages in the html are redundant - the text content comes from config.json
 the pages (templates, really) in use in hoops are:
 
-        "templateId": "home", "templateId": "intro1", "templateId": "intro6", "templateId": "game", "templateId": "thanks",
+    "templateId": "home", "templateId": "intro1", "templateId": "intro6", "templateId": "game", "templateId": "thanks",
 
 wrap each in a container with a common class that will have margins applied to it - .middleImg, perhaps
 
