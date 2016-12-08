@@ -55,10 +55,10 @@ gulp.task('lint:test', lint('test/spec/**/*.js', testLintOptions));
 
 gulp.task('html', ['styles', 'scripts'], () => {
   return gulp.src('app/*.html')
-    .pipe(replace({
+    .pipe(replace({ // gulp-replace-task
       patterns: [
         {
-          match: 'datetime',
+          match: 'datetime', // @@datetime in index.html
           replacement: Date()
         }
       ]
@@ -69,23 +69,6 @@ gulp.task('html', ['styles', 'scripts'], () => {
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
     .pipe(gulp.dest('dist'));
 });
-
-// var gulp = require('gulp');
-// var replace = require('gulp-replace-task');
-
-// gulp.task('default', function () {
-//   gulp.src('src/index.html')
-//     .pipe(replace({
-//       patterns: [
-//         {
-//           match: 'foo',
-//           replacement: 'bar'
-//         }
-//       ]
-//     }))
-//     .pipe(gulp.dest('build'));
-// });
-
 
 gulp.task('images', () => { // skip caching, minification
   return gulp.src('app/images/**/*').pipe(gulp.dest('dist/images'));
