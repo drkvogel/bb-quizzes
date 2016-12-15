@@ -24,6 +24,7 @@
     </g>
     <line id="l2" x1="213" y1="452" x2="319" y2="452" stroke-width="2" stroke="black" display="none" />
     <g id="g2">
+        <ellipse id="c2" cx="213" cy="462" rx="25" ry="30" alt="circle2" stroke-width="2" stroke="gray" fill="white" />
         <circle id="c2" cx="213" cy="452" r="20" alt="circle2" stroke-width="2" stroke="black" fill="white" />
         <text  x="213" y="452" text-anchor="middle" dominant-baseline="central">2</text>
     </g>
