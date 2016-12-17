@@ -17,128 +17,153 @@
 }    
         </style>
     </defs>
-    <line id="l1" x1="228" y1="232" x2="323" y2="387" stroke-width="2" stroke="black" display="none" />
     <g id="g1">
+        <ellipse id="e1" cx="228" cy="237" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l1" x1="228" y1="232" x2="323" y2="387" stroke-width="2" stroke="black" display="none" />
         <circle id="c1"  cx="228" cy="232" r="20" stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="228" y="232">1</text>
     </g>
-    <line id="l2" x1="323" y1="387" x2="175" y2="420" stroke-width="2" stroke="black" display="none" />
     <g id="g2">
+        <ellipse id="e2" cx="323" cy="392" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l2" x1="323" y1="387" x2="175" y2="420" stroke-width="2" stroke="black" display="none" />
         <circle id="c2"  cx="323" cy="387" r="20" stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="323" y="387">A</text>
     </g>
-    <line id="l3" x1="175" y1="420" x2="203" y2="111" stroke-width="2" stroke="black" display="none" />
     <g id="g3">
+        <ellipse id="e3" cx="175" cy="425" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l3" x1="175" y1="420" x2="203" y2="111" stroke-width="2" stroke="black" display="none" />
         <circle id="c3"  cx="175" cy="420" r="20" stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="175" y="420">2</text>
     </g>
-    <line id="l4" x1="203" y1="111" x2="234" y2="169" stroke-width="2" stroke="black" display="none" />
     <g id="g4">
+        <ellipse id="e4" cx="203" cy="116" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l4" x1="203" y1="111" x2="234" y2="169" stroke-width="2" stroke="black" display="none" />
         <circle id="c4"  cx="203" cy="111" r="20" stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="203" y="111">B</text>
     </g>
-    <line id="l5" x1="234" y1="169" x2="327" y2="286" stroke-width="2" stroke="black" display="none" />
     <g id="g5">
+        <ellipse id="e5" cx="234" cy="174" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l5" x1="234" y1="169" x2="327" y2="286" stroke-width="2" stroke="black" display="none" />
         <circle id="c5"  cx="234" cy="169" r="20" stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="234" y="169">3</text>
     </g>
-    <line id="l6" x1="327" y1="286" x2="277" y2="80" stroke-width="2" stroke="black" display="none" />
     <g id="g6">
+        <ellipse id="e6" cx="327" cy="291" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l6" x1="327" y1="286" x2="277" y2="80" stroke-width="2" stroke="black" display="none" />
         <circle id="c6"  cx="327" cy="286" r="20" stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="327" y="286">C</text>
     </g>
-    <line id="l7" x1="277" y1="80" x2="386" y2="78" stroke-width="2" stroke="black" display="none" />
     <g id="g7">
+        <ellipse id="e7" cx="277" cy="85" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l7" x1="277" y1="80" x2="386" y2="78" stroke-width="2" stroke="black" display="none" />
         <circle id="c7"  cx="277" cy="80" r="20" stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="277" y="80">4</text>
     </g>
-    <line id="l8" x1="386" y1="78" x2="380" y2="246" stroke-width="2" stroke="black" display="none" />
     <g id="g8">
+        <ellipse id="e8" cx="386" cy="83" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l8" x1="386" y1="78" x2="380" y2="246" stroke-width="2" stroke="black" display="none" />
         <circle id="c8"  cx="386" cy="78" r="20" stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="386" y="78">D</text>
     </g>
-    <line id="l9" x1="380" y1="246" x2="381" y2="472" stroke-width="2" stroke="black" display="none" />
     <g id="g9">
+        <ellipse id="e9" cx="380" cy="251" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l9" x1="380" y1="246" x2="381" y2="472" stroke-width="2" stroke="black" display="none" />
         <circle id="c9"  cx="380" cy="246" r="20" stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="380" y="246">5</text>
     </g>
-    <line id="l10" x1="381" y1="472" x2="233" y2="457" stroke-width="2" stroke="black" display="none" />
     <g id="g10">
+        <ellipse id="e10" cx="381" cy="477" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l10" x1="381" y1="472" x2="233" y2="457" stroke-width="2" stroke="black" display="none" />
         <circle id="c10"  cx="381" cy="472" r="20" stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="381" y="472">E</text>
     </g>
-    <line id="l11" x1="233" y1="457" x2="130" y2="498" stroke-width="2" stroke="black" display="none" />
     <g id="g11">
+        <ellipse id="e11" cx="233" cy="462" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l11" x1="233" y1="457" x2="130" y2="498" stroke-width="2" stroke="black" display="none" />
         <circle id="c11" cx="233" cy="457" r="20"  stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="233" y="457">6</text>
     </g>
-    <line id="l12" x1="130" y1="498" x2="155" y2="225" stroke-width="2" stroke="black" display="none" />
     <g id="g12">
+        <ellipse id="e12" cx="130" cy="503" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l12" x1="130" y1="498" x2="155" y2="225" stroke-width="2" stroke="black" display="none" />
         <circle id="c12" cx="130" cy="498" r="20"  stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="130" y="498">F</text>
     </g>
-    <line id="l13" x1="155" y1="225" x2="90" y2="381" stroke-width="2" stroke="black" display="none" />
     <g id="g13">
+        <ellipse id="e13" cx="155" cy="230" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l13" x1="155" y1="225" x2="90" y2="381" stroke-width="2" stroke="black" display="none" />
         <circle id="c13" cx="155" cy="225" r="20"  stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="155" y="225">7</text>
     </g>
-    <line id="l14" x1="90" y1="381" x2="65" y2="90" stroke-width="2" stroke="black" display="none" />
     <g id="g14">
+        <ellipse id="e14" cx="90" cy="386" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l14" x1="90" y1="381" x2="65" y2="90" stroke-width="2" stroke="black" display="none" />
         <circle id="c14" cx="90" cy="381" r="20"  stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="90" y="381">G</text>
     </g>
-    <line id="l15" x1="65" y1="90" x2="108" y2="268" stroke-width="2" stroke="black" display="none" />
     <g id="g15">
+        <ellipse id="e15" cx="65" cy="95" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l15" x1="65" y1="90" x2="108" y2="268" stroke-width="2" stroke="black" display="none" />
         <circle id="c15" cx="65" cy="90" r="20"  stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="65" y="90">8</text>
     </g>
-    <line id="l16" x1="108" y1="268" x2="149" y2="79" stroke-width="2" stroke="black" display="none" />
     <g id="g16">
+        <ellipse id="e16" cx="108" cy="273" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l16" x1="108" y1="268" x2="149" y2="79" stroke-width="2" stroke="black" display="none" />
         <circle id="c16" cx="108" cy="268" r="20"  stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="108" y="268">H</text>
     </g>
-    <line id="l17" x1="149" y1="79" x2="342" y2="29" stroke-width="2" stroke="black" display="none" />
     <g id="g17">
+        <ellipse id="e17" cx="149" cy="84" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l17" x1="149" y1="79" x2="342" y2="29" stroke-width="2" stroke="black" display="none" />
         <circle id="c17" cx="149" cy="79" r="20"  stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="149" y="79">9</text>
     </g>
-    <line id="l18" x1="342" y1="29" x2="416" y2="29" stroke-width="2" stroke="black" display="none" />
     <g id="g18">
+        <ellipse id="e18" cx="342" cy="34" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l18" x1="342" y1="29" x2="416" y2="29" stroke-width="2" stroke="black" display="none" />
         <circle id="c18" cx="342" cy="29" r="20"  stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="342" y="29">I</text>
     </g>
-    <line id="l19" x1="416" y1="29" x2="408" y2="409" stroke-width="2" stroke="black" display="none" />
     <g id="g19">
+        <ellipse id="e19" cx="416" cy="34" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l19" x1="416" y1="29" x2="408" y2="409" stroke-width="2" stroke="black" display="none" />
         <circle id="c19" cx="416" cy="29" r="20"  stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="416" y="29">10</text>
     </g>
-    <line id="l20" x1="408" y1="409" x2="422" y2="520" stroke-width="2" stroke="black" display="none" />
     <g id="g20">
+        <ellipse id="e20" cx="408" cy="414" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l20" x1="408" y1="409" x2="422" y2="520" stroke-width="2" stroke="black" display="none" />
         <circle id="c20" cx="408" cy="409" r="20"  stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="408" y="409">J</text>
     </g>
-    <line id="l21" x1="422" y1="520" x2="38" y2="521" stroke-width="2" stroke="black" display="none" />
     <g id="g21">
+        <ellipse id="e21" cx="422" cy="525" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l21" x1="422" y1="520" x2="38" y2="521" stroke-width="2" stroke="black" display="none" />
         <circle id="c21" cx="422" cy="520" r="20"  stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="422" y="520">11</text>
     </g>
-    <line id="l22" x1="38" y1="521" x2="23" y2="337" stroke-width="2" stroke="black" display="none" />
     <g id="g22">
+        <ellipse id="e22" cx="38" cy="526" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l22" x1="38" y1="521" x2="23" y2="337" stroke-width="2" stroke="black" display="none" />
         <circle id="c22" cx="38" cy="521" r="20"  stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="38" y="521">K</text>
     </g>
-    <line id="l23" x1="23" y1="337" x2="56" y2="452" stroke-width="2" stroke="black" display="none" />
     <g id="g23">
+        <ellipse id="e23" cx="23" cy="343" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l23" x1="23" y1="337" x2="56" y2="452" stroke-width="2" stroke="black" display="none" />
         <circle id="c23" cx="23" cy="337" r="20"  stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="23" y="337">12</text>
     </g>
-    <line id="l24" x1="56" y1="452" x2="32" y2="40" stroke-width="2" stroke="black" display="none" />
     <g id="g24">
+        <ellipse id="e24" cx="56" cy="457" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l24" x1="56" y1="452" x2="32" y2="40" stroke-width="2" stroke="black" display="none" />
         <circle id="c24" cx="56" cy="452" r="20"  stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="56" y="452">L</text>
     </g>
 
     <g id="g25">
+        <ellipse id="e25" cx="32" cy="45" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
         <circle id="c25" cx="32" cy="40" r="20"  stroke-width="2" stroke="black" fill="white" />
         <text  text-anchor="middle" dominant-baseline="central" x="32" y="40">13</text>
     </g>
