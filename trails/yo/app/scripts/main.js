@@ -466,6 +466,8 @@ function correct() { // console.log('correct(): id: ' + this.id); // 'this' refe
     fillYellow(circle);
 
     var num = Number(this.id.slice(1)); //console.log('correct(): num: ' + num + ', clicked: ' + this.id);
+    var ellipse = svg.contentDocument.getElementById('e' + String(num)); // correct node
+    $(ellipse).remove();
     if (nextCircle !== 1) {
         var line = svg.contentDocument.getElementById('l' + String(num - 1)); // why did I make ids 0-indexed?
         $(line).attr('display', 'inline'); // $(line).show() ?
