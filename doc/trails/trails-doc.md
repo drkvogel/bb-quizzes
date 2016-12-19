@@ -129,6 +129,57 @@ The `font-family` declaration prefers non-serif fonts which are easier to read.
 
 \newpage
 
+### bigger touch area for circles
+
+extending downwards perhaps
+
+trails: ellipse cy + 5 rx 25 ry 30
+transparency not officially part of svg spec, though many UAs support it
+stroke="none" fill="none" but then loses events... because fill is "none" and not "white", i.e. is hollow? yes. set fill in order to respond to click
+with stroke-width="none", ellipse outline can still be seen....  use stroke="white"
+lines are drawn before and therefore under circles/groups so that segment within circle originating at circle centre is obscured
+with extra elliptical touch area, line gets broken when drawn under it
+on correct click, remove ellipse just before showing line?
+or draw ellipse before line?
+
+In SVG, z-index is defined by the order the element appears in the document. SVG 2 brings in an explicit z-order
+http://stackoverflow.com/questions/17786618/how-to-use-z-index-in-svg-elements
+
+I want the ellipse to be part of the group that responds to click events, but not the lines. Currently, the line is not in the group:
+
+```xml
+    <line id="l1" x1="277" y1="390" x2="213" y2="452" stroke-width="2" stroke="black" display="none" />
+    <g id="g1">
+        <ellipse id="e1" cx="277" cy="395" rx="25" ry="28" alt="" stroke-width="none" stroke="none" fill="white" />
+        <circle id="c1" cx="277" cy="390" r="20" alt="circle1" stroke-width="2" stroke="black" fill="white" />
+        <text  x="277" y="390" text-anchor="middle" dominant-baseline="central">1</text>
+    </g>
+```
+
+but in order to draw it on top of the ellipse, and under the circle and text, it would need to be in the group:
+
+```xml
+    <g id="g1">
+        <ellipse id="e1" cx="277" cy="395" rx="25" ry="28" alt="" stroke-width="none" stroke="none" fill="white" />
+        <line id="l1" x1="277" y1="390" x2="213" y2="452" stroke-width="2" stroke="black" display="none" />
+        <circle id="c1" cx="277" cy="390" r="20" alt="circle1" stroke-width="2" stroke="black" fill="white" />
+        <text  x="277" y="390" text-anchor="middle" dominant-baseline="central">1</text>
+    </g>
+```
+
+which would make it respond to clicks... except that at this point the line is not visible (rather than the same colour as the background, like the ellipse) - so doesn't respond to clicks anyway.
+
+but... though the line is drawn after the first ellipse (so it goes over it), it is drawn *before* the ellipse in the next node, so goes under it. 
+see bb-quizzes/doc/trails/trails-ellipse-line-z-index.png
+
+of course, once the next correct node is clicked on, the ellipse is no longer needed, so can be deleted....
+
+part-b.svg 
+    7 to G line obscured by ellipse from H - move H north say 5px.. not enough? *less* Y to make it go up, eejit!
+    K to 12 by L - L could go east 5px
+    remember to move ellipse, circle, line and text
+
+
 ## Explanation of data collected
 
 For each game, these values are recorded:
