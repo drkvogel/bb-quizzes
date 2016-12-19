@@ -108,10 +108,10 @@
         <text  text-anchor="middle" dominant-baseline="central" x="65" y="90">8</text>
     </g>
     <g id="g16">
-        <ellipse id="e16" cx="108" cy="273" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
-        <line id="l16" x1="108" y1="268" x2="149" y2="79" stroke-width="2" stroke="black" display="none" />
-        <circle id="c16" cx="108" cy="268" r="20"  stroke-width="2" stroke="black" fill="white" />
-        <text  text-anchor="middle" dominant-baseline="central" x="108" y="268">H</text>
+        <ellipse id="e16" cx="108" cy="268" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l16" x1="108" y1="263" x2="149" y2="79" stroke-width="2" stroke="black" display="none" />
+        <circle id="c16" cx="108" cy="263" r="20"  stroke-width="2" stroke="black" fill="white" />
+        <text  text-anchor="middle" dominant-baseline="central" x="108" y="263">H</text>
     </g>
     <g id="g17">
         <ellipse id="e17" cx="149" cy="84" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
@@ -156,10 +156,10 @@
         <text  text-anchor="middle" dominant-baseline="central" x="23" y="337">12</text>
     </g>
     <g id="g24">
-        <ellipse id="e24" cx="56" cy="457" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
-        <line id="l24" x1="56" y1="452" x2="32" y2="40" stroke-width="2" stroke="black" display="none" />
-        <circle id="c24" cx="56" cy="452" r="20"  stroke-width="2" stroke="black" fill="white" />
-        <text  text-anchor="middle" dominant-baseline="central" x="56" y="452">L</text>
+        <ellipse id="e24" cx="60" cy="457" rx="25" ry="28" alt="" stroke-width="none" stroke="gray" fill="white" />
+        <line id="l24" x1="60" y1="452" x2="32" y2="40" stroke-width="2" stroke="black" display="none" />
+        <circle id="c24" cx="60" cy="452" r="20"  stroke-width="2" stroke="black" fill="white" />
+        <text  text-anchor="middle" dominant-baseline="central" x="60" y="452">L</text>
     </g>
 
     <g id="g25">
