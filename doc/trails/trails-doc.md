@@ -224,36 +224,82 @@ Regarding these two points:
 
 ## Description of Scaling Algorithm
 
-[TODO]
+In the previous quizzes I have done so far (Matrix, Hoops)
 
-#### Pseudo-code for scaling algorithm
+### JavaScript code for scaling algorithm
 
-[TODO]
+```js
+// if necessary, shrink an element by setting margins so that all body content fits in the viewport height
+function scaleElementCB(el) { // generic scaling function
+        // + arg for min height?
+    var heightExtra = $('body').outerHeight(true) - el.outerHeight(true);
+    var widthExtra = $('body').outerWidth(true) - el.outerWidth(true);
+    var minHeight = 200; // minumum height the element will be scaled to
+    var padHeight = 50; // shouldn't need pad height if html has adequate margins!
 
-#### JavaScript code for scaling algorithm
+    // calculate desired height of el given window height and other element heights
+    var targetHeight = $(window).height() - heightExtra - padHeight;
+    if (targetHeight < minHeight) {
+        targetHeight = minHeight;
+    }
 
-[TODO]
+    // what width would the element need to be to have the target height?
+    var elementHWRatio = el.height() / el.width(); // the element's aspect ratio, regardless of current size
+    var targetWidth = targetHeight / elementHWRatio;
 
-\newpage
+    // set both margins to decrease to the target width and therefore the target height
+    var setMargins = ($(window).width() - widthExtra - targetWidth) / 2;
+    if (setMargins < 0) {
+        setMargins = 0;
+    }
+    el.css('margin-left', setMargins);
+    el.css('margin-right', setMargins);
+}
+```
 
-## Worked Examples
+#### Optional parameters in JavaScript?
 
->Worked numeric examples for screen resolutions of (HxV) 1280x1024, 640x480, 320x480, 750x1334 and 1242x2208
+In the above function, `function scaleElementCB(el)`, I have hard-code a couple of parameters in order to improve the functionality: 
 
-### 1280x1024
+* `minHeight` is the minumum height that element will be scaled to. Without this limit, the element could be scaled down to nothing, which might be confusing to the user - they would not be able to see that there is an image that they are supposed to be able to see.
+* `padHeight` adds extra vertical padding to ensure that elements are not crowded together.
 
+Ideally, these values would be set by optional parameters, with sensible defaults, rather than being hard-coded.
 
-### 640x480
+In some other languages, optional parameters are built-in, e.g. in Python:
 
+```python
+def my_func(a, b=2, c=3):
+    print 'a: %a, b: %b, c: %c'
 
-### 320x480
+my_func(1)              # '1, 2, 3'
+my_func(1, 5, 10)       # '1, 5, 10'
+```
 
+but in the version of JavaScript most commonly supported by current browsers, ECMAScript 5 (or "ES5"), no such support exists. The next generation of JavaScript, called ES6 or ES2015, does support optional parameters.
 
-### 750x1334
+In ES5, we can simulate optional parameters with this idiom:
 
+```js
+function myfunc(a, b) {
+    // use this if you specifically want to know if b was passed
+    if (b === undefined) {
+        // b was not passed
+    }
+    // use this if you know that a truthy value comparison will be enough
+    if (b) {
+        // b was passed and has truthy value
+    } else {
+        // b was not passed or has falsy value
+    }
+    // use this to set b to a default value (using truthy comparison)
+    b = b || "default value";
+}
+```
 
-### 1242x2208
+The current hardcoded method works well enough for this puzzle, but I may refine the function in future to include optional default parameters.
 
+source: http://stackoverflow.com/questions/12797118/how-can-i-declare-optional-function-parameters-in-javascript
 
 \newpage
 
