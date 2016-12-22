@@ -1,6 +1,5 @@
 {
     "_comment": "can't put comments in JSON! http://stackoverflow.com/questions/244777/can-comments-be-used-in-json",
-    "_comment": "timeLimit should be 120000 == 2 minutes",
     "nextDelay" : 500,
     "timeLimit" : 120000,
     "formAction" : "http://oqs.ndph.ox.ac.uk/~cp/bbquiz/",
