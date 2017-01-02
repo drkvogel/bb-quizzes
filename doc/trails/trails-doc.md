@@ -60,11 +60,11 @@ When an SVG is embedded, it creates its own DOM in the browser - a "shadow DOM".
 In order to access the inner DOM, we need some code like this:
 
 ```js
-    var svg1 = document.getElementById('svg1');         // select our SVG:  <object id="svg1" type="image/svg+xml" data=""></object>
-    svg1.addEventListener('load', function () {         // will be invoked each time svg loaded
-        var svgDoc = svg1.contentDocument;              // get inner DOM of svg
-        ...                                             // do stuff with svgDoc
-    });
+var svg1 = document.getElementById('svg1');         // select our SVG:  <object id="svg1" type="image/svg+xml" data=""></object>
+svg1.addEventListener('load', function () {         // will be invoked each time svg loaded
+    var svgDoc = svg1.contentDocument;              // get inner DOM of svg
+    ...                                             // do stuff with svgDoc
+});
 ```
 
 We need to wait until the SVG has loaded before acting upon it, so a function callback is added to the `onload` event of the SVG. Note that the anonymous function callback is therefore a closure, and has access to the enclosing scope, i.e. it can access `svg1` even though it will be invoked at some point after it is declared.
@@ -72,19 +72,19 @@ We need to wait until the SVG has loaded before acting upon it, so a function ca
 Then we can add event listeners to sub-elements of the SVG:
 
 ```js
-    var group = svgDoc.getElementById(id);                  // get inner element by id
-    group.addEventListener('mousedown', correct, false);    // where correct() is a function
+var group = svgDoc.getElementById(id);                  // get inner element by id
+group.addEventListener('mousedown', correct, false);    // where correct() is a function
 ```
 
 As the game progresses, and clicking on some elements (circles) becomes correct and others incorrect, these event listeners can be changed in a similar way:
 
 ```js
-    var svgDoc = document.getElementById('svg1').contentDocument; 
-    var oldGroup = svgDoc.getElementById(oldId);            // the correct element that has been clicked on
-    oldGroup.removeEventListener('mousedown', correct);     // no longer correct or wrong
-    var newGroup = svgDoc.getElementById(newId);            // the next correct element to click on
-    newGroup.removeEventListener('mousedown', wrong);       // no longer wrong
-    newGroup.addEventListener('mousedown', correct);        // clicking on this element now invokes correct()
+var svgDoc = document.getElementById('svg1').contentDocument; 
+var oldGroup = svgDoc.getElementById(oldId);            // the correct element that has been clicked on
+oldGroup.removeEventListener('mousedown', correct);     // no longer correct or wrong
+var newGroup = svgDoc.getElementById(newId);            // the next correct element to click on
+newGroup.removeEventListener('mousedown', wrong);       // no longer wrong
+newGroup.addEventListener('mousedown', correct);        // clicking on this element now invokes correct()
 ```
 
 ### circles, text, groups and lines
@@ -131,54 +131,66 @@ The `font-family` declaration prefers non-serif fonts which are easier to read.
 
 ### bigger touch area for circles
 
-extending downwards perhaps
+On mobile devices particularly, the circles can be quite difficult to touch accurately with the finger. We decided to increase the touch area for each circle by adding and invisible ellipse, extending downwards slightly, to each circle. e.g.
 
-trails: ellipse cy + 5 rx 25 ry 30
-transparency not officially part of svg spec, though many UAs support it
-stroke="none" fill="none" but then loses events... because fill is "none" and not "white", i.e. is hollow? yes. set fill in order to respond to click
-with stroke-width="none", ellipse outline can still be seen....  use stroke="white"
-lines are drawn before and therefore under circles/groups so that segment within circle originating at circle centre is obscured
-with extra elliptical touch area, line gets broken when drawn under it
-on correct click, remove ellipse just before showing line?
-or draw ellipse before line?
+```xml
+<ellipse id="e1" cx="277" cy="395" rx="25" ry="28" alt="" stroke-width="none" stroke="none" fill="white" />
+```
+
+Transparency is not officially part of the SVG 1.0 spec, though many UAs support it. 
+I tried setting `stroke="none" fill="none"` to make the ellipses invisible, but then they do not respond to events, because the fill is `"none"` and the shape is hollow. The fill must be set to a solid colour in order to respond to clicks.
+
+With `stroke-width="none"`, the ellipse outline can still be seen - so use `stroke="white"`.
 
 In SVG, z-index is defined by the order the element appears in the document. SVG 2 brings in an explicit z-order
 http://stackoverflow.com/questions/17786618/how-to-use-z-index-in-svg-elements
 
+In the original SVG files that I wrote, the lines wre drawn before and therefore under circles/groups so that segment within the circle, originating at the circle centre, is obscured. When an extra elliptical touch area was added, the line gets broken when drawn under it.
+on correct click, remove ellipse just before showing line?
+or draw ellipse before line?
+
+
 I want the ellipse to be part of the group that responds to click events, but not the lines. Currently, the line is not in the group:
 
 ```xml
-    <line id="l1" x1="277" y1="390" x2="213" y2="452" stroke-width="2" stroke="black" display="none" />
-    <g id="g1">
-        <ellipse id="e1" cx="277" cy="395" rx="25" ry="28" alt="" stroke-width="none" stroke="none" fill="white" />
-        <circle id="c1" cx="277" cy="390" r="20" alt="circle1" stroke-width="2" stroke="black" fill="white" />
-        <text  x="277" y="390" text-anchor="middle" dominant-baseline="central">1</text>
-    </g>
+<line id="l1" x1="277" y1="390" x2="213" y2="452" stroke-width="2" stroke="black" display="none" />
+<g id="g1">
+    <ellipse id="e1" cx="277" cy="395" rx="25" ry="28" alt="" stroke-width="none" stroke="none" fill="white" />
+    <circle id="c1" cx="277" cy="390" r="20" alt="circle1" stroke-width="2" stroke="black" fill="white" />
+    <text  x="277" y="390" text-anchor="middle" dominant-baseline="central">1</text>
+</g>
 ```
 
-but in order to draw it on top of the ellipse, and under the circle and text, it would need to be in the group:
+In order to draw it on top of the ellipse, and under the circle and text, it would need to be in the group:
 
 ```xml
-    <g id="g1">
-        <ellipse id="e1" cx="277" cy="395" rx="25" ry="28" alt="" stroke-width="none" stroke="none" fill="white" />
-        <line id="l1" x1="277" y1="390" x2="213" y2="452" stroke-width="2" stroke="black" display="none" />
-        <circle id="c1" cx="277" cy="390" r="20" alt="circle1" stroke-width="2" stroke="black" fill="white" />
-        <text  x="277" y="390" text-anchor="middle" dominant-baseline="central">1</text>
-    </g>
+<g id="g1">
+    <ellipse id="e1" cx="277" cy="395" rx="25" ry="28" alt="" stroke-width="none" stroke="none" fill="white" />
+    <line id="l1" x1="277" y1="390" x2="213" y2="452" stroke-width="2" stroke="black" display="none" />
+    <circle id="c1" cx="277" cy="390" r="20" alt="circle1" stroke-width="2" stroke="black" fill="white" />
+    <text  x="277" y="390" text-anchor="middle" dominant-baseline="central">1</text>
+</g>
 ```
 
-which would make it respond to clicks... except that at this point the line is not visible (rather than the same colour as the background, like the ellipse) - so doesn't respond to clicks anyway.
+which would make it respond to clicks. Except that, at this point, the line is not visible (rather than the same colour as the background, like the ellipse) - so doesn't respond to clicks anyway.
 
-but... though the line is drawn after the first ellipse (so it goes over it), it is drawn *before* the ellipse in the next node, so goes under it. 
-see bb-quizzes/doc/trails/trails-ellipse-line-z-index.png
+But, though the line is drawn after the first ellipse (so it goes over it), it is drawn *before* the ellipse in the next node, so goes under it. 
 
-of course, once the next correct node is clicked on, the ellipse is no longer needed, so can be deleted....
+![trails overlaps](trails-ellipse-line-z-index.png "trails overlaps")
 
-part-b.svg 
-    7 to G line obscured by ellipse from H - move H north say 5px.. not enough? *less* Y to make it go up, eejit!
-    K to 12 by L - L could go east 5px
-    remember to move ellipse, circle, line and text
+Of course, once the next correct node is clicked on, the ellipse is no longer needed, so it can be deleted. This can be achieved with jQuery in the event handler:
 
+```js
+var ellipse = svg.contentDocument.getElementById('e' + String(num)); // correct node
+$(ellipse).remove();
+```
+
+In `part-b.svg`, adding extra elliptical touch areas to some circles created some overlaps. I needed to move some circles:
+
+* line 7 to G obscured by ellipse H - move H north 5px
+* line K to 12 obscured by ellipse L - move L east 5px
+
+Remember that the circle, line, and text must be moved as well as the ellipse.
 
 ## Explanation of data collected
 
@@ -224,14 +236,41 @@ Regarding these two points:
 
 ## Description of Scaling Algorithm
 
-In the previous quizzes I have done so far (Matrix, Hoops)
+In the previous quizzes I have done so far (Matrix, Hoops), I used a scaling algorithm that had a lot of hard-coded values specific to that game - namely the heights and widths of the various page elements, and the height to width ratio of the main image which is to be scaled.
+
+In this game, I needed a scaling algorithm again, but wanted to improve on previous versions by making it more generic and not relying upon hard-coded values which are time-consuming to collect.
+
+The aim of the algorithm is to scale the main page element containing the puzzle so that it and all of the surrounding content fits in the viewport.
+
+As html elements will scale width-wise, but will scroll off the bottom of the page if too large, the challenge is to set the height of the puzzle element, which is the variable part of the layout (the text and buttons cannot be scaled without losing readability).
+
+If the height of the element is already at a maximum given the width it is filling and everything fits, then there is no need to change anything. However, if the height of the element is causing content to scroll off the bottom of the viewport, the element must be scaled down in order to fit the height available.
+
+The easiest way to reduce an element's height whilst keeping its aspect ratio is to reduce its width. And the easiest way to reduce an element's width given that it has to fill its enclosing element, is to set margins on either side. The algorithm works out what to set these margins to.
+
+I realised that, rather than explicitly setting hard-coded page element dimensions, everything could be calculated from the viewport dimensions and the current dimensions of page elements.
+
+The combined height (`heightExtra`) of elements other than the puzzle element that need to fit into the viewport height can be determined from the body height minus the current height of the puzzle element.
+
+The combined width (`widthExtra`) of elements other than the puzzle element that need to fit into the viewport width can be determined from the body width minus the current width of the puzzle element.
+
+The target height of the puzzle element, so that it and `heightExtra` combined fit in the viewport height, can then be calculated.
+
+The height to width ratio (i.e. aspect ratio) of the puzzle element can be calculated from the element's current dimensions.
+
+Once we know the target height and the aspect ratio, we can work out the desired inner width.
+
+Once we know the desired width of the puzzle element, the extra widths of other page elements, and the viewport width, we can work out how much margin to add to reduce the inner width, if necessary. 
+
+And then we set half of this value to each of the left and right margins, reducing the inner width of the puzzle element, thus reducing the height of the puzzle element, thus allowing it and the extra heights of other elements combined to fit within the current viewport height, and prevent scrolling off the bottom.
+
+A minimum height limit is currently hard-coded to stop the puzzle element being shrunk to nothing - the user must be aware that there is a puzzle image there, even if it is too small to use. This scenario would probably only happen if the user was using a browser on a desktop or laptop computer and had resized the window so that it was very wide but with a short height.
 
 ### JavaScript code for scaling algorithm
 
 ```js
 // if necessary, shrink an element by setting margins so that all body content fits in the viewport height
-function scaleElementCB(el) { // generic scaling function
-        // + arg for min height?
+function scaleElementCB(el) { // generic scaling function // + arg for min height?
     var heightExtra = $('body').outerHeight(true) - el.outerHeight(true);
     var widthExtra = $('body').outerWidth(true) - el.outerWidth(true);
     var minHeight = 200; // minumum height the element will be scaled to
@@ -300,6 +339,12 @@ function myfunc(a, b) {
 The current hardcoded method works well enough for this puzzle, but I may refine the function in future to include optional default parameters.
 
 source: http://stackoverflow.com/questions/12797118/how-can-i-declare-optional-function-parameters-in-javascript
+
+\newpage
+
+## debouncing events
+
+
 
 \newpage
 
