@@ -212,22 +212,41 @@ void Trails::getResults(XQUERY & q, TrailsRecord & rec, const char * section, in
     char fieldname[16];
     for (int i = 0; i < rec.ntests && i < numFields; i++) {
         TrailsAnswer ans;
-        //sprintf(fieldname, "puzzle%d", i+1);    ans.puzzle = q.result.getInt(fieldname);
         sprintf(fieldname, "%s_%d_wrong", section, i+1);     ans.wrongClicks = q.result.getInt(fieldname);
         sprintf(fieldname, "%s_%d_time", section, i+1);      ans.duration = q.result.getInt(fieldname);
         sprintf(fieldname, "%s_%d_total", section, i+1);     ans.elapsed = q.result.getInt(fieldname);
         rec.answers.push_back(ans);
     }
 }
+        //sprintf(fieldname, "puzzle%d", i+1);    ans.puzzle = q.result.getInt(fieldname);
 
 void Trails::printRecords() {
     printf("<code>\n");
+    printf("START_AP: %d START_AR: %d START_BP: %d START_BR: %d<br />", START_AP, START_AR, START_BP, START_BR);
     printf("<h3>%d results:</h3>\n", TrailsRecords.size());
     printf("<table border=\"1\" cellspacing=\"0\">\n");
     printf("<thead><td>sesh_id</td><td>tinstruct</td><td>tstart</td><td>tfinish</td>\n"); // column headers
     printf("<td>responses</td><td>ntests</td>");
+
+    // START_AP: 1 START_AR 9 START_BP 34 START_BR 42
+    int clik;
     for (int i = 1; i <= NUM_POINTS_TOTAL; i++) {
-        printf("<td>wrong_%d</td><td>time_%d</td><td>total_%d</td>", i, i, i);
+        const char * sect;
+        if (i >= START_BR) { // 42
+            sect = "br";
+            clik = i - START_BR + 1;
+        } else if (i >= START_BP) { // 34
+            sect = "bp";
+            clik = i - START_BP + 1;
+        } else if (i >= START_AR) { // 9
+            sect = "ar";
+            clik = i - START_AR + 1;
+        } else { // 1-8
+            sect = "ap";
+            clik = i;
+        }
+        // printf("<td>wrong_%d</td><td>time_%d</td><td>total_%d</td>", i, i, i);
+        printf("<td>(i: %d, START_AR: %d, clik: %d) %s_%d_wrong</td><td>%s_%d_time</td><td>%s_%d_total</td>", i, START_AR, clik, sect, clik, sect, clik, sect, clik);
     }
     printf("</thead>\n");
     for (vecTrailsRecord::const_iterator rec = TrailsRecords.begin(); rec != TrailsRecords.end(); rec++) { // records

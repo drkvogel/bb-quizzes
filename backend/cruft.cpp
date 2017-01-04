@@ -69,7 +69,7 @@ int initDB() {
 // void startMatrix() {
 //     printf("<p>startMatrix()</p>");
 // }
-// 
+//
 // void startHoops() {
 //     printf("<p>startHoops()</p>");
 // }
@@ -105,7 +105,7 @@ int initDB() {
 //         }
 //         printf("got json node type: %s, length: %d<br />", nx_json_type_names[node->type], node->length);
 //         printAnswer(node);
-// 
+//
 //         const nx_json* ans;
 //         while ((ans = nx_json_item(json, idx++)) && ans->type != NX_JSON_NULL) { // doesn't finish...
 //             printf("ans %d: ", idx);
@@ -853,103 +853,103 @@ typedef struct {
 //     xe.param.setInt("elapsed1",      e->elapsed1);
 //     xe.param.setInt("answer1",       e->answer1);
 //     xe.param.setInt("correct1",      e->correct1);
-// 
+//
 //     xe.param.setInt("duration2",     e->duration2);
 //     xe.param.setInt("puzzle2",       e->puzzle2);
 //     xe.param.setInt("elapsed2",      e->elapsed2);
 //     xe.param.setInt("answer2",       e->answer2);
 //     xe.param.setInt("correct2",      e->correct2);
-// 
+//
 //     xe.param.setInt("duration3",     e->duration3);
 //     xe.param.setInt("puzzle3",       e->puzzle3);
 //     xe.param.setInt("elapsed3",      e->elapsed3);
 //     xe.param.setInt("answer3",       e->answer3);
 //     xe.param.setInt("correct3",      e->correct3);
-// 
+//
 //     xe.param.setInt("duration4",     e->duration4);
 //     xe.param.setInt("puzzle4",       e->puzzle4);
 //     xe.param.setInt("elapsed4",      e->elapsed4);
 //     xe.param.setInt("answer4",       e->answer4);
 //     xe.param.setInt("correct4",      e->correct4);
-// 
+//
 //     xe.param.setInt("duration5",     e->duration5);
 //     xe.param.setInt("puzzle5",       e->puzzle5);
 //     xe.param.setInt("elapsed5",      e->elapsed5);
 //     xe.param.setInt("answer5",       e->answer5);
 //     xe.param.setInt("correct5",      e->correct5);
-// 
+//
 //     xe.param.setInt("duration6",     e->duration6);
 //     xe.param.setInt("puzzle6",       e->puzzle6);
 //     xe.param.setInt("elapsed6",      e->elapsed6);
 //     xe.param.setInt("answer6",       e->answer6);
 //     xe.param.setInt("correct6",      e->correct6);
-// 
+//
 //     xe.param.setInt("duration7",     e->duration7);
 //     xe.param.setInt("puzzle7",       e->puzzle7);
 //     xe.param.setInt("elapsed7",      e->elapsed7);
 //     xe.param.setInt("answer7",       e->answer7);
 //     xe.param.setInt("correct7",      e->correct7);
-// 
+//
 //     xe.param.setInt("duration8",     e->duration8);
 //     xe.param.setInt("puzzle8",       e->puzzle8);
 //     xe.param.setInt("elapsed8",      e->elapsed8);
 //     xe.param.setInt("answer8",       e->answer8);
 //     xe.param.setInt("correct8",      e->correct8);
-// 
+//
 //     xe.param.setInt("duration9",     e->duration9);
 //     xe.param.setInt("puzzle9",       e->puzzle9);
 //     xe.param.setInt("elapsed9",      e->elapsed9);
 //     xe.param.setInt("answer9",       e->answer9);
 //     xe.param.setInt("correct9",      e->correct9);
-// 
+//
 //     xe.param.setInt("duration10",     e->duration10);
 //     xe.param.setInt("puzzle10",       e->puzzle10);
 //     xe.param.setInt("elapsed10",      e->elapsed10);
 //     xe.param.setInt("answer10",       e->answer10);
 //     xe.param.setInt("correct10",      e->correct10);
-// 
+//
 //     xe.param.setInt("duration11",     e->duration11);
 //     xe.param.setInt("puzzle11",       e->puzzle11);
 //     xe.param.setInt("elapsed11",      e->elapsed11);
 //     xe.param.setInt("answer11",       e->answer11);
 //     xe.param.setInt("correct11",      e->correct11);
-// 
+//
 //     xe.param.setInt("duration12",     e->duration12);
 //     xe.param.setInt("puzzle12",       e->puzzle12);
 //     xe.param.setInt("elapsed12",      e->elapsed12);
 //     xe.param.setInt("answer12",       e->answer12);
 //     xe.param.setInt("correct12",      e->correct12);
-// 
+//
 //     xe.param.setInt("duration13",     e->duration13);
 //     xe.param.setInt("puzzle13",       e->puzzle13);
 //     xe.param.setInt("elapsed13",      e->elapsed13);
 //     xe.param.setInt("answer13",       e->answer13);
 //     xe.param.setInt("correct13",      e->correct13);
-// 
+//
 //     xe.param.setInt("duration14",     e->duration14);
 //     xe.param.setInt("puzzle14",       e->puzzle14);
 //     xe.param.setInt("elapsed14",      e->elapsed14);
 //     xe.param.setInt("answer14",       e->answer14);
 //     xe.param.setInt("correct14",      e->correct14);
-// 
+//
 //     xe.param.setInt("duration15",     e->duration15);
 //     xe.param.setInt("puzzle15",       e->puzzle15);
 //     xe.param.setInt("elapsed15",      e->elapsed15);
 //     xe.param.setInt("answer15",       e->answer15);
 //     xe.param.setInt("correct15",      e->correct15);
-// 
+//
 //     xe.param.setInt("duration16",     e->duration16);
 //     xe.param.setInt("puzzle16",       e->puzzle16);
 //     xe.param.setInt("elapsed16",      e->elapsed16);
 //     xe.param.setInt("answer16",       e->answer16);
 //     xe.param.setInt("correct16",      e->correct16);
-// 
+//
 //     xe.param.setInt("duration17",     e->duration17);
 //     xe.param.setInt("puzzle17",       e->puzzle17);
 //     xe.param.setInt("elapsed17",      e->elapsed17);
 //     xe.param.setInt("answer17",       e->answer17);
 //     xe.param.setInt("correct17",      e->correct17);
-// 
+//
 //     xe.param.setInt("duration18",     e->duration18);
 //     xe.param.setInt("puzzle18",       e->puzzle18);
 //     xe.param.setInt("elapsed18",      e->elapsed18);
@@ -999,3 +999,74 @@ typedef struct {
 
 
 
+// void Trails::testInsert() { // insert some dummy data
+//     TrailsRecord rec;
+//     rec.sesh_id = -1;//x->param.getIntDefault("sesh_id", -1);
+//     rec.ntests = -1; //x->param.getIntDefault("ntests", -1);
+//     rec.tinstruct.set("2000-01-01T00:00:00"); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
+//     rec.tstart.set("2000-01-01T00:00:00");
+//     rec.tfinish.set("2000-01-01T00:00:00");
+//     rec.responses = "[{\"puzzle\":\"t3w2by1.png\",\"answer\":\"4\",\"correct\":false,\"time\":761},{\"puzzle\":\"t3yw2b1.png\",\"answer\":\"4\",\"correct\":false,\"time\":628},{\"puzzle\":\"t32by1w.png\",\"answer\":\"4\",\"correct\":false,\"time\":3380},{\"puzzle\":\"t3bw21y.png\",\"answer\":\"4\",\"correct\":false,\"time\":509},{\"puzzle\":\"t3y2wb1.png\",\"answer\":\"4\",\"correct\":true,\"time\":320},{\"puzzle\":\"t3w2b1y.png\",\"answer\":\"4\",\"correct\":false,\"time\":401},{\"puzzle\":\"t3y2b1w.png\",\"answer\":\"4\",\"correct\":false,\"time\":384},{\"puzzle\":\"t3yw21b.png\",\"answer\":\"4\",\"correct\":false,\"time\":369},{\"puzzle\":\"t32wy1b.png\",\"answer\":\"4\",\"correct\":false,\"time\":354},{\"puzzle\":\"t3w2yb1.png\",\"answer\":\"4\",\"correct\":false,\"time\":369},{\"puzzle\":\"t3w2y1b.png\",\"answer\":\"4\",\"correct\":false,\"time\":333},{\"puzzle\":\"t3wy2b1.png\",\"answer\":\"4\",\"correct\":false,\"time\":394},{\"puzzle\":\"t3wb2y1.png\",\"answer\":\"4\",\"correct\":true,\"time\":364},{\"puzzle\":\"t32yb1w.png\",\"answer\":\"4\",\"correct\":true,\"time\":385},{\"puzzle\":\"t3ywb21.png\",\"answer\":\"4\",\"correct\":false,\"time\":358},{\"puzzle\":\"t3yb21w.png\",\"answer\":\"4\",\"correct\":true,\"time\":452},{\"puzzle\":\"t3ybw21.png\",\"answer\":\"4\",\"correct\":false,\"time\":376},{\"puzzle\":\"t3wyb21.png\",\"answer\":\"4\",\"correct\":false,\"time\":384}]";
+//     for (int i=0; i<MAX_LEVELS; i++) { // fill remainder
+//         TrailsAnswer ans;
+//         ans.puzzle = "";
+//         ans.wrongClicks = -1;
+//         ans.duration = -1;
+//         ans.elapsed = -1;
+//         rec.answers.push_back(ans);
+//     }
+//     if (Trails::insertRecord(&rec)) {
+//         printf("<p>Dummy data inserted.</p>\n");
+//     } else {
+//         printf("<p>Not inserted!</p>\n");
+//     }
+// }
+
+    //printf("<code>there are %d params</code>", np);
+    //printf("<p>sesh_id (string param): '%s'</p>", x->param.getStringDefault("sesh_id", "(default)").c_str()); // should be getInt? no, use getString and convert
+    //rec.sesh_id = atoi(x->param.getString("sesh_id").c_str());
+    //printf("<p>sesh_id (rec.sesh_id = atoi(getString(\"sesh_id\"))): %d</p>", rec.sesh_id);
+
+    //printf("<p>sesh_id: '%d'</p>", rec.sesh_id);
+/*
+    printf("about to get int");
+    try {
+        rec.sesh_id = x->param.getInt("sesh_id"); // seems to crash it
+    } catch (std::string e) {
+        printf("caught exception: '%s'", e.c_str());
+        // terminate called after throwing an instance of std::string
+    }*/
+
+
+    //rec.tinsert.set(""); // set in SQL - shouldn't be in struct
+//     rec.tstart.set(x->param.getString("tstart").c_str());
+//     rec.tfinish.set(x->param.getString("tfinish").c_str());
+//     rec.tinsert.set(x->param.getString("tinsert").c_str());
+
+    //printf("<p>nowString().c_str(): '%s'</p>", nowString().c_str()); // bad format for XTIME::set()
+    //rec.tinstruct.set("2016-08-15T16:30:00"); // nowString().c_str()); //x->param.getTime("tinstruct"); // "2016-08-15 16:30";
+
+    //#define NUM_POINTS_TOTAL NUM_POINTS_AP + NUM_POINTS_AR + NUM_POINTS_BP + NUM_POINTS_BR
+
+    // insert answered puzzles
+    // copied from hoops, trails will be different
+    // char fieldname[12];s
+    // for (int i=0; i<rec->answers.size(); i++) { // safer, should agree with rec->ntests
+    //     IFDEBUG printf("%d ", i+1); //printf("answer %d/%d<br />", i+1, rec->answers.size());
+    //     sprintf(fieldname, "duration%d", i+1);  xe.param.setInt(fieldname,  rec->answers[i].duration); //printf("field: '%s', value: %d<br />\n", fieldname,  rec->answers[i].duration);
+    //     sprintf(fieldname, "puzzle%d", i+1);    xe.param.setInt(fieldname,  rec->answers[i].puzzle);
+    //     sprintf(fieldname, "elapsed%d", i+1);   xe.param.setInt(fieldname,  rec->answers[i].elapsed);
+    //     sprintf(fieldname, "answer%d", i+1);    xe.param.setInt(fieldname,  rec->answers[i].answer);
+    //     sprintf(fieldname, "correct%d", i+1);   xe.param.setInt(fieldname,  rec->answers[i].correct);
+    // }
+    // IFDEBUG printf("<br />added %d answered puzzles...<br />\n", rec->answers.size());
+
+    // // insert 'nulls' (-1) for the rest explicitly, otherwise fields have to have defaults
+    // for (int i = rec->answers.size()+1; i <= MAX_LEVELS; i++) {
+    //     sprintf(fieldname, "duration%d", i);    xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
+    //     sprintf(fieldname, "puzzle%d", i);      xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
+    //     sprintf(fieldname, "elapsed%d", i);     xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
+    //     sprintf(fieldname, "answer%d", i);      xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
+    //     sprintf(fieldname, "correct%d", i);     xe.param.setInt(fieldname,  -1); //printf("field: '%s', value: %d<br />\n", fieldname, 0);
+    // }
+    // IFDEBUG printf("added %d null records...<br />\n", MAX_LEVELS - rec->answers.size());
