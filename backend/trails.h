@@ -11,12 +11,12 @@ extern XDB *db;
 #define NUM_POINTS_AR 25
 #define NUM_POINTS_BP 8
 #define NUM_POINTS_BR 25
-#define NUM_POINTS_TOTAL NUM_POINTS_AP + NUM_POINTS_AR + NUM_POINTS_BP + NUM_POINTS_BR
+#define NUM_POINTS_TOTAL (NUM_POINTS_AP + NUM_POINTS_AR + NUM_POINTS_BP + NUM_POINTS_BR)
 #define START_AP 1
-#define START_AR START_AP + NUM_POINTS_AP // 9
-#define START_BP START_AR + NUM_POINTS_AR // 34
-#define START_BR START_BP + NUM_POINTS_BP // 42
-
+#define START_AR (START_AP + NUM_POINTS_AP)
+#define START_BP (START_AR + NUM_POINTS_AR)
+#define START_BR (START_BP + NUM_POINTS_BP)
+// Wed Jan  4 18:47:43 2017 beware unbracketed defines!
 
 namespace Trails {
     const short MAX_LEVELS = 18;
