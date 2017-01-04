@@ -16,8 +16,8 @@ var LIVE = false, // const? JSHint doesn't like it
     answers = [],
     wrongClicks = 0,
     current,
-    timer,
-    timerWholeTest,
+    timerClick,
+    timerPuzzle,
     isTimeUp = false,
     nextPageTimeout,
     timeUpTimeout,
@@ -75,13 +75,13 @@ function timeUp() {
     console.log('timeUp(): isTimeUp:' + isTimeUp);
 }
 
-function startTimer(page) {
-    timer.now(); // start timer for practices *and* real exercises
-    timerWholeTest.now(); // start timer for the whole game (for 'elapsed' field)
-    config.timeStarted = isoDate();
-    console.log('config.timeStarted: ' + config.timeStarted);
-    timeUpTimeout = setTimeout(timeUp, config.timeLimit);
-}
+// function startTimer(page) {
+//     timerClick.now(); // start timer for practices *and* real exercises
+//     timerPuzzle.now(); // start timer for the whole game (for 'elapsed' field)
+//     config.timeStarted = isoDate();
+//     console.log('config.timeStarted: ' + config.timeStarted);
+//     timeUpTimeout = setTimeout(timeUp, config.timeLimit);
+// }
 
 function containerClick(e) {
     e.preventDefault();
@@ -106,10 +106,6 @@ function containerClick(e) {
     // console.log('containerClick(e): ' + e.handleObj.selector); //logObj(e));
     // console.log('containerClick(e): unbind');// + logObj(this));// + logObj(e));
 
-// Mon Nov 28 00:31:35 2016
-// dont' need natural dims - just work out h/w ratio from current dims, how much extra height, what height required, therefore what width, therefore what margins
-// should work on all as long as middle content is in a containing div. no need to mess around with SVG DOM.
-// h/w ratio from current dims, how much extra height, what height required, therefore what width, therefore what margins
 
 // if necessary, shrink an element by setting margins so that all body content fits in the viewport height
 function scaleElementCB(el) { // attempt at generic scaling function
@@ -137,81 +133,11 @@ function scaleElementCB(el) { // attempt at generic scaling function
     }
     el.css('margin-left', setMargins);
     el.css('margin-right', setMargins);
-    console.log('heightExtra: ' + heightExtra + ' ((\'body\').height(): ' + $('body').height() + ' - el.height(): ' + el.height() + ')');
-    console.log('widthExtra: ' + widthExtra.toFixed(2) + ' ($(\'body\').width(): ' + $('body').width() + ' - el.width(): ' + el.width() + ')');
-    console.log('targetHeight : ' + targetHeight + '($(window).height(): ' + $(window).height() + ' - heightExtra: ' + heightExtra + ')');
-    console.log('elementHWRatio: ' + elementHWRatio.toFixed(2) + ', targetWidth: ' + targetWidth.toFixed(2) + ', setMargins: ' + setMargins.toFixed(2));
+    // console.log('heightExtra: ' + heightExtra + ' ((\'body\').height(): ' + $('body').height() + ' - el.height(): ' + el.height() + ')');
+    // console.log('widthExtra: ' + widthExtra.toFixed(2) + ' ($(\'body\').width(): ' + $('body').width() + ' - el.width(): ' + el.width() + ')');
+    // console.log('targetHeight : ' + targetHeight + '($(window).height(): ' + $(window).height() + ' - heightExtra: ' + heightExtra + ')');
+    // console.log('elementHWRatio: ' + elementHWRatio.toFixed(2) + ', targetWidth: ' + targetWidth.toFixed(2) + ', setMargins: ' + setMargins.toFixed(2));
 }
-
-    // var widthExtra = // total width of elements, excluding centre images
-    // $('.container').outerWidth(true) - $('.container').width() + ($('#pages').outerWidth(true) - $('#pages').width());
-
-    // var heightExtra = // total height of elements, excluding centre images
-    // $('.container').outerHeight(true) - $('.container').height() + ($('.topTxt').is(':visible') ? $('.topTxt').height() : 0) + ($('#imgdiv-a').is(':visible') ? $('#imgdiv-a').outerHeight(true) - $('#imgdiv-a').height() : 0) + ($('#imgdiv-b').is(':visible') ? $('#imgdiv-b').outerHeight(true) - $('#imgdiv-b').height() : 0) + ($('.botTxt').is(':visible') ? $('.botTxt').height() : 0) + ($('#answers').is(':visible') ? $('#answers').height() : 0) + ($('.navTxt').is(':visible') ? $('.navTxt').height() : 0) + ($('.navCtl').is(':visible') ? $('.navCtl').height() : 0);
-    // ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
-
-    // natural image dimensions; .width(), .height() are current dimensions
-    // var naturalFullWidth = widthExtra + naturalElementWidth;
-    // var naturalFullHeight = heightExtra + naturalElementHeight;
-
-    // element needs to be scaled from natural width/height to fit in (window height - textExtra) x window width
-
-    // vertical shrink = (window height - 200px) / naturalFullHeight
-    // horizontal shrink = window width / naturalFullWidth
-    // var scaleV = $(window).height() / naturalFullHeight;
-    // var scaleH = $(window).width() / naturalFullWidth;
-
-    // select lower of these scaling values
-    // var scale = scaleV <= scaleH ? scaleV : scaleH;
-
-    // work out desired dimensions of whole quiz
-    // var targetWidth = naturalFullWidth * scale; // forget about width, it always fits, down to 300px
-    // var targetHeight = naturalFullHeight * scale;
-
-    // // work out desired height of .middleImg
-    // var targetMiddleHeight = targetHeight - heightExtra;
-
-    // // // need h/w ratio of .middleImg. Typical dimensions: ? TODO
-    // // var hwRatio = 1.15; //1.95; //??
-    // // var middleHWRatio = hwRatio;
-
-    // // what innerWidth of .middleImg would create targetMiddleHeight?
-    // var targetMiddleWidth = targetMiddleHeight * elementHWRatio;
-
-
-// function getImgSize(imgSrc) {
-//     var newImg = new Image();
-//     newImg.onload = function() {
-//       var height = newImg.height;
-//       var width = newImg.width;
-//       console.log('The image size is ' + width + '*' + height);
-//     };
-//     newImg.src = imgSrc; // this must be done AFTER setting onload
-//         // expects a url
-// }
-
-// function getSVGSize(svgObj) {
-//     console.log('getSVGSize(svgObj): src: ' + svgObj);
-//         // pretty print?
-//         // getSVGSize(svgObj): svgObj: [object HTMLObjectElement]
-//     //var newSVG = new Object();
-//     var newSVG = {};
-//     newSVG.onload = function() {
-//         var height = newSVG.height;
-//         var width = newSVG.width;
-//         console.log('The image size is ' + width + '*' + height);
-//         //alert ('The image size is '+width+'*'+height);
-//     };
-//     newSVG.src = svgObj.src; // this must be done AFTER setting onload // expects a url
-// }
-
-    //var image = new Image();
-    //var svgDoc = document.getElementById('svg1').contentDocument; // gets an XML document, of course
-    //var svgDoc = document.getElementById('svg1'); // gets an XML document, of course
-        // how to get src url  of svg?
-        // dev tools fail
-    //getSVGSize(svgDoc);
-    //getImgSize(svgDoc);
 
 function scaleElement(elementSelector) {
     console.log('scaleElement()');
@@ -230,7 +156,8 @@ function showPage2() {
     switch (currentPage().templateId) {
     case 'game':
         scaleImages();
-        timer.now(); // start timer for all real exercises
+        timerPuzzle.now(); // start timer for all real exercises
+        timerClick.now();
         if (!config.hasOwnProperty('timeStarted')) {
             config. timeStarted = isoDate();
             console.log('config.timeStarted: ' + config.timeStarted);
@@ -427,15 +354,16 @@ function fillYellow(id) {
 
 function logEvent(element) { // for practices and real puzzles
     var page = currentPage();
-    timer.lap();
-    timerWholeTest.lap();
+    timerClick.lap();
+    timerPuzzle.lap();
     var answer = {
         wrongClicks: wrongClicks,               // number of wrong clicks before correct
-        duration: timer.getElapsed(),           // Time taken to click on next correct element
-        elapsed: timerWholeTest.getElapsed()    // cumulative time elapsed
+        duration: timerClick.getElapsed(),      // Time taken to click on next correct element
+        elapsed: timerPuzzle.getElapsed()       // cumulative time elapsed
     }; // name of puzzle/practice, id of element clicked on by user can be determined by position in list
-    //console.log('logEvent(): element: ' + element + ', answer: ' + logObj(answer));
+    console.log('logEvent(): element: ' + element + ', answer: ' + logObj(answer));
     answers.push(answer);
+    timerClick.now();
 }
     //showTime(timeTaken, isCorrect);
 
@@ -537,16 +465,12 @@ function keydown(e) {
 }
 
 function init() {
-    timer = new Timer(); // globals
-    timerWholeTest = new Timer(); // globals
-    timerWholeTest.now();
+    timerClick = new Timer(); // globals
+    timerPuzzle = new Timer(); // globals
+    timerPuzzle.now();
     isTimeUp = false;
     current = 0;
 
-    // var loc = location.toString().split('://')[1]; // strip off http://, https://
-    // if (loc.substr(0, 9) === 'localhost') { // served from gulp
-    //     LOCAL = true;
-    // }
     var msg;
     var loc = location.toString().split('://')[1].split('.')[0]; // strip off http://, https://
     console.log('loc: ' + loc);
@@ -602,6 +526,10 @@ function init() {
     showPage(currentPage());
 }
     //$('#devBar').hide();
+    // var loc = location.toString().split('://')[1]; // strip off http://, https://
+    // if (loc.substr(0, 9) === 'localhost') { // served from gulp
+    //     LOCAL = true;
+    // }
 
 function getConfig() {
     $.getJSON('./config.json', function (configData) {

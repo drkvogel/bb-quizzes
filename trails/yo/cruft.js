@@ -1,4 +1,72 @@
+    // var widthExtra = // total width of elements, excluding centre images
+    // $('.container').outerWidth(true) - $('.container').width() + ($('#pages').outerWidth(true) - $('#pages').width());
 
+    // var heightExtra = // total height of elements, excluding centre images
+    // $('.container').outerHeight(true) - $('.container').height() + ($('.topTxt').is(':visible') ? $('.topTxt').height() : 0) + ($('#imgdiv-a').is(':visible') ? $('#imgdiv-a').outerHeight(true) - $('#imgdiv-a').height() : 0) + ($('#imgdiv-b').is(':visible') ? $('#imgdiv-b').outerHeight(true) - $('#imgdiv-b').height() : 0) + ($('.botTxt').is(':visible') ? $('.botTxt').height() : 0) + ($('#answers').is(':visible') ? $('#answers').height() : 0) + ($('.navTxt').is(':visible') ? $('.navTxt').height() : 0) + ($('.navCtl').is(':visible') ? $('.navCtl').height() : 0);
+    // ($('#abandon-div').is(':visible') ? $('#abandon-div').height() : 0) +
+
+    // natural image dimensions; .width(), .height() are current dimensions
+    // var naturalFullWidth = widthExtra + naturalElementWidth;
+    // var naturalFullHeight = heightExtra + naturalElementHeight;
+
+    // element needs to be scaled from natural width/height to fit in (window height - textExtra) x window width
+
+    // vertical shrink = (window height - 200px) / naturalFullHeight
+    // horizontal shrink = window width / naturalFullWidth
+    // var scaleV = $(window).height() / naturalFullHeight;
+    // var scaleH = $(window).width() / naturalFullWidth;
+
+    // select lower of these scaling values
+    // var scale = scaleV <= scaleH ? scaleV : scaleH;
+
+    // work out desired dimensions of whole quiz
+    // var targetWidth = naturalFullWidth * scale; // forget about width, it always fits, down to 300px
+    // var targetHeight = naturalFullHeight * scale;
+
+    // // work out desired height of .middleImg
+    // var targetMiddleHeight = targetHeight - heightExtra;
+
+    // // // need h/w ratio of .middleImg. Typical dimensions: ? TODO
+    // // var hwRatio = 1.15; //1.95; //??
+    // // var middleHWRatio = hwRatio;
+
+    // // what innerWidth of .middleImg would create targetMiddleHeight?
+    // var targetMiddleWidth = targetMiddleHeight * elementHWRatio;
+
+
+// function getImgSize(imgSrc) {
+//     var newImg = new Image();
+//     newImg.onload = function() {
+//       var height = newImg.height;
+//       var width = newImg.width;
+//       console.log('The image size is ' + width + '*' + height);
+//     };
+//     newImg.src = imgSrc; // this must be done AFTER setting onload
+//         // expects a url
+// }
+
+// function getSVGSize(svgObj) {
+//     console.log('getSVGSize(svgObj): src: ' + svgObj);
+//         // pretty print?
+//         // getSVGSize(svgObj): svgObj: [object HTMLObjectElement]
+//     //var newSVG = new Object();
+//     var newSVG = {};
+//     newSVG.onload = function() {
+//         var height = newSVG.height;
+//         var width = newSVG.width;
+//         console.log('The image size is ' + width + '*' + height);
+//         //alert ('The image size is '+width+'*'+height);
+//     };
+//     newSVG.src = svgObj.src; // this must be done AFTER setting onload // expects a url
+// }
+
+    //var image = new Image();
+    //var svgDoc = document.getElementById('svg1').contentDocument; // gets an XML document, of course
+    //var svgDoc = document.getElementById('svg1'); // gets an XML document, of course
+        // how to get src url  of svg?
+        // dev tools fail
+    //getSVGSize(svgDoc);
+    //getImgSize(svgDoc);
 
 /*
 function scaleImagesAY() { // copied from hoops main.js for cribbing
