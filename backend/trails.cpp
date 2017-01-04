@@ -232,21 +232,35 @@ void Trails::printRecords() {
     int clik;
     for (int i = 1; i <= NUM_POINTS_TOTAL; i++) {
         const char * sect;
-        if (i >= START_BR) { // 42
+        // if (i >= START_BR) { // 42
+        //     sect = "br";
+        //     clik = i - START_BR + 1;
+        // } else if (i >= START_BP) { // 34
+        //     sect = "bp";
+        //     clik = i - START_BP + 1;
+        // } else if (i >= START_AR) { // 9
+        //     sect = "ar";
+        //     clik = i - START_AR + 1;
+        // } else { // 1-8
+        //     sect = "ap";
+        //     clik = i;
+        // }
+        if (i >= 42) { // 42
             sect = "br";
-            clik = i - START_BR + 1;
-        } else if (i >= START_BP) { // 34
+            clik = i - 42 + 1;
+        } else if (i >= 34) { // 34
             sect = "bp";
-            clik = i - START_BP + 1;
-        } else if (i >= START_AR) { // 9
+            clik = i - 34 + 1;
+        } else if (i >= 9) { // 9
             sect = "ar";
-            clik = i - START_AR + 1;
+            clik = i - 9 + 1;
         } else { // 1-8
             sect = "ap";
             clik = i;
         }
         // printf("<td>wrong_%d</td><td>time_%d</td><td>total_%d</td>", i, i, i);
-        printf("<td>(i: %d, START_AR: %d, clik: %d) %s_%d_wrong</td><td>%s_%d_time</td><td>%s_%d_total</td>", i, START_AR, clik, sect, clik, sect, clik, sect, clik);
+        //printf("<td>(i: %d, START_AR: %d, clik: %d) %s_%d_wrong</td><td>%s_%d_time</td><td>%s_%d_total</td>", i, START_AR, clik, sect, clik, sect, clik, sect, clik);
+        printf("<td>%s_%d_wrong</td><td>%s_%d_time</td><td>%s_%d_total</td>", clik, sect, clik, sect, clik, sect, clik);
     }
     printf("</thead>\n");
     for (vecTrailsRecord::const_iterator rec = TrailsRecords.begin(); rec != TrailsRecords.end(); rec++) { // records
