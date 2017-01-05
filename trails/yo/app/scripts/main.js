@@ -523,7 +523,7 @@ function init() {
     // };
     window.addEventListener('resize', debounce(scaleImages, 100));
     // Listen for orientation changes
-    window.addEventListener("orientationchange", debounce(scaleImages, 100));
+    window.addEventListener('orientationchange', debounce(scaleImages, 100));
 
     showPage(currentPage());
 }
