@@ -499,7 +499,7 @@ function init() {
     //     $('#feedbackForm').attr('action', config.formAction); // set the results form target
     // }
     console.log(msg); //console.log('formAction: ' + config.formAction);
-    $('#home .debug').html('<code>' + msg + '</code>');
+    //$('#home .debug').html('<code>' + msg + '</code>');
 
     // event handlers
     $('body').on('keydown', keydown);
