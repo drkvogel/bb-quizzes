@@ -178,6 +178,10 @@ body {
     padding-top: 10%;
 }
 
+.row {
+  margin: 0;
+}
+
 
 // disable text selection - but doesn't work? can't apply across document boundaries, put inline in svg
 // svg * {
