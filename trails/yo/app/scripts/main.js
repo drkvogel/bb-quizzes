@@ -156,6 +156,7 @@ function showPage2() {
     switch (currentPage().templateId) {
     case 'game':
         scaleImages();
+        //debounce(scaleImages, 100);
         timerPuzzle.now(); // start timer for all real exercises
         timerClick.now();
         if (!config.hasOwnProperty('timeStarted')) {
@@ -185,6 +186,8 @@ function showPage(page) { // prevPage() and nextPage() should handle hiding curr
     case 'game':
         var img = 'images/' + page.name + '.svg'; console.log('showPage(): loading img == ' + img);
         $('#svg1').attr('data', img);
+        //$('#svg1').load(scaleImages());
+
         if (page.type === 'practice') { // practice example
             $('.botTxt').html(page.botTxt); //console.log('puzzle.b: ' + puzzle.b + ', correct: ' + puzzle.c); //puzzle = config.practice; ??
             $('.topTxt').html(page.topTxt);
@@ -446,6 +449,7 @@ function addListeners() {
                 console.log('error adding listener to ' + id + ': ' + err);
             }
         }
+        scaleImages();
     }, false);
 }
     // this.id == window.id? no, closed over id set on definition ... ?
@@ -517,16 +521,15 @@ function init() {
     config.tinstruct = isoDate(); console.log('config.tinstruct: ' + config.tinstruct);
     addListeners(); // attach EventHandlers('part-a');
 
-    // window.onresize = function(event) {
-    //     console.log('onresize');
-    //     scaleImages();
-    // };
     window.addEventListener('resize', debounce(scaleImages, 100));
-    // Listen for orientation changes
     window.addEventListener('orientationchange', debounce(scaleImages, 100));
 
     showPage(currentPage());
 }
+    // window.onresize = function(event) {
+    //     console.log('onresize');
+    //     scaleImages();
+    // };
     //$('#devBar').hide();
     // var loc = location.toString().split('://')[1]; // strip off http://, https://
     // if (loc.substr(0, 9) === 'localhost') { // served from gulp
