@@ -196,6 +196,7 @@ function showPage(page) { // prevPage() and nextPage() should handle hiding curr
             $('.topTxt').html('');
             $('.botTxt').html(''); //console.log('puzzle.b: ' + puzzle.b + ', correct: ' + puzzle.c); //puzzle = config.practice; ??
         }
+        $('#abandon-btn').show();
         break;
     case 'home':
     case 'abandon':
@@ -412,6 +413,7 @@ function correct() { // console.log('correct(): id: ' + this.id); // 'this' refe
         first.removeEventListener('mousedown', wrong);
         first.addEventListener('mousedown', correct);
         $('#pages').off('click', 'button', containerClick); // otherwise will be duplicated in showPage2()
+        $('#abandon-btn').hide();
         setTimeout(nextPage, 1000);
     }
 }
